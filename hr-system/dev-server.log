@@ -1,0 +1,105 @@
+⚠ `eslint` configuration in next.config.ts is no longer supported. See more info here: https://nextjs.org/docs/app/api-reference/cli/next#next-lint-options
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'eslint'
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.20.192.1:3000
+- Environments: .env
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1649ms
+○ Compiling /dashboard ...
+ GET /dashboard 200 in 9.4s (compile: 7.1s, proxy.ts: 257ms, render: 2.0s)
+ GET /dashboard 200 in 628ms (compile: 136ms, proxy.ts: 48ms, render: 443ms)
+ GET /dashboard 200 in 152ms (compile: 8ms, proxy.ts: 24ms, render: 119ms)
+○ Compiling /employees ...
+ GET /employees 200 in 3.6s (compile: 3.4s, proxy.ts: 23ms, render: 145ms)
+ GET /dashboard 200 in 361ms (compile: 9ms, proxy.ts: 20ms, render: 332ms)
+ GET /dashboard 200 in 121ms (compile: 7ms, proxy.ts: 21ms, render: 93ms)
+ GET /dashboard 200 in 241ms (compile: 8ms, proxy.ts: 14ms, render: 218ms)
+ GET /payroll 200 in 1221ms (compile: 1030ms, proxy.ts: 18ms, render: 172ms)
+ GET /dashboard 200 in 243ms (compile: 7ms, proxy.ts: 17ms, render: 219ms)
+ GET /payroll/generate 200 in 1100ms (compile: 1037ms, proxy.ts: 19ms, render: 44ms)
+ GET /dashboard 200 in 244ms (compile: 7ms, proxy.ts: 16ms, render: 221ms)
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.20.192.1:3000
+- Environments: .env
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1598ms
+ GET /payroll/generate 200 in 1991ms (compile: 1271ms, proxy.ts: 114ms, render: 606ms)
+ GET /dashboard 200 in 911ms (compile: 127ms, proxy.ts: 22ms, render: 763ms)
+ POST /payroll/generate 200 in 129ms (compile: 8ms, proxy.ts: 22ms, render: 99ms)
+○ Compiling /dashboard/visa ...
+⨯ ./app/lib/actions/visa.ts:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { auth } [36mfrom[39m [32m"@/auth"[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m prisma [36mfrom[39m [32m"@/lib/prisma"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { revalidatePath } [36mfrom[39m [32m"next/cache"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [36mexport[39m [36masync[39m [36mfunction[39m submitVisaRequest(formData[33m:[39m [33mFormData[39m) {
+ [90m 6 |[39m     [36mconst[39m session [33m=[39m [36mawait[39m auth()[33m;[39m[0m
+
+You're importing a component that needs "revalidatePath". That only works in a Server Component but one of its parents is marked with "use client", so it's a Client Component.
+Learn more: https://nextjs.org/docs/app/building-your-application/rendering
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/lib/actions/visa.ts [Client Component Browser]
+    ./app/dashboard/visa/page.tsx [Client Component Browser]
+    ./app/dashboard/visa/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/lib/actions/visa.ts [Client Component SSR]
+    ./app/dashboard/visa/page.tsx [Client Component SSR]
+    ./app/dashboard/visa/page.tsx [Server Component]
+
+
+ GET /dashboard/visa 500 in 6.9s (compile: 6.4s, proxy.ts: 22ms, render: 436ms)
+⨯ ./app/lib/actions/visa.ts:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { auth } [36mfrom[39m [32m"@/auth"[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m prisma [36mfrom[39m [32m"@/lib/prisma"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { revalidatePath } [36mfrom[39m [32m"next/cache"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [36mexport[39m [36masync[39m [36mfunction[39m submitVisaRequest(formData[33m:[39m [33mFormData[39m) {
+ [90m 6 |[39m     [36mconst[39m session [33m=[39m [36mawait[39m auth()[33m;[39m[0m
+
+You're importing a component that needs "revalidatePath". That only works in a Server Component but one of its parents is marked with "use client", so it's a Client Component.
+Learn more: https://nextjs.org/docs/app/building-your-application/rendering
+
+
+
+Import traces:
+  Client Component Browser:
+    ./app/lib/actions/visa.ts [Client Component Browser]
+    ./app/dashboard/visa/page.tsx [Client Component Browser]
+    ./app/dashboard/visa/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/lib/actions/visa.ts [Client Component SSR]
+    ./app/dashboard/visa/page.tsx [Client Component SSR]
+    ./app/dashboard/visa/page.tsx [Server Component]
+
+
+ GET /dashboard/visa 500 in 126ms (compile: 52ms, proxy.ts: 45ms, render: 29ms)
+ GET /dashboard 200 in 447ms (compile: 18ms, proxy.ts: 34ms, render: 395ms)
+ GET /payroll/generate 200 in 156ms (compile: 13ms, proxy.ts: 17ms, render: 127ms)
+ GET /dashboard 200 in 317ms (compile: 9ms, proxy.ts: 24ms, render: 284ms)
+ GET /payroll 200 in 445ms (compile: 89ms, proxy.ts: 42ms, render: 314ms)
+ GET /dashboard 200 in 414ms (compile: 11ms, proxy.ts: 149ms, render: 253ms)
+ GET /dashboard 200 in 381ms (compile: 12ms, proxy.ts: 47ms, render: 322ms)
+ GET /dashboard 200 in 338ms (compile: 12ms, proxy.ts: 37ms, render: 289ms)
+ GET /dashboard 200 in 277ms (compile: 11ms, proxy.ts: 31ms, render: 235ms)
+ GET /dashboard 200 in 319ms (compile: 10ms, proxy.ts: 39ms, render: 269ms)
+✓ Compiled in 453ms
+ GET /dashboard 200 in 103ms (compile: 8ms, proxy.ts: 16ms, render: 79ms)
