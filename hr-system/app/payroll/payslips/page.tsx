@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Download, FileText, DollarSign, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
+import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
+
 export default async function PayslipPage() {
     const session = await auth();
     if (!session?.user?.email) redirect("/login");
@@ -169,10 +171,7 @@ export default async function PayslipPage() {
                                             </Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
-                                            <Button variant="ghost" size="sm" className="gap-2 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50">
-                                                <Download className="h-3.5 w-3.5" />
-                                                PDF
-                                            </Button>
+                                            <DownloadPDFButton record={record} />
                                         </TableCell>
                                     </TableRow>
                                 ))}

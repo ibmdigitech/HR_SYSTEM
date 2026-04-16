@@ -9,9 +9,14 @@ import { redirect } from "next/navigation";
 
 export default async function ApprovalsPage() {
     const session = await auth();
-    if (!session?.user) redirect("/login");
+    if (!session?.user?.email) redirect("/login");
 
-    const userRole = session.user.email?.includes("admin") ? "ADMIN" : session.user.email?.includes("manager") ? "MANAGER" : session.user.email?.includes("hr") ? "HR" : "STAFF";
+    const user = await prisma.user.findUnique({
+        where: { email: session.user.email }
+    });
+
+    if (!user) redirect("/login");
+    const userRole = user.role;
 
     if (userRole === "STAFF") {
         return (

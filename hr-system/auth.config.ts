@@ -10,18 +10,18 @@ export const authConfig = {
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
-            const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-            const isOnEmployees = nextUrl.pathname.startsWith('/employees');
-            const isOnPayroll = nextUrl.pathname.startsWith('/payroll');
+            const isPublicRoute = nextUrl.pathname === '/login' || nextUrl.pathname === '/';
 
-            // Protected routes logic
-            if (isOnDashboard || isOnEmployees || isOnPayroll) {
-                if (isLoggedIn) return true;
-                return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn) {
-                return Response.redirect(new URL('/dashboard', nextUrl));
+            // If it's a public route (like login or landing page)
+            if (isPublicRoute) {
+                if (isLoggedIn) {
+                    return Response.redirect(new URL('/dashboard', nextUrl));
+                }
+                return true;
             }
-            return true;
+
+            // If it's not a public route, user MUST be logged in
+            return isLoggedIn;
         },
     },
 } satisfies NextAuthConfig;

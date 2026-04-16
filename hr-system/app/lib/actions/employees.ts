@@ -43,20 +43,39 @@ export async function upsertEmployee(formData: FormData) {
     // Remove undefined or null values so Prisma uses defaults where appropriate
     // But keep null for fields that are explicitly set to null (like managerId)
     Object.keys(data).forEach(key => {
-        if (data[key] === undefined || data[key] === 'undefined' || data[key] === 'null') {
-            delete data[key];
+        const value = data[key];
+        if (
+            value === undefined || 
+            value === 'undefined' || 
+            value === 'null' || 
+            (typeof value === 'string' && value.trim() === '')
+        ) {
+            // Only delete if it's not a required field or if we want it to be null/default
+            if (key !== 'managerId') {
+                delete data[key];
+            } else {
+                data[key] = null;
+            }
         }
     });
 
+    const isNew = !id || id === "";
+
     // Validation for new employees
-    if (!id) {
-        if (!data.email || !data.firstName || !data.lastName) {
-            return { success: false, message: "Missing required fields: First Name, Last Name, and Email are mandatory." };
+    if (isNew) {
+        const emailStr = String(data.email || "").trim();
+        if (!data.email || emailStr === "" || emailStr.toLowerCase() === "null") {
+            return { success: false, message: "Email is mandatory for new records." };
+        }
+        if (!data.firstName || !data.lastName || 
+            String(data.firstName).toLowerCase() === "null" || 
+            String(data.lastName).toLowerCase() === "null") {
+            return { success: false, message: "First and Last names are mandatory." };
         }
     }
 
     try {
-        if (id) {
+        if (!isNew) {
             // Get old values for auditing
             const oldEmployee = await prisma.employee.findUnique({ where: { id } });
 

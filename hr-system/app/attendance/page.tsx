@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarIcon, Clock, Filter, Search, UserCheck } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { redirect } from "next/navigation";
+import { CheckInButton } from "@/components/attendance/CheckInButton";
 
 export default async function AttendancePage() {
     const session = await auth();
@@ -42,6 +43,30 @@ export default async function AttendancePage() {
         });
     }
 
+    // Stats Calculation
+    const todayRecords = await prisma.attendance.findMany({
+        where: {
+            date: {
+                gte: today,
+                lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
+            }
+        }
+    });
+
+    const presentToday = todayRecords.length;
+    const completedToday = todayRecords.filter(r => r.checkOut).length;
+    
+    let avgHours = 0;
+    if (completedToday > 0) {
+        const totalMs = todayRecords.reduce((acc, r) => {
+            if (r.checkIn && r.checkOut) {
+                return acc + (new Date(r.checkOut).getTime() - new Date(r.checkIn).getTime());
+            }
+            return acc;
+        }, 0);
+        avgHours = totalMs / (completedToday * 1000 * 60 * 60);
+    }
+
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -54,10 +79,7 @@ export default async function AttendancePage() {
                         <Filter className="h-4 w-4" />
                         Filters
                     </Button>
-                    <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700">
-                        <UserCheck className="h-4 w-4" />
-                        Daily Log
-                    </Button>
+                    <CheckInButton />
                 </div>
             </div>
 
@@ -88,7 +110,14 @@ export default async function AttendancePage() {
                                         <TableCell>{record.checkIn ? new Date(record.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--"}</TableCell>
                                         <TableCell>{record.checkOut ? new Date(record.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--"}</TableCell>
                                         <TableCell>
-                                            <Badge variant={record.status === "PRESENT" ? "default" : record.status === "LEAVE" ? "secondary" : "destructive"}>
+                                            <Badge 
+                                                variant="outline"
+                                                className={
+                                                    record.status === "PRESENT" ? "bg-emerald-50 text-emerald-700 border-emerald-100" :
+                                                    record.status === "LATE" ? "bg-amber-50 text-amber-700 border-amber-100" :
+                                                    "bg-slate-50 text-slate-700"
+                                                }
+                                            >
                                                 {record.status}
                                             </Badge>
                                         </TableCell>
@@ -117,13 +146,23 @@ export default async function AttendancePage() {
                         <Calendar
                             mode="single"
                             selected={new Date()}
-                            className="rounded-md border shadow"
+                            className="rounded-md border shadow mx-auto"
                         />
                         <div className="mt-6 space-y-4">
                             <h4 className="text-sm font-semibold">Today's Stats</h4>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm text-slate-500">Total Hours Avg</span>
-                                <span className="text-sm font-medium italic">Available upon full integration</span>
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-slate-500">Present</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">{presentToday} Staff</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-slate-500">Completed Shift</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">{completedToday} Staff</span>
+                                </div>
+                                <div className="flex items-center justify-between pt-2 border-t">
+                                    <span className="text-sm text-slate-500">Avg Work Hours</span>
+                                    <span className="text-sm font-bold text-indigo-600">{avgHours.toFixed(1)} hrs</span>
+                                </div>
                             </div>
                         </div>
                     </CardContent>

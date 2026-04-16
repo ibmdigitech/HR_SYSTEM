@@ -24,6 +24,16 @@ export async function upsertSalaryStructure(formData: FormData) {
             create: { employeeId, ctc, basic, hra, allowances, deductions }
         });
 
+        // Audit Log
+        await prisma.auditLog.create({
+            data: {
+                employeeId: employeeId,
+                action: "SALARY_UPDATE",
+                details: `Updated salary structure. CTC: ${ctc}`,
+                changedBy: session.user.email || "System"
+            }
+        });
+
         revalidatePath("/payroll/structure");
         return { success: true, message: "Salary structure saved successfully" };
     } catch (error: any) {
@@ -89,6 +99,15 @@ export async function generatePayroll(month: number, year: number) {
                 }
             });
         }
+
+        // Audit Log
+        await prisma.auditLog.create({
+            data: {
+                action: "PAYROLL_GENERATE",
+                details: `Generated payroll for ${month}/${year}. Total employees: ${records.length}`,
+                changedBy: session.user.email || "System"
+            }
+        });
 
         revalidatePath("/payroll");
         return { success: true, message: `Payroll generated for ${records.length} employees` };

@@ -21,11 +21,40 @@ export default async function DashboardPage() {
 
     const userRole = user.role;
 
+    // Dates
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
     // Fetch Stats
     const totalEmployees = await prisma.employee.count();
     const pendingLeavesCount = await prisma.leaveRequest.count({
         where: { hrStatus: "PENDING" }
     });
+
+    const presentTodayCount = await prisma.attendance.count({
+        where: {
+            date: {
+                gte: today,
+                lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
+            }
+        }
+    });
+
+    const recentAuditLogs = await prisma.auditLog.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 5
+    });
+
+    // On-time check (last 7 days)
+    const recentAttendance = await prisma.attendance.findMany({
+        where: { date: { gte: sevenDaysAgo } }
+    });
+    const totalPresent = recentAttendance.length;
+    const onTimeCount = recentAttendance.filter(a => a.status === "PRESENT").length;
+    const onTimeRate = totalPresent > 0 ? Math.round((onTimeCount / totalPresent) * 100) : 0;
 
     // Fetch User specific data if STAFF
     let myPendingLeaves: any[] = [];
@@ -101,9 +130,9 @@ export default async function DashboardPage() {
                         <UserCheck className="h-4 w-4 text-emerald-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">--</div>
+                        <div className="text-2xl font-bold">{presentTodayCount}</div>
                         <p className="text-xs text-slate-500">
-                            Real-time tracking enabled
+                            Clocked-in staff
                         </p>
                     </CardContent>
                 </Card>
@@ -116,8 +145,8 @@ export default async function DashboardPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="flex gap-2">
-                            <Badge variant="outline">Attendance</Badge>
-                            <Badge variant="outline">Payroll</Badge>
+                            <Link href="/attendance"><Badge variant="outline" className="cursor-pointer hover:bg-indigo-50">Attendance</Badge></Link>
+                            <Link href="/payroll"><Badge variant="outline" className="cursor-pointer hover:bg-indigo-50">Payroll</Badge></Link>
                         </div>
                     </CardContent>
                 </Card>
@@ -195,8 +224,28 @@ export default async function DashboardPage() {
                         <CardTitle>Recent Activity</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="space-y-8 text-muted-foreground text-sm italic py-4">
-                            Real-time activity logs will appear here as you interact with the system.
+                        <div className="space-y-4">
+                            {recentAuditLogs.length === 0 ? (
+                                <div className="text-muted-foreground text-sm italic py-4">
+                                    No recent activity found.
+                                </div>
+                            ) : (
+                                recentAuditLogs.map((log) => (
+                                    <div key={log.id} className="flex items-start gap-4 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors">
+                                        <div className={cn(
+                                            "mt-1 rotate-45 h-2 w-2 rounded-sm",
+                                            log.action.includes("CREATE") ? "bg-emerald-500" : log.action.includes("UPDATE") ? "bg-amber-500" : "bg-indigo-500"
+                                        )} />
+                                        <div className="flex-1 space-y-1">
+                                            <p className="text-sm font-medium leading-none">{log.action}</p>
+                                            <p className="text-xs text-slate-500">{log.details}</p>
+                                        </div>
+                                        <span className="text-[10px] text-slate-400 font-medium">
+                                            {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </CardContent>
                 </Card>
@@ -211,10 +260,10 @@ export default async function DashboardPage() {
                                     <p className="text-sm font-medium leading-none">On-Time Arrival</p>
                                     <p className="text-xs text-slate-500">Last 7 days</p>
                                 </div>
-                                <div className="font-bold text-emerald-600">--%</div>
+                                <div className="font-bold text-emerald-600">{onTimeRate}%</div>
                             </div>
                             <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                                <div className="h-full bg-emerald-500 w-[0%]" />
+                                <div className="h-full bg-emerald-500 transition-all duration-1000" style={{ width: `${onTimeRate}%` }} />
                             </div>
 
                             <div className="flex items-center justify-between pt-4">
@@ -222,10 +271,10 @@ export default async function DashboardPage() {
                                     <p className="text-sm font-medium leading-none">Leave Balance</p>
                                     <p className="text-xs text-slate-500">Current Year</p>
                                 </div>
-                                <div className="font-bold text-indigo-600">12 Days</div>
+                                <div className="font-bold text-indigo-600">-- Days</div>
                             </div>
                             <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                                <div className="h-full bg-indigo-500 w-[60%]" />
+                                <div className="h-full bg-indigo-500 w-[0%]" />
                             </div>
                         </div>
                     </CardContent>

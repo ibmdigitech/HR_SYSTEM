@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -183,6 +184,7 @@ model SalaryRecord {
 model StaffServiceType {
   id            String   @id @default(cuid())
   name          String   @unique
+  icon          String?
   description   String?
   requiresAmount Boolean  @default(false)
   requiresDates  Boolean  @default(false)

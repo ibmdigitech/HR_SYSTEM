@@ -43,6 +43,16 @@ export async function submitLeaveRequest(prevState: any, formData: FormData) {
             }
         });
 
+        // Audit Log
+        await prisma.auditLog.create({
+            data: {
+                employeeId: user.employee.id,
+                action: "LEAVE_SUBMIT",
+                details: `Submitted ${type} leave request from ${startDate} to ${endDate}`,
+                changedBy: session.user.email
+            }
+        });
+
         // If there's an attachment (mocking storage, just saving info)
         if (attachment && attachment.name && attachment.size > 0) {
             await prisma.attachment.create({
@@ -75,9 +85,21 @@ export async function approveLeaveManager(leaveId: string, status: "APPROVED" | 
             where: { id: leaveId },
             data: {
                 managerStatus: status,
-                managerId: session.user.id // assuming ID is available/fetched
+                managerId: session.user.id
             }
         });
+
+        // Audit Log
+        const leave = await prisma.leaveRequest.findUnique({ where: { id: leaveId } });
+        await prisma.auditLog.create({
+            data: {
+                employeeId: leave?.employeeId || "",
+                action: `LEAVE_MGR_${status}`,
+                details: `Manager ${status.toLowerCase()}ed leave request ID: ${leaveId}`,
+                changedBy: session.user.email
+            }
+        });
+
         revalidatePath("/dashboard/approvals");
         return { message: `Request ${status}`, success: true };
     } catch (e) {
@@ -99,6 +121,18 @@ export async function approveLeaveHR(leaveId: string, status: "APPROVED" | "REJE
                 hrId: session.user.id
             }
         });
+
+        // Audit Log
+        const leave = await prisma.leaveRequest.findUnique({ where: { id: leaveId } });
+        await prisma.auditLog.create({
+            data: {
+                employeeId: leave?.employeeId || "",
+                action: `LEAVE_HR_${status}`,
+                details: `HR ${status.toLowerCase()}ed leave request ID: ${leaveId}`,
+                changedBy: session.user.email
+            }
+        });
+
         revalidatePath("/dashboard/approvals");
         return { message: `Request ${status}`, success: true };
     } catch (e) {
