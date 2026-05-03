@@ -1,0 +1,332 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String         @id @default(cuid())
+  name                  String?
+  email                 String         @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String? // Hashed, null for OAuth users
+  role                  String         @default("STAFF")
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  employee              Employee?
+  roleRequests          RoleRequest[]
+  approvedLeavesManager LeaveRequest[] @relation("ManagerApprovals")
+  approvedLeavesHR      LeaveRequest[] @relation("HRApprovals")
+  accounts              Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model RoleRequest {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  requestedRole String
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Employee {
+  id               String     @id @default(cuid())
+  userId           String     @unique
+  user             User       @relation(fields: [userId], references: [id])
+  firstName        String
+  lastName         String
+  email            String     @unique
+  rollNumber       String     @unique
+  designation      String
+  department       String
+  joiningDate      DateTime
+  isActive         Boolean    @default(true)
+  photo            String?
+  phone            String?
+  dateOfBirth      DateTime?
+  gender           String?
+  maritalStatus    String?
+  nationality      String?
+  governmentId     String?
+  address          String?
+  permanentAddress String?
+  emergencyContact String?
+  emergencyPhone   String?
+  bankName         String?
+  accountNumber    String?
+  ifscCode         String?
+  employmentType   String     @default("FULL_TIME")
+  probationDays    Int        @default(90)
+  workLocation     String?
+  currentStatus    String     @default("ACTIVE")
+  managerId        String?
+  manager          Employee?  @relation("ManagerToStaff", fields: [managerId], references: [id])
+  reportees        Employee[] @relation("ManagerToStaff")
+
+  shiftId String?
+  shift   Shift?  @relation(fields: [shiftId], references: [id])
+
+  leaveRequests   LeaveRequest[]
+  attendance      Attendance[]
+  salaryStructure SalaryStructure?
+  salaryRecords   SalaryRecord[]
+  letterRecords   LetterRecord[]
+  staffRequests   StaffRequest[]
+  visaRequests    VisaRequest[]
+  letters         Letter[]
+  // assets            Asset[]
+  // assetRequests     AssetRequest[]
+  // performanceReviews PerformanceReview[]
+  // exitProcess       ExitProcess?
+  // leaveBalances     LeaveBalance[]
+  attachments     Attachment[]
+  auditLogs       AuditLog[]
+}
+
+model Attendance {
+  id              String         @id @default(cuid())
+  employeeId      String
+  employee        Employee       @relation(fields: [employeeId], references: [id])
+  date            DateTime
+  checkIn         DateTime?
+  checkOut        DateTime?
+  status          String         @default("PRESENT") // PRESENT, ABSENT, LATE, LEAVE, HOLIDAY
+  overtimeMinutes Int            @default(0)
+  shiftId         String?
+  shift           Shift?         @relation(fields: [shiftId], references: [id])
+  biometricLogs   BiometricLog[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Shift {
+  id            String       @id @default(cuid())
+  name          String
+  startTime     String
+  endTime       String
+  lateThreshold Int          @default(15)
+  weeklyOffs    String
+  employees     Employee[]
+  attendance    Attendance[]
+}
+
+model BiometricLog {
+  id           String      @id @default(cuid())
+  attendanceId String?
+  attendance   Attendance? @relation(fields: [attendanceId], references: [id])
+  deviceId     String?
+  employeeId   String
+  timestamp    DateTime
+  type         String // IN, OUT
+  rawLog       String?
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  action     String
+  details    String?
+  changedBy  String
+  createdAt  DateTime @default(now())
+}
+
+model LeaveRequest {
+  id            String   @id @default(cuid())
+  employeeId    String
+  employee      Employee @relation(fields: [employeeId], references: [id])
+  type          String
+  startDate     DateTime
+  endDate       DateTime
+  reason        String
+  managerStatus String   @default("PENDING")
+  managerId     String?
+  manager       User?    @relation("ManagerApprovals", fields: [managerId], references: [id])
+  hrStatus      String   @default("PENDING")
+  hrId          String?
+  hr            User?    @relation("HRApprovals", fields: [hrId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model SalaryStructure {
+  id                 String   @id @default(cuid())
+  employeeId         String   @unique
+  employee           Employee @relation(fields: [employeeId], references: [id])
+  ctc                Float
+  basic              Float
+  housingAllowance   Float    @default(0)
+  transportAllowance Float    @default(0)
+  medicalAllowance   Float    @default(0)
+  otherAllowances    Float    @default(0)
+  paymentMethod      String   @default("BANK_TRANSFER") // BANK_TRANSFER, CASH, WPS
+  bankName           String?
+  iban               String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model SalaryRecord {
+  id                 String    @id @default(cuid())
+  employeeId         String
+  employee           Employee  @relation(fields: [employeeId], references: [id])
+  month              Int
+  year               Int
+  basic              Float
+  housingAllowance   Float     @default(0)
+  transportAllowance Float     @default(0)
+  medicalAllowance   Float     @default(0)
+  otherAllowances    Float     @default(0)
+  latePenalty        Float     @default(0)
+  leaveDeduction     Float     @default(0)
+  loanDeduction      Float     @default(0)
+  otherDeductions    Float     @default(0)
+  overtimePay        Float     @default(0)
+  bonus              Float     @default(0)
+  netSalary          Float
+  status             String    @default("PENDING") // PENDING, APPROVED, PAID, FAILED
+  paymentMethod      String    @default("BANK_TRANSFER")
+  paidAt             DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model StaffServiceType {
+  id             String         @id @default(cuid())
+  name           String         @unique
+  icon           String?
+  description    String?
+  requiresAmount Boolean        @default(false)
+  requiresDates  Boolean        @default(false)
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  staffRequests  StaffRequest[]
+}
+
+model StaffRequest {
+  id          String           @id @default(cuid())
+  employeeId  String
+  employee    Employee         @relation(fields: [employeeId], references: [id])
+  typeId      String
+  serviceType StaffServiceType @relation(fields: [typeId], references: [id])
+  details     String
+  amount      Float?
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String           @default("PENDING")
+  attachments Attachment[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Attachment {
+  id             String        @id @default(cuid())
+  staffRequestId String?
+  staffRequest   StaffRequest? @relation(fields: [staffRequestId], references: [id], onDelete: Cascade)
+  visaRequestId  String?
+  visaRequest    VisaRequest?  @relation(fields: [visaRequestId], references: [id], onDelete: Cascade)
+  employeeId     String?
+  employee       Employee?     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  fileName       String
+  fileUrl        String
+  fileType       String
+  category       String
+  docNumber      String?
+  docExpiry      DateTime?
+  createdAt      DateTime      @default(now())
+}
+
+model VisaRequest {
+  id                 String       @id @default(cuid())
+  employeeId         String
+  employee           Employee     @relation(fields: [employeeId], references: [id])
+  visaType           String
+  destinationCountry String
+  purpose            String
+  status             String       @default("PENDING")
+  notes              String?
+  attachments        Attachment[]
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model LetterRecord {
+  id            String    @id @default(cuid())
+  employeeId    String?
+  employee      Employee? @relation(fields: [employeeId], references: [id])
+  type          String // OFFER, APPOINTMENT, RELIEVING
+  recipientName String
+  details       String?
+  generatedAt   DateTime  @default(now())
+}
+
+model ServiceConfig {
+  id          String   @id @default(cuid())
+  module      String // payroll, leave, visa, etc.
+  key         String // unique config key
+  label       String // display name
+  description String?
+  type        String // text, number, boolean, select, json
+  value       String // stored as string (parse based on type)
+  options     Json? // for dropdown values
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([module, key])
+}
+
+model LetterTemplate {
+  id         String   @id @default(cuid())
+  name       String
+  type       String // SALARY_CERTIFICATE, NOC, VISA_LETTER, WARNING, etc.
+  content_en String // Markdown or HTML template with {{vars}}
+  content_ar String? // Optional Arabic content
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  letters    Letter[]
+}
+
+model Letter {
+  id              String         @id @default(cuid())
+  employeeId      String
+  employee        Employee       @relation(fields: [employeeId], references: [id])
+  templateId      String
+  template        LetterTemplate @relation(fields: [templateId], references: [id])
+  referenceNumber String         @unique // LTR-UAE-2026-001
+  status          String         @default("DRAFT") // DRAFT, PENDING, APPROVED, REJECTED, GENERATED
+  content_en      String // Actual generated content
+  content_ar      String? // Actual generated Arabic content
+  pdfUrl          String?
+  comments        String?
+  approvedBy      String?
+  approvedAt      DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}

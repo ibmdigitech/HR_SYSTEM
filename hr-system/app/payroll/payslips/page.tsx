@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Download, FileText, DollarSign, AlertCircle } from "lucide-react";
+import { Download, FileText, DollarSign, AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
@@ -46,6 +46,12 @@ export default async function PayslipPage() {
 
     return (
         <div className="space-y-6">
+            {/* Back Button */}
+            <Link href="/payroll" className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors w-fit">
+                <ArrowLeft className="h-4 w-4" />
+                <span className="text-sm font-medium">Back to Payroll</span>
+            </Link>
+
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>

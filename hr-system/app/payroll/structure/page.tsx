@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 type Employee = {
     id: string;
@@ -79,6 +81,12 @@ export default function SalaryStructurePage() {
 
     return (
         <div className="p-8 max-w-4xl mx-auto space-y-6">
+            {/* Back Button */}
+            <Link href="/payroll" className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors w-fit">
+                <ArrowLeft className="h-4 w-4" />
+                <span className="text-sm font-medium">Back to Payroll</span>
+            </Link>
+
             <h1 className="text-3xl font-bold tracking-tight">Salary Structure Configuration</h1>
 
             <Card>

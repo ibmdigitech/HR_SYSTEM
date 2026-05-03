@@ -8,9 +8,12 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export function Header() {
-    const [time, setTime] = useState(new Date());
+    const [time, setTime] = useState<Date | null>(null);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
+        setTime(new Date());
         const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
@@ -29,8 +32,8 @@ export function Header() {
                 <div className="hidden xl:flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2">
                         <Clock className="h-4 w-4 text-indigo-500" />
-                        <span className="text-sm font-black text-slate-700 dark:text-slate-300 tracking-tight">
-                            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        <span className="text-sm font-black text-slate-700 dark:text-slate-300 tracking-tight min-w-[80px]">
+                            {mounted && time ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "--:--:--"}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">

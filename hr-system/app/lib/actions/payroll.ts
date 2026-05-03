@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
+import { getConfig } from "@/lib/config-service";
 
 export async function upsertSalaryStructure(formData: FormData) {
     const session = await auth();
@@ -60,11 +61,15 @@ export async function generatePayroll(month: number, year: number) {
 
         const activeEmployees = employees.filter(e => e.isActive && e.salaryStructure);
 
+        // Fetch dynamic configs
+        const overtimeRate = await getConfig('payroll', 'overtime_rate_per_hour') || 1.5;
+        const defaultLatePenalty = await getConfig('payroll', 'late_penalty_amount') || 50;
+
         const records = activeEmployees.map(emp => {
             const struct = emp.salaryStructure!;
             const totalAllowances = struct.housingAllowance + struct.transportAllowance + struct.medicalAllowance + struct.otherAllowances;
-            // Defaults for dynamic deductions / bonuses (can be hooked to attendance later)
-            const latePenalty = 0;
+            // Example: Hooking late penalty to a config (actual attendance logic would count late occurrences)
+            const latePenalty = 0; 
             const leaveDeduction = 0;
             const loanDeduction = 0;
             const otherDeductions = 0;

@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -94,9 +95,9 @@ model Employee {
   salaryStructure   SalaryStructure?
   salaryRecords     SalaryRecord[]
   letterRecords     LetterRecord[]
-  // visaRequests      VisaRequest[]
   staffRequests     StaffRequest[]
   visaRequests      VisaRequest[]
+  letters           Letter[]
   // assets            Asset[]
   // assetRequests     AssetRequest[]
   // performanceReviews PerformanceReview[]
@@ -282,4 +283,49 @@ model LetterRecord {
   recipientName String
   details       String?
   generatedAt   DateTime @default(now())
+}
+
+model ServiceConfig {
+  id          String   @id @default(cuid())
+  module      String   // payroll, leave, visa, etc.
+  key         String   // unique config key
+  label       String   // display name
+  description String?
+  type        String   // text, number, boolean, select, json
+  value       String   // stored as string (parse based on type)
+  options     Json?    // for dropdown values
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([module, key])
+}
+model LetterTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // SALARY_CERTIFICATE, NOC, VISA_LETTER, WARNING, etc.
+  content_en  String   // Markdown or HTML template with {{vars}}
+  content_ar  String?  // Optional Arabic content
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  letters     Letter[]
+}
+
+model Letter {
+  id              String   @id @default(cuid())
+  employeeId      String
+  employee        Employee @relation(fields: [employeeId], references: [id])
+  templateId      String
+  template        LetterTemplate @relation(fields: [templateId], references: [id])
+  referenceNumber String   @unique // LTR-UAE-2026-001
+  status          String   @default("DRAFT") // DRAFT, PENDING, APPROVED, REJECTED, GENERATED
+  content_en      String   // Actual generated content
+  content_ar      String?  // Actual generated Arabic content
+  pdfUrl          String?
+  comments        String?
+  approvedBy      String?
+  approvedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
