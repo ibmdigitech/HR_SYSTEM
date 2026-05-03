@@ -11,7 +11,9 @@ model User {
   id            String    @id @default(cuid())
   name          String?
   email         String    @unique
-  password      String    // Hashed
+  emailVerified DateTime?
+  image         String?
+  password      String?   // Hashed, null for OAuth users
   role          String    @default("STAFF")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -19,6 +21,25 @@ model User {
   roleRequests  RoleRequest[]
   approvedLeavesManager LeaveRequest[] @relation("ManagerApprovals")
   approvedLeavesHR      LeaveRequest[] @relation("HRApprovals")
+  accounts      Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
 
 model RoleRequest {
@@ -152,33 +173,45 @@ model LeaveRequest {
 }
 
 model SalaryStructure {
-  id          String   @id @default(cuid())
-  employeeId  String   @unique
-  employee    Employee @relation(fields: [employeeId], references: [id])
-  ctc         Float
-  basic       Float
-  hra         Float
-  allowances  Float
-  deductions  Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  employeeId       String   @unique
+  employee         Employee @relation(fields: [employeeId], references: [id])
+  ctc              Float
+  basic            Float
+  housingAllowance Float    @default(0)
+  transportAllowance Float  @default(0)
+  medicalAllowance Float    @default(0)
+  otherAllowances  Float    @default(0)
+  paymentMethod    String   @default("BANK_TRANSFER") // BANK_TRANSFER, CASH, WPS
+  bankName         String?
+  iban             String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model SalaryRecord {
-  id          String   @id @default(cuid())
-  employeeId  String
-  employee    Employee @relation(fields: [employeeId], references: [id])
-  month       Int
-  year        Int
-  basic       Float
-  hra         Float
-  allowances  Float
-  deductions  Float
-  netSalary   Float
-  status      String   @default("GENERATED") // GENERATED, PAID
-  paidAt      DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  employeeId       String
+  employee         Employee @relation(fields: [employeeId], references: [id])
+  month            Int
+  year             Int
+  basic            Float
+  housingAllowance Float    @default(0)
+  transportAllowance Float  @default(0)
+  medicalAllowance Float    @default(0)
+  otherAllowances  Float    @default(0)
+  latePenalty      Float    @default(0)
+  leaveDeduction   Float    @default(0)
+  loanDeduction    Float    @default(0)
+  otherDeductions  Float    @default(0)
+  overtimePay      Float    @default(0)
+  bonus            Float    @default(0)
+  netSalary        Float
+  status           String   @default("PENDING") // PENDING, APPROVED, PAID, FAILED
+  paymentMethod    String   @default("BANK_TRANSFER")
+  paidAt           DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model StaffServiceType {

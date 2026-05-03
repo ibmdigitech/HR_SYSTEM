@@ -1,32 +1,71 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Bell } from "lucide-react";
+import { Bell, Search, Settings, Command, Clock, Globe } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export function Header() {
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => setTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
     return (
-        <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6 dark:border-slate-800 dark:bg-slate-950">
-            <div className="flex items-center gap-4">
-                {/* Placeholder for breadcrumb or page title if needed */}
-                <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400">Welcome back, Admin</h2>
-            </div>
-            <div className="flex items-center gap-4">
-                <Button variant="ghost" size="icon" className="relative">
-                    <Bell className="h-5 w-5 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-50" />
-                    <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-950" />
-                </Button>
-                <div className="flex items-center gap-3 border-l border-slate-200 pl-4 dark:border-slate-800">
-                    <div className="flex flex-col items-end">
-                        <span className="text-sm font-medium text-slate-900 dark:text-white">John Doe</span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400">HR Manager</span>
+        <header className="flex h-20 items-center justify-between border-b border-slate-200/50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl px-8 relative z-50">
+            <div className="flex items-center gap-6 flex-1">
+                <div className="relative w-full max-w-md group hidden md:block">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                    <Input 
+                        placeholder="Quick search (⌘ + K)" 
+                        className="pl-12 h-11 bg-slate-100/50 dark:bg-slate-900/50 border-0 rounded-2xl font-medium focus-visible:ring-2 focus-visible:ring-indigo-500 transition-all"
+                    />
+                </div>
+
+                <div className="hidden xl:flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-indigo-500" />
+                        <span className="text-sm font-black text-slate-700 dark:text-slate-300 tracking-tight">
+                            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        </span>
                     </div>
-                    <Avatar>
+                    <div className="flex items-center gap-2">
+                        <Globe className="h-4 w-4 text-slate-400" />
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">GMT +4 (UAE)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 relative hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
+                        <Bell className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                        <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-rose-500 ring-4 ring-white dark:ring-slate-950 animate-pulse" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
+                        <Settings className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                    </Button>
+                </div>
+
+                <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 group cursor-pointer">
+                    <div className="flex flex-col items-end">
+                        <span className="text-sm font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">Administrator</span>
+                        <div className="flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Verified Hub</span>
+                        </div>
+                    </div>
+                    <Avatar className="h-11 w-11 rounded-2xl border-2 border-white dark:border-slate-800 shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>JD</AvatarFallback>
+                        <AvatarFallback className="bg-indigo-600 text-white font-black">AD</AvatarFallback>
                     </Avatar>
                 </div>
             </div>
         </header>
     );
 }
+

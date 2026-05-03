@@ -1,49 +1,47 @@
-import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import { LeaveApprovalTable } from "@/components/leaves/approval-table";
 
-export default async function LeavesPage() {
-  const session = await auth();
-  if (!session) redirect("/login");
+export type LogAction = 'CREATE' | 'UPDATE' | 'DELETE' | 'LOGIN' | 'APPROVE';
 
-  const leaves = await prisma.leaveRequest.findMany({
-    include: {
-      user: {
-        select: { name: true, email: true }
-      }
-    },
-    orderBy: { createdAt: 'desc' }
-  });
-
-  return (
-    <div className="p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Leave Management</h1>
-      </div>
-      
-      <div className="rounded-md border bg-white">
-        <LeaveApprovalTable 
-          data={leaves} 
-          userRole={session.user.role} 
-        />
-      </div>
-    </div>
-  );
+/**
+ * Records an audit log entry for system transparency.
+ */
+export async function createAuditLog(
+  userId: string,
+  action: LogAction,
+  entity: string,
+  details: string
+) {
+  try {
+    return await prisma.auditLog.create({
+      data: {
+        userId,
+        action,
+        entity,
+        details,
+        timestamp: new Date(),
+      },
+    });
+  } catch (error) {
+    console.error("Failed to create audit log:", error);
+  }
 }
-# 🚀 IBM DIGITECH HRMS - PRO VERSION
 
-## 📌 Overview
-This is the enterprise-grade **Human Resource Management System (HRMS)** designed for automated employee lifecycle management, payroll processing, and role-based approval workflows.
+export async function sendEmailNotification(to: string, subject: string, body: string) {
+  // Placeholder for SMTP integration (Nodemailer/SendGrid)
+  console.log(`[EMAIL SENT] To: ${to} | Subject: ${subject}`);
+  return { success: true };
+}
+# 1. Install dependencies
+npm install --legacy-peer-deps
 
-## 🛠️ Tech Stack
-- **Framework:** Next.js 15+ (App Router)
-- **Language:** TypeScript
-- **Database:** SQLite / PostgreSQL (via Prisma ORM)
-- **Auth:** NextAuth.js v5 (Beta)
-- **UI:** Tailwind CSS + Shadcn UI
-- **State Management:** React Server Components & Actions
+# 2. Generate Prisma Client and setup the database
+npx prisma generate
+npx prisma db push
 
----
-# hrms
-hr app
+# 3. Seed the database with initial users (Admin, Manager, Staff)
+node scripts/seed-standalone.js
+
+# 4. Start the development server
+npm run dev
+
+

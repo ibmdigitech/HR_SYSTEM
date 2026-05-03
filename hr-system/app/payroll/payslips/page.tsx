@@ -94,7 +94,7 @@ export default async function PayslipPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">
-                            {salaryRecords.filter(r => r.status === "GENERATED").length}
+                            {salaryRecords.filter(r => r.status === "PENDING").length}
                         </div>
                         <p className="text-xs text-slate-500">Awaiting disbursement</p>
                     </CardContent>
@@ -127,7 +127,7 @@ export default async function PayslipPage() {
                                     {isAdmin && <TableHead>Employee</TableHead>}
                                     <TableHead>Period</TableHead>
                                     <TableHead>Basic</TableHead>
-                                    <TableHead>HRA</TableHead>
+                                    <TableHead>Housing</TableHead>
                                     <TableHead>Allowances</TableHead>
                                     <TableHead>Deductions</TableHead>
                                     <TableHead className="font-bold text-slate-900 dark:text-white">Net Pay</TableHead>
@@ -136,7 +136,11 @@ export default async function PayslipPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {salaryRecords.map((record: any) => (
+                                {salaryRecords.map((record: any) => {
+                                    const totalAllowances = (record.transportAllowance || 0) + (record.medicalAllowance || 0) + (record.otherAllowances || 0) + (record.bonus || 0);
+                                    const totalDeductions = (record.latePenalty || 0) + (record.leaveDeduction || 0) + (record.loanDeduction || 0) + (record.otherDeductions || 0);
+                                    
+                                    return (
                                     <TableRow key={record.id} className="border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900/50">
                                         {isAdmin && (
                                             <TableCell>
@@ -150,10 +154,10 @@ export default async function PayslipPage() {
                                             {monthName(record.month)} {record.year}
                                         </TableCell>
                                         <TableCell className="text-sm">AED {record.basic?.toLocaleString() ?? "--"}</TableCell>
-                                        <TableCell className="text-sm">AED {record.hra?.toLocaleString() ?? "--"}</TableCell>
-                                        <TableCell className="text-sm">AED {record.allowances?.toLocaleString() ?? "--"}</TableCell>
+                                        <TableCell className="text-sm">AED {record.housingAllowance?.toLocaleString() ?? "--"}</TableCell>
+                                        <TableCell className="text-sm">AED {totalAllowances.toLocaleString() ?? "--"}</TableCell>
                                         <TableCell className="text-sm text-rose-600">
-                                            - AED {record.deductions?.toLocaleString() ?? "--"}
+                                            - AED {totalDeductions.toLocaleString() ?? "--"}
                                         </TableCell>
                                         <TableCell className="font-bold text-emerald-700 dark:text-emerald-400">
                                             AED {record.netSalary?.toLocaleString() ?? "--"}
@@ -174,7 +178,7 @@ export default async function PayslipPage() {
                                             <DownloadPDFButton record={record} />
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                )})}
                             </TableBody>
                         </Table>
                     )}

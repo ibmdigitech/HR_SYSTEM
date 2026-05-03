@@ -21,9 +21,11 @@ type Employee = {
 
 type SalaryStructure = {
     basic: number;
-    hra: number;
-    allowances: number;
-    deductions: number;
+    housingAllowance: number;
+    transportAllowance: number;
+    medicalAllowance: number;
+    otherAllowances: number;
+    paymentMethod: string;
 };
 
 export default function SalaryStructurePage() {
@@ -32,12 +34,13 @@ export default function SalaryStructurePage() {
     const [ctc, setCtc] = useState<number>(0);
     const [structure, setStructure] = useState<Partial<SalaryStructure>>({
         basic: 0,
-        hra: 0,
-        allowances: 0,
-        deductions: 0,
+        housingAllowance: 0,
+        transportAllowance: 0,
+        medicalAllowance: 0,
+        otherAllowances: 0,
+        paymentMethod: "BANK_TRANSFER"
     });
 
-    // Fetch employees from database
     useEffect(() => {
         const fetchEmployees = async () => {
             const res = await getActiveEmployees();
@@ -51,38 +54,20 @@ export default function SalaryStructurePage() {
     }, []);
 
     const calculateStructure = (totalCtc: number) => {
-        // Automated Calculation Logic
-        // Basic = 50% of CTC
-        // HRA = 50% of Basic
-        // Deductions = 10% of Basic (PF/Tax Mock)
-        // Allowances = Remainder
-
-        const basic = totalCtc * 0.5;
-        const hra = basic * 0.5;
-        const deductions = basic * 0.1;
-        const allowances = totalCtc - basic - hra; // Remaining to balance CTC? Or just fixed.
-        // Let's make allowances the balancing figure or fixed. 
-        // CTC = Basic + HRA + Allowances (Gross) - Employer Deductions? 
-        // Let's keep it simple: CTC = Basic + HRA + Allowances. Deductions are subtracted from Gross for Net.
-        // Wait, CTC usually includes Employer PF. 
-        // Let's map: CTC = Gross (Basic+HRA+Allowances). Deductions are separate user input or calculated from Gross.
-
-        // Revised Logic:
-        // Basic = 50% of CTC
-        // HRA = 25% of CTC
-        // Allowances = 25% of CTC
-        // Deductions = 12% of Basic (PF)
-
-        const calculatedBasic = Math.round(totalCtc * 0.5);
-        const calculatedHra = Math.round(totalCtc * 0.25);
-        const calculatedAllowances = Math.round(totalCtc * 0.25);
-        const calculatedDeductions = Math.round(calculatedBasic * 0.12); // Example PF
+        // Advanced Auto calculation logic for UAE
+        const basic = Math.round(totalCtc * 0.50);
+        const housingAllowance = Math.round(totalCtc * 0.25);
+        const transportAllowance = Math.round(totalCtc * 0.10);
+        const medicalAllowance = Math.round(totalCtc * 0.05);
+        const otherAllowances = totalCtc - (basic + housingAllowance + transportAllowance + medicalAllowance);
 
         setStructure({
-            basic: calculatedBasic,
-            hra: calculatedHra,
-            allowances: calculatedAllowances,
-            deductions: calculatedDeductions,
+            basic,
+            housingAllowance,
+            transportAllowance,
+            medicalAllowance,
+            otherAllowances,
+            paymentMethod: "BANK_TRANSFER"
         });
     };
 
@@ -124,34 +109,52 @@ export default function SalaryStructurePage() {
                     <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="ctc">Annual CTC</Label>
+                                <Label htmlFor="ctc">Monthly Total (AED)</Label>
                                 <Input
                                     id="ctc"
                                     type="number"
-                                    placeholder="Enter CTC"
+                                    placeholder="Enter monthly salary"
                                     value={ctc}
                                     onChange={handleCtcChange}
                                 />
                             </div>
 
                             <div className="space-y-2">
+                                <Label htmlFor="paymentMethod">Payment Method</Label>
+                                <select 
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                    value={structure.paymentMethod}
+                                    onChange={(e) => setStructure({...structure, paymentMethod: e.target.value})}
+                                >
+                                    <option value="BANK_TRANSFER">Bank Transfer</option>
+                                    <option value="WPS">WPS (UAE)</option>
+                                    <option value="CASH">Cash</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
                                 <Label htmlFor="basic">Basic Salary (50%)</Label>
-                                <Input id="basic" type="number" value={structure.basic} readOnly className="bg-muted" />
+                                <Input id="basic" type="number" value={structure.basic} onChange={(e) => setStructure({...structure, basic: parseFloat(e.target.value) || 0})} />
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="hra">HRA (25%)</Label>
-                                <Input id="hra" type="number" value={structure.hra} readOnly className="bg-muted" />
+                                <Label htmlFor="housingAllowance">Housing Allowance (25%)</Label>
+                                <Input id="housingAllowance" type="number" value={structure.housingAllowance} onChange={(e) => setStructure({...structure, housingAllowance: parseFloat(e.target.value) || 0})} />
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="allowances">Special Allowances (25%)</Label>
-                                <Input id="allowances" type="number" value={structure.allowances} readOnly className="bg-muted" />
+                                <Label htmlFor="transportAllowance">Transport Allowance (10%)</Label>
+                                <Input id="transportAllowance" type="number" value={structure.transportAllowance} onChange={(e) => setStructure({...structure, transportAllowance: parseFloat(e.target.value) || 0})} />
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="deductions">Estimated Deductions (PF/Tax)</Label>
-                                <Input id="deductions" type="number" value={structure.deductions} readOnly className="bg-muted" />
+                                <Label htmlFor="medicalAllowance">Medical Allowance (5%)</Label>
+                                <Input id="medicalAllowance" type="number" value={structure.medicalAllowance} onChange={(e) => setStructure({...structure, medicalAllowance: parseFloat(e.target.value) || 0})} />
+                            </div>
+                            
+                            <div className="space-y-2 col-span-2">
+                                <Label htmlFor="otherAllowances">Other Allowances (10%)</Label>
+                                <Input id="otherAllowances" type="number" value={structure.otherAllowances} onChange={(e) => setStructure({...structure, otherAllowances: parseFloat(e.target.value) || 0})} />
                             </div>
                         </div>
 
@@ -164,9 +167,11 @@ export default function SalaryStructurePage() {
                                     formData.append("employeeId", selectedEmpId);
                                     formData.append("ctc", ctc.toString());
                                     formData.append("basic", (structure.basic || 0).toString());
-                                    formData.append("hra", (structure.hra || 0).toString());
-                                    formData.append("allowances", (structure.allowances || 0).toString());
-                                    formData.append("deductions", (structure.deductions || 0).toString());
+                                    formData.append("housingAllowance", (structure.housingAllowance || 0).toString());
+                                    formData.append("transportAllowance", (structure.transportAllowance || 0).toString());
+                                    formData.append("medicalAllowance", (structure.medicalAllowance || 0).toString());
+                                    formData.append("otherAllowances", (structure.otherAllowances || 0).toString());
+                                    formData.append("paymentMethod", structure.paymentMethod || "BANK_TRANSFER");
 
                                     const tid = toast.loading("Saving salary structure...");
                                     const res = await upsertSalaryStructure(formData);

@@ -25,15 +25,15 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 const VISA_CATEGORIES = [
-    { id: "EID_PHOTO", label: "EID Photo", icon: User, description: "Recent photo for Emirates ID" },
-    { id: "PASSPORT_PHOTO", label: "Passport Photo", icon: Passport, description: "Standard passport size photo" },
-    { id: "VISA_COPY", label: "Visa Copy", icon: Globe, description: "Current/Previous visa page" },
-    { id: "EID_REQUEST_FORM", label: "EID Request Form", icon: FileText, description: "Official EID application form" },
-    { id: "MEDICAL_PAYMENT_BILL", label: "Medical Bill", icon: Stethoscope, description: "Receipt of medical insurance/test" },
-    { id: "PASSPORT_COPY", label: "Passport Copy", icon: FileUp, description: "Main page with biometric details" },
-    { id: "REQUEST_FORM", label: "Request Form", icon: FileText, description: "Visa processing request form" },
-    { id: "MEDICAL_INSURANCE", label: "Medical Ins.", icon: ShieldCheck, description: "Medical insurance certificate" },
-    { id: "ILOE_INSURANCE", label: "ILOE Ins.", icon: ShieldAlert, description: "Involuntary Loss of Employment insurance" },
+    { id: "EID_PHOTO", label: "EID Photo", icon: User, description: "Recent photo for Emirates ID", color: "text-blue-500", bg: "bg-blue-100", border: "border-blue-200" },
+    { id: "PASSPORT_PHOTO", label: "Passport Photo", icon: Passport, description: "Standard passport size photo", color: "text-violet-500", bg: "bg-violet-100", border: "border-violet-200" },
+    { id: "VISA_COPY", label: "Visa Copy", icon: Globe, description: "Current/Previous visa page", color: "text-emerald-500", bg: "bg-emerald-100", border: "border-emerald-200" },
+    { id: "EID_REQUEST_FORM", label: "EID Request Form", icon: FileText, description: "Official EID application form", color: "text-amber-500", bg: "bg-amber-100", border: "border-amber-200" },
+    { id: "MEDICAL_PAYMENT_BILL", label: "Medical Bill", icon: Stethoscope, description: "Receipt of medical insurance/test", color: "text-rose-500", bg: "bg-rose-100", border: "border-rose-200" },
+    { id: "PASSPORT_COPY", label: "Passport Copy", icon: FileUp, description: "Main page with biometric details", color: "text-indigo-500", bg: "bg-indigo-100", border: "border-indigo-200" },
+    { id: "REQUEST_FORM", label: "Request Form", icon: FileText, description: "Visa processing request form", color: "text-cyan-500", bg: "bg-cyan-100", border: "border-cyan-200" },
+    { id: "MEDICAL_INSURANCE", label: "Medical Ins.", icon: ShieldCheck, description: "Medical insurance certificate", color: "text-teal-500", bg: "bg-teal-100", border: "border-teal-200" },
+    { id: "ILOE_INSURANCE", label: "ILOE Ins.", icon: ShieldAlert, description: "Involuntary Loss of Employment insurance", color: "text-fuchsia-500", bg: "bg-fuchsia-100", border: "border-fuchsia-200" },
 ];
 
 export function VisaForm() {
@@ -120,9 +120,9 @@ export function VisaForm() {
                             <TabsTrigger
                                 key={cat.id}
                                 value={cat.id}
-                                className="py-2 px-1 text-[9px] flex flex-col gap-1 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950"
+                                className="py-2 px-1 text-[9px] flex flex-col gap-1 data-[state=active]:bg-white dark:data-[state=active]:bg-slate-950 transition-colors hover:bg-slate-50"
                             >
-                                <cat.icon className={cn("h-3.5 w-3.5", files[cat.id] ? "text-emerald-500" : "text-slate-500")} />
+                                <cat.icon className={cn("h-3.5 w-3.5", files[cat.id] ? "text-emerald-500" : cat.color)} />
                                 <span className="truncate w-full">{cat.label}</span>
                             </TabsTrigger>
                         ))}
@@ -132,12 +132,12 @@ export function VisaForm() {
                             <TabsContent key={cat.id} value={cat.id} className="mt-0 focus-visible:ring-0">
                                 <div className="flex flex-col items-center justify-center text-center space-y-4">
                                     <div className={cn(
-                                        "h-14 w-14 rounded-2xl flex items-center justify-center transition-colors",
-                                        files[cat.id] ? "bg-emerald-100 dark:bg-emerald-900/30" : "bg-indigo-50 dark:bg-indigo-900/20"
+                                        "h-14 w-14 rounded-2xl flex items-center justify-center transition-colors shadow-sm",
+                                        files[cat.id] ? "bg-emerald-100 dark:bg-emerald-900/30" : cat.bg
                                     )}>
                                         <cat.icon className={cn(
                                             "h-7 w-7",
-                                            files[cat.id] ? "text-emerald-600 dark:text-emerald-400" : "text-indigo-600 dark:text-indigo-400"
+                                            files[cat.id] ? "text-emerald-600 dark:text-emerald-400" : cat.color
                                         )} />
                                     </div>
                                     <div>
@@ -149,7 +149,7 @@ export function VisaForm() {
                                         <Label htmlFor={`file-${cat.id}`} className="cursor-pointer block">
                                             <div className={cn(
                                                 "border-2 border-dashed rounded-xl p-4 transition-all bg-white dark:bg-slate-950",
-                                                files[cat.id] ? "border-emerald-500/50 hover:border-emerald-500" : "border-slate-200 dark:border-slate-800 hover:border-indigo-500"
+                                                files[cat.id] ? "border-emerald-500/50 hover:border-emerald-500" : `hover:${cat.border} border-slate-200 dark:border-slate-800`
                                             )}>
                                                 {files[cat.id] ? (
                                                     <div className="flex flex-col items-center gap-1">

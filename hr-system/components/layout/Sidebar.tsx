@@ -16,6 +16,9 @@ import {
     FileUp,
     Settings2,
     HeartHandshake,
+    Sparkles,
+    ChevronRight,
+    Activity
 } from "lucide-react";
 
 const sidebarItems = [
@@ -24,7 +27,7 @@ const sidebarItems = [
     { title: "Attendance",     href: "/attendance",               icon: Calendar },
     { title: "Leaves",         href: "/leaves",                   icon: Briefcase },
     { title: "Payroll",        href: "/payroll",                  icon: CreditCard },
-    { title: "Visa",           href: "/dashboard/visa",           icon: FileUp },
+    { title: "Visa & Compliance", href: "/dashboard/visa",        icon: FileUp },
     { title: "Letters",        href: "/letters",                  icon: FileText },
     { title: "Staff Services", href: "/dashboard/requests",       icon: HeartHandshake },
     { title: "Service Config", href: "/dashboard/admin/services", icon: Settings2 },
@@ -35,47 +38,110 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="flex flex-col h-screen w-64 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
-            <div className="p-6">
-                <div className="flex items-center gap-2 font-bold text-xl text-slate-900 dark:text-white">
-                    <div className="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-                        <Building2 className="h-5 w-5 text-white" />
+        <div className="hidden lg:flex flex-col h-screen w-72 border-r border-slate-200/50 bg-slate-900 dark:bg-slate-950 shadow-2xl relative overflow-hidden">
+            {/* Background Accents */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+                <div className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] bg-gradient-to-br from-indigo-500/10 via-transparent to-violet-500/10 rotate-12"></div>
+            </div>
+
+            <div className="p-8 relative z-10">
+                <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
+                        <Building2 className="h-6 w-6 text-white" />
                     </div>
-                    <span>HR System</span>
+                    <div className="flex flex-col">
+                        <span className="text-lg font-black tracking-tight text-white uppercase leading-none">Antigravity</span>
+                        <span className="text-[10px] font-black tracking-[0.3em] text-indigo-400 uppercase mt-1">Enterprise HRMS</span>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex-1 px-3 py-4 overflow-y-auto">
-                <nav className="space-y-1">
-                    {sidebarItems.map((item) => {
-                        const isActive = (item as any).exact
-                            ? pathname === item.href
-                            : pathname === item.href || pathname.startsWith(item.href + "/");
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                                    isActive
-                                        ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/20 dark:text-indigo-400"
-                                        : "text-slate-700 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50"
-                                )}
-                            >
-                                <item.icon className={cn("h-4 w-4", isActive ? "text-indigo-700 dark:text-indigo-400" : "text-slate-500 dark:text-slate-400")} />
-                                {item.title}
-                            </Link>
-                        );
-                    })}
-                </nav>
+            <div className="flex-1 px-4 py-6 overflow-y-auto relative z-10 scrollbar-hide">
+                <div className="space-y-6">
+                    <div>
+                        <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Core Platform</p>
+                        <nav className="space-y-1.5">
+                            {sidebarItems.slice(0, 6).map((item) => {
+                                const isActive = (item as any).exact
+                                    ? pathname === item.href
+                                    : pathname === item.href || pathname.startsWith(item.href + "/");
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={cn(
+                                            "group flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-bold transition-all duration-300",
+                                            isActive
+                                                ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
+                                                : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <item.icon className={cn("h-5 w-5 transition-transform group-hover:scale-110", isActive ? "text-white" : "text-slate-500")} />
+                                            {item.title}
+                                        </div>
+                                        {isActive && <ChevronRight className="h-4 w-4 text-white/50" />}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+                    </div>
+
+                    <div>
+                        <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Administration</p>
+                        <nav className="space-y-1.5">
+                            {sidebarItems.slice(6).map((item) => {
+                                const isActive = (item as any).exact
+                                    ? pathname === item.href
+                                    : pathname === item.href || pathname.startsWith(item.href + "/");
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={cn(
+                                            "group flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-bold transition-all duration-300",
+                                            isActive
+                                                ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
+                                                : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <item.icon className={cn("h-5 w-5 transition-transform group-hover:scale-110", isActive ? "text-white" : "text-slate-500")} />
+                                            {item.title}
+                                        </div>
+                                        {isActive && <ChevronRight className="h-4 w-4 text-white/50" />}
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+                    </div>
+                </div>
             </div>
 
-            <div className="p-4 border-t border-slate-200 dark:border-slate-800">
-                <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 transition-colors">
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
+            <div className="p-6 space-y-4 relative z-10 border-t border-slate-800/50">
+                <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
+                    <div className="flex items-center gap-3 mb-2">
+                        <div className="relative">
+                            <Activity className="h-4 w-4 text-emerald-400" />
+                            <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        </div>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">System Live</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-slate-700 rounded-full overflow-hidden">
+                        <div className="h-full w-[94%] bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                    </div>
+                    <div className="flex justify-between mt-2">
+                        <span className="text-[9px] font-bold text-slate-500">Stability Index</span>
+                        <span className="text-[9px] font-black text-emerald-400">99.9%</span>
+                    </div>
+                </div>
+
+                <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-black text-rose-400 hover:bg-rose-500/10 transition-all group">
+                    <LogOut className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    Terminate Session
                 </button>
             </div>
         </div>
     );
 }
+
