@@ -1,109 +1,83 @@
-c# IBM DIGITECH HRMS - Enterprise Human Resource Management System
+# 🚀 ANTIGRAVITY ENTERPRISE HRMS
+### The Ultimate Modern HR & Operations Management System
 
-A comprehensive HR & Operations Management System built with **Next.js 16**, **TypeScript**, and **Prisma (SQLite)**. This system manages the complete employee lifecycle, payroll, attendance, and document generation.
-
-## 📁 Project Structure & File Details
-
-### 🏢 Root Directory
-- **`auth.ts`** & **`auth.config.ts`**: Core NextAuth v5 (Beta) configuration for role-based authentication.
-- **`middleware.ts`**: Route protection logic (Redirects unauthorized users to `/login`).
-- **`prisma/`**: Database configuration and migration files.
-  - `schema.prisma`: The primary data model (SQLite).
-  - `seed.js`: Initial database seeding script.
-- **`scripts/`**: Maintenance and diagnostic utilities.
-  - `seed-standalone.js`: Enhanced seeding script with secure password hashing.
-  - `check-users.js`: Diagnostics for account verification.
-- **`.env`**: Critical environment variables (Database URL, Auth Secret).
-
-### 🚀 Application Layer (`/app`)
-The core business logic and routing using Next.js App Router.
-- **`/login`**: Secure authentication gateway.
-- **`/dashboard`**: Role-based landing pages for Admin, HR, and Staff.
-- **`/employees`**: The "Employee Master" module for lifecycle management and bulk CSV uploads.
-- **`/payroll`**: Complete salary management system.
-  - `/structure`: Configure HRA, Basic, and Allowances.
-  - `/generate`: Batch process monthly disbursements to the database.
-  - `/payslips`: PDF generation for employee records.
-- **`/attendance`**: Punch-in/out tracking and biometric logs.
-- **`/leaves`**: Leave request and approval workflow.
-- **`/letters`**: Automated document generation (Offer, Appointment, Relieving).
-- **`/lib/actions`**: **Server Actions** handling all database mutations:
-  - `employees.ts`: Create/Update/Delete staff.
-  - `payroll.ts`: Monthly processing logic.
-  - `bulk-upload.ts`: CSV "Master File" parser and batch importer.
-  - `leave.ts`: Request handling.
-
-### 🎨 Components & UI (`/components`)
-Modular UI library built with **Shadcn UI** and **Tailwind CSS**.
-- **`/layout`**: Persistent UI elements (Sidebar, Navbar, Mobile Menu).
-- **`/ui`**: Atomic components (Button, Dialog, ScrollArea, Avatar, etc.).
-
-### 🛠️ Shared Services (`/lib`)
-- **`prisma.ts`**: Singleton Prisma client instance.
-- **`mock-db.ts`**: Data types and legacy mock interfaces.
-- **`utils.ts`**: Performance-optimized Tailwind class merging.
+A state-of-the-art, **Premium Glassmorphic** HRMS built with **Next.js 16**, **TypeScript**, **Prisma**, and **Tailwind CSS**. Designed for enterprise-grade performance, aesthetic excellence, and UAE compliance.
 
 ---
 
-## 🛠️ Getting Started
+## ✨ Key Features & Capabilities
 
-1. **Configure Environment**:
-   Create a `.env` file in the root directory:
+### 🎨 1. Next-Gen UI/UX
+- **Premium Glassmorphism**: High-fidelity translucent interfaces with `backdrop-blur-xl` and deep indigo/violet gradients.
+- **Dynamic Dashboard**: Real-time organizational health analytics, system stability indicators, and activity streams.
+- **Responsive Layout**: Optimized for both high-density desktop views and fluid mobile experiences.
+
+### 💰 2. Advanced Payroll Module
+- **UAE WPS Compliance**: Standardized for UAE Labour Law with fields for Basic, HRA, Transport, and Medical allowances.
+- **Automated Processing**: One-click monthly payroll generation with intelligent net salary calculations.
+- **Digital Payslips**: High-performance PDF engine for instant salary record generation.
+- **Dynamic Configuration**: Adjust overtime rates and late penalties via a central **Service Config** hub.
+
+### 📄 3. Bilingual Letter Engine
+- **English & Arabic Templates**: Generate official documents (Salary Certificates, NOCs, Offer Letters) in both languages.
+- **Digital Stamp & Signature**: Documents are automatically appended with verified corporate stamps and manager signatures.
+- **Live Document Viewer**: A4-ready preview modal for reviewing, printing, and downloading official correspondence.
+
+### 🛡️ 4. Visa & Compliance Vault
+- **Document Tracking**: Securely monitor Emirates ID, Passport, and Visa expiration dates.
+- **Vault Interface**: High-impact UI for managing critical workforce compliance documents with real-time status alerts.
+
+### 🤝 5. Staff Services Hub
+- **Self-Service Requests**: Streamlined portal for staff to request reimbursements, overtime, and letters.
+- **Audit Log Timeline**: Real-time status tracking for all requests from "Draft" to "Approved".
+
+---
+
+## 📁 Technical Architecture
+
+### 🏢 Core Stack
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Server Actions)
+- **Language**: [TypeScript](https://www.typescriptlang.org/) for type-safe development.
+- **ORM**: [Prisma](https://www.prisma.io/) with SQLite (Production-ready for PostgreSQL/MySQL).
+- **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/) with custom Glassmorphic tokens.
+- **Components**: Radix UI primitives & Lucide Icons.
+
+### 📂 Directory Overview
+- **`/app`**: Business logic, API routes, and Page components.
+- **`/components`**: Reusable UI library (Glassmorphic variants).
+- **`/lib`**: Shared services (Prisma client, Config Service, PDF Generators).
+- **`/prisma`**: Data modeling and automated migration history.
+- **`/public/assets`**: Verified digital stamps, signatures, and brand assets.
+
+---
+
+## 🛠️ Rapid Setup
+
+1. **Environment Configuration**:
    ```env
    DATABASE_URL="file:./dev.db"
-   AUTH_SECRET="your_secure_random_secret_key"
+   AUTH_SECRET="your_secret_key"
    ```
 
-2. **Install Dependencies**:
+2. **Installation & Initialization**:
    ```bash
    npm install --legacy-peer-deps
-   ```
-
-3. **Setup Database**:
-   ```bash
    npx prisma generate
    npx prisma db push
-   node scripts/seed-standalone.js
+   node scripts/seed-letters.mjs
    ```
 
-4. **Run Development Server**:
+3. **Launch**:
    ```bash
    npm run dev
    ```
 
-5. **Login Credentials**:
-   - **Admin**: `admin@company.com` / `password123`
-   - **Manager**: `manager@company.com` / `password123`
-   - **Staff**: `staff@company.com` / `password123`
+---
 
-## 🚀 Production Deployment
+## 🚀 Performance & Deployment
+- **Turbopack**: Optimized development builds for rapid iteration.
+- **Docker Support**: Multi-stage `Dockerfile` included for containerized deployment.
+- **Enterprise Grade**: PM2 Cluster Mode and automated deployment scripts (`deploy.sh`) for high-availability hosting.
 
-### 1. Build for Production
-When you are ready to move from development to a live server, run:
-```bash
-npm run build
-```
-
-### 2. Start Production Server
-After the build is complete, start the optimized server:
-```bash
-npm run start
-```
-
-### 3. Recommended Platforms
-- **Vercel**: Best for Next.js. Simply connect your GitHub repository.
-- **Docker**: Build the image using the provided `Dockerfile`.
-- **PM2 (Self-Hosted)**: Use the `ecosystem.config.js` and `deploy.sh` script for automated setup on a VPS.
-  ```bash
-  # Quick deploy on Linux:
-  chmod +x deploy.sh
-  ./deploy.sh
-  ```
-
-## 📄 Deployment Files Included
-| File | Description |
-| :--- | :--- |
-| `Dockerfile` | Multi-stage production build for Docker/Kubernetes. |
-| `.dockerignore`| Prevents bloat in Docker images. |
-| `ecosystem.config.js` | PM2 Cluster Mode configuration for high availability. |
-| `deploy.sh` | One-click automation for installation, builds, and prisma sync. |
+---
+*© 2026 Antigravity Systems | Enterprise HRMS | UAE*
