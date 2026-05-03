@@ -15,7 +15,7 @@ import {
     Plus, 
     Search, 
     Filter, 
-    Download, 
+    Download as DownloadIcon, 
     Eye, 
     CheckCircle2, 
     Clock, 
@@ -27,10 +27,12 @@ import {
     UserCheck,
     Printer,
     Mail,
+    Send,
     ChevronRight,
     Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
 
 interface Template {
     id: string;
@@ -81,23 +83,30 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
         setLoading(true);
         try {
             const [tRes, lRes, eRes] = await Promise.all([
-                fetch('/api/templates'),
-                fetch('/api/letters'),
-                isAdmin ? fetch('/api/employees') : Promise.resolve({ ok: true, json: () => [] })
+                fetch('/api/templates').catch(e => ({ ok: false, json: () => [] })),
+                fetch('/api/letters').catch(e => ({ ok: false, json: () => [] })),
+                isAdmin ? fetch('/api/employees').catch(e => ({ ok: false, json: () => [] })) : Promise.resolve({ ok: true, json: async () => [] })
             ]);
 
-            if (tRes.ok) setTemplates(await tRes.json());
-            if (lRes.ok) setLetters(await lRes.json());
-            
-            // If employee API isn't exactly at /api/employees, handle accordingly
-            // Based on previous work, I know there is an action for employees, but I'll try to fetch from a route if exists
-            // For now, I'll assume we can get employees if admin
-            if (isAdmin) {
+            if (tRes.ok) {
+                const tData = await tRes.json();
+                setTemplates(Array.isArray(tData) ? tData : []);
+            } else {
+                toast.error("Templates service unavailable");
+            }
+
+            if (lRes.ok) {
+                const lData = await lRes.json();
+                setLetters(Array.isArray(lData) ? lData : []);
+            }
+
+            if (isAdmin && eRes.ok) {
                 const eData = await eRes.json();
                 setEmployees(Array.isArray(eData) ? eData : (eData.data || []));
             }
         } catch (error) {
-            toast.error("Failed to load letter data");
+            console.error("Fetch Data Error:", error);
+            toast.error("Failed to load letter data engine");
         } finally {
             setLoading(false);
         }
@@ -189,27 +198,42 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                 {/* Left side: Template Selection & Generation */}
                 <div className="lg:col-span-8 space-y-10">
                     {!selectedTemplate ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {templates.map(template => (
-                                <Card key={template.id} className="group hover:scale-[1.02] transition-all duration-300 border-none bg-white dark:bg-slate-950 shadow-lg rounded-[2.5rem] overflow-hidden cursor-pointer" onClick={() => setSelectedTemplate(template)}>
-                                    <CardHeader className="p-8 pb-4">
-                                        <div className="h-12 w-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-                                            <FileText className="h-6 w-6" />
-                                        </div>
-                                        <CardTitle className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight italic">
-                                            {template.name}
-                                        </CardTitle>
-                                        <CardDescription className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
-                                            {template.type.replace('_', ' ')}
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardFooter className="p-8 pt-0 flex justify-between items-center">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Ready for Preview</span>
-                                        <ArrowRight className="h-5 w-5 text-slate-200 group-hover:text-indigo-600 group-hover:translate-x-2 transition-all" />
-                                    </CardFooter>
-                                </Card>
-                            ))}
-                        </div>
+                        templates.length === 0 ? (
+                            <Card className="border-none bg-white dark:bg-slate-950 shadow-lg rounded-[2.5rem] p-20 flex flex-col items-center justify-center text-center">
+                                <div className="h-20 w-20 rounded-3xl bg-slate-50 dark:bg-slate-900 flex items-center justify-center mb-6">
+                                    <AlertCircle className="h-10 w-10 text-slate-300" />
+                                </div>
+                                <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight italic mb-2">No Templates Configured</h3>
+                                <p className="text-slate-400 text-sm font-medium max-w-xs">
+                                    The bilingual document engine is active, but no templates have been published yet.
+                                </p>
+                                <Button className="mt-8 rounded-xl font-black uppercase text-xs tracking-widest bg-indigo-600 hover:bg-indigo-700 h-12 px-8" onClick={fetchData}>
+                                    Retry Connection
+                                </Button>
+                            </Card>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {templates.map(template => (
+                                    <Card key={template.id} className="group hover:scale-[1.02] transition-all duration-300 border-none bg-white dark:bg-slate-950 shadow-lg rounded-[2.5rem] overflow-hidden cursor-pointer" onClick={() => setSelectedTemplate(template)}>
+                                        <CardHeader className="p-8 pb-4">
+                                            <div className="h-12 w-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                                                <FileText className="h-6 w-6" />
+                                            </div>
+                                            <CardTitle className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight italic">
+                                                {template.name}
+                                            </CardTitle>
+                                            <CardDescription className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
+                                                {template.type.replace('_', ' ')}
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardFooter className="p-8 pt-0 flex justify-between items-center">
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Ready for Preview</span>
+                                            <ArrowRight className="h-5 w-5 text-slate-200 group-hover:text-indigo-600 group-hover:translate-x-2 transition-all" />
+                                        </CardFooter>
+                                    </Card>
+                                ))}
+                            </div>
+                        )
                     ) : (
                         <Card className="border-none bg-white dark:bg-slate-950 shadow-2xl rounded-[3rem] overflow-hidden animate-in slide-in-from-bottom-10 duration-500">
                             <CardHeader className="p-10 bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
@@ -372,6 +396,14 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                                 </div>
                             </div>
                             <div className="flex gap-2">
+                                <Button 
+                                    variant="outline" 
+                                    className="h-11 rounded-xl font-black uppercase text-[10px] tracking-widest gap-2 bg-indigo-50 border-indigo-100 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all" 
+                                    onClick={() => generateLetterPDF(viewingLetter)}
+                                >
+                                    <DownloadIcon className="h-4 w-4" />
+                                    Download PDF
+                                </Button>
                                 <Button variant="outline" className="h-11 rounded-xl font-black uppercase text-[10px] tracking-widest gap-2" onClick={() => window.print()}>
                                     <Printer className="h-4 w-4" />
                                     Print Document
@@ -436,7 +468,7 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                                                 ID: {viewingLetter.id.slice(0, 8).toUpperCase()} - VERIFIED
                                             </div>
                                         </div>
-                                        <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest border-t border-slate-200 pt-2 w-fit">Authorized Signatory</p>
+                                        <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest border-t border-slate-200 pt-2 w-fit">Manager / Authorized Signatory</p>
                                     </div>
                                     <div className="text-right">
                                         <div className="h-20 w-20 bg-slate-100 rounded-xl flex items-center justify-center ml-auto mb-2 opacity-50">
