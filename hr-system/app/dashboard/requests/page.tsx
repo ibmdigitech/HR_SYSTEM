@@ -121,7 +121,7 @@ export default async function StaffRequestsPage() {
 
                                     {services.map((service: any) => (
                                         <TabsContent key={service.id} value={service.id} className="p-10 mt-0 focus-visible:outline-none">
-                                            <form action={async (fd: FormData) => { await submitStaffRequest(fd); }} className="space-y-10">
+                                            <form action={submitStaffRequest} className="space-y-10">
                                                 <input type="hidden" name="typeId" value={service.id} />
 
                                                 <div className="grid md:grid-cols-2 gap-8">
