@@ -42,10 +42,12 @@ export async function upsertServiceType(formData: FormData) {
 /**
  * Staff Action: Submit a Request
  */
-export async function submitStaffRequest(formData: FormData) {
+// Staff Action: Submit a Request (form action must return void)
+export async function submitStaffRequest(formData: FormData): Promise<void> {
     const session = await auth();
     if (!session || !session.user) {
-        return { success: false, message: "Not authenticated" };
+        console.log("Not authenticated");
+        return;
     }
 
     const user = await prisma.user.findUnique({
@@ -54,7 +56,8 @@ export async function submitStaffRequest(formData: FormData) {
     });
 
     if (!user || !user.employee) {
-        return { success: false, message: "Employee profile not found" };
+        console.log("Employee profile not found");
+        return;
     }
 
     const typeId = formData.get("typeId") as string;
@@ -86,16 +89,17 @@ export async function submitStaffRequest(formData: FormData) {
                     fileUrl: `/uploads/staff_${Date.now()}_${file.name}`,
                     fileType: file.type,
                     category: "STAFF_REQUEST_ATTACHMENT",
-                }
+                },
             });
         }
-
         revalidatePath("/dashboard/requests");
-        return { success: true, message: "Request submitted successfully" };
+        console.log("Request submitted successfully");
     } catch (error) {
-        return { success: false, message: "Failed to submit request" };
+        console.error("Failed to submit request", error);
     }
 }
+
+    // Duplicate old submitStaffRequest implementation removed
 
 /**
  * HR Action: Delete a Service Type
