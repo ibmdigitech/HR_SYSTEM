@@ -7,7 +7,7 @@ export const serviceConfigCreateSchema = z.object({
   label: z.string().min(1),
   description: z.string().optional(),
   type: z.enum(['text', 'number', 'boolean', 'select', 'json', 'date', 'time']),
-  value: z.string().optional(),
+  value: z.string(),
   options: z.any().optional(), // JSON for select options
   isActive: z.boolean().optional().default(true),
 });

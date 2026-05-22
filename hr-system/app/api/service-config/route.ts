@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
 import { z } from 'zod';
-import { serviceConfigCreateSchema, serviceConfigUpdateSchema } from '@/lib/validation';
+import { serviceConfigCreateSchema, serviceConfigUpdateSchema } from '@/app/lib/validation';
 
 /**
  * GET /api/service-config

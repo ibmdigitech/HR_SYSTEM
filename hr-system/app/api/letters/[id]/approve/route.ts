@@ -14,7 +14,7 @@ export async function POST(
 
     try {
         const letter = await prisma.letter.update({
-            where: { id: params.id },
+            where: { id },
             data: {
                 status: 'GENERATED',
                 approvedBy: session.user?.email || 'System',
