@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd hr-system && npm install && npm run build",
+  "outputDirectory": "hr-system/.next",
+  "rootDirectory": "hr-system"
+}
