@@ -9,6 +9,7 @@ import { Download, FileText, DollarSign, AlertCircle, ArrowLeft } from "lucide-r
 import Link from "next/link";
 
 import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
+import { PayrollStatusDropdown } from "@/components/payroll/PayrollStatusDropdown";
 
 export default async function PayslipPage() {
     const session = await auth();
@@ -169,16 +170,20 @@ export default async function PayslipPage() {
                                             AED {record.netSalary?.toLocaleString() ?? "--"}
                                         </TableCell>
                                         <TableCell>
-                                            <Badge
-                                                className={
-                                                    record.status === "PAID"
-                                                        ? "bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                                                        : "bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100"
-                                                }
-                                                variant="outline"
-                                            >
-                                                {record.status}
-                                            </Badge>
+                                            {isAdmin ? (
+                                                <PayrollStatusDropdown record={record} />
+                                            ) : (
+                                                <Badge
+                                                    className={
+                                                        record.status === "PAID"
+                                                            ? "bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                                                            : "bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100"
+                                                    }
+                                                    variant="outline"
+                                                >
+                                                    {record.status}
+                                                </Badge>
+                                            )}
                                         </TableCell>
                                         <TableCell className="text-right">
                                             <DownloadPDFButton record={record} />

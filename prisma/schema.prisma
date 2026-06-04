@@ -134,6 +134,8 @@ model Employee {
   attachments       Attachment[]
   auditLogs         AuditLog[]
   notifications     Notification[]
+  loans             Loan[]
+  overtime          Overtime[]
 
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -246,6 +248,9 @@ model SalaryStructure {
   housingAllowance   Float    @default(0)
   transportAllowance Float    @default(0)
   medicalAllowance   Float    @default(0)
+  foodAllowance      Float    @default(0)
+  travelAllowance    Float    @default(0)
+  commission         Float    @default(0)
   otherAllowances    Float    @default(0)
   paymentMethod      String   @default("BANK_TRANSFER")
   bankName           String?
@@ -264,17 +269,48 @@ model SalaryRecord {
   housingAllowance   Float    @default(0)
   transportAllowance Float    @default(0)
   medicalAllowance   Float    @default(0)
+  foodAllowance      Float    @default(0)
+  travelAllowance    Float    @default(0)
+  commission         Float    @default(0)
   otherAllowances    Float    @default(0)
   latePenalty        Float    @default(0)
+  penalty            Float    @default(0)
   leaveDeduction     Float    @default(0)
   loanDeduction      Float    @default(0)
+  advanceSalary      Float    @default(0)
   otherDeductions    Float    @default(0)
   overtimePay        Float    @default(0)
   bonus              Float    @default(0)
   netSalary          Float
-  status             String   @default("PENDING") // PENDING, APPROVED, PAID, FAILED
+  status             String   @default("DRAFT") // DRAFT, PENDING_HR, PENDING_FINANCE, PENDING_MANAGEMENT, PROCESSED, PAID, CANCELLED
   paymentMethod      String   @default("BANK_TRANSFER")
   paidAt             DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Loan {
+  id                 String   @id @default(cuid())
+  employeeId         String
+  employee           Employee @relation(fields: [employeeId], references: [id])
+  amount             Float
+  issueDate          DateTime
+  installmentAmount  Float
+  remainingBalance   Float
+  status             String   @default("ACTIVE") // ACTIVE, PAID, CANCELLED
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Overtime {
+  id                 String   @id @default(cuid())
+  employeeId         String
+  employee           Employee @relation(fields: [employeeId], references: [id])
+  date               DateTime
+  hours              Float
+  ratePerHour        Float
+  totalPay           Float
+  status             String   @default("PENDING") // PENDING, APPROVED, PAID, REJECTED
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }

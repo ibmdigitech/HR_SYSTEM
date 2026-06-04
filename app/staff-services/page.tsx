@@ -30,7 +30,10 @@ export default async function StaffServicesPage() {
                         take: 15
                     },
                     salaryRecords: {
-                        orderBy: { year: "desc", month: "desc" },
+                        orderBy: [
+                            { year: "desc" },
+                            { month: "desc" }
+                        ],
                         take: 12
                     },
                     staffRequests: {

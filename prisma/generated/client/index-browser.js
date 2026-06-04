@@ -291,6 +291,9 @@ exports.Prisma.SalaryStructureScalarFieldEnum = {
   housingAllowance: 'housingAllowance',
   transportAllowance: 'transportAllowance',
   medicalAllowance: 'medicalAllowance',
+  foodAllowance: 'foodAllowance',
+  travelAllowance: 'travelAllowance',
+  commission: 'commission',
   otherAllowances: 'otherAllowances',
   paymentMethod: 'paymentMethod',
   bankName: 'bankName',
@@ -308,10 +311,15 @@ exports.Prisma.SalaryRecordScalarFieldEnum = {
   housingAllowance: 'housingAllowance',
   transportAllowance: 'transportAllowance',
   medicalAllowance: 'medicalAllowance',
+  foodAllowance: 'foodAllowance',
+  travelAllowance: 'travelAllowance',
+  commission: 'commission',
   otherAllowances: 'otherAllowances',
   latePenalty: 'latePenalty',
+  penalty: 'penalty',
   leaveDeduction: 'leaveDeduction',
   loanDeduction: 'loanDeduction',
+  advanceSalary: 'advanceSalary',
   otherDeductions: 'otherDeductions',
   overtimePay: 'overtimePay',
   bonus: 'bonus',
@@ -319,6 +327,30 @@ exports.Prisma.SalaryRecordScalarFieldEnum = {
   status: 'status',
   paymentMethod: 'paymentMethod',
   paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LoanScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  amount: 'amount',
+  issueDate: 'issueDate',
+  installmentAmount: 'installmentAmount',
+  remainingBalance: 'remainingBalance',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OvertimeScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  date: 'date',
+  hours: 'hours',
+  ratePerHour: 'ratePerHour',
+  totalPay: 'totalPay',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -466,6 +498,8 @@ exports.Prisma.ModelName = {
   LeaveRequest: 'LeaveRequest',
   SalaryStructure: 'SalaryStructure',
   SalaryRecord: 'SalaryRecord',
+  Loan: 'Loan',
+  Overtime: 'Overtime',
   StaffServiceType: 'StaffServiceType',
   StaffRequest: 'StaffRequest',
   Attachment: 'Attachment',

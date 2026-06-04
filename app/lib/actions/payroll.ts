@@ -17,12 +17,15 @@ export async function upsertSalaryStructure(formData: FormData) {
     const housingAllowance = parseFloat(formData.get("housingAllowance") as string) || 0;
     const transportAllowance = parseFloat(formData.get("transportAllowance") as string) || 0;
     const medicalAllowance = parseFloat(formData.get("medicalAllowance") as string) || 0;
+    const foodAllowance = parseFloat(formData.get("foodAllowance") as string) || 0;
+    const travelAllowance = parseFloat(formData.get("travelAllowance") as string) || 0;
+    const commission = parseFloat(formData.get("commission") as string) || 0;
     const otherAllowances = parseFloat(formData.get("otherAllowances") as string) || 0;
     const paymentMethod = formData.get("paymentMethod") as string || "BANK_TRANSFER";
 
     try {
         const data = {
-            ctc, basic, housingAllowance, transportAllowance, medicalAllowance, otherAllowances, paymentMethod
+            ctc, basic, housingAllowance, transportAllowance, medicalAllowance, foodAllowance, travelAllowance, commission, otherAllowances, paymentMethod
         };
 
         await prisma.salaryStructure.upsert({
@@ -70,7 +73,7 @@ export async function generatePayroll(month: number, year: number) {
         const records = [];
         for (const emp of activeEmployees) {
             const struct = emp.salaryStructure!;
-            const totalAllowances = struct.housingAllowance + struct.transportAllowance + struct.medicalAllowance + struct.otherAllowances;
+            const totalAllowances = struct.housingAllowance + struct.transportAllowance + struct.medicalAllowance + struct.foodAllowance + struct.travelAllowance + struct.commission + struct.otherAllowances;
 
             // 1. Count late check-ins from Attendance in this month
             const attendances = await prisma.attendance.findMany({
@@ -107,12 +110,44 @@ export async function generatePayroll(month: number, year: number) {
             }
 
             const leaveDeduction = unpaidDays * (struct.basic / 30);
-            const loanDeduction = 0;
+
+            // 3. Overtime calculation
+            const overtimes = await prisma.overtime.findMany({
+                where: {
+                    employeeId: emp.id,
+                    status: "APPROVED",
+                    date: {
+                        gte: startOfMonth,
+                        lte: endOfMonth
+                    }
+                }
+            });
+            const overtimePay = overtimes.reduce((acc, curr) => acc + curr.totalPay, 0);
+
+            // 4. Loan deduction
+            const activeLoans = await prisma.loan.findMany({
+                where: {
+                    employeeId: emp.id,
+                    status: "ACTIVE",
+                    issueDate: { lte: endOfMonth }
+                }
+            });
+
+            let loanDeduction = 0;
+            for (const loan of activeLoans) {
+                if (loan.remainingBalance > 0) {
+                    const deduction = Math.min(loan.installmentAmount, loan.remainingBalance);
+                    loanDeduction += deduction;
+                    // Note: We don't deduct the balance immediately in generate phase. That happens on PAID status.
+                }
+            }
+
+            const penalty = 0;
+            const advanceSalary = 0;
             const otherDeductions = 0;
-            const overtimePay = 0;
             const bonus = 0;
             
-            const totalDeductions = latePenalty + leaveDeduction + loanDeduction + otherDeductions;
+            const totalDeductions = latePenalty + leaveDeduction + loanDeduction + advanceSalary + penalty + otherDeductions;
             const netSalary = struct.basic + totalAllowances + overtimePay + bonus - totalDeductions;
 
             records.push({
@@ -123,15 +158,20 @@ export async function generatePayroll(month: number, year: number) {
                 housingAllowance: struct.housingAllowance,
                 transportAllowance: struct.transportAllowance,
                 medicalAllowance: struct.medicalAllowance,
+                foodAllowance: struct.foodAllowance,
+                travelAllowance: struct.travelAllowance,
+                commission: struct.commission,
                 otherAllowances: struct.otherAllowances,
                 latePenalty,
+                penalty,
                 leaveDeduction,
                 loanDeduction,
+                advanceSalary,
                 otherDeductions,
                 overtimePay,
                 bonus,
                 netSalary,
-                status: "PENDING",
+                status: "DRAFT",
                 paymentMethod: struct.paymentMethod
             });
         }
@@ -172,5 +212,71 @@ export async function generatePayroll(month: number, year: number) {
     } catch (error: any) {
         console.error("[GENERATE_PAYROLL_ERROR]", error);
         return { success: false, message: `Error: ${error.message}` };
+    }
+}
+
+export async function updatePayrollStatus(recordId: string, status: string) {
+    const session = await auth();
+    if (!session || !["ADMIN", "HR"].includes((session.user as any).role)) {
+        return { success: false, message: "Unauthorized" };
+    }
+
+    try {
+        const updateData: any = { status };
+        if (status === "PAID") {
+            updateData.paidAt = new Date();
+        }
+
+        const record = await prisma.salaryRecord.update({
+            where: { id: recordId },
+            data: updateData,
+            include: { employee: true }
+        });
+
+        // Deduct loan balance when actually paid
+        if (status === "PAID" && record.loanDeduction > 0) {
+            const activeLoans = await prisma.loan.findMany({
+                where: {
+                    employeeId: record.employeeId,
+                    status: "ACTIVE",
+                }
+            });
+
+            let remainingDeduction = record.loanDeduction;
+            for (const loan of activeLoans) {
+                if (remainingDeduction <= 0) break;
+                if (loan.remainingBalance > 0) {
+                    const toDeduct = Math.min(loan.installmentAmount, loan.remainingBalance, remainingDeduction);
+                    const newBalance = loan.remainingBalance - toDeduct;
+                    await prisma.loan.update({
+                        where: { id: loan.id },
+                        data: {
+                            remainingBalance: newBalance,
+                            status: newBalance <= 0 ? "PAID" : "ACTIVE"
+                        }
+                    });
+                    remainingDeduction -= toDeduct;
+                }
+            }
+        }
+
+        if (status === "PAID") {
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            await prisma.notification.create({
+                data: {
+                    employeeId: record.employeeId,
+                    title: "Salary Credited 💰",
+                    message: `Your salary for ${monthNames[record.month - 1]} ${record.year} has been disbursed.`,
+                    type: "SUCCESS",
+                    link: "/staff-services",
+                }
+            });
+        }
+
+        revalidatePath("/payroll");
+        revalidatePath("/payroll/payslips");
+        return { success: true, message: `Payroll status updated to ${status}` };
+    } catch (error: any) {
+        return { success: false, message: "Failed to update payroll status" };
     }
 }

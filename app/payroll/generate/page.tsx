@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function PayrollGeneratePage() {
     const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -33,6 +35,12 @@ export default function PayrollGeneratePage() {
 
     return (
         <div className="p-8 space-y-6">
+            {/* Back Button */}
+            <Link href="/payroll" className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors w-fit">
+                <ArrowLeft className="h-4 w-4" />
+                <span className="text-sm font-medium">Back to Payroll</span>
+            </Link>
+
             <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Run Payroll</h1>

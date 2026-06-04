@@ -79,6 +79,16 @@ export type SalaryStructure = $Result.DefaultSelection<Prisma.$SalaryStructurePa
  */
 export type SalaryRecord = $Result.DefaultSelection<Prisma.$SalaryRecordPayload>
 /**
+ * Model Loan
+ * 
+ */
+export type Loan = $Result.DefaultSelection<Prisma.$LoanPayload>
+/**
+ * Model Overtime
+ * 
+ */
+export type Overtime = $Result.DefaultSelection<Prisma.$OvertimePayload>
+/**
  * Model StaffServiceType
  * 
  */
@@ -366,6 +376,26 @@ export class PrismaClient<
     * ```
     */
   get salaryRecord(): Prisma.SalaryRecordDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loan`: Exposes CRUD operations for the **Loan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Loans
+    * const loans = await prisma.loan.findMany()
+    * ```
+    */
+  get loan(): Prisma.LoanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.overtime`: Exposes CRUD operations for the **Overtime** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Overtimes
+    * const overtimes = await prisma.overtime.findMany()
+    * ```
+    */
+  get overtime(): Prisma.OvertimeDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.staffServiceType`: Exposes CRUD operations for the **StaffServiceType** model.
@@ -900,6 +930,8 @@ export namespace Prisma {
     LeaveRequest: 'LeaveRequest',
     SalaryStructure: 'SalaryStructure',
     SalaryRecord: 'SalaryRecord',
+    Loan: 'Loan',
+    Overtime: 'Overtime',
     StaffServiceType: 'StaffServiceType',
     StaffRequest: 'StaffRequest',
     Attachment: 'Attachment',
@@ -926,7 +958,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig"
+      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "loan" | "overtime" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1892,6 +1924,154 @@ export namespace Prisma {
           }
         }
       }
+      Loan: {
+        payload: Prisma.$LoanPayload<ExtArgs>
+        fields: Prisma.LoanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+          }
+          findMany: {
+            args: Prisma.LoanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
+          }
+          create: {
+            args: Prisma.LoanCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+          }
+          createMany: {
+            args: Prisma.LoanCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+          }
+          update: {
+            args: Prisma.LoanUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoan>
+          }
+          groupBy: {
+            args: Prisma.LoanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanCountAggregateOutputType> | number
+          }
+        }
+      }
+      Overtime: {
+        payload: Prisma.$OvertimePayload<ExtArgs>
+        fields: Prisma.OvertimeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OvertimeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OvertimeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
+          }
+          findFirst: {
+            args: Prisma.OvertimeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OvertimeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
+          }
+          findMany: {
+            args: Prisma.OvertimeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>[]
+          }
+          create: {
+            args: Prisma.OvertimeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
+          }
+          createMany: {
+            args: Prisma.OvertimeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OvertimeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>[]
+          }
+          delete: {
+            args: Prisma.OvertimeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
+          }
+          update: {
+            args: Prisma.OvertimeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
+          }
+          deleteMany: {
+            args: Prisma.OvertimeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OvertimeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OvertimeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>[]
+          }
+          upsert: {
+            args: Prisma.OvertimeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
+          }
+          aggregate: {
+            args: Prisma.OvertimeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOvertime>
+          }
+          groupBy: {
+            args: Prisma.OvertimeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OvertimeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OvertimeCountArgs<ExtArgs>
+            result: $Utils.Optional<OvertimeCountAggregateOutputType> | number
+          }
+        }
+      }
       StaffServiceType: {
         payload: Prisma.$StaffServiceTypePayload<ExtArgs>
         fields: Prisma.StaffServiceTypeFieldRefs
@@ -2593,6 +2773,8 @@ export namespace Prisma {
     leaveRequest?: LeaveRequestOmit
     salaryStructure?: SalaryStructureOmit
     salaryRecord?: SalaryRecordOmit
+    loan?: LoanOmit
+    overtime?: OvertimeOmit
     staffServiceType?: StaffServiceTypeOmit
     staffRequest?: StaffRequestOmit
     attachment?: AttachmentOmit
@@ -2751,6 +2933,8 @@ export namespace Prisma {
     attachments: number
     auditLogs: number
     notifications: number
+    loans: number
+    overtime: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2766,6 +2950,8 @@ export namespace Prisma {
     attachments?: boolean | EmployeeCountOutputTypeCountAttachmentsArgs
     auditLogs?: boolean | EmployeeCountOutputTypeCountAuditLogsArgs
     notifications?: boolean | EmployeeCountOutputTypeCountNotificationsArgs
+    loans?: boolean | EmployeeCountOutputTypeCountLoansArgs
+    overtime?: boolean | EmployeeCountOutputTypeCountOvertimeArgs
   }
 
   // Custom InputTypes
@@ -2861,6 +3047,20 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountLoansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountOvertimeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OvertimeWhereInput
   }
 
 
@@ -7106,6 +7306,8 @@ export namespace Prisma {
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
+    loans?: boolean | Employee$loansArgs<ExtArgs>
+    overtime?: boolean | Employee$overtimeArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -7283,6 +7485,8 @@ export namespace Prisma {
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
+    loans?: boolean | Employee$loansArgs<ExtArgs>
+    overtime?: boolean | Employee$overtimeArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7315,6 +7519,8 @@ export namespace Prisma {
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      loans: Prisma.$LoanPayload<ExtArgs>[]
+      overtime: Prisma.$OvertimePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7774,6 +7980,8 @@ export namespace Prisma {
     attachments<T extends Employee$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Employee$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Employee$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loans<T extends Employee$loansArgs<ExtArgs> = {}>(args?: Subset<T, Employee$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    overtime<T extends Employee$overtimeArgs<ExtArgs> = {}>(args?: Subset<T, Employee$overtimeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8586,6 +8794,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.loans
+   */
+  export type Employee$loansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    where?: LoanWhereInput
+    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    cursor?: LoanWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.overtime
+   */
+  export type Employee$overtimeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    where?: OvertimeWhereInput
+    orderBy?: OvertimeOrderByWithRelationInput | OvertimeOrderByWithRelationInput[]
+    cursor?: OvertimeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OvertimeScalarFieldEnum | OvertimeScalarFieldEnum[]
   }
 
   /**
@@ -16600,6 +16856,9 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
   }
 
@@ -16609,6 +16868,9 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
   }
 
@@ -16620,6 +16882,9 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
     paymentMethod: string | null
     bankName: string | null
@@ -16636,6 +16901,9 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
     paymentMethod: string | null
     bankName: string | null
@@ -16652,6 +16920,9 @@ export namespace Prisma {
     housingAllowance: number
     transportAllowance: number
     medicalAllowance: number
+    foodAllowance: number
+    travelAllowance: number
+    commission: number
     otherAllowances: number
     paymentMethod: number
     bankName: number
@@ -16668,6 +16939,9 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
   }
 
@@ -16677,6 +16951,9 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
   }
 
@@ -16688,6 +16965,9 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     paymentMethod?: true
     bankName?: true
@@ -16704,6 +16984,9 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     paymentMethod?: true
     bankName?: true
@@ -16720,6 +17003,9 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     paymentMethod?: true
     bankName?: true
@@ -16823,6 +17109,9 @@ export namespace Prisma {
     housingAllowance: number
     transportAllowance: number
     medicalAllowance: number
+    foodAllowance: number
+    travelAllowance: number
+    commission: number
     otherAllowances: number
     paymentMethod: string
     bankName: string | null
@@ -16858,6 +17147,9 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     paymentMethod?: boolean
     bankName?: boolean
@@ -16875,6 +17167,9 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     paymentMethod?: boolean
     bankName?: boolean
@@ -16892,6 +17187,9 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     paymentMethod?: boolean
     bankName?: boolean
@@ -16909,6 +17207,9 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     paymentMethod?: boolean
     bankName?: boolean
@@ -16917,7 +17218,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SalaryStructureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "ctc" | "basic" | "housingAllowance" | "transportAllowance" | "medicalAllowance" | "otherAllowances" | "paymentMethod" | "bankName" | "iban" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryStructure"]>
+  export type SalaryStructureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "ctc" | "basic" | "housingAllowance" | "transportAllowance" | "medicalAllowance" | "foodAllowance" | "travelAllowance" | "commission" | "otherAllowances" | "paymentMethod" | "bankName" | "iban" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryStructure"]>
   export type SalaryStructureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
@@ -16941,6 +17242,9 @@ export namespace Prisma {
       housingAllowance: number
       transportAllowance: number
       medicalAllowance: number
+      foodAllowance: number
+      travelAllowance: number
+      commission: number
       otherAllowances: number
       paymentMethod: string
       bankName: string | null
@@ -17378,6 +17682,9 @@ export namespace Prisma {
     readonly housingAllowance: FieldRef<"SalaryStructure", 'Float'>
     readonly transportAllowance: FieldRef<"SalaryStructure", 'Float'>
     readonly medicalAllowance: FieldRef<"SalaryStructure", 'Float'>
+    readonly foodAllowance: FieldRef<"SalaryStructure", 'Float'>
+    readonly travelAllowance: FieldRef<"SalaryStructure", 'Float'>
+    readonly commission: FieldRef<"SalaryStructure", 'Float'>
     readonly otherAllowances: FieldRef<"SalaryStructure", 'Float'>
     readonly paymentMethod: FieldRef<"SalaryStructure", 'String'>
     readonly bankName: FieldRef<"SalaryStructure", 'String'>
@@ -17815,10 +18122,15 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
     latePenalty: number | null
+    penalty: number | null
     leaveDeduction: number | null
     loanDeduction: number | null
+    advanceSalary: number | null
     otherDeductions: number | null
     overtimePay: number | null
     bonus: number | null
@@ -17832,10 +18144,15 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
     latePenalty: number | null
+    penalty: number | null
     leaveDeduction: number | null
     loanDeduction: number | null
+    advanceSalary: number | null
     otherDeductions: number | null
     overtimePay: number | null
     bonus: number | null
@@ -17851,10 +18168,15 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
     latePenalty: number | null
+    penalty: number | null
     leaveDeduction: number | null
     loanDeduction: number | null
+    advanceSalary: number | null
     otherDeductions: number | null
     overtimePay: number | null
     bonus: number | null
@@ -17875,10 +18197,15 @@ export namespace Prisma {
     housingAllowance: number | null
     transportAllowance: number | null
     medicalAllowance: number | null
+    foodAllowance: number | null
+    travelAllowance: number | null
+    commission: number | null
     otherAllowances: number | null
     latePenalty: number | null
+    penalty: number | null
     leaveDeduction: number | null
     loanDeduction: number | null
+    advanceSalary: number | null
     otherDeductions: number | null
     overtimePay: number | null
     bonus: number | null
@@ -17899,10 +18226,15 @@ export namespace Prisma {
     housingAllowance: number
     transportAllowance: number
     medicalAllowance: number
+    foodAllowance: number
+    travelAllowance: number
+    commission: number
     otherAllowances: number
     latePenalty: number
+    penalty: number
     leaveDeduction: number
     loanDeduction: number
+    advanceSalary: number
     otherDeductions: number
     overtimePay: number
     bonus: number
@@ -17923,10 +18255,15 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     latePenalty?: true
+    penalty?: true
     leaveDeduction?: true
     loanDeduction?: true
+    advanceSalary?: true
     otherDeductions?: true
     overtimePay?: true
     bonus?: true
@@ -17940,10 +18277,15 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     latePenalty?: true
+    penalty?: true
     leaveDeduction?: true
     loanDeduction?: true
+    advanceSalary?: true
     otherDeductions?: true
     overtimePay?: true
     bonus?: true
@@ -17959,10 +18301,15 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     latePenalty?: true
+    penalty?: true
     leaveDeduction?: true
     loanDeduction?: true
+    advanceSalary?: true
     otherDeductions?: true
     overtimePay?: true
     bonus?: true
@@ -17983,10 +18330,15 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     latePenalty?: true
+    penalty?: true
     leaveDeduction?: true
     loanDeduction?: true
+    advanceSalary?: true
     otherDeductions?: true
     overtimePay?: true
     bonus?: true
@@ -18007,10 +18359,15 @@ export namespace Prisma {
     housingAllowance?: true
     transportAllowance?: true
     medicalAllowance?: true
+    foodAllowance?: true
+    travelAllowance?: true
+    commission?: true
     otherAllowances?: true
     latePenalty?: true
+    penalty?: true
     leaveDeduction?: true
     loanDeduction?: true
+    advanceSalary?: true
     otherDeductions?: true
     overtimePay?: true
     bonus?: true
@@ -18118,10 +18475,15 @@ export namespace Prisma {
     housingAllowance: number
     transportAllowance: number
     medicalAllowance: number
+    foodAllowance: number
+    travelAllowance: number
+    commission: number
     otherAllowances: number
     latePenalty: number
+    penalty: number
     leaveDeduction: number
     loanDeduction: number
+    advanceSalary: number
     otherDeductions: number
     overtimePay: number
     bonus: number
@@ -18161,10 +18523,15 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     latePenalty?: boolean
+    penalty?: boolean
     leaveDeduction?: boolean
     loanDeduction?: boolean
+    advanceSalary?: boolean
     otherDeductions?: boolean
     overtimePay?: boolean
     bonus?: boolean
@@ -18186,10 +18553,15 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     latePenalty?: boolean
+    penalty?: boolean
     leaveDeduction?: boolean
     loanDeduction?: boolean
+    advanceSalary?: boolean
     otherDeductions?: boolean
     overtimePay?: boolean
     bonus?: boolean
@@ -18211,10 +18583,15 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     latePenalty?: boolean
+    penalty?: boolean
     leaveDeduction?: boolean
     loanDeduction?: boolean
+    advanceSalary?: boolean
     otherDeductions?: boolean
     overtimePay?: boolean
     bonus?: boolean
@@ -18236,10 +18613,15 @@ export namespace Prisma {
     housingAllowance?: boolean
     transportAllowance?: boolean
     medicalAllowance?: boolean
+    foodAllowance?: boolean
+    travelAllowance?: boolean
+    commission?: boolean
     otherAllowances?: boolean
     latePenalty?: boolean
+    penalty?: boolean
     leaveDeduction?: boolean
     loanDeduction?: boolean
+    advanceSalary?: boolean
     otherDeductions?: boolean
     overtimePay?: boolean
     bonus?: boolean
@@ -18251,7 +18633,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SalaryRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "month" | "year" | "basic" | "housingAllowance" | "transportAllowance" | "medicalAllowance" | "otherAllowances" | "latePenalty" | "leaveDeduction" | "loanDeduction" | "otherDeductions" | "overtimePay" | "bonus" | "netSalary" | "status" | "paymentMethod" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryRecord"]>
+  export type SalaryRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "month" | "year" | "basic" | "housingAllowance" | "transportAllowance" | "medicalAllowance" | "foodAllowance" | "travelAllowance" | "commission" | "otherAllowances" | "latePenalty" | "penalty" | "leaveDeduction" | "loanDeduction" | "advanceSalary" | "otherDeductions" | "overtimePay" | "bonus" | "netSalary" | "status" | "paymentMethod" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryRecord"]>
   export type SalaryRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
@@ -18276,10 +18658,15 @@ export namespace Prisma {
       housingAllowance: number
       transportAllowance: number
       medicalAllowance: number
+      foodAllowance: number
+      travelAllowance: number
+      commission: number
       otherAllowances: number
       latePenalty: number
+      penalty: number
       leaveDeduction: number
       loanDeduction: number
+      advanceSalary: number
       otherDeductions: number
       overtimePay: number
       bonus: number
@@ -18721,10 +19108,15 @@ export namespace Prisma {
     readonly housingAllowance: FieldRef<"SalaryRecord", 'Float'>
     readonly transportAllowance: FieldRef<"SalaryRecord", 'Float'>
     readonly medicalAllowance: FieldRef<"SalaryRecord", 'Float'>
+    readonly foodAllowance: FieldRef<"SalaryRecord", 'Float'>
+    readonly travelAllowance: FieldRef<"SalaryRecord", 'Float'>
+    readonly commission: FieldRef<"SalaryRecord", 'Float'>
     readonly otherAllowances: FieldRef<"SalaryRecord", 'Float'>
     readonly latePenalty: FieldRef<"SalaryRecord", 'Float'>
+    readonly penalty: FieldRef<"SalaryRecord", 'Float'>
     readonly leaveDeduction: FieldRef<"SalaryRecord", 'Float'>
     readonly loanDeduction: FieldRef<"SalaryRecord", 'Float'>
+    readonly advanceSalary: FieldRef<"SalaryRecord", 'Float'>
     readonly otherDeductions: FieldRef<"SalaryRecord", 'Float'>
     readonly overtimePay: FieldRef<"SalaryRecord", 'Float'>
     readonly bonus: FieldRef<"SalaryRecord", 'Float'>
@@ -19143,6 +19535,2306 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: SalaryRecordInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Loan
+   */
+
+  export type AggregateLoan = {
+    _count: LoanCountAggregateOutputType | null
+    _avg: LoanAvgAggregateOutputType | null
+    _sum: LoanSumAggregateOutputType | null
+    _min: LoanMinAggregateOutputType | null
+    _max: LoanMaxAggregateOutputType | null
+  }
+
+  export type LoanAvgAggregateOutputType = {
+    amount: number | null
+    installmentAmount: number | null
+    remainingBalance: number | null
+  }
+
+  export type LoanSumAggregateOutputType = {
+    amount: number | null
+    installmentAmount: number | null
+    remainingBalance: number | null
+  }
+
+  export type LoanMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    amount: number | null
+    issueDate: Date | null
+    installmentAmount: number | null
+    remainingBalance: number | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LoanMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    amount: number | null
+    issueDate: Date | null
+    installmentAmount: number | null
+    remainingBalance: number | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LoanCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    amount: number
+    issueDate: number
+    installmentAmount: number
+    remainingBalance: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LoanAvgAggregateInputType = {
+    amount?: true
+    installmentAmount?: true
+    remainingBalance?: true
+  }
+
+  export type LoanSumAggregateInputType = {
+    amount?: true
+    installmentAmount?: true
+    remainingBalance?: true
+  }
+
+  export type LoanMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    amount?: true
+    issueDate?: true
+    installmentAmount?: true
+    remainingBalance?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LoanMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    amount?: true
+    issueDate?: true
+    installmentAmount?: true
+    remainingBalance?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LoanCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    amount?: true
+    issueDate?: true
+    installmentAmount?: true
+    remainingBalance?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LoanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Loan to aggregate.
+     */
+    where?: LoanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Loans to fetch.
+     */
+    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Loans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Loans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Loans
+    **/
+    _count?: true | LoanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanMaxAggregateInputType
+  }
+
+  export type GetLoanAggregateType<T extends LoanAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoan[P]>
+      : GetScalarType<T[P], AggregateLoan[P]>
+  }
+
+
+
+
+  export type LoanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanWhereInput
+    orderBy?: LoanOrderByWithAggregationInput | LoanOrderByWithAggregationInput[]
+    by: LoanScalarFieldEnum[] | LoanScalarFieldEnum
+    having?: LoanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanCountAggregateInputType | true
+    _avg?: LoanAvgAggregateInputType
+    _sum?: LoanSumAggregateInputType
+    _min?: LoanMinAggregateInputType
+    _max?: LoanMaxAggregateInputType
+  }
+
+  export type LoanGroupByOutputType = {
+    id: string
+    employeeId: string
+    amount: number
+    issueDate: Date
+    installmentAmount: number
+    remainingBalance: number
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LoanCountAggregateOutputType | null
+    _avg: LoanAvgAggregateOutputType | null
+    _sum: LoanSumAggregateOutputType | null
+    _min: LoanMinAggregateOutputType | null
+    _max: LoanMaxAggregateOutputType | null
+  }
+
+  type GetLoanGroupByPayload<T extends LoanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    amount?: boolean
+    issueDate?: boolean
+    installmentAmount?: boolean
+    remainingBalance?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loan"]>
+
+  export type LoanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    amount?: boolean
+    issueDate?: boolean
+    installmentAmount?: boolean
+    remainingBalance?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loan"]>
+
+  export type LoanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    amount?: boolean
+    issueDate?: boolean
+    installmentAmount?: boolean
+    remainingBalance?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loan"]>
+
+  export type LoanSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    amount?: boolean
+    issueDate?: boolean
+    installmentAmount?: boolean
+    remainingBalance?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "amount" | "issueDate" | "installmentAmount" | "remainingBalance" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["loan"]>
+  export type LoanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LoanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LoanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $LoanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Loan"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      amount: number
+      issueDate: Date
+      installmentAmount: number
+      remainingBalance: number
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["loan"]>
+    composites: {}
+  }
+
+  type LoanGetPayload<S extends boolean | null | undefined | LoanDefaultArgs> = $Result.GetResult<Prisma.$LoanPayload, S>
+
+  type LoanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanCountAggregateInputType | true
+    }
+
+  export interface LoanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Loan'], meta: { name: 'Loan' } }
+    /**
+     * Find zero or one Loan that matches the filter.
+     * @param {LoanFindUniqueArgs} args - Arguments to find a Loan
+     * @example
+     * // Get one Loan
+     * const loan = await prisma.loan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanFindUniqueArgs>(args: SelectSubset<T, LoanFindUniqueArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Loan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanFindUniqueOrThrowArgs} args - Arguments to find a Loan
+     * @example
+     * // Get one Loan
+     * const loan = await prisma.loan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Loan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanFindFirstArgs} args - Arguments to find a Loan
+     * @example
+     * // Get one Loan
+     * const loan = await prisma.loan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanFindFirstArgs>(args?: SelectSubset<T, LoanFindFirstArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Loan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanFindFirstOrThrowArgs} args - Arguments to find a Loan
+     * @example
+     * // Get one Loan
+     * const loan = await prisma.loan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Loans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Loans
+     * const loans = await prisma.loan.findMany()
+     * 
+     * // Get first 10 Loans
+     * const loans = await prisma.loan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanWithIdOnly = await prisma.loan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanFindManyArgs>(args?: SelectSubset<T, LoanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Loan.
+     * @param {LoanCreateArgs} args - Arguments to create a Loan.
+     * @example
+     * // Create one Loan
+     * const Loan = await prisma.loan.create({
+     *   data: {
+     *     // ... data to create a Loan
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanCreateArgs>(args: SelectSubset<T, LoanCreateArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Loans.
+     * @param {LoanCreateManyArgs} args - Arguments to create many Loans.
+     * @example
+     * // Create many Loans
+     * const loan = await prisma.loan.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanCreateManyArgs>(args?: SelectSubset<T, LoanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Loans and returns the data saved in the database.
+     * @param {LoanCreateManyAndReturnArgs} args - Arguments to create many Loans.
+     * @example
+     * // Create many Loans
+     * const loan = await prisma.loan.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Loans and only return the `id`
+     * const loanWithIdOnly = await prisma.loan.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Loan.
+     * @param {LoanDeleteArgs} args - Arguments to delete one Loan.
+     * @example
+     * // Delete one Loan
+     * const Loan = await prisma.loan.delete({
+     *   where: {
+     *     // ... filter to delete one Loan
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanDeleteArgs>(args: SelectSubset<T, LoanDeleteArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Loan.
+     * @param {LoanUpdateArgs} args - Arguments to update one Loan.
+     * @example
+     * // Update one Loan
+     * const loan = await prisma.loan.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanUpdateArgs>(args: SelectSubset<T, LoanUpdateArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Loans.
+     * @param {LoanDeleteManyArgs} args - Arguments to filter Loans to delete.
+     * @example
+     * // Delete a few Loans
+     * const { count } = await prisma.loan.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanDeleteManyArgs>(args?: SelectSubset<T, LoanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Loans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Loans
+     * const loan = await prisma.loan.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanUpdateManyArgs>(args: SelectSubset<T, LoanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Loans and returns the data updated in the database.
+     * @param {LoanUpdateManyAndReturnArgs} args - Arguments to update many Loans.
+     * @example
+     * // Update many Loans
+     * const loan = await prisma.loan.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Loans and only return the `id`
+     * const loanWithIdOnly = await prisma.loan.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Loan.
+     * @param {LoanUpsertArgs} args - Arguments to update or create a Loan.
+     * @example
+     * // Update or create a Loan
+     * const loan = await prisma.loan.upsert({
+     *   create: {
+     *     // ... data to create a Loan
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Loan we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanUpsertArgs>(args: SelectSubset<T, LoanUpsertArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Loans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanCountArgs} args - Arguments to filter Loans to count.
+     * @example
+     * // Count the number of Loans
+     * const count = await prisma.loan.count({
+     *   where: {
+     *     // ... the filter for the Loans we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanCountArgs>(
+      args?: Subset<T, LoanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Loan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanAggregateArgs>(args: Subset<T, LoanAggregateArgs>): Prisma.PrismaPromise<GetLoanAggregateType<T>>
+
+    /**
+     * Group by Loan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanGroupByArgs['orderBy'] }
+        : { orderBy?: LoanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Loan model
+   */
+  readonly fields: LoanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Loan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Loan model
+   */
+  interface LoanFieldRefs {
+    readonly id: FieldRef<"Loan", 'String'>
+    readonly employeeId: FieldRef<"Loan", 'String'>
+    readonly amount: FieldRef<"Loan", 'Float'>
+    readonly issueDate: FieldRef<"Loan", 'DateTime'>
+    readonly installmentAmount: FieldRef<"Loan", 'Float'>
+    readonly remainingBalance: FieldRef<"Loan", 'Float'>
+    readonly status: FieldRef<"Loan", 'String'>
+    readonly createdAt: FieldRef<"Loan", 'DateTime'>
+    readonly updatedAt: FieldRef<"Loan", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Loan findUnique
+   */
+  export type LoanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * Filter, which Loan to fetch.
+     */
+    where: LoanWhereUniqueInput
+  }
+
+  /**
+   * Loan findUniqueOrThrow
+   */
+  export type LoanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * Filter, which Loan to fetch.
+     */
+    where: LoanWhereUniqueInput
+  }
+
+  /**
+   * Loan findFirst
+   */
+  export type LoanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * Filter, which Loan to fetch.
+     */
+    where?: LoanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Loans to fetch.
+     */
+    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Loans.
+     */
+    cursor?: LoanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Loans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Loans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Loans.
+     */
+    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * Loan findFirstOrThrow
+   */
+  export type LoanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * Filter, which Loan to fetch.
+     */
+    where?: LoanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Loans to fetch.
+     */
+    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Loans.
+     */
+    cursor?: LoanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Loans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Loans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Loans.
+     */
+    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * Loan findMany
+   */
+  export type LoanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * Filter, which Loans to fetch.
+     */
+    where?: LoanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Loans to fetch.
+     */
+    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Loans.
+     */
+    cursor?: LoanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Loans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Loans.
+     */
+    skip?: number
+    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+  }
+
+  /**
+   * Loan create
+   */
+  export type LoanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Loan.
+     */
+    data: XOR<LoanCreateInput, LoanUncheckedCreateInput>
+  }
+
+  /**
+   * Loan createMany
+   */
+  export type LoanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Loans.
+     */
+    data: LoanCreateManyInput | LoanCreateManyInput[]
+  }
+
+  /**
+   * Loan createManyAndReturn
+   */
+  export type LoanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * The data used to create many Loans.
+     */
+    data: LoanCreateManyInput | LoanCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Loan update
+   */
+  export type LoanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Loan.
+     */
+    data: XOR<LoanUpdateInput, LoanUncheckedUpdateInput>
+    /**
+     * Choose, which Loan to update.
+     */
+    where: LoanWhereUniqueInput
+  }
+
+  /**
+   * Loan updateMany
+   */
+  export type LoanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Loans.
+     */
+    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyInput>
+    /**
+     * Filter which Loans to update
+     */
+    where?: LoanWhereInput
+    /**
+     * Limit how many Loans to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Loan updateManyAndReturn
+   */
+  export type LoanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * The data used to update Loans.
+     */
+    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyInput>
+    /**
+     * Filter which Loans to update
+     */
+    where?: LoanWhereInput
+    /**
+     * Limit how many Loans to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Loan upsert
+   */
+  export type LoanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Loan to update in case it exists.
+     */
+    where: LoanWhereUniqueInput
+    /**
+     * In case the Loan found by the `where` argument doesn't exist, create a new Loan with this data.
+     */
+    create: XOR<LoanCreateInput, LoanUncheckedCreateInput>
+    /**
+     * In case the Loan was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanUpdateInput, LoanUncheckedUpdateInput>
+  }
+
+  /**
+   * Loan delete
+   */
+  export type LoanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+    /**
+     * Filter which Loan to delete.
+     */
+    where: LoanWhereUniqueInput
+  }
+
+  /**
+   * Loan deleteMany
+   */
+  export type LoanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Loans to delete
+     */
+    where?: LoanWhereInput
+    /**
+     * Limit how many Loans to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Loan without action
+   */
+  export type LoanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Loan
+     */
+    select?: LoanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Loan
+     */
+    omit?: LoanOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Overtime
+   */
+
+  export type AggregateOvertime = {
+    _count: OvertimeCountAggregateOutputType | null
+    _avg: OvertimeAvgAggregateOutputType | null
+    _sum: OvertimeSumAggregateOutputType | null
+    _min: OvertimeMinAggregateOutputType | null
+    _max: OvertimeMaxAggregateOutputType | null
+  }
+
+  export type OvertimeAvgAggregateOutputType = {
+    hours: number | null
+    ratePerHour: number | null
+    totalPay: number | null
+  }
+
+  export type OvertimeSumAggregateOutputType = {
+    hours: number | null
+    ratePerHour: number | null
+    totalPay: number | null
+  }
+
+  export type OvertimeMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    date: Date | null
+    hours: number | null
+    ratePerHour: number | null
+    totalPay: number | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OvertimeMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    date: Date | null
+    hours: number | null
+    ratePerHour: number | null
+    totalPay: number | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OvertimeCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    date: number
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OvertimeAvgAggregateInputType = {
+    hours?: true
+    ratePerHour?: true
+    totalPay?: true
+  }
+
+  export type OvertimeSumAggregateInputType = {
+    hours?: true
+    ratePerHour?: true
+    totalPay?: true
+  }
+
+  export type OvertimeMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    date?: true
+    hours?: true
+    ratePerHour?: true
+    totalPay?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OvertimeMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    date?: true
+    hours?: true
+    ratePerHour?: true
+    totalPay?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OvertimeCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    date?: true
+    hours?: true
+    ratePerHour?: true
+    totalPay?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OvertimeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Overtime to aggregate.
+     */
+    where?: OvertimeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Overtimes to fetch.
+     */
+    orderBy?: OvertimeOrderByWithRelationInput | OvertimeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OvertimeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Overtimes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Overtimes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Overtimes
+    **/
+    _count?: true | OvertimeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OvertimeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OvertimeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OvertimeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OvertimeMaxAggregateInputType
+  }
+
+  export type GetOvertimeAggregateType<T extends OvertimeAggregateArgs> = {
+        [P in keyof T & keyof AggregateOvertime]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOvertime[P]>
+      : GetScalarType<T[P], AggregateOvertime[P]>
+  }
+
+
+
+
+  export type OvertimeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OvertimeWhereInput
+    orderBy?: OvertimeOrderByWithAggregationInput | OvertimeOrderByWithAggregationInput[]
+    by: OvertimeScalarFieldEnum[] | OvertimeScalarFieldEnum
+    having?: OvertimeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OvertimeCountAggregateInputType | true
+    _avg?: OvertimeAvgAggregateInputType
+    _sum?: OvertimeSumAggregateInputType
+    _min?: OvertimeMinAggregateInputType
+    _max?: OvertimeMaxAggregateInputType
+  }
+
+  export type OvertimeGroupByOutputType = {
+    id: string
+    employeeId: string
+    date: Date
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: OvertimeCountAggregateOutputType | null
+    _avg: OvertimeAvgAggregateOutputType | null
+    _sum: OvertimeSumAggregateOutputType | null
+    _min: OvertimeMinAggregateOutputType | null
+    _max: OvertimeMaxAggregateOutputType | null
+  }
+
+  type GetOvertimeGroupByPayload<T extends OvertimeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OvertimeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OvertimeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OvertimeGroupByOutputType[P]>
+            : GetScalarType<T[P], OvertimeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OvertimeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    date?: boolean
+    hours?: boolean
+    ratePerHour?: boolean
+    totalPay?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["overtime"]>
+
+  export type OvertimeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    date?: boolean
+    hours?: boolean
+    ratePerHour?: boolean
+    totalPay?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["overtime"]>
+
+  export type OvertimeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    date?: boolean
+    hours?: boolean
+    ratePerHour?: boolean
+    totalPay?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["overtime"]>
+
+  export type OvertimeSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    date?: boolean
+    hours?: boolean
+    ratePerHour?: boolean
+    totalPay?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OvertimeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "hours" | "ratePerHour" | "totalPay" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["overtime"]>
+  export type OvertimeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type OvertimeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type OvertimeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $OvertimePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Overtime"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      date: Date
+      hours: number
+      ratePerHour: number
+      totalPay: number
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["overtime"]>
+    composites: {}
+  }
+
+  type OvertimeGetPayload<S extends boolean | null | undefined | OvertimeDefaultArgs> = $Result.GetResult<Prisma.$OvertimePayload, S>
+
+  type OvertimeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OvertimeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OvertimeCountAggregateInputType | true
+    }
+
+  export interface OvertimeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Overtime'], meta: { name: 'Overtime' } }
+    /**
+     * Find zero or one Overtime that matches the filter.
+     * @param {OvertimeFindUniqueArgs} args - Arguments to find a Overtime
+     * @example
+     * // Get one Overtime
+     * const overtime = await prisma.overtime.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OvertimeFindUniqueArgs>(args: SelectSubset<T, OvertimeFindUniqueArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Overtime that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OvertimeFindUniqueOrThrowArgs} args - Arguments to find a Overtime
+     * @example
+     * // Get one Overtime
+     * const overtime = await prisma.overtime.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OvertimeFindUniqueOrThrowArgs>(args: SelectSubset<T, OvertimeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Overtime that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeFindFirstArgs} args - Arguments to find a Overtime
+     * @example
+     * // Get one Overtime
+     * const overtime = await prisma.overtime.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OvertimeFindFirstArgs>(args?: SelectSubset<T, OvertimeFindFirstArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Overtime that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeFindFirstOrThrowArgs} args - Arguments to find a Overtime
+     * @example
+     * // Get one Overtime
+     * const overtime = await prisma.overtime.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OvertimeFindFirstOrThrowArgs>(args?: SelectSubset<T, OvertimeFindFirstOrThrowArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Overtimes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Overtimes
+     * const overtimes = await prisma.overtime.findMany()
+     * 
+     * // Get first 10 Overtimes
+     * const overtimes = await prisma.overtime.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const overtimeWithIdOnly = await prisma.overtime.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OvertimeFindManyArgs>(args?: SelectSubset<T, OvertimeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Overtime.
+     * @param {OvertimeCreateArgs} args - Arguments to create a Overtime.
+     * @example
+     * // Create one Overtime
+     * const Overtime = await prisma.overtime.create({
+     *   data: {
+     *     // ... data to create a Overtime
+     *   }
+     * })
+     * 
+     */
+    create<T extends OvertimeCreateArgs>(args: SelectSubset<T, OvertimeCreateArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Overtimes.
+     * @param {OvertimeCreateManyArgs} args - Arguments to create many Overtimes.
+     * @example
+     * // Create many Overtimes
+     * const overtime = await prisma.overtime.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OvertimeCreateManyArgs>(args?: SelectSubset<T, OvertimeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Overtimes and returns the data saved in the database.
+     * @param {OvertimeCreateManyAndReturnArgs} args - Arguments to create many Overtimes.
+     * @example
+     * // Create many Overtimes
+     * const overtime = await prisma.overtime.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Overtimes and only return the `id`
+     * const overtimeWithIdOnly = await prisma.overtime.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OvertimeCreateManyAndReturnArgs>(args?: SelectSubset<T, OvertimeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Overtime.
+     * @param {OvertimeDeleteArgs} args - Arguments to delete one Overtime.
+     * @example
+     * // Delete one Overtime
+     * const Overtime = await prisma.overtime.delete({
+     *   where: {
+     *     // ... filter to delete one Overtime
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OvertimeDeleteArgs>(args: SelectSubset<T, OvertimeDeleteArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Overtime.
+     * @param {OvertimeUpdateArgs} args - Arguments to update one Overtime.
+     * @example
+     * // Update one Overtime
+     * const overtime = await prisma.overtime.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OvertimeUpdateArgs>(args: SelectSubset<T, OvertimeUpdateArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Overtimes.
+     * @param {OvertimeDeleteManyArgs} args - Arguments to filter Overtimes to delete.
+     * @example
+     * // Delete a few Overtimes
+     * const { count } = await prisma.overtime.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OvertimeDeleteManyArgs>(args?: SelectSubset<T, OvertimeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Overtimes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Overtimes
+     * const overtime = await prisma.overtime.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OvertimeUpdateManyArgs>(args: SelectSubset<T, OvertimeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Overtimes and returns the data updated in the database.
+     * @param {OvertimeUpdateManyAndReturnArgs} args - Arguments to update many Overtimes.
+     * @example
+     * // Update many Overtimes
+     * const overtime = await prisma.overtime.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Overtimes and only return the `id`
+     * const overtimeWithIdOnly = await prisma.overtime.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OvertimeUpdateManyAndReturnArgs>(args: SelectSubset<T, OvertimeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Overtime.
+     * @param {OvertimeUpsertArgs} args - Arguments to update or create a Overtime.
+     * @example
+     * // Update or create a Overtime
+     * const overtime = await prisma.overtime.upsert({
+     *   create: {
+     *     // ... data to create a Overtime
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Overtime we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OvertimeUpsertArgs>(args: SelectSubset<T, OvertimeUpsertArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Overtimes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeCountArgs} args - Arguments to filter Overtimes to count.
+     * @example
+     * // Count the number of Overtimes
+     * const count = await prisma.overtime.count({
+     *   where: {
+     *     // ... the filter for the Overtimes we want to count
+     *   }
+     * })
+    **/
+    count<T extends OvertimeCountArgs>(
+      args?: Subset<T, OvertimeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OvertimeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Overtime.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OvertimeAggregateArgs>(args: Subset<T, OvertimeAggregateArgs>): Prisma.PrismaPromise<GetOvertimeAggregateType<T>>
+
+    /**
+     * Group by Overtime.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OvertimeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OvertimeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OvertimeGroupByArgs['orderBy'] }
+        : { orderBy?: OvertimeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OvertimeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOvertimeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Overtime model
+   */
+  readonly fields: OvertimeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Overtime.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OvertimeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Overtime model
+   */
+  interface OvertimeFieldRefs {
+    readonly id: FieldRef<"Overtime", 'String'>
+    readonly employeeId: FieldRef<"Overtime", 'String'>
+    readonly date: FieldRef<"Overtime", 'DateTime'>
+    readonly hours: FieldRef<"Overtime", 'Float'>
+    readonly ratePerHour: FieldRef<"Overtime", 'Float'>
+    readonly totalPay: FieldRef<"Overtime", 'Float'>
+    readonly status: FieldRef<"Overtime", 'String'>
+    readonly createdAt: FieldRef<"Overtime", 'DateTime'>
+    readonly updatedAt: FieldRef<"Overtime", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Overtime findUnique
+   */
+  export type OvertimeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * Filter, which Overtime to fetch.
+     */
+    where: OvertimeWhereUniqueInput
+  }
+
+  /**
+   * Overtime findUniqueOrThrow
+   */
+  export type OvertimeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * Filter, which Overtime to fetch.
+     */
+    where: OvertimeWhereUniqueInput
+  }
+
+  /**
+   * Overtime findFirst
+   */
+  export type OvertimeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * Filter, which Overtime to fetch.
+     */
+    where?: OvertimeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Overtimes to fetch.
+     */
+    orderBy?: OvertimeOrderByWithRelationInput | OvertimeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Overtimes.
+     */
+    cursor?: OvertimeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Overtimes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Overtimes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Overtimes.
+     */
+    distinct?: OvertimeScalarFieldEnum | OvertimeScalarFieldEnum[]
+  }
+
+  /**
+   * Overtime findFirstOrThrow
+   */
+  export type OvertimeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * Filter, which Overtime to fetch.
+     */
+    where?: OvertimeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Overtimes to fetch.
+     */
+    orderBy?: OvertimeOrderByWithRelationInput | OvertimeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Overtimes.
+     */
+    cursor?: OvertimeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Overtimes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Overtimes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Overtimes.
+     */
+    distinct?: OvertimeScalarFieldEnum | OvertimeScalarFieldEnum[]
+  }
+
+  /**
+   * Overtime findMany
+   */
+  export type OvertimeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * Filter, which Overtimes to fetch.
+     */
+    where?: OvertimeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Overtimes to fetch.
+     */
+    orderBy?: OvertimeOrderByWithRelationInput | OvertimeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Overtimes.
+     */
+    cursor?: OvertimeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Overtimes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Overtimes.
+     */
+    skip?: number
+    distinct?: OvertimeScalarFieldEnum | OvertimeScalarFieldEnum[]
+  }
+
+  /**
+   * Overtime create
+   */
+  export type OvertimeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Overtime.
+     */
+    data: XOR<OvertimeCreateInput, OvertimeUncheckedCreateInput>
+  }
+
+  /**
+   * Overtime createMany
+   */
+  export type OvertimeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Overtimes.
+     */
+    data: OvertimeCreateManyInput | OvertimeCreateManyInput[]
+  }
+
+  /**
+   * Overtime createManyAndReturn
+   */
+  export type OvertimeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * The data used to create many Overtimes.
+     */
+    data: OvertimeCreateManyInput | OvertimeCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Overtime update
+   */
+  export type OvertimeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Overtime.
+     */
+    data: XOR<OvertimeUpdateInput, OvertimeUncheckedUpdateInput>
+    /**
+     * Choose, which Overtime to update.
+     */
+    where: OvertimeWhereUniqueInput
+  }
+
+  /**
+   * Overtime updateMany
+   */
+  export type OvertimeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Overtimes.
+     */
+    data: XOR<OvertimeUpdateManyMutationInput, OvertimeUncheckedUpdateManyInput>
+    /**
+     * Filter which Overtimes to update
+     */
+    where?: OvertimeWhereInput
+    /**
+     * Limit how many Overtimes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Overtime updateManyAndReturn
+   */
+  export type OvertimeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * The data used to update Overtimes.
+     */
+    data: XOR<OvertimeUpdateManyMutationInput, OvertimeUncheckedUpdateManyInput>
+    /**
+     * Filter which Overtimes to update
+     */
+    where?: OvertimeWhereInput
+    /**
+     * Limit how many Overtimes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Overtime upsert
+   */
+  export type OvertimeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Overtime to update in case it exists.
+     */
+    where: OvertimeWhereUniqueInput
+    /**
+     * In case the Overtime found by the `where` argument doesn't exist, create a new Overtime with this data.
+     */
+    create: XOR<OvertimeCreateInput, OvertimeUncheckedCreateInput>
+    /**
+     * In case the Overtime was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OvertimeUpdateInput, OvertimeUncheckedUpdateInput>
+  }
+
+  /**
+   * Overtime delete
+   */
+  export type OvertimeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
+    /**
+     * Filter which Overtime to delete.
+     */
+    where: OvertimeWhereUniqueInput
+  }
+
+  /**
+   * Overtime deleteMany
+   */
+  export type OvertimeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Overtimes to delete
+     */
+    where?: OvertimeWhereInput
+    /**
+     * Limit how many Overtimes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Overtime without action
+   */
+  export type OvertimeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Overtime
+     */
+    select?: OvertimeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Overtime
+     */
+    omit?: OvertimeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OvertimeInclude<ExtArgs> | null
   }
 
 
@@ -28464,6 +31156,9 @@ export namespace Prisma {
     housingAllowance: 'housingAllowance',
     transportAllowance: 'transportAllowance',
     medicalAllowance: 'medicalAllowance',
+    foodAllowance: 'foodAllowance',
+    travelAllowance: 'travelAllowance',
+    commission: 'commission',
     otherAllowances: 'otherAllowances',
     paymentMethod: 'paymentMethod',
     bankName: 'bankName',
@@ -28484,10 +31179,15 @@ export namespace Prisma {
     housingAllowance: 'housingAllowance',
     transportAllowance: 'transportAllowance',
     medicalAllowance: 'medicalAllowance',
+    foodAllowance: 'foodAllowance',
+    travelAllowance: 'travelAllowance',
+    commission: 'commission',
     otherAllowances: 'otherAllowances',
     latePenalty: 'latePenalty',
+    penalty: 'penalty',
     leaveDeduction: 'leaveDeduction',
     loanDeduction: 'loanDeduction',
+    advanceSalary: 'advanceSalary',
     otherDeductions: 'otherDeductions',
     overtimePay: 'overtimePay',
     bonus: 'bonus',
@@ -28500,6 +31200,36 @@ export namespace Prisma {
   };
 
   export type SalaryRecordScalarFieldEnum = (typeof SalaryRecordScalarFieldEnum)[keyof typeof SalaryRecordScalarFieldEnum]
+
+
+  export const LoanScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    amount: 'amount',
+    issueDate: 'issueDate',
+    installmentAmount: 'installmentAmount',
+    remainingBalance: 'remainingBalance',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
+
+
+  export const OvertimeScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    date: 'date',
+    hours: 'hours',
+    ratePerHour: 'ratePerHour',
+    totalPay: 'totalPay',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OvertimeScalarFieldEnum = (typeof OvertimeScalarFieldEnum)[keyof typeof OvertimeScalarFieldEnum]
 
 
   export const StaffServiceTypeScalarFieldEnum: {
@@ -29033,6 +31763,8 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     notifications?: NotificationListRelationFilter
+    loans?: LoanListRelationFilter
+    overtime?: OvertimeListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
@@ -29099,6 +31831,8 @@ export namespace Prisma {
     attachments?: AttachmentOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    loans?: LoanOrderByRelationAggregateInput
+    overtime?: OvertimeOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -29168,6 +31902,8 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     notifications?: NotificationListRelationFilter
+    loans?: LoanListRelationFilter
+    overtime?: OvertimeListRelationFilter
   }, "id" | "userId" | "employeeCode" | "email" | "rollNumber">
 
   export type EmployeeOrderByWithAggregationInput = {
@@ -29811,6 +32547,9 @@ export namespace Prisma {
     housingAllowance?: FloatFilter<"SalaryStructure"> | number
     transportAllowance?: FloatFilter<"SalaryStructure"> | number
     medicalAllowance?: FloatFilter<"SalaryStructure"> | number
+    foodAllowance?: FloatFilter<"SalaryStructure"> | number
+    travelAllowance?: FloatFilter<"SalaryStructure"> | number
+    commission?: FloatFilter<"SalaryStructure"> | number
     otherAllowances?: FloatFilter<"SalaryStructure"> | number
     paymentMethod?: StringFilter<"SalaryStructure"> | string
     bankName?: StringNullableFilter<"SalaryStructure"> | string | null
@@ -29828,6 +32567,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
     bankName?: SortOrderInput | SortOrder
@@ -29848,6 +32590,9 @@ export namespace Prisma {
     housingAllowance?: FloatFilter<"SalaryStructure"> | number
     transportAllowance?: FloatFilter<"SalaryStructure"> | number
     medicalAllowance?: FloatFilter<"SalaryStructure"> | number
+    foodAllowance?: FloatFilter<"SalaryStructure"> | number
+    travelAllowance?: FloatFilter<"SalaryStructure"> | number
+    commission?: FloatFilter<"SalaryStructure"> | number
     otherAllowances?: FloatFilter<"SalaryStructure"> | number
     paymentMethod?: StringFilter<"SalaryStructure"> | string
     bankName?: StringNullableFilter<"SalaryStructure"> | string | null
@@ -29865,6 +32610,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
     bankName?: SortOrderInput | SortOrder
@@ -29889,6 +32637,9 @@ export namespace Prisma {
     housingAllowance?: FloatWithAggregatesFilter<"SalaryStructure"> | number
     transportAllowance?: FloatWithAggregatesFilter<"SalaryStructure"> | number
     medicalAllowance?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    foodAllowance?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    travelAllowance?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    commission?: FloatWithAggregatesFilter<"SalaryStructure"> | number
     otherAllowances?: FloatWithAggregatesFilter<"SalaryStructure"> | number
     paymentMethod?: StringWithAggregatesFilter<"SalaryStructure"> | string
     bankName?: StringNullableWithAggregatesFilter<"SalaryStructure"> | string | null
@@ -29909,10 +32660,15 @@ export namespace Prisma {
     housingAllowance?: FloatFilter<"SalaryRecord"> | number
     transportAllowance?: FloatFilter<"SalaryRecord"> | number
     medicalAllowance?: FloatFilter<"SalaryRecord"> | number
+    foodAllowance?: FloatFilter<"SalaryRecord"> | number
+    travelAllowance?: FloatFilter<"SalaryRecord"> | number
+    commission?: FloatFilter<"SalaryRecord"> | number
     otherAllowances?: FloatFilter<"SalaryRecord"> | number
     latePenalty?: FloatFilter<"SalaryRecord"> | number
+    penalty?: FloatFilter<"SalaryRecord"> | number
     leaveDeduction?: FloatFilter<"SalaryRecord"> | number
     loanDeduction?: FloatFilter<"SalaryRecord"> | number
+    advanceSalary?: FloatFilter<"SalaryRecord"> | number
     otherDeductions?: FloatFilter<"SalaryRecord"> | number
     overtimePay?: FloatFilter<"SalaryRecord"> | number
     bonus?: FloatFilter<"SalaryRecord"> | number
@@ -29934,10 +32690,15 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
@@ -29962,10 +32723,15 @@ export namespace Prisma {
     housingAllowance?: FloatFilter<"SalaryRecord"> | number
     transportAllowance?: FloatFilter<"SalaryRecord"> | number
     medicalAllowance?: FloatFilter<"SalaryRecord"> | number
+    foodAllowance?: FloatFilter<"SalaryRecord"> | number
+    travelAllowance?: FloatFilter<"SalaryRecord"> | number
+    commission?: FloatFilter<"SalaryRecord"> | number
     otherAllowances?: FloatFilter<"SalaryRecord"> | number
     latePenalty?: FloatFilter<"SalaryRecord"> | number
+    penalty?: FloatFilter<"SalaryRecord"> | number
     leaveDeduction?: FloatFilter<"SalaryRecord"> | number
     loanDeduction?: FloatFilter<"SalaryRecord"> | number
+    advanceSalary?: FloatFilter<"SalaryRecord"> | number
     otherDeductions?: FloatFilter<"SalaryRecord"> | number
     overtimePay?: FloatFilter<"SalaryRecord"> | number
     bonus?: FloatFilter<"SalaryRecord"> | number
@@ -29987,10 +32753,15 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
@@ -30019,10 +32790,15 @@ export namespace Prisma {
     housingAllowance?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     transportAllowance?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     medicalAllowance?: FloatWithAggregatesFilter<"SalaryRecord"> | number
+    foodAllowance?: FloatWithAggregatesFilter<"SalaryRecord"> | number
+    travelAllowance?: FloatWithAggregatesFilter<"SalaryRecord"> | number
+    commission?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     otherAllowances?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     latePenalty?: FloatWithAggregatesFilter<"SalaryRecord"> | number
+    penalty?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     leaveDeduction?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     loanDeduction?: FloatWithAggregatesFilter<"SalaryRecord"> | number
+    advanceSalary?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     otherDeductions?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     overtimePay?: FloatWithAggregatesFilter<"SalaryRecord"> | number
     bonus?: FloatWithAggregatesFilter<"SalaryRecord"> | number
@@ -30032,6 +32808,160 @@ export namespace Prisma {
     paidAt?: DateTimeNullableWithAggregatesFilter<"SalaryRecord"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SalaryRecord"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"SalaryRecord"> | Date | string
+  }
+
+  export type LoanWhereInput = {
+    AND?: LoanWhereInput | LoanWhereInput[]
+    OR?: LoanWhereInput[]
+    NOT?: LoanWhereInput | LoanWhereInput[]
+    id?: StringFilter<"Loan"> | string
+    employeeId?: StringFilter<"Loan"> | string
+    amount?: FloatFilter<"Loan"> | number
+    issueDate?: DateTimeFilter<"Loan"> | Date | string
+    installmentAmount?: FloatFilter<"Loan"> | number
+    remainingBalance?: FloatFilter<"Loan"> | number
+    status?: StringFilter<"Loan"> | string
+    createdAt?: DateTimeFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeFilter<"Loan"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type LoanOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    amount?: SortOrder
+    issueDate?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type LoanWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoanWhereInput | LoanWhereInput[]
+    OR?: LoanWhereInput[]
+    NOT?: LoanWhereInput | LoanWhereInput[]
+    employeeId?: StringFilter<"Loan"> | string
+    amount?: FloatFilter<"Loan"> | number
+    issueDate?: DateTimeFilter<"Loan"> | Date | string
+    installmentAmount?: FloatFilter<"Loan"> | number
+    remainingBalance?: FloatFilter<"Loan"> | number
+    status?: StringFilter<"Loan"> | string
+    createdAt?: DateTimeFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeFilter<"Loan"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type LoanOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    amount?: SortOrder
+    issueDate?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LoanCountOrderByAggregateInput
+    _avg?: LoanAvgOrderByAggregateInput
+    _max?: LoanMaxOrderByAggregateInput
+    _min?: LoanMinOrderByAggregateInput
+    _sum?: LoanSumOrderByAggregateInput
+  }
+
+  export type LoanScalarWhereWithAggregatesInput = {
+    AND?: LoanScalarWhereWithAggregatesInput | LoanScalarWhereWithAggregatesInput[]
+    OR?: LoanScalarWhereWithAggregatesInput[]
+    NOT?: LoanScalarWhereWithAggregatesInput | LoanScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Loan"> | string
+    employeeId?: StringWithAggregatesFilter<"Loan"> | string
+    amount?: FloatWithAggregatesFilter<"Loan"> | number
+    issueDate?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+    installmentAmount?: FloatWithAggregatesFilter<"Loan"> | number
+    remainingBalance?: FloatWithAggregatesFilter<"Loan"> | number
+    status?: StringWithAggregatesFilter<"Loan"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+  }
+
+  export type OvertimeWhereInput = {
+    AND?: OvertimeWhereInput | OvertimeWhereInput[]
+    OR?: OvertimeWhereInput[]
+    NOT?: OvertimeWhereInput | OvertimeWhereInput[]
+    id?: StringFilter<"Overtime"> | string
+    employeeId?: StringFilter<"Overtime"> | string
+    date?: DateTimeFilter<"Overtime"> | Date | string
+    hours?: FloatFilter<"Overtime"> | number
+    ratePerHour?: FloatFilter<"Overtime"> | number
+    totalPay?: FloatFilter<"Overtime"> | number
+    status?: StringFilter<"Overtime"> | string
+    createdAt?: DateTimeFilter<"Overtime"> | Date | string
+    updatedAt?: DateTimeFilter<"Overtime"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type OvertimeOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type OvertimeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OvertimeWhereInput | OvertimeWhereInput[]
+    OR?: OvertimeWhereInput[]
+    NOT?: OvertimeWhereInput | OvertimeWhereInput[]
+    employeeId?: StringFilter<"Overtime"> | string
+    date?: DateTimeFilter<"Overtime"> | Date | string
+    hours?: FloatFilter<"Overtime"> | number
+    ratePerHour?: FloatFilter<"Overtime"> | number
+    totalPay?: FloatFilter<"Overtime"> | number
+    status?: StringFilter<"Overtime"> | string
+    createdAt?: DateTimeFilter<"Overtime"> | Date | string
+    updatedAt?: DateTimeFilter<"Overtime"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type OvertimeOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OvertimeCountOrderByAggregateInput
+    _avg?: OvertimeAvgOrderByAggregateInput
+    _max?: OvertimeMaxOrderByAggregateInput
+    _min?: OvertimeMinOrderByAggregateInput
+    _sum?: OvertimeSumOrderByAggregateInput
+  }
+
+  export type OvertimeScalarWhereWithAggregatesInput = {
+    AND?: OvertimeScalarWhereWithAggregatesInput | OvertimeScalarWhereWithAggregatesInput[]
+    OR?: OvertimeScalarWhereWithAggregatesInput[]
+    NOT?: OvertimeScalarWhereWithAggregatesInput | OvertimeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Overtime"> | string
+    employeeId?: StringWithAggregatesFilter<"Overtime"> | string
+    date?: DateTimeWithAggregatesFilter<"Overtime"> | Date | string
+    hours?: FloatWithAggregatesFilter<"Overtime"> | number
+    ratePerHour?: FloatWithAggregatesFilter<"Overtime"> | number
+    totalPay?: FloatWithAggregatesFilter<"Overtime"> | number
+    status?: StringWithAggregatesFilter<"Overtime"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Overtime"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Overtime"> | Date | string
   }
 
   export type StaffServiceTypeWhereInput = {
@@ -31013,6 +33943,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -31076,6 +34008,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUpdateInput = {
@@ -31139,6 +34073,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
@@ -31202,6 +34138,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -31914,6 +34852,9 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     paymentMethod?: string
     bankName?: string | null
@@ -31931,6 +34872,9 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     paymentMethod?: string
     bankName?: string | null
@@ -31946,6 +34890,9 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     paymentMethod?: StringFieldUpdateOperationsInput | string
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31963,6 +34910,9 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     paymentMethod?: StringFieldUpdateOperationsInput | string
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31979,6 +34929,9 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     paymentMethod?: string
     bankName?: string | null
@@ -31994,6 +34947,9 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     paymentMethod?: StringFieldUpdateOperationsInput | string
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32010,6 +34966,9 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     paymentMethod?: StringFieldUpdateOperationsInput | string
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32026,10 +34985,15 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     latePenalty?: number
+    penalty?: number
     leaveDeduction?: number
     loanDeduction?: number
+    advanceSalary?: number
     otherDeductions?: number
     overtimePay?: number
     bonus?: number
@@ -32051,10 +35015,15 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     latePenalty?: number
+    penalty?: number
     leaveDeduction?: number
     loanDeduction?: number
+    advanceSalary?: number
     otherDeductions?: number
     overtimePay?: number
     bonus?: number
@@ -32074,10 +35043,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -32099,10 +35073,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -32123,10 +35102,15 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     latePenalty?: number
+    penalty?: number
     leaveDeduction?: number
     loanDeduction?: number
+    advanceSalary?: number
     otherDeductions?: number
     overtimePay?: number
     bonus?: number
@@ -32146,10 +35130,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -32170,10 +35159,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -32181,6 +35175,172 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     paymentMethod?: StringFieldUpdateOperationsInput | string
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanCreateInput = {
+    id?: string
+    amount: number
+    issueDate: Date | string
+    installmentAmount: number
+    remainingBalance: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoansInput
+  }
+
+  export type LoanUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    amount: number
+    issueDate: Date | string
+    installmentAmount: number
+    remainingBalance: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLoansNestedInput
+  }
+
+  export type LoanUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanCreateManyInput = {
+    id?: string
+    employeeId: string
+    amount: number
+    issueDate: Date | string
+    installmentAmount: number
+    remainingBalance: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeCreateInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutOvertimeInput
+  }
+
+  export type OvertimeUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    date: Date | string
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OvertimeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutOvertimeNestedInput
+  }
+
+  export type OvertimeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeCreateManyInput = {
+    id?: string
+    employeeId: string
+    date: Date | string
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OvertimeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33314,6 +36474,18 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type LoanListRelationFilter = {
+    every?: LoanWhereInput
+    some?: LoanWhereInput
+    none?: LoanWhereInput
+  }
+
+  export type OvertimeListRelationFilter = {
+    every?: OvertimeWhereInput
+    some?: OvertimeWhereInput
+    none?: OvertimeWhereInput
+  }
+
   export type EmployeeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -33355,6 +36527,14 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoanOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OvertimeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33881,6 +37061,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
     bankName?: SortOrder
@@ -33895,6 +37078,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
   }
 
@@ -33906,6 +37092,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
     bankName?: SortOrder
@@ -33922,6 +37111,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
     bankName?: SortOrder
@@ -33936,6 +37128,9 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
   }
 
@@ -33964,10 +37159,15 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
@@ -33986,10 +37186,15 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
@@ -34005,10 +37210,15 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
@@ -34029,10 +37239,15 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
@@ -34051,14 +37266,115 @@ export namespace Prisma {
     housingAllowance?: SortOrder
     transportAllowance?: SortOrder
     medicalAllowance?: SortOrder
+    foodAllowance?: SortOrder
+    travelAllowance?: SortOrder
+    commission?: SortOrder
     otherAllowances?: SortOrder
     latePenalty?: SortOrder
+    penalty?: SortOrder
     leaveDeduction?: SortOrder
     loanDeduction?: SortOrder
+    advanceSalary?: SortOrder
     otherDeductions?: SortOrder
     overtimePay?: SortOrder
     bonus?: SortOrder
     netSalary?: SortOrder
+  }
+
+  export type LoanCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    amount?: SortOrder
+    issueDate?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoanAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+  }
+
+  export type LoanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    amount?: SortOrder
+    issueDate?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoanMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    amount?: SortOrder
+    issueDate?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoanSumOrderByAggregateInput = {
+    amount?: SortOrder
+    installmentAmount?: SortOrder
+    remainingBalance?: SortOrder
+  }
+
+  export type OvertimeCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OvertimeAvgOrderByAggregateInput = {
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
+  }
+
+  export type OvertimeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OvertimeMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    date?: SortOrder
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OvertimeSumOrderByAggregateInput = {
+    hours?: SortOrder
+    ratePerHour?: SortOrder
+    totalPay?: SortOrder
   }
 
   export type StaffServiceTypeCountOrderByAggregateInput = {
@@ -34797,6 +38113,20 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type LoanCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LoanCreateManyEmployeeInputEnvelope
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  }
+
+  export type OvertimeCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<OvertimeCreateWithoutEmployeeInput, OvertimeUncheckedCreateWithoutEmployeeInput> | OvertimeCreateWithoutEmployeeInput[] | OvertimeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OvertimeCreateOrConnectWithoutEmployeeInput | OvertimeCreateOrConnectWithoutEmployeeInput[]
+    createMany?: OvertimeCreateManyEmployeeInputEnvelope
+    connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+  }
+
   export type EmployeeUncheckedCreateNestedManyWithoutManagerInput = {
     create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
@@ -34885,6 +38215,20 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutEmployeeInput | NotificationCreateOrConnectWithoutEmployeeInput[]
     createMany?: NotificationCreateManyEmployeeInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type LoanUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LoanCreateManyEmployeeInputEnvelope
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  }
+
+  export type OvertimeUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<OvertimeCreateWithoutEmployeeInput, OvertimeUncheckedCreateWithoutEmployeeInput> | OvertimeCreateWithoutEmployeeInput[] | OvertimeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OvertimeCreateOrConnectWithoutEmployeeInput | OvertimeCreateOrConnectWithoutEmployeeInput[]
+    createMany?: OvertimeCreateManyEmployeeInputEnvelope
+    connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -35113,6 +38457,34 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type LoanUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LoanUpsertWithWhereUniqueWithoutEmployeeInput | LoanUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LoanCreateManyEmployeeInputEnvelope
+    set?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    disconnect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    delete?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    update?: LoanUpdateWithWhereUniqueWithoutEmployeeInput | LoanUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LoanUpdateManyWithWhereWithoutEmployeeInput | LoanUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type OvertimeUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<OvertimeCreateWithoutEmployeeInput, OvertimeUncheckedCreateWithoutEmployeeInput> | OvertimeCreateWithoutEmployeeInput[] | OvertimeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OvertimeCreateOrConnectWithoutEmployeeInput | OvertimeCreateOrConnectWithoutEmployeeInput[]
+    upsert?: OvertimeUpsertWithWhereUniqueWithoutEmployeeInput | OvertimeUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: OvertimeCreateManyEmployeeInputEnvelope
+    set?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    disconnect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    delete?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    update?: OvertimeUpdateWithWhereUniqueWithoutEmployeeInput | OvertimeUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: OvertimeUpdateManyWithWhereWithoutEmployeeInput | OvertimeUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
+  }
+
   export type EmployeeUncheckedUpdateManyWithoutManagerNestedInput = {
     create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
@@ -35289,6 +38661,34 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutEmployeeInput | NotificationUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutEmployeeInput | NotificationUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type LoanUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LoanUpsertWithWhereUniqueWithoutEmployeeInput | LoanUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LoanCreateManyEmployeeInputEnvelope
+    set?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    disconnect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    delete?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+    update?: LoanUpdateWithWhereUniqueWithoutEmployeeInput | LoanUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LoanUpdateManyWithWhereWithoutEmployeeInput | LoanUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  }
+
+  export type OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<OvertimeCreateWithoutEmployeeInput, OvertimeUncheckedCreateWithoutEmployeeInput> | OvertimeCreateWithoutEmployeeInput[] | OvertimeUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: OvertimeCreateOrConnectWithoutEmployeeInput | OvertimeCreateOrConnectWithoutEmployeeInput[]
+    upsert?: OvertimeUpsertWithWhereUniqueWithoutEmployeeInput | OvertimeUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: OvertimeCreateManyEmployeeInputEnvelope
+    set?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    disconnect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    delete?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+    update?: OvertimeUpdateWithWhereUniqueWithoutEmployeeInput | OvertimeUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: OvertimeUpdateManyWithWhereWithoutEmployeeInput | OvertimeUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
   }
 
   export type EmployeeCreateNestedOneWithoutLeaveBalancesInput = {
@@ -35585,6 +38985,34 @@ export namespace Prisma {
     upsert?: EmployeeUpsertWithoutSalaryRecordsInput
     connect?: EmployeeWhereUniqueInput
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutSalaryRecordsInput, EmployeeUpdateWithoutSalaryRecordsInput>, EmployeeUncheckedUpdateWithoutSalaryRecordsInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutLoansInput = {
+    create?: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLoansInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutLoansNestedInput = {
+    create?: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLoansInput
+    upsert?: EmployeeUpsertWithoutLoansInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLoansInput, EmployeeUpdateWithoutLoansInput>, EmployeeUncheckedUpdateWithoutLoansInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutOvertimeInput = {
+    create?: XOR<EmployeeCreateWithoutOvertimeInput, EmployeeUncheckedCreateWithoutOvertimeInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutOvertimeInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutOvertimeNestedInput = {
+    create?: XOR<EmployeeCreateWithoutOvertimeInput, EmployeeUncheckedCreateWithoutOvertimeInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutOvertimeInput
+    upsert?: EmployeeUpsertWithoutOvertimeInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutOvertimeInput, EmployeeUpdateWithoutOvertimeInput>, EmployeeUncheckedUpdateWithoutOvertimeInput>
   }
 
   export type StaffRequestCreateNestedManyWithoutServiceTypeInput = {
@@ -36200,6 +39628,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutUserInput = {
@@ -36262,6 +39692,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutUserInput = {
@@ -36476,6 +39908,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutUserInput = {
@@ -36538,6 +39972,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type RoleRequestUpsertWithWhereUniqueWithoutUserInput = {
@@ -36909,6 +40345,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutReporteesInput = {
@@ -36971,6 +40409,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutReporteesInput = {
@@ -37038,6 +40478,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutManagerInput = {
@@ -37100,6 +40542,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutManagerInput = {
@@ -37246,6 +40690,9 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     paymentMethod?: string
     bankName?: string | null
@@ -37261,6 +40708,9 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     paymentMethod?: string
     bankName?: string | null
@@ -37282,10 +40732,15 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     latePenalty?: number
+    penalty?: number
     leaveDeduction?: number
     loanDeduction?: number
+    advanceSalary?: number
     otherDeductions?: number
     overtimePay?: number
     bonus?: number
@@ -37305,10 +40760,15 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     latePenalty?: number
+    penalty?: number
     leaveDeduction?: number
     loanDeduction?: number
+    advanceSalary?: number
     otherDeductions?: number
     overtimePay?: number
     bonus?: number
@@ -37552,6 +41012,68 @@ export namespace Prisma {
     data: NotificationCreateManyEmployeeInput | NotificationCreateManyEmployeeInput[]
   }
 
+  export type LoanCreateWithoutEmployeeInput = {
+    id?: string
+    amount: number
+    issueDate: Date | string
+    installmentAmount: number
+    remainingBalance: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    amount: number
+    issueDate: Date | string
+    installmentAmount: number
+    remainingBalance: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanCreateOrConnectWithoutEmployeeInput = {
+    where: LoanWhereUniqueInput
+    create: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LoanCreateManyEmployeeInputEnvelope = {
+    data: LoanCreateManyEmployeeInput | LoanCreateManyEmployeeInput[]
+  }
+
+  export type OvertimeCreateWithoutEmployeeInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OvertimeUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OvertimeCreateOrConnectWithoutEmployeeInput = {
+    where: OvertimeWhereUniqueInput
+    create: XOR<OvertimeCreateWithoutEmployeeInput, OvertimeUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type OvertimeCreateManyEmployeeInputEnvelope = {
+    data: OvertimeCreateManyEmployeeInput | OvertimeCreateManyEmployeeInput[]
+  }
+
   export type UserUpsertWithoutEmployeeInput = {
     update: XOR<UserUpdateWithoutEmployeeInput, UserUncheckedUpdateWithoutEmployeeInput>
     create: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
@@ -37666,6 +41188,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutReporteesInput = {
@@ -37728,6 +41252,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUpsertWithWhereUniqueWithoutManagerInput = {
@@ -37927,6 +41453,9 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     paymentMethod?: StringFieldUpdateOperationsInput | string
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37942,6 +41471,9 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     paymentMethod?: StringFieldUpdateOperationsInput | string
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37978,10 +41510,15 @@ export namespace Prisma {
     housingAllowance?: FloatFilter<"SalaryRecord"> | number
     transportAllowance?: FloatFilter<"SalaryRecord"> | number
     medicalAllowance?: FloatFilter<"SalaryRecord"> | number
+    foodAllowance?: FloatFilter<"SalaryRecord"> | number
+    travelAllowance?: FloatFilter<"SalaryRecord"> | number
+    commission?: FloatFilter<"SalaryRecord"> | number
     otherAllowances?: FloatFilter<"SalaryRecord"> | number
     latePenalty?: FloatFilter<"SalaryRecord"> | number
+    penalty?: FloatFilter<"SalaryRecord"> | number
     leaveDeduction?: FloatFilter<"SalaryRecord"> | number
     loanDeduction?: FloatFilter<"SalaryRecord"> | number
+    advanceSalary?: FloatFilter<"SalaryRecord"> | number
     otherDeductions?: FloatFilter<"SalaryRecord"> | number
     overtimePay?: FloatFilter<"SalaryRecord"> | number
     bonus?: FloatFilter<"SalaryRecord"> | number
@@ -38211,6 +41748,68 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type LoanUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: LoanWhereUniqueInput
+    update: XOR<LoanUpdateWithoutEmployeeInput, LoanUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LoanUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: LoanWhereUniqueInput
+    data: XOR<LoanUpdateWithoutEmployeeInput, LoanUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type LoanUpdateManyWithWhereWithoutEmployeeInput = {
+    where: LoanScalarWhereInput
+    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type LoanScalarWhereInput = {
+    AND?: LoanScalarWhereInput | LoanScalarWhereInput[]
+    OR?: LoanScalarWhereInput[]
+    NOT?: LoanScalarWhereInput | LoanScalarWhereInput[]
+    id?: StringFilter<"Loan"> | string
+    employeeId?: StringFilter<"Loan"> | string
+    amount?: FloatFilter<"Loan"> | number
+    issueDate?: DateTimeFilter<"Loan"> | Date | string
+    installmentAmount?: FloatFilter<"Loan"> | number
+    remainingBalance?: FloatFilter<"Loan"> | number
+    status?: StringFilter<"Loan"> | string
+    createdAt?: DateTimeFilter<"Loan"> | Date | string
+    updatedAt?: DateTimeFilter<"Loan"> | Date | string
+  }
+
+  export type OvertimeUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: OvertimeWhereUniqueInput
+    update: XOR<OvertimeUpdateWithoutEmployeeInput, OvertimeUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<OvertimeCreateWithoutEmployeeInput, OvertimeUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type OvertimeUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: OvertimeWhereUniqueInput
+    data: XOR<OvertimeUpdateWithoutEmployeeInput, OvertimeUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type OvertimeUpdateManyWithWhereWithoutEmployeeInput = {
+    where: OvertimeScalarWhereInput
+    data: XOR<OvertimeUpdateManyMutationInput, OvertimeUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type OvertimeScalarWhereInput = {
+    AND?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
+    OR?: OvertimeScalarWhereInput[]
+    NOT?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
+    id?: StringFilter<"Overtime"> | string
+    employeeId?: StringFilter<"Overtime"> | string
+    date?: DateTimeFilter<"Overtime"> | Date | string
+    hours?: FloatFilter<"Overtime"> | number
+    ratePerHour?: FloatFilter<"Overtime"> | number
+    totalPay?: FloatFilter<"Overtime"> | number
+    status?: StringFilter<"Overtime"> | string
+    createdAt?: DateTimeFilter<"Overtime"> | Date | string
+    updatedAt?: DateTimeFilter<"Overtime"> | Date | string
+  }
+
   export type EmployeeCreateWithoutLeaveBalancesInput = {
     id?: string
     employeeCode?: string | null
@@ -38271,6 +41870,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveBalancesInput = {
@@ -38333,6 +41934,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveBalancesInput = {
@@ -38411,6 +42014,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveBalancesInput = {
@@ -38473,6 +42078,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutNotificationsInput = {
@@ -38535,6 +42142,8 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutNotificationsInput = {
@@ -38597,6 +42206,8 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutNotificationsInput = {
@@ -38675,6 +42286,8 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutNotificationsInput = {
@@ -38737,6 +42350,8 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutAttendanceInput = {
@@ -38799,6 +42414,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttendanceInput = {
@@ -38861,6 +42478,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttendanceInput = {
@@ -38991,6 +42610,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttendanceInput = {
@@ -39053,6 +42674,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type ShiftUpsertWithoutAttendanceInput = {
@@ -39175,6 +42798,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutShiftInput = {
@@ -39237,6 +42862,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutShiftInput = {
@@ -39449,6 +43076,8 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAuditLogsInput = {
@@ -39511,6 +43140,8 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAuditLogsInput = {
@@ -39589,6 +43220,8 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAuditLogsInput = {
@@ -39651,6 +43284,8 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutLeaveRequestsInput = {
@@ -39713,6 +43348,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveRequestsInput = {
@@ -39775,6 +43412,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveRequestsInput = {
@@ -39927,6 +43566,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveRequestsInput = {
@@ -39989,6 +43630,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUpsertWithoutApprovedLeavesManagerInput = {
@@ -40137,6 +43780,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryStructureInput = {
@@ -40199,6 +43844,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryStructureInput = {
@@ -40277,6 +43924,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryStructureInput = {
@@ -40339,6 +43988,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutSalaryRecordsInput = {
@@ -40401,6 +44052,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryRecordsInput = {
@@ -40463,6 +44116,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryRecordsInput = {
@@ -40541,6 +44196,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryRecordsInput = {
@@ -40603,6 +44260,552 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeCreateWithoutLoansInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutLoansInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    managerId?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutLoansInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
+  }
+
+  export type EmployeeUpsertWithoutLoansInput = {
+    update: XOR<EmployeeUpdateWithoutLoansInput, EmployeeUncheckedUpdateWithoutLoansInput>
+    create: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutLoansInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutLoansInput, EmployeeUncheckedUpdateWithoutLoansInput>
+  }
+
+  export type EmployeeUpdateWithoutLoansInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutLoansInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeCreateWithoutOvertimeInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutOvertimeInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    managerId?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutOvertimeInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutOvertimeInput, EmployeeUncheckedCreateWithoutOvertimeInput>
+  }
+
+  export type EmployeeUpsertWithoutOvertimeInput = {
+    update: XOR<EmployeeUpdateWithoutOvertimeInput, EmployeeUncheckedUpdateWithoutOvertimeInput>
+    create: XOR<EmployeeCreateWithoutOvertimeInput, EmployeeUncheckedCreateWithoutOvertimeInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutOvertimeInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutOvertimeInput, EmployeeUncheckedUpdateWithoutOvertimeInput>
+  }
+
+  export type EmployeeUpdateWithoutOvertimeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutOvertimeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type StaffRequestCreateWithoutServiceTypeInput = {
@@ -40718,6 +44921,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutStaffRequestsInput = {
@@ -40780,6 +44985,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutStaffRequestsInput = {
@@ -40922,6 +45129,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutStaffRequestsInput = {
@@ -40984,6 +45193,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type StaffServiceTypeUpsertWithoutStaffRequestsInput = {
@@ -41159,6 +45370,8 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttachmentsInput = {
@@ -41221,6 +45434,8 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttachmentsInput = {
@@ -41373,6 +45588,8 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttachmentsInput = {
@@ -41435,6 +45652,8 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutVisaRequestsInput = {
@@ -41497,6 +45716,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutVisaRequestsInput = {
@@ -41559,6 +45780,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutVisaRequestsInput = {
@@ -41672,6 +45895,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutVisaRequestsInput = {
@@ -41734,6 +45959,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type AttachmentUpsertWithWhereUniqueWithoutVisaRequestInput = {
@@ -41812,6 +46039,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLetterRecordsInput = {
@@ -41874,6 +46103,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLetterRecordsInput = {
@@ -41952,6 +46183,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLetterRecordsInput = {
@@ -42014,6 +46247,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type LetterCreateWithoutTemplateInput = {
@@ -42131,6 +46366,8 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLettersInput = {
@@ -42193,6 +46430,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLettersInput = {
@@ -42298,6 +46537,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLettersInput = {
@@ -42360,6 +46601,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type LetterTemplateUpsertWithoutLettersInput = {
@@ -42689,10 +46932,15 @@ export namespace Prisma {
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
+    foodAllowance?: number
+    travelAllowance?: number
+    commission?: number
     otherAllowances?: number
     latePenalty?: number
+    penalty?: number
     leaveDeduction?: number
     loanDeduction?: number
+    advanceSalary?: number
     otherDeductions?: number
     overtimePay?: number
     bonus?: number
@@ -42782,6 +47030,28 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type LoanCreateManyEmployeeInput = {
+    id?: string
+    amount: number
+    issueDate: Date | string
+    installmentAmount: number
+    remainingBalance: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OvertimeCreateManyEmployeeInput = {
+    id?: string
+    date: Date | string
+    hours: number
+    ratePerHour: number
+    totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type EmployeeUpdateWithoutManagerInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42842,6 +47112,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutManagerInput = {
@@ -42904,6 +47176,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutManagerInput = {
@@ -43076,10 +47350,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -43099,10 +47378,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -43122,10 +47406,15 @@ export namespace Prisma {
     housingAllowance?: FloatFieldUpdateOperationsInput | number
     transportAllowance?: FloatFieldUpdateOperationsInput | number
     medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
     otherAllowances?: FloatFieldUpdateOperationsInput | number
     latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
     leaveDeduction?: FloatFieldUpdateOperationsInput | number
     loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
     otherDeductions?: FloatFieldUpdateOperationsInput | number
     overtimePay?: FloatFieldUpdateOperationsInput | number
     bonus?: FloatFieldUpdateOperationsInput | number
@@ -43375,6 +47664,72 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LoanUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BiometricLogCreateManyAttendanceInput = {
     id?: string
     deviceId?: string | null
@@ -43533,6 +47888,8 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutShiftInput = {
@@ -43595,6 +47952,8 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutShiftInput = {

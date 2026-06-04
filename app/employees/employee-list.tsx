@@ -68,9 +68,14 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
     const [filterStatus, setFilterStatus] = useState<"ALL" | "ACTIVE" | "RESIGNED">("ALL");
 
     const filteredEmployees = employees.filter(emp => {
-        const matchesSearch = `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
-            emp.email.toLowerCase().includes(search.toLowerCase()) ||
-            emp.rollNumber.toLowerCase().includes(search.toLowerCase());
+        const searchLower = search.toLowerCase();
+        const fullName = `${emp.firstName || ''} ${emp.lastName || ''}`.toLowerCase();
+        const emailLower = (emp.email || '').toLowerCase();
+        const rollLower = (emp.rollNumber || '').toLowerCase();
+
+        const matchesSearch = fullName.includes(searchLower) ||
+            emailLower.includes(searchLower) ||
+            rollLower.includes(searchLower);
         
         const matchesStatus = filterStatus === "ALL" || emp.currentStatus === filterStatus;
         return matchesSearch && matchesStatus;
@@ -85,7 +90,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
             "Passport Number", "Passport Expiry", "Emirates ID", "Emirates ID Expiry", "Visa Number", "Visa Expiry",
             "Medical Insurance Expiry", "Employment Type", "Work Location", "Probation Days"
         ];
-        const rows = filteredEmployees.map(emp => [
+        const rows = employees.map(emp => [
             emp.firstName || "",
             emp.lastName || "",
             emp.email || "",
@@ -457,8 +462,9 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
 
             {/* Employee Table */}
             <div className="bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl rounded-[3rem] border border-slate-100 dark:border-slate-800/60 shadow-2xl overflow-hidden">
-                <Table>
-                    <TableHeader className="bg-slate-50/50 dark:bg-slate-900/50">
+                <div className="overflow-x-auto">
+                    <Table className="min-w-[800px]">
+                        <TableHeader className="bg-slate-50/50 dark:bg-slate-900/50">
                         <TableRow className="border-0">
                             <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Profile</TableHead>
                             <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Identification</TableHead>
@@ -548,6 +554,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                         ))}
                     </TableBody>
                 </Table>
+                </div>
                 {filteredEmployees.length === 0 && (
                     <div className="p-24 text-center">
                         <Users className="h-16 w-16 mx-auto mb-6 text-slate-200" />

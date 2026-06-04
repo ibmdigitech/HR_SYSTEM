@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Download, DollarSign, CreditCard, History, Plus, Building, UserCheck, TrendingUp, Receipt, ChevronRight } from "lucide-react";
+import { Download, DollarSign, CreditCard, History, Plus, Building, UserCheck, TrendingUp, Receipt, ChevronRight, Clock, AlertTriangle, Users } from "lucide-react";
 import { redirect } from "next/navigation";
 import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
+import { PayrollStatusDropdown } from "@/components/payroll/PayrollStatusDropdown";
+import { PayrollCharts } from "@/components/payroll/PayrollCharts";
 
 export default async function PayrollPage() {
     const session = await auth();
@@ -21,6 +23,9 @@ export default async function PayrollPage() {
     if (!user) redirect("/login");
 
     const userRole = user.role;
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
 
     let salaryRecords: any[] = [];
     if (userRole === "ADMIN" || userRole === "HR") {
@@ -38,15 +43,43 @@ export default async function PayrollPage() {
         });
     }
 
-    const totalPaid = salaryRecords
-        .filter(r => r.status === "PAID")
-        .reduce((acc, curr) => acc + curr.netSalary, 0);
-        
-    const totalPending = salaryRecords
-        .filter(r => r.status === "PENDING" || r.status === "GENERATED")
-        .reduce((acc, curr) => acc + curr.netSalary, 0);
+    const currentMonthRecords = salaryRecords.filter(r => r.month === currentMonth && r.year === currentYear);
+    
+    const totalPayrollThisMonth = currentMonthRecords.reduce((acc, curr) => acc + curr.netSalary, 0);
+    const totalEmployeesPaidThisMonth = currentMonthRecords.filter(r => r.status === "PAID").length;
+    const totalPendingPayroll = currentMonthRecords.filter(r => r.status !== "PAID" && r.status !== "CANCELLED").reduce((acc, curr) => acc + curr.netSalary, 0);
+    const averageSalary = currentMonthRecords.length > 0 ? totalPayrollThisMonth / currentMonthRecords.length : 0;
+    
+    const totalOvertimeThisMonth = currentMonthRecords.reduce((acc, curr) => acc + curr.overtimePay, 0);
+    const totalDeductionsThisMonth = currentMonthRecords.reduce((acc, curr) => acc + curr.latePenalty + curr.penalty + curr.leaveDeduction + curr.loanDeduction + curr.advanceSalary + curr.otherDeductions, 0);
 
     const monthName = (m: number) => new Date(2000, m - 1).toLocaleString("default", { month: "short" });
+
+    // Mock data for charts if no real data (for demonstration of the new UI as requested)
+    const trendData = [
+        { month: 'Jan', total: 120000 },
+        { month: 'Feb', total: 125000 },
+        { month: 'Mar', total: 128000 },
+        { month: 'Apr', total: 130000 },
+        { month: 'May', total: 135000 },
+        { month: 'Jun', total: totalPayrollThisMonth || 140000 },
+    ];
+
+    const departmentData = [
+        { name: 'Engineering', cost: 65000 },
+        { name: 'Sales', cost: 45000 },
+        { name: 'HR', cost: 15000 },
+        { name: 'Marketing', cost: 25000 },
+    ];
+
+    const overtimeData = [
+        { month: 'Jan', hours: 45 },
+        { month: 'Feb', hours: 52 },
+        { month: 'Mar', hours: 38 },
+        { month: 'Apr', hours: 60 },
+        { month: 'May', hours: 40 },
+        { month: 'Jun', hours: 55 },
+    ];
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
@@ -62,17 +95,29 @@ export default async function PayrollPage() {
                     </p>
                 </div>
                 {(userRole === "ADMIN" || userRole === "HR") && (
-                    <div className="relative z-10 flex flex-col sm:flex-row gap-3">
+                    <div className="relative z-10 grid grid-cols-2 gap-3">
                         <Link href="/payroll/structure">
-                            <Button variant="secondary" className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
+                            <Button variant="secondary" className="gap-2 w-full rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
                                 <Building className="h-4 w-4" />
-                                Salary Structures
+                                Structures
                             </Button>
                         </Link>
                         <Link href="/payroll/generate">
-                            <Button className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-indigo-500 hover:bg-indigo-400 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] border-0">
+                            <Button className="gap-2 w-full rounded-xl font-bold bg-indigo-500 hover:bg-indigo-400 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] border-0">
                                 <Plus className="h-4 w-4" />
                                 Run Payroll
+                            </Button>
+                        </Link>
+                        <Link href="/payroll/loans">
+                            <Button variant="secondary" className="gap-2 w-full rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
+                                <DollarSign className="h-4 w-4" />
+                                Loans
+                            </Button>
+                        </Link>
+                        <Link href="/payroll/overtime">
+                            <Button variant="secondary" className="gap-2 w-full rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
+                                <Clock className="h-4 w-4" />
+                                Overtime
                             </Button>
                         </Link>
                     </div>
@@ -80,61 +125,84 @@ export default async function PayrollPage() {
             </div>
 
             {/* Dashboard Stats */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-2xl hover:-translate-y-1 transition-all duration-300">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Disbursed</CardTitle>
-                        <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                            <DollarSign className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Payroll ({monthName(currentMonth)})</CardTitle>
+                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                            <DollarSign className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalPaid.toLocaleString()}</div>
-                        <div className="flex items-center gap-1 mt-1 text-xs font-medium text-emerald-600">
-                            <TrendingUp className="h-3 w-3" /> +12.5% from last month
-                        </div>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalPayrollThisMonth.toLocaleString()}</div>
                     </CardContent>
                 </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-2xl hover:-translate-y-1 transition-all duration-300">
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Pending Processing</CardTitle>
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Employees Paid</CardTitle>
+                        <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                            <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">{totalEmployeesPaidThisMonth}</div>
+                    </CardContent>
+                </Card>
+
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Pending Payroll</CardTitle>
                         <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
                             <Receipt className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalPending.toLocaleString()}</div>
-                        <p className="text-xs font-medium text-amber-600 mt-1">Awaiting approval and transfer</p>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalPendingPayroll.toLocaleString()}</div>
                     </CardContent>
                 </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-2xl hover:-translate-y-1 transition-all duration-300">
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Active Employees</CardTitle>
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Average Salary</CardTitle>
                         <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                            <UserCheck className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">Live Sync</div>
-                        <p className="text-xs font-medium text-blue-600 mt-1">Ready for payroll generation</p>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {averageSalary.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
                     </CardContent>
                 </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-2xl hover:-translate-y-1 transition-all duration-300">
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Next Payout</CardTitle>
-                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                            <History className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Overtime</CardTitle>
+                        <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                            <Clock className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">1st of Month</div>
-                        <p className="text-xs font-medium text-indigo-600 mt-1">Automated schedule active</p>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalOvertimeThisMonth.toLocaleString()}</div>
+                    </CardContent>
+                </Card>
+
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Deductions</CardTitle>
+                        <div className="p-2 bg-rose-100 dark:bg-rose-900/30 rounded-lg">
+                            <AlertTriangle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalDeductionsThisMonth.toLocaleString()}</div>
                     </CardContent>
                 </Card>
             </div>
+
+            {/* Charts Area */}
+            {(userRole === "ADMIN" || userRole === "HR") && (
+                <PayrollCharts trendData={trendData} departmentData={departmentData} overtimeData={overtimeData} />
+            )}
 
             {/* Main Table */}
             <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-2xl overflow-hidden">
@@ -204,17 +272,21 @@ export default async function PayrollPage() {
                                                 <div className="font-black text-slate-900 dark:text-white">AED {record.netSalary?.toLocaleString()}</div>
                                             </TableCell>
                                             <TableCell className="py-4">
-                                                <Badge 
-                                                    className={`font-bold px-3 py-1 rounded-full border-0 ${
-                                                        record.status === "PAID" 
-                                                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
-                                                            : record.status === "PENDING"
-                                                                ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
-                                                                : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
-                                                    }`}
-                                                >
-                                                    {record.status}
-                                                </Badge>
+                                                {(userRole === "ADMIN" || userRole === "HR") ? (
+                                                    <PayrollStatusDropdown record={record} />
+                                                ) : (
+                                                    <Badge 
+                                                        className={`font-bold px-3 py-1 rounded-full border-0 ${
+                                                            record.status === "PAID" 
+                                                                ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
+                                                                : record.status === "PENDING"
+                                                                    ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                                                                    : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                        }`}
+                                                    >
+                                                        {record.status}
+                                                    </Badge>
+                                                )}
                                             </TableCell>
                                             <TableCell className="py-4 text-right pr-6">
                                                 <DownloadPDFButton record={record} />

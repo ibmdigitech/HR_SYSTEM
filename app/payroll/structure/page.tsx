@@ -27,6 +27,9 @@ type SalaryStructure = {
     transportAllowance: number;
     medicalAllowance: number;
     otherAllowances: number;
+    foodAllowance: number;
+    travelAllowance: number;
+    commission: number;
     paymentMethod: string;
 };
 
@@ -39,6 +42,9 @@ export default function SalaryStructurePage() {
         housingAllowance: 0,
         transportAllowance: 0,
         medicalAllowance: 0,
+        foodAllowance: 0,
+        travelAllowance: 0,
+        commission: 0,
         otherAllowances: 0,
         paymentMethod: "BANK_TRANSFER"
     });
@@ -61,13 +67,19 @@ export default function SalaryStructurePage() {
         const housingAllowance = Math.round(totalCtc * 0.25);
         const transportAllowance = Math.round(totalCtc * 0.10);
         const medicalAllowance = Math.round(totalCtc * 0.05);
-        const otherAllowances = totalCtc - (basic + housingAllowance + transportAllowance + medicalAllowance);
+        const foodAllowance = Math.round(totalCtc * 0.05);
+        const travelAllowance = Math.round(totalCtc * 0.05);
+        const commission = 0;
+        const otherAllowances = totalCtc - (basic + housingAllowance + transportAllowance + medicalAllowance + foodAllowance + travelAllowance);
 
         setStructure({
             basic,
             housingAllowance,
             transportAllowance,
             medicalAllowance,
+            foodAllowance,
+            travelAllowance,
+            commission,
             otherAllowances,
             paymentMethod: "BANK_TRANSFER"
         });
@@ -156,12 +168,27 @@ export default function SalaryStructurePage() {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="medicalAllowance">Medical Allowance (5%)</Label>
+                                <Label htmlFor="medicalAllowance">Medical Allowance</Label>
                                 <Input id="medicalAllowance" type="number" value={structure.medicalAllowance} onChange={(e) => setStructure({...structure, medicalAllowance: parseFloat(e.target.value) || 0})} />
                             </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="foodAllowance">Food Allowance</Label>
+                                <Input id="foodAllowance" type="number" value={structure.foodAllowance} onChange={(e) => setStructure({...structure, foodAllowance: parseFloat(e.target.value) || 0})} />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="travelAllowance">Travel Allowance</Label>
+                                <Input id="travelAllowance" type="number" value={structure.travelAllowance} onChange={(e) => setStructure({...structure, travelAllowance: parseFloat(e.target.value) || 0})} />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="commission">Commission</Label>
+                                <Input id="commission" type="number" value={structure.commission} onChange={(e) => setStructure({...structure, commission: parseFloat(e.target.value) || 0})} />
+                            </div>
                             
-                            <div className="space-y-2 col-span-2">
-                                <Label htmlFor="otherAllowances">Other Allowances (10%)</Label>
+                            <div className="space-y-2">
+                                <Label htmlFor="otherAllowances">Other Allowances</Label>
                                 <Input id="otherAllowances" type="number" value={structure.otherAllowances} onChange={(e) => setStructure({...structure, otherAllowances: parseFloat(e.target.value) || 0})} />
                             </div>
                         </div>
@@ -178,6 +205,9 @@ export default function SalaryStructurePage() {
                                     formData.append("housingAllowance", (structure.housingAllowance || 0).toString());
                                     formData.append("transportAllowance", (structure.transportAllowance || 0).toString());
                                     formData.append("medicalAllowance", (structure.medicalAllowance || 0).toString());
+                                    formData.append("foodAllowance", (structure.foodAllowance || 0).toString());
+                                    formData.append("travelAllowance", (structure.travelAllowance || 0).toString());
+                                    formData.append("commission", (structure.commission || 0).toString());
                                     formData.append("otherAllowances", (structure.otherAllowances || 0).toString());
                                     formData.append("paymentMethod", structure.paymentMethod || "BANK_TRANSFER");
 
