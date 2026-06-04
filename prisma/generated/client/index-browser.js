@@ -157,34 +157,73 @@ exports.Prisma.RoleRequestScalarFieldEnum = {
 exports.Prisma.EmployeeScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  employeeCode: 'employeeCode',
   firstName: 'firstName',
   lastName: 'lastName',
   email: 'email',
   rollNumber: 'rollNumber',
+  photo: 'photo',
+  phone: 'phone',
+  gender: 'gender',
+  dateOfBirth: 'dateOfBirth',
+  nationality: 'nationality',
+  maritalStatus: 'maritalStatus',
   designation: 'designation',
   department: 'department',
   joiningDate: 'joiningDate',
+  employmentType: 'employmentType',
+  workLocation: 'workLocation',
+  probationDays: 'probationDays',
+  currentStatus: 'currentStatus',
   isActive: 'isActive',
-  photo: 'photo',
-  phone: 'phone',
-  dateOfBirth: 'dateOfBirth',
-  gender: 'gender',
-  maritalStatus: 'maritalStatus',
-  nationality: 'nationality',
-  governmentId: 'governmentId',
+  managerId: 'managerId',
   address: 'address',
   permanentAddress: 'permanentAddress',
   emergencyContact: 'emergencyContact',
   emergencyPhone: 'emergencyPhone',
+  governmentId: 'governmentId',
   bankName: 'bankName',
   accountNumber: 'accountNumber',
+  iban: 'iban',
   ifscCode: 'ifscCode',
-  employmentType: 'employmentType',
-  probationDays: 'probationDays',
-  workLocation: 'workLocation',
-  currentStatus: 'currentStatus',
-  managerId: 'managerId',
-  shiftId: 'shiftId'
+  basicSalary: 'basicSalary',
+  housingAllowance: 'housingAllowance',
+  transportAllowance: 'transportAllowance',
+  otherAllowance: 'otherAllowance',
+  passportNumber: 'passportNumber',
+  passportExpiry: 'passportExpiry',
+  emiratesId: 'emiratesId',
+  emiratesIdExpiry: 'emiratesIdExpiry',
+  visaNumber: 'visaNumber',
+  visaExpiry: 'visaExpiry',
+  visaType: 'visaType',
+  medicalInsuranceExpiry: 'medicalInsuranceExpiry',
+  iloeInsuranceExpiry: 'iloeInsuranceExpiry',
+  shiftId: 'shiftId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeaveBalanceScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  leaveType: 'leaveType',
+  totalDays: 'totalDays',
+  usedDays: 'usedDays',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  isRead: 'isRead',
+  link: 'link',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AttendanceScalarFieldEnum = {
@@ -194,6 +233,7 @@ exports.Prisma.AttendanceScalarFieldEnum = {
   checkIn: 'checkIn',
   checkOut: 'checkOut',
   status: 'status',
+  lateMinutes: 'lateMinutes',
   overtimeMinutes: 'overtimeMinutes',
   shiftId: 'shiftId',
   createdAt: 'createdAt',
@@ -304,6 +344,7 @@ exports.Prisma.StaffRequestScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
+  hrNote: 'hrNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -343,20 +384,6 @@ exports.Prisma.LetterRecordScalarFieldEnum = {
   generatedAt: 'generatedAt'
 };
 
-exports.Prisma.ServiceConfigScalarFieldEnum = {
-  id: 'id',
-  module: 'module',
-  key: 'key',
-  label: 'label',
-  description: 'description',
-  type: 'type',
-  value: 'value',
-  options: 'options',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.LetterTemplateScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -380,6 +407,20 @@ exports.Prisma.LetterScalarFieldEnum = {
   comments: 'comments',
   approvedBy: 'approvedBy',
   approvedAt: 'approvedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceConfigScalarFieldEnum = {
+  id: 'id',
+  module: 'module',
+  key: 'key',
+  label: 'label',
+  description: 'description',
+  type: 'type',
+  value: 'value',
+  options: 'options',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -416,6 +457,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   RoleRequest: 'RoleRequest',
   Employee: 'Employee',
+  LeaveBalance: 'LeaveBalance',
+  Notification: 'Notification',
   Attendance: 'Attendance',
   Shift: 'Shift',
   BiometricLog: 'BiometricLog',
@@ -428,9 +471,9 @@ exports.Prisma.ModelName = {
   Attachment: 'Attachment',
   VisaRequest: 'VisaRequest',
   LetterRecord: 'LetterRecord',
-  ServiceConfig: 'ServiceConfig',
   LetterTemplate: 'LetterTemplate',
-  Letter: 'Letter'
+  Letter: 'Letter',
+  ServiceConfig: 'ServiceConfig'
 };
 
 /**

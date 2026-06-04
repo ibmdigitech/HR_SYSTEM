@@ -14,7 +14,7 @@ import Link from "next/link";
 export default async function AttendancePage({
     searchParams,
 }: {
-    searchParams: Promise<{ all?: string }>;
+    searchParams: Promise<{ all?: string; view?: string }>;
 }) {
     const session = await auth();
     if (!session?.user?.email) redirect("/login");
@@ -29,39 +29,33 @@ export default async function AttendancePage({
     const userRole = user.role;
     const params = await searchParams;
     const showAll = params.all === "true";
+    const view = params.view || ((userRole === "ADMIN" || userRole === "HR" || userRole === "MANAGER") ? "today" : "history");
 
     // Fetch Attendance for today/recent
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
 
-    let attendanceRecords: any[] = [];
-    if (userRole === "ADMIN" || userRole === "HR" || userRole === "MANAGER") {
-        attendanceRecords = await prisma.attendance.findMany({
-            include: { employee: true },
-            orderBy: { date: 'desc' },
-            ...(showAll ? {} : { take: 20 })
-        });
-    } else if (user.employee) {
-        attendanceRecords = await prisma.attendance.findMany({
-            where: { employeeId: user.employee.id },
-            include: { employee: true },
-            orderBy: { date: 'desc' },
-            ...(showAll ? {} : { take: 10 })
-        });
-    }
+    const allActiveEmployees = await prisma.employee.findMany({
+        where: { isActive: true },
+        orderBy: { firstName: 'asc' }
+    });
 
-
-    // Stats Calculation
     const todayRecords = await prisma.attendance.findMany({
         where: {
             date: {
                 gte: today,
-                lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
+                lt: tomorrow
             }
-        }
+        },
+        include: { employee: true }
     });
 
-    const presentToday = todayRecords.length;
+    const presentToday = todayRecords.filter(r => r.status === "PRESENT" || r.status === "LATE").length;
+    const lateToday = todayRecords.filter(r => r.status === "LATE" || r.lateMinutes > 0).length;
+    const leavesToday = todayRecords.filter(r => r.status === "LEAVE").length;
+    const absentToday = Math.max(0, allActiveEmployees.length - presentToday - leavesToday);
+
     const completedToday = todayRecords.filter(r => r.checkOut).length;
     
     let avgHours = 0;
@@ -73,6 +67,38 @@ export default async function AttendancePage({
             return acc;
         }, 0);
         avgHours = totalMs / (completedToday * 1000 * 60 * 60);
+    }
+
+    // Determine records to display in the main table
+    let displayRecords: any[] = [];
+    if (view === "today") {
+        displayRecords = allActiveEmployees.map(emp => {
+            const record = todayRecords.find(r => r.employeeId === emp.id);
+            return {
+                id: record?.id || `temp-${emp.id}`,
+                employee: emp,
+                date: record?.date || today,
+                checkIn: record?.checkIn || null,
+                checkOut: record?.checkOut || null,
+                status: record?.status || "NO_RECORD",
+                lateMinutes: record?.lateMinutes || 0
+            };
+        });
+    } else {
+        if (userRole === "ADMIN" || userRole === "HR" || userRole === "MANAGER") {
+            displayRecords = await prisma.attendance.findMany({
+                include: { employee: true },
+                orderBy: { date: 'desc' },
+                ...(showAll ? {} : { take: 20 })
+            });
+        } else if (user.employee) {
+            displayRecords = await prisma.attendance.findMany({
+                where: { employeeId: user.employee.id },
+                include: { employee: true },
+                orderBy: { date: 'desc' },
+                ...(showAll ? {} : { take: 10 })
+            });
+        }
     }
 
     return (
@@ -98,43 +124,56 @@ export default async function AttendancePage({
             </div>
 
             {/* Quick Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-4">
+                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Active</CardTitle>
+                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                            <Users className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">{allActiveEmployees.length} Staff</div>
+                        <p className="text-xs font-medium text-indigo-600 mt-1">Total active workforce</p>
+                    </CardContent>
+                </Card>
+
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Present Today</CardTitle>
                         <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                            <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                            <UserCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{presentToday} Staff</div>
-                        <p className="text-xs font-medium text-emerald-600 mt-1">Live from check-in system</p>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">{presentToday} Present</div>
+                        <p className="text-xs font-medium text-emerald-600 mt-1">Live check-ins</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Shift Completion</CardTitle>
-                        <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                            <UserCheck className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Late Today</CardTitle>
+                        <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                            <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{completedToday} Completed</div>
-                        <p className="text-xs font-medium text-blue-600 mt-1">Checked out for the day</p>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">{lateToday} Late</div>
+                        <p className="text-xs font-medium text-amber-600 mt-1">Grace period exceeded</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Work Hours Avg</CardTitle>
-                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                            <Clock className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Absent Today</CardTitle>
+                        <div className="p-2 bg-rose-100 dark:bg-rose-900/30 rounded-lg">
+                            <Users className="h-4 w-4 text-rose-600 dark:text-rose-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{avgHours.toFixed(1)} hrs</div>
-                        <p className="text-xs font-medium text-indigo-600 mt-1">Average based on checkout</p>
+                        <div className="text-3xl font-black text-slate-800 dark:text-white">{absentToday} Absent</div>
+                        <p className="text-xs font-medium text-rose-600 mt-1">No check-in record</p>
                     </CardContent>
                 </Card>
             </div>
@@ -143,18 +182,34 @@ export default async function AttendancePage({
                 {/* Main Table Area */}
                 <Card className="lg:col-span-2 bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-sm rounded-2xl overflow-hidden">
                     <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5">
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div>
                                 <CardTitle className="text-xl font-bold">Presence Log</CardTitle>
                                 <CardDescription className="font-medium text-slate-500">
-                                    Recent records for {userRole === "STAFF" ? "you" : "all employees"}
+                                    {view === "today" ? "Today's attendance status for all active employees" : `Recent records for ${userRole === "STAFF" ? "you" : "all employees"}`}
                                 </CardDescription>
                             </div>
-                            <Link href={showAll ? "/attendance" : "/attendance?all=true"}>
-                                <Button variant="ghost" size="sm" className="text-emerald-600 font-bold hover:bg-emerald-50">
-                                    {showAll ? "View Less" : "View All"}
-                                </Button>
-                            </Link>
+                            <div className="flex flex-wrap items-center gap-3">
+                                {(userRole === "ADMIN" || userRole === "HR" || userRole === "MANAGER") && (
+                                    <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200/50 dark:border-slate-800/50">
+                                        <Link href={`/attendance?view=today&all=${showAll}`}>
+                                            <Button variant={view === "today" ? "secondary" : "ghost"} size="sm" className="font-bold rounded-lg text-xs uppercase px-3 py-1.5 h-8">
+                                                Today's Status
+                                            </Button>
+                                        </Link>
+                                        <Link href={`/attendance?view=history&all=${showAll}`}>
+                                            <Button variant={view === "history" ? "secondary" : "ghost"} size="sm" className="font-bold rounded-lg text-xs uppercase px-3 py-1.5 h-8">
+                                                History Log
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                )}
+                                <Link href={showAll ? `/attendance?view=${view}` : `/attendance?view=${view}&all=true`}>
+                                    <Button variant="ghost" size="sm" className="text-emerald-600 font-bold hover:bg-emerald-50 h-8">
+                                        {showAll ? "View Less" : "View All"}
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -170,7 +225,7 @@ export default async function AttendancePage({
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {attendanceRecords.map((record: any) => (
+                                    {displayRecords.map((record: any) => (
                                         <TableRow key={record.id} className="border-slate-100 dark:border-slate-800/60 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors">
                                             <TableCell className="py-4">
                                                 <div className="flex items-center gap-3">
@@ -198,18 +253,20 @@ export default async function AttendancePage({
                                                             ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
                                                             : record.status === "LATE"
                                                                 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
-                                                                : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                                                                : record.status === "LEAVE"
+                                                                    ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                                    : "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
                                                     }`}
                                                 >
-                                                    {record.status}
+                                                    {record.status === "NO_RECORD" ? "ABSENT" : record.status}
                                                 </Badge>
                                             </TableCell>
                                         </TableRow>
                                     ))}
-                                    {attendanceRecords.length === 0 && (
+                                    {displayRecords.length === 0 && (
                                         <TableRow>
                                             <TableCell colSpan={5} className="text-center py-20 text-slate-400 italic font-medium">
-                                                No attendance records found for this period.
+                                                No attendance records found.
                                             </TableCell>
                                         </TableRow>
                                     )}

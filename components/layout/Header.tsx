@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Bell, Search, Settings, Command, Clock, Globe } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface HeaderProps {
     user?: {
@@ -58,10 +59,12 @@ export function Header({ user }: HeaderProps) {
 
             <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 relative hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
-                        <Bell className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                        <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-rose-500 ring-4 ring-white dark:ring-slate-950 animate-pulse" />
-                    </Button>
+                    <Link href="/notifications">
+                        <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 relative hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
+                            <Bell className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                            <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-rose-500 ring-4 ring-white dark:ring-slate-950 animate-pulse" />
+                        </Button>
+                    </Link>
                     <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
                         <Settings className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
                     </Button>

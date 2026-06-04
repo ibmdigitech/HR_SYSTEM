@@ -29,10 +29,10 @@ export default async function DashboardPage() {
     sevenDaysAgo.setDate(today.getDate() - 7);
 
     // Fetch Stats
-    const totalEmployees = await prisma.employee.count();
+    const totalEmployees = await prisma.employee.count({ where: { isActive: true } });
+    
     let pendingLeavesCount = 0;
     if (userRole === "MANAGER" && user.employee) {
-        // Managers see count of pending requests from their direct reports
         pendingLeavesCount = await prisma.leaveRequest.count({
             where: {
                 managerStatus: "PENDING",
@@ -40,15 +40,10 @@ export default async function DashboardPage() {
             }
         });
     } else if (userRole === "HR" || userRole === "ADMIN") {
-        // HR/Admin see requests approved by manager but pending HR
         pendingLeavesCount = await prisma.leaveRequest.count({
-            where: {
-                managerStatus: "APPROVED",
-                hrStatus: "PENDING"
-            }
+            where: { hrStatus: "PENDING" }
         });
     } else if (userRole === "STAFF" && user.employee) {
-        // Staff see their own pending requests
         pendingLeavesCount = await prisma.leaveRequest.count({
             where: {
                 employeeId: user.employee.id,
@@ -57,18 +52,46 @@ export default async function DashboardPage() {
         });
     }
 
-    const presentTodayCount = await prisma.attendance.count({
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    const todayRecords = await prisma.attendance.findMany({
         where: {
             date: {
                 gte: today,
-                lt: new Date(today.getTime() + 24 * 60 * 60 * 1000)
+                lt: tomorrow
             }
         }
     });
 
+    const presentTodayCount = todayRecords.filter(r => r.status === "PRESENT" || r.status === "LATE").length;
+    const lateTodayCount = todayRecords.filter(r => r.status === "LATE" || r.lateMinutes > 0).length;
+    const leavesTodayCount = todayRecords.filter(r => r.status === "LEAVE").length;
+    const absentTodayCount = Math.max(0, totalEmployees - presentTodayCount - leavesTodayCount);
+
+    // Expiring Visas Count (within 30 days)
+    const thirtyDaysFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const expiringVisasCount = await prisma.employee.count({
+        where: {
+            isActive: true,
+            OR: [
+                { passportExpiry: { gte: today, lte: thirtyDaysFromNow } },
+                { emiratesIdExpiry: { gte: today, lte: thirtyDaysFromNow } },
+                { visaExpiry: { gte: today, lte: thirtyDaysFromNow } }
+            ]
+        }
+    });
+
+    // Payroll Summary (Current month)
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+    const payrollAgg = await prisma.salaryRecord.aggregate({
+        _sum: { netSalary: true },
+        where: { month: currentMonth, year: currentYear }
+    });
+    const monthlyNetSalarySpent = payrollAgg._sum.netSalary || 0;
+
     const recentAuditLogs = await prisma.auditLog.findMany({
         orderBy: { createdAt: 'desc' },
-        take: 6
+        take: 5
     });
 
     // On-time check (last 7 days)
@@ -79,18 +102,39 @@ export default async function DashboardPage() {
     const onTimeCount = recentAttendance.filter(a => a.status === "PRESENT").length;
     const onTimeRate = totalPresent > 0 ? Math.round((onTimeCount / totalPresent) * 100) : 0;
 
-    // Fetch User specific data if STAFF
-    let myPendingLeaves: any[] = [];
-    if (userRole === "STAFF" && user.employee) {
-        myPendingLeaves = await prisma.leaveRequest.findMany({
+    // Fetch Last 7 Days Attendance Trend
+    const last7Days = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }).reverse();
+
+    const attendanceTrend: { dayName: string; count: number }[] = [];
+    for (const day of last7Days) {
+        const nextDay = new Date(day.getTime() + 24 * 60 * 60 * 1000);
+        const count = await prisma.attendance.count({
             where: {
-                employeeId: user.employee.id,
-                hrStatus: "PENDING"
-            },
-            orderBy: { createdAt: 'desc' },
-            take: 3
+                date: { gte: day, lt: nextDay },
+                status: { in: ["PRESENT", "LATE"] }
+            }
+        });
+        attendanceTrend.push({
+            dayName: day.toLocaleDateString(undefined, { weekday: "short" }),
+            count
         });
     }
+
+    // Fetch Department headcount distribution
+    const deptGroup = await prisma.employee.groupBy({
+        by: ["department"],
+        _count: { id: true },
+        where: { isActive: true }
+    });
+    const departmentHeadcounts = deptGroup.map(g => ({
+        department: g.department || "General",
+        count: g._count.id
+    }));
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
@@ -119,24 +163,24 @@ export default async function DashboardPage() {
                     <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
                         {userRole === "STAFF" ? (
                             <>
-                                <Link href="/leaves/apply">
+                                <Link href="/leaves">
                                     <Button className="h-14 px-8 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-base shadow-xl border-0 transition-transform hover:scale-105 active:scale-95 gap-2">
                                         <Plus className="h-5 w-5" />
                                         Request Leave
                                     </Button>
                                 </Link>
-                                <Link href="/dashboard/request-access">
+                                <Link href="/requests">
                                     <Button variant="outline" className="h-14 px-8 rounded-2xl bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white/10 font-bold text-base transition-transform hover:scale-105 active:scale-95 gap-2">
                                         <ShieldAlert className="h-5 w-5" />
-                                        Access Request
+                                        Operation Requests
                                     </Button>
                                 </Link>
                             </>
                         ) : (
-                            <Link href="/dashboard/approvals" className="w-full sm:w-auto">
+                            <Link href="/requests" className="w-full sm:w-auto">
                                 <Button className="h-14 px-10 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white hover:shadow-indigo-500/40 font-black text-base shadow-2xl border-0 transition-all hover:scale-105 active:scale-95 gap-2 group">
                                     <CheckCircle2 className="h-5 w-5 group-hover:animate-bounce" />
-                                    Manage Approvals
+                                    Manage Requests
                                     <Badge className="ml-2 bg-white/20 text-white border-0">{pendingLeavesCount}</Badge>
                                 </Button>
                             </Link>
@@ -158,172 +202,202 @@ export default async function DashboardPage() {
                         <div className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">{totalEmployees}</div>
                         <div className="flex items-center gap-1 mt-2 text-emerald-600 font-bold text-xs">
                             <TrendingUp className="h-3 w-3" />
-                            <span>Active Employees</span>
+                            <span>Active Sponsorships</span>
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-emerald-500/10 transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Presence</CardTitle>
+                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Attendance Today</CardTitle>
                         <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <UserCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">{presentTodayCount}</div>
-                        <div className="flex items-center gap-1 mt-2 text-emerald-600 font-bold text-xs">
-                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                            <span>Live Check-ins</span>
+                        <div className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">
+                            {presentTodayCount} <span className="text-sm font-medium text-slate-400">/ {totalEmployees}</span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-2 text-xs font-medium text-slate-500">
+                            <span className="text-amber-600 font-bold">{lateTodayCount} Late</span> &bull;
+                            <span className="text-rose-600 font-bold">{absentTodayCount} Absent</span>
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-amber-500/10 transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Actions</CardTitle>
-                        <div className="p-2.5 bg-amber-50 dark:bg-amber-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                            <Clock className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Payroll Net Spend</CardTitle>
+                        <div className="p-2.5 bg-teal-50 dark:bg-teal-900/30 rounded-xl group-hover:scale-110 transition-transform">
+                            <DollarSign className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">{pendingLeavesCount}</div>
-                        <div className="flex items-center gap-1 mt-2 text-amber-600 font-bold text-xs">
-                            <span>Pending Approvals</span>
+                        <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                            AED {monthlyNetSalarySpent.toLocaleString([], { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                        </div>
+                        <div className="flex items-center gap-1 mt-2 text-slate-500 font-bold text-xs">
+                            <span>Current Month net payout</span>
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="group relative bg-gradient-to-br from-indigo-600 to-violet-700 shadow-xl rounded-[2rem] overflow-hidden border-0 transition-all duration-300">
+                <Card className={cn(
+                    "group relative shadow-xl rounded-[2rem] overflow-hidden border-0 transition-all duration-300",
+                    expiringVisasCount > 0 ? "bg-gradient-to-br from-rose-600 to-red-700 text-white" : "bg-gradient-to-br from-indigo-600 to-violet-700 text-white"
+                )}>
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-white/70 uppercase tracking-widest">Compliance</CardTitle>
+                        <CardTitle className="text-xs font-bold text-white/70 uppercase tracking-widest">Compliance Warnings</CardTitle>
                         <div className="p-2.5 bg-white/20 backdrop-blur-md rounded-xl">
                             <ShieldAlert className="h-5 w-5 text-white" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-white tracking-tighter">{onTimeRate}%</div>
+                        <div className="text-4xl font-black text-white tracking-tighter">{expiringVisasCount} File(s)</div>
                         <div className="flex items-center gap-1 mt-2 text-white/80 font-bold text-xs">
                             <ArrowUpRight className="h-3 w-3" />
-                            <span>Punctuality Rate</span>
+                            <span>Document expiries (&lt;30d)</span>
                         </div>
                     </CardContent>
                 </Card>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
-                {/* Activity Feed */}
-                <Card className="lg:col-span-4 bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
-                    <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-8 py-8 border-b border-slate-100 dark:border-slate-800/60">
-                        <div className="flex items-center justify-between">
+            <div className="grid gap-8 lg:grid-cols-7">
+                {/* Visual Charts Block */}
+                <div className="lg:col-span-4 space-y-8">
+                    {/* Attendance Trend Chart */}
+                    <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-8 py-6 border-b border-slate-100 dark:border-slate-800/60">
                             <div>
-                                <CardTitle className="text-2xl font-black text-slate-800 dark:text-white">Audit Stream</CardTitle>
-                                <CardDescription className="font-bold text-slate-400 uppercase text-[10px] tracking-[0.2em] mt-1">Real-time system events</CardDescription>
+                                <CardTitle className="text-lg font-bold">Attendance Velocity</CardTitle>
+                                <CardDescription className="text-xs text-slate-500 font-bold uppercase tracking-wider">Present headcount over latest 7 days</CardDescription>
                             </div>
-                            <Button variant="ghost" size="sm" className="rounded-full h-10 w-10 p-0 hover:bg-white dark:hover:bg-slate-900">
-                                <Bell className="h-5 w-5 text-slate-400" />
-                            </Button>
-                        </div>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                        <div className="divide-y divide-slate-50 dark:divide-slate-900">
-                            {recentAuditLogs.length === 0 ? (
-                                <div className="text-slate-400 text-sm font-bold italic py-20 text-center">
-                                    No recent activity found.
-                                </div>
-                            ) : (
-                                recentAuditLogs.map((log) => (
-                                    <div key={log.id} className="group flex items-center gap-6 px-8 py-6 hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-all duration-300">
-                                        <div className={cn(
-                                            "flex items-center justify-center h-12 w-12 rounded-2xl shadow-sm transition-transform group-hover:scale-110",
-                                            log.action.includes("CREATE") ? "bg-emerald-100 text-emerald-600" : 
-                                            log.action.includes("UPDATE") ? "bg-amber-100 text-amber-600" : "bg-indigo-100 text-indigo-600"
-                                        )}>
-                                            {log.action.includes("CREATE") ? <Plus className="h-6 w-6" /> : 
-                                             log.action.includes("UPDATE") ? <Activity className="h-6 w-6" /> : <ShieldAlert className="h-6 w-6" />}
+                        </CardHeader>
+                        <CardContent className="p-8">
+                            <div className="flex items-end justify-between h-48 pt-4 border-b border-slate-100 dark:border-slate-800">
+                                {attendanceTrend.map((t, idx) => {
+                                    const maxVal = Math.max(...attendanceTrend.map(d => d.count), 1);
+                                    const pct = Math.round((t.count / maxVal) * 80) + 10; // offset
+                                    return (
+                                        <div key={idx} className="flex flex-col items-center flex-1 space-y-3">
+                                            <div className="text-xs font-black text-slate-700 dark:text-slate-300">{t.count}</div>
+                                            <div 
+                                                className="w-8 rounded-t-lg bg-gradient-to-t from-indigo-500 to-indigo-600 dark:from-indigo-600 dark:to-violet-500 transition-all duration-1000 shadow-lg shadow-indigo-500/10"
+                                                style={{ height: `${pct}px` }}
+                                            />
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase">{t.dayName}</span>
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-base font-black text-slate-900 dark:text-white truncate uppercase tracking-tight">{log.action.replace(/_/g, ' ')}</p>
-                                            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 truncate">{log.details}</p>
+                                    );
+                                })}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Headcount distribution by department */}
+                    <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-8 py-6 border-b border-slate-100 dark:border-slate-800/60">
+                            <div>
+                                <CardTitle className="text-lg font-bold">Workforce Segmentation</CardTitle>
+                                <CardDescription className="text-xs text-slate-500 font-bold uppercase tracking-wider">Departmental distribution hierarchy</CardDescription>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="p-8 space-y-6">
+                            {departmentHeadcounts.map((dept, idx) => {
+                                const maxStaff = Math.max(...departmentHeadcounts.map(d => d.count), 1);
+                                const progressPct = Math.round((dept.count / maxStaff) * 100);
+                                return (
+                                    <div key={idx} className="space-y-2">
+                                        <div className="flex justify-between items-center text-xs font-bold text-slate-700 dark:text-slate-300">
+                                            <span className="uppercase tracking-wider">{dept.department}</span>
+                                            <span>{dept.count} Employee(s)</span>
                                         </div>
-                                        <div className="text-right shrink-0">
-                                            <span className="block text-sm font-black text-slate-900 dark:text-white">
-                                                {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </span>
-                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                                                {new Date(log.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                                        <div className="h-2.5 w-full rounded-full bg-slate-100 dark:bg-slate-850 overflow-hidden shadow-inner">
+                                            <div 
+                                                className="h-full bg-gradient-to-r from-violet-500 to-indigo-600 transition-all duration-1000"
+                                                style={{ width: `${progressPct}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                            {departmentHeadcounts.length === 0 && (
+                                <p className="text-center text-xs text-slate-400 italic py-6">No employee records in database.</p>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Sidebar Operations Block */}
+                <div className="lg:col-span-3 space-y-8">
+                    {/* Quick Access Actions */}
+                    {userRole !== "STAFF" && (
+                        <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                            <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5 border-b border-slate-100 dark:border-slate-800/60">
+                                <CardTitle className="text-base font-bold">HR Management Shortcuts</CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-6 space-y-4">
+                                <Link href="/employees" className="block">
+                                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-800 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                        Onboard New Employee
+                                        <ArrowUpRight className="h-4 w-4" />
+                                    </Button>
+                                </Link>
+                                <Link href="/payroll" className="block">
+                                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-800 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                        Execute Monthly Payroll
+                                        <ArrowUpRight className="h-4 w-4" />
+                                    </Button>
+                                </Link>
+                                <Link href="/visa" className="block">
+                                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-800 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                        Check Expiry Warnings
+                                        <ArrowUpRight className="h-4 w-4" />
+                                    </Button>
+                                </Link>
+                                <Link href="/requests" className="block">
+                                    <Button variant="outline" className="w-full justify-between h-12 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-800 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                        Fulfill Service Requests
+                                        <Badge className="ml-2 bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 border-0">{pendingLeavesCount}</Badge>
+                                    </Button>
+                                </Link>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {/* Audit Logs events */}
+                    <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5 border-b border-slate-100 dark:border-slate-800/60">
+                            <CardTitle className="text-base font-bold">Compliance Logs</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
+                                {recentAuditLogs.map((log) => (
+                                    <div key={log.id} className="p-4 flex gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition-all">
+                                        <div className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 shrink-0 h-fit">
+                                            <Activity className="h-4 w-4" />
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-xs font-black text-slate-800 dark:text-slate-200 uppercase tracking-tighter truncate">{log.action.replace(/_/g, ' ')}</p>
+                                            <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">{log.details}</p>
+                                            <span className="block text-[9px] text-slate-400 font-bold mt-1">
+                                                {new Date(log.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })} at {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
                                     </div>
-                                ))
-                            )}
-                        </div>
-                        <div className="p-6 bg-slate-50/50 dark:bg-slate-900/10 text-center">
-                            <Button variant="link" className="text-indigo-600 font-black uppercase text-xs tracking-widest hover:no-underline">View Full Audit Log</Button>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Performance Box */}
-                <Card className="lg:col-span-3 bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
-                    <CardHeader className="bg-indigo-600 text-white p-8">
-                        <div className="flex items-center justify-between mb-4">
-                            <Zap className="h-8 w-8 fill-white/20" />
-                            <Badge className="bg-white/20 text-white border-0 font-black">LIVE</Badge>
-                        </div>
-                        <CardTitle className="text-2xl font-black">Performance</CardTitle>
-                        <CardDescription className="text-indigo-100 font-medium">Weekly operational efficiency</CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-8 space-y-8">
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-1">
-                                    <p className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">Arrival Accuracy</p>
-                                    <p className="text-xs font-bold text-slate-400">Target: 95%</p>
-                                </div>
-                                <div className="text-2xl font-black text-emerald-600">{onTimeRate}%</div>
+                                ))}
+                                {recentAuditLogs.length === 0 && (
+                                    <p className="text-center text-xs text-slate-400 italic py-10">No recent audit logs.</p>
+                                )}
                             </div>
-                            <div className="h-4 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden shadow-inner">
-                                <div 
-                                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-1000 ease-out shadow-lg" 
-                                    style={{ width: `${onTimeRate}%` }} 
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-1">
-                                    <p className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">Leave Utilization</p>
-                                    <p className="text-xs font-bold text-slate-400">Across department</p>
-                                </div>
-                                <div className="text-2xl font-black text-indigo-600">--%</div>
-                            </div>
-                            <div className="h-4 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden shadow-inner">
-                                <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 w-[0%] transition-all duration-1000 ease-out shadow-lg" />
-                            </div>
-                        </div>
-
-                        <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
-                            <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50">
-                                <div className="h-10 w-10 rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm">
-                                    <Briefcase className="h-5 w-5 text-indigo-600" />
-                                </div>
-                                <div>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Next Milestone</p>
-                                    <p className="text-sm font-black text-slate-900 dark:text-white">Payroll Cycle: May 2026</p>
-                                </div>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>
     );
 }
 
-// Helper for dynamic classes
 function cn(...classes: (string | boolean | undefined)[]) {
     return classes.filter(Boolean).join(" ");
 }

@@ -18,7 +18,7 @@ type Employee = {
     lastName: string;
     email: string;
     designation: string;
-    isActive: boolean;
+    isActive?: boolean;
 };
 
 type SalaryStructure = {

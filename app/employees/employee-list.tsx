@@ -77,29 +77,63 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
     });
 
     const exportToCSV = () => {
-        const headers = ["First Name", "Last Name", "Email", "Roll Number", "Designation", "Department", "Joining Date", "Status"];
+        const headers = [
+            "First Name", "Last Name", "Email", "Roll Number", "Designation", "Department", "Joining Date", "Status",
+            "Phone", "Gender", "Marital Status", "Nationality", "Government ID", "Address", "Permanent Address",
+            "Emergency Contact", "Emergency Phone", "Bank Name", "Account Number", "IBAN", "IFSC Code",
+            "Basic Salary", "Housing Allowance", "Transport Allowance", "Other Allowance",
+            "Passport Number", "Passport Expiry", "Emirates ID", "Emirates ID Expiry", "Visa Number", "Visa Expiry",
+            "Medical Insurance Expiry", "Employment Type", "Work Location", "Probation Days"
+        ];
         const rows = filteredEmployees.map(emp => [
-            emp.firstName,
-            emp.lastName,
-            emp.email,
-            emp.rollNumber,
-            emp.designation,
-            emp.department,
-            new Date(emp.joiningDate).toLocaleDateString(),
-            emp.currentStatus
+            emp.firstName || "",
+            emp.lastName || "",
+            emp.email || "",
+            emp.rollNumber || "",
+            emp.designation || "",
+            emp.department || "",
+            emp.joiningDate ? new Date(emp.joiningDate).toLocaleDateString() : "",
+            emp.currentStatus || "",
+            emp.phone || "",
+            emp.gender || "",
+            emp.maritalStatus || "",
+            emp.nationality || "",
+            emp.governmentId || "",
+            emp.address || "",
+            emp.permanentAddress || "",
+            emp.emergencyContact || "",
+            emp.emergencyPhone || "",
+            emp.bankName || "",
+            emp.accountNumber || "",
+            emp.iban || "",
+            emp.ifscCode || "",
+            emp.basicSalary !== undefined && emp.basicSalary !== null ? emp.basicSalary : "",
+            emp.housingAllowance !== undefined && emp.housingAllowance !== null ? emp.housingAllowance : "",
+            emp.transportAllowance !== undefined && emp.transportAllowance !== null ? emp.transportAllowance : "",
+            emp.otherAllowance !== undefined && emp.otherAllowance !== null ? emp.otherAllowance : "",
+            emp.passportNumber || "",
+            emp.passportExpiry ? new Date(emp.passportExpiry).toLocaleDateString() : "",
+            emp.emiratesId || "",
+            emp.emiratesIdExpiry ? new Date(emp.emiratesIdExpiry).toLocaleDateString() : "",
+            emp.visaNumber || "",
+            emp.visaExpiry ? new Date(emp.visaExpiry).toLocaleDateString() : "",
+            emp.medicalInsuranceExpiry ? new Date(emp.medicalInsuranceExpiry).toLocaleDateString() : "",
+            emp.employmentType || "",
+            emp.workLocation || "",
+            emp.probationDays !== undefined && emp.probationDays !== null ? emp.probationDays : ""
         ]);
 
-        const csvContent = "data:text/csv;charset=utf-8," 
-            + [headers.join(","), ...rows.map(e => e.map(val => `"${val}"`).join(","))].join("\n");
+        const csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+            + [headers.join(","), ...rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))].join("\n");
         
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `employees_export_${new Date().toISOString().slice(0,10)}.csv`);
+        link.setAttribute("download", `employees_full_export_${new Date().toISOString().slice(0,10)}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        toast.success("Employee directory exported successfully!");
+        toast.success("Full employee directory exported successfully!");
     };
 
 
@@ -277,14 +311,34 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                             </TabsContent>
                                             
                                             <TabsContent value="finance" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
-                                                <div className="grid grid-cols-1 gap-6">
+                                                <div className="grid grid-cols-2 gap-6">
                                                     <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Basic Salary (AED)</Label>
+                                                        <Input type="number" step="0.01" name="basicSalary" defaultValue={selectedEmployee?.basicSalary} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Housing Allowance (AED)</Label>
+                                                        <Input type="number" step="0.01" name="housingAllowance" defaultValue={selectedEmployee?.housingAllowance} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Transport Allowance (AED)</Label>
+                                                        <Input type="number" step="0.01" name="transportAllowance" defaultValue={selectedEmployee?.transportAllowance} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Other Allowance (AED)</Label>
+                                                        <Input type="number" step="0.01" name="otherAllowance" defaultValue={selectedEmployee?.otherAllowance} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3 col-span-2">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Bank Name</Label>
                                                         <Input name="bankName" defaultValue={selectedEmployee?.bankName} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Account Number</Label>
                                                         <Input name="accountNumber" defaultValue={selectedEmployee?.accountNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">IBAN</Label>
+                                                        <Input name="iban" defaultValue={selectedEmployee?.iban} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                 </div>
                                             </TabsContent>
@@ -307,6 +361,34 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                                                 <SelectItem value="RESIGNED">Resigned</SelectItem>
                                                             </SelectContent>
                                                         </Select>
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Passport Number</Label>
+                                                        <Input name="passportNumber" defaultValue={selectedEmployee?.passportNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Passport Expiry</Label>
+                                                        <Input name="passportExpiry" type="date" defaultValue={selectedEmployee?.passportExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Emirates ID</Label>
+                                                        <Input name="emiratesId" defaultValue={selectedEmployee?.emiratesId} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Emirates ID Expiry</Label>
+                                                        <Input name="emiratesIdExpiry" type="date" defaultValue={selectedEmployee?.emiratesIdExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Visa Number</Label>
+                                                        <Input name="visaNumber" defaultValue={selectedEmployee?.visaNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Visa Expiry</Label>
+                                                        <Input name="visaExpiry" type="date" defaultValue={selectedEmployee?.visaExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                    </div>
+                                                    <div className="space-y-3 col-span-2">
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Medical Insurance Expiry</Label>
+                                                        <Input name="medicalInsuranceExpiry" type="date" defaultValue={selectedEmployee?.medicalInsuranceExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                 </div>
                                             </TabsContent>

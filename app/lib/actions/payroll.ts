@@ -62,15 +62,51 @@ export async function generatePayroll(month: number, year: number) {
         const activeEmployees = employees.filter(e => e.isActive && e.salaryStructure);
 
         // Fetch dynamic configs
-        const overtimeRate = await getConfig('payroll', 'overtime_rate_per_hour') || 1.5;
         const defaultLatePenalty = await getConfig('payroll', 'late_penalty_amount') || 50;
 
-        const records = activeEmployees.map(emp => {
+        const startOfMonth = new Date(year, month - 1, 1);
+        const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);
+
+        const records = [];
+        for (const emp of activeEmployees) {
             const struct = emp.salaryStructure!;
             const totalAllowances = struct.housingAllowance + struct.transportAllowance + struct.medicalAllowance + struct.otherAllowances;
-            // Example: Hooking late penalty to a config (actual attendance logic would count late occurrences)
-            const latePenalty = 0; 
-            const leaveDeduction = 0;
+
+            // 1. Count late check-ins from Attendance in this month
+            const attendances = await prisma.attendance.findMany({
+                where: {
+                    employeeId: emp.id,
+                    date: {
+                        gte: startOfMonth,
+                        lte: endOfMonth
+                    }
+                }
+            });
+            const lateCount = attendances.filter(a => a.status === "LATE" || a.lateMinutes > 0).length;
+            const latePenalty = lateCount * defaultLatePenalty;
+
+            // 2. Count unpaid leave days in this month
+            const leaves = await prisma.leaveRequest.findMany({
+                where: {
+                    employeeId: emp.id,
+                    type: "UNPAID",
+                    hrStatus: "APPROVED",
+                    startDate: { lte: endOfMonth },
+                    endDate: { gte: startOfMonth }
+                }
+            });
+
+            let unpaidDays = 0;
+            for (const leave of leaves) {
+                const start = new Date(Math.max(new Date(leave.startDate).getTime(), startOfMonth.getTime()));
+                const end = new Date(Math.min(new Date(leave.endDate).getTime(), endOfMonth.getTime()));
+                if (start <= end) {
+                    const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                    unpaidDays += days;
+                }
+            }
+
+            const leaveDeduction = unpaidDays * (struct.basic / 30);
             const loanDeduction = 0;
             const otherDeductions = 0;
             const overtimePay = 0;
@@ -79,7 +115,7 @@ export async function generatePayroll(month: number, year: number) {
             const totalDeductions = latePenalty + leaveDeduction + loanDeduction + otherDeductions;
             const netSalary = struct.basic + totalAllowances + overtimePay + bonus - totalDeductions;
 
-            return {
+            records.push({
                 employeeId: emp.id,
                 month,
                 year,
@@ -97,8 +133,14 @@ export async function generatePayroll(month: number, year: number) {
                 netSalary,
                 status: "PENDING",
                 paymentMethod: struct.paymentMethod
-            };
-        });
+            });
+        }
+
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const monthName = monthNames[month - 1] || `${month}`;
 
         for (const record of records) {
             const existing = await prisma.salaryRecord.findFirst({
@@ -112,10 +154,21 @@ export async function generatePayroll(month: number, year: number) {
             } else {
                 await prisma.salaryRecord.create({ data: record });
             }
+
+            // Create in-app notification
+            await prisma.notification.create({
+                data: {
+                    employeeId: record.employeeId,
+                    title: `Payslip Generated for ${monthName} ${year} 📄`,
+                    message: `Your payslip for ${monthName} ${year} has been generated. Net Pay: AED ${record.netSalary.toFixed(2)}.`,
+                    type: "SUCCESS",
+                    link: "/staff-services",
+                }
+            });
         }
 
         revalidatePath("/payroll");
-        return { success: true, message: `Payroll generated for ${records.length} employees` };
+        return { success: true, message: `Payroll generated and notifications dispatched for ${records.length} employees` };
     } catch (error: any) {
         console.error("[GENERATE_PAYROLL_ERROR]", error);
         return { success: false, message: `Error: ${error.message}` };

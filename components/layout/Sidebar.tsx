@@ -20,21 +20,25 @@ import {
     Sparkles,
     ChevronRight,
     Activity,
-    CheckCircle2
+    CheckCircle2,
+    ArrowRightLeft,
+    Bell
 } from "lucide-react";
 
 const sidebarItems = [
-    { title: "Dashboard",      href: "/dashboard",                icon: LayoutDashboard, exact: true },
-    { title: "Employees",      href: "/employees",                icon: Users },
-    { title: "Attendance",     href: "/attendance",               icon: Calendar },
-    { title: "Leaves",         href: "/leaves",                   icon: Briefcase },
-    { title: "Approvals",      href: "/dashboard/approvals",      icon: CheckCircle2 },
-    { title: "Payroll",        href: "/payroll",                  icon: CreditCard },
-    { title: "Visa & Compliance", href: "/dashboard/visa",        icon: FileUp },
-    { title: "Letters",        href: "/letters",                  icon: FileText },
-    { title: "Staff Services", href: "/dashboard/requests",       icon: HeartHandshake },
-    { title: "Service Config", href: "/dashboard/admin/services", icon: Settings2 },
-    { title: "Settings",       href: "/settings",                 icon: Settings },
+    { title: "Dashboard",         href: "/dashboard",                icon: LayoutDashboard, exact: true },
+    { title: "Employees",         href: "/employees",                icon: Users },
+    { title: "Attendance",        href: "/attendance",               icon: Calendar },
+    { title: "Leaves",            href: "/leaves",                   icon: Briefcase },
+    { title: "Approvals",         href: "/dashboard/approvals",      icon: CheckCircle2 },
+    { title: "Payroll",           href: "/payroll",                  icon: CreditCard },
+    { title: "Visa & Compliance", href: "/visa",                     icon: FileUp },
+    { title: "Letters",           href: "/letters",                  icon: FileText },
+    { title: "Staff Services",    href: "/staff-services",           icon: HeartHandshake },
+    { title: "Requests Flow",     href: "/requests",                 icon: ArrowRightLeft },
+    { title: "Notifications",     href: "/notifications",            icon: Bell },
+    { title: "Service Config",    href: "/dashboard/admin/services", icon: Settings2 },
+    { title: "Settings",          href: "/settings",                 icon: Settings },
 ];
 
 interface SidebarProps {
@@ -49,18 +53,23 @@ interface SidebarProps {
 export function Sidebar({ user }: SidebarProps) {
     const pathname = usePathname();
 
-    const filteredCoreItems = sidebarItems.slice(0, 7).filter(item => {
+    const filteredCoreItems = sidebarItems.filter(item => {
+        if (["/dashboard/admin/services", "/settings"].includes(item.href)) return false;
+        
         if (item.href === "/dashboard/approvals") {
             return user?.role === "ADMIN" || user?.role === "HR" || user?.role === "MANAGER";
         }
         return true;
     });
 
-    const filteredAdminItems = sidebarItems.slice(7).filter(item => {
-        if (item.href === "/dashboard/admin/services") {
-            return user?.role === "ADMIN";
+    const filteredAdminItems = sidebarItems.filter(item => {
+        if (["/dashboard/admin/services", "/settings"].includes(item.href)) {
+            if (item.href === "/dashboard/admin/services") {
+                return user?.role === "ADMIN";
+            }
+            return true;
         }
-        return true;
+        return false;
     });
 
     return (

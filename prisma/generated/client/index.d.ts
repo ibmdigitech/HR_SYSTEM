@@ -34,6 +34,16 @@ export type RoleRequest = $Result.DefaultSelection<Prisma.$RoleRequestPayload>
  */
 export type Employee = $Result.DefaultSelection<Prisma.$EmployeePayload>
 /**
+ * Model LeaveBalance
+ * 
+ */
+export type LeaveBalance = $Result.DefaultSelection<Prisma.$LeaveBalancePayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
  * Model Attendance
  * 
  */
@@ -94,11 +104,6 @@ export type VisaRequest = $Result.DefaultSelection<Prisma.$VisaRequestPayload>
  */
 export type LetterRecord = $Result.DefaultSelection<Prisma.$LetterRecordPayload>
 /**
- * Model ServiceConfig
- * 
- */
-export type ServiceConfig = $Result.DefaultSelection<Prisma.$ServiceConfigPayload>
-/**
  * Model LetterTemplate
  * 
  */
@@ -108,6 +113,11 @@ export type LetterTemplate = $Result.DefaultSelection<Prisma.$LetterTemplatePayl
  * 
  */
 export type Letter = $Result.DefaultSelection<Prisma.$LetterPayload>
+/**
+ * Model ServiceConfig
+ * 
+ */
+export type ServiceConfig = $Result.DefaultSelection<Prisma.$ServiceConfigPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -268,6 +278,26 @@ export class PrismaClient<
   get employee(): Prisma.EmployeeDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.leaveBalance`: Exposes CRUD operations for the **LeaveBalance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LeaveBalances
+    * const leaveBalances = await prisma.leaveBalance.findMany()
+    * ```
+    */
+  get leaveBalance(): Prisma.LeaveBalanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.attendance`: Exposes CRUD operations for the **Attendance** model.
     * Example usage:
     * ```ts
@@ -388,16 +418,6 @@ export class PrismaClient<
   get letterRecord(): Prisma.LetterRecordDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.serviceConfig`: Exposes CRUD operations for the **ServiceConfig** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more ServiceConfigs
-    * const serviceConfigs = await prisma.serviceConfig.findMany()
-    * ```
-    */
-  get serviceConfig(): Prisma.ServiceConfigDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.letterTemplate`: Exposes CRUD operations for the **LetterTemplate** model.
     * Example usage:
     * ```ts
@@ -416,6 +436,16 @@ export class PrismaClient<
     * ```
     */
   get letter(): Prisma.LetterDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceConfig`: Exposes CRUD operations for the **ServiceConfig** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceConfigs
+    * const serviceConfigs = await prisma.serviceConfig.findMany()
+    * ```
+    */
+  get serviceConfig(): Prisma.ServiceConfigDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -861,6 +891,8 @@ export namespace Prisma {
     Account: 'Account',
     RoleRequest: 'RoleRequest',
     Employee: 'Employee',
+    LeaveBalance: 'LeaveBalance',
+    Notification: 'Notification',
     Attendance: 'Attendance',
     Shift: 'Shift',
     BiometricLog: 'BiometricLog',
@@ -873,9 +905,9 @@ export namespace Prisma {
     Attachment: 'Attachment',
     VisaRequest: 'VisaRequest',
     LetterRecord: 'LetterRecord',
-    ServiceConfig: 'ServiceConfig',
     LetterTemplate: 'LetterTemplate',
-    Letter: 'Letter'
+    Letter: 'Letter',
+    ServiceConfig: 'ServiceConfig'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -894,7 +926,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "roleRequest" | "employee" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "serviceConfig" | "letterTemplate" | "letter"
+      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1191,6 +1223,154 @@ export namespace Prisma {
           count: {
             args: Prisma.EmployeeCountArgs<ExtArgs>
             result: $Utils.Optional<EmployeeCountAggregateOutputType> | number
+          }
+        }
+      }
+      LeaveBalance: {
+        payload: Prisma.$LeaveBalancePayload<ExtArgs>
+        fields: Prisma.LeaveBalanceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LeaveBalanceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LeaveBalanceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          findFirst: {
+            args: Prisma.LeaveBalanceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LeaveBalanceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          findMany: {
+            args: Prisma.LeaveBalanceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
+          }
+          create: {
+            args: Prisma.LeaveBalanceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          createMany: {
+            args: Prisma.LeaveBalanceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LeaveBalanceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
+          }
+          delete: {
+            args: Prisma.LeaveBalanceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          update: {
+            args: Prisma.LeaveBalanceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          deleteMany: {
+            args: Prisma.LeaveBalanceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LeaveBalanceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LeaveBalanceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
+          }
+          upsert: {
+            args: Prisma.LeaveBalanceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
+          }
+          aggregate: {
+            args: Prisma.LeaveBalanceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLeaveBalance>
+          }
+          groupBy: {
+            args: Prisma.LeaveBalanceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LeaveBalanceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LeaveBalanceCountArgs<ExtArgs>
+            result: $Utils.Optional<LeaveBalanceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
           }
         }
       }
@@ -2082,80 +2262,6 @@ export namespace Prisma {
           }
         }
       }
-      ServiceConfig: {
-        payload: Prisma.$ServiceConfigPayload<ExtArgs>
-        fields: Prisma.ServiceConfigFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ServiceConfigFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ServiceConfigFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
-          }
-          findFirst: {
-            args: Prisma.ServiceConfigFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ServiceConfigFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
-          }
-          findMany: {
-            args: Prisma.ServiceConfigFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
-          }
-          create: {
-            args: Prisma.ServiceConfigCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
-          }
-          createMany: {
-            args: Prisma.ServiceConfigCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ServiceConfigCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
-          }
-          delete: {
-            args: Prisma.ServiceConfigDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
-          }
-          update: {
-            args: Prisma.ServiceConfigUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
-          }
-          deleteMany: {
-            args: Prisma.ServiceConfigDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ServiceConfigUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ServiceConfigUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
-          }
-          upsert: {
-            args: Prisma.ServiceConfigUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
-          }
-          aggregate: {
-            args: Prisma.ServiceConfigAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateServiceConfig>
-          }
-          groupBy: {
-            args: Prisma.ServiceConfigGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ServiceConfigGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ServiceConfigCountArgs<ExtArgs>
-            result: $Utils.Optional<ServiceConfigCountAggregateOutputType> | number
-          }
-        }
-      }
       LetterTemplate: {
         payload: Prisma.$LetterTemplatePayload<ExtArgs>
         fields: Prisma.LetterTemplateFieldRefs
@@ -2304,6 +2410,80 @@ export namespace Prisma {
           }
         }
       }
+      ServiceConfig: {
+        payload: Prisma.$ServiceConfigPayload<ExtArgs>
+        fields: Prisma.ServiceConfigFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceConfigFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceConfigFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceConfigFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceConfigFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceConfigFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceConfigCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceConfigCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceConfigCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceConfigDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
+          }
+          update: {
+            args: Prisma.ServiceConfigUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceConfigDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceConfigUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceConfigUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceConfigUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceConfigAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceConfig>
+          }
+          groupBy: {
+            args: Prisma.ServiceConfigGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceConfigGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceConfigCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceConfigCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2404,6 +2584,8 @@ export namespace Prisma {
     account?: AccountOmit
     roleRequest?: RoleRequestOmit
     employee?: EmployeeOmit
+    leaveBalance?: LeaveBalanceOmit
+    notification?: NotificationOmit
     attendance?: AttendanceOmit
     shift?: ShiftOmit
     biometricLog?: BiometricLogOmit
@@ -2416,9 +2598,9 @@ export namespace Prisma {
     attachment?: AttachmentOmit
     visaRequest?: VisaRequestOmit
     letterRecord?: LetterRecordOmit
-    serviceConfig?: ServiceConfigOmit
     letterTemplate?: LetterTemplateOmit
     letter?: LetterOmit
+    serviceConfig?: ServiceConfigOmit
   }
 
   /* Types for Logging */
@@ -2559,6 +2741,7 @@ export namespace Prisma {
   export type EmployeeCountOutputType = {
     reportees: number
     leaveRequests: number
+    leaveBalances: number
     attendance: number
     salaryRecords: number
     letterRecords: number
@@ -2567,11 +2750,13 @@ export namespace Prisma {
     letters: number
     attachments: number
     auditLogs: number
+    notifications: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reportees?: boolean | EmployeeCountOutputTypeCountReporteesArgs
     leaveRequests?: boolean | EmployeeCountOutputTypeCountLeaveRequestsArgs
+    leaveBalances?: boolean | EmployeeCountOutputTypeCountLeaveBalancesArgs
     attendance?: boolean | EmployeeCountOutputTypeCountAttendanceArgs
     salaryRecords?: boolean | EmployeeCountOutputTypeCountSalaryRecordsArgs
     letterRecords?: boolean | EmployeeCountOutputTypeCountLetterRecordsArgs
@@ -2580,6 +2765,7 @@ export namespace Prisma {
     letters?: boolean | EmployeeCountOutputTypeCountLettersArgs
     attachments?: boolean | EmployeeCountOutputTypeCountAttachmentsArgs
     auditLogs?: boolean | EmployeeCountOutputTypeCountAuditLogsArgs
+    notifications?: boolean | EmployeeCountOutputTypeCountNotificationsArgs
   }
 
   // Custom InputTypes
@@ -2605,6 +2791,13 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountLeaveRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LeaveRequestWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountLeaveBalancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveBalanceWhereInput
   }
 
   /**
@@ -2661,6 +2854,13 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditLogWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
 
@@ -6354,218 +6554,336 @@ export namespace Prisma {
 
   export type EmployeeAvgAggregateOutputType = {
     probationDays: number | null
+    basicSalary: number | null
+    housingAllowance: number | null
+    transportAllowance: number | null
+    otherAllowance: number | null
   }
 
   export type EmployeeSumAggregateOutputType = {
     probationDays: number | null
+    basicSalary: number | null
+    housingAllowance: number | null
+    transportAllowance: number | null
+    otherAllowance: number | null
   }
 
   export type EmployeeMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    employeeCode: string | null
     firstName: string | null
     lastName: string | null
     email: string | null
     rollNumber: string | null
+    photo: string | null
+    phone: string | null
+    gender: string | null
+    dateOfBirth: Date | null
+    nationality: string | null
+    maritalStatus: string | null
     designation: string | null
     department: string | null
     joiningDate: Date | null
+    employmentType: string | null
+    workLocation: string | null
+    probationDays: number | null
+    currentStatus: string | null
     isActive: boolean | null
-    photo: string | null
-    phone: string | null
-    dateOfBirth: Date | null
-    gender: string | null
-    maritalStatus: string | null
-    nationality: string | null
-    governmentId: string | null
+    managerId: string | null
     address: string | null
     permanentAddress: string | null
     emergencyContact: string | null
     emergencyPhone: string | null
+    governmentId: string | null
     bankName: string | null
     accountNumber: string | null
+    iban: string | null
     ifscCode: string | null
-    employmentType: string | null
-    probationDays: number | null
-    workLocation: string | null
-    currentStatus: string | null
-    managerId: string | null
+    basicSalary: number | null
+    housingAllowance: number | null
+    transportAllowance: number | null
+    otherAllowance: number | null
+    passportNumber: string | null
+    passportExpiry: Date | null
+    emiratesId: string | null
+    emiratesIdExpiry: Date | null
+    visaNumber: string | null
+    visaExpiry: Date | null
+    visaType: string | null
+    medicalInsuranceExpiry: Date | null
+    iloeInsuranceExpiry: Date | null
     shiftId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EmployeeMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    employeeCode: string | null
     firstName: string | null
     lastName: string | null
     email: string | null
     rollNumber: string | null
+    photo: string | null
+    phone: string | null
+    gender: string | null
+    dateOfBirth: Date | null
+    nationality: string | null
+    maritalStatus: string | null
     designation: string | null
     department: string | null
     joiningDate: Date | null
+    employmentType: string | null
+    workLocation: string | null
+    probationDays: number | null
+    currentStatus: string | null
     isActive: boolean | null
-    photo: string | null
-    phone: string | null
-    dateOfBirth: Date | null
-    gender: string | null
-    maritalStatus: string | null
-    nationality: string | null
-    governmentId: string | null
+    managerId: string | null
     address: string | null
     permanentAddress: string | null
     emergencyContact: string | null
     emergencyPhone: string | null
+    governmentId: string | null
     bankName: string | null
     accountNumber: string | null
+    iban: string | null
     ifscCode: string | null
-    employmentType: string | null
-    probationDays: number | null
-    workLocation: string | null
-    currentStatus: string | null
-    managerId: string | null
+    basicSalary: number | null
+    housingAllowance: number | null
+    transportAllowance: number | null
+    otherAllowance: number | null
+    passportNumber: string | null
+    passportExpiry: Date | null
+    emiratesId: string | null
+    emiratesIdExpiry: Date | null
+    visaNumber: string | null
+    visaExpiry: Date | null
+    visaType: string | null
+    medicalInsuranceExpiry: Date | null
+    iloeInsuranceExpiry: Date | null
     shiftId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type EmployeeCountAggregateOutputType = {
     id: number
     userId: number
+    employeeCode: number
     firstName: number
     lastName: number
     email: number
     rollNumber: number
+    photo: number
+    phone: number
+    gender: number
+    dateOfBirth: number
+    nationality: number
+    maritalStatus: number
     designation: number
     department: number
     joiningDate: number
+    employmentType: number
+    workLocation: number
+    probationDays: number
+    currentStatus: number
     isActive: number
-    photo: number
-    phone: number
-    dateOfBirth: number
-    gender: number
-    maritalStatus: number
-    nationality: number
-    governmentId: number
+    managerId: number
     address: number
     permanentAddress: number
     emergencyContact: number
     emergencyPhone: number
+    governmentId: number
     bankName: number
     accountNumber: number
+    iban: number
     ifscCode: number
-    employmentType: number
-    probationDays: number
-    workLocation: number
-    currentStatus: number
-    managerId: number
+    basicSalary: number
+    housingAllowance: number
+    transportAllowance: number
+    otherAllowance: number
+    passportNumber: number
+    passportExpiry: number
+    emiratesId: number
+    emiratesIdExpiry: number
+    visaNumber: number
+    visaExpiry: number
+    visaType: number
+    medicalInsuranceExpiry: number
+    iloeInsuranceExpiry: number
     shiftId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type EmployeeAvgAggregateInputType = {
     probationDays?: true
+    basicSalary?: true
+    housingAllowance?: true
+    transportAllowance?: true
+    otherAllowance?: true
   }
 
   export type EmployeeSumAggregateInputType = {
     probationDays?: true
+    basicSalary?: true
+    housingAllowance?: true
+    transportAllowance?: true
+    otherAllowance?: true
   }
 
   export type EmployeeMinAggregateInputType = {
     id?: true
     userId?: true
+    employeeCode?: true
     firstName?: true
     lastName?: true
     email?: true
     rollNumber?: true
+    photo?: true
+    phone?: true
+    gender?: true
+    dateOfBirth?: true
+    nationality?: true
+    maritalStatus?: true
     designation?: true
     department?: true
     joiningDate?: true
+    employmentType?: true
+    workLocation?: true
+    probationDays?: true
+    currentStatus?: true
     isActive?: true
-    photo?: true
-    phone?: true
-    dateOfBirth?: true
-    gender?: true
-    maritalStatus?: true
-    nationality?: true
-    governmentId?: true
+    managerId?: true
     address?: true
     permanentAddress?: true
     emergencyContact?: true
     emergencyPhone?: true
+    governmentId?: true
     bankName?: true
     accountNumber?: true
+    iban?: true
     ifscCode?: true
-    employmentType?: true
-    probationDays?: true
-    workLocation?: true
-    currentStatus?: true
-    managerId?: true
+    basicSalary?: true
+    housingAllowance?: true
+    transportAllowance?: true
+    otherAllowance?: true
+    passportNumber?: true
+    passportExpiry?: true
+    emiratesId?: true
+    emiratesIdExpiry?: true
+    visaNumber?: true
+    visaExpiry?: true
+    visaType?: true
+    medicalInsuranceExpiry?: true
+    iloeInsuranceExpiry?: true
     shiftId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type EmployeeMaxAggregateInputType = {
     id?: true
     userId?: true
+    employeeCode?: true
     firstName?: true
     lastName?: true
     email?: true
     rollNumber?: true
+    photo?: true
+    phone?: true
+    gender?: true
+    dateOfBirth?: true
+    nationality?: true
+    maritalStatus?: true
     designation?: true
     department?: true
     joiningDate?: true
+    employmentType?: true
+    workLocation?: true
+    probationDays?: true
+    currentStatus?: true
     isActive?: true
-    photo?: true
-    phone?: true
-    dateOfBirth?: true
-    gender?: true
-    maritalStatus?: true
-    nationality?: true
-    governmentId?: true
+    managerId?: true
     address?: true
     permanentAddress?: true
     emergencyContact?: true
     emergencyPhone?: true
+    governmentId?: true
     bankName?: true
     accountNumber?: true
+    iban?: true
     ifscCode?: true
-    employmentType?: true
-    probationDays?: true
-    workLocation?: true
-    currentStatus?: true
-    managerId?: true
+    basicSalary?: true
+    housingAllowance?: true
+    transportAllowance?: true
+    otherAllowance?: true
+    passportNumber?: true
+    passportExpiry?: true
+    emiratesId?: true
+    emiratesIdExpiry?: true
+    visaNumber?: true
+    visaExpiry?: true
+    visaType?: true
+    medicalInsuranceExpiry?: true
+    iloeInsuranceExpiry?: true
     shiftId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type EmployeeCountAggregateInputType = {
     id?: true
     userId?: true
+    employeeCode?: true
     firstName?: true
     lastName?: true
     email?: true
     rollNumber?: true
+    photo?: true
+    phone?: true
+    gender?: true
+    dateOfBirth?: true
+    nationality?: true
+    maritalStatus?: true
     designation?: true
     department?: true
     joiningDate?: true
+    employmentType?: true
+    workLocation?: true
+    probationDays?: true
+    currentStatus?: true
     isActive?: true
-    photo?: true
-    phone?: true
-    dateOfBirth?: true
-    gender?: true
-    maritalStatus?: true
-    nationality?: true
-    governmentId?: true
+    managerId?: true
     address?: true
     permanentAddress?: true
     emergencyContact?: true
     emergencyPhone?: true
+    governmentId?: true
     bankName?: true
     accountNumber?: true
+    iban?: true
     ifscCode?: true
-    employmentType?: true
-    probationDays?: true
-    workLocation?: true
-    currentStatus?: true
-    managerId?: true
+    basicSalary?: true
+    housingAllowance?: true
+    transportAllowance?: true
+    otherAllowance?: true
+    passportNumber?: true
+    passportExpiry?: true
+    emiratesId?: true
+    emiratesIdExpiry?: true
+    visaNumber?: true
+    visaExpiry?: true
+    visaType?: true
+    medicalInsuranceExpiry?: true
+    iloeInsuranceExpiry?: true
     shiftId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -6658,34 +6976,51 @@ export namespace Prisma {
   export type EmployeeGroupByOutputType = {
     id: string
     userId: string
+    employeeCode: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo: string | null
+    phone: string | null
+    gender: string | null
+    dateOfBirth: Date | null
+    nationality: string | null
+    maritalStatus: string | null
     designation: string
     department: string
     joiningDate: Date
+    employmentType: string
+    workLocation: string | null
+    probationDays: number
+    currentStatus: string
     isActive: boolean
-    photo: string | null
-    phone: string | null
-    dateOfBirth: Date | null
-    gender: string | null
-    maritalStatus: string | null
-    nationality: string | null
-    governmentId: string | null
+    managerId: string | null
     address: string | null
     permanentAddress: string | null
     emergencyContact: string | null
     emergencyPhone: string | null
+    governmentId: string | null
     bankName: string | null
     accountNumber: string | null
+    iban: string | null
     ifscCode: string | null
-    employmentType: string
-    probationDays: number
-    workLocation: string | null
-    currentStatus: string
-    managerId: string | null
+    basicSalary: number | null
+    housingAllowance: number | null
+    transportAllowance: number | null
+    otherAllowance: number | null
+    passportNumber: string | null
+    passportExpiry: Date | null
+    emiratesId: string | null
+    emiratesIdExpiry: Date | null
+    visaNumber: string | null
+    visaExpiry: Date | null
+    visaType: string | null
+    medicalInsuranceExpiry: Date | null
+    iloeInsuranceExpiry: Date | null
     shiftId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: EmployeeCountAggregateOutputType | null
     _avg: EmployeeAvgAggregateOutputType | null
     _sum: EmployeeSumAggregateOutputType | null
@@ -6710,39 +7045,57 @@ export namespace Prisma {
   export type EmployeeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    employeeCode?: boolean
     firstName?: boolean
     lastName?: boolean
     email?: boolean
     rollNumber?: boolean
+    photo?: boolean
+    phone?: boolean
+    gender?: boolean
+    dateOfBirth?: boolean
+    nationality?: boolean
+    maritalStatus?: boolean
     designation?: boolean
     department?: boolean
     joiningDate?: boolean
+    employmentType?: boolean
+    workLocation?: boolean
+    probationDays?: boolean
+    currentStatus?: boolean
     isActive?: boolean
-    photo?: boolean
-    phone?: boolean
-    dateOfBirth?: boolean
-    gender?: boolean
-    maritalStatus?: boolean
-    nationality?: boolean
-    governmentId?: boolean
+    managerId?: boolean
     address?: boolean
     permanentAddress?: boolean
     emergencyContact?: boolean
     emergencyPhone?: boolean
+    governmentId?: boolean
     bankName?: boolean
     accountNumber?: boolean
+    iban?: boolean
     ifscCode?: boolean
-    employmentType?: boolean
-    probationDays?: boolean
-    workLocation?: boolean
-    currentStatus?: boolean
-    managerId?: boolean
+    basicSalary?: boolean
+    housingAllowance?: boolean
+    transportAllowance?: boolean
+    otherAllowance?: boolean
+    passportNumber?: boolean
+    passportExpiry?: boolean
+    emiratesId?: boolean
+    emiratesIdExpiry?: boolean
+    visaNumber?: boolean
+    visaExpiry?: boolean
+    visaType?: boolean
+    medicalInsuranceExpiry?: boolean
+    iloeInsuranceExpiry?: boolean
     shiftId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     shift?: boolean | Employee$shiftArgs<ExtArgs>
     leaveRequests?: boolean | Employee$leaveRequestsArgs<ExtArgs>
+    leaveBalances?: boolean | Employee$leaveBalancesArgs<ExtArgs>
     attendance?: boolean | Employee$attendanceArgs<ExtArgs>
     salaryStructure?: boolean | Employee$salaryStructureArgs<ExtArgs>
     salaryRecords?: boolean | Employee$salaryRecordsArgs<ExtArgs>
@@ -6752,40 +7105,58 @@ export namespace Prisma {
     letters?: boolean | Employee$lettersArgs<ExtArgs>
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
+    notifications?: boolean | Employee$notificationsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
   export type EmployeeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    employeeCode?: boolean
     firstName?: boolean
     lastName?: boolean
     email?: boolean
     rollNumber?: boolean
+    photo?: boolean
+    phone?: boolean
+    gender?: boolean
+    dateOfBirth?: boolean
+    nationality?: boolean
+    maritalStatus?: boolean
     designation?: boolean
     department?: boolean
     joiningDate?: boolean
+    employmentType?: boolean
+    workLocation?: boolean
+    probationDays?: boolean
+    currentStatus?: boolean
     isActive?: boolean
-    photo?: boolean
-    phone?: boolean
-    dateOfBirth?: boolean
-    gender?: boolean
-    maritalStatus?: boolean
-    nationality?: boolean
-    governmentId?: boolean
+    managerId?: boolean
     address?: boolean
     permanentAddress?: boolean
     emergencyContact?: boolean
     emergencyPhone?: boolean
+    governmentId?: boolean
     bankName?: boolean
     accountNumber?: boolean
+    iban?: boolean
     ifscCode?: boolean
-    employmentType?: boolean
-    probationDays?: boolean
-    workLocation?: boolean
-    currentStatus?: boolean
-    managerId?: boolean
+    basicSalary?: boolean
+    housingAllowance?: boolean
+    transportAllowance?: boolean
+    otherAllowance?: boolean
+    passportNumber?: boolean
+    passportExpiry?: boolean
+    emiratesId?: boolean
+    emiratesIdExpiry?: boolean
+    visaNumber?: boolean
+    visaExpiry?: boolean
+    visaType?: boolean
+    medicalInsuranceExpiry?: boolean
+    iloeInsuranceExpiry?: boolean
     shiftId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     shift?: boolean | Employee$shiftArgs<ExtArgs>
@@ -6794,34 +7165,51 @@ export namespace Prisma {
   export type EmployeeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    employeeCode?: boolean
     firstName?: boolean
     lastName?: boolean
     email?: boolean
     rollNumber?: boolean
+    photo?: boolean
+    phone?: boolean
+    gender?: boolean
+    dateOfBirth?: boolean
+    nationality?: boolean
+    maritalStatus?: boolean
     designation?: boolean
     department?: boolean
     joiningDate?: boolean
+    employmentType?: boolean
+    workLocation?: boolean
+    probationDays?: boolean
+    currentStatus?: boolean
     isActive?: boolean
-    photo?: boolean
-    phone?: boolean
-    dateOfBirth?: boolean
-    gender?: boolean
-    maritalStatus?: boolean
-    nationality?: boolean
-    governmentId?: boolean
+    managerId?: boolean
     address?: boolean
     permanentAddress?: boolean
     emergencyContact?: boolean
     emergencyPhone?: boolean
+    governmentId?: boolean
     bankName?: boolean
     accountNumber?: boolean
+    iban?: boolean
     ifscCode?: boolean
-    employmentType?: boolean
-    probationDays?: boolean
-    workLocation?: boolean
-    currentStatus?: boolean
-    managerId?: boolean
+    basicSalary?: boolean
+    housingAllowance?: boolean
+    transportAllowance?: boolean
+    otherAllowance?: boolean
+    passportNumber?: boolean
+    passportExpiry?: boolean
+    emiratesId?: boolean
+    emiratesIdExpiry?: boolean
+    visaNumber?: boolean
+    visaExpiry?: boolean
+    visaType?: boolean
+    medicalInsuranceExpiry?: boolean
+    iloeInsuranceExpiry?: boolean
     shiftId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     shift?: boolean | Employee$shiftArgs<ExtArgs>
@@ -6830,43 +7218,61 @@ export namespace Prisma {
   export type EmployeeSelectScalar = {
     id?: boolean
     userId?: boolean
+    employeeCode?: boolean
     firstName?: boolean
     lastName?: boolean
     email?: boolean
     rollNumber?: boolean
+    photo?: boolean
+    phone?: boolean
+    gender?: boolean
+    dateOfBirth?: boolean
+    nationality?: boolean
+    maritalStatus?: boolean
     designation?: boolean
     department?: boolean
     joiningDate?: boolean
+    employmentType?: boolean
+    workLocation?: boolean
+    probationDays?: boolean
+    currentStatus?: boolean
     isActive?: boolean
-    photo?: boolean
-    phone?: boolean
-    dateOfBirth?: boolean
-    gender?: boolean
-    maritalStatus?: boolean
-    nationality?: boolean
-    governmentId?: boolean
+    managerId?: boolean
     address?: boolean
     permanentAddress?: boolean
     emergencyContact?: boolean
     emergencyPhone?: boolean
+    governmentId?: boolean
     bankName?: boolean
     accountNumber?: boolean
+    iban?: boolean
     ifscCode?: boolean
-    employmentType?: boolean
-    probationDays?: boolean
-    workLocation?: boolean
-    currentStatus?: boolean
-    managerId?: boolean
+    basicSalary?: boolean
+    housingAllowance?: boolean
+    transportAllowance?: boolean
+    otherAllowance?: boolean
+    passportNumber?: boolean
+    passportExpiry?: boolean
+    emiratesId?: boolean
+    emiratesIdExpiry?: boolean
+    visaNumber?: boolean
+    visaExpiry?: boolean
+    visaType?: boolean
+    medicalInsuranceExpiry?: boolean
+    iloeInsuranceExpiry?: boolean
     shiftId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "email" | "rollNumber" | "designation" | "department" | "joiningDate" | "isActive" | "photo" | "phone" | "dateOfBirth" | "gender" | "maritalStatus" | "nationality" | "governmentId" | "address" | "permanentAddress" | "emergencyContact" | "emergencyPhone" | "bankName" | "accountNumber" | "ifscCode" | "employmentType" | "probationDays" | "workLocation" | "currentStatus" | "managerId" | "shiftId", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "employeeCode" | "firstName" | "lastName" | "email" | "rollNumber" | "photo" | "phone" | "gender" | "dateOfBirth" | "nationality" | "maritalStatus" | "designation" | "department" | "joiningDate" | "employmentType" | "workLocation" | "probationDays" | "currentStatus" | "isActive" | "managerId" | "address" | "permanentAddress" | "emergencyContact" | "emergencyPhone" | "governmentId" | "bankName" | "accountNumber" | "iban" | "ifscCode" | "basicSalary" | "housingAllowance" | "transportAllowance" | "otherAllowance" | "passportNumber" | "passportExpiry" | "emiratesId" | "emiratesIdExpiry" | "visaNumber" | "visaExpiry" | "visaType" | "medicalInsuranceExpiry" | "iloeInsuranceExpiry" | "shiftId" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     shift?: boolean | Employee$shiftArgs<ExtArgs>
     leaveRequests?: boolean | Employee$leaveRequestsArgs<ExtArgs>
+    leaveBalances?: boolean | Employee$leaveBalancesArgs<ExtArgs>
     attendance?: boolean | Employee$attendanceArgs<ExtArgs>
     salaryStructure?: boolean | Employee$salaryStructureArgs<ExtArgs>
     salaryRecords?: boolean | Employee$salaryRecordsArgs<ExtArgs>
@@ -6876,6 +7282,7 @@ export namespace Prisma {
     letters?: boolean | Employee$lettersArgs<ExtArgs>
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
+    notifications?: boolean | Employee$notificationsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6897,6 +7304,7 @@ export namespace Prisma {
       reportees: Prisma.$EmployeePayload<ExtArgs>[]
       shift: Prisma.$ShiftPayload<ExtArgs> | null
       leaveRequests: Prisma.$LeaveRequestPayload<ExtArgs>[]
+      leaveBalances: Prisma.$LeaveBalancePayload<ExtArgs>[]
       attendance: Prisma.$AttendancePayload<ExtArgs>[]
       salaryStructure: Prisma.$SalaryStructurePayload<ExtArgs> | null
       salaryRecords: Prisma.$SalaryRecordPayload<ExtArgs>[]
@@ -6906,38 +7314,56 @@ export namespace Prisma {
       letters: Prisma.$LetterPayload<ExtArgs>[]
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
+      employeeCode: string | null
       firstName: string
       lastName: string
       email: string
       rollNumber: string
+      photo: string | null
+      phone: string | null
+      gender: string | null
+      dateOfBirth: Date | null
+      nationality: string | null
+      maritalStatus: string | null
       designation: string
       department: string
       joiningDate: Date
+      employmentType: string
+      workLocation: string | null
+      probationDays: number
+      currentStatus: string
       isActive: boolean
-      photo: string | null
-      phone: string | null
-      dateOfBirth: Date | null
-      gender: string | null
-      maritalStatus: string | null
-      nationality: string | null
-      governmentId: string | null
+      managerId: string | null
       address: string | null
       permanentAddress: string | null
       emergencyContact: string | null
       emergencyPhone: string | null
+      governmentId: string | null
       bankName: string | null
       accountNumber: string | null
+      iban: string | null
       ifscCode: string | null
-      employmentType: string
-      probationDays: number
-      workLocation: string | null
-      currentStatus: string
-      managerId: string | null
+      basicSalary: number | null
+      housingAllowance: number | null
+      transportAllowance: number | null
+      otherAllowance: number | null
+      passportNumber: string | null
+      passportExpiry: Date | null
+      emiratesId: string | null
+      emiratesIdExpiry: Date | null
+      visaNumber: string | null
+      visaExpiry: Date | null
+      visaType: string | null
+      medicalInsuranceExpiry: Date | null
+      iloeInsuranceExpiry: Date | null
       shiftId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["employee"]>
     composites: {}
   }
@@ -7337,6 +7763,7 @@ export namespace Prisma {
     reportees<T extends Employee$reporteesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reporteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shift<T extends Employee$shiftArgs<ExtArgs> = {}>(args?: Subset<T, Employee$shiftArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     leaveRequests<T extends Employee$leaveRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$leaveRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    leaveBalances<T extends Employee$leaveBalancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$leaveBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attendance<T extends Employee$attendanceArgs<ExtArgs> = {}>(args?: Subset<T, Employee$attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     salaryStructure<T extends Employee$salaryStructureArgs<ExtArgs> = {}>(args?: Subset<T, Employee$salaryStructureArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     salaryRecords<T extends Employee$salaryRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$salaryRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7346,6 +7773,7 @@ export namespace Prisma {
     letters<T extends Employee$lettersArgs<ExtArgs> = {}>(args?: Subset<T, Employee$lettersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attachments<T extends Employee$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Employee$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Employee$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7377,34 +7805,51 @@ export namespace Prisma {
   interface EmployeeFieldRefs {
     readonly id: FieldRef<"Employee", 'String'>
     readonly userId: FieldRef<"Employee", 'String'>
+    readonly employeeCode: FieldRef<"Employee", 'String'>
     readonly firstName: FieldRef<"Employee", 'String'>
     readonly lastName: FieldRef<"Employee", 'String'>
     readonly email: FieldRef<"Employee", 'String'>
     readonly rollNumber: FieldRef<"Employee", 'String'>
+    readonly photo: FieldRef<"Employee", 'String'>
+    readonly phone: FieldRef<"Employee", 'String'>
+    readonly gender: FieldRef<"Employee", 'String'>
+    readonly dateOfBirth: FieldRef<"Employee", 'DateTime'>
+    readonly nationality: FieldRef<"Employee", 'String'>
+    readonly maritalStatus: FieldRef<"Employee", 'String'>
     readonly designation: FieldRef<"Employee", 'String'>
     readonly department: FieldRef<"Employee", 'String'>
     readonly joiningDate: FieldRef<"Employee", 'DateTime'>
+    readonly employmentType: FieldRef<"Employee", 'String'>
+    readonly workLocation: FieldRef<"Employee", 'String'>
+    readonly probationDays: FieldRef<"Employee", 'Int'>
+    readonly currentStatus: FieldRef<"Employee", 'String'>
     readonly isActive: FieldRef<"Employee", 'Boolean'>
-    readonly photo: FieldRef<"Employee", 'String'>
-    readonly phone: FieldRef<"Employee", 'String'>
-    readonly dateOfBirth: FieldRef<"Employee", 'DateTime'>
-    readonly gender: FieldRef<"Employee", 'String'>
-    readonly maritalStatus: FieldRef<"Employee", 'String'>
-    readonly nationality: FieldRef<"Employee", 'String'>
-    readonly governmentId: FieldRef<"Employee", 'String'>
+    readonly managerId: FieldRef<"Employee", 'String'>
     readonly address: FieldRef<"Employee", 'String'>
     readonly permanentAddress: FieldRef<"Employee", 'String'>
     readonly emergencyContact: FieldRef<"Employee", 'String'>
     readonly emergencyPhone: FieldRef<"Employee", 'String'>
+    readonly governmentId: FieldRef<"Employee", 'String'>
     readonly bankName: FieldRef<"Employee", 'String'>
     readonly accountNumber: FieldRef<"Employee", 'String'>
+    readonly iban: FieldRef<"Employee", 'String'>
     readonly ifscCode: FieldRef<"Employee", 'String'>
-    readonly employmentType: FieldRef<"Employee", 'String'>
-    readonly probationDays: FieldRef<"Employee", 'Int'>
-    readonly workLocation: FieldRef<"Employee", 'String'>
-    readonly currentStatus: FieldRef<"Employee", 'String'>
-    readonly managerId: FieldRef<"Employee", 'String'>
+    readonly basicSalary: FieldRef<"Employee", 'Float'>
+    readonly housingAllowance: FieldRef<"Employee", 'Float'>
+    readonly transportAllowance: FieldRef<"Employee", 'Float'>
+    readonly otherAllowance: FieldRef<"Employee", 'Float'>
+    readonly passportNumber: FieldRef<"Employee", 'String'>
+    readonly passportExpiry: FieldRef<"Employee", 'DateTime'>
+    readonly emiratesId: FieldRef<"Employee", 'String'>
+    readonly emiratesIdExpiry: FieldRef<"Employee", 'DateTime'>
+    readonly visaNumber: FieldRef<"Employee", 'String'>
+    readonly visaExpiry: FieldRef<"Employee", 'DateTime'>
+    readonly visaType: FieldRef<"Employee", 'String'>
+    readonly medicalInsuranceExpiry: FieldRef<"Employee", 'DateTime'>
+    readonly iloeInsuranceExpiry: FieldRef<"Employee", 'DateTime'>
     readonly shiftId: FieldRef<"Employee", 'String'>
+    readonly createdAt: FieldRef<"Employee", 'DateTime'>
+    readonly updatedAt: FieldRef<"Employee", 'DateTime'>
   }
     
 
@@ -7885,6 +8330,30 @@ export namespace Prisma {
   }
 
   /**
+   * Employee.leaveBalances
+   */
+  export type Employee$leaveBalancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    where?: LeaveBalanceWhereInput
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    cursor?: LeaveBalanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
    * Employee.attendance
    */
   export type Employee$attendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8096,6 +8565,30 @@ export namespace Prisma {
   }
 
   /**
+   * Employee.notifications
+   */
+  export type Employee$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
    * Employee without action
    */
   export type EmployeeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8115,6 +8608,2238 @@ export namespace Prisma {
 
 
   /**
+   * Model LeaveBalance
+   */
+
+  export type AggregateLeaveBalance = {
+    _count: LeaveBalanceCountAggregateOutputType | null
+    _avg: LeaveBalanceAvgAggregateOutputType | null
+    _sum: LeaveBalanceSumAggregateOutputType | null
+    _min: LeaveBalanceMinAggregateOutputType | null
+    _max: LeaveBalanceMaxAggregateOutputType | null
+  }
+
+  export type LeaveBalanceAvgAggregateOutputType = {
+    totalDays: number | null
+    usedDays: number | null
+    year: number | null
+  }
+
+  export type LeaveBalanceSumAggregateOutputType = {
+    totalDays: number | null
+    usedDays: number | null
+    year: number | null
+  }
+
+  export type LeaveBalanceMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    leaveType: string | null
+    totalDays: number | null
+    usedDays: number | null
+    year: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeaveBalanceMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    leaveType: string | null
+    totalDays: number | null
+    usedDays: number | null
+    year: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LeaveBalanceCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    leaveType: number
+    totalDays: number
+    usedDays: number
+    year: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LeaveBalanceAvgAggregateInputType = {
+    totalDays?: true
+    usedDays?: true
+    year?: true
+  }
+
+  export type LeaveBalanceSumAggregateInputType = {
+    totalDays?: true
+    usedDays?: true
+    year?: true
+  }
+
+  export type LeaveBalanceMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    leaveType?: true
+    totalDays?: true
+    usedDays?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeaveBalanceMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    leaveType?: true
+    totalDays?: true
+    usedDays?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LeaveBalanceCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    leaveType?: true
+    totalDays?: true
+    usedDays?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LeaveBalanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaveBalance to aggregate.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LeaveBalances
+    **/
+    _count?: true | LeaveBalanceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LeaveBalanceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LeaveBalanceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LeaveBalanceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LeaveBalanceMaxAggregateInputType
+  }
+
+  export type GetLeaveBalanceAggregateType<T extends LeaveBalanceAggregateArgs> = {
+        [P in keyof T & keyof AggregateLeaveBalance]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLeaveBalance[P]>
+      : GetScalarType<T[P], AggregateLeaveBalance[P]>
+  }
+
+
+
+
+  export type LeaveBalanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LeaveBalanceWhereInput
+    orderBy?: LeaveBalanceOrderByWithAggregationInput | LeaveBalanceOrderByWithAggregationInput[]
+    by: LeaveBalanceScalarFieldEnum[] | LeaveBalanceScalarFieldEnum
+    having?: LeaveBalanceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LeaveBalanceCountAggregateInputType | true
+    _avg?: LeaveBalanceAvgAggregateInputType
+    _sum?: LeaveBalanceSumAggregateInputType
+    _min?: LeaveBalanceMinAggregateInputType
+    _max?: LeaveBalanceMaxAggregateInputType
+  }
+
+  export type LeaveBalanceGroupByOutputType = {
+    id: string
+    employeeId: string
+    leaveType: string
+    totalDays: number
+    usedDays: number
+    year: number
+    createdAt: Date
+    updatedAt: Date
+    _count: LeaveBalanceCountAggregateOutputType | null
+    _avg: LeaveBalanceAvgAggregateOutputType | null
+    _sum: LeaveBalanceSumAggregateOutputType | null
+    _min: LeaveBalanceMinAggregateOutputType | null
+    _max: LeaveBalanceMaxAggregateOutputType | null
+  }
+
+  type GetLeaveBalanceGroupByPayload<T extends LeaveBalanceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LeaveBalanceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LeaveBalanceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LeaveBalanceGroupByOutputType[P]>
+            : GetScalarType<T[P], LeaveBalanceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LeaveBalanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    leaveType?: boolean
+    totalDays?: boolean
+    usedDays?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveBalance"]>
+
+  export type LeaveBalanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    leaveType?: boolean
+    totalDays?: boolean
+    usedDays?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveBalance"]>
+
+  export type LeaveBalanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    leaveType?: boolean
+    totalDays?: boolean
+    usedDays?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["leaveBalance"]>
+
+  export type LeaveBalanceSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    leaveType?: boolean
+    totalDays?: boolean
+    usedDays?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LeaveBalanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "leaveType" | "totalDays" | "usedDays" | "year" | "createdAt" | "updatedAt", ExtArgs["result"]["leaveBalance"]>
+  export type LeaveBalanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LeaveBalanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type LeaveBalanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $LeaveBalancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LeaveBalance"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      leaveType: string
+      totalDays: number
+      usedDays: number
+      year: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["leaveBalance"]>
+    composites: {}
+  }
+
+  type LeaveBalanceGetPayload<S extends boolean | null | undefined | LeaveBalanceDefaultArgs> = $Result.GetResult<Prisma.$LeaveBalancePayload, S>
+
+  type LeaveBalanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LeaveBalanceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LeaveBalanceCountAggregateInputType | true
+    }
+
+  export interface LeaveBalanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LeaveBalance'], meta: { name: 'LeaveBalance' } }
+    /**
+     * Find zero or one LeaveBalance that matches the filter.
+     * @param {LeaveBalanceFindUniqueArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LeaveBalanceFindUniqueArgs>(args: SelectSubset<T, LeaveBalanceFindUniqueArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LeaveBalance that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LeaveBalanceFindUniqueOrThrowArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LeaveBalanceFindUniqueOrThrowArgs>(args: SelectSubset<T, LeaveBalanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaveBalance that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceFindFirstArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LeaveBalanceFindFirstArgs>(args?: SelectSubset<T, LeaveBalanceFindFirstArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LeaveBalance that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceFindFirstOrThrowArgs} args - Arguments to find a LeaveBalance
+     * @example
+     * // Get one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LeaveBalanceFindFirstOrThrowArgs>(args?: SelectSubset<T, LeaveBalanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeaveBalances that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LeaveBalances
+     * const leaveBalances = await prisma.leaveBalance.findMany()
+     * 
+     * // Get first 10 LeaveBalances
+     * const leaveBalances = await prisma.leaveBalance.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LeaveBalanceFindManyArgs>(args?: SelectSubset<T, LeaveBalanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LeaveBalance.
+     * @param {LeaveBalanceCreateArgs} args - Arguments to create a LeaveBalance.
+     * @example
+     * // Create one LeaveBalance
+     * const LeaveBalance = await prisma.leaveBalance.create({
+     *   data: {
+     *     // ... data to create a LeaveBalance
+     *   }
+     * })
+     * 
+     */
+    create<T extends LeaveBalanceCreateArgs>(args: SelectSubset<T, LeaveBalanceCreateArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LeaveBalances.
+     * @param {LeaveBalanceCreateManyArgs} args - Arguments to create many LeaveBalances.
+     * @example
+     * // Create many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LeaveBalanceCreateManyArgs>(args?: SelectSubset<T, LeaveBalanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LeaveBalances and returns the data saved in the database.
+     * @param {LeaveBalanceCreateManyAndReturnArgs} args - Arguments to create many LeaveBalances.
+     * @example
+     * // Create many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LeaveBalances and only return the `id`
+     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LeaveBalanceCreateManyAndReturnArgs>(args?: SelectSubset<T, LeaveBalanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LeaveBalance.
+     * @param {LeaveBalanceDeleteArgs} args - Arguments to delete one LeaveBalance.
+     * @example
+     * // Delete one LeaveBalance
+     * const LeaveBalance = await prisma.leaveBalance.delete({
+     *   where: {
+     *     // ... filter to delete one LeaveBalance
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LeaveBalanceDeleteArgs>(args: SelectSubset<T, LeaveBalanceDeleteArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LeaveBalance.
+     * @param {LeaveBalanceUpdateArgs} args - Arguments to update one LeaveBalance.
+     * @example
+     * // Update one LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LeaveBalanceUpdateArgs>(args: SelectSubset<T, LeaveBalanceUpdateArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LeaveBalances.
+     * @param {LeaveBalanceDeleteManyArgs} args - Arguments to filter LeaveBalances to delete.
+     * @example
+     * // Delete a few LeaveBalances
+     * const { count } = await prisma.leaveBalance.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LeaveBalanceDeleteManyArgs>(args?: SelectSubset<T, LeaveBalanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaveBalances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LeaveBalanceUpdateManyArgs>(args: SelectSubset<T, LeaveBalanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LeaveBalances and returns the data updated in the database.
+     * @param {LeaveBalanceUpdateManyAndReturnArgs} args - Arguments to update many LeaveBalances.
+     * @example
+     * // Update many LeaveBalances
+     * const leaveBalance = await prisma.leaveBalance.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LeaveBalances and only return the `id`
+     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LeaveBalanceUpdateManyAndReturnArgs>(args: SelectSubset<T, LeaveBalanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LeaveBalance.
+     * @param {LeaveBalanceUpsertArgs} args - Arguments to update or create a LeaveBalance.
+     * @example
+     * // Update or create a LeaveBalance
+     * const leaveBalance = await prisma.leaveBalance.upsert({
+     *   create: {
+     *     // ... data to create a LeaveBalance
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LeaveBalance we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LeaveBalanceUpsertArgs>(args: SelectSubset<T, LeaveBalanceUpsertArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LeaveBalances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceCountArgs} args - Arguments to filter LeaveBalances to count.
+     * @example
+     * // Count the number of LeaveBalances
+     * const count = await prisma.leaveBalance.count({
+     *   where: {
+     *     // ... the filter for the LeaveBalances we want to count
+     *   }
+     * })
+    **/
+    count<T extends LeaveBalanceCountArgs>(
+      args?: Subset<T, LeaveBalanceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LeaveBalanceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LeaveBalance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LeaveBalanceAggregateArgs>(args: Subset<T, LeaveBalanceAggregateArgs>): Prisma.PrismaPromise<GetLeaveBalanceAggregateType<T>>
+
+    /**
+     * Group by LeaveBalance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LeaveBalanceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LeaveBalanceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LeaveBalanceGroupByArgs['orderBy'] }
+        : { orderBy?: LeaveBalanceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LeaveBalanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLeaveBalanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LeaveBalance model
+   */
+  readonly fields: LeaveBalanceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LeaveBalance.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LeaveBalanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LeaveBalance model
+   */
+  interface LeaveBalanceFieldRefs {
+    readonly id: FieldRef<"LeaveBalance", 'String'>
+    readonly employeeId: FieldRef<"LeaveBalance", 'String'>
+    readonly leaveType: FieldRef<"LeaveBalance", 'String'>
+    readonly totalDays: FieldRef<"LeaveBalance", 'Int'>
+    readonly usedDays: FieldRef<"LeaveBalance", 'Int'>
+    readonly year: FieldRef<"LeaveBalance", 'Int'>
+    readonly createdAt: FieldRef<"LeaveBalance", 'DateTime'>
+    readonly updatedAt: FieldRef<"LeaveBalance", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LeaveBalance findUnique
+   */
+  export type LeaveBalanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance findUniqueOrThrow
+   */
+  export type LeaveBalanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance findFirst
+   */
+  export type LeaveBalanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaveBalances.
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaveBalances.
+     */
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveBalance findFirstOrThrow
+   */
+  export type LeaveBalanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalance to fetch.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LeaveBalances.
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LeaveBalances.
+     */
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveBalance findMany
+   */
+  export type LeaveBalanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter, which LeaveBalances to fetch.
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LeaveBalances to fetch.
+     */
+    orderBy?: LeaveBalanceOrderByWithRelationInput | LeaveBalanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LeaveBalances.
+     */
+    cursor?: LeaveBalanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LeaveBalances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LeaveBalances.
+     */
+    skip?: number
+    distinct?: LeaveBalanceScalarFieldEnum | LeaveBalanceScalarFieldEnum[]
+  }
+
+  /**
+   * LeaveBalance create
+   */
+  export type LeaveBalanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LeaveBalance.
+     */
+    data: XOR<LeaveBalanceCreateInput, LeaveBalanceUncheckedCreateInput>
+  }
+
+  /**
+   * LeaveBalance createMany
+   */
+  export type LeaveBalanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LeaveBalances.
+     */
+    data: LeaveBalanceCreateManyInput | LeaveBalanceCreateManyInput[]
+  }
+
+  /**
+   * LeaveBalance createManyAndReturn
+   */
+  export type LeaveBalanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * The data used to create many LeaveBalances.
+     */
+    data: LeaveBalanceCreateManyInput | LeaveBalanceCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaveBalance update
+   */
+  export type LeaveBalanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LeaveBalance.
+     */
+    data: XOR<LeaveBalanceUpdateInput, LeaveBalanceUncheckedUpdateInput>
+    /**
+     * Choose, which LeaveBalance to update.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance updateMany
+   */
+  export type LeaveBalanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LeaveBalances.
+     */
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaveBalances to update
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * Limit how many LeaveBalances to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaveBalance updateManyAndReturn
+   */
+  export type LeaveBalanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * The data used to update LeaveBalances.
+     */
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyInput>
+    /**
+     * Filter which LeaveBalances to update
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * Limit how many LeaveBalances to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LeaveBalance upsert
+   */
+  export type LeaveBalanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LeaveBalance to update in case it exists.
+     */
+    where: LeaveBalanceWhereUniqueInput
+    /**
+     * In case the LeaveBalance found by the `where` argument doesn't exist, create a new LeaveBalance with this data.
+     */
+    create: XOR<LeaveBalanceCreateInput, LeaveBalanceUncheckedCreateInput>
+    /**
+     * In case the LeaveBalance was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LeaveBalanceUpdateInput, LeaveBalanceUncheckedUpdateInput>
+  }
+
+  /**
+   * LeaveBalance delete
+   */
+  export type LeaveBalanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+    /**
+     * Filter which LeaveBalance to delete.
+     */
+    where: LeaveBalanceWhereUniqueInput
+  }
+
+  /**
+   * LeaveBalance deleteMany
+   */
+  export type LeaveBalanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LeaveBalances to delete
+     */
+    where?: LeaveBalanceWhereInput
+    /**
+     * Limit how many LeaveBalances to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LeaveBalance without action
+   */
+  export type LeaveBalanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LeaveBalance
+     */
+    select?: LeaveBalanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LeaveBalance
+     */
+    omit?: LeaveBalanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LeaveBalanceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    title: string | null
+    message: string | null
+    type: string | null
+    isRead: boolean | null
+    link: string | null
+    createdAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    title: string | null
+    message: string | null
+    type: string | null
+    isRead: boolean | null
+    link: string | null
+    createdAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    title: number
+    message: number
+    type: number
+    isRead: number
+    link: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    title?: true
+    message?: true
+    type?: true
+    isRead?: true
+    link?: true
+    createdAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    title?: true
+    message?: true
+    type?: true
+    isRead?: true
+    link?: true
+    createdAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    title?: true
+    message?: true
+    type?: true
+    isRead?: true
+    link?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: string
+    employeeId: string
+    title: string
+    message: string
+    type: string
+    isRead: boolean
+    link: string | null
+    createdAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isRead?: boolean
+    link?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isRead?: boolean
+    link?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isRead?: boolean
+    link?: boolean
+    createdAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    title?: boolean
+    message?: boolean
+    type?: boolean
+    isRead?: boolean
+    link?: boolean
+    createdAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "title" | "message" | "type" | "isRead" | "link" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      title: string
+      message: string
+      type: string
+      isRead: boolean
+      link: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'String'>
+    readonly employeeId: FieldRef<"Notification", 'String'>
+    readonly title: FieldRef<"Notification", 'String'>
+    readonly message: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'String'>
+    readonly isRead: FieldRef<"Notification", 'Boolean'>
+    readonly link: FieldRef<"Notification", 'String'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Attendance
    */
 
@@ -8127,10 +10852,12 @@ export namespace Prisma {
   }
 
   export type AttendanceAvgAggregateOutputType = {
+    lateMinutes: number | null
     overtimeMinutes: number | null
   }
 
   export type AttendanceSumAggregateOutputType = {
+    lateMinutes: number | null
     overtimeMinutes: number | null
   }
 
@@ -8141,6 +10868,7 @@ export namespace Prisma {
     checkIn: Date | null
     checkOut: Date | null
     status: string | null
+    lateMinutes: number | null
     overtimeMinutes: number | null
     shiftId: string | null
     createdAt: Date | null
@@ -8154,6 +10882,7 @@ export namespace Prisma {
     checkIn: Date | null
     checkOut: Date | null
     status: string | null
+    lateMinutes: number | null
     overtimeMinutes: number | null
     shiftId: string | null
     createdAt: Date | null
@@ -8167,6 +10896,7 @@ export namespace Prisma {
     checkIn: number
     checkOut: number
     status: number
+    lateMinutes: number
     overtimeMinutes: number
     shiftId: number
     createdAt: number
@@ -8176,10 +10906,12 @@ export namespace Prisma {
 
 
   export type AttendanceAvgAggregateInputType = {
+    lateMinutes?: true
     overtimeMinutes?: true
   }
 
   export type AttendanceSumAggregateInputType = {
+    lateMinutes?: true
     overtimeMinutes?: true
   }
 
@@ -8190,6 +10922,7 @@ export namespace Prisma {
     checkIn?: true
     checkOut?: true
     status?: true
+    lateMinutes?: true
     overtimeMinutes?: true
     shiftId?: true
     createdAt?: true
@@ -8203,6 +10936,7 @@ export namespace Prisma {
     checkIn?: true
     checkOut?: true
     status?: true
+    lateMinutes?: true
     overtimeMinutes?: true
     shiftId?: true
     createdAt?: true
@@ -8216,6 +10950,7 @@ export namespace Prisma {
     checkIn?: true
     checkOut?: true
     status?: true
+    lateMinutes?: true
     overtimeMinutes?: true
     shiftId?: true
     createdAt?: true
@@ -8316,6 +11051,7 @@ export namespace Prisma {
     checkIn: Date | null
     checkOut: Date | null
     status: string
+    lateMinutes: number
     overtimeMinutes: number
     shiftId: string | null
     createdAt: Date
@@ -8348,6 +11084,7 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     status?: boolean
+    lateMinutes?: boolean
     overtimeMinutes?: boolean
     shiftId?: boolean
     createdAt?: boolean
@@ -8365,6 +11102,7 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     status?: boolean
+    lateMinutes?: boolean
     overtimeMinutes?: boolean
     shiftId?: boolean
     createdAt?: boolean
@@ -8380,6 +11118,7 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     status?: boolean
+    lateMinutes?: boolean
     overtimeMinutes?: boolean
     shiftId?: boolean
     createdAt?: boolean
@@ -8395,13 +11134,14 @@ export namespace Prisma {
     checkIn?: boolean
     checkOut?: boolean
     status?: boolean
+    lateMinutes?: boolean
     overtimeMinutes?: boolean
     shiftId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "checkIn" | "checkOut" | "status" | "overtimeMinutes" | "shiftId" | "createdAt" | "updatedAt", ExtArgs["result"]["attendance"]>
+  export type AttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "checkIn" | "checkOut" | "status" | "lateMinutes" | "overtimeMinutes" | "shiftId" | "createdAt" | "updatedAt", ExtArgs["result"]["attendance"]>
   export type AttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     shift?: boolean | Attendance$shiftArgs<ExtArgs>
@@ -8431,6 +11171,7 @@ export namespace Prisma {
       checkIn: Date | null
       checkOut: Date | null
       status: string
+      lateMinutes: number
       overtimeMinutes: number
       shiftId: string | null
       createdAt: Date
@@ -8867,6 +11608,7 @@ export namespace Prisma {
     readonly checkIn: FieldRef<"Attendance", 'DateTime'>
     readonly checkOut: FieldRef<"Attendance", 'DateTime'>
     readonly status: FieldRef<"Attendance", 'String'>
+    readonly lateMinutes: FieldRef<"Attendance", 'Int'>
     readonly overtimeMinutes: FieldRef<"Attendance", 'Int'>
     readonly shiftId: FieldRef<"Attendance", 'String'>
     readonly createdAt: FieldRef<"Attendance", 'DateTime'>
@@ -17553,6 +20295,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     status: string | null
+    hrNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17566,6 +20309,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     status: string | null
+    hrNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17579,6 +20323,7 @@ export namespace Prisma {
     startDate: number
     endDate: number
     status: number
+    hrNote: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -17602,6 +20347,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     status?: true
+    hrNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17615,6 +20361,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     status?: true
+    hrNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17628,6 +20375,7 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     status?: true
+    hrNote?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -17728,6 +20476,7 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     status: string
+    hrNote: string | null
     createdAt: Date
     updatedAt: Date
     _count: StaffRequestCountAggregateOutputType | null
@@ -17760,6 +20509,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
@@ -17777,6 +20527,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
@@ -17792,6 +20543,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
@@ -17807,11 +20559,12 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StaffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "typeId" | "details" | "amount" | "startDate" | "endDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["staffRequest"]>
+  export type StaffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "typeId" | "details" | "amount" | "startDate" | "endDate" | "status" | "hrNote" | "createdAt" | "updatedAt", ExtArgs["result"]["staffRequest"]>
   export type StaffRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
@@ -17843,6 +20596,7 @@ export namespace Prisma {
       startDate: Date | null
       endDate: Date | null
       status: string
+      hrNote: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["staffRequest"]>
@@ -18279,6 +21033,7 @@ export namespace Prisma {
     readonly startDate: FieldRef<"StaffRequest", 'DateTime'>
     readonly endDate: FieldRef<"StaffRequest", 'DateTime'>
     readonly status: FieldRef<"StaffRequest", 'String'>
+    readonly hrNote: FieldRef<"StaffRequest", 'String'>
     readonly createdAt: FieldRef<"StaffRequest", 'DateTime'>
     readonly updatedAt: FieldRef<"StaffRequest", 'DateTime'>
   }
@@ -22151,1073 +24906,6 @@ export namespace Prisma {
 
 
   /**
-   * Model ServiceConfig
-   */
-
-  export type AggregateServiceConfig = {
-    _count: ServiceConfigCountAggregateOutputType | null
-    _min: ServiceConfigMinAggregateOutputType | null
-    _max: ServiceConfigMaxAggregateOutputType | null
-  }
-
-  export type ServiceConfigMinAggregateOutputType = {
-    id: string | null
-    module: string | null
-    key: string | null
-    label: string | null
-    description: string | null
-    type: string | null
-    value: string | null
-    isActive: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type ServiceConfigMaxAggregateOutputType = {
-    id: string | null
-    module: string | null
-    key: string | null
-    label: string | null
-    description: string | null
-    type: string | null
-    value: string | null
-    isActive: boolean | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type ServiceConfigCountAggregateOutputType = {
-    id: number
-    module: number
-    key: number
-    label: number
-    description: number
-    type: number
-    value: number
-    options: number
-    isActive: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type ServiceConfigMinAggregateInputType = {
-    id?: true
-    module?: true
-    key?: true
-    label?: true
-    description?: true
-    type?: true
-    value?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type ServiceConfigMaxAggregateInputType = {
-    id?: true
-    module?: true
-    key?: true
-    label?: true
-    description?: true
-    type?: true
-    value?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type ServiceConfigCountAggregateInputType = {
-    id?: true
-    module?: true
-    key?: true
-    label?: true
-    description?: true
-    type?: true
-    value?: true
-    options?: true
-    isActive?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type ServiceConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ServiceConfig to aggregate.
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceConfigs to fetch.
-     */
-    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ServiceConfigWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceConfigs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceConfigs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned ServiceConfigs
-    **/
-    _count?: true | ServiceConfigCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ServiceConfigMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ServiceConfigMaxAggregateInputType
-  }
-
-  export type GetServiceConfigAggregateType<T extends ServiceConfigAggregateArgs> = {
-        [P in keyof T & keyof AggregateServiceConfig]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateServiceConfig[P]>
-      : GetScalarType<T[P], AggregateServiceConfig[P]>
-  }
-
-
-
-
-  export type ServiceConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ServiceConfigWhereInput
-    orderBy?: ServiceConfigOrderByWithAggregationInput | ServiceConfigOrderByWithAggregationInput[]
-    by: ServiceConfigScalarFieldEnum[] | ServiceConfigScalarFieldEnum
-    having?: ServiceConfigScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ServiceConfigCountAggregateInputType | true
-    _min?: ServiceConfigMinAggregateInputType
-    _max?: ServiceConfigMaxAggregateInputType
-  }
-
-  export type ServiceConfigGroupByOutputType = {
-    id: string
-    module: string
-    key: string
-    label: string
-    description: string | null
-    type: string
-    value: string
-    options: JsonValue | null
-    isActive: boolean
-    createdAt: Date
-    updatedAt: Date
-    _count: ServiceConfigCountAggregateOutputType | null
-    _min: ServiceConfigMinAggregateOutputType | null
-    _max: ServiceConfigMaxAggregateOutputType | null
-  }
-
-  type GetServiceConfigGroupByPayload<T extends ServiceConfigGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ServiceConfigGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ServiceConfigGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ServiceConfigGroupByOutputType[P]>
-            : GetScalarType<T[P], ServiceConfigGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ServiceConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    module?: boolean
-    key?: boolean
-    label?: boolean
-    description?: boolean
-    type?: boolean
-    value?: boolean
-    options?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["serviceConfig"]>
-
-  export type ServiceConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    module?: boolean
-    key?: boolean
-    label?: boolean
-    description?: boolean
-    type?: boolean
-    value?: boolean
-    options?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["serviceConfig"]>
-
-  export type ServiceConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    module?: boolean
-    key?: boolean
-    label?: boolean
-    description?: boolean
-    type?: boolean
-    value?: boolean
-    options?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["serviceConfig"]>
-
-  export type ServiceConfigSelectScalar = {
-    id?: boolean
-    module?: boolean
-    key?: boolean
-    label?: boolean
-    description?: boolean
-    type?: boolean
-    value?: boolean
-    options?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type ServiceConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "module" | "key" | "label" | "description" | "type" | "value" | "options" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceConfig"]>
-
-  export type $ServiceConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ServiceConfig"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      module: string
-      key: string
-      label: string
-      description: string | null
-      type: string
-      value: string
-      options: Prisma.JsonValue | null
-      isActive: boolean
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["serviceConfig"]>
-    composites: {}
-  }
-
-  type ServiceConfigGetPayload<S extends boolean | null | undefined | ServiceConfigDefaultArgs> = $Result.GetResult<Prisma.$ServiceConfigPayload, S>
-
-  type ServiceConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ServiceConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ServiceConfigCountAggregateInputType | true
-    }
-
-  export interface ServiceConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceConfig'], meta: { name: 'ServiceConfig' } }
-    /**
-     * Find zero or one ServiceConfig that matches the filter.
-     * @param {ServiceConfigFindUniqueArgs} args - Arguments to find a ServiceConfig
-     * @example
-     * // Get one ServiceConfig
-     * const serviceConfig = await prisma.serviceConfig.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ServiceConfigFindUniqueArgs>(args: SelectSubset<T, ServiceConfigFindUniqueArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one ServiceConfig that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ServiceConfigFindUniqueOrThrowArgs} args - Arguments to find a ServiceConfig
-     * @example
-     * // Get one ServiceConfig
-     * const serviceConfig = await prisma.serviceConfig.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ServiceConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first ServiceConfig that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigFindFirstArgs} args - Arguments to find a ServiceConfig
-     * @example
-     * // Get one ServiceConfig
-     * const serviceConfig = await prisma.serviceConfig.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ServiceConfigFindFirstArgs>(args?: SelectSubset<T, ServiceConfigFindFirstArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first ServiceConfig that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigFindFirstOrThrowArgs} args - Arguments to find a ServiceConfig
-     * @example
-     * // Get one ServiceConfig
-     * const serviceConfig = await prisma.serviceConfig.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ServiceConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more ServiceConfigs that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all ServiceConfigs
-     * const serviceConfigs = await prisma.serviceConfig.findMany()
-     * 
-     * // Get first 10 ServiceConfigs
-     * const serviceConfigs = await prisma.serviceConfig.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const serviceConfigWithIdOnly = await prisma.serviceConfig.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ServiceConfigFindManyArgs>(args?: SelectSubset<T, ServiceConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a ServiceConfig.
-     * @param {ServiceConfigCreateArgs} args - Arguments to create a ServiceConfig.
-     * @example
-     * // Create one ServiceConfig
-     * const ServiceConfig = await prisma.serviceConfig.create({
-     *   data: {
-     *     // ... data to create a ServiceConfig
-     *   }
-     * })
-     * 
-     */
-    create<T extends ServiceConfigCreateArgs>(args: SelectSubset<T, ServiceConfigCreateArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many ServiceConfigs.
-     * @param {ServiceConfigCreateManyArgs} args - Arguments to create many ServiceConfigs.
-     * @example
-     * // Create many ServiceConfigs
-     * const serviceConfig = await prisma.serviceConfig.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ServiceConfigCreateManyArgs>(args?: SelectSubset<T, ServiceConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many ServiceConfigs and returns the data saved in the database.
-     * @param {ServiceConfigCreateManyAndReturnArgs} args - Arguments to create many ServiceConfigs.
-     * @example
-     * // Create many ServiceConfigs
-     * const serviceConfig = await prisma.serviceConfig.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many ServiceConfigs and only return the `id`
-     * const serviceConfigWithIdOnly = await prisma.serviceConfig.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ServiceConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a ServiceConfig.
-     * @param {ServiceConfigDeleteArgs} args - Arguments to delete one ServiceConfig.
-     * @example
-     * // Delete one ServiceConfig
-     * const ServiceConfig = await prisma.serviceConfig.delete({
-     *   where: {
-     *     // ... filter to delete one ServiceConfig
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ServiceConfigDeleteArgs>(args: SelectSubset<T, ServiceConfigDeleteArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one ServiceConfig.
-     * @param {ServiceConfigUpdateArgs} args - Arguments to update one ServiceConfig.
-     * @example
-     * // Update one ServiceConfig
-     * const serviceConfig = await prisma.serviceConfig.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ServiceConfigUpdateArgs>(args: SelectSubset<T, ServiceConfigUpdateArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more ServiceConfigs.
-     * @param {ServiceConfigDeleteManyArgs} args - Arguments to filter ServiceConfigs to delete.
-     * @example
-     * // Delete a few ServiceConfigs
-     * const { count } = await prisma.serviceConfig.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ServiceConfigDeleteManyArgs>(args?: SelectSubset<T, ServiceConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ServiceConfigs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many ServiceConfigs
-     * const serviceConfig = await prisma.serviceConfig.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ServiceConfigUpdateManyArgs>(args: SelectSubset<T, ServiceConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more ServiceConfigs and returns the data updated in the database.
-     * @param {ServiceConfigUpdateManyAndReturnArgs} args - Arguments to update many ServiceConfigs.
-     * @example
-     * // Update many ServiceConfigs
-     * const serviceConfig = await prisma.serviceConfig.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more ServiceConfigs and only return the `id`
-     * const serviceConfigWithIdOnly = await prisma.serviceConfig.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ServiceConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one ServiceConfig.
-     * @param {ServiceConfigUpsertArgs} args - Arguments to update or create a ServiceConfig.
-     * @example
-     * // Update or create a ServiceConfig
-     * const serviceConfig = await prisma.serviceConfig.upsert({
-     *   create: {
-     *     // ... data to create a ServiceConfig
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the ServiceConfig we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ServiceConfigUpsertArgs>(args: SelectSubset<T, ServiceConfigUpsertArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of ServiceConfigs.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigCountArgs} args - Arguments to filter ServiceConfigs to count.
-     * @example
-     * // Count the number of ServiceConfigs
-     * const count = await prisma.serviceConfig.count({
-     *   where: {
-     *     // ... the filter for the ServiceConfigs we want to count
-     *   }
-     * })
-    **/
-    count<T extends ServiceConfigCountArgs>(
-      args?: Subset<T, ServiceConfigCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ServiceConfigCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a ServiceConfig.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ServiceConfigAggregateArgs>(args: Subset<T, ServiceConfigAggregateArgs>): Prisma.PrismaPromise<GetServiceConfigAggregateType<T>>
-
-    /**
-     * Group by ServiceConfig.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ServiceConfigGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ServiceConfigGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ServiceConfigGroupByArgs['orderBy'] }
-        : { orderBy?: ServiceConfigGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ServiceConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the ServiceConfig model
-   */
-  readonly fields: ServiceConfigFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for ServiceConfig.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ServiceConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the ServiceConfig model
-   */
-  interface ServiceConfigFieldRefs {
-    readonly id: FieldRef<"ServiceConfig", 'String'>
-    readonly module: FieldRef<"ServiceConfig", 'String'>
-    readonly key: FieldRef<"ServiceConfig", 'String'>
-    readonly label: FieldRef<"ServiceConfig", 'String'>
-    readonly description: FieldRef<"ServiceConfig", 'String'>
-    readonly type: FieldRef<"ServiceConfig", 'String'>
-    readonly value: FieldRef<"ServiceConfig", 'String'>
-    readonly options: FieldRef<"ServiceConfig", 'Json'>
-    readonly isActive: FieldRef<"ServiceConfig", 'Boolean'>
-    readonly createdAt: FieldRef<"ServiceConfig", 'DateTime'>
-    readonly updatedAt: FieldRef<"ServiceConfig", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * ServiceConfig findUnique
-   */
-  export type ServiceConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * Filter, which ServiceConfig to fetch.
-     */
-    where: ServiceConfigWhereUniqueInput
-  }
-
-  /**
-   * ServiceConfig findUniqueOrThrow
-   */
-  export type ServiceConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * Filter, which ServiceConfig to fetch.
-     */
-    where: ServiceConfigWhereUniqueInput
-  }
-
-  /**
-   * ServiceConfig findFirst
-   */
-  export type ServiceConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * Filter, which ServiceConfig to fetch.
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceConfigs to fetch.
-     */
-    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ServiceConfigs.
-     */
-    cursor?: ServiceConfigWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceConfigs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceConfigs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ServiceConfigs.
-     */
-    distinct?: ServiceConfigScalarFieldEnum | ServiceConfigScalarFieldEnum[]
-  }
-
-  /**
-   * ServiceConfig findFirstOrThrow
-   */
-  export type ServiceConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * Filter, which ServiceConfig to fetch.
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceConfigs to fetch.
-     */
-    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for ServiceConfigs.
-     */
-    cursor?: ServiceConfigWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceConfigs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceConfigs.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of ServiceConfigs.
-     */
-    distinct?: ServiceConfigScalarFieldEnum | ServiceConfigScalarFieldEnum[]
-  }
-
-  /**
-   * ServiceConfig findMany
-   */
-  export type ServiceConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * Filter, which ServiceConfigs to fetch.
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of ServiceConfigs to fetch.
-     */
-    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing ServiceConfigs.
-     */
-    cursor?: ServiceConfigWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` ServiceConfigs from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` ServiceConfigs.
-     */
-    skip?: number
-    distinct?: ServiceConfigScalarFieldEnum | ServiceConfigScalarFieldEnum[]
-  }
-
-  /**
-   * ServiceConfig create
-   */
-  export type ServiceConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * The data needed to create a ServiceConfig.
-     */
-    data: XOR<ServiceConfigCreateInput, ServiceConfigUncheckedCreateInput>
-  }
-
-  /**
-   * ServiceConfig createMany
-   */
-  export type ServiceConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many ServiceConfigs.
-     */
-    data: ServiceConfigCreateManyInput | ServiceConfigCreateManyInput[]
-  }
-
-  /**
-   * ServiceConfig createManyAndReturn
-   */
-  export type ServiceConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * The data used to create many ServiceConfigs.
-     */
-    data: ServiceConfigCreateManyInput | ServiceConfigCreateManyInput[]
-  }
-
-  /**
-   * ServiceConfig update
-   */
-  export type ServiceConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * The data needed to update a ServiceConfig.
-     */
-    data: XOR<ServiceConfigUpdateInput, ServiceConfigUncheckedUpdateInput>
-    /**
-     * Choose, which ServiceConfig to update.
-     */
-    where: ServiceConfigWhereUniqueInput
-  }
-
-  /**
-   * ServiceConfig updateMany
-   */
-  export type ServiceConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update ServiceConfigs.
-     */
-    data: XOR<ServiceConfigUpdateManyMutationInput, ServiceConfigUncheckedUpdateManyInput>
-    /**
-     * Filter which ServiceConfigs to update
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * Limit how many ServiceConfigs to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * ServiceConfig updateManyAndReturn
-   */
-  export type ServiceConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * The data used to update ServiceConfigs.
-     */
-    data: XOR<ServiceConfigUpdateManyMutationInput, ServiceConfigUncheckedUpdateManyInput>
-    /**
-     * Filter which ServiceConfigs to update
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * Limit how many ServiceConfigs to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * ServiceConfig upsert
-   */
-  export type ServiceConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * The filter to search for the ServiceConfig to update in case it exists.
-     */
-    where: ServiceConfigWhereUniqueInput
-    /**
-     * In case the ServiceConfig found by the `where` argument doesn't exist, create a new ServiceConfig with this data.
-     */
-    create: XOR<ServiceConfigCreateInput, ServiceConfigUncheckedCreateInput>
-    /**
-     * In case the ServiceConfig was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ServiceConfigUpdateInput, ServiceConfigUncheckedUpdateInput>
-  }
-
-  /**
-   * ServiceConfig delete
-   */
-  export type ServiceConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * Filter which ServiceConfig to delete.
-     */
-    where: ServiceConfigWhereUniqueInput
-  }
-
-  /**
-   * ServiceConfig deleteMany
-   */
-  export type ServiceConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ServiceConfigs to delete
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * Limit how many ServiceConfigs to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * ServiceConfig without action
-   */
-  export type ServiceConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-  }
-
-
-  /**
    * Model LetterTemplate
    */
 
@@ -25493,6 +27181,1073 @@ export namespace Prisma {
 
 
   /**
+   * Model ServiceConfig
+   */
+
+  export type AggregateServiceConfig = {
+    _count: ServiceConfigCountAggregateOutputType | null
+    _min: ServiceConfigMinAggregateOutputType | null
+    _max: ServiceConfigMaxAggregateOutputType | null
+  }
+
+  export type ServiceConfigMinAggregateOutputType = {
+    id: string | null
+    module: string | null
+    key: string | null
+    label: string | null
+    description: string | null
+    type: string | null
+    value: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServiceConfigMaxAggregateOutputType = {
+    id: string | null
+    module: string | null
+    key: string | null
+    label: string | null
+    description: string | null
+    type: string | null
+    value: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ServiceConfigCountAggregateOutputType = {
+    id: number
+    module: number
+    key: number
+    label: number
+    description: number
+    type: number
+    value: number
+    options: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ServiceConfigMinAggregateInputType = {
+    id?: true
+    module?: true
+    key?: true
+    label?: true
+    description?: true
+    type?: true
+    value?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServiceConfigMaxAggregateInputType = {
+    id?: true
+    module?: true
+    key?: true
+    label?: true
+    description?: true
+    type?: true
+    value?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ServiceConfigCountAggregateInputType = {
+    id?: true
+    module?: true
+    key?: true
+    label?: true
+    description?: true
+    type?: true
+    value?: true
+    options?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ServiceConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceConfig to aggregate.
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceConfigs to fetch.
+     */
+    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceConfigs
+    **/
+    _count?: true | ServiceConfigCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceConfigMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceConfigMaxAggregateInputType
+  }
+
+  export type GetServiceConfigAggregateType<T extends ServiceConfigAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceConfig]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceConfig[P]>
+      : GetScalarType<T[P], AggregateServiceConfig[P]>
+  }
+
+
+
+
+  export type ServiceConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceConfigWhereInput
+    orderBy?: ServiceConfigOrderByWithAggregationInput | ServiceConfigOrderByWithAggregationInput[]
+    by: ServiceConfigScalarFieldEnum[] | ServiceConfigScalarFieldEnum
+    having?: ServiceConfigScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceConfigCountAggregateInputType | true
+    _min?: ServiceConfigMinAggregateInputType
+    _max?: ServiceConfigMaxAggregateInputType
+  }
+
+  export type ServiceConfigGroupByOutputType = {
+    id: string
+    module: string
+    key: string
+    label: string
+    description: string | null
+    type: string
+    value: string
+    options: JsonValue | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ServiceConfigCountAggregateOutputType | null
+    _min: ServiceConfigMinAggregateOutputType | null
+    _max: ServiceConfigMaxAggregateOutputType | null
+  }
+
+  type GetServiceConfigGroupByPayload<T extends ServiceConfigGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceConfigGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceConfigGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceConfigGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceConfigGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    module?: boolean
+    key?: boolean
+    label?: boolean
+    description?: boolean
+    type?: boolean
+    value?: boolean
+    options?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["serviceConfig"]>
+
+  export type ServiceConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    module?: boolean
+    key?: boolean
+    label?: boolean
+    description?: boolean
+    type?: boolean
+    value?: boolean
+    options?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["serviceConfig"]>
+
+  export type ServiceConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    module?: boolean
+    key?: boolean
+    label?: boolean
+    description?: boolean
+    type?: boolean
+    value?: boolean
+    options?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["serviceConfig"]>
+
+  export type ServiceConfigSelectScalar = {
+    id?: boolean
+    module?: boolean
+    key?: boolean
+    label?: boolean
+    description?: boolean
+    type?: boolean
+    value?: boolean
+    options?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ServiceConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "module" | "key" | "label" | "description" | "type" | "value" | "options" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceConfig"]>
+
+  export type $ServiceConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceConfig"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      module: string
+      key: string
+      label: string
+      description: string | null
+      type: string
+      value: string
+      options: Prisma.JsonValue | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["serviceConfig"]>
+    composites: {}
+  }
+
+  type ServiceConfigGetPayload<S extends boolean | null | undefined | ServiceConfigDefaultArgs> = $Result.GetResult<Prisma.$ServiceConfigPayload, S>
+
+  type ServiceConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceConfigCountAggregateInputType | true
+    }
+
+  export interface ServiceConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceConfig'], meta: { name: 'ServiceConfig' } }
+    /**
+     * Find zero or one ServiceConfig that matches the filter.
+     * @param {ServiceConfigFindUniqueArgs} args - Arguments to find a ServiceConfig
+     * @example
+     * // Get one ServiceConfig
+     * const serviceConfig = await prisma.serviceConfig.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceConfigFindUniqueArgs>(args: SelectSubset<T, ServiceConfigFindUniqueArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceConfig that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceConfigFindUniqueOrThrowArgs} args - Arguments to find a ServiceConfig
+     * @example
+     * // Get one ServiceConfig
+     * const serviceConfig = await prisma.serviceConfig.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceConfig that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigFindFirstArgs} args - Arguments to find a ServiceConfig
+     * @example
+     * // Get one ServiceConfig
+     * const serviceConfig = await prisma.serviceConfig.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceConfigFindFirstArgs>(args?: SelectSubset<T, ServiceConfigFindFirstArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceConfig that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigFindFirstOrThrowArgs} args - Arguments to find a ServiceConfig
+     * @example
+     * // Get one ServiceConfig
+     * const serviceConfig = await prisma.serviceConfig.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceConfigs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceConfigs
+     * const serviceConfigs = await prisma.serviceConfig.findMany()
+     * 
+     * // Get first 10 ServiceConfigs
+     * const serviceConfigs = await prisma.serviceConfig.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceConfigWithIdOnly = await prisma.serviceConfig.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceConfigFindManyArgs>(args?: SelectSubset<T, ServiceConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceConfig.
+     * @param {ServiceConfigCreateArgs} args - Arguments to create a ServiceConfig.
+     * @example
+     * // Create one ServiceConfig
+     * const ServiceConfig = await prisma.serviceConfig.create({
+     *   data: {
+     *     // ... data to create a ServiceConfig
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceConfigCreateArgs>(args: SelectSubset<T, ServiceConfigCreateArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceConfigs.
+     * @param {ServiceConfigCreateManyArgs} args - Arguments to create many ServiceConfigs.
+     * @example
+     * // Create many ServiceConfigs
+     * const serviceConfig = await prisma.serviceConfig.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceConfigCreateManyArgs>(args?: SelectSubset<T, ServiceConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceConfigs and returns the data saved in the database.
+     * @param {ServiceConfigCreateManyAndReturnArgs} args - Arguments to create many ServiceConfigs.
+     * @example
+     * // Create many ServiceConfigs
+     * const serviceConfig = await prisma.serviceConfig.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceConfigs and only return the `id`
+     * const serviceConfigWithIdOnly = await prisma.serviceConfig.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceConfig.
+     * @param {ServiceConfigDeleteArgs} args - Arguments to delete one ServiceConfig.
+     * @example
+     * // Delete one ServiceConfig
+     * const ServiceConfig = await prisma.serviceConfig.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceConfig
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceConfigDeleteArgs>(args: SelectSubset<T, ServiceConfigDeleteArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceConfig.
+     * @param {ServiceConfigUpdateArgs} args - Arguments to update one ServiceConfig.
+     * @example
+     * // Update one ServiceConfig
+     * const serviceConfig = await prisma.serviceConfig.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceConfigUpdateArgs>(args: SelectSubset<T, ServiceConfigUpdateArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceConfigs.
+     * @param {ServiceConfigDeleteManyArgs} args - Arguments to filter ServiceConfigs to delete.
+     * @example
+     * // Delete a few ServiceConfigs
+     * const { count } = await prisma.serviceConfig.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceConfigDeleteManyArgs>(args?: SelectSubset<T, ServiceConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceConfigs
+     * const serviceConfig = await prisma.serviceConfig.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceConfigUpdateManyArgs>(args: SelectSubset<T, ServiceConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceConfigs and returns the data updated in the database.
+     * @param {ServiceConfigUpdateManyAndReturnArgs} args - Arguments to update many ServiceConfigs.
+     * @example
+     * // Update many ServiceConfigs
+     * const serviceConfig = await prisma.serviceConfig.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceConfigs and only return the `id`
+     * const serviceConfigWithIdOnly = await prisma.serviceConfig.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceConfig.
+     * @param {ServiceConfigUpsertArgs} args - Arguments to update or create a ServiceConfig.
+     * @example
+     * // Update or create a ServiceConfig
+     * const serviceConfig = await prisma.serviceConfig.upsert({
+     *   create: {
+     *     // ... data to create a ServiceConfig
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceConfig we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceConfigUpsertArgs>(args: SelectSubset<T, ServiceConfigUpsertArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceConfigs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigCountArgs} args - Arguments to filter ServiceConfigs to count.
+     * @example
+     * // Count the number of ServiceConfigs
+     * const count = await prisma.serviceConfig.count({
+     *   where: {
+     *     // ... the filter for the ServiceConfigs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceConfigCountArgs>(
+      args?: Subset<T, ServiceConfigCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceConfigCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceConfigAggregateArgs>(args: Subset<T, ServiceConfigAggregateArgs>): Prisma.PrismaPromise<GetServiceConfigAggregateType<T>>
+
+    /**
+     * Group by ServiceConfig.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceConfigGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceConfigGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceConfigGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceConfigGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceConfig model
+   */
+  readonly fields: ServiceConfigFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceConfig.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceConfig model
+   */
+  interface ServiceConfigFieldRefs {
+    readonly id: FieldRef<"ServiceConfig", 'String'>
+    readonly module: FieldRef<"ServiceConfig", 'String'>
+    readonly key: FieldRef<"ServiceConfig", 'String'>
+    readonly label: FieldRef<"ServiceConfig", 'String'>
+    readonly description: FieldRef<"ServiceConfig", 'String'>
+    readonly type: FieldRef<"ServiceConfig", 'String'>
+    readonly value: FieldRef<"ServiceConfig", 'String'>
+    readonly options: FieldRef<"ServiceConfig", 'Json'>
+    readonly isActive: FieldRef<"ServiceConfig", 'Boolean'>
+    readonly createdAt: FieldRef<"ServiceConfig", 'DateTime'>
+    readonly updatedAt: FieldRef<"ServiceConfig", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceConfig findUnique
+   */
+  export type ServiceConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which ServiceConfig to fetch.
+     */
+    where: ServiceConfigWhereUniqueInput
+  }
+
+  /**
+   * ServiceConfig findUniqueOrThrow
+   */
+  export type ServiceConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which ServiceConfig to fetch.
+     */
+    where: ServiceConfigWhereUniqueInput
+  }
+
+  /**
+   * ServiceConfig findFirst
+   */
+  export type ServiceConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which ServiceConfig to fetch.
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceConfigs to fetch.
+     */
+    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceConfigs.
+     */
+    cursor?: ServiceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceConfigs.
+     */
+    distinct?: ServiceConfigScalarFieldEnum | ServiceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceConfig findFirstOrThrow
+   */
+  export type ServiceConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which ServiceConfig to fetch.
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceConfigs to fetch.
+     */
+    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceConfigs.
+     */
+    cursor?: ServiceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceConfigs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceConfigs.
+     */
+    distinct?: ServiceConfigScalarFieldEnum | ServiceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceConfig findMany
+   */
+  export type ServiceConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * Filter, which ServiceConfigs to fetch.
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceConfigs to fetch.
+     */
+    orderBy?: ServiceConfigOrderByWithRelationInput | ServiceConfigOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceConfigs.
+     */
+    cursor?: ServiceConfigWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceConfigs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceConfigs.
+     */
+    skip?: number
+    distinct?: ServiceConfigScalarFieldEnum | ServiceConfigScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceConfig create
+   */
+  export type ServiceConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceConfig.
+     */
+    data: XOR<ServiceConfigCreateInput, ServiceConfigUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceConfig createMany
+   */
+  export type ServiceConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceConfigs.
+     */
+    data: ServiceConfigCreateManyInput | ServiceConfigCreateManyInput[]
+  }
+
+  /**
+   * ServiceConfig createManyAndReturn
+   */
+  export type ServiceConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceConfigs.
+     */
+    data: ServiceConfigCreateManyInput | ServiceConfigCreateManyInput[]
+  }
+
+  /**
+   * ServiceConfig update
+   */
+  export type ServiceConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceConfig.
+     */
+    data: XOR<ServiceConfigUpdateInput, ServiceConfigUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceConfig to update.
+     */
+    where: ServiceConfigWhereUniqueInput
+  }
+
+  /**
+   * ServiceConfig updateMany
+   */
+  export type ServiceConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceConfigs.
+     */
+    data: XOR<ServiceConfigUpdateManyMutationInput, ServiceConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceConfigs to update
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * Limit how many ServiceConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceConfig updateManyAndReturn
+   */
+  export type ServiceConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceConfigs.
+     */
+    data: XOR<ServiceConfigUpdateManyMutationInput, ServiceConfigUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceConfigs to update
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * Limit how many ServiceConfigs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceConfig upsert
+   */
+  export type ServiceConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceConfig to update in case it exists.
+     */
+    where: ServiceConfigWhereUniqueInput
+    /**
+     * In case the ServiceConfig found by the `where` argument doesn't exist, create a new ServiceConfig with this data.
+     */
+    create: XOR<ServiceConfigCreateInput, ServiceConfigUncheckedCreateInput>
+    /**
+     * In case the ServiceConfig was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceConfigUpdateInput, ServiceConfigUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceConfig delete
+   */
+  export type ServiceConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+    /**
+     * Filter which ServiceConfig to delete.
+     */
+    where: ServiceConfigWhereUniqueInput
+  }
+
+  /**
+   * ServiceConfig deleteMany
+   */
+  export type ServiceConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceConfigs to delete
+     */
+    where?: ServiceConfigWhereInput
+    /**
+     * Limit how many ServiceConfigs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceConfig without action
+   */
+  export type ServiceConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceConfig
+     */
+    select?: ServiceConfigSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceConfig
+     */
+    omit?: ServiceConfigOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25551,37 +28306,82 @@ export namespace Prisma {
   export const EmployeeScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    employeeCode: 'employeeCode',
     firstName: 'firstName',
     lastName: 'lastName',
     email: 'email',
     rollNumber: 'rollNumber',
+    photo: 'photo',
+    phone: 'phone',
+    gender: 'gender',
+    dateOfBirth: 'dateOfBirth',
+    nationality: 'nationality',
+    maritalStatus: 'maritalStatus',
     designation: 'designation',
     department: 'department',
     joiningDate: 'joiningDate',
+    employmentType: 'employmentType',
+    workLocation: 'workLocation',
+    probationDays: 'probationDays',
+    currentStatus: 'currentStatus',
     isActive: 'isActive',
-    photo: 'photo',
-    phone: 'phone',
-    dateOfBirth: 'dateOfBirth',
-    gender: 'gender',
-    maritalStatus: 'maritalStatus',
-    nationality: 'nationality',
-    governmentId: 'governmentId',
+    managerId: 'managerId',
     address: 'address',
     permanentAddress: 'permanentAddress',
     emergencyContact: 'emergencyContact',
     emergencyPhone: 'emergencyPhone',
+    governmentId: 'governmentId',
     bankName: 'bankName',
     accountNumber: 'accountNumber',
+    iban: 'iban',
     ifscCode: 'ifscCode',
-    employmentType: 'employmentType',
-    probationDays: 'probationDays',
-    workLocation: 'workLocation',
-    currentStatus: 'currentStatus',
-    managerId: 'managerId',
-    shiftId: 'shiftId'
+    basicSalary: 'basicSalary',
+    housingAllowance: 'housingAllowance',
+    transportAllowance: 'transportAllowance',
+    otherAllowance: 'otherAllowance',
+    passportNumber: 'passportNumber',
+    passportExpiry: 'passportExpiry',
+    emiratesId: 'emiratesId',
+    emiratesIdExpiry: 'emiratesIdExpiry',
+    visaNumber: 'visaNumber',
+    visaExpiry: 'visaExpiry',
+    visaType: 'visaType',
+    medicalInsuranceExpiry: 'medicalInsuranceExpiry',
+    iloeInsuranceExpiry: 'iloeInsuranceExpiry',
+    shiftId: 'shiftId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
+
+
+  export const LeaveBalanceScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    leaveType: 'leaveType',
+    totalDays: 'totalDays',
+    usedDays: 'usedDays',
+    year: 'year',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LeaveBalanceScalarFieldEnum = (typeof LeaveBalanceScalarFieldEnum)[keyof typeof LeaveBalanceScalarFieldEnum]
+
+
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    title: 'title',
+    message: 'message',
+    type: 'type',
+    isRead: 'isRead',
+    link: 'link',
+    createdAt: 'createdAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
   export const AttendanceScalarFieldEnum: {
@@ -25591,6 +28391,7 @@ export namespace Prisma {
     checkIn: 'checkIn',
     checkOut: 'checkOut',
     status: 'status',
+    lateMinutes: 'lateMinutes',
     overtimeMinutes: 'overtimeMinutes',
     shiftId: 'shiftId',
     createdAt: 'createdAt',
@@ -25725,6 +28526,7 @@ export namespace Prisma {
     startDate: 'startDate',
     endDate: 'endDate',
     status: 'status',
+    hrNote: 'hrNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -25776,23 +28578,6 @@ export namespace Prisma {
   export type LetterRecordScalarFieldEnum = (typeof LetterRecordScalarFieldEnum)[keyof typeof LetterRecordScalarFieldEnum]
 
 
-  export const ServiceConfigScalarFieldEnum: {
-    id: 'id',
-    module: 'module',
-    key: 'key',
-    label: 'label',
-    description: 'description',
-    type: 'type',
-    value: 'value',
-    options: 'options',
-    isActive: 'isActive',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type ServiceConfigScalarFieldEnum = (typeof ServiceConfigScalarFieldEnum)[keyof typeof ServiceConfigScalarFieldEnum]
-
-
   export const LetterTemplateScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -25824,6 +28609,23 @@ export namespace Prisma {
   };
 
   export type LetterScalarFieldEnum = (typeof LetterScalarFieldEnum)[keyof typeof LetterScalarFieldEnum]
+
+
+  export const ServiceConfigScalarFieldEnum: {
+    id: 'id',
+    module: 'module',
+    key: 'key',
+    label: 'label',
+    description: 'description',
+    type: 'type',
+    value: 'value',
+    options: 'options',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ServiceConfigScalarFieldEnum = (typeof ServiceConfigScalarFieldEnum)[keyof typeof ServiceConfigScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -26170,39 +28972,57 @@ export namespace Prisma {
     NOT?: EmployeeWhereInput | EmployeeWhereInput[]
     id?: StringFilter<"Employee"> | string
     userId?: StringFilter<"Employee"> | string
+    employeeCode?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringFilter<"Employee"> | string
     lastName?: StringFilter<"Employee"> | string
     email?: StringFilter<"Employee"> | string
     rollNumber?: StringFilter<"Employee"> | string
+    photo?: StringNullableFilter<"Employee"> | string | null
+    phone?: StringNullableFilter<"Employee"> | string | null
+    gender?: StringNullableFilter<"Employee"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    nationality?: StringNullableFilter<"Employee"> | string | null
+    maritalStatus?: StringNullableFilter<"Employee"> | string | null
     designation?: StringFilter<"Employee"> | string
     department?: StringFilter<"Employee"> | string
     joiningDate?: DateTimeFilter<"Employee"> | Date | string
+    employmentType?: StringFilter<"Employee"> | string
+    workLocation?: StringNullableFilter<"Employee"> | string | null
+    probationDays?: IntFilter<"Employee"> | number
+    currentStatus?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
-    photo?: StringNullableFilter<"Employee"> | string | null
-    phone?: StringNullableFilter<"Employee"> | string | null
-    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    gender?: StringNullableFilter<"Employee"> | string | null
-    maritalStatus?: StringNullableFilter<"Employee"> | string | null
-    nationality?: StringNullableFilter<"Employee"> | string | null
-    governmentId?: StringNullableFilter<"Employee"> | string | null
+    managerId?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
     permanentAddress?: StringNullableFilter<"Employee"> | string | null
     emergencyContact?: StringNullableFilter<"Employee"> | string | null
     emergencyPhone?: StringNullableFilter<"Employee"> | string | null
+    governmentId?: StringNullableFilter<"Employee"> | string | null
     bankName?: StringNullableFilter<"Employee"> | string | null
     accountNumber?: StringNullableFilter<"Employee"> | string | null
+    iban?: StringNullableFilter<"Employee"> | string | null
     ifscCode?: StringNullableFilter<"Employee"> | string | null
-    employmentType?: StringFilter<"Employee"> | string
-    probationDays?: IntFilter<"Employee"> | number
-    workLocation?: StringNullableFilter<"Employee"> | string | null
-    currentStatus?: StringFilter<"Employee"> | string
-    managerId?: StringNullableFilter<"Employee"> | string | null
+    basicSalary?: FloatNullableFilter<"Employee"> | number | null
+    housingAllowance?: FloatNullableFilter<"Employee"> | number | null
+    transportAllowance?: FloatNullableFilter<"Employee"> | number | null
+    otherAllowance?: FloatNullableFilter<"Employee"> | number | null
+    passportNumber?: StringNullableFilter<"Employee"> | string | null
+    passportExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    emiratesId?: StringNullableFilter<"Employee"> | string | null
+    emiratesIdExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaNumber?: StringNullableFilter<"Employee"> | string | null
+    visaExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaType?: StringNullableFilter<"Employee"> | string | null
+    medicalInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    iloeInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
     shiftId?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     reportees?: EmployeeListRelationFilter
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     leaveRequests?: LeaveRequestListRelationFilter
+    leaveBalances?: LeaveBalanceListRelationFilter
     attendance?: AttendanceListRelationFilter
     salaryStructure?: XOR<SalaryStructureNullableScalarRelationFilter, SalaryStructureWhereInput> | null
     salaryRecords?: SalaryRecordListRelationFilter
@@ -26212,44 +29032,63 @@ export namespace Prisma {
     letters?: LetterListRelationFilter
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    notifications?: NotificationListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    employeeCode?: SortOrderInput | SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
+    photo?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
+    employmentType?: SortOrder
+    workLocation?: SortOrderInput | SortOrder
+    probationDays?: SortOrder
+    currentStatus?: SortOrder
     isActive?: SortOrder
-    photo?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    dateOfBirth?: SortOrderInput | SortOrder
-    gender?: SortOrderInput | SortOrder
-    maritalStatus?: SortOrderInput | SortOrder
-    nationality?: SortOrderInput | SortOrder
-    governmentId?: SortOrderInput | SortOrder
+    managerId?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     permanentAddress?: SortOrderInput | SortOrder
     emergencyContact?: SortOrderInput | SortOrder
     emergencyPhone?: SortOrderInput | SortOrder
+    governmentId?: SortOrderInput | SortOrder
     bankName?: SortOrderInput | SortOrder
     accountNumber?: SortOrderInput | SortOrder
+    iban?: SortOrderInput | SortOrder
     ifscCode?: SortOrderInput | SortOrder
-    employmentType?: SortOrder
-    probationDays?: SortOrder
-    workLocation?: SortOrderInput | SortOrder
-    currentStatus?: SortOrder
-    managerId?: SortOrderInput | SortOrder
+    basicSalary?: SortOrderInput | SortOrder
+    housingAllowance?: SortOrderInput | SortOrder
+    transportAllowance?: SortOrderInput | SortOrder
+    otherAllowance?: SortOrderInput | SortOrder
+    passportNumber?: SortOrderInput | SortOrder
+    passportExpiry?: SortOrderInput | SortOrder
+    emiratesId?: SortOrderInput | SortOrder
+    emiratesIdExpiry?: SortOrderInput | SortOrder
+    visaNumber?: SortOrderInput | SortOrder
+    visaExpiry?: SortOrderInput | SortOrder
+    visaType?: SortOrderInput | SortOrder
+    medicalInsuranceExpiry?: SortOrderInput | SortOrder
+    iloeInsuranceExpiry?: SortOrderInput | SortOrder
     shiftId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     manager?: EmployeeOrderByWithRelationInput
     reportees?: EmployeeOrderByRelationAggregateInput
     shift?: ShiftOrderByWithRelationInput
     leaveRequests?: LeaveRequestOrderByRelationAggregateInput
+    leaveBalances?: LeaveBalanceOrderByRelationAggregateInput
     attendance?: AttendanceOrderByRelationAggregateInput
     salaryStructure?: SalaryStructureOrderByWithRelationInput
     salaryRecords?: SalaryRecordOrderByRelationAggregateInput
@@ -26259,11 +29098,13 @@ export namespace Prisma {
     letters?: LetterOrderByRelationAggregateInput
     attachments?: AttachmentOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     userId?: string
+    employeeCode?: string
     email?: string
     rollNumber?: string
     AND?: EmployeeWhereInput | EmployeeWhereInput[]
@@ -26271,35 +29112,52 @@ export namespace Prisma {
     NOT?: EmployeeWhereInput | EmployeeWhereInput[]
     firstName?: StringFilter<"Employee"> | string
     lastName?: StringFilter<"Employee"> | string
+    photo?: StringNullableFilter<"Employee"> | string | null
+    phone?: StringNullableFilter<"Employee"> | string | null
+    gender?: StringNullableFilter<"Employee"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    nationality?: StringNullableFilter<"Employee"> | string | null
+    maritalStatus?: StringNullableFilter<"Employee"> | string | null
     designation?: StringFilter<"Employee"> | string
     department?: StringFilter<"Employee"> | string
     joiningDate?: DateTimeFilter<"Employee"> | Date | string
+    employmentType?: StringFilter<"Employee"> | string
+    workLocation?: StringNullableFilter<"Employee"> | string | null
+    probationDays?: IntFilter<"Employee"> | number
+    currentStatus?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
-    photo?: StringNullableFilter<"Employee"> | string | null
-    phone?: StringNullableFilter<"Employee"> | string | null
-    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    gender?: StringNullableFilter<"Employee"> | string | null
-    maritalStatus?: StringNullableFilter<"Employee"> | string | null
-    nationality?: StringNullableFilter<"Employee"> | string | null
-    governmentId?: StringNullableFilter<"Employee"> | string | null
+    managerId?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
     permanentAddress?: StringNullableFilter<"Employee"> | string | null
     emergencyContact?: StringNullableFilter<"Employee"> | string | null
     emergencyPhone?: StringNullableFilter<"Employee"> | string | null
+    governmentId?: StringNullableFilter<"Employee"> | string | null
     bankName?: StringNullableFilter<"Employee"> | string | null
     accountNumber?: StringNullableFilter<"Employee"> | string | null
+    iban?: StringNullableFilter<"Employee"> | string | null
     ifscCode?: StringNullableFilter<"Employee"> | string | null
-    employmentType?: StringFilter<"Employee"> | string
-    probationDays?: IntFilter<"Employee"> | number
-    workLocation?: StringNullableFilter<"Employee"> | string | null
-    currentStatus?: StringFilter<"Employee"> | string
-    managerId?: StringNullableFilter<"Employee"> | string | null
+    basicSalary?: FloatNullableFilter<"Employee"> | number | null
+    housingAllowance?: FloatNullableFilter<"Employee"> | number | null
+    transportAllowance?: FloatNullableFilter<"Employee"> | number | null
+    otherAllowance?: FloatNullableFilter<"Employee"> | number | null
+    passportNumber?: StringNullableFilter<"Employee"> | string | null
+    passportExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    emiratesId?: StringNullableFilter<"Employee"> | string | null
+    emiratesIdExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaNumber?: StringNullableFilter<"Employee"> | string | null
+    visaExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaType?: StringNullableFilter<"Employee"> | string | null
+    medicalInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    iloeInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
     shiftId?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     reportees?: EmployeeListRelationFilter
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     leaveRequests?: LeaveRequestListRelationFilter
+    leaveBalances?: LeaveBalanceListRelationFilter
     attendance?: AttendanceListRelationFilter
     salaryStructure?: XOR<SalaryStructureNullableScalarRelationFilter, SalaryStructureWhereInput> | null
     salaryRecords?: SalaryRecordListRelationFilter
@@ -26309,39 +29167,57 @@ export namespace Prisma {
     letters?: LetterListRelationFilter
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
-  }, "id" | "userId" | "email" | "rollNumber">
+    notifications?: NotificationListRelationFilter
+  }, "id" | "userId" | "employeeCode" | "email" | "rollNumber">
 
   export type EmployeeOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    employeeCode?: SortOrderInput | SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
+    photo?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    gender?: SortOrderInput | SortOrder
+    dateOfBirth?: SortOrderInput | SortOrder
+    nationality?: SortOrderInput | SortOrder
+    maritalStatus?: SortOrderInput | SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
+    employmentType?: SortOrder
+    workLocation?: SortOrderInput | SortOrder
+    probationDays?: SortOrder
+    currentStatus?: SortOrder
     isActive?: SortOrder
-    photo?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    dateOfBirth?: SortOrderInput | SortOrder
-    gender?: SortOrderInput | SortOrder
-    maritalStatus?: SortOrderInput | SortOrder
-    nationality?: SortOrderInput | SortOrder
-    governmentId?: SortOrderInput | SortOrder
+    managerId?: SortOrderInput | SortOrder
     address?: SortOrderInput | SortOrder
     permanentAddress?: SortOrderInput | SortOrder
     emergencyContact?: SortOrderInput | SortOrder
     emergencyPhone?: SortOrderInput | SortOrder
+    governmentId?: SortOrderInput | SortOrder
     bankName?: SortOrderInput | SortOrder
     accountNumber?: SortOrderInput | SortOrder
+    iban?: SortOrderInput | SortOrder
     ifscCode?: SortOrderInput | SortOrder
-    employmentType?: SortOrder
-    probationDays?: SortOrder
-    workLocation?: SortOrderInput | SortOrder
-    currentStatus?: SortOrder
-    managerId?: SortOrderInput | SortOrder
+    basicSalary?: SortOrderInput | SortOrder
+    housingAllowance?: SortOrderInput | SortOrder
+    transportAllowance?: SortOrderInput | SortOrder
+    otherAllowance?: SortOrderInput | SortOrder
+    passportNumber?: SortOrderInput | SortOrder
+    passportExpiry?: SortOrderInput | SortOrder
+    emiratesId?: SortOrderInput | SortOrder
+    emiratesIdExpiry?: SortOrderInput | SortOrder
+    visaNumber?: SortOrderInput | SortOrder
+    visaExpiry?: SortOrderInput | SortOrder
+    visaType?: SortOrderInput | SortOrder
+    medicalInsuranceExpiry?: SortOrderInput | SortOrder
+    iloeInsuranceExpiry?: SortOrderInput | SortOrder
     shiftId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: EmployeeCountOrderByAggregateInput
     _avg?: EmployeeAvgOrderByAggregateInput
     _max?: EmployeeMaxOrderByAggregateInput
@@ -26355,34 +29231,194 @@ export namespace Prisma {
     NOT?: EmployeeScalarWhereWithAggregatesInput | EmployeeScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Employee"> | string
     userId?: StringWithAggregatesFilter<"Employee"> | string
+    employeeCode?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     firstName?: StringWithAggregatesFilter<"Employee"> | string
     lastName?: StringWithAggregatesFilter<"Employee"> | string
     email?: StringWithAggregatesFilter<"Employee"> | string
     rollNumber?: StringWithAggregatesFilter<"Employee"> | string
+    photo?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    gender?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    dateOfBirth?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    nationality?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    maritalStatus?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     designation?: StringWithAggregatesFilter<"Employee"> | string
     department?: StringWithAggregatesFilter<"Employee"> | string
     joiningDate?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    employmentType?: StringWithAggregatesFilter<"Employee"> | string
+    workLocation?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    probationDays?: IntWithAggregatesFilter<"Employee"> | number
+    currentStatus?: StringWithAggregatesFilter<"Employee"> | string
     isActive?: BoolWithAggregatesFilter<"Employee"> | boolean
-    photo?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    phone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    dateOfBirth?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
-    gender?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    maritalStatus?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    nationality?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    governmentId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    managerId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     address?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     permanentAddress?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     emergencyContact?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     emergencyPhone?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    governmentId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     bankName?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     accountNumber?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    iban?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     ifscCode?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    employmentType?: StringWithAggregatesFilter<"Employee"> | string
-    probationDays?: IntWithAggregatesFilter<"Employee"> | number
-    workLocation?: StringNullableWithAggregatesFilter<"Employee"> | string | null
-    currentStatus?: StringWithAggregatesFilter<"Employee"> | string
-    managerId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    basicSalary?: FloatNullableWithAggregatesFilter<"Employee"> | number | null
+    housingAllowance?: FloatNullableWithAggregatesFilter<"Employee"> | number | null
+    transportAllowance?: FloatNullableWithAggregatesFilter<"Employee"> | number | null
+    otherAllowance?: FloatNullableWithAggregatesFilter<"Employee"> | number | null
+    passportNumber?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    passportExpiry?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    emiratesId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    emiratesIdExpiry?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    visaNumber?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    visaExpiry?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    visaType?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    medicalInsuranceExpiry?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
+    iloeInsuranceExpiry?: DateTimeNullableWithAggregatesFilter<"Employee"> | Date | string | null
     shiftId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+  }
+
+  export type LeaveBalanceWhereInput = {
+    AND?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    OR?: LeaveBalanceWhereInput[]
+    NOT?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    id?: StringFilter<"LeaveBalance"> | string
+    employeeId?: StringFilter<"LeaveBalance"> | string
+    leaveType?: StringFilter<"LeaveBalance"> | string
+    totalDays?: IntFilter<"LeaveBalance"> | number
+    usedDays?: IntFilter<"LeaveBalance"> | number
+    year?: IntFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type LeaveBalanceOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    leaveType?: SortOrder
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type LeaveBalanceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    employeeId_leaveType_year?: LeaveBalanceEmployeeIdLeaveTypeYearCompoundUniqueInput
+    AND?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    OR?: LeaveBalanceWhereInput[]
+    NOT?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
+    employeeId?: StringFilter<"LeaveBalance"> | string
+    leaveType?: StringFilter<"LeaveBalance"> | string
+    totalDays?: IntFilter<"LeaveBalance"> | number
+    usedDays?: IntFilter<"LeaveBalance"> | number
+    year?: IntFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id" | "employeeId_leaveType_year">
+
+  export type LeaveBalanceOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    leaveType?: SortOrder
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LeaveBalanceCountOrderByAggregateInput
+    _avg?: LeaveBalanceAvgOrderByAggregateInput
+    _max?: LeaveBalanceMaxOrderByAggregateInput
+    _min?: LeaveBalanceMinOrderByAggregateInput
+    _sum?: LeaveBalanceSumOrderByAggregateInput
+  }
+
+  export type LeaveBalanceScalarWhereWithAggregatesInput = {
+    AND?: LeaveBalanceScalarWhereWithAggregatesInput | LeaveBalanceScalarWhereWithAggregatesInput[]
+    OR?: LeaveBalanceScalarWhereWithAggregatesInput[]
+    NOT?: LeaveBalanceScalarWhereWithAggregatesInput | LeaveBalanceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LeaveBalance"> | string
+    employeeId?: StringWithAggregatesFilter<"LeaveBalance"> | string
+    leaveType?: StringWithAggregatesFilter<"LeaveBalance"> | string
+    totalDays?: IntWithAggregatesFilter<"LeaveBalance"> | number
+    usedDays?: IntWithAggregatesFilter<"LeaveBalance"> | number
+    year?: IntWithAggregatesFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LeaveBalance"> | Date | string
+  }
+
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    employeeId?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    isRead?: BoolFilter<"Notification"> | boolean
+    link?: StringNullableFilter<"Notification"> | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    link?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    employeeId?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    isRead?: BoolFilter<"Notification"> | boolean
+    link?: StringNullableFilter<"Notification"> | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    link?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notification"> | string
+    employeeId?: StringWithAggregatesFilter<"Notification"> | string
+    title?: StringWithAggregatesFilter<"Notification"> | string
+    message?: StringWithAggregatesFilter<"Notification"> | string
+    type?: StringWithAggregatesFilter<"Notification"> | string
+    isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
+    link?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
   export type AttendanceWhereInput = {
@@ -26395,6 +29431,7 @@ export namespace Prisma {
     checkIn?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     checkOut?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     status?: StringFilter<"Attendance"> | string
+    lateMinutes?: IntFilter<"Attendance"> | number
     overtimeMinutes?: IntFilter<"Attendance"> | number
     shiftId?: StringNullableFilter<"Attendance"> | string | null
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
@@ -26411,6 +29448,7 @@ export namespace Prisma {
     checkIn?: SortOrderInput | SortOrder
     checkOut?: SortOrderInput | SortOrder
     status?: SortOrder
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
     shiftId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -26430,6 +29468,7 @@ export namespace Prisma {
     checkIn?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     checkOut?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     status?: StringFilter<"Attendance"> | string
+    lateMinutes?: IntFilter<"Attendance"> | number
     overtimeMinutes?: IntFilter<"Attendance"> | number
     shiftId?: StringNullableFilter<"Attendance"> | string | null
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
@@ -26446,6 +29485,7 @@ export namespace Prisma {
     checkIn?: SortOrderInput | SortOrder
     checkOut?: SortOrderInput | SortOrder
     status?: SortOrder
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
     shiftId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -26467,6 +29507,7 @@ export namespace Prisma {
     checkIn?: DateTimeNullableWithAggregatesFilter<"Attendance"> | Date | string | null
     checkOut?: DateTimeNullableWithAggregatesFilter<"Attendance"> | Date | string | null
     status?: StringWithAggregatesFilter<"Attendance"> | string
+    lateMinutes?: IntWithAggregatesFilter<"Attendance"> | number
     overtimeMinutes?: IntWithAggregatesFilter<"Attendance"> | number
     shiftId?: StringNullableWithAggregatesFilter<"Attendance"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Attendance"> | Date | string
@@ -27080,6 +30121,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
     endDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
     status?: StringFilter<"StaffRequest"> | string
+    hrNote?: StringNullableFilter<"StaffRequest"> | string | null
     createdAt?: DateTimeFilter<"StaffRequest"> | Date | string
     updatedAt?: DateTimeFilter<"StaffRequest"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
@@ -27096,6 +30138,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     status?: SortOrder
+    hrNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -27115,6 +30158,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
     endDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
     status?: StringFilter<"StaffRequest"> | string
+    hrNote?: StringNullableFilter<"StaffRequest"> | string | null
     createdAt?: DateTimeFilter<"StaffRequest"> | Date | string
     updatedAt?: DateTimeFilter<"StaffRequest"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
@@ -27131,6 +30175,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     status?: SortOrder
+    hrNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StaffRequestCountOrderByAggregateInput
@@ -27152,6 +30197,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableWithAggregatesFilter<"StaffRequest"> | Date | string | null
     endDate?: DateTimeNullableWithAggregatesFilter<"StaffRequest"> | Date | string | null
     status?: StringWithAggregatesFilter<"StaffRequest"> | string
+    hrNote?: StringNullableWithAggregatesFilter<"StaffRequest"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"StaffRequest"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"StaffRequest"> | Date | string
   }
@@ -27385,89 +30431,6 @@ export namespace Prisma {
     generatedAt?: DateTimeWithAggregatesFilter<"LetterRecord"> | Date | string
   }
 
-  export type ServiceConfigWhereInput = {
-    AND?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
-    OR?: ServiceConfigWhereInput[]
-    NOT?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
-    id?: StringFilter<"ServiceConfig"> | string
-    module?: StringFilter<"ServiceConfig"> | string
-    key?: StringFilter<"ServiceConfig"> | string
-    label?: StringFilter<"ServiceConfig"> | string
-    description?: StringNullableFilter<"ServiceConfig"> | string | null
-    type?: StringFilter<"ServiceConfig"> | string
-    value?: StringFilter<"ServiceConfig"> | string
-    options?: JsonNullableFilter<"ServiceConfig">
-    isActive?: BoolFilter<"ServiceConfig"> | boolean
-    createdAt?: DateTimeFilter<"ServiceConfig"> | Date | string
-    updatedAt?: DateTimeFilter<"ServiceConfig"> | Date | string
-  }
-
-  export type ServiceConfigOrderByWithRelationInput = {
-    id?: SortOrder
-    module?: SortOrder
-    key?: SortOrder
-    label?: SortOrder
-    description?: SortOrderInput | SortOrder
-    type?: SortOrder
-    value?: SortOrder
-    options?: SortOrderInput | SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ServiceConfigWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    module_key?: ServiceConfigModuleKeyCompoundUniqueInput
-    AND?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
-    OR?: ServiceConfigWhereInput[]
-    NOT?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
-    module?: StringFilter<"ServiceConfig"> | string
-    key?: StringFilter<"ServiceConfig"> | string
-    label?: StringFilter<"ServiceConfig"> | string
-    description?: StringNullableFilter<"ServiceConfig"> | string | null
-    type?: StringFilter<"ServiceConfig"> | string
-    value?: StringFilter<"ServiceConfig"> | string
-    options?: JsonNullableFilter<"ServiceConfig">
-    isActive?: BoolFilter<"ServiceConfig"> | boolean
-    createdAt?: DateTimeFilter<"ServiceConfig"> | Date | string
-    updatedAt?: DateTimeFilter<"ServiceConfig"> | Date | string
-  }, "id" | "module_key">
-
-  export type ServiceConfigOrderByWithAggregationInput = {
-    id?: SortOrder
-    module?: SortOrder
-    key?: SortOrder
-    label?: SortOrder
-    description?: SortOrderInput | SortOrder
-    type?: SortOrder
-    value?: SortOrder
-    options?: SortOrderInput | SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: ServiceConfigCountOrderByAggregateInput
-    _max?: ServiceConfigMaxOrderByAggregateInput
-    _min?: ServiceConfigMinOrderByAggregateInput
-  }
-
-  export type ServiceConfigScalarWhereWithAggregatesInput = {
-    AND?: ServiceConfigScalarWhereWithAggregatesInput | ServiceConfigScalarWhereWithAggregatesInput[]
-    OR?: ServiceConfigScalarWhereWithAggregatesInput[]
-    NOT?: ServiceConfigScalarWhereWithAggregatesInput | ServiceConfigScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ServiceConfig"> | string
-    module?: StringWithAggregatesFilter<"ServiceConfig"> | string
-    key?: StringWithAggregatesFilter<"ServiceConfig"> | string
-    label?: StringWithAggregatesFilter<"ServiceConfig"> | string
-    description?: StringNullableWithAggregatesFilter<"ServiceConfig"> | string | null
-    type?: StringWithAggregatesFilter<"ServiceConfig"> | string
-    value?: StringWithAggregatesFilter<"ServiceConfig"> | string
-    options?: JsonNullableWithAggregatesFilter<"ServiceConfig">
-    isActive?: BoolWithAggregatesFilter<"ServiceConfig"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"ServiceConfig"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"ServiceConfig"> | Date | string
-  }
-
   export type LetterTemplateWhereInput = {
     AND?: LetterTemplateWhereInput | LetterTemplateWhereInput[]
     OR?: LetterTemplateWhereInput[]
@@ -27634,6 +30597,89 @@ export namespace Prisma {
     approvedAt?: DateTimeNullableWithAggregatesFilter<"Letter"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Letter"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Letter"> | Date | string
+  }
+
+  export type ServiceConfigWhereInput = {
+    AND?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
+    OR?: ServiceConfigWhereInput[]
+    NOT?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
+    id?: StringFilter<"ServiceConfig"> | string
+    module?: StringFilter<"ServiceConfig"> | string
+    key?: StringFilter<"ServiceConfig"> | string
+    label?: StringFilter<"ServiceConfig"> | string
+    description?: StringNullableFilter<"ServiceConfig"> | string | null
+    type?: StringFilter<"ServiceConfig"> | string
+    value?: StringFilter<"ServiceConfig"> | string
+    options?: JsonNullableFilter<"ServiceConfig">
+    isActive?: BoolFilter<"ServiceConfig"> | boolean
+    createdAt?: DateTimeFilter<"ServiceConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceConfig"> | Date | string
+  }
+
+  export type ServiceConfigOrderByWithRelationInput = {
+    id?: SortOrder
+    module?: SortOrder
+    key?: SortOrder
+    label?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    value?: SortOrder
+    options?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceConfigWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    module_key?: ServiceConfigModuleKeyCompoundUniqueInput
+    AND?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
+    OR?: ServiceConfigWhereInput[]
+    NOT?: ServiceConfigWhereInput | ServiceConfigWhereInput[]
+    module?: StringFilter<"ServiceConfig"> | string
+    key?: StringFilter<"ServiceConfig"> | string
+    label?: StringFilter<"ServiceConfig"> | string
+    description?: StringNullableFilter<"ServiceConfig"> | string | null
+    type?: StringFilter<"ServiceConfig"> | string
+    value?: StringFilter<"ServiceConfig"> | string
+    options?: JsonNullableFilter<"ServiceConfig">
+    isActive?: BoolFilter<"ServiceConfig"> | boolean
+    createdAt?: DateTimeFilter<"ServiceConfig"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceConfig"> | Date | string
+  }, "id" | "module_key">
+
+  export type ServiceConfigOrderByWithAggregationInput = {
+    id?: SortOrder
+    module?: SortOrder
+    key?: SortOrder
+    label?: SortOrder
+    description?: SortOrderInput | SortOrder
+    type?: SortOrder
+    value?: SortOrder
+    options?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ServiceConfigCountOrderByAggregateInput
+    _max?: ServiceConfigMaxOrderByAggregateInput
+    _min?: ServiceConfigMinOrderByAggregateInput
+  }
+
+  export type ServiceConfigScalarWhereWithAggregatesInput = {
+    AND?: ServiceConfigScalarWhereWithAggregatesInput | ServiceConfigScalarWhereWithAggregatesInput[]
+    OR?: ServiceConfigScalarWhereWithAggregatesInput[]
+    NOT?: ServiceConfigScalarWhereWithAggregatesInput | ServiceConfigScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceConfig"> | string
+    module?: StringWithAggregatesFilter<"ServiceConfig"> | string
+    key?: StringWithAggregatesFilter<"ServiceConfig"> | string
+    label?: StringWithAggregatesFilter<"ServiceConfig"> | string
+    description?: StringNullableWithAggregatesFilter<"ServiceConfig"> | string | null
+    type?: StringWithAggregatesFilter<"ServiceConfig"> | string
+    value?: StringWithAggregatesFilter<"ServiceConfig"> | string
+    options?: JsonNullableWithAggregatesFilter<"ServiceConfig">
+    isActive?: BoolWithAggregatesFilter<"ServiceConfig"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceConfig"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ServiceConfig"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -27908,37 +30954,55 @@ export namespace Prisma {
 
   export type EmployeeCreateInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -27948,41 +31012,60 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -27992,41 +31075,60 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -28036,41 +31138,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -28080,102 +31201,306 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateManyInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type EmployeeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmployeeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceCreateInput = {
+    id?: string
+    leaveType: string
+    totalDays?: number
+    usedDays?: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLeaveBalancesInput
+  }
+
+  export type LeaveBalanceUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    leaveType: string
+    totalDays?: number
+    usedDays?: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLeaveBalancesNestedInput
+  }
+
+  export type LeaveBalanceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceCreateManyInput = {
+    id?: string
+    employeeId: string
+    leaveType: string
+    totalDays?: number
+    usedDays?: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateInput = {
+    id?: string
+    title: string
+    message: string
+    type?: string
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    title: string
+    message: string
+    type?: string
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: string
+    employeeId: string
+    title: string
+    message: string
+    type?: string
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendanceCreateInput = {
@@ -28184,6 +31509,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28199,6 +31525,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     shiftId?: string | null
     createdAt?: Date | string
@@ -28212,6 +31539,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28227,6 +31555,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28241,6 +31570,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     shiftId?: string | null
     createdAt?: Date | string
@@ -28253,6 +31583,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28265,6 +31596,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28577,8 +31909,8 @@ export namespace Prisma {
 
   export type SalaryStructureCreateInput = {
     id?: string
-    ctc: number
-    basic: number
+    ctc?: number
+    basic?: number
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
@@ -28594,8 +31926,8 @@ export namespace Prisma {
   export type SalaryStructureUncheckedCreateInput = {
     id?: string
     employeeId: string
-    ctc: number
-    basic: number
+    ctc?: number
+    basic?: number
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
@@ -28642,8 +31974,8 @@ export namespace Prisma {
   export type SalaryStructureCreateManyInput = {
     id?: string
     employeeId: string
-    ctc: number
-    basic: number
+    ctc?: number
+    basic?: number
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
@@ -28948,6 +32280,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     employee: EmployeeCreateNestedOneWithoutStaffRequestsInput
@@ -28964,6 +32297,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput
@@ -28976,6 +32310,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     employee?: EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput
@@ -28992,6 +32327,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
@@ -29006,6 +32342,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29017,6 +32354,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29030,6 +32368,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29278,104 +32617,6 @@ export namespace Prisma {
     generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ServiceConfigCreateInput = {
-    id?: string
-    module: string
-    key: string
-    label: string
-    description?: string | null
-    type: string
-    value: string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ServiceConfigUncheckedCreateInput = {
-    id?: string
-    module: string
-    key: string
-    label: string
-    description?: string | null
-    type: string
-    value: string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ServiceConfigUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ServiceConfigUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ServiceConfigCreateManyInput = {
-    id?: string
-    module: string
-    key: string
-    label: string
-    description?: string | null
-    type: string
-    value: string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ServiceConfigUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ServiceConfigUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    module?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    label?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type LetterTemplateCreateInput = {
     id?: string
     name: string
@@ -29563,6 +32804,104 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceConfigCreateInput = {
+    id?: string
+    module: string
+    key: string
+    label: string
+    description?: string | null
+    type: string
+    value: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceConfigUncheckedCreateInput = {
+    id?: string
+    module: string
+    key: string
+    label: string
+    description?: string | null
+    type: string
+    value: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceConfigUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceConfigUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceConfigCreateManyInput = {
+    id?: string
+    module: string
+    key: string
+    label: string
+    description?: string | null
+    type: string
+    value: string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ServiceConfigUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceConfigUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    module?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    options?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29872,11 +33211,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -29888,6 +33222,22 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EmployeeListRelationFilter = {
     every?: EmployeeWhereInput
     some?: EmployeeWhereInput
@@ -29897,6 +33247,12 @@ export namespace Prisma {
   export type ShiftNullableScalarRelationFilter = {
     is?: ShiftWhereInput | null
     isNot?: ShiftWhereInput | null
+  }
+
+  export type LeaveBalanceListRelationFilter = {
+    every?: LeaveBalanceWhereInput
+    some?: LeaveBalanceWhereInput
+    none?: LeaveBalanceWhereInput
   }
 
   export type AttendanceListRelationFilter = {
@@ -29952,7 +33308,17 @@ export namespace Prisma {
     none?: AuditLogWhereInput
   }
 
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
   export type EmployeeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LeaveBalanceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29988,119 +33354,174 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type EmployeeCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    employeeCode?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
+    photo?: SortOrder
+    phone?: SortOrder
+    gender?: SortOrder
+    dateOfBirth?: SortOrder
+    nationality?: SortOrder
+    maritalStatus?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
+    employmentType?: SortOrder
+    workLocation?: SortOrder
+    probationDays?: SortOrder
+    currentStatus?: SortOrder
     isActive?: SortOrder
-    photo?: SortOrder
-    phone?: SortOrder
-    dateOfBirth?: SortOrder
-    gender?: SortOrder
-    maritalStatus?: SortOrder
-    nationality?: SortOrder
-    governmentId?: SortOrder
+    managerId?: SortOrder
     address?: SortOrder
     permanentAddress?: SortOrder
     emergencyContact?: SortOrder
     emergencyPhone?: SortOrder
+    governmentId?: SortOrder
     bankName?: SortOrder
     accountNumber?: SortOrder
+    iban?: SortOrder
     ifscCode?: SortOrder
-    employmentType?: SortOrder
-    probationDays?: SortOrder
-    workLocation?: SortOrder
-    currentStatus?: SortOrder
-    managerId?: SortOrder
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
+    passportNumber?: SortOrder
+    passportExpiry?: SortOrder
+    emiratesId?: SortOrder
+    emiratesIdExpiry?: SortOrder
+    visaNumber?: SortOrder
+    visaExpiry?: SortOrder
+    visaType?: SortOrder
+    medicalInsuranceExpiry?: SortOrder
+    iloeInsuranceExpiry?: SortOrder
     shiftId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmployeeAvgOrderByAggregateInput = {
     probationDays?: SortOrder
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
   }
 
   export type EmployeeMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    employeeCode?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
+    photo?: SortOrder
+    phone?: SortOrder
+    gender?: SortOrder
+    dateOfBirth?: SortOrder
+    nationality?: SortOrder
+    maritalStatus?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
+    employmentType?: SortOrder
+    workLocation?: SortOrder
+    probationDays?: SortOrder
+    currentStatus?: SortOrder
     isActive?: SortOrder
-    photo?: SortOrder
-    phone?: SortOrder
-    dateOfBirth?: SortOrder
-    gender?: SortOrder
-    maritalStatus?: SortOrder
-    nationality?: SortOrder
-    governmentId?: SortOrder
+    managerId?: SortOrder
     address?: SortOrder
     permanentAddress?: SortOrder
     emergencyContact?: SortOrder
     emergencyPhone?: SortOrder
+    governmentId?: SortOrder
     bankName?: SortOrder
     accountNumber?: SortOrder
+    iban?: SortOrder
     ifscCode?: SortOrder
-    employmentType?: SortOrder
-    probationDays?: SortOrder
-    workLocation?: SortOrder
-    currentStatus?: SortOrder
-    managerId?: SortOrder
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
+    passportNumber?: SortOrder
+    passportExpiry?: SortOrder
+    emiratesId?: SortOrder
+    emiratesIdExpiry?: SortOrder
+    visaNumber?: SortOrder
+    visaExpiry?: SortOrder
+    visaType?: SortOrder
+    medicalInsuranceExpiry?: SortOrder
+    iloeInsuranceExpiry?: SortOrder
     shiftId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmployeeMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    employeeCode?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
+    photo?: SortOrder
+    phone?: SortOrder
+    gender?: SortOrder
+    dateOfBirth?: SortOrder
+    nationality?: SortOrder
+    maritalStatus?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
+    employmentType?: SortOrder
+    workLocation?: SortOrder
+    probationDays?: SortOrder
+    currentStatus?: SortOrder
     isActive?: SortOrder
-    photo?: SortOrder
-    phone?: SortOrder
-    dateOfBirth?: SortOrder
-    gender?: SortOrder
-    maritalStatus?: SortOrder
-    nationality?: SortOrder
-    governmentId?: SortOrder
+    managerId?: SortOrder
     address?: SortOrder
     permanentAddress?: SortOrder
     emergencyContact?: SortOrder
     emergencyPhone?: SortOrder
+    governmentId?: SortOrder
     bankName?: SortOrder
     accountNumber?: SortOrder
+    iban?: SortOrder
     ifscCode?: SortOrder
-    employmentType?: SortOrder
-    probationDays?: SortOrder
-    workLocation?: SortOrder
-    currentStatus?: SortOrder
-    managerId?: SortOrder
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
+    passportNumber?: SortOrder
+    passportExpiry?: SortOrder
+    emiratesId?: SortOrder
+    emiratesIdExpiry?: SortOrder
+    visaNumber?: SortOrder
+    visaExpiry?: SortOrder
+    visaType?: SortOrder
+    medicalInsuranceExpiry?: SortOrder
+    iloeInsuranceExpiry?: SortOrder
     shiftId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EmployeeSumOrderByAggregateInput = {
     probationDays?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -30119,9 +33540,117 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type EmployeeScalarRelationFilter = {
     is?: EmployeeWhereInput
     isNot?: EmployeeWhereInput
+  }
+
+  export type LeaveBalanceEmployeeIdLeaveTypeYearCompoundUniqueInput = {
+    employeeId: string
+    leaveType: string
+    year: number
+  }
+
+  export type LeaveBalanceCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    leaveType?: SortOrder
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveBalanceAvgOrderByAggregateInput = {
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+  }
+
+  export type LeaveBalanceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    leaveType?: SortOrder
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveBalanceMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    leaveType?: SortOrder
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LeaveBalanceSumOrderByAggregateInput = {
+    totalDays?: SortOrder
+    usedDays?: SortOrder
+    year?: SortOrder
+  }
+
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    link?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type BiometricLogListRelationFilter = {
@@ -30141,6 +33670,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrder
     status?: SortOrder
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
     shiftId?: SortOrder
     createdAt?: SortOrder
@@ -30148,6 +33678,7 @@ export namespace Prisma {
   }
 
   export type AttendanceAvgOrderByAggregateInput = {
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
   }
 
@@ -30158,6 +33689,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrder
     status?: SortOrder
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
     shiftId?: SortOrder
     createdAt?: SortOrder
@@ -30171,6 +33703,7 @@ export namespace Prisma {
     checkIn?: SortOrder
     checkOut?: SortOrder
     status?: SortOrder
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
     shiftId?: SortOrder
     createdAt?: SortOrder
@@ -30178,6 +33711,7 @@ export namespace Prisma {
   }
 
   export type AttendanceSumOrderByAggregateInput = {
+    lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
   }
 
@@ -30563,17 +34097,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type StaffServiceTypeScalarRelationFilter = {
     is?: StaffServiceTypeWhereInput
     isNot?: StaffServiceTypeWhereInput
@@ -30588,6 +34111,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     status?: SortOrder
+    hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -30605,6 +34129,7 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     status?: SortOrder
+    hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -30618,28 +34143,13 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     status?: SortOrder
+    hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type StaffRequestSumOrderByAggregateInput = {
     amount?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type StaffRequestNullableScalarRelationFilter = {
@@ -30756,90 +34266,6 @@ export namespace Prisma {
     details?: SortOrder
     generatedAt?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type ServiceConfigModuleKeyCompoundUniqueInput = {
-    module: string
-    key: string
-  }
-
-  export type ServiceConfigCountOrderByAggregateInput = {
-    id?: SortOrder
-    module?: SortOrder
-    key?: SortOrder
-    label?: SortOrder
-    description?: SortOrder
-    type?: SortOrder
-    value?: SortOrder
-    options?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ServiceConfigMaxOrderByAggregateInput = {
-    id?: SortOrder
-    module?: SortOrder
-    key?: SortOrder
-    label?: SortOrder
-    description?: SortOrder
-    type?: SortOrder
-    value?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ServiceConfigMinOrderByAggregateInput = {
-    id?: SortOrder
-    module?: SortOrder
-    key?: SortOrder
-    label?: SortOrder
-    description?: SortOrder
-    type?: SortOrder
-    value?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
 
   export type LetterTemplateCountOrderByAggregateInput = {
     id?: SortOrder
@@ -30925,6 +34351,90 @@ export namespace Prisma {
     approvedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ServiceConfigModuleKeyCompoundUniqueInput = {
+    module: string
+    key: string
+  }
+
+  export type ServiceConfigCountOrderByAggregateInput = {
+    id?: SortOrder
+    module?: SortOrder
+    key?: SortOrder
+    label?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    value?: SortOrder
+    options?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceConfigMaxOrderByAggregateInput = {
+    id?: SortOrder
+    module?: SortOrder
+    key?: SortOrder
+    label?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    value?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ServiceConfigMinOrderByAggregateInput = {
+    id?: SortOrder
+    module?: SortOrder
+    key?: SortOrder
+    label?: SortOrder
+    description?: SortOrder
+    type?: SortOrder
+    value?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EmployeeCreateNestedOneWithoutUserInput = {
@@ -31211,6 +34721,13 @@ export namespace Prisma {
     connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
   }
 
+  export type LeaveBalanceCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+  }
+
   export type AttendanceCreateNestedManyWithoutEmployeeInput = {
     create?: XOR<AttendanceCreateWithoutEmployeeInput, AttendanceUncheckedCreateWithoutEmployeeInput> | AttendanceCreateWithoutEmployeeInput[] | AttendanceUncheckedCreateWithoutEmployeeInput[]
     connectOrCreate?: AttendanceCreateOrConnectWithoutEmployeeInput | AttendanceCreateOrConnectWithoutEmployeeInput[]
@@ -31273,6 +34790,13 @@ export namespace Prisma {
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
+  export type NotificationCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<NotificationCreateWithoutEmployeeInput, NotificationUncheckedCreateWithoutEmployeeInput> | NotificationCreateWithoutEmployeeInput[] | NotificationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutEmployeeInput | NotificationCreateOrConnectWithoutEmployeeInput[]
+    createMany?: NotificationCreateManyEmployeeInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
   export type EmployeeUncheckedCreateNestedManyWithoutManagerInput = {
     create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
@@ -31285,6 +34809,13 @@ export namespace Prisma {
     connectOrCreate?: LeaveRequestCreateOrConnectWithoutEmployeeInput | LeaveRequestCreateOrConnectWithoutEmployeeInput[]
     createMany?: LeaveRequestCreateManyEmployeeInputEnvelope
     connect?: LeaveRequestWhereUniqueInput | LeaveRequestWhereUniqueInput[]
+  }
+
+  export type LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
   }
 
   export type AttendanceUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -31349,12 +34880,27 @@ export namespace Prisma {
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type NotificationUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<NotificationCreateWithoutEmployeeInput, NotificationUncheckedCreateWithoutEmployeeInput> | NotificationCreateWithoutEmployeeInput[] | NotificationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutEmployeeInput | NotificationCreateOrConnectWithoutEmployeeInput[]
+    createMany?: NotificationCreateManyEmployeeInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
     set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -31415,6 +34961,20 @@ export namespace Prisma {
     update?: LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput | LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: LeaveRequestUpdateManyWithWhereWithoutEmployeeInput | LeaveRequestUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+  }
+
+  export type LeaveBalanceUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    set?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    disconnect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    delete?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    update?: LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput | LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
   }
 
   export type AttendanceUpdateManyWithoutEmployeeNestedInput = {
@@ -31539,6 +35099,20 @@ export namespace Prisma {
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
+  export type NotificationUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<NotificationCreateWithoutEmployeeInput, NotificationUncheckedCreateWithoutEmployeeInput> | NotificationCreateWithoutEmployeeInput[] | NotificationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutEmployeeInput | NotificationCreateOrConnectWithoutEmployeeInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutEmployeeInput | NotificationUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: NotificationCreateManyEmployeeInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutEmployeeInput | NotificationUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutEmployeeInput | NotificationUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type EmployeeUncheckedUpdateManyWithoutManagerNestedInput = {
     create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
@@ -31565,6 +35139,20 @@ export namespace Prisma {
     update?: LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput | LeaveRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: LeaveRequestUpdateManyWithWhereWithoutEmployeeInput | LeaveRequestUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: LeaveRequestScalarWhereInput | LeaveRequestScalarWhereInput[]
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput> | LeaveBalanceCreateWithoutEmployeeInput[] | LeaveBalanceUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LeaveBalanceCreateOrConnectWithoutEmployeeInput | LeaveBalanceCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LeaveBalanceCreateManyEmployeeInputEnvelope
+    set?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    disconnect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    delete?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    connect?: LeaveBalanceWhereUniqueInput | LeaveBalanceWhereUniqueInput[]
+    update?: LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput | LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput | LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
   }
 
   export type AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -31687,6 +35275,48 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutEmployeeInput | AuditLogUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutEmployeeInput | AuditLogUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<NotificationCreateWithoutEmployeeInput, NotificationUncheckedCreateWithoutEmployeeInput> | NotificationCreateWithoutEmployeeInput[] | NotificationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutEmployeeInput | NotificationCreateOrConnectWithoutEmployeeInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutEmployeeInput | NotificationUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: NotificationCreateManyEmployeeInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutEmployeeInput | NotificationUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutEmployeeInput | NotificationUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type EmployeeCreateNestedOneWithoutLeaveBalancesInput = {
+    create?: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveBalancesInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutLeaveBalancesNestedInput = {
+    create?: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveBalancesInput
+    upsert?: EmployeeUpsertWithoutLeaveBalancesInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLeaveBalancesInput, EmployeeUpdateWithoutLeaveBalancesInput>, EmployeeUncheckedUpdateWithoutLeaveBalancesInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<EmployeeCreateWithoutNotificationsInput, EmployeeUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutNotificationsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutNotificationsInput, EmployeeUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutNotificationsInput
+    upsert?: EmployeeUpsertWithoutNotificationsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutNotificationsInput, EmployeeUpdateWithoutNotificationsInput>, EmployeeUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type EmployeeCreateNestedOneWithoutAttendanceInput = {
@@ -32023,14 +35653,6 @@ export namespace Prisma {
     connectOrCreate?: AttachmentCreateOrConnectWithoutStaffRequestInput | AttachmentCreateOrConnectWithoutStaffRequestInput[]
     createMany?: AttachmentCreateManyStaffRequestInputEnvelope
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput = {
@@ -32433,14 +36055,6 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -32468,20 +36082,12 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -32498,6 +36104,22 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -32520,36 +36142,54 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutUserInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -32559,40 +36199,59 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutUserInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -32602,6 +36261,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutUserInput = {
@@ -32758,36 +36418,54 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -32797,40 +36475,59 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -32840,6 +36537,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type RoleRequestUpsertWithWhereUniqueWithoutUserInput = {
@@ -33153,36 +36851,54 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutReporteesInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -33192,40 +36908,59 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutReporteesInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -33235,6 +36970,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutReporteesInput = {
@@ -33244,36 +36980,54 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutManagerInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -33283,40 +37037,59 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutManagerInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -33326,6 +37099,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutManagerInput = {
@@ -33399,12 +37173,42 @@ export namespace Prisma {
     data: LeaveRequestCreateManyEmployeeInput | LeaveRequestCreateManyEmployeeInput[]
   }
 
+  export type LeaveBalanceCreateWithoutEmployeeInput = {
+    id?: string
+    leaveType: string
+    totalDays?: number
+    usedDays?: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    leaveType: string
+    totalDays?: number
+    usedDays?: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveBalanceCreateOrConnectWithoutEmployeeInput = {
+    where: LeaveBalanceWhereUniqueInput
+    create: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceCreateManyEmployeeInputEnvelope = {
+    data: LeaveBalanceCreateManyEmployeeInput | LeaveBalanceCreateManyEmployeeInput[]
+  }
+
   export type AttendanceCreateWithoutEmployeeInput = {
     id?: string
     date: Date | string
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33418,6 +37222,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     shiftId?: string | null
     createdAt?: Date | string
@@ -33436,8 +37241,8 @@ export namespace Prisma {
 
   export type SalaryStructureCreateWithoutEmployeeInput = {
     id?: string
-    ctc: number
-    basic: number
+    ctc?: number
+    basic?: number
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
@@ -33451,8 +37256,8 @@ export namespace Prisma {
 
   export type SalaryStructureUncheckedCreateWithoutEmployeeInput = {
     id?: string
-    ctc: number
-    basic: number
+    ctc?: number
+    basic?: number
     housingAllowance?: number
     transportAllowance?: number
     medicalAllowance?: number
@@ -33556,6 +37361,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     serviceType: StaffServiceTypeCreateNestedOneWithoutStaffRequestsInput
@@ -33570,6 +37376,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput
@@ -33716,6 +37523,35 @@ export namespace Prisma {
     data: AuditLogCreateManyEmployeeInput | AuditLogCreateManyEmployeeInput[]
   }
 
+  export type NotificationCreateWithoutEmployeeInput = {
+    id?: string
+    title: string
+    message: string
+    type?: string
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    title: string
+    message: string
+    type?: string
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutEmployeeInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutEmployeeInput, NotificationUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type NotificationCreateManyEmployeeInputEnvelope = {
+    data: NotificationCreateManyEmployeeInput | NotificationCreateManyEmployeeInput[]
+  }
+
   export type UserUpsertWithoutEmployeeInput = {
     update: XOR<UserUpdateWithoutEmployeeInput, UserUncheckedUpdateWithoutEmployeeInput>
     create: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
@@ -33772,36 +37608,54 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutReporteesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -33811,40 +37665,59 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutReporteesInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -33854,6 +37727,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUpsertWithWhereUniqueWithoutManagerInput = {
@@ -33878,34 +37752,51 @@ export namespace Prisma {
     NOT?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
     id?: StringFilter<"Employee"> | string
     userId?: StringFilter<"Employee"> | string
+    employeeCode?: StringNullableFilter<"Employee"> | string | null
     firstName?: StringFilter<"Employee"> | string
     lastName?: StringFilter<"Employee"> | string
     email?: StringFilter<"Employee"> | string
     rollNumber?: StringFilter<"Employee"> | string
+    photo?: StringNullableFilter<"Employee"> | string | null
+    phone?: StringNullableFilter<"Employee"> | string | null
+    gender?: StringNullableFilter<"Employee"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    nationality?: StringNullableFilter<"Employee"> | string | null
+    maritalStatus?: StringNullableFilter<"Employee"> | string | null
     designation?: StringFilter<"Employee"> | string
     department?: StringFilter<"Employee"> | string
     joiningDate?: DateTimeFilter<"Employee"> | Date | string
+    employmentType?: StringFilter<"Employee"> | string
+    workLocation?: StringNullableFilter<"Employee"> | string | null
+    probationDays?: IntFilter<"Employee"> | number
+    currentStatus?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
-    photo?: StringNullableFilter<"Employee"> | string | null
-    phone?: StringNullableFilter<"Employee"> | string | null
-    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    gender?: StringNullableFilter<"Employee"> | string | null
-    maritalStatus?: StringNullableFilter<"Employee"> | string | null
-    nationality?: StringNullableFilter<"Employee"> | string | null
-    governmentId?: StringNullableFilter<"Employee"> | string | null
+    managerId?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
     permanentAddress?: StringNullableFilter<"Employee"> | string | null
     emergencyContact?: StringNullableFilter<"Employee"> | string | null
     emergencyPhone?: StringNullableFilter<"Employee"> | string | null
+    governmentId?: StringNullableFilter<"Employee"> | string | null
     bankName?: StringNullableFilter<"Employee"> | string | null
     accountNumber?: StringNullableFilter<"Employee"> | string | null
+    iban?: StringNullableFilter<"Employee"> | string | null
     ifscCode?: StringNullableFilter<"Employee"> | string | null
-    employmentType?: StringFilter<"Employee"> | string
-    probationDays?: IntFilter<"Employee"> | number
-    workLocation?: StringNullableFilter<"Employee"> | string | null
-    currentStatus?: StringFilter<"Employee"> | string
-    managerId?: StringNullableFilter<"Employee"> | string | null
+    basicSalary?: FloatNullableFilter<"Employee"> | number | null
+    housingAllowance?: FloatNullableFilter<"Employee"> | number | null
+    transportAllowance?: FloatNullableFilter<"Employee"> | number | null
+    otherAllowance?: FloatNullableFilter<"Employee"> | number | null
+    passportNumber?: StringNullableFilter<"Employee"> | string | null
+    passportExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    emiratesId?: StringNullableFilter<"Employee"> | string | null
+    emiratesIdExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaNumber?: StringNullableFilter<"Employee"> | string | null
+    visaExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaType?: StringNullableFilter<"Employee"> | string | null
+    medicalInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    iloeInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
     shiftId?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
   }
 
   export type ShiftUpsertWithoutEmployeesInput = {
@@ -33955,6 +37846,36 @@ export namespace Prisma {
     data: XOR<LeaveRequestUpdateManyMutationInput, LeaveRequestUncheckedUpdateManyWithoutEmployeeInput>
   }
 
+  export type LeaveBalanceUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: LeaveBalanceWhereUniqueInput
+    update: XOR<LeaveBalanceUpdateWithoutEmployeeInput, LeaveBalanceUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<LeaveBalanceCreateWithoutEmployeeInput, LeaveBalanceUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: LeaveBalanceWhereUniqueInput
+    data: XOR<LeaveBalanceUpdateWithoutEmployeeInput, LeaveBalanceUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceUpdateManyWithWhereWithoutEmployeeInput = {
+    where: LeaveBalanceScalarWhereInput
+    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type LeaveBalanceScalarWhereInput = {
+    AND?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+    OR?: LeaveBalanceScalarWhereInput[]
+    NOT?: LeaveBalanceScalarWhereInput | LeaveBalanceScalarWhereInput[]
+    id?: StringFilter<"LeaveBalance"> | string
+    employeeId?: StringFilter<"LeaveBalance"> | string
+    leaveType?: StringFilter<"LeaveBalance"> | string
+    totalDays?: IntFilter<"LeaveBalance"> | number
+    usedDays?: IntFilter<"LeaveBalance"> | number
+    year?: IntFilter<"LeaveBalance"> | number
+    createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+    updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
+  }
+
   export type AttendanceUpsertWithWhereUniqueWithoutEmployeeInput = {
     where: AttendanceWhereUniqueInput
     update: XOR<AttendanceUpdateWithoutEmployeeInput, AttendanceUncheckedUpdateWithoutEmployeeInput>
@@ -33981,6 +37902,7 @@ export namespace Prisma {
     checkIn?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     checkOut?: DateTimeNullableFilter<"Attendance"> | Date | string | null
     status?: StringFilter<"Attendance"> | string
+    lateMinutes?: IntFilter<"Attendance"> | number
     overtimeMinutes?: IntFilter<"Attendance"> | number
     shiftId?: StringNullableFilter<"Attendance"> | string | null
     createdAt?: DateTimeFilter<"Attendance"> | Date | string
@@ -34127,6 +38049,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
     endDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
     status?: StringFilter<"StaffRequest"> | string
+    hrNote?: StringNullableFilter<"StaffRequest"> | string | null
     createdAt?: DateTimeFilter<"StaffRequest"> | Date | string
     updatedAt?: DateTimeFilter<"StaffRequest"> | Date | string
   }
@@ -34258,39 +38181,352 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
   }
 
-  export type EmployeeCreateWithoutAttendanceInput = {
+  export type NotificationUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutEmployeeInput, NotificationUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<NotificationCreateWithoutEmployeeInput, NotificationUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutEmployeeInput, NotificationUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutEmployeeInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    employeeId?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    message?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    isRead?: BoolFilter<"Notification"> | boolean
+    link?: StringNullableFilter<"Notification"> | string | null
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+  }
+
+  export type EmployeeCreateWithoutLeaveBalancesInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutLeaveBalancesInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    managerId?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutLeaveBalancesInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+  }
+
+  export type EmployeeUpsertWithoutLeaveBalancesInput = {
+    update: XOR<EmployeeUpdateWithoutLeaveBalancesInput, EmployeeUncheckedUpdateWithoutLeaveBalancesInput>
+    create: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutLeaveBalancesInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutLeaveBalancesInput, EmployeeUncheckedUpdateWithoutLeaveBalancesInput>
+  }
+
+  export type EmployeeUpdateWithoutLeaveBalancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutLeaveBalancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeCreateWithoutNotificationsInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
@@ -34301,39 +38537,58 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
   }
 
-  export type EmployeeUncheckedCreateWithoutAttendanceInput = {
+  export type EmployeeUncheckedCreateWithoutNotificationsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -34342,6 +38597,270 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutNotificationsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutNotificationsInput, EmployeeUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type EmployeeUpsertWithoutNotificationsInput = {
+    update: XOR<EmployeeUpdateWithoutNotificationsInput, EmployeeUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<EmployeeCreateWithoutNotificationsInput, EmployeeUncheckedCreateWithoutNotificationsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutNotificationsInput, EmployeeUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type EmployeeUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeCreateWithoutAttendanceInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutAttendanceInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    managerId?: string | null
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttendanceInput = {
@@ -34414,37 +38933,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutAttendanceInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
@@ -34453,41 +38990,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttendanceInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -34496,6 +39052,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type ShiftUpsertWithoutAttendanceInput = {
@@ -34560,36 +39117,54 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutShiftInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -34599,40 +39174,59 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutShiftInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -34642,6 +39236,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutShiftInput = {
@@ -34659,6 +39254,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34673,6 +39269,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34726,6 +39323,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -34740,6 +39338,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     shiftId?: string | null
     createdAt?: Date | string
@@ -34768,6 +39367,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34782,6 +39382,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34790,37 +39391,55 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutAuditLogsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -34829,41 +39448,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAuditLogsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -34872,6 +39510,7 @@ export namespace Prisma {
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAuditLogsInput = {
@@ -34892,37 +39531,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutAuditLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -34931,41 +39588,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAuditLogsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -34974,40 +39650,59 @@ export namespace Prisma {
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutLeaveRequestsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -35017,40 +39712,59 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveRequestsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -35060,6 +39774,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveRequestsInput = {
@@ -35154,36 +39869,54 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutLeaveRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -35193,40 +39926,59 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -35236,6 +39988,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type UserUpsertWithoutApprovedLeavesManagerInput = {
@@ -35326,37 +40079,55 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutSalaryStructureInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
@@ -35365,41 +40136,60 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryStructureInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -35408,6 +40198,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryStructureInput = {
@@ -35428,37 +40219,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutSalaryStructureInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
@@ -35467,41 +40276,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryStructureInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -35510,41 +40338,60 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutSalaryRecordsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
@@ -35553,41 +40400,60 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryRecordsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -35596,6 +40462,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryRecordsInput = {
@@ -35616,37 +40483,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutSalaryRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
@@ -35655,41 +40540,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -35698,6 +40602,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type StaffRequestCreateWithoutServiceTypeInput = {
@@ -35707,6 +40612,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     employee: EmployeeCreateNestedOneWithoutStaffRequestsInput
@@ -35721,6 +40627,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput
@@ -35753,37 +40660,55 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutStaffRequestsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -35792,41 +40717,60 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutStaffRequestsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -35835,6 +40779,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutStaffRequestsInput = {
@@ -35919,37 +40864,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutStaffRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -35958,41 +40921,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutStaffRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -36001,6 +40983,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type StaffServiceTypeUpsertWithoutStaffRequestsInput = {
@@ -36061,6 +41044,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     employee: EmployeeCreateNestedOneWithoutStaffRequestsInput
@@ -36076,6 +41060,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -36116,37 +41101,55 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutAttachmentsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -36155,41 +41158,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttachmentsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -36198,6 +41220,7 @@ export namespace Prisma {
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttachmentsInput = {
@@ -36223,6 +41246,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     employee?: EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput
@@ -36238,6 +41262,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -36290,37 +41315,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -36329,41 +41372,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -36372,41 +41434,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeCreateWithoutVisaRequestsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -36415,41 +41496,60 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutVisaRequestsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -36458,6 +41558,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutVisaRequestsInput = {
@@ -36513,37 +41614,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutVisaRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -36552,41 +41671,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutVisaRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -36595,6 +41733,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type AttachmentUpsertWithWhereUniqueWithoutVisaRequestInput = {
@@ -36615,37 +41754,55 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutLetterRecordsInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -36654,41 +41811,60 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLetterRecordsInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -36697,6 +41873,7 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLetterRecordsInput = {
@@ -36717,37 +41894,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutLetterRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -36756,41 +41951,60 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLetterRecordsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -36799,6 +42013,7 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type LetterCreateWithoutTemplateInput = {
@@ -36858,37 +42073,55 @@ export namespace Prisma {
 
   export type EmployeeCreateWithoutLettersInput = {
     id?: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
@@ -36897,41 +42130,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeUncheckedCreateWithoutLettersInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
@@ -36940,6 +42192,7 @@ export namespace Prisma {
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
   }
 
   export type EmployeeCreateOrConnectWithoutLettersInput = {
@@ -36987,37 +42240,55 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutLettersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -37026,41 +42297,60 @@ export namespace Prisma {
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLettersInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -37069,6 +42359,7 @@ export namespace Prisma {
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type LetterTemplateUpsertWithoutLettersInput = {
@@ -37307,33 +42598,50 @@ export namespace Prisma {
   export type EmployeeCreateManyManagerInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type LeaveRequestCreateManyEmployeeInput = {
@@ -37350,12 +42658,23 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type LeaveBalanceCreateManyEmployeeInput = {
+    id?: string
+    leaveType: string
+    totalDays?: number
+    usedDays?: number
+    year: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AttendanceCreateManyEmployeeInput = {
     id?: string
     date: Date | string
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     shiftId?: string | null
     createdAt?: Date | string
@@ -37401,6 +42720,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37452,38 +42772,66 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type NotificationCreateManyEmployeeInput = {
+    id?: string
+    title: string
+    message: string
+    type?: string
+    isRead?: boolean
+    link?: string | null
+    createdAt?: Date | string
+  }
+
   export type EmployeeUpdateWithoutManagerInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -37493,40 +42841,59 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutManagerInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -37536,38 +42903,56 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutManagerInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LeaveRequestUpdateWithoutEmployeeInput = {
@@ -37612,12 +42997,43 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LeaveBalanceUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AttendanceUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37631,6 +43047,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37644,6 +43061,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37750,6 +43168,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     serviceType?: StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput
@@ -37764,6 +43183,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
@@ -37777,6 +43197,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37924,6 +43345,36 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type NotificationUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BiometricLogCreateManyAttendanceInput = {
     id?: string
     deviceId?: string | null
@@ -37963,33 +43414,50 @@ export namespace Prisma {
   export type EmployeeCreateManyShiftInput = {
     id?: string
     userId: string
+    employeeCode?: string | null
     firstName: string
     lastName: string
     email: string
     rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
     designation: string
     department: string
     joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
     isActive?: boolean
-    photo?: string | null
-    phone?: string | null
-    dateOfBirth?: Date | string | null
-    gender?: string | null
-    maritalStatus?: string | null
-    nationality?: string | null
-    governmentId?: string | null
+    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
     emergencyPhone?: string | null
+    governmentId?: string | null
     bankName?: string | null
     accountNumber?: string | null
+    iban?: string | null
     ifscCode?: string | null
-    employmentType?: string
-    probationDays?: number
-    workLocation?: string | null
-    currentStatus?: string
-    managerId?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AttendanceCreateManyShiftInput = {
@@ -37999,6 +43467,7 @@ export namespace Prisma {
     checkIn?: Date | string | null
     checkOut?: Date | string | null
     status?: string
+    lateMinutes?: number
     overtimeMinutes?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38006,36 +43475,54 @@ export namespace Prisma {
 
   export type EmployeeUpdateWithoutShiftInput = {
     id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
@@ -38045,40 +43532,59 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutShiftInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -38088,38 +43594,56 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutShiftInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
     designation?: StringFieldUpdateOperationsInput | string
     department?: StringFieldUpdateOperationsInput | string
     joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
     bankName?: NullableStringFieldUpdateOperationsInput | string | null
     accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
     ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    employmentType?: StringFieldUpdateOperationsInput | string
-    probationDays?: IntFieldUpdateOperationsInput | number
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AttendanceUpdateWithoutShiftInput = {
@@ -38128,6 +43652,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38142,6 +43667,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38155,6 +43681,7 @@ export namespace Prisma {
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38168,6 +43695,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -38179,6 +43707,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     employee?: EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput
@@ -38193,6 +43722,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
@@ -38206,6 +43736,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
