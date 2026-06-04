@@ -20,7 +20,8 @@ async function getUser(email: string) {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
-    adapter: PrismaAdapter(prisma),
+    // @ts-ignore – work around excessive type depth
+    adapter: PrismaAdapter(prisma) as any,
     secret: process.env.AUTH_SECRET,
     trustHost: true,
     session: {
@@ -34,6 +35,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         MicrosoftEntraID({
             clientId: process.env.MICROSOFT_CLIENT_ID!,
             clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
+            // @ts-ignore
             tenantId: process.env.MICROSOFT_TENANT_ID ?? 'common',
         }),
         Credentials({

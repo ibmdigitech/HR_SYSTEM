@@ -11,7 +11,11 @@ import { redirect } from "next/navigation";
 import { CheckInButton } from "@/components/attendance/CheckInButton";
 import Link from "next/link";
 
-export default async function AttendancePage() {
+export default async function AttendancePage({
+    searchParams,
+}: {
+    searchParams: Promise<{ all?: string }>;
+}) {
     const session = await auth();
     if (!session?.user?.email) redirect("/login");
 
@@ -23,6 +27,8 @@ export default async function AttendancePage() {
     if (!user) redirect("/login");
 
     const userRole = user.role;
+    const params = await searchParams;
+    const showAll = params.all === "true";
 
     // Fetch Attendance for today/recent
     const today = new Date();
@@ -33,16 +39,17 @@ export default async function AttendancePage() {
         attendanceRecords = await prisma.attendance.findMany({
             include: { employee: true },
             orderBy: { date: 'desc' },
-            take: 20
+            ...(showAll ? {} : { take: 20 })
         });
     } else if (user.employee) {
         attendanceRecords = await prisma.attendance.findMany({
             where: { employeeId: user.employee.id },
             include: { employee: true },
             orderBy: { date: 'desc' },
-            take: 10
+            ...(showAll ? {} : { take: 10 })
         });
     }
+
 
     // Stats Calculation
     const todayRecords = await prisma.attendance.findMany({
@@ -143,7 +150,11 @@ export default async function AttendancePage() {
                                     Recent records for {userRole === "STAFF" ? "you" : "all employees"}
                                 </CardDescription>
                             </div>
-                            <Button variant="ghost" size="sm" className="text-emerald-600 font-bold hover:bg-emerald-50">View All</Button>
+                            <Link href={showAll ? "/attendance" : "/attendance?all=true"}>
+                                <Button variant="ghost" size="sm" className="text-emerald-600 font-bold hover:bg-emerald-50">
+                                    {showAll ? "View Less" : "View All"}
+                                </Button>
+                            </Link>
                         </div>
                     </CardHeader>
                     <CardContent className="p-0">

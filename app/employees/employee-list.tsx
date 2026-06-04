@@ -65,12 +65,43 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
     const [search, setSearch] = useState("");
     const [open, setOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
+    const [filterStatus, setFilterStatus] = useState<"ALL" | "ACTIVE" | "RESIGNED">("ALL");
 
-    const filteredEmployees = employees.filter(emp =>
-        `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
-        emp.email.toLowerCase().includes(search.toLowerCase()) ||
-        emp.rollNumber.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredEmployees = employees.filter(emp => {
+        const matchesSearch = `${emp.firstName} ${emp.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
+            emp.email.toLowerCase().includes(search.toLowerCase()) ||
+            emp.rollNumber.toLowerCase().includes(search.toLowerCase());
+        
+        const matchesStatus = filterStatus === "ALL" || emp.currentStatus === filterStatus;
+        return matchesSearch && matchesStatus;
+    });
+
+    const exportToCSV = () => {
+        const headers = ["First Name", "Last Name", "Email", "Roll Number", "Designation", "Department", "Joining Date", "Status"];
+        const rows = filteredEmployees.map(emp => [
+            emp.firstName,
+            emp.lastName,
+            emp.email,
+            emp.rollNumber,
+            emp.designation,
+            emp.department,
+            new Date(emp.joiningDate).toLocaleDateString(),
+            emp.currentStatus
+        ]);
+
+        const csvContent = "data:text/csv;charset=utf-8," 
+            + [headers.join(","), ...rows.map(e => e.map(val => `"${val}"`).join(","))].join("\n");
+        
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `employees_export_${new Date().toISOString().slice(0,10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast.success("Employee directory exported successfully!");
+    };
+
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -323,16 +354,22 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center gap-3 w-full md:w-auto">
-                        <Button variant="outline" className="h-14 px-6 rounded-2xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-black text-xs uppercase tracking-widest gap-2">
+                        <Button 
+                            variant="outline" 
+                            onClick={() => setFilterStatus(prev => prev === "ALL" ? "ACTIVE" : prev === "ACTIVE" ? "RESIGNED" : "ALL")}
+                            className="h-14 px-6 rounded-2xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-black text-xs uppercase tracking-widest gap-2"
+                        >
                             <Filter className="h-4 w-4" />
-                            Filters
+                            Status: {filterStatus}
                         </Button>
-                        <Button variant="outline" className="h-14 px-6 rounded-2xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-black text-xs uppercase tracking-widest gap-2">
+                        <Button 
+                            variant="outline" 
+                            onClick={exportToCSV}
+                            className="h-14 px-6 rounded-2xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-black text-xs uppercase tracking-widest gap-2"
+                        >
                             <Download className="h-4 w-4" />
                             Export
                         </Button>
-                    </div>
                 </div>
             </Card>
 
@@ -403,7 +440,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="px-8 py-6 text-right">
-                                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="flex items-center justify-end gap-2">
                                         <Button
                                             variant="ghost"
                                             size="icon"

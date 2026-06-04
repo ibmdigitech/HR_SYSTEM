@@ -78,14 +78,18 @@ export async function approveLeaveManager(leaveId: string, status: "APPROVED" | 
     const session = await auth();
     if (!session?.user?.email) return { message: "Unauthorized", success: false };
 
-    // In real app, verify session.user is MANAGER
-
     try {
+        const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+        if (!user || user.role !== "MANAGER") {
+            return { message: "Unauthorized: Manager role required", success: false };
+        }
+
         await prisma.leaveRequest.update({
             where: { id: leaveId },
             data: {
                 managerStatus: status,
-                managerId: session.user.id
+                managerId: session.user.id,
+                ...(status === 'REJECTED' ? { hrStatus: 'REJECTED' } : {})
             }
         });
 
@@ -111,9 +115,12 @@ export async function approveLeaveHR(leaveId: string, status: "APPROVED" | "REJE
     const session = await auth();
     if (!session?.user?.email) return { message: "Unauthorized", success: false };
 
-    // In real app, verify session.user is HR
-
     try {
+        const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+        if (!user || (user.role !== "HR" && user.role !== "ADMIN")) {
+            return { message: "Unauthorized: HR or Admin role required", success: false };
+        }
+
         await prisma.leaveRequest.update({
             where: { id: leaveId },
             data: {

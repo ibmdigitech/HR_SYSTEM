@@ -30,9 +30,32 @@ export default async function DashboardPage() {
 
     // Fetch Stats
     const totalEmployees = await prisma.employee.count();
-    const pendingLeavesCount = await prisma.leaveRequest.count({
-        where: { hrStatus: "PENDING" }
-    });
+    let pendingLeavesCount = 0;
+    if (userRole === "MANAGER" && user.employee) {
+        // Managers see count of pending requests from their direct reports
+        pendingLeavesCount = await prisma.leaveRequest.count({
+            where: {
+                managerStatus: "PENDING",
+                employee: { managerId: user.employee.id }
+            }
+        });
+    } else if (userRole === "HR" || userRole === "ADMIN") {
+        // HR/Admin see requests approved by manager but pending HR
+        pendingLeavesCount = await prisma.leaveRequest.count({
+            where: {
+                managerStatus: "APPROVED",
+                hrStatus: "PENDING"
+            }
+        });
+    } else if (userRole === "STAFF" && user.employee) {
+        // Staff see their own pending requests
+        pendingLeavesCount = await prisma.leaveRequest.count({
+            where: {
+                employeeId: user.employee.id,
+                hrStatus: "PENDING"
+            }
+        });
+    }
 
     const presentTodayCount = await prisma.attendance.count({
         where: {

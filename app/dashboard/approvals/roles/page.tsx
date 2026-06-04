@@ -35,8 +35,11 @@ async function handleRoleRequest(requestId: string, action: "APPROVED" | "REJECT
 
 export default async function RoleApprovalsPage() {
     const session = await auth();
-    if (!session?.user?.email?.includes("admin")) {
-        // Simple check, real app needs robust role guard
+    if (!session?.user?.email) {
+        return <div className="p-8">Access Denied: Unauthenticated</div>
+    }
+    const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+    if (!user || user.role !== "ADMIN") {
         return <div className="p-8">Access Denied: Admins Only</div>
     }
 

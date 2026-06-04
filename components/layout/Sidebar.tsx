@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { signOut } from "next-auth/react";
 import {
     LayoutDashboard,
     Users,
@@ -18,7 +19,8 @@ import {
     HeartHandshake,
     Sparkles,
     ChevronRight,
-    Activity
+    Activity,
+    CheckCircle2
 } from "lucide-react";
 
 const sidebarItems = [
@@ -26,6 +28,7 @@ const sidebarItems = [
     { title: "Employees",      href: "/employees",                icon: Users },
     { title: "Attendance",     href: "/attendance",               icon: Calendar },
     { title: "Leaves",         href: "/leaves",                   icon: Briefcase },
+    { title: "Approvals",      href: "/dashboard/approvals",      icon: CheckCircle2 },
     { title: "Payroll",        href: "/payroll",                  icon: CreditCard },
     { title: "Visa & Compliance", href: "/dashboard/visa",        icon: FileUp },
     { title: "Letters",        href: "/letters",                  icon: FileText },
@@ -34,8 +37,31 @@ const sidebarItems = [
     { title: "Settings",       href: "/settings",                 icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+    user?: {
+        name?: string | null;
+        email?: string | null;
+        image?: string | null;
+        role?: string | null;
+    };
+}
+
+export function Sidebar({ user }: SidebarProps) {
     const pathname = usePathname();
+
+    const filteredCoreItems = sidebarItems.slice(0, 7).filter(item => {
+        if (item.href === "/dashboard/approvals") {
+            return user?.role === "ADMIN" || user?.role === "HR" || user?.role === "MANAGER";
+        }
+        return true;
+    });
+
+    const filteredAdminItems = sidebarItems.slice(7).filter(item => {
+        if (item.href === "/dashboard/admin/services") {
+            return user?.role === "ADMIN";
+        }
+        return true;
+    });
 
     return (
         <div className="hidden lg:flex flex-col h-screen w-72 border-r border-slate-200/50 bg-slate-900 dark:bg-slate-950 shadow-2xl relative overflow-hidden">
@@ -61,7 +87,7 @@ export function Sidebar() {
                     <div>
                         <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Core Platform</p>
                         <nav className="space-y-1.5">
-                            {sidebarItems.slice(0, 6).map((item) => {
+                            {filteredCoreItems.map((item) => {
                                 const isActive = (item as any).exact
                                     ? pathname === item.href
                                     : pathname === item.href || pathname.startsWith(item.href + "/");
@@ -90,7 +116,7 @@ export function Sidebar() {
                     <div>
                         <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Administration</p>
                         <nav className="space-y-1.5">
-                            {sidebarItems.slice(6).map((item) => {
+                            {filteredAdminItems.map((item) => {
                                 const isActive = (item as any).exact
                                     ? pathname === item.href
                                     : pathname === item.href || pathname.startsWith(item.href + "/");
@@ -136,7 +162,10 @@ export function Sidebar() {
                     </div>
                 </div>
 
-                <button className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-black text-rose-400 hover:bg-rose-500/10 transition-all group">
+                <button 
+                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-black text-rose-400 hover:bg-rose-500/10 transition-all group cursor-pointer"
+                >
                     <LogOut className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                     Terminate Session
                 </button>
@@ -144,4 +173,5 @@ export function Sidebar() {
         </div>
     );
 }
+
 

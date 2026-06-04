@@ -36,7 +36,7 @@ export async function upsertSalaryStructure(formData: FormData) {
                 employeeId: employeeId,
                 action: "SALARY_UPDATE",
                 details: `Updated salary structure. CTC: ${ctc}`,
-                changedBy: session.user.email || "System"
+                changedBy: session?.user?.email || "System"
             }
         });
 

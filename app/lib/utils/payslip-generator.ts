@@ -62,7 +62,7 @@ export const generatePayslipPDF = (data: any) => {
     const totalDeductions = latePenalty + leaveDeduction + loanDeduction + otherDeductions;
 
     autoTable(doc, {
-        startY: doc.lastAutoTable.finalY + 10,
+        startY: (doc as any).lastAutoTable.finalY + 10,
         margin: { left: 20, right: 20 },
         head: [['Earnings Description', 'Amount (AED)', 'Deductions Description', 'Amount (AED)']],
         body: [
@@ -88,17 +88,17 @@ export const generatePayslipPDF = (data: any) => {
     // Net Salary Box
     doc.setDrawColor(30, 41, 59);
     doc.setFillColor(30, 41, 59);
-    doc.rect(130, doc.lastAutoTable.finalY + 10, 60, 20, 'F');
+    doc.rect(130, (doc as any).lastAutoTable.finalY + 10, 60, 20, 'F');
     
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
-    doc.text("NET SALARY (AED)", 160, doc.lastAutoTable.finalY + 18, { align: "center" });
+    doc.text("NET SALARY (AED)", 160, (doc as any).lastAutoTable.finalY + 18, { align: "center" });
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
-    doc.text(net.toFixed(2), 160, doc.lastAutoTable.finalY + 26, { align: "center" });
+    doc.text(net.toFixed(2), 160, (doc as any).lastAutoTable.finalY + 26, { align: "center" });
 
     // Footer
-    const finalY = doc.lastAutoTable.finalY + 60;
+    const finalY = (doc as any).lastAutoTable.finalY + 60;
     doc.setFontSize(8);
     doc.setTextColor(150);
     doc.setFont("helvetica", "normal");

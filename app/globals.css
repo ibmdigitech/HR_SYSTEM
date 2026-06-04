@@ -1,26 +1,221 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   CSS Variables
+═══════════════════════════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card:       #ffffff;
+  --sidebar-bg: #0f172a;
+  --radius:     0.75rem;
+  --font-sans:  var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  --font-mono:  var(--font-geist-mono), "Fira Code", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0f1e;
+    --foreground: #e2e8f0;
+    --card:       #111827;
+    --sidebar-bg: #050a14;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ═══════════════════════════════════════════════════════════════
+   Base Reset & Typography
+═══════════════════════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Scrollbar — Hide in sidebar, custom everywhere else
+═══════════════════════════════════════════════════════════════ */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom thin scrollbar for main content */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Selection colour
+═══════════════════════════════════════════════════════════════ */
+::selection {
+  background: rgba(99, 102, 241, 0.25);
+  color: inherit;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Focus ring — consistent across all interactive elements
+═══════════════════════════════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card glass-morphism utility
+═══════════════════════════════════════════════════════════════ */
+.glass {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Leave type badge colours  (used in the leaves module)
+═══════════════════════════════════════════════════════════════ */
+.leave-annual       { @apply bg-violet-50  text-violet-700  border-violet-100  dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-900/50; }
+.leave-sick         { @apply bg-rose-50    text-rose-700    border-rose-100    dark:bg-rose-950/40   dark:text-rose-400   dark:border-rose-900/50; }
+.leave-casual       { @apply bg-sky-50     text-sky-700     border-sky-100     dark:bg-sky-950/40    dark:text-sky-400    dark:border-sky-900/50; }
+.leave-maternity    { @apply bg-pink-50    text-pink-700    border-pink-100    dark:bg-pink-950/40   dark:text-pink-400   dark:border-pink-900/50; }
+.leave-paternity    { @apply bg-blue-50    text-blue-700    border-blue-100    dark:bg-blue-950/40   dark:text-blue-400   dark:border-blue-900/50; }
+.leave-emergency    { @apply bg-orange-50  text-orange-700  border-orange-100  dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-900/50; }
+.leave-bereavement  { @apply bg-slate-100  text-slate-700   border-slate-200   dark:bg-slate-800/60  dark:text-slate-300  dark:border-slate-700; }
+.leave-hajj         { @apply bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900/50; }
+.leave-study        { @apply bg-amber-50   text-amber-700   border-amber-100   dark:bg-amber-950/40  dark:text-amber-400  dark:border-amber-900/50; }
+.leave-compensation { @apply bg-teal-50    text-teal-700    border-teal-100    dark:bg-teal-950/40   dark:text-teal-400   dark:border-teal-900/50; }
+.leave-half_day     { @apply bg-indigo-50  text-indigo-700  border-indigo-100  dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-900/50; }
+.leave-unpaid       { @apply bg-gray-100   text-gray-700    border-gray-200    dark:bg-gray-800/60   dark:text-gray-300   dark:border-gray-700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Status badges
+═══════════════════════════════════════════════════════════════ */
+.status-pending  { @apply bg-amber-100  text-amber-700  dark:bg-amber-900/30  dark:text-amber-400; }
+.status-approved { @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400; }
+.status-rejected { @apply bg-rose-100   text-rose-700   dark:bg-rose-900/30   dark:text-rose-400; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Animations
+═══════════════════════════════════════════════════════════════ */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
+  70%  { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease both;
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease both;
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+/* Stagger helpers */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Table — zebra striping + hover
+═══════════════════════════════════════════════════════════════ */
+.hr-table tbody tr:nth-child(even) {
+  background-color: rgba(248, 250, 252, 0.6);
+}
+@media (prefers-color-scheme: dark) {
+  .hr-table tbody tr:nth-child(even) {
+    background-color: rgba(15, 23, 42, 0.3);
+  }
+}
+.hr-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+.hr-table tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.04) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Date input — remove native browser chrome
+═══════════════════════════════════════════════════════════════ */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Print styles — clean output for letters / payslips
+═══════════════════════════════════════════════════════════════ */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; color: black; font-size: 12pt; }
+  .print-break { page-break-after: always; }
 }

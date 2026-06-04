@@ -119,3 +119,30 @@ export async function deleteServiceType(id: string) {
         return { success: false, message: "Failed to delete service type" };
     }
 }
+
+/**
+ * HR/Manager Action: Approve or Reject a Staff Request
+ */
+export async function approveStaffRequest(requestId: string, status: "APPROVED" | "REJECTED") {
+    const session = await auth();
+    if (!session || !session.user) {
+        return { success: false, message: "Unauthorized" };
+    }
+
+    try {
+        const user = await prisma.user.findUnique({ where: { email: session.user.email! } });
+        if (!user || !["ADMIN", "HR", "MANAGER"].includes(user.role)) {
+            return { success: false, message: "Unauthorized: Required role not found" };
+        }
+
+        await prisma.staffRequest.update({
+            where: { id: requestId },
+            data: { status }
+        });
+        revalidatePath("/dashboard/approvals");
+        revalidatePath("/dashboard/requests");
+        return { success: true, message: `Request ${status.toLowerCase()}` };
+    } catch (error) {
+        return { success: false, message: "Failed to update request" };
+    }
+}

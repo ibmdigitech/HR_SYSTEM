@@ -9,7 +9,22 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarIcon, Send, Clock, Sparkles, FileText, CheckCircle2 } from "lucide-react";
+import { CalendarIcon, Send, Clock, Sparkles, FileText, CheckCircle2, Info } from "lucide-react";
+
+const LEAVE_TYPES = [
+    { value: "ANNUAL",       label: "Annual Leave",         emoji: "✈️",  desc: "Paid yearly vacation entitlement" },
+    { value: "SICK",         label: "Sick Leave",           emoji: "🤒", desc: "Medical illness or injury" },
+    { value: "CASUAL",       label: "Casual Leave",         emoji: "☕", desc: "Short personal errands or urgent matters" },
+    { value: "MATERNITY",    label: "Maternity Leave",      emoji: "🤱", desc: "Paid leave for childbirth (mothers)" },
+    { value: "PATERNITY",    label: "Paternity Leave",      emoji: "👨‍👶", desc: "Leave for new fathers" },
+    { value: "EMERGENCY",    label: "Emergency Leave",      emoji: "🚨", desc: "Sudden unforeseen personal emergency" },
+    { value: "BEREAVEMENT",  label: "Bereavement Leave",   emoji: "🕊️", desc: "Death of an immediate family member" },
+    { value: "HAJJ",         label: "Hajj Leave",           emoji: "🕌", desc: "Islamic pilgrimage leave (once in service)" },
+    { value: "STUDY",        label: "Study / Exam Leave",   emoji: "📚", desc: "Approved educational examination leave" },
+    { value: "COMPENSATION", label: "Compensation Leave",   emoji: "⚖️", desc: "Time off in lieu of extra hours worked" },
+    { value: "HALF_DAY",     label: "Half Day Leave",       emoji: "🌓", desc: "Morning or afternoon absence" },
+    { value: "UNPAID",       label: "Unpaid Leave",         emoji: "💸", desc: "Leave without pay upon request" },
+];
 
 const initialState = {
     message: "",
@@ -75,14 +90,23 @@ export default function ApplyLeavePage() {
                                     </Label>
                                     <Select name="type" required>
                                         <SelectTrigger className="h-12 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-indigo-500 rounded-xl transition-all shadow-sm">
-                                            <SelectValue placeholder="Select type of leave" />
+                                            <SelectValue placeholder="Select type of leave…" />
                                         </SelectTrigger>
-                                        <SelectContent className="rounded-xl border-slate-200 dark:border-slate-800 shadow-xl">
-                                            <SelectItem value="SICK" className="py-3 cursor-pointer">🤒 Sick Leave</SelectItem>
-                                            <SelectItem value="CASUAL" className="py-3 cursor-pointer">☕ Casual Leave</SelectItem>
-                                            <SelectItem value="ANNUAL" className="py-3 cursor-pointer">✈️ Annual Leave</SelectItem>
+                                        <SelectContent className="rounded-xl border-slate-200 dark:border-slate-800 shadow-xl max-h-80">
+                                            {LEAVE_TYPES.map((lt) => (
+                                                <SelectItem key={lt.value} value={lt.value} className="py-3 cursor-pointer">
+                                                    <span className="flex items-center gap-2">
+                                                        <span>{lt.emoji}</span>
+                                                        <span className="font-semibold">{lt.label}</span>
+                                                        <span className="text-xs text-slate-400 hidden md:inline">— {lt.desc}</span>
+                                                    </span>
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
+                                    <p className="flex items-center gap-1 text-xs text-slate-400 mt-1">
+                                        <Info className="w-3 h-3" /> Choose the leave category that best matches your request.
+                                    </p>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
