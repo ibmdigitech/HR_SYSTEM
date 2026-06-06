@@ -4,12 +4,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
 }
 
 model User {
-  id                    String         @id @default(cuid())
+  id                    String         @id @default(cuid()) @map("_id")
   name                  String?
   email                 String         @unique
   emailVerified         DateTime?
@@ -26,7 +26,7 @@ model User {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(cuid()) @map("_id")
   userId            String
   type              String
   provider          String
@@ -44,7 +44,7 @@ model Account {
 }
 
 model RoleRequest {
-  id            String   @id @default(cuid())
+  id            String   @id @default(cuid()) @map("_id")
   userId        String
   user          User     @relation(fields: [userId], references: [id])
   requestedRole String
@@ -53,68 +53,111 @@ model RoleRequest {
   updatedAt     DateTime @updatedAt
 }
 
+// ─── EMPLOYEE MASTER TABLE (Central Entity) ───────────────────────────────────
 model Employee {
-  id               String     @id @default(cuid())
-  userId           String     @unique
-  user             User       @relation(fields: [userId], references: [id])
-  firstName        String
-  lastName         String
-  email            String     @unique
-  rollNumber       String     @unique
-  designation      String
-  department       String
-  joiningDate      DateTime
-  isActive         Boolean    @default(true)
-  photo            String?
-  phone            String?
-  dateOfBirth      DateTime?
-  gender           String?
-  maritalStatus    String?
-  nationality      String?
-  governmentId     String?
-  address          String?
-  permanentAddress String?
-  emergencyContact String?
-  emergencyPhone   String?
-  bankName         String?
-  accountNumber    String?
-  ifscCode         String?
-  employmentType   String     @default("FULL_TIME")
-  probationDays    Int        @default(90)
-  workLocation     String?
-  currentStatus    String     @default("ACTIVE")
-  managerId        String?
-  manager          Employee?  @relation("ManagerToStaff", fields: [managerId], references: [id])
-  reportees        Employee[] @relation("ManagerToStaff")
-
-  shiftId String?
-  shift   Shift?  @relation(fields: [shiftId], references: [id])
-
-  leaveRequests   LeaveRequest[]
-  attendance      Attendance[]
-  salaryStructure SalaryStructure?
-  salaryRecords   SalaryRecord[]
-  letterRecords   LetterRecord[]
-  staffRequests   StaffRequest[]
-  visaRequests    VisaRequest[]
-  letters         Letter[]
-  // assets            Asset[]
-  // assetRequests     AssetRequest[]
-  // performanceReviews PerformanceReview[]
-  // exitProcess       ExitProcess?
-  // leaveBalances     LeaveBalance[]
-  attachments     Attachment[]
-  auditLogs       AuditLog[]
+  id                     String           @id @default(cuid()) @map("_id")
+  userId                 String           @unique
+  user                   User             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeCode           String?          @unique // Auto-generated: EMP-001
+  firstName              String
+  lastName               String
+  email                  String           @unique
+  rollNumber             String           @unique
+  photo                  String?
+  phone                  String?
+  gender                 String?
+  dateOfBirth            DateTime?
+  nationality            String?
+  maritalStatus          String?
+  designation            String
+  department             String
+  joiningDate            DateTime
+  employmentType         String           @default("FULL_TIME")
+  workLocation           String?
+  probationDays          Int              @default(90)
+  currentStatus          String           @default("ACTIVE") // ACTIVE, ON_LEAVE, RESIGNED, TERMINATED
+  isActive               Boolean          @default(true)
+  address                String?
+  permanentAddress       String?
+  emergencyContact       String?
+  emergencyPhone         String?
+  governmentId           String?
+  bankName               String?
+  accountNumber          String?
+  iban                   String?
+  ifscCode               String?
+  basicSalary            Float?
+  housingAllowance       Float?
+  transportAllowance     Float?
+  otherAllowance         Float?
+  passportNumber         String?
+  passportExpiry         DateTime?
+  emiratesId             String?
+  emiratesIdExpiry       DateTime?
+  visaNumber             String?
+  visaExpiry             DateTime?
+  visaType               String?
+  medicalInsuranceExpiry DateTime?
+  iloeInsuranceExpiry    DateTime?
+  shiftId                String?
+  shift                  Shift?           @relation(fields: [shiftId], references: [id])
+  leaveRequests          LeaveRequest[]
+  leaveBalances          LeaveBalance[]
+  attendance             Attendance[]
+  salaryStructure        SalaryStructure?
+  salaryRecords          SalaryRecord[]
+  letterRecords          LetterRecord[]
+  staffRequests          StaffRequest[]
+  visaRequests           VisaRequest[]
+  letters                Letter[]
+  attachments            Attachment[]
+  auditLogs              AuditLog[]
+  notifications          Notification[]
+  loans                  Loan[]
+  overtime               Overtime[]
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  managerId              String?
+  manager                Employee?        @relation("ManagerToStaff", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reportees              Employee[]       @relation("ManagerToStaff")
 }
 
+// ─── LEAVE BALANCE (Auto-created on employee onboarding) ─────────────────────
+model LeaveBalance {
+  id         String   @id @default(cuid()) @map("_id")
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  leaveType  String // ANNUAL, SICK, CASUAL, EMERGENCY, UNPAID, MATERNITY, PATERNITY, etc.
+  totalDays  Int      @default(0)
+  usedDays   Int      @default(0)
+  year       Int // Calendar year this balance applies to
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ─── NOTIFICATIONS ────────────────────────────────────────────────────────────
+model Notification {
+  id         String   @id @default(cuid()) @map("_id")
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title      String
+  message    String
+  type       String   @default("INFO") // INFO, SUCCESS, WARNING, ALERT
+  isRead     Boolean  @default(false)
+  link       String? // Optional deep link
+  createdAt  DateTime @default(now())
+}
+
+// ─── ATTENDANCE ───────────────────────────────────────────────────────────────
 model Attendance {
-  id              String         @id @default(cuid())
+  id              String         @id @default(cuid()) @map("_id")
   employeeId      String
   employee        Employee       @relation(fields: [employeeId], references: [id])
   date            DateTime
   checkIn         DateTime?
   checkOut        DateTime?
   status          String         @default("PRESENT") // PRESENT, ABSENT, LATE, LEAVE, HOLIDAY
+  lateMinutes     Int            @default(0)
   overtimeMinutes Int            @default(0)
   shiftId         String?
   shift           Shift?         @relation(fields: [shiftId], references: [id])
@@ -124,7 +167,7 @@ model Attendance {
 }
 
 model Shift {
-  id            String       @id @default(cuid())
+  id            String       @id @default(cuid()) @map("_id")
   name          String
   startTime     String
   endTime       String
@@ -135,7 +178,7 @@ model Shift {
 }
 
 model BiometricLog {
-  id           String      @id @default(cuid())
+  id           String      @id @default(cuid()) @map("_id")
   attendanceId String?
   attendance   Attendance? @relation(fields: [attendanceId], references: [id])
   deviceId     String?
@@ -146,7 +189,7 @@ model BiometricLog {
 }
 
 model AuditLog {
-  id         String   @id @default(cuid())
+  id         String   @id @default(cuid()) @map("_id")
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id])
   action     String
@@ -155,8 +198,9 @@ model AuditLog {
   createdAt  DateTime @default(now())
 }
 
+// ─── LEAVE ────────────────────────────────────────────────────────────────────
 model LeaveRequest {
-  id            String   @id @default(cuid())
+  id            String   @id @default(cuid()) @map("_id")
   employeeId    String
   employee      Employee @relation(fields: [employeeId], references: [id])
   type          String
@@ -173,17 +217,21 @@ model LeaveRequest {
   updatedAt     DateTime @updatedAt
 }
 
+// ─── PAYROLL ──────────────────────────────────────────────────────────────────
 model SalaryStructure {
-  id                 String   @id @default(cuid())
+  id                 String   @id @default(cuid()) @map("_id")
   employeeId         String   @unique
   employee           Employee @relation(fields: [employeeId], references: [id])
-  ctc                Float
-  basic              Float
+  ctc                Float    @default(0)
+  basic              Float    @default(0)
   housingAllowance   Float    @default(0)
   transportAllowance Float    @default(0)
   medicalAllowance   Float    @default(0)
+  foodAllowance      Float    @default(0)
+  travelAllowance    Float    @default(0)
+  commission         Float    @default(0)
   otherAllowances    Float    @default(0)
-  paymentMethod      String   @default("BANK_TRANSFER") // BANK_TRANSFER, CASH, WPS
+  paymentMethod      String   @default("BANK_TRANSFER")
   bankName           String?
   iban               String?
   createdAt          DateTime @default(now())
@@ -191,7 +239,7 @@ model SalaryStructure {
 }
 
 model SalaryRecord {
-  id                 String    @id @default(cuid())
+  id                 String    @id @default(cuid()) @map("_id")
   employeeId         String
   employee           Employee  @relation(fields: [employeeId], references: [id])
   month              Int
@@ -200,23 +248,55 @@ model SalaryRecord {
   housingAllowance   Float     @default(0)
   transportAllowance Float     @default(0)
   medicalAllowance   Float     @default(0)
+  foodAllowance      Float     @default(0)
+  travelAllowance    Float     @default(0)
+  commission         Float     @default(0)
   otherAllowances    Float     @default(0)
   latePenalty        Float     @default(0)
+  penalty            Float     @default(0)
   leaveDeduction     Float     @default(0)
   loanDeduction      Float     @default(0)
+  advanceSalary      Float     @default(0)
   otherDeductions    Float     @default(0)
   overtimePay        Float     @default(0)
   bonus              Float     @default(0)
   netSalary          Float
-  status             String    @default("PENDING") // PENDING, APPROVED, PAID, FAILED
+  status             String    @default("DRAFT") // DRAFT, PENDING_HR, PENDING_FINANCE, PENDING_MANAGEMENT, PROCESSED, PAID, CANCELLED
   paymentMethod      String    @default("BANK_TRANSFER")
   paidAt             DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }
 
+model Loan {
+  id                String   @id @default(cuid()) @map("_id")
+  employeeId        String
+  employee          Employee @relation(fields: [employeeId], references: [id])
+  amount            Float
+  issueDate         DateTime
+  installmentAmount Float
+  remainingBalance  Float
+  status            String   @default("ACTIVE") // ACTIVE, PAID, CANCELLED
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Overtime {
+  id          String   @id @default(cuid()) @map("_id")
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id])
+  date        DateTime
+  hours       Float
+  ratePerHour Float
+  totalPay    Float
+  status      String   @default("PENDING") // PENDING, APPROVED, PAID, REJECTED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─── STAFF SERVICES & REQUESTS ────────────────────────────────────────────────
 model StaffServiceType {
-  id             String         @id @default(cuid())
+  id             String         @id @default(cuid()) @map("_id")
   name           String         @unique
   icon           String?
   description    String?
@@ -229,7 +309,7 @@ model StaffServiceType {
 }
 
 model StaffRequest {
-  id          String           @id @default(cuid())
+  id          String           @id @default(cuid()) @map("_id")
   employeeId  String
   employee    Employee         @relation(fields: [employeeId], references: [id])
   typeId      String
@@ -238,14 +318,16 @@ model StaffRequest {
   amount      Float?
   startDate   DateTime?
   endDate     DateTime?
-  status      String           @default("PENDING")
+  status      String           @default("PENDING") // PENDING, HR_REVIEW, APPROVED, REJECTED, COMPLETED
+  hrNote      String?
   attachments Attachment[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 }
 
+// ─── DOCUMENTS & ATTACHMENTS ──────────────────────────────────────────────────
 model Attachment {
-  id             String        @id @default(cuid())
+  id             String        @id @default(cuid()) @map("_id")
   staffRequestId String?
   staffRequest   StaffRequest? @relation(fields: [staffRequestId], references: [id], onDelete: Cascade)
   visaRequestId  String?
@@ -261,8 +343,9 @@ model Attachment {
   createdAt      DateTime      @default(now())
 }
 
+// ─── VISA APPLICATIONS ────────────────────────────────────────────────────────
 model VisaRequest {
-  id                 String       @id @default(cuid())
+  id                 String       @id @default(cuid()) @map("_id")
   employeeId         String
   employee           Employee     @relation(fields: [employeeId], references: [id])
   visaType           String
@@ -275,38 +358,23 @@ model VisaRequest {
   updatedAt          DateTime     @updatedAt
 }
 
+// ─── LETTERS ──────────────────────────────────────────────────────────────────
 model LetterRecord {
-  id            String    @id @default(cuid())
+  id            String    @id @default(cuid()) @map("_id")
   employeeId    String?
   employee      Employee? @relation(fields: [employeeId], references: [id])
-  type          String // OFFER, APPOINTMENT, RELIEVING
+  type          String
   recipientName String
   details       String?
   generatedAt   DateTime  @default(now())
 }
 
-model ServiceConfig {
-  id          String   @id @default(cuid())
-  module      String // payroll, leave, visa, etc.
-  key         String // unique config key
-  label       String // display name
-  description String?
-  type        String // text, number, boolean, select, json
-  value       String // stored as string (parse based on type)
-  options     Json? // for dropdown values
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@unique([module, key])
-}
-
 model LetterTemplate {
-  id         String   @id @default(cuid())
+  id         String   @id @default(cuid()) @map("_id")
   name       String
-  type       String // SALARY_CERTIFICATE, NOC, VISA_LETTER, WARNING, etc.
-  content_en String // Markdown or HTML template with {{vars}}
-  content_ar String? // Optional Arabic content
+  type       String
+  content_en String
+  content_ar String?
   isActive   Boolean  @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -314,19 +382,36 @@ model LetterTemplate {
 }
 
 model Letter {
-  id              String         @id @default(cuid())
+  id              String         @id @default(cuid()) @map("_id")
   employeeId      String
   employee        Employee       @relation(fields: [employeeId], references: [id])
   templateId      String
   template        LetterTemplate @relation(fields: [templateId], references: [id])
-  referenceNumber String         @unique // LTR-UAE-2026-001
-  status          String         @default("DRAFT") // DRAFT, PENDING, APPROVED, REJECTED, GENERATED
-  content_en      String // Actual generated content
-  content_ar      String? // Actual generated Arabic content
+  referenceNumber String         @unique
+  status          String         @default("DRAFT")
+  content_en      String
+  content_ar      String?
   pdfUrl          String?
   comments        String?
   approvedBy      String?
   approvedAt      DateTime?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
+}
+
+// ─── SYSTEM CONFIG ────────────────────────────────────────────────────────────
+model ServiceConfig {
+  id          String   @id @default(cuid()) @map("_id")
+  module      String
+  key         String
+  label       String
+  description String?
+  type        String
+  value       String
+  options     Json?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([module, key])
 }

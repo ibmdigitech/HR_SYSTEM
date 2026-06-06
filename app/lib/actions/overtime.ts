@@ -38,7 +38,7 @@ export async function createOvertime(formData: FormData) {
                 employeeId,
                 action: "OVERTIME_LOGGED",
                 details: `Logged ${hours} hours of overtime for ${date.toISOString().split('T')[0]}`,
-                changedBy: session.user.email || "System"
+                changedBy: session.user?.email || "System"
             }
         });
 

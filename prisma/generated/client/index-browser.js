@@ -114,10 +114,6 @@ Prisma.NullTypes = {
  * Enums
  */
 
-exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
-  Serializable: 'Serializable'
-});
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -176,7 +172,6 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   probationDays: 'probationDays',
   currentStatus: 'currentStatus',
   isActive: 'isActive',
-  managerId: 'managerId',
   address: 'address',
   permanentAddress: 'permanentAddress',
   emergencyContact: 'emergencyContact',
@@ -201,7 +196,8 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   iloeInsuranceExpiry: 'iloeInsuranceExpiry',
   shiftId: 'shiftId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  managerId: 'managerId'
 };
 
 exports.Prisma.LeaveBalanceScalarFieldEnum = {
@@ -460,22 +456,6 @@ exports.Prisma.ServiceConfigScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
-};
-
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
-};
-
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
 };
 
 exports.Prisma.QueryMode = {

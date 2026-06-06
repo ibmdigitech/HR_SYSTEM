@@ -1,7 +1,13 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.MONGODB_URI
+    }
+  }
+});
 
 async function main() {
     console.log('Seeding...');

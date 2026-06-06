@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Calendar as CalendarIcon, Clock, Filter, Search, UserCheck, TrendingUp, Users, MapPin, ChevronRight } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, Filter, UserCheck, Users, MapPin, Cpu } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { redirect } from "next/navigation";
 import { CheckInButton } from "@/components/attendance/CheckInButton";
+import { AttendanceDownloadButton } from "@/components/attendance/AttendanceDownloadButton";
 import Link from "next/link";
 
 export default async function AttendancePage({
@@ -114,11 +115,18 @@ export default async function AttendancePage({
                         Monitor daily presence, track shift compliance, and manage workforce availability in real-time.
                     </p>
                 </div>
-                <div className="relative z-10 flex flex-col sm:flex-row gap-3">
-                    <Button variant="secondary" className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
-                        <Filter className="h-4 w-4" />
-                        Log Filters
-                    </Button>
+                <div className="relative z-10 flex flex-col sm:flex-row gap-3 flex-wrap">
+                    {(userRole === "ADMIN" || userRole === "HR") && (
+                        <Link href="/attendance/machine-integration">
+                            <Button variant="secondary" className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
+                                <Cpu className="h-4 w-4" />
+                                Machine Import
+                            </Button>
+                        </Link>
+                    )}
+                    {(userRole === "ADMIN" || userRole === "HR" || userRole === "MANAGER") && (
+                        <AttendanceDownloadButton />
+                    )}
                     <CheckInButton />
                 </div>
             </div>

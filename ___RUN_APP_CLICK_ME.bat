@@ -19,7 +19,7 @@ CD /D "%~dp0"
 IF NOT EXIST ".env" (
     ECHO [SETUP] Creating .env file...
     (
-        ECHO DATABASE_URL="file:./dev.db"
+        ECHO MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.mongodb.net/hr-system?retryWrites=true&w=majority"
         ECHO AUTH_SECRET="secret-key-generated-by-launcher"
     ) > .env
 )

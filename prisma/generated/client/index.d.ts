@@ -179,53 +179,6 @@ export class PrismaClient<
   $disconnect(): $Utils.JsPromise<void>;
 
 /**
-   * Executes a prepared raw query and returns the number of affected rows.
-   * @example
-   * ```
-   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
-
-  /**
-   * Executes a raw query and returns the number of affected rows.
-   * Susceptible to SQL injections, see documentation.
-   * @example
-   * ```
-   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
-
-  /**
-   * Performs a prepared raw query and returns the `SELECT` data.
-   * @example
-   * ```
-   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
-
-  /**
-   * Performs a raw query and returns the `SELECT` data.
-   * Susceptible to SQL injections, see documentation.
-   * @example
-   * ```
-   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
-
-
-  /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
    * @example
    * ```
@@ -238,10 +191,24 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P]): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
-  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
+  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number }): $Utils.JsPromise<R>
 
+  /**
+   * Executes a raw MongoDB command and returns the result of it.
+   * @example
+   * ```
+   * const user = await prisma.$runCommandRaw({
+   *   aggregate: 'User',
+   *   pipeline: [{ $match: { name: 'Bob' } }, { $project: { email: true, _id: false } }],
+   *   explain: false,
+   * })
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $runCommandRaw(command: Prisma.InputJsonObject): Prisma.PrismaPromise<Prisma.JsonObject>
 
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
@@ -959,7 +926,7 @@ export namespace Prisma {
     }
     meta: {
       modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "loan" | "overtime" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig"
-      txIsolationLevel: Prisma.TransactionIsolationLevel
+      txIsolationLevel: never
     }
     model: {
       User: {
@@ -994,10 +961,6 @@ export namespace Prisma {
             args: Prisma.UserCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
           delete: {
             args: Prisma.UserDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UserPayload>
@@ -1014,10 +977,6 @@ export namespace Prisma {
             args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
-          }
           upsert: {
             args: Prisma.UserUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$UserPayload>
@@ -1029,6 +988,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.UserGroupByArgs<ExtArgs>
             result: $Utils.Optional<UserGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.UserFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.UserAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
@@ -1068,10 +1035,6 @@ export namespace Prisma {
             args: Prisma.AccountCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.AccountCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AccountPayload>[]
-          }
           delete: {
             args: Prisma.AccountDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AccountPayload>
@@ -1088,10 +1051,6 @@ export namespace Prisma {
             args: Prisma.AccountUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.AccountUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AccountPayload>[]
-          }
           upsert: {
             args: Prisma.AccountUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AccountPayload>
@@ -1103,6 +1062,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.AccountGroupByArgs<ExtArgs>
             result: $Utils.Optional<AccountGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.AccountFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.AccountAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.AccountCountArgs<ExtArgs>
@@ -1142,10 +1109,6 @@ export namespace Prisma {
             args: Prisma.RoleRequestCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.RoleRequestCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RoleRequestPayload>[]
-          }
           delete: {
             args: Prisma.RoleRequestDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$RoleRequestPayload>
@@ -1162,10 +1125,6 @@ export namespace Prisma {
             args: Prisma.RoleRequestUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.RoleRequestUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$RoleRequestPayload>[]
-          }
           upsert: {
             args: Prisma.RoleRequestUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$RoleRequestPayload>
@@ -1177,6 +1136,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.RoleRequestGroupByArgs<ExtArgs>
             result: $Utils.Optional<RoleRequestGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.RoleRequestFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.RoleRequestAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.RoleRequestCountArgs<ExtArgs>
@@ -1216,10 +1183,6 @@ export namespace Prisma {
             args: Prisma.EmployeeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.EmployeeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>[]
-          }
           delete: {
             args: Prisma.EmployeeDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
@@ -1236,10 +1199,6 @@ export namespace Prisma {
             args: Prisma.EmployeeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.EmployeeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EmployeePayload>[]
-          }
           upsert: {
             args: Prisma.EmployeeUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$EmployeePayload>
@@ -1251,6 +1210,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.EmployeeGroupByArgs<ExtArgs>
             result: $Utils.Optional<EmployeeGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.EmployeeFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.EmployeeAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.EmployeeCountArgs<ExtArgs>
@@ -1290,10 +1257,6 @@ export namespace Prisma {
             args: Prisma.LeaveBalanceCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.LeaveBalanceCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
-          }
           delete: {
             args: Prisma.LeaveBalanceDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
@@ -1310,10 +1273,6 @@ export namespace Prisma {
             args: Prisma.LeaveBalanceUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.LeaveBalanceUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>[]
-          }
           upsert: {
             args: Prisma.LeaveBalanceUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LeaveBalancePayload>
@@ -1325,6 +1284,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.LeaveBalanceGroupByArgs<ExtArgs>
             result: $Utils.Optional<LeaveBalanceGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.LeaveBalanceFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.LeaveBalanceAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.LeaveBalanceCountArgs<ExtArgs>
@@ -1364,10 +1331,6 @@ export namespace Prisma {
             args: Prisma.NotificationCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
-          }
           delete: {
             args: Prisma.NotificationDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
@@ -1384,10 +1347,6 @@ export namespace Prisma {
             args: Prisma.NotificationUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
-          }
           upsert: {
             args: Prisma.NotificationUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
@@ -1399,6 +1358,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.NotificationGroupByArgs<ExtArgs>
             result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.NotificationFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.NotificationAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.NotificationCountArgs<ExtArgs>
@@ -1438,10 +1405,6 @@ export namespace Prisma {
             args: Prisma.AttendanceCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.AttendanceCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>[]
-          }
           delete: {
             args: Prisma.AttendanceDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
@@ -1458,10 +1421,6 @@ export namespace Prisma {
             args: Prisma.AttendanceUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.AttendanceUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttendancePayload>[]
-          }
           upsert: {
             args: Prisma.AttendanceUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AttendancePayload>
@@ -1473,6 +1432,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.AttendanceGroupByArgs<ExtArgs>
             result: $Utils.Optional<AttendanceGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.AttendanceFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.AttendanceAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.AttendanceCountArgs<ExtArgs>
@@ -1512,10 +1479,6 @@ export namespace Prisma {
             args: Prisma.ShiftCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.ShiftCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShiftPayload>[]
-          }
           delete: {
             args: Prisma.ShiftDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$ShiftPayload>
@@ -1532,10 +1495,6 @@ export namespace Prisma {
             args: Prisma.ShiftUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.ShiftUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShiftPayload>[]
-          }
           upsert: {
             args: Prisma.ShiftUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$ShiftPayload>
@@ -1547,6 +1506,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.ShiftGroupByArgs<ExtArgs>
             result: $Utils.Optional<ShiftGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.ShiftFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.ShiftAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.ShiftCountArgs<ExtArgs>
@@ -1586,10 +1553,6 @@ export namespace Prisma {
             args: Prisma.BiometricLogCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.BiometricLogCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BiometricLogPayload>[]
-          }
           delete: {
             args: Prisma.BiometricLogDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BiometricLogPayload>
@@ -1606,10 +1569,6 @@ export namespace Prisma {
             args: Prisma.BiometricLogUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.BiometricLogUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BiometricLogPayload>[]
-          }
           upsert: {
             args: Prisma.BiometricLogUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$BiometricLogPayload>
@@ -1621,6 +1580,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.BiometricLogGroupByArgs<ExtArgs>
             result: $Utils.Optional<BiometricLogGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.BiometricLogFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.BiometricLogAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.BiometricLogCountArgs<ExtArgs>
@@ -1660,10 +1627,6 @@ export namespace Prisma {
             args: Prisma.AuditLogCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.AuditLogCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>[]
-          }
           delete: {
             args: Prisma.AuditLogDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
@@ -1680,10 +1643,6 @@ export namespace Prisma {
             args: Prisma.AuditLogUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.AuditLogUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>[]
-          }
           upsert: {
             args: Prisma.AuditLogUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AuditLogPayload>
@@ -1695,6 +1654,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.AuditLogGroupByArgs<ExtArgs>
             result: $Utils.Optional<AuditLogGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.AuditLogFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.AuditLogAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.AuditLogCountArgs<ExtArgs>
@@ -1734,10 +1701,6 @@ export namespace Prisma {
             args: Prisma.LeaveRequestCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.LeaveRequestCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>[]
-          }
           delete: {
             args: Prisma.LeaveRequestDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
@@ -1754,10 +1717,6 @@ export namespace Prisma {
             args: Prisma.LeaveRequestUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.LeaveRequestUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>[]
-          }
           upsert: {
             args: Prisma.LeaveRequestUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LeaveRequestPayload>
@@ -1769,6 +1728,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.LeaveRequestGroupByArgs<ExtArgs>
             result: $Utils.Optional<LeaveRequestGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.LeaveRequestFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.LeaveRequestAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.LeaveRequestCountArgs<ExtArgs>
@@ -1808,10 +1775,6 @@ export namespace Prisma {
             args: Prisma.SalaryStructureCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.SalaryStructureCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>[]
-          }
           delete: {
             args: Prisma.SalaryStructureDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
@@ -1828,10 +1791,6 @@ export namespace Prisma {
             args: Prisma.SalaryStructureUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.SalaryStructureUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>[]
-          }
           upsert: {
             args: Prisma.SalaryStructureUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
@@ -1843,6 +1802,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.SalaryStructureGroupByArgs<ExtArgs>
             result: $Utils.Optional<SalaryStructureGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.SalaryStructureFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.SalaryStructureAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.SalaryStructureCountArgs<ExtArgs>
@@ -1882,10 +1849,6 @@ export namespace Prisma {
             args: Prisma.SalaryRecordCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.SalaryRecordCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SalaryRecordPayload>[]
-          }
           delete: {
             args: Prisma.SalaryRecordDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$SalaryRecordPayload>
@@ -1902,10 +1865,6 @@ export namespace Prisma {
             args: Prisma.SalaryRecordUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.SalaryRecordUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SalaryRecordPayload>[]
-          }
           upsert: {
             args: Prisma.SalaryRecordUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$SalaryRecordPayload>
@@ -1917,6 +1876,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.SalaryRecordGroupByArgs<ExtArgs>
             result: $Utils.Optional<SalaryRecordGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.SalaryRecordFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.SalaryRecordAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.SalaryRecordCountArgs<ExtArgs>
@@ -1956,10 +1923,6 @@ export namespace Prisma {
             args: Prisma.LoanCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.LoanCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
-          }
           delete: {
             args: Prisma.LoanDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LoanPayload>
@@ -1976,10 +1939,6 @@ export namespace Prisma {
             args: Prisma.LoanUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.LoanUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
-          }
           upsert: {
             args: Prisma.LoanUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LoanPayload>
@@ -1991,6 +1950,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.LoanGroupByArgs<ExtArgs>
             result: $Utils.Optional<LoanGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.LoanFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.LoanAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.LoanCountArgs<ExtArgs>
@@ -2030,10 +1997,6 @@ export namespace Prisma {
             args: Prisma.OvertimeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.OvertimeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>[]
-          }
           delete: {
             args: Prisma.OvertimeDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
@@ -2050,10 +2013,6 @@ export namespace Prisma {
             args: Prisma.OvertimeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.OvertimeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OvertimePayload>[]
-          }
           upsert: {
             args: Prisma.OvertimeUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$OvertimePayload>
@@ -2065,6 +2024,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.OvertimeGroupByArgs<ExtArgs>
             result: $Utils.Optional<OvertimeGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.OvertimeFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.OvertimeAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.OvertimeCountArgs<ExtArgs>
@@ -2104,10 +2071,6 @@ export namespace Prisma {
             args: Prisma.StaffServiceTypeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.StaffServiceTypeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>[]
-          }
           delete: {
             args: Prisma.StaffServiceTypeDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
@@ -2124,10 +2087,6 @@ export namespace Prisma {
             args: Prisma.StaffServiceTypeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.StaffServiceTypeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>[]
-          }
           upsert: {
             args: Prisma.StaffServiceTypeUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
@@ -2139,6 +2098,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.StaffServiceTypeGroupByArgs<ExtArgs>
             result: $Utils.Optional<StaffServiceTypeGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.StaffServiceTypeFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.StaffServiceTypeAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.StaffServiceTypeCountArgs<ExtArgs>
@@ -2178,10 +2145,6 @@ export namespace Prisma {
             args: Prisma.StaffRequestCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.StaffRequestCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>[]
-          }
           delete: {
             args: Prisma.StaffRequestDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
@@ -2198,10 +2161,6 @@ export namespace Prisma {
             args: Prisma.StaffRequestUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.StaffRequestUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>[]
-          }
           upsert: {
             args: Prisma.StaffRequestUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
@@ -2213,6 +2172,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.StaffRequestGroupByArgs<ExtArgs>
             result: $Utils.Optional<StaffRequestGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.StaffRequestFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.StaffRequestAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.StaffRequestCountArgs<ExtArgs>
@@ -2252,10 +2219,6 @@ export namespace Prisma {
             args: Prisma.AttachmentCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.AttachmentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
-          }
           delete: {
             args: Prisma.AttachmentDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
@@ -2272,10 +2235,6 @@ export namespace Prisma {
             args: Prisma.AttachmentUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.AttachmentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
-          }
           upsert: {
             args: Prisma.AttachmentUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
@@ -2287,6 +2246,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.AttachmentGroupByArgs<ExtArgs>
             result: $Utils.Optional<AttachmentGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.AttachmentFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.AttachmentAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.AttachmentCountArgs<ExtArgs>
@@ -2326,10 +2293,6 @@ export namespace Prisma {
             args: Prisma.VisaRequestCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.VisaRequestCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisaRequestPayload>[]
-          }
           delete: {
             args: Prisma.VisaRequestDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$VisaRequestPayload>
@@ -2346,10 +2309,6 @@ export namespace Prisma {
             args: Prisma.VisaRequestUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.VisaRequestUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisaRequestPayload>[]
-          }
           upsert: {
             args: Prisma.VisaRequestUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$VisaRequestPayload>
@@ -2361,6 +2320,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.VisaRequestGroupByArgs<ExtArgs>
             result: $Utils.Optional<VisaRequestGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.VisaRequestFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.VisaRequestAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.VisaRequestCountArgs<ExtArgs>
@@ -2400,10 +2367,6 @@ export namespace Prisma {
             args: Prisma.LetterRecordCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.LetterRecordCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LetterRecordPayload>[]
-          }
           delete: {
             args: Prisma.LetterRecordDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LetterRecordPayload>
@@ -2420,10 +2383,6 @@ export namespace Prisma {
             args: Prisma.LetterRecordUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.LetterRecordUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LetterRecordPayload>[]
-          }
           upsert: {
             args: Prisma.LetterRecordUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LetterRecordPayload>
@@ -2435,6 +2394,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.LetterRecordGroupByArgs<ExtArgs>
             result: $Utils.Optional<LetterRecordGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.LetterRecordFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.LetterRecordAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.LetterRecordCountArgs<ExtArgs>
@@ -2474,10 +2441,6 @@ export namespace Prisma {
             args: Prisma.LetterTemplateCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.LetterTemplateCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LetterTemplatePayload>[]
-          }
           delete: {
             args: Prisma.LetterTemplateDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LetterTemplatePayload>
@@ -2494,10 +2457,6 @@ export namespace Prisma {
             args: Prisma.LetterTemplateUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.LetterTemplateUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LetterTemplatePayload>[]
-          }
           upsert: {
             args: Prisma.LetterTemplateUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LetterTemplatePayload>
@@ -2509,6 +2468,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.LetterTemplateGroupByArgs<ExtArgs>
             result: $Utils.Optional<LetterTemplateGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.LetterTemplateFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.LetterTemplateAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.LetterTemplateCountArgs<ExtArgs>
@@ -2548,10 +2515,6 @@ export namespace Prisma {
             args: Prisma.LetterCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.LetterCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LetterPayload>[]
-          }
           delete: {
             args: Prisma.LetterDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LetterPayload>
@@ -2568,10 +2531,6 @@ export namespace Prisma {
             args: Prisma.LetterUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.LetterUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LetterPayload>[]
-          }
           upsert: {
             args: Prisma.LetterUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$LetterPayload>
@@ -2583,6 +2542,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.LetterGroupByArgs<ExtArgs>
             result: $Utils.Optional<LetterGroupByOutputType>[]
+          }
+          findRaw: {
+            args: Prisma.LetterFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.LetterAggregateRawArgs<ExtArgs>
+            result: JsonObject
           }
           count: {
             args: Prisma.LetterCountArgs<ExtArgs>
@@ -2622,10 +2589,6 @@ export namespace Prisma {
             args: Prisma.ServiceConfigCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          createManyAndReturn: {
-            args: Prisma.ServiceConfigCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
-          }
           delete: {
             args: Prisma.ServiceConfigDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
@@ -2642,10 +2605,6 @@ export namespace Prisma {
             args: Prisma.ServiceConfigUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
-          updateManyAndReturn: {
-            args: Prisma.ServiceConfigUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>[]
-          }
           upsert: {
             args: Prisma.ServiceConfigUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<Prisma.$ServiceConfigPayload>
@@ -2658,6 +2617,14 @@ export namespace Prisma {
             args: Prisma.ServiceConfigGroupByArgs<ExtArgs>
             result: $Utils.Optional<ServiceConfigGroupByOutputType>[]
           }
+          findRaw: {
+            args: Prisma.ServiceConfigFindRawArgs<ExtArgs>
+            result: JsonObject
+          }
+          aggregateRaw: {
+            args: Prisma.ServiceConfigAggregateRawArgs<ExtArgs>
+            result: JsonObject
+          }
           count: {
             args: Prisma.ServiceConfigCountArgs<ExtArgs>
             result: $Utils.Optional<ServiceConfigCountAggregateOutputType> | number
@@ -2669,21 +2636,9 @@ export namespace Prisma {
     other: {
       payload: any
       operations: {
-        $executeRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
-          result: any
-        }
-        $executeRawUnsafe: {
-          args: [query: string, ...values: any[]],
-          result: any
-        }
-        $queryRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
-          result: any
-        }
-        $queryRawUnsafe: {
-          args: [query: string, ...values: any[]],
-          result: any
+        $runCommandRaw: {
+          args: Prisma.InputJsonObject,
+          result: Prisma.JsonObject
         }
       }
     }
@@ -2737,12 +2692,7 @@ export namespace Prisma {
     transactionOptions?: {
       maxWait?: number
       timeout?: number
-      isolationLevel?: Prisma.TransactionIsolationLevel
     }
-    /**
-     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
-     */
-    adapter?: runtime.SqlDriverAdapterFactory | null
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -2921,7 +2871,6 @@ export namespace Prisma {
    */
 
   export type EmployeeCountOutputType = {
-    reportees: number
     leaveRequests: number
     leaveBalances: number
     attendance: number
@@ -2935,10 +2884,10 @@ export namespace Prisma {
     notifications: number
     loans: number
     overtime: number
+    reportees: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    reportees?: boolean | EmployeeCountOutputTypeCountReporteesArgs
     leaveRequests?: boolean | EmployeeCountOutputTypeCountLeaveRequestsArgs
     leaveBalances?: boolean | EmployeeCountOutputTypeCountLeaveBalancesArgs
     attendance?: boolean | EmployeeCountOutputTypeCountAttendanceArgs
@@ -2952,6 +2901,7 @@ export namespace Prisma {
     notifications?: boolean | EmployeeCountOutputTypeCountNotificationsArgs
     loans?: boolean | EmployeeCountOutputTypeCountLoansArgs
     overtime?: boolean | EmployeeCountOutputTypeCountOvertimeArgs
+    reportees?: boolean | EmployeeCountOutputTypeCountReporteesArgs
   }
 
   // Custom InputTypes
@@ -2963,13 +2913,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the EmployeeCountOutputType
      */
     select?: EmployeeCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * EmployeeCountOutputType without action
-   */
-  export type EmployeeCountOutputTypeCountReporteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EmployeeWhereInput
   }
 
   /**
@@ -3061,6 +3004,13 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountOvertimeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OvertimeWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountReporteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmployeeWhereInput
   }
 
 
@@ -3467,29 +3417,7 @@ export namespace Prisma {
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
-  export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    email?: boolean
-    emailVerified?: boolean
-    image?: boolean
-    password?: boolean
-    role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
 
-  export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    email?: boolean
-    emailVerified?: boolean
-    image?: boolean
-    password?: boolean
-    role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
@@ -3512,8 +3440,6 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -3652,30 +3578,6 @@ export namespace Prisma {
     createMany<T extends UserCreateManyArgs>(args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Users and returns the data saved in the database.
-     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a User.
      * @param {UserDeleteArgs} args - Arguments to delete one User.
      * @example
@@ -3740,36 +3642,6 @@ export namespace Prisma {
     updateMany<T extends UserUpdateManyArgs>(args: SelectSubset<T, UserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Users and returns the data updated in the database.
-     * @param {UserUpdateManyAndReturnArgs} args - Arguments to update many Users.
-     * @example
-     * // Update many Users
-     * const user = await prisma.user.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UserUpdateManyAndReturnArgs>(args: SelectSubset<T, UserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one User.
      * @param {UserUpsertArgs} args - Arguments to update or create a User.
      * @example
@@ -3787,6 +3659,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends UserUpsertArgs>(args: SelectSubset<T, UserUpsertArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * @param {UserFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const user = await prisma.user.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: UserFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a User.
+     * @param {UserAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const user = await prisma.user.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: UserAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -4203,24 +4098,6 @@ export namespace Prisma {
   }
 
   /**
-   * User createManyAndReturn
-   */
-  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[]
-  }
-
-  /**
    * User update
    */
   export type UserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4250,32 +4127,6 @@ export namespace Prisma {
    * User updateMany
    */
   export type UserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Users.
-     */
-    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyInput>
-    /**
-     * Filter which Users to update
-     */
-    where?: UserWhereInput
-    /**
-     * Limit how many Users to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * User updateManyAndReturn
-   */
-  export type UserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
     /**
      * The data used to update Users.
      */
@@ -4354,6 +4205,34 @@ export namespace Prisma {
      * Limit how many Users to delete.
      */
     limit?: number
+  }
+
+  /**
+   * User findRaw
+   */
+  export type UserFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * User aggregateRaw
+   */
+  export type UserAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -4747,37 +4626,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
-  export type AccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    type?: boolean
-    provider?: boolean
-    providerAccountId?: boolean
-    refresh_token?: boolean
-    access_token?: boolean
-    expires_at?: boolean
-    token_type?: boolean
-    scope?: boolean
-    id_token?: boolean
-    session_state?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["account"]>
 
-  export type AccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    type?: boolean
-    provider?: boolean
-    providerAccountId?: boolean
-    refresh_token?: boolean
-    access_token?: boolean
-    expires_at?: boolean
-    token_type?: boolean
-    scope?: boolean
-    id_token?: boolean
-    session_state?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["account"]>
 
   export type AccountSelectScalar = {
     id?: boolean
@@ -4796,12 +4645,6 @@ export namespace Prisma {
 
   export type AccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "provider" | "providerAccountId" | "refresh_token" | "access_token" | "expires_at" | "token_type" | "scope" | "id_token" | "session_state", ExtArgs["result"]["account"]>
   export type AccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type AccountIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type AccountIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -4941,30 +4784,6 @@ export namespace Prisma {
     createMany<T extends AccountCreateManyArgs>(args?: SelectSubset<T, AccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Accounts and returns the data saved in the database.
-     * @param {AccountCreateManyAndReturnArgs} args - Arguments to create many Accounts.
-     * @example
-     * // Create many Accounts
-     * const account = await prisma.account.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Accounts and only return the `id`
-     * const accountWithIdOnly = await prisma.account.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AccountCreateManyAndReturnArgs>(args?: SelectSubset<T, AccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Account.
      * @param {AccountDeleteArgs} args - Arguments to delete one Account.
      * @example
@@ -5029,36 +4848,6 @@ export namespace Prisma {
     updateMany<T extends AccountUpdateManyArgs>(args: SelectSubset<T, AccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Accounts and returns the data updated in the database.
-     * @param {AccountUpdateManyAndReturnArgs} args - Arguments to update many Accounts.
-     * @example
-     * // Update many Accounts
-     * const account = await prisma.account.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Accounts and only return the `id`
-     * const accountWithIdOnly = await prisma.account.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AccountUpdateManyAndReturnArgs>(args: SelectSubset<T, AccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Account.
      * @param {AccountUpsertArgs} args - Arguments to update or create a Account.
      * @example
@@ -5076,6 +4865,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends AccountUpsertArgs>(args: SelectSubset<T, AccountUpsertArgs<ExtArgs>>): Prisma__AccountClient<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Accounts that matches the filter.
+     * @param {AccountFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const account = await prisma.account.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: AccountFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Account.
+     * @param {AccountAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const account = await prisma.account.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: AccountAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -5491,28 +5303,6 @@ export namespace Prisma {
   }
 
   /**
-   * Account createManyAndReturn
-   */
-  export type AccountCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Account
-     */
-    select?: AccountSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Account
-     */
-    omit?: AccountOmit<ExtArgs> | null
-    /**
-     * The data used to create many Accounts.
-     */
-    data: AccountCreateManyInput | AccountCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AccountIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Account update
    */
   export type AccountUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5554,36 +5344,6 @@ export namespace Prisma {
      * Limit how many Accounts to update.
      */
     limit?: number
-  }
-
-  /**
-   * Account updateManyAndReturn
-   */
-  export type AccountUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Account
-     */
-    select?: AccountSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Account
-     */
-    omit?: AccountOmit<ExtArgs> | null
-    /**
-     * The data used to update Accounts.
-     */
-    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyInput>
-    /**
-     * Filter which Accounts to update
-     */
-    where?: AccountWhereInput
-    /**
-     * Limit how many Accounts to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AccountIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -5650,6 +5410,34 @@ export namespace Prisma {
      * Limit how many Accounts to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Account findRaw
+   */
+  export type AccountFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Account aggregateRaw
+   */
+  export type AccountAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -5846,25 +5634,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["roleRequest"]>
 
-  export type RoleRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    requestedRole?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["roleRequest"]>
 
-  export type RoleRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    requestedRole?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["roleRequest"]>
 
   export type RoleRequestSelectScalar = {
     id?: boolean
@@ -5877,12 +5647,6 @@ export namespace Prisma {
 
   export type RoleRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "requestedRole" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["roleRequest"]>
   export type RoleRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type RoleRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type RoleRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
@@ -6016,30 +5780,6 @@ export namespace Prisma {
     createMany<T extends RoleRequestCreateManyArgs>(args?: SelectSubset<T, RoleRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many RoleRequests and returns the data saved in the database.
-     * @param {RoleRequestCreateManyAndReturnArgs} args - Arguments to create many RoleRequests.
-     * @example
-     * // Create many RoleRequests
-     * const roleRequest = await prisma.roleRequest.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many RoleRequests and only return the `id`
-     * const roleRequestWithIdOnly = await prisma.roleRequest.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends RoleRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, RoleRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoleRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a RoleRequest.
      * @param {RoleRequestDeleteArgs} args - Arguments to delete one RoleRequest.
      * @example
@@ -6104,36 +5844,6 @@ export namespace Prisma {
     updateMany<T extends RoleRequestUpdateManyArgs>(args: SelectSubset<T, RoleRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more RoleRequests and returns the data updated in the database.
-     * @param {RoleRequestUpdateManyAndReturnArgs} args - Arguments to update many RoleRequests.
-     * @example
-     * // Update many RoleRequests
-     * const roleRequest = await prisma.roleRequest.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more RoleRequests and only return the `id`
-     * const roleRequestWithIdOnly = await prisma.roleRequest.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends RoleRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, RoleRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoleRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one RoleRequest.
      * @param {RoleRequestUpsertArgs} args - Arguments to update or create a RoleRequest.
      * @example
@@ -6151,6 +5861,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends RoleRequestUpsertArgs>(args: SelectSubset<T, RoleRequestUpsertArgs<ExtArgs>>): Prisma__RoleRequestClient<$Result.GetResult<Prisma.$RoleRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoleRequests that matches the filter.
+     * @param {RoleRequestFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const roleRequest = await prisma.roleRequest.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: RoleRequestFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a RoleRequest.
+     * @param {RoleRequestAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const roleRequest = await prisma.roleRequest.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: RoleRequestAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -6560,28 +6293,6 @@ export namespace Prisma {
   }
 
   /**
-   * RoleRequest createManyAndReturn
-   */
-  export type RoleRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleRequest
-     */
-    select?: RoleRequestSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the RoleRequest
-     */
-    omit?: RoleRequestOmit<ExtArgs> | null
-    /**
-     * The data used to create many RoleRequests.
-     */
-    data: RoleRequestCreateManyInput | RoleRequestCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RoleRequestIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * RoleRequest update
    */
   export type RoleRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6623,36 +6334,6 @@ export namespace Prisma {
      * Limit how many RoleRequests to update.
      */
     limit?: number
-  }
-
-  /**
-   * RoleRequest updateManyAndReturn
-   */
-  export type RoleRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleRequest
-     */
-    select?: RoleRequestSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the RoleRequest
-     */
-    omit?: RoleRequestOmit<ExtArgs> | null
-    /**
-     * The data used to update RoleRequests.
-     */
-    data: XOR<RoleRequestUpdateManyMutationInput, RoleRequestUncheckedUpdateManyInput>
-    /**
-     * Filter which RoleRequests to update
-     */
-    where?: RoleRequestWhereInput
-    /**
-     * Limit how many RoleRequests to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RoleRequestIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6719,6 +6400,34 @@ export namespace Prisma {
      * Limit how many RoleRequests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * RoleRequest findRaw
+   */
+  export type RoleRequestFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * RoleRequest aggregateRaw
+   */
+  export type RoleRequestAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -6790,7 +6499,6 @@ export namespace Prisma {
     probationDays: number | null
     currentStatus: string | null
     isActive: boolean | null
-    managerId: string | null
     address: string | null
     permanentAddress: string | null
     emergencyContact: string | null
@@ -6816,6 +6524,7 @@ export namespace Prisma {
     shiftId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    managerId: string | null
   }
 
   export type EmployeeMaxAggregateOutputType = {
@@ -6840,7 +6549,6 @@ export namespace Prisma {
     probationDays: number | null
     currentStatus: string | null
     isActive: boolean | null
-    managerId: string | null
     address: string | null
     permanentAddress: string | null
     emergencyContact: string | null
@@ -6866,6 +6574,7 @@ export namespace Prisma {
     shiftId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    managerId: string | null
   }
 
   export type EmployeeCountAggregateOutputType = {
@@ -6890,7 +6599,6 @@ export namespace Prisma {
     probationDays: number
     currentStatus: number
     isActive: number
-    managerId: number
     address: number
     permanentAddress: number
     emergencyContact: number
@@ -6916,6 +6624,7 @@ export namespace Prisma {
     shiftId: number
     createdAt: number
     updatedAt: number
+    managerId: number
     _all: number
   }
 
@@ -6958,7 +6667,6 @@ export namespace Prisma {
     probationDays?: true
     currentStatus?: true
     isActive?: true
-    managerId?: true
     address?: true
     permanentAddress?: true
     emergencyContact?: true
@@ -6984,6 +6692,7 @@ export namespace Prisma {
     shiftId?: true
     createdAt?: true
     updatedAt?: true
+    managerId?: true
   }
 
   export type EmployeeMaxAggregateInputType = {
@@ -7008,7 +6717,6 @@ export namespace Prisma {
     probationDays?: true
     currentStatus?: true
     isActive?: true
-    managerId?: true
     address?: true
     permanentAddress?: true
     emergencyContact?: true
@@ -7034,6 +6742,7 @@ export namespace Prisma {
     shiftId?: true
     createdAt?: true
     updatedAt?: true
+    managerId?: true
   }
 
   export type EmployeeCountAggregateInputType = {
@@ -7058,7 +6767,6 @@ export namespace Prisma {
     probationDays?: true
     currentStatus?: true
     isActive?: true
-    managerId?: true
     address?: true
     permanentAddress?: true
     emergencyContact?: true
@@ -7084,6 +6792,7 @@ export namespace Prisma {
     shiftId?: true
     createdAt?: true
     updatedAt?: true
+    managerId?: true
     _all?: true
   }
 
@@ -7195,7 +6904,6 @@ export namespace Prisma {
     probationDays: number
     currentStatus: string
     isActive: boolean
-    managerId: string | null
     address: string | null
     permanentAddress: string | null
     emergencyContact: string | null
@@ -7221,6 +6929,7 @@ export namespace Prisma {
     shiftId: string | null
     createdAt: Date
     updatedAt: Date
+    managerId: string | null
     _count: EmployeeCountAggregateOutputType | null
     _avg: EmployeeAvgAggregateOutputType | null
     _sum: EmployeeSumAggregateOutputType | null
@@ -7264,7 +6973,6 @@ export namespace Prisma {
     probationDays?: boolean
     currentStatus?: boolean
     isActive?: boolean
-    managerId?: boolean
     address?: boolean
     permanentAddress?: boolean
     emergencyContact?: boolean
@@ -7290,9 +6998,8 @@ export namespace Prisma {
     shiftId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    managerId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    manager?: boolean | Employee$managerArgs<ExtArgs>
-    reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     shift?: boolean | Employee$shiftArgs<ExtArgs>
     leaveRequests?: boolean | Employee$leaveRequestsArgs<ExtArgs>
     leaveBalances?: boolean | Employee$leaveBalancesArgs<ExtArgs>
@@ -7308,114 +7015,12 @@ export namespace Prisma {
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
     loans?: boolean | Employee$loansArgs<ExtArgs>
     overtime?: boolean | Employee$overtimeArgs<ExtArgs>
+    manager?: boolean | Employee$managerArgs<ExtArgs>
+    reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
-  export type EmployeeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    employeeCode?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    email?: boolean
-    rollNumber?: boolean
-    photo?: boolean
-    phone?: boolean
-    gender?: boolean
-    dateOfBirth?: boolean
-    nationality?: boolean
-    maritalStatus?: boolean
-    designation?: boolean
-    department?: boolean
-    joiningDate?: boolean
-    employmentType?: boolean
-    workLocation?: boolean
-    probationDays?: boolean
-    currentStatus?: boolean
-    isActive?: boolean
-    managerId?: boolean
-    address?: boolean
-    permanentAddress?: boolean
-    emergencyContact?: boolean
-    emergencyPhone?: boolean
-    governmentId?: boolean
-    bankName?: boolean
-    accountNumber?: boolean
-    iban?: boolean
-    ifscCode?: boolean
-    basicSalary?: boolean
-    housingAllowance?: boolean
-    transportAllowance?: boolean
-    otherAllowance?: boolean
-    passportNumber?: boolean
-    passportExpiry?: boolean
-    emiratesId?: boolean
-    emiratesIdExpiry?: boolean
-    visaNumber?: boolean
-    visaExpiry?: boolean
-    visaType?: boolean
-    medicalInsuranceExpiry?: boolean
-    iloeInsuranceExpiry?: boolean
-    shiftId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    manager?: boolean | Employee$managerArgs<ExtArgs>
-    shift?: boolean | Employee$shiftArgs<ExtArgs>
-  }, ExtArgs["result"]["employee"]>
 
-  export type EmployeeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    employeeCode?: boolean
-    firstName?: boolean
-    lastName?: boolean
-    email?: boolean
-    rollNumber?: boolean
-    photo?: boolean
-    phone?: boolean
-    gender?: boolean
-    dateOfBirth?: boolean
-    nationality?: boolean
-    maritalStatus?: boolean
-    designation?: boolean
-    department?: boolean
-    joiningDate?: boolean
-    employmentType?: boolean
-    workLocation?: boolean
-    probationDays?: boolean
-    currentStatus?: boolean
-    isActive?: boolean
-    managerId?: boolean
-    address?: boolean
-    permanentAddress?: boolean
-    emergencyContact?: boolean
-    emergencyPhone?: boolean
-    governmentId?: boolean
-    bankName?: boolean
-    accountNumber?: boolean
-    iban?: boolean
-    ifscCode?: boolean
-    basicSalary?: boolean
-    housingAllowance?: boolean
-    transportAllowance?: boolean
-    otherAllowance?: boolean
-    passportNumber?: boolean
-    passportExpiry?: boolean
-    emiratesId?: boolean
-    emiratesIdExpiry?: boolean
-    visaNumber?: boolean
-    visaExpiry?: boolean
-    visaType?: boolean
-    medicalInsuranceExpiry?: boolean
-    iloeInsuranceExpiry?: boolean
-    shiftId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    manager?: boolean | Employee$managerArgs<ExtArgs>
-    shift?: boolean | Employee$shiftArgs<ExtArgs>
-  }, ExtArgs["result"]["employee"]>
 
   export type EmployeeSelectScalar = {
     id?: boolean
@@ -7439,7 +7044,6 @@ export namespace Prisma {
     probationDays?: boolean
     currentStatus?: boolean
     isActive?: boolean
-    managerId?: boolean
     address?: boolean
     permanentAddress?: boolean
     emergencyContact?: boolean
@@ -7465,13 +7069,12 @@ export namespace Prisma {
     shiftId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    managerId?: boolean
   }
 
-  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "employeeCode" | "firstName" | "lastName" | "email" | "rollNumber" | "photo" | "phone" | "gender" | "dateOfBirth" | "nationality" | "maritalStatus" | "designation" | "department" | "joiningDate" | "employmentType" | "workLocation" | "probationDays" | "currentStatus" | "isActive" | "managerId" | "address" | "permanentAddress" | "emergencyContact" | "emergencyPhone" | "governmentId" | "bankName" | "accountNumber" | "iban" | "ifscCode" | "basicSalary" | "housingAllowance" | "transportAllowance" | "otherAllowance" | "passportNumber" | "passportExpiry" | "emiratesId" | "emiratesIdExpiry" | "visaNumber" | "visaExpiry" | "visaType" | "medicalInsuranceExpiry" | "iloeInsuranceExpiry" | "shiftId" | "createdAt" | "updatedAt", ExtArgs["result"]["employee"]>
+  export type EmployeeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "employeeCode" | "firstName" | "lastName" | "email" | "rollNumber" | "photo" | "phone" | "gender" | "dateOfBirth" | "nationality" | "maritalStatus" | "designation" | "department" | "joiningDate" | "employmentType" | "workLocation" | "probationDays" | "currentStatus" | "isActive" | "address" | "permanentAddress" | "emergencyContact" | "emergencyPhone" | "governmentId" | "bankName" | "accountNumber" | "iban" | "ifscCode" | "basicSalary" | "housingAllowance" | "transportAllowance" | "otherAllowance" | "passportNumber" | "passportExpiry" | "emiratesId" | "emiratesIdExpiry" | "visaNumber" | "visaExpiry" | "visaType" | "medicalInsuranceExpiry" | "iloeInsuranceExpiry" | "shiftId" | "createdAt" | "updatedAt" | "managerId", ExtArgs["result"]["employee"]>
   export type EmployeeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    manager?: boolean | Employee$managerArgs<ExtArgs>
-    reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     shift?: boolean | Employee$shiftArgs<ExtArgs>
     leaveRequests?: boolean | Employee$leaveRequestsArgs<ExtArgs>
     leaveBalances?: boolean | Employee$leaveBalancesArgs<ExtArgs>
@@ -7487,25 +7090,15 @@ export namespace Prisma {
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
     loans?: boolean | Employee$loansArgs<ExtArgs>
     overtime?: boolean | Employee$overtimeArgs<ExtArgs>
+    manager?: boolean | Employee$managerArgs<ExtArgs>
+    reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    manager?: boolean | Employee$managerArgs<ExtArgs>
-    shift?: boolean | Employee$shiftArgs<ExtArgs>
-  }
-  export type EmployeeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    manager?: boolean | Employee$managerArgs<ExtArgs>
-    shift?: boolean | Employee$shiftArgs<ExtArgs>
   }
 
   export type $EmployeePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Employee"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      manager: Prisma.$EmployeePayload<ExtArgs> | null
-      reportees: Prisma.$EmployeePayload<ExtArgs>[]
       shift: Prisma.$ShiftPayload<ExtArgs> | null
       leaveRequests: Prisma.$LeaveRequestPayload<ExtArgs>[]
       leaveBalances: Prisma.$LeaveBalancePayload<ExtArgs>[]
@@ -7521,6 +7114,8 @@ export namespace Prisma {
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       loans: Prisma.$LoanPayload<ExtArgs>[]
       overtime: Prisma.$OvertimePayload<ExtArgs>[]
+      manager: Prisma.$EmployeePayload<ExtArgs> | null
+      reportees: Prisma.$EmployeePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7544,7 +7139,6 @@ export namespace Prisma {
       probationDays: number
       currentStatus: string
       isActive: boolean
-      managerId: string | null
       address: string | null
       permanentAddress: string | null
       emergencyContact: string | null
@@ -7570,6 +7164,7 @@ export namespace Prisma {
       shiftId: string | null
       createdAt: Date
       updatedAt: Date
+      managerId: string | null
     }, ExtArgs["result"]["employee"]>
     composites: {}
   }
@@ -7688,30 +7283,6 @@ export namespace Prisma {
     createMany<T extends EmployeeCreateManyArgs>(args?: SelectSubset<T, EmployeeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Employees and returns the data saved in the database.
-     * @param {EmployeeCreateManyAndReturnArgs} args - Arguments to create many Employees.
-     * @example
-     * // Create many Employees
-     * const employee = await prisma.employee.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Employees and only return the `id`
-     * const employeeWithIdOnly = await prisma.employee.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends EmployeeCreateManyAndReturnArgs>(args?: SelectSubset<T, EmployeeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Employee.
      * @param {EmployeeDeleteArgs} args - Arguments to delete one Employee.
      * @example
@@ -7776,36 +7347,6 @@ export namespace Prisma {
     updateMany<T extends EmployeeUpdateManyArgs>(args: SelectSubset<T, EmployeeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Employees and returns the data updated in the database.
-     * @param {EmployeeUpdateManyAndReturnArgs} args - Arguments to update many Employees.
-     * @example
-     * // Update many Employees
-     * const employee = await prisma.employee.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Employees and only return the `id`
-     * const employeeWithIdOnly = await prisma.employee.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends EmployeeUpdateManyAndReturnArgs>(args: SelectSubset<T, EmployeeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Employee.
      * @param {EmployeeUpsertArgs} args - Arguments to update or create a Employee.
      * @example
@@ -7823,6 +7364,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends EmployeeUpsertArgs>(args: SelectSubset<T, EmployeeUpsertArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Employees that matches the filter.
+     * @param {EmployeeFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const employee = await prisma.employee.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: EmployeeFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Employee.
+     * @param {EmployeeAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const employee = await prisma.employee.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: EmployeeAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -7965,8 +7529,6 @@ export namespace Prisma {
   export interface Prisma__EmployeeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    manager<T extends Employee$managerArgs<ExtArgs> = {}>(args?: Subset<T, Employee$managerArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    reportees<T extends Employee$reporteesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reporteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shift<T extends Employee$shiftArgs<ExtArgs> = {}>(args?: Subset<T, Employee$shiftArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     leaveRequests<T extends Employee$leaveRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$leaveRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     leaveBalances<T extends Employee$leaveBalancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$leaveBalancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7982,6 +7544,8 @@ export namespace Prisma {
     notifications<T extends Employee$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loans<T extends Employee$loansArgs<ExtArgs> = {}>(args?: Subset<T, Employee$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     overtime<T extends Employee$overtimeArgs<ExtArgs> = {}>(args?: Subset<T, Employee$overtimeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    manager<T extends Employee$managerArgs<ExtArgs> = {}>(args?: Subset<T, Employee$managerArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reportees<T extends Employee$reporteesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reporteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8032,7 +7596,6 @@ export namespace Prisma {
     readonly probationDays: FieldRef<"Employee", 'Int'>
     readonly currentStatus: FieldRef<"Employee", 'String'>
     readonly isActive: FieldRef<"Employee", 'Boolean'>
-    readonly managerId: FieldRef<"Employee", 'String'>
     readonly address: FieldRef<"Employee", 'String'>
     readonly permanentAddress: FieldRef<"Employee", 'String'>
     readonly emergencyContact: FieldRef<"Employee", 'String'>
@@ -8058,6 +7621,7 @@ export namespace Prisma {
     readonly shiftId: FieldRef<"Employee", 'String'>
     readonly createdAt: FieldRef<"Employee", 'DateTime'>
     readonly updatedAt: FieldRef<"Employee", 'DateTime'>
+    readonly managerId: FieldRef<"Employee", 'String'>
   }
     
 
@@ -8290,28 +7854,6 @@ export namespace Prisma {
   }
 
   /**
-   * Employee createManyAndReturn
-   */
-  export type EmployeeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Employee
-     */
-    select?: EmployeeSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Employee
-     */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * The data used to create many Employees.
-     */
-    data: EmployeeCreateManyInput | EmployeeCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Employee update
    */
   export type EmployeeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8353,36 +7895,6 @@ export namespace Prisma {
      * Limit how many Employees to update.
      */
     limit?: number
-  }
-
-  /**
-   * Employee updateManyAndReturn
-   */
-  export type EmployeeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Employee
-     */
-    select?: EmployeeSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Employee
-     */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * The data used to update Employees.
-     */
-    data: XOR<EmployeeUpdateManyMutationInput, EmployeeUncheckedUpdateManyInput>
-    /**
-     * Filter which Employees to update
-     */
-    where?: EmployeeWhereInput
-    /**
-     * Limit how many Employees to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -8452,46 +7964,31 @@ export namespace Prisma {
   }
 
   /**
-   * Employee.manager
+   * Employee findRaw
    */
-  export type Employee$managerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Employee
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
      */
-    select?: EmployeeSelect<ExtArgs> | null
+    filter?: InputJsonValue
     /**
-     * Omit specific fields from the Employee
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
      */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeInclude<ExtArgs> | null
-    where?: EmployeeWhereInput
+    options?: InputJsonValue
   }
 
   /**
-   * Employee.reportees
+   * Employee aggregateRaw
    */
-  export type Employee$reporteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type EmployeeAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Employee
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
      */
-    select?: EmployeeSelect<ExtArgs> | null
+    pipeline?: InputJsonValue[]
     /**
-     * Omit specific fields from the Employee
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
      */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeInclude<ExtArgs> | null
-    where?: EmployeeWhereInput
-    orderBy?: EmployeeOrderByWithRelationInput | EmployeeOrderByWithRelationInput[]
-    cursor?: EmployeeWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: EmployeeScalarFieldEnum | EmployeeScalarFieldEnum[]
+    options?: InputJsonValue
   }
 
   /**
@@ -8845,6 +8342,49 @@ export namespace Prisma {
   }
 
   /**
+   * Employee.manager
+   */
+  export type Employee$managerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    where?: EmployeeWhereInput
+  }
+
+  /**
+   * Employee.reportees
+   */
+  export type Employee$reporteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    where?: EmployeeWhereInput
+    orderBy?: EmployeeOrderByWithRelationInput | EmployeeOrderByWithRelationInput[]
+    cursor?: EmployeeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmployeeScalarFieldEnum | EmployeeScalarFieldEnum[]
+  }
+
+  /**
    * Employee without action
    */
   export type EmployeeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9096,29 +8636,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["leaveBalance"]>
 
-  export type LeaveBalanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    leaveType?: boolean
-    totalDays?: boolean
-    usedDays?: boolean
-    year?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["leaveBalance"]>
 
-  export type LeaveBalanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    leaveType?: boolean
-    totalDays?: boolean
-    usedDays?: boolean
-    year?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["leaveBalance"]>
 
   export type LeaveBalanceSelectScalar = {
     id?: boolean
@@ -9133,12 +8651,6 @@ export namespace Prisma {
 
   export type LeaveBalanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "leaveType" | "totalDays" | "usedDays" | "year" | "createdAt" | "updatedAt", ExtArgs["result"]["leaveBalance"]>
   export type LeaveBalanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type LeaveBalanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type LeaveBalanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -9274,30 +8786,6 @@ export namespace Prisma {
     createMany<T extends LeaveBalanceCreateManyArgs>(args?: SelectSubset<T, LeaveBalanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many LeaveBalances and returns the data saved in the database.
-     * @param {LeaveBalanceCreateManyAndReturnArgs} args - Arguments to create many LeaveBalances.
-     * @example
-     * // Create many LeaveBalances
-     * const leaveBalance = await prisma.leaveBalance.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many LeaveBalances and only return the `id`
-     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LeaveBalanceCreateManyAndReturnArgs>(args?: SelectSubset<T, LeaveBalanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a LeaveBalance.
      * @param {LeaveBalanceDeleteArgs} args - Arguments to delete one LeaveBalance.
      * @example
@@ -9362,36 +8850,6 @@ export namespace Prisma {
     updateMany<T extends LeaveBalanceUpdateManyArgs>(args: SelectSubset<T, LeaveBalanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more LeaveBalances and returns the data updated in the database.
-     * @param {LeaveBalanceUpdateManyAndReturnArgs} args - Arguments to update many LeaveBalances.
-     * @example
-     * // Update many LeaveBalances
-     * const leaveBalance = await prisma.leaveBalance.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more LeaveBalances and only return the `id`
-     * const leaveBalanceWithIdOnly = await prisma.leaveBalance.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LeaveBalanceUpdateManyAndReturnArgs>(args: SelectSubset<T, LeaveBalanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one LeaveBalance.
      * @param {LeaveBalanceUpsertArgs} args - Arguments to update or create a LeaveBalance.
      * @example
@@ -9409,6 +8867,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends LeaveBalanceUpsertArgs>(args: SelectSubset<T, LeaveBalanceUpsertArgs<ExtArgs>>): Prisma__LeaveBalanceClient<$Result.GetResult<Prisma.$LeaveBalancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeaveBalances that matches the filter.
+     * @param {LeaveBalanceFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const leaveBalance = await prisma.leaveBalance.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: LeaveBalanceFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a LeaveBalance.
+     * @param {LeaveBalanceAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const leaveBalance = await prisma.leaveBalance.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: LeaveBalanceAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -9820,28 +9301,6 @@ export namespace Prisma {
   }
 
   /**
-   * LeaveBalance createManyAndReturn
-   */
-  export type LeaveBalanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LeaveBalance
-     */
-    select?: LeaveBalanceSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LeaveBalance
-     */
-    omit?: LeaveBalanceOmit<ExtArgs> | null
-    /**
-     * The data used to create many LeaveBalances.
-     */
-    data: LeaveBalanceCreateManyInput | LeaveBalanceCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LeaveBalanceIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * LeaveBalance update
    */
   export type LeaveBalanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9883,36 +9342,6 @@ export namespace Prisma {
      * Limit how many LeaveBalances to update.
      */
     limit?: number
-  }
-
-  /**
-   * LeaveBalance updateManyAndReturn
-   */
-  export type LeaveBalanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LeaveBalance
-     */
-    select?: LeaveBalanceSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LeaveBalance
-     */
-    omit?: LeaveBalanceOmit<ExtArgs> | null
-    /**
-     * The data used to update LeaveBalances.
-     */
-    data: XOR<LeaveBalanceUpdateManyMutationInput, LeaveBalanceUncheckedUpdateManyInput>
-    /**
-     * Filter which LeaveBalances to update
-     */
-    where?: LeaveBalanceWhereInput
-    /**
-     * Limit how many LeaveBalances to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LeaveBalanceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9979,6 +9408,34 @@ export namespace Prisma {
      * Limit how many LeaveBalances to delete.
      */
     limit?: number
+  }
+
+  /**
+   * LeaveBalance findRaw
+   */
+  export type LeaveBalanceFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * LeaveBalance aggregateRaw
+   */
+  export type LeaveBalanceAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -10191,29 +9648,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
-  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    title?: boolean
-    message?: boolean
-    type?: boolean
-    isRead?: boolean
-    link?: boolean
-    createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["notification"]>
 
-  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    title?: boolean
-    message?: boolean
-    type?: boolean
-    isRead?: boolean
-    link?: boolean
-    createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectScalar = {
     id?: boolean
@@ -10228,12 +9663,6 @@ export namespace Prisma {
 
   export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "title" | "message" | "type" | "isRead" | "link" | "createdAt", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -10369,30 +9798,6 @@ export namespace Prisma {
     createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Notifications and returns the data saved in the database.
-     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
-     * @example
-     * // Create many Notifications
-     * const notification = await prisma.notification.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Notifications and only return the `id`
-     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Notification.
      * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
      * @example
@@ -10457,36 +9862,6 @@ export namespace Prisma {
     updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Notifications and returns the data updated in the database.
-     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
-     * @example
-     * // Update many Notifications
-     * const notification = await prisma.notification.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Notifications and only return the `id`
-     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Notification.
      * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
      * @example
@@ -10504,6 +9879,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * @param {NotificationFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const notification = await prisma.notification.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: NotificationFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Notification.
+     * @param {NotificationAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const notification = await prisma.notification.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: NotificationAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -10915,28 +10313,6 @@ export namespace Prisma {
   }
 
   /**
-   * Notification createManyAndReturn
-   */
-  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The data used to create many Notifications.
-     */
-    data: NotificationCreateManyInput | NotificationCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Notification update
    */
   export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10978,36 +10354,6 @@ export namespace Prisma {
      * Limit how many Notifications to update.
      */
     limit?: number
-  }
-
-  /**
-   * Notification updateManyAndReturn
-   */
-  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * The data used to update Notifications.
-     */
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
-    /**
-     * Filter which Notifications to update
-     */
-    where?: NotificationWhereInput
-    /**
-     * Limit how many Notifications to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -11074,6 +10420,34 @@ export namespace Prisma {
      * Limit how many Notifications to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Notification findRaw
+   */
+  export type NotificationFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Notification aggregateRaw
+   */
+  export type NotificationAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -11351,37 +10725,7 @@ export namespace Prisma {
     _count?: boolean | AttendanceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attendance"]>
 
-  export type AttendanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    date?: boolean
-    checkIn?: boolean
-    checkOut?: boolean
-    status?: boolean
-    lateMinutes?: boolean
-    overtimeMinutes?: boolean
-    shiftId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    shift?: boolean | Attendance$shiftArgs<ExtArgs>
-  }, ExtArgs["result"]["attendance"]>
 
-  export type AttendanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    date?: boolean
-    checkIn?: boolean
-    checkOut?: boolean
-    status?: boolean
-    lateMinutes?: boolean
-    overtimeMinutes?: boolean
-    shiftId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    shift?: boolean | Attendance$shiftArgs<ExtArgs>
-  }, ExtArgs["result"]["attendance"]>
 
   export type AttendanceSelectScalar = {
     id?: boolean
@@ -11403,14 +10747,6 @@ export namespace Prisma {
     shift?: boolean | Attendance$shiftArgs<ExtArgs>
     biometricLogs?: boolean | Attendance$biometricLogsArgs<ExtArgs>
     _count?: boolean | AttendanceCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type AttendanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    shift?: boolean | Attendance$shiftArgs<ExtArgs>
-  }
-  export type AttendanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    shift?: boolean | Attendance$shiftArgs<ExtArgs>
   }
 
   export type $AttendancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11550,30 +10886,6 @@ export namespace Prisma {
     createMany<T extends AttendanceCreateManyArgs>(args?: SelectSubset<T, AttendanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Attendances and returns the data saved in the database.
-     * @param {AttendanceCreateManyAndReturnArgs} args - Arguments to create many Attendances.
-     * @example
-     * // Create many Attendances
-     * const attendance = await prisma.attendance.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Attendances and only return the `id`
-     * const attendanceWithIdOnly = await prisma.attendance.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AttendanceCreateManyAndReturnArgs>(args?: SelectSubset<T, AttendanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Attendance.
      * @param {AttendanceDeleteArgs} args - Arguments to delete one Attendance.
      * @example
@@ -11638,36 +10950,6 @@ export namespace Prisma {
     updateMany<T extends AttendanceUpdateManyArgs>(args: SelectSubset<T, AttendanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Attendances and returns the data updated in the database.
-     * @param {AttendanceUpdateManyAndReturnArgs} args - Arguments to update many Attendances.
-     * @example
-     * // Update many Attendances
-     * const attendance = await prisma.attendance.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Attendances and only return the `id`
-     * const attendanceWithIdOnly = await prisma.attendance.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AttendanceUpdateManyAndReturnArgs>(args: SelectSubset<T, AttendanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Attendance.
      * @param {AttendanceUpsertArgs} args - Arguments to update or create a Attendance.
      * @example
@@ -11685,6 +10967,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends AttendanceUpsertArgs>(args: SelectSubset<T, AttendanceUpsertArgs<ExtArgs>>): Prisma__AttendanceClient<$Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attendances that matches the filter.
+     * @param {AttendanceFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const attendance = await prisma.attendance.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: AttendanceFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Attendance.
+     * @param {AttendanceAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const attendance = await prisma.attendance.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: AttendanceAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -12101,28 +11406,6 @@ export namespace Prisma {
   }
 
   /**
-   * Attendance createManyAndReturn
-   */
-  export type AttendanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Attendance
-     */
-    select?: AttendanceSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Attendance
-     */
-    omit?: AttendanceOmit<ExtArgs> | null
-    /**
-     * The data used to create many Attendances.
-     */
-    data: AttendanceCreateManyInput | AttendanceCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AttendanceIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Attendance update
    */
   export type AttendanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12164,36 +11447,6 @@ export namespace Prisma {
      * Limit how many Attendances to update.
      */
     limit?: number
-  }
-
-  /**
-   * Attendance updateManyAndReturn
-   */
-  export type AttendanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Attendance
-     */
-    select?: AttendanceSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Attendance
-     */
-    omit?: AttendanceOmit<ExtArgs> | null
-    /**
-     * The data used to update Attendances.
-     */
-    data: XOR<AttendanceUpdateManyMutationInput, AttendanceUncheckedUpdateManyInput>
-    /**
-     * Filter which Attendances to update
-     */
-    where?: AttendanceWhereInput
-    /**
-     * Limit how many Attendances to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AttendanceIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -12260,6 +11513,34 @@ export namespace Prisma {
      * Limit how many Attendances to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Attendance findRaw
+   */
+  export type AttendanceFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Attendance aggregateRaw
+   */
+  export type AttendanceAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -12535,23 +11816,7 @@ export namespace Prisma {
     _count?: boolean | ShiftCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shift"]>
 
-  export type ShiftSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    lateThreshold?: boolean
-    weeklyOffs?: boolean
-  }, ExtArgs["result"]["shift"]>
 
-  export type ShiftSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    startTime?: boolean
-    endTime?: boolean
-    lateThreshold?: boolean
-    weeklyOffs?: boolean
-  }, ExtArgs["result"]["shift"]>
 
   export type ShiftSelectScalar = {
     id?: boolean
@@ -12568,8 +11833,6 @@ export namespace Prisma {
     attendance?: boolean | Shift$attendanceArgs<ExtArgs>
     _count?: boolean | ShiftCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ShiftIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type ShiftIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ShiftPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Shift"
@@ -12702,30 +11965,6 @@ export namespace Prisma {
     createMany<T extends ShiftCreateManyArgs>(args?: SelectSubset<T, ShiftCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Shifts and returns the data saved in the database.
-     * @param {ShiftCreateManyAndReturnArgs} args - Arguments to create many Shifts.
-     * @example
-     * // Create many Shifts
-     * const shift = await prisma.shift.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Shifts and only return the `id`
-     * const shiftWithIdOnly = await prisma.shift.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ShiftCreateManyAndReturnArgs>(args?: SelectSubset<T, ShiftCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Shift.
      * @param {ShiftDeleteArgs} args - Arguments to delete one Shift.
      * @example
@@ -12790,36 +12029,6 @@ export namespace Prisma {
     updateMany<T extends ShiftUpdateManyArgs>(args: SelectSubset<T, ShiftUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Shifts and returns the data updated in the database.
-     * @param {ShiftUpdateManyAndReturnArgs} args - Arguments to update many Shifts.
-     * @example
-     * // Update many Shifts
-     * const shift = await prisma.shift.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Shifts and only return the `id`
-     * const shiftWithIdOnly = await prisma.shift.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ShiftUpdateManyAndReturnArgs>(args: SelectSubset<T, ShiftUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Shift.
      * @param {ShiftUpsertArgs} args - Arguments to update or create a Shift.
      * @example
@@ -12837,6 +12046,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends ShiftUpsertArgs>(args: SelectSubset<T, ShiftUpsertArgs<ExtArgs>>): Prisma__ShiftClient<$Result.GetResult<Prisma.$ShiftPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Shifts that matches the filter.
+     * @param {ShiftFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const shift = await prisma.shift.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: ShiftFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Shift.
+     * @param {ShiftAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const shift = await prisma.shift.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: ShiftAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -13247,24 +12479,6 @@ export namespace Prisma {
   }
 
   /**
-   * Shift createManyAndReturn
-   */
-  export type ShiftCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shift
-     */
-    select?: ShiftSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shift
-     */
-    omit?: ShiftOmit<ExtArgs> | null
-    /**
-     * The data used to create many Shifts.
-     */
-    data: ShiftCreateManyInput | ShiftCreateManyInput[]
-  }
-
-  /**
    * Shift update
    */
   export type ShiftUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13294,32 +12508,6 @@ export namespace Prisma {
    * Shift updateMany
    */
   export type ShiftUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Shifts.
-     */
-    data: XOR<ShiftUpdateManyMutationInput, ShiftUncheckedUpdateManyInput>
-    /**
-     * Filter which Shifts to update
-     */
-    where?: ShiftWhereInput
-    /**
-     * Limit how many Shifts to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Shift updateManyAndReturn
-   */
-  export type ShiftUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shift
-     */
-    select?: ShiftSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shift
-     */
-    omit?: ShiftOmit<ExtArgs> | null
     /**
      * The data used to update Shifts.
      */
@@ -13398,6 +12586,34 @@ export namespace Prisma {
      * Limit how many Shifts to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Shift findRaw
+   */
+  export type ShiftFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Shift aggregateRaw
+   */
+  export type ShiftAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -13650,27 +12866,7 @@ export namespace Prisma {
     attendance?: boolean | BiometricLog$attendanceArgs<ExtArgs>
   }, ExtArgs["result"]["biometricLog"]>
 
-  export type BiometricLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    attendanceId?: boolean
-    deviceId?: boolean
-    employeeId?: boolean
-    timestamp?: boolean
-    type?: boolean
-    rawLog?: boolean
-    attendance?: boolean | BiometricLog$attendanceArgs<ExtArgs>
-  }, ExtArgs["result"]["biometricLog"]>
 
-  export type BiometricLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    attendanceId?: boolean
-    deviceId?: boolean
-    employeeId?: boolean
-    timestamp?: boolean
-    type?: boolean
-    rawLog?: boolean
-    attendance?: boolean | BiometricLog$attendanceArgs<ExtArgs>
-  }, ExtArgs["result"]["biometricLog"]>
 
   export type BiometricLogSelectScalar = {
     id?: boolean
@@ -13684,12 +12880,6 @@ export namespace Prisma {
 
   export type BiometricLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "attendanceId" | "deviceId" | "employeeId" | "timestamp" | "type" | "rawLog", ExtArgs["result"]["biometricLog"]>
   export type BiometricLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    attendance?: boolean | BiometricLog$attendanceArgs<ExtArgs>
-  }
-  export type BiometricLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    attendance?: boolean | BiometricLog$attendanceArgs<ExtArgs>
-  }
-  export type BiometricLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attendance?: boolean | BiometricLog$attendanceArgs<ExtArgs>
   }
 
@@ -13824,30 +13014,6 @@ export namespace Prisma {
     createMany<T extends BiometricLogCreateManyArgs>(args?: SelectSubset<T, BiometricLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many BiometricLogs and returns the data saved in the database.
-     * @param {BiometricLogCreateManyAndReturnArgs} args - Arguments to create many BiometricLogs.
-     * @example
-     * // Create many BiometricLogs
-     * const biometricLog = await prisma.biometricLog.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many BiometricLogs and only return the `id`
-     * const biometricLogWithIdOnly = await prisma.biometricLog.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends BiometricLogCreateManyAndReturnArgs>(args?: SelectSubset<T, BiometricLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BiometricLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a BiometricLog.
      * @param {BiometricLogDeleteArgs} args - Arguments to delete one BiometricLog.
      * @example
@@ -13912,36 +13078,6 @@ export namespace Prisma {
     updateMany<T extends BiometricLogUpdateManyArgs>(args: SelectSubset<T, BiometricLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more BiometricLogs and returns the data updated in the database.
-     * @param {BiometricLogUpdateManyAndReturnArgs} args - Arguments to update many BiometricLogs.
-     * @example
-     * // Update many BiometricLogs
-     * const biometricLog = await prisma.biometricLog.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more BiometricLogs and only return the `id`
-     * const biometricLogWithIdOnly = await prisma.biometricLog.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends BiometricLogUpdateManyAndReturnArgs>(args: SelectSubset<T, BiometricLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BiometricLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one BiometricLog.
      * @param {BiometricLogUpsertArgs} args - Arguments to update or create a BiometricLog.
      * @example
@@ -13959,6 +13095,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends BiometricLogUpsertArgs>(args: SelectSubset<T, BiometricLogUpsertArgs<ExtArgs>>): Prisma__BiometricLogClient<$Result.GetResult<Prisma.$BiometricLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BiometricLogs that matches the filter.
+     * @param {BiometricLogFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const biometricLog = await prisma.biometricLog.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: BiometricLogFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a BiometricLog.
+     * @param {BiometricLogAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const biometricLog = await prisma.biometricLog.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: BiometricLogAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -14369,28 +13528,6 @@ export namespace Prisma {
   }
 
   /**
-   * BiometricLog createManyAndReturn
-   */
-  export type BiometricLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the BiometricLog
-     */
-    select?: BiometricLogSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the BiometricLog
-     */
-    omit?: BiometricLogOmit<ExtArgs> | null
-    /**
-     * The data used to create many BiometricLogs.
-     */
-    data: BiometricLogCreateManyInput | BiometricLogCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BiometricLogIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * BiometricLog update
    */
   export type BiometricLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14432,36 +13569,6 @@ export namespace Prisma {
      * Limit how many BiometricLogs to update.
      */
     limit?: number
-  }
-
-  /**
-   * BiometricLog updateManyAndReturn
-   */
-  export type BiometricLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the BiometricLog
-     */
-    select?: BiometricLogSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the BiometricLog
-     */
-    omit?: BiometricLogOmit<ExtArgs> | null
-    /**
-     * The data used to update BiometricLogs.
-     */
-    data: XOR<BiometricLogUpdateManyMutationInput, BiometricLogUncheckedUpdateManyInput>
-    /**
-     * Filter which BiometricLogs to update
-     */
-    where?: BiometricLogWhereInput
-    /**
-     * Limit how many BiometricLogs to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BiometricLogIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -14528,6 +13635,34 @@ export namespace Prisma {
      * Limit how many BiometricLogs to delete.
      */
     limit?: number
+  }
+
+  /**
+   * BiometricLog findRaw
+   */
+  export type BiometricLogFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * BiometricLog aggregateRaw
+   */
+  export type BiometricLogAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -14743,25 +13878,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["auditLog"]>
 
-  export type AuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    action?: boolean
-    details?: boolean
-    changedBy?: boolean
-    createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["auditLog"]>
 
-  export type AuditLogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    action?: boolean
-    details?: boolean
-    changedBy?: boolean
-    createdAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["auditLog"]>
 
   export type AuditLogSelectScalar = {
     id?: boolean
@@ -14774,12 +13891,6 @@ export namespace Prisma {
 
   export type AuditLogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "action" | "details" | "changedBy" | "createdAt", ExtArgs["result"]["auditLog"]>
   export type AuditLogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type AuditLogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type AuditLogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -14913,30 +14024,6 @@ export namespace Prisma {
     createMany<T extends AuditLogCreateManyArgs>(args?: SelectSubset<T, AuditLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many AuditLogs and returns the data saved in the database.
-     * @param {AuditLogCreateManyAndReturnArgs} args - Arguments to create many AuditLogs.
-     * @example
-     * // Create many AuditLogs
-     * const auditLog = await prisma.auditLog.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many AuditLogs and only return the `id`
-     * const auditLogWithIdOnly = await prisma.auditLog.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AuditLogCreateManyAndReturnArgs>(args?: SelectSubset<T, AuditLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a AuditLog.
      * @param {AuditLogDeleteArgs} args - Arguments to delete one AuditLog.
      * @example
@@ -15001,36 +14088,6 @@ export namespace Prisma {
     updateMany<T extends AuditLogUpdateManyArgs>(args: SelectSubset<T, AuditLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more AuditLogs and returns the data updated in the database.
-     * @param {AuditLogUpdateManyAndReturnArgs} args - Arguments to update many AuditLogs.
-     * @example
-     * // Update many AuditLogs
-     * const auditLog = await prisma.auditLog.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more AuditLogs and only return the `id`
-     * const auditLogWithIdOnly = await prisma.auditLog.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AuditLogUpdateManyAndReturnArgs>(args: SelectSubset<T, AuditLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one AuditLog.
      * @param {AuditLogUpsertArgs} args - Arguments to update or create a AuditLog.
      * @example
@@ -15048,6 +14105,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends AuditLogUpsertArgs>(args: SelectSubset<T, AuditLogUpsertArgs<ExtArgs>>): Prisma__AuditLogClient<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AuditLogs that matches the filter.
+     * @param {AuditLogFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const auditLog = await prisma.auditLog.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: AuditLogFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a AuditLog.
+     * @param {AuditLogAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const auditLog = await prisma.auditLog.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: AuditLogAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -15457,28 +14537,6 @@ export namespace Prisma {
   }
 
   /**
-   * AuditLog createManyAndReturn
-   */
-  export type AuditLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The data used to create many AuditLogs.
-     */
-    data: AuditLogCreateManyInput | AuditLogCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuditLogIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * AuditLog update
    */
   export type AuditLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15520,36 +14578,6 @@ export namespace Prisma {
      * Limit how many AuditLogs to update.
      */
     limit?: number
-  }
-
-  /**
-   * AuditLog updateManyAndReturn
-   */
-  export type AuditLogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * The data used to update AuditLogs.
-     */
-    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyInput>
-    /**
-     * Filter which AuditLogs to update
-     */
-    where?: AuditLogWhereInput
-    /**
-     * Limit how many AuditLogs to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuditLogIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -15616,6 +14644,34 @@ export namespace Prisma {
      * Limit how many AuditLogs to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AuditLog findRaw
+   */
+  export type AuditLogFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * AuditLog aggregateRaw
+   */
+  export type AuditLogAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -15862,41 +14918,7 @@ export namespace Prisma {
     hr?: boolean | LeaveRequest$hrArgs<ExtArgs>
   }, ExtArgs["result"]["leaveRequest"]>
 
-  export type LeaveRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    type?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    reason?: boolean
-    managerStatus?: boolean
-    managerId?: boolean
-    hrStatus?: boolean
-    hrId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    manager?: boolean | LeaveRequest$managerArgs<ExtArgs>
-    hr?: boolean | LeaveRequest$hrArgs<ExtArgs>
-  }, ExtArgs["result"]["leaveRequest"]>
 
-  export type LeaveRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    type?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    reason?: boolean
-    managerStatus?: boolean
-    managerId?: boolean
-    hrStatus?: boolean
-    hrId?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    manager?: boolean | LeaveRequest$managerArgs<ExtArgs>
-    hr?: boolean | LeaveRequest$hrArgs<ExtArgs>
-  }, ExtArgs["result"]["leaveRequest"]>
 
   export type LeaveRequestSelectScalar = {
     id?: boolean
@@ -15915,16 +14937,6 @@ export namespace Prisma {
 
   export type LeaveRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "type" | "startDate" | "endDate" | "reason" | "managerStatus" | "managerId" | "hrStatus" | "hrId" | "createdAt" | "updatedAt", ExtArgs["result"]["leaveRequest"]>
   export type LeaveRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    manager?: boolean | LeaveRequest$managerArgs<ExtArgs>
-    hr?: boolean | LeaveRequest$hrArgs<ExtArgs>
-  }
-  export type LeaveRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    manager?: boolean | LeaveRequest$managerArgs<ExtArgs>
-    hr?: boolean | LeaveRequest$hrArgs<ExtArgs>
-  }
-  export type LeaveRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     manager?: boolean | LeaveRequest$managerArgs<ExtArgs>
     hr?: boolean | LeaveRequest$hrArgs<ExtArgs>
@@ -16068,30 +15080,6 @@ export namespace Prisma {
     createMany<T extends LeaveRequestCreateManyArgs>(args?: SelectSubset<T, LeaveRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many LeaveRequests and returns the data saved in the database.
-     * @param {LeaveRequestCreateManyAndReturnArgs} args - Arguments to create many LeaveRequests.
-     * @example
-     * // Create many LeaveRequests
-     * const leaveRequest = await prisma.leaveRequest.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many LeaveRequests and only return the `id`
-     * const leaveRequestWithIdOnly = await prisma.leaveRequest.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LeaveRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, LeaveRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a LeaveRequest.
      * @param {LeaveRequestDeleteArgs} args - Arguments to delete one LeaveRequest.
      * @example
@@ -16156,36 +15144,6 @@ export namespace Prisma {
     updateMany<T extends LeaveRequestUpdateManyArgs>(args: SelectSubset<T, LeaveRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more LeaveRequests and returns the data updated in the database.
-     * @param {LeaveRequestUpdateManyAndReturnArgs} args - Arguments to update many LeaveRequests.
-     * @example
-     * // Update many LeaveRequests
-     * const leaveRequest = await prisma.leaveRequest.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more LeaveRequests and only return the `id`
-     * const leaveRequestWithIdOnly = await prisma.leaveRequest.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LeaveRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, LeaveRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one LeaveRequest.
      * @param {LeaveRequestUpsertArgs} args - Arguments to update or create a LeaveRequest.
      * @example
@@ -16203,6 +15161,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends LeaveRequestUpsertArgs>(args: SelectSubset<T, LeaveRequestUpsertArgs<ExtArgs>>): Prisma__LeaveRequestClient<$Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LeaveRequests that matches the filter.
+     * @param {LeaveRequestFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const leaveRequest = await prisma.leaveRequest.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: LeaveRequestFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a LeaveRequest.
+     * @param {LeaveRequestAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const leaveRequest = await prisma.leaveRequest.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: LeaveRequestAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -16620,28 +15601,6 @@ export namespace Prisma {
   }
 
   /**
-   * LeaveRequest createManyAndReturn
-   */
-  export type LeaveRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LeaveRequest
-     */
-    select?: LeaveRequestSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LeaveRequest
-     */
-    omit?: LeaveRequestOmit<ExtArgs> | null
-    /**
-     * The data used to create many LeaveRequests.
-     */
-    data: LeaveRequestCreateManyInput | LeaveRequestCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LeaveRequestIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * LeaveRequest update
    */
   export type LeaveRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16683,36 +15642,6 @@ export namespace Prisma {
      * Limit how many LeaveRequests to update.
      */
     limit?: number
-  }
-
-  /**
-   * LeaveRequest updateManyAndReturn
-   */
-  export type LeaveRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LeaveRequest
-     */
-    select?: LeaveRequestSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LeaveRequest
-     */
-    omit?: LeaveRequestOmit<ExtArgs> | null
-    /**
-     * The data used to update LeaveRequests.
-     */
-    data: XOR<LeaveRequestUpdateManyMutationInput, LeaveRequestUncheckedUpdateManyInput>
-    /**
-     * Filter which LeaveRequests to update
-     */
-    where?: LeaveRequestWhereInput
-    /**
-     * Limit how many LeaveRequests to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LeaveRequestIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -16779,6 +15708,34 @@ export namespace Prisma {
      * Limit how many LeaveRequests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * LeaveRequest findRaw
+   */
+  export type LeaveRequestFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * LeaveRequest aggregateRaw
+   */
+  export type LeaveRequestAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -17159,45 +16116,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salaryStructure"]>
 
-  export type SalaryStructureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    ctc?: boolean
-    basic?: boolean
-    housingAllowance?: boolean
-    transportAllowance?: boolean
-    medicalAllowance?: boolean
-    foodAllowance?: boolean
-    travelAllowance?: boolean
-    commission?: boolean
-    otherAllowances?: boolean
-    paymentMethod?: boolean
-    bankName?: boolean
-    iban?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["salaryStructure"]>
 
-  export type SalaryStructureSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    ctc?: boolean
-    basic?: boolean
-    housingAllowance?: boolean
-    transportAllowance?: boolean
-    medicalAllowance?: boolean
-    foodAllowance?: boolean
-    travelAllowance?: boolean
-    commission?: boolean
-    otherAllowances?: boolean
-    paymentMethod?: boolean
-    bankName?: boolean
-    iban?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["salaryStructure"]>
 
   export type SalaryStructureSelectScalar = {
     id?: boolean
@@ -17220,12 +16139,6 @@ export namespace Prisma {
 
   export type SalaryStructureOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "ctc" | "basic" | "housingAllowance" | "transportAllowance" | "medicalAllowance" | "foodAllowance" | "travelAllowance" | "commission" | "otherAllowances" | "paymentMethod" | "bankName" | "iban" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryStructure"]>
   export type SalaryStructureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type SalaryStructureIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type SalaryStructureIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -17369,30 +16282,6 @@ export namespace Prisma {
     createMany<T extends SalaryStructureCreateManyArgs>(args?: SelectSubset<T, SalaryStructureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many SalaryStructures and returns the data saved in the database.
-     * @param {SalaryStructureCreateManyAndReturnArgs} args - Arguments to create many SalaryStructures.
-     * @example
-     * // Create many SalaryStructures
-     * const salaryStructure = await prisma.salaryStructure.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many SalaryStructures and only return the `id`
-     * const salaryStructureWithIdOnly = await prisma.salaryStructure.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends SalaryStructureCreateManyAndReturnArgs>(args?: SelectSubset<T, SalaryStructureCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a SalaryStructure.
      * @param {SalaryStructureDeleteArgs} args - Arguments to delete one SalaryStructure.
      * @example
@@ -17457,36 +16346,6 @@ export namespace Prisma {
     updateMany<T extends SalaryStructureUpdateManyArgs>(args: SelectSubset<T, SalaryStructureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SalaryStructures and returns the data updated in the database.
-     * @param {SalaryStructureUpdateManyAndReturnArgs} args - Arguments to update many SalaryStructures.
-     * @example
-     * // Update many SalaryStructures
-     * const salaryStructure = await prisma.salaryStructure.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more SalaryStructures and only return the `id`
-     * const salaryStructureWithIdOnly = await prisma.salaryStructure.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends SalaryStructureUpdateManyAndReturnArgs>(args: SelectSubset<T, SalaryStructureUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one SalaryStructure.
      * @param {SalaryStructureUpsertArgs} args - Arguments to update or create a SalaryStructure.
      * @example
@@ -17504,6 +16363,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends SalaryStructureUpsertArgs>(args: SelectSubset<T, SalaryStructureUpsertArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SalaryStructures that matches the filter.
+     * @param {SalaryStructureFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const salaryStructure = await prisma.salaryStructure.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: SalaryStructureFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a SalaryStructure.
+     * @param {SalaryStructureAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const salaryStructure = await prisma.salaryStructure.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: SalaryStructureAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -17923,28 +16805,6 @@ export namespace Prisma {
   }
 
   /**
-   * SalaryStructure createManyAndReturn
-   */
-  export type SalaryStructureCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SalaryStructure
-     */
-    select?: SalaryStructureSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the SalaryStructure
-     */
-    omit?: SalaryStructureOmit<ExtArgs> | null
-    /**
-     * The data used to create many SalaryStructures.
-     */
-    data: SalaryStructureCreateManyInput | SalaryStructureCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SalaryStructureIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * SalaryStructure update
    */
   export type SalaryStructureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17986,36 +16846,6 @@ export namespace Prisma {
      * Limit how many SalaryStructures to update.
      */
     limit?: number
-  }
-
-  /**
-   * SalaryStructure updateManyAndReturn
-   */
-  export type SalaryStructureUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SalaryStructure
-     */
-    select?: SalaryStructureSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the SalaryStructure
-     */
-    omit?: SalaryStructureOmit<ExtArgs> | null
-    /**
-     * The data used to update SalaryStructures.
-     */
-    data: XOR<SalaryStructureUpdateManyMutationInput, SalaryStructureUncheckedUpdateManyInput>
-    /**
-     * Filter which SalaryStructures to update
-     */
-    where?: SalaryStructureWhereInput
-    /**
-     * Limit how many SalaryStructures to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SalaryStructureIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -18082,6 +16912,34 @@ export namespace Prisma {
      * Limit how many SalaryStructures to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SalaryStructure findRaw
+   */
+  export type SalaryStructureFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * SalaryStructure aggregateRaw
+   */
+  export type SalaryStructureAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -18544,65 +17402,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["salaryRecord"]>
 
-  export type SalaryRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    month?: boolean
-    year?: boolean
-    basic?: boolean
-    housingAllowance?: boolean
-    transportAllowance?: boolean
-    medicalAllowance?: boolean
-    foodAllowance?: boolean
-    travelAllowance?: boolean
-    commission?: boolean
-    otherAllowances?: boolean
-    latePenalty?: boolean
-    penalty?: boolean
-    leaveDeduction?: boolean
-    loanDeduction?: boolean
-    advanceSalary?: boolean
-    otherDeductions?: boolean
-    overtimePay?: boolean
-    bonus?: boolean
-    netSalary?: boolean
-    status?: boolean
-    paymentMethod?: boolean
-    paidAt?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["salaryRecord"]>
 
-  export type SalaryRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    month?: boolean
-    year?: boolean
-    basic?: boolean
-    housingAllowance?: boolean
-    transportAllowance?: boolean
-    medicalAllowance?: boolean
-    foodAllowance?: boolean
-    travelAllowance?: boolean
-    commission?: boolean
-    otherAllowances?: boolean
-    latePenalty?: boolean
-    penalty?: boolean
-    leaveDeduction?: boolean
-    loanDeduction?: boolean
-    advanceSalary?: boolean
-    otherDeductions?: boolean
-    overtimePay?: boolean
-    bonus?: boolean
-    netSalary?: boolean
-    status?: boolean
-    paymentMethod?: boolean
-    paidAt?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["salaryRecord"]>
 
   export type SalaryRecordSelectScalar = {
     id?: boolean
@@ -18635,12 +17435,6 @@ export namespace Prisma {
 
   export type SalaryRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "month" | "year" | "basic" | "housingAllowance" | "transportAllowance" | "medicalAllowance" | "foodAllowance" | "travelAllowance" | "commission" | "otherAllowances" | "latePenalty" | "penalty" | "leaveDeduction" | "loanDeduction" | "advanceSalary" | "otherDeductions" | "overtimePay" | "bonus" | "netSalary" | "status" | "paymentMethod" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryRecord"]>
   export type SalaryRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type SalaryRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type SalaryRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -18794,30 +17588,6 @@ export namespace Prisma {
     createMany<T extends SalaryRecordCreateManyArgs>(args?: SelectSubset<T, SalaryRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many SalaryRecords and returns the data saved in the database.
-     * @param {SalaryRecordCreateManyAndReturnArgs} args - Arguments to create many SalaryRecords.
-     * @example
-     * // Create many SalaryRecords
-     * const salaryRecord = await prisma.salaryRecord.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many SalaryRecords and only return the `id`
-     * const salaryRecordWithIdOnly = await prisma.salaryRecord.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends SalaryRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, SalaryRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a SalaryRecord.
      * @param {SalaryRecordDeleteArgs} args - Arguments to delete one SalaryRecord.
      * @example
@@ -18882,36 +17652,6 @@ export namespace Prisma {
     updateMany<T extends SalaryRecordUpdateManyArgs>(args: SelectSubset<T, SalaryRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SalaryRecords and returns the data updated in the database.
-     * @param {SalaryRecordUpdateManyAndReturnArgs} args - Arguments to update many SalaryRecords.
-     * @example
-     * // Update many SalaryRecords
-     * const salaryRecord = await prisma.salaryRecord.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more SalaryRecords and only return the `id`
-     * const salaryRecordWithIdOnly = await prisma.salaryRecord.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends SalaryRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, SalaryRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one SalaryRecord.
      * @param {SalaryRecordUpsertArgs} args - Arguments to update or create a SalaryRecord.
      * @example
@@ -18929,6 +17669,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends SalaryRecordUpsertArgs>(args: SelectSubset<T, SalaryRecordUpsertArgs<ExtArgs>>): Prisma__SalaryRecordClient<$Result.GetResult<Prisma.$SalaryRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SalaryRecords that matches the filter.
+     * @param {SalaryRecordFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const salaryRecord = await prisma.salaryRecord.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: SalaryRecordFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a SalaryRecord.
+     * @param {SalaryRecordAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const salaryRecord = await prisma.salaryRecord.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: SalaryRecordAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -19358,28 +18121,6 @@ export namespace Prisma {
   }
 
   /**
-   * SalaryRecord createManyAndReturn
-   */
-  export type SalaryRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SalaryRecord
-     */
-    select?: SalaryRecordSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the SalaryRecord
-     */
-    omit?: SalaryRecordOmit<ExtArgs> | null
-    /**
-     * The data used to create many SalaryRecords.
-     */
-    data: SalaryRecordCreateManyInput | SalaryRecordCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SalaryRecordIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * SalaryRecord update
    */
   export type SalaryRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19421,36 +18162,6 @@ export namespace Prisma {
      * Limit how many SalaryRecords to update.
      */
     limit?: number
-  }
-
-  /**
-   * SalaryRecord updateManyAndReturn
-   */
-  export type SalaryRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SalaryRecord
-     */
-    select?: SalaryRecordSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the SalaryRecord
-     */
-    omit?: SalaryRecordOmit<ExtArgs> | null
-    /**
-     * The data used to update SalaryRecords.
-     */
-    data: XOR<SalaryRecordUpdateManyMutationInput, SalaryRecordUncheckedUpdateManyInput>
-    /**
-     * Filter which SalaryRecords to update
-     */
-    where?: SalaryRecordWhereInput
-    /**
-     * Limit how many SalaryRecords to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SalaryRecordIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -19517,6 +18228,34 @@ export namespace Prisma {
      * Limit how many SalaryRecords to delete.
      */
     limit?: number
+  }
+
+  /**
+   * SalaryRecord findRaw
+   */
+  export type SalaryRecordFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * SalaryRecord aggregateRaw
+   */
+  export type SalaryRecordAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -19779,31 +18518,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["loan"]>
 
-  export type LoanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    amount?: boolean
-    issueDate?: boolean
-    installmentAmount?: boolean
-    remainingBalance?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["loan"]>
 
-  export type LoanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    amount?: boolean
-    issueDate?: boolean
-    installmentAmount?: boolean
-    remainingBalance?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["loan"]>
 
   export type LoanSelectScalar = {
     id?: boolean
@@ -19819,12 +18534,6 @@ export namespace Prisma {
 
   export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "amount" | "issueDate" | "installmentAmount" | "remainingBalance" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["loan"]>
   export type LoanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type LoanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type LoanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -19961,30 +18670,6 @@ export namespace Prisma {
     createMany<T extends LoanCreateManyArgs>(args?: SelectSubset<T, LoanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Loans and returns the data saved in the database.
-     * @param {LoanCreateManyAndReturnArgs} args - Arguments to create many Loans.
-     * @example
-     * // Create many Loans
-     * const loan = await prisma.loan.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Loans and only return the `id`
-     * const loanWithIdOnly = await prisma.loan.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LoanCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Loan.
      * @param {LoanDeleteArgs} args - Arguments to delete one Loan.
      * @example
@@ -20049,36 +18734,6 @@ export namespace Prisma {
     updateMany<T extends LoanUpdateManyArgs>(args: SelectSubset<T, LoanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Loans and returns the data updated in the database.
-     * @param {LoanUpdateManyAndReturnArgs} args - Arguments to update many Loans.
-     * @example
-     * // Update many Loans
-     * const loan = await prisma.loan.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Loans and only return the `id`
-     * const loanWithIdOnly = await prisma.loan.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LoanUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Loan.
      * @param {LoanUpsertArgs} args - Arguments to update or create a Loan.
      * @example
@@ -20096,6 +18751,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends LoanUpsertArgs>(args: SelectSubset<T, LoanUpsertArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Loans that matches the filter.
+     * @param {LoanFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const loan = await prisma.loan.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: LoanFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Loan.
+     * @param {LoanAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const loan = await prisma.loan.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: LoanAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -20508,28 +19186,6 @@ export namespace Prisma {
   }
 
   /**
-   * Loan createManyAndReturn
-   */
-  export type LoanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Loan
-     */
-    select?: LoanSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Loan
-     */
-    omit?: LoanOmit<ExtArgs> | null
-    /**
-     * The data used to create many Loans.
-     */
-    data: LoanCreateManyInput | LoanCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LoanIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Loan update
    */
   export type LoanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20571,36 +19227,6 @@ export namespace Prisma {
      * Limit how many Loans to update.
      */
     limit?: number
-  }
-
-  /**
-   * Loan updateManyAndReturn
-   */
-  export type LoanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Loan
-     */
-    select?: LoanSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Loan
-     */
-    omit?: LoanOmit<ExtArgs> | null
-    /**
-     * The data used to update Loans.
-     */
-    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyInput>
-    /**
-     * Filter which Loans to update
-     */
-    where?: LoanWhereInput
-    /**
-     * Limit how many Loans to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LoanIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -20667,6 +19293,34 @@ export namespace Prisma {
      * Limit how many Loans to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Loan findRaw
+   */
+  export type LoanFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Loan aggregateRaw
+   */
+  export type LoanAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -20929,31 +19583,7 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["overtime"]>
 
-  export type OvertimeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    date?: boolean
-    hours?: boolean
-    ratePerHour?: boolean
-    totalPay?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["overtime"]>
 
-  export type OvertimeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    date?: boolean
-    hours?: boolean
-    ratePerHour?: boolean
-    totalPay?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["overtime"]>
 
   export type OvertimeSelectScalar = {
     id?: boolean
@@ -20969,12 +19599,6 @@ export namespace Prisma {
 
   export type OvertimeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "date" | "hours" | "ratePerHour" | "totalPay" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["overtime"]>
   export type OvertimeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type OvertimeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type OvertimeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
@@ -21111,30 +19735,6 @@ export namespace Prisma {
     createMany<T extends OvertimeCreateManyArgs>(args?: SelectSubset<T, OvertimeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Overtimes and returns the data saved in the database.
-     * @param {OvertimeCreateManyAndReturnArgs} args - Arguments to create many Overtimes.
-     * @example
-     * // Create many Overtimes
-     * const overtime = await prisma.overtime.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Overtimes and only return the `id`
-     * const overtimeWithIdOnly = await prisma.overtime.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends OvertimeCreateManyAndReturnArgs>(args?: SelectSubset<T, OvertimeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Overtime.
      * @param {OvertimeDeleteArgs} args - Arguments to delete one Overtime.
      * @example
@@ -21199,36 +19799,6 @@ export namespace Prisma {
     updateMany<T extends OvertimeUpdateManyArgs>(args: SelectSubset<T, OvertimeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Overtimes and returns the data updated in the database.
-     * @param {OvertimeUpdateManyAndReturnArgs} args - Arguments to update many Overtimes.
-     * @example
-     * // Update many Overtimes
-     * const overtime = await prisma.overtime.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Overtimes and only return the `id`
-     * const overtimeWithIdOnly = await prisma.overtime.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends OvertimeUpdateManyAndReturnArgs>(args: SelectSubset<T, OvertimeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Overtime.
      * @param {OvertimeUpsertArgs} args - Arguments to update or create a Overtime.
      * @example
@@ -21246,6 +19816,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends OvertimeUpsertArgs>(args: SelectSubset<T, OvertimeUpsertArgs<ExtArgs>>): Prisma__OvertimeClient<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Overtimes that matches the filter.
+     * @param {OvertimeFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const overtime = await prisma.overtime.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: OvertimeFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Overtime.
+     * @param {OvertimeAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const overtime = await prisma.overtime.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: OvertimeAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -21658,28 +20251,6 @@ export namespace Prisma {
   }
 
   /**
-   * Overtime createManyAndReturn
-   */
-  export type OvertimeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Overtime
-     */
-    select?: OvertimeSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Overtime
-     */
-    omit?: OvertimeOmit<ExtArgs> | null
-    /**
-     * The data used to create many Overtimes.
-     */
-    data: OvertimeCreateManyInput | OvertimeCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OvertimeIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Overtime update
    */
   export type OvertimeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21721,36 +20292,6 @@ export namespace Prisma {
      * Limit how many Overtimes to update.
      */
     limit?: number
-  }
-
-  /**
-   * Overtime updateManyAndReturn
-   */
-  export type OvertimeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Overtime
-     */
-    select?: OvertimeSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Overtime
-     */
-    omit?: OvertimeOmit<ExtArgs> | null
-    /**
-     * The data used to update Overtimes.
-     */
-    data: XOR<OvertimeUpdateManyMutationInput, OvertimeUncheckedUpdateManyInput>
-    /**
-     * Filter which Overtimes to update
-     */
-    where?: OvertimeWhereInput
-    /**
-     * Limit how many Overtimes to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OvertimeIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -21817,6 +20358,34 @@ export namespace Prisma {
      * Limit how many Overtimes to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Overtime findRaw
+   */
+  export type OvertimeFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Overtime aggregateRaw
+   */
+  export type OvertimeAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -22038,29 +20607,7 @@ export namespace Prisma {
     _count?: boolean | StaffServiceTypeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["staffServiceType"]>
 
-  export type StaffServiceTypeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    icon?: boolean
-    description?: boolean
-    requiresAmount?: boolean
-    requiresDates?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["staffServiceType"]>
 
-  export type StaffServiceTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    icon?: boolean
-    description?: boolean
-    requiresAmount?: boolean
-    requiresDates?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["staffServiceType"]>
 
   export type StaffServiceTypeSelectScalar = {
     id?: boolean
@@ -22079,8 +20626,6 @@ export namespace Prisma {
     staffRequests?: boolean | StaffServiceType$staffRequestsArgs<ExtArgs>
     _count?: boolean | StaffServiceTypeCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type StaffServiceTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type StaffServiceTypeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $StaffServiceTypePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StaffServiceType"
@@ -22215,30 +20760,6 @@ export namespace Prisma {
     createMany<T extends StaffServiceTypeCreateManyArgs>(args?: SelectSubset<T, StaffServiceTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many StaffServiceTypes and returns the data saved in the database.
-     * @param {StaffServiceTypeCreateManyAndReturnArgs} args - Arguments to create many StaffServiceTypes.
-     * @example
-     * // Create many StaffServiceTypes
-     * const staffServiceType = await prisma.staffServiceType.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many StaffServiceTypes and only return the `id`
-     * const staffServiceTypeWithIdOnly = await prisma.staffServiceType.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends StaffServiceTypeCreateManyAndReturnArgs>(args?: SelectSubset<T, StaffServiceTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a StaffServiceType.
      * @param {StaffServiceTypeDeleteArgs} args - Arguments to delete one StaffServiceType.
      * @example
@@ -22303,36 +20824,6 @@ export namespace Prisma {
     updateMany<T extends StaffServiceTypeUpdateManyArgs>(args: SelectSubset<T, StaffServiceTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more StaffServiceTypes and returns the data updated in the database.
-     * @param {StaffServiceTypeUpdateManyAndReturnArgs} args - Arguments to update many StaffServiceTypes.
-     * @example
-     * // Update many StaffServiceTypes
-     * const staffServiceType = await prisma.staffServiceType.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more StaffServiceTypes and only return the `id`
-     * const staffServiceTypeWithIdOnly = await prisma.staffServiceType.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends StaffServiceTypeUpdateManyAndReturnArgs>(args: SelectSubset<T, StaffServiceTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one StaffServiceType.
      * @param {StaffServiceTypeUpsertArgs} args - Arguments to update or create a StaffServiceType.
      * @example
@@ -22350,6 +20841,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends StaffServiceTypeUpsertArgs>(args: SelectSubset<T, StaffServiceTypeUpsertArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StaffServiceTypes that matches the filter.
+     * @param {StaffServiceTypeFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const staffServiceType = await prisma.staffServiceType.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: StaffServiceTypeFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a StaffServiceType.
+     * @param {StaffServiceTypeAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const staffServiceType = await prisma.staffServiceType.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: StaffServiceTypeAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -22762,24 +21276,6 @@ export namespace Prisma {
   }
 
   /**
-   * StaffServiceType createManyAndReturn
-   */
-  export type StaffServiceTypeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the StaffServiceType
-     */
-    select?: StaffServiceTypeSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the StaffServiceType
-     */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
-    /**
-     * The data used to create many StaffServiceTypes.
-     */
-    data: StaffServiceTypeCreateManyInput | StaffServiceTypeCreateManyInput[]
-  }
-
-  /**
    * StaffServiceType update
    */
   export type StaffServiceTypeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22809,32 +21305,6 @@ export namespace Prisma {
    * StaffServiceType updateMany
    */
   export type StaffServiceTypeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update StaffServiceTypes.
-     */
-    data: XOR<StaffServiceTypeUpdateManyMutationInput, StaffServiceTypeUncheckedUpdateManyInput>
-    /**
-     * Filter which StaffServiceTypes to update
-     */
-    where?: StaffServiceTypeWhereInput
-    /**
-     * Limit how many StaffServiceTypes to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * StaffServiceType updateManyAndReturn
-   */
-  export type StaffServiceTypeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the StaffServiceType
-     */
-    select?: StaffServiceTypeSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the StaffServiceType
-     */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
     /**
      * The data used to update StaffServiceTypes.
      */
@@ -22913,6 +21383,34 @@ export namespace Prisma {
      * Limit how many StaffServiceTypes to delete.
      */
     limit?: number
+  }
+
+  /**
+   * StaffServiceType findRaw
+   */
+  export type StaffServiceTypeFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * StaffServiceType aggregateRaw
+   */
+  export type StaffServiceTypeAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -23210,37 +21708,7 @@ export namespace Prisma {
     _count?: boolean | StaffRequestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["staffRequest"]>
 
-  export type StaffRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    typeId?: boolean
-    details?: boolean
-    amount?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    status?: boolean
-    hrNote?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["staffRequest"]>
 
-  export type StaffRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    typeId?: boolean
-    details?: boolean
-    amount?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    status?: boolean
-    hrNote?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["staffRequest"]>
 
   export type StaffRequestSelectScalar = {
     id?: boolean
@@ -23262,14 +21730,6 @@ export namespace Prisma {
     serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
     attachments?: boolean | StaffRequest$attachmentsArgs<ExtArgs>
     _count?: boolean | StaffRequestCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type StaffRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-  }
-  export type StaffRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
   }
 
   export type $StaffRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23409,30 +21869,6 @@ export namespace Prisma {
     createMany<T extends StaffRequestCreateManyArgs>(args?: SelectSubset<T, StaffRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many StaffRequests and returns the data saved in the database.
-     * @param {StaffRequestCreateManyAndReturnArgs} args - Arguments to create many StaffRequests.
-     * @example
-     * // Create many StaffRequests
-     * const staffRequest = await prisma.staffRequest.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many StaffRequests and only return the `id`
-     * const staffRequestWithIdOnly = await prisma.staffRequest.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends StaffRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, StaffRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a StaffRequest.
      * @param {StaffRequestDeleteArgs} args - Arguments to delete one StaffRequest.
      * @example
@@ -23497,36 +21933,6 @@ export namespace Prisma {
     updateMany<T extends StaffRequestUpdateManyArgs>(args: SelectSubset<T, StaffRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more StaffRequests and returns the data updated in the database.
-     * @param {StaffRequestUpdateManyAndReturnArgs} args - Arguments to update many StaffRequests.
-     * @example
-     * // Update many StaffRequests
-     * const staffRequest = await prisma.staffRequest.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more StaffRequests and only return the `id`
-     * const staffRequestWithIdOnly = await prisma.staffRequest.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends StaffRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, StaffRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one StaffRequest.
      * @param {StaffRequestUpsertArgs} args - Arguments to update or create a StaffRequest.
      * @example
@@ -23544,6 +21950,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends StaffRequestUpsertArgs>(args: SelectSubset<T, StaffRequestUpsertArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more StaffRequests that matches the filter.
+     * @param {StaffRequestFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const staffRequest = await prisma.staffRequest.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: StaffRequestFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a StaffRequest.
+     * @param {StaffRequestAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const staffRequest = await prisma.staffRequest.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: StaffRequestAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -23960,28 +22389,6 @@ export namespace Prisma {
   }
 
   /**
-   * StaffRequest createManyAndReturn
-   */
-  export type StaffRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the StaffRequest
-     */
-    select?: StaffRequestSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the StaffRequest
-     */
-    omit?: StaffRequestOmit<ExtArgs> | null
-    /**
-     * The data used to create many StaffRequests.
-     */
-    data: StaffRequestCreateManyInput | StaffRequestCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StaffRequestIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * StaffRequest update
    */
   export type StaffRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24023,36 +22430,6 @@ export namespace Prisma {
      * Limit how many StaffRequests to update.
      */
     limit?: number
-  }
-
-  /**
-   * StaffRequest updateManyAndReturn
-   */
-  export type StaffRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the StaffRequest
-     */
-    select?: StaffRequestSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the StaffRequest
-     */
-    omit?: StaffRequestOmit<ExtArgs> | null
-    /**
-     * The data used to update StaffRequests.
-     */
-    data: XOR<StaffRequestUpdateManyMutationInput, StaffRequestUncheckedUpdateManyInput>
-    /**
-     * Filter which StaffRequests to update
-     */
-    where?: StaffRequestWhereInput
-    /**
-     * Limit how many StaffRequests to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StaffRequestIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -24119,6 +22496,34 @@ export namespace Prisma {
      * Limit how many StaffRequests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * StaffRequest findRaw
+   */
+  export type StaffRequestFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * StaffRequest aggregateRaw
+   */
+  export type StaffRequestAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -24381,39 +22786,7 @@ export namespace Prisma {
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["attachment"]>
 
-  export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    staffRequestId?: boolean
-    visaRequestId?: boolean
-    employeeId?: boolean
-    fileName?: boolean
-    fileUrl?: boolean
-    fileType?: boolean
-    category?: boolean
-    docNumber?: boolean
-    docExpiry?: boolean
-    createdAt?: boolean
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
-    visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
-    employee?: boolean | Attachment$employeeArgs<ExtArgs>
-  }, ExtArgs["result"]["attachment"]>
 
-  export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    staffRequestId?: boolean
-    visaRequestId?: boolean
-    employeeId?: boolean
-    fileName?: boolean
-    fileUrl?: boolean
-    fileType?: boolean
-    category?: boolean
-    docNumber?: boolean
-    docExpiry?: boolean
-    createdAt?: boolean
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
-    visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
-    employee?: boolean | Attachment$employeeArgs<ExtArgs>
-  }, ExtArgs["result"]["attachment"]>
 
   export type AttachmentSelectScalar = {
     id?: boolean
@@ -24431,16 +22804,6 @@ export namespace Prisma {
 
   export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "staffRequestId" | "visaRequestId" | "employeeId" | "fileName" | "fileUrl" | "fileType" | "category" | "docNumber" | "docExpiry" | "createdAt", ExtArgs["result"]["attachment"]>
   export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
-    visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
-    employee?: boolean | Attachment$employeeArgs<ExtArgs>
-  }
-  export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
-    visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
-    employee?: boolean | Attachment$employeeArgs<ExtArgs>
-  }
-  export type AttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
@@ -24583,30 +22946,6 @@ export namespace Prisma {
     createMany<T extends AttachmentCreateManyArgs>(args?: SelectSubset<T, AttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Attachments and returns the data saved in the database.
-     * @param {AttachmentCreateManyAndReturnArgs} args - Arguments to create many Attachments.
-     * @example
-     * // Create many Attachments
-     * const attachment = await prisma.attachment.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Attachments and only return the `id`
-     * const attachmentWithIdOnly = await prisma.attachment.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends AttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Attachment.
      * @param {AttachmentDeleteArgs} args - Arguments to delete one Attachment.
      * @example
@@ -24671,36 +23010,6 @@ export namespace Prisma {
     updateMany<T extends AttachmentUpdateManyArgs>(args: SelectSubset<T, AttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Attachments and returns the data updated in the database.
-     * @param {AttachmentUpdateManyAndReturnArgs} args - Arguments to update many Attachments.
-     * @example
-     * // Update many Attachments
-     * const attachment = await prisma.attachment.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Attachments and only return the `id`
-     * const attachmentWithIdOnly = await prisma.attachment.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends AttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Attachment.
      * @param {AttachmentUpsertArgs} args - Arguments to update or create a Attachment.
      * @example
@@ -24718,6 +23027,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends AttachmentUpsertArgs>(args: SelectSubset<T, AttachmentUpsertArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attachments that matches the filter.
+     * @param {AttachmentFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const attachment = await prisma.attachment.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: AttachmentFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Attachment.
+     * @param {AttachmentAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const attachment = await prisma.attachment.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: AttachmentAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -25134,28 +23466,6 @@ export namespace Prisma {
   }
 
   /**
-   * Attachment createManyAndReturn
-   */
-  export type AttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Attachment
-     */
-    select?: AttachmentSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Attachment
-     */
-    omit?: AttachmentOmit<ExtArgs> | null
-    /**
-     * The data used to create many Attachments.
-     */
-    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AttachmentIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Attachment update
    */
   export type AttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25197,36 +23507,6 @@ export namespace Prisma {
      * Limit how many Attachments to update.
      */
     limit?: number
-  }
-
-  /**
-   * Attachment updateManyAndReturn
-   */
-  export type AttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Attachment
-     */
-    select?: AttachmentSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Attachment
-     */
-    omit?: AttachmentOmit<ExtArgs> | null
-    /**
-     * The data used to update Attachments.
-     */
-    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
-    /**
-     * Filter which Attachments to update
-     */
-    where?: AttachmentWhereInput
-    /**
-     * Limit how many Attachments to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -25293,6 +23573,34 @@ export namespace Prisma {
      * Limit how many Attachments to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Attachment findRaw
+   */
+  export type AttachmentFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Attachment aggregateRaw
+   */
+  export type AttachmentAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -25572,31 +23880,7 @@ export namespace Prisma {
     _count?: boolean | VisaRequestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["visaRequest"]>
 
-  export type VisaRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    visaType?: boolean
-    destinationCountry?: boolean
-    purpose?: boolean
-    status?: boolean
-    notes?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["visaRequest"]>
 
-  export type VisaRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    visaType?: boolean
-    destinationCountry?: boolean
-    purpose?: boolean
-    status?: boolean
-    notes?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["visaRequest"]>
 
   export type VisaRequestSelectScalar = {
     id?: boolean
@@ -25615,12 +23899,6 @@ export namespace Prisma {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     attachments?: boolean | VisaRequest$attachmentsArgs<ExtArgs>
     _count?: boolean | VisaRequestCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type VisaRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type VisaRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
   }
 
   export type $VisaRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25757,30 +24035,6 @@ export namespace Prisma {
     createMany<T extends VisaRequestCreateManyArgs>(args?: SelectSubset<T, VisaRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many VisaRequests and returns the data saved in the database.
-     * @param {VisaRequestCreateManyAndReturnArgs} args - Arguments to create many VisaRequests.
-     * @example
-     * // Create many VisaRequests
-     * const visaRequest = await prisma.visaRequest.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many VisaRequests and only return the `id`
-     * const visaRequestWithIdOnly = await prisma.visaRequest.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends VisaRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, VisaRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisaRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a VisaRequest.
      * @param {VisaRequestDeleteArgs} args - Arguments to delete one VisaRequest.
      * @example
@@ -25845,36 +24099,6 @@ export namespace Prisma {
     updateMany<T extends VisaRequestUpdateManyArgs>(args: SelectSubset<T, VisaRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more VisaRequests and returns the data updated in the database.
-     * @param {VisaRequestUpdateManyAndReturnArgs} args - Arguments to update many VisaRequests.
-     * @example
-     * // Update many VisaRequests
-     * const visaRequest = await prisma.visaRequest.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more VisaRequests and only return the `id`
-     * const visaRequestWithIdOnly = await prisma.visaRequest.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends VisaRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, VisaRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisaRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one VisaRequest.
      * @param {VisaRequestUpsertArgs} args - Arguments to update or create a VisaRequest.
      * @example
@@ -25892,6 +24116,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends VisaRequestUpsertArgs>(args: SelectSubset<T, VisaRequestUpsertArgs<ExtArgs>>): Prisma__VisaRequestClient<$Result.GetResult<Prisma.$VisaRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VisaRequests that matches the filter.
+     * @param {VisaRequestFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const visaRequest = await prisma.visaRequest.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: VisaRequestFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a VisaRequest.
+     * @param {VisaRequestAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const visaRequest = await prisma.visaRequest.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: VisaRequestAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -26305,28 +24552,6 @@ export namespace Prisma {
   }
 
   /**
-   * VisaRequest createManyAndReturn
-   */
-  export type VisaRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisaRequest
-     */
-    select?: VisaRequestSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisaRequest
-     */
-    omit?: VisaRequestOmit<ExtArgs> | null
-    /**
-     * The data used to create many VisaRequests.
-     */
-    data: VisaRequestCreateManyInput | VisaRequestCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VisaRequestIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * VisaRequest update
    */
   export type VisaRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -26368,36 +24593,6 @@ export namespace Prisma {
      * Limit how many VisaRequests to update.
      */
     limit?: number
-  }
-
-  /**
-   * VisaRequest updateManyAndReturn
-   */
-  export type VisaRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisaRequest
-     */
-    select?: VisaRequestSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisaRequest
-     */
-    omit?: VisaRequestOmit<ExtArgs> | null
-    /**
-     * The data used to update VisaRequests.
-     */
-    data: XOR<VisaRequestUpdateManyMutationInput, VisaRequestUncheckedUpdateManyInput>
-    /**
-     * Filter which VisaRequests to update
-     */
-    where?: VisaRequestWhereInput
-    /**
-     * Limit how many VisaRequests to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VisaRequestIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -26464,6 +24659,34 @@ export namespace Prisma {
      * Limit how many VisaRequests to delete.
      */
     limit?: number
+  }
+
+  /**
+   * VisaRequest findRaw
+   */
+  export type VisaRequestFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * VisaRequest aggregateRaw
+   */
+  export type VisaRequestAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -26684,25 +24907,7 @@ export namespace Prisma {
     employee?: boolean | LetterRecord$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["letterRecord"]>
 
-  export type LetterRecordSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    type?: boolean
-    recipientName?: boolean
-    details?: boolean
-    generatedAt?: boolean
-    employee?: boolean | LetterRecord$employeeArgs<ExtArgs>
-  }, ExtArgs["result"]["letterRecord"]>
 
-  export type LetterRecordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    type?: boolean
-    recipientName?: boolean
-    details?: boolean
-    generatedAt?: boolean
-    employee?: boolean | LetterRecord$employeeArgs<ExtArgs>
-  }, ExtArgs["result"]["letterRecord"]>
 
   export type LetterRecordSelectScalar = {
     id?: boolean
@@ -26715,12 +24920,6 @@ export namespace Prisma {
 
   export type LetterRecordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "type" | "recipientName" | "details" | "generatedAt", ExtArgs["result"]["letterRecord"]>
   export type LetterRecordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | LetterRecord$employeeArgs<ExtArgs>
-  }
-  export type LetterRecordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | LetterRecord$employeeArgs<ExtArgs>
-  }
-  export type LetterRecordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | LetterRecord$employeeArgs<ExtArgs>
   }
 
@@ -26854,30 +25053,6 @@ export namespace Prisma {
     createMany<T extends LetterRecordCreateManyArgs>(args?: SelectSubset<T, LetterRecordCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many LetterRecords and returns the data saved in the database.
-     * @param {LetterRecordCreateManyAndReturnArgs} args - Arguments to create many LetterRecords.
-     * @example
-     * // Create many LetterRecords
-     * const letterRecord = await prisma.letterRecord.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many LetterRecords and only return the `id`
-     * const letterRecordWithIdOnly = await prisma.letterRecord.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LetterRecordCreateManyAndReturnArgs>(args?: SelectSubset<T, LetterRecordCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRecordPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a LetterRecord.
      * @param {LetterRecordDeleteArgs} args - Arguments to delete one LetterRecord.
      * @example
@@ -26942,36 +25117,6 @@ export namespace Prisma {
     updateMany<T extends LetterRecordUpdateManyArgs>(args: SelectSubset<T, LetterRecordUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more LetterRecords and returns the data updated in the database.
-     * @param {LetterRecordUpdateManyAndReturnArgs} args - Arguments to update many LetterRecords.
-     * @example
-     * // Update many LetterRecords
-     * const letterRecord = await prisma.letterRecord.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more LetterRecords and only return the `id`
-     * const letterRecordWithIdOnly = await prisma.letterRecord.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LetterRecordUpdateManyAndReturnArgs>(args: SelectSubset<T, LetterRecordUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRecordPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one LetterRecord.
      * @param {LetterRecordUpsertArgs} args - Arguments to update or create a LetterRecord.
      * @example
@@ -26989,6 +25134,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends LetterRecordUpsertArgs>(args: SelectSubset<T, LetterRecordUpsertArgs<ExtArgs>>): Prisma__LetterRecordClient<$Result.GetResult<Prisma.$LetterRecordPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LetterRecords that matches the filter.
+     * @param {LetterRecordFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const letterRecord = await prisma.letterRecord.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: LetterRecordFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a LetterRecord.
+     * @param {LetterRecordAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const letterRecord = await prisma.letterRecord.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: LetterRecordAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -27398,28 +25566,6 @@ export namespace Prisma {
   }
 
   /**
-   * LetterRecord createManyAndReturn
-   */
-  export type LetterRecordCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LetterRecord
-     */
-    select?: LetterRecordSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LetterRecord
-     */
-    omit?: LetterRecordOmit<ExtArgs> | null
-    /**
-     * The data used to create many LetterRecords.
-     */
-    data: LetterRecordCreateManyInput | LetterRecordCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LetterRecordIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * LetterRecord update
    */
   export type LetterRecordUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27461,36 +25607,6 @@ export namespace Prisma {
      * Limit how many LetterRecords to update.
      */
     limit?: number
-  }
-
-  /**
-   * LetterRecord updateManyAndReturn
-   */
-  export type LetterRecordUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LetterRecord
-     */
-    select?: LetterRecordSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LetterRecord
-     */
-    omit?: LetterRecordOmit<ExtArgs> | null
-    /**
-     * The data used to update LetterRecords.
-     */
-    data: XOR<LetterRecordUpdateManyMutationInput, LetterRecordUncheckedUpdateManyInput>
-    /**
-     * Filter which LetterRecords to update
-     */
-    where?: LetterRecordWhereInput
-    /**
-     * Limit how many LetterRecords to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LetterRecordIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -27557,6 +25673,34 @@ export namespace Prisma {
      * Limit how many LetterRecords to delete.
      */
     limit?: number
+  }
+
+  /**
+   * LetterRecord findRaw
+   */
+  export type LetterRecordFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * LetterRecord aggregateRaw
+   */
+  export type LetterRecordAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -27789,27 +25933,7 @@ export namespace Prisma {
     _count?: boolean | LetterTemplateCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["letterTemplate"]>
 
-  export type LetterTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    type?: boolean
-    content_en?: boolean
-    content_ar?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["letterTemplate"]>
 
-  export type LetterTemplateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    type?: boolean
-    content_en?: boolean
-    content_ar?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["letterTemplate"]>
 
   export type LetterTemplateSelectScalar = {
     id?: boolean
@@ -27827,8 +25951,6 @@ export namespace Prisma {
     letters?: boolean | LetterTemplate$lettersArgs<ExtArgs>
     _count?: boolean | LetterTemplateCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type LetterTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type LetterTemplateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $LetterTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "LetterTemplate"
@@ -27962,30 +26084,6 @@ export namespace Prisma {
     createMany<T extends LetterTemplateCreateManyArgs>(args?: SelectSubset<T, LetterTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many LetterTemplates and returns the data saved in the database.
-     * @param {LetterTemplateCreateManyAndReturnArgs} args - Arguments to create many LetterTemplates.
-     * @example
-     * // Create many LetterTemplates
-     * const letterTemplate = await prisma.letterTemplate.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many LetterTemplates and only return the `id`
-     * const letterTemplateWithIdOnly = await prisma.letterTemplate.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LetterTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, LetterTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a LetterTemplate.
      * @param {LetterTemplateDeleteArgs} args - Arguments to delete one LetterTemplate.
      * @example
@@ -28050,36 +26148,6 @@ export namespace Prisma {
     updateMany<T extends LetterTemplateUpdateManyArgs>(args: SelectSubset<T, LetterTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more LetterTemplates and returns the data updated in the database.
-     * @param {LetterTemplateUpdateManyAndReturnArgs} args - Arguments to update many LetterTemplates.
-     * @example
-     * // Update many LetterTemplates
-     * const letterTemplate = await prisma.letterTemplate.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more LetterTemplates and only return the `id`
-     * const letterTemplateWithIdOnly = await prisma.letterTemplate.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LetterTemplateUpdateManyAndReturnArgs>(args: SelectSubset<T, LetterTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one LetterTemplate.
      * @param {LetterTemplateUpsertArgs} args - Arguments to update or create a LetterTemplate.
      * @example
@@ -28097,6 +26165,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends LetterTemplateUpsertArgs>(args: SelectSubset<T, LetterTemplateUpsertArgs<ExtArgs>>): Prisma__LetterTemplateClient<$Result.GetResult<Prisma.$LetterTemplatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LetterTemplates that matches the filter.
+     * @param {LetterTemplateFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const letterTemplate = await prisma.letterTemplate.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: LetterTemplateFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a LetterTemplate.
+     * @param {LetterTemplateAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const letterTemplate = await prisma.letterTemplate.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: LetterTemplateAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -28508,24 +26599,6 @@ export namespace Prisma {
   }
 
   /**
-   * LetterTemplate createManyAndReturn
-   */
-  export type LetterTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LetterTemplate
-     */
-    select?: LetterTemplateSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LetterTemplate
-     */
-    omit?: LetterTemplateOmit<ExtArgs> | null
-    /**
-     * The data used to create many LetterTemplates.
-     */
-    data: LetterTemplateCreateManyInput | LetterTemplateCreateManyInput[]
-  }
-
-  /**
    * LetterTemplate update
    */
   export type LetterTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -28555,32 +26628,6 @@ export namespace Prisma {
    * LetterTemplate updateMany
    */
   export type LetterTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update LetterTemplates.
-     */
-    data: XOR<LetterTemplateUpdateManyMutationInput, LetterTemplateUncheckedUpdateManyInput>
-    /**
-     * Filter which LetterTemplates to update
-     */
-    where?: LetterTemplateWhereInput
-    /**
-     * Limit how many LetterTemplates to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * LetterTemplate updateManyAndReturn
-   */
-  export type LetterTemplateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the LetterTemplate
-     */
-    select?: LetterTemplateSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the LetterTemplate
-     */
-    omit?: LetterTemplateOmit<ExtArgs> | null
     /**
      * The data used to update LetterTemplates.
      */
@@ -28659,6 +26706,34 @@ export namespace Prisma {
      * Limit how many LetterTemplates to delete.
      */
     limit?: number
+  }
+
+  /**
+   * LetterTemplate findRaw
+   */
+  export type LetterTemplateFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * LetterTemplate aggregateRaw
+   */
+  export type LetterTemplateAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -28936,41 +27011,7 @@ export namespace Prisma {
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["letter"]>
 
-  export type LetterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    templateId?: boolean
-    referenceNumber?: boolean
-    status?: boolean
-    content_en?: boolean
-    content_ar?: boolean
-    pdfUrl?: boolean
-    comments?: boolean
-    approvedBy?: boolean
-    approvedAt?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["letter"]>
 
-  export type LetterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    employeeId?: boolean
-    templateId?: boolean
-    referenceNumber?: boolean
-    status?: boolean
-    content_en?: boolean
-    content_ar?: boolean
-    pdfUrl?: boolean
-    comments?: boolean
-    approvedBy?: boolean
-    approvedAt?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["letter"]>
 
   export type LetterSelectScalar = {
     id?: boolean
@@ -28990,14 +27031,6 @@ export namespace Prisma {
 
   export type LetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "templateId" | "referenceNumber" | "status" | "content_en" | "content_ar" | "pdfUrl" | "comments" | "approvedBy" | "approvedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["letter"]>
   export type LetterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
-  }
-  export type LetterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
-  }
-  export type LetterIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
   }
@@ -29140,30 +27173,6 @@ export namespace Prisma {
     createMany<T extends LetterCreateManyArgs>(args?: SelectSubset<T, LetterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Letters and returns the data saved in the database.
-     * @param {LetterCreateManyAndReturnArgs} args - Arguments to create many Letters.
-     * @example
-     * // Create many Letters
-     * const letter = await prisma.letter.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Letters and only return the `id`
-     * const letterWithIdOnly = await prisma.letter.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends LetterCreateManyAndReturnArgs>(args?: SelectSubset<T, LetterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a Letter.
      * @param {LetterDeleteArgs} args - Arguments to delete one Letter.
      * @example
@@ -29228,36 +27237,6 @@ export namespace Prisma {
     updateMany<T extends LetterUpdateManyArgs>(args: SelectSubset<T, LetterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Letters and returns the data updated in the database.
-     * @param {LetterUpdateManyAndReturnArgs} args - Arguments to update many Letters.
-     * @example
-     * // Update many Letters
-     * const letter = await prisma.letter.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Letters and only return the `id`
-     * const letterWithIdOnly = await prisma.letter.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends LetterUpdateManyAndReturnArgs>(args: SelectSubset<T, LetterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one Letter.
      * @param {LetterUpsertArgs} args - Arguments to update or create a Letter.
      * @example
@@ -29275,6 +27254,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends LetterUpsertArgs>(args: SelectSubset<T, LetterUpsertArgs<ExtArgs>>): Prisma__LetterClient<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Letters that matches the filter.
+     * @param {LetterFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const letter = await prisma.letter.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: LetterFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a Letter.
+     * @param {LetterAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const letter = await prisma.letter.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: LetterAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -29692,28 +27694,6 @@ export namespace Prisma {
   }
 
   /**
-   * Letter createManyAndReturn
-   */
-  export type LetterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Letter
-     */
-    select?: LetterSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Letter
-     */
-    omit?: LetterOmit<ExtArgs> | null
-    /**
-     * The data used to create many Letters.
-     */
-    data: LetterCreateManyInput | LetterCreateManyInput[]
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LetterIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
    * Letter update
    */
   export type LetterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -29755,36 +27735,6 @@ export namespace Prisma {
      * Limit how many Letters to update.
      */
     limit?: number
-  }
-
-  /**
-   * Letter updateManyAndReturn
-   */
-  export type LetterUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Letter
-     */
-    select?: LetterSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Letter
-     */
-    omit?: LetterOmit<ExtArgs> | null
-    /**
-     * The data used to update Letters.
-     */
-    data: XOR<LetterUpdateManyMutationInput, LetterUncheckedUpdateManyInput>
-    /**
-     * Filter which Letters to update
-     */
-    where?: LetterWhereInput
-    /**
-     * Limit how many Letters to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: LetterIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -29851,6 +27801,34 @@ export namespace Prisma {
      * Limit how many Letters to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Letter findRaw
+   */
+  export type LetterFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * Letter aggregateRaw
+   */
+  export type LetterAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
   }
 
   /**
@@ -30082,33 +28060,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }, ExtArgs["result"]["serviceConfig"]>
 
-  export type ServiceConfigSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    module?: boolean
-    key?: boolean
-    label?: boolean
-    description?: boolean
-    type?: boolean
-    value?: boolean
-    options?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["serviceConfig"]>
 
-  export type ServiceConfigSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    module?: boolean
-    key?: boolean
-    label?: boolean
-    description?: boolean
-    type?: boolean
-    value?: boolean
-    options?: boolean
-    isActive?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["serviceConfig"]>
 
   export type ServiceConfigSelectScalar = {
     id?: boolean
@@ -30259,30 +28211,6 @@ export namespace Prisma {
     createMany<T extends ServiceConfigCreateManyArgs>(args?: SelectSubset<T, ServiceConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ServiceConfigs and returns the data saved in the database.
-     * @param {ServiceConfigCreateManyAndReturnArgs} args - Arguments to create many ServiceConfigs.
-     * @example
-     * // Create many ServiceConfigs
-     * const serviceConfig = await prisma.serviceConfig.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many ServiceConfigs and only return the `id`
-     * const serviceConfigWithIdOnly = await prisma.serviceConfig.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ServiceConfigCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceConfigCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Delete a ServiceConfig.
      * @param {ServiceConfigDeleteArgs} args - Arguments to delete one ServiceConfig.
      * @example
@@ -30347,36 +28275,6 @@ export namespace Prisma {
     updateMany<T extends ServiceConfigUpdateManyArgs>(args: SelectSubset<T, ServiceConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ServiceConfigs and returns the data updated in the database.
-     * @param {ServiceConfigUpdateManyAndReturnArgs} args - Arguments to update many ServiceConfigs.
-     * @example
-     * // Update many ServiceConfigs
-     * const serviceConfig = await prisma.serviceConfig.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more ServiceConfigs and only return the `id`
-     * const serviceConfigWithIdOnly = await prisma.serviceConfig.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ServiceConfigUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceConfigUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
      * Create or update one ServiceConfig.
      * @param {ServiceConfigUpsertArgs} args - Arguments to update or create a ServiceConfig.
      * @example
@@ -30394,6 +28292,29 @@ export namespace Prisma {
      * })
      */
     upsert<T extends ServiceConfigUpsertArgs>(args: SelectSubset<T, ServiceConfigUpsertArgs<ExtArgs>>): Prisma__ServiceConfigClient<$Result.GetResult<Prisma.$ServiceConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceConfigs that matches the filter.
+     * @param {ServiceConfigFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const serviceConfig = await prisma.serviceConfig.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: ServiceConfigFindRawArgs): Prisma.PrismaPromise<JsonObject>
+
+    /**
+     * Perform aggregation operations on a ServiceConfig.
+     * @param {ServiceConfigAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const serviceConfig = await prisma.serviceConfig.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: ServiceConfigAggregateRawArgs): Prisma.PrismaPromise<JsonObject>
 
 
     /**
@@ -30783,24 +28704,6 @@ export namespace Prisma {
   }
 
   /**
-   * ServiceConfig createManyAndReturn
-   */
-  export type ServiceConfigCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
-    /**
-     * The data used to create many ServiceConfigs.
-     */
-    data: ServiceConfigCreateManyInput | ServiceConfigCreateManyInput[]
-  }
-
-  /**
    * ServiceConfig update
    */
   export type ServiceConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30826,32 +28729,6 @@ export namespace Prisma {
    * ServiceConfig updateMany
    */
   export type ServiceConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update ServiceConfigs.
-     */
-    data: XOR<ServiceConfigUpdateManyMutationInput, ServiceConfigUncheckedUpdateManyInput>
-    /**
-     * Filter which ServiceConfigs to update
-     */
-    where?: ServiceConfigWhereInput
-    /**
-     * Limit how many ServiceConfigs to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * ServiceConfig updateManyAndReturn
-   */
-  export type ServiceConfigUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ServiceConfig
-     */
-    select?: ServiceConfigSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ServiceConfig
-     */
-    omit?: ServiceConfigOmit<ExtArgs> | null
     /**
      * The data used to update ServiceConfigs.
      */
@@ -30925,6 +28802,34 @@ export namespace Prisma {
   }
 
   /**
+   * ServiceConfig findRaw
+   */
+  export type ServiceConfigFindRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
+   * ServiceConfig aggregateRaw
+   */
+  export type ServiceConfigAggregateRawArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[]
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue
+  }
+
+  /**
    * ServiceConfig without action
    */
   export type ServiceConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30942,13 +28847,6 @@ export namespace Prisma {
   /**
    * Enums
    */
-
-  export const TransactionIsolationLevel: {
-    Serializable: 'Serializable'
-  };
-
-  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
 
   export const UserScalarFieldEnum: {
     id: 'id',
@@ -31017,7 +28915,6 @@ export namespace Prisma {
     probationDays: 'probationDays',
     currentStatus: 'currentStatus',
     isActive: 'isActive',
-    managerId: 'managerId',
     address: 'address',
     permanentAddress: 'permanentAddress',
     emergencyContact: 'emergencyContact',
@@ -31042,7 +28939,8 @@ export namespace Prisma {
     iloeInsuranceExpiry: 'iloeInsuranceExpiry',
     shiftId: 'shiftId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    managerId: 'managerId'
   };
 
   export type EmployeeScalarFieldEnum = (typeof EmployeeScalarFieldEnum)[keyof typeof EmployeeScalarFieldEnum]
@@ -31366,31 +29264,6 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const NullableJsonNullValueInput: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull
-  };
-
-  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -31412,6 +29285,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'String[]'
+   */
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -31419,9 +29299,23 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -31440,16 +29334,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
+   * Reference to a field of type 'Float[]'
    */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
   /**
-   * Reference to a field of type 'QueryMode'
+   * Reference to a field of type 'Json'
    */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
     
   /**
    * Deep Input Types
@@ -31478,11 +29372,11 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrderInput | SortOrder
+    name?: SortOrder
     email?: SortOrder
-    emailVerified?: SortOrderInput | SortOrder
-    image?: SortOrderInput | SortOrder
-    password?: SortOrderInput | SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31515,11 +29409,11 @@ export namespace Prisma {
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrderInput | SortOrder
+    name?: SortOrder
     email?: SortOrder
-    emailVerified?: SortOrderInput | SortOrder
-    image?: SortOrderInput | SortOrder
-    password?: SortOrderInput | SortOrder
+    emailVerified?: SortOrder
+    image?: SortOrder
+    password?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31568,13 +29462,13 @@ export namespace Prisma {
     type?: SortOrder
     provider?: SortOrder
     providerAccountId?: SortOrder
-    refresh_token?: SortOrderInput | SortOrder
-    access_token?: SortOrderInput | SortOrder
-    expires_at?: SortOrderInput | SortOrder
-    token_type?: SortOrderInput | SortOrder
-    scope?: SortOrderInput | SortOrder
-    id_token?: SortOrderInput | SortOrder
-    session_state?: SortOrderInput | SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -31604,13 +29498,13 @@ export namespace Prisma {
     type?: SortOrder
     provider?: SortOrder
     providerAccountId?: SortOrder
-    refresh_token?: SortOrderInput | SortOrder
-    access_token?: SortOrderInput | SortOrder
-    expires_at?: SortOrderInput | SortOrder
-    token_type?: SortOrderInput | SortOrder
-    scope?: SortOrderInput | SortOrder
-    id_token?: SortOrderInput | SortOrder
-    session_state?: SortOrderInput | SortOrder
+    refresh_token?: SortOrder
+    access_token?: SortOrder
+    expires_at?: SortOrder
+    token_type?: SortOrder
+    scope?: SortOrder
+    id_token?: SortOrder
+    session_state?: SortOrder
     _count?: AccountCountOrderByAggregateInput
     _avg?: AccountAvgOrderByAggregateInput
     _max?: AccountMaxOrderByAggregateInput
@@ -31721,7 +29615,6 @@ export namespace Prisma {
     probationDays?: IntFilter<"Employee"> | number
     currentStatus?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
-    managerId?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
     permanentAddress?: StringNullableFilter<"Employee"> | string | null
     emergencyContact?: StringNullableFilter<"Employee"> | string | null
@@ -31747,9 +29640,8 @@ export namespace Prisma {
     shiftId?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    managerId?: StringNullableFilter<"Employee"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
-    reportees?: EmployeeListRelationFilter
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     leaveRequests?: LeaveRequestListRelationFilter
     leaveBalances?: LeaveBalanceListRelationFilter
@@ -31765,59 +29657,59 @@ export namespace Prisma {
     notifications?: NotificationListRelationFilter
     loans?: LoanListRelationFilter
     overtime?: OvertimeListRelationFilter
+    manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    reportees?: EmployeeListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    employeeCode?: SortOrderInput | SortOrder
+    employeeCode?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
-    photo?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    gender?: SortOrderInput | SortOrder
-    dateOfBirth?: SortOrderInput | SortOrder
-    nationality?: SortOrderInput | SortOrder
-    maritalStatus?: SortOrderInput | SortOrder
+    photo?: SortOrder
+    phone?: SortOrder
+    gender?: SortOrder
+    dateOfBirth?: SortOrder
+    nationality?: SortOrder
+    maritalStatus?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
     employmentType?: SortOrder
-    workLocation?: SortOrderInput | SortOrder
+    workLocation?: SortOrder
     probationDays?: SortOrder
     currentStatus?: SortOrder
     isActive?: SortOrder
-    managerId?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
-    permanentAddress?: SortOrderInput | SortOrder
-    emergencyContact?: SortOrderInput | SortOrder
-    emergencyPhone?: SortOrderInput | SortOrder
-    governmentId?: SortOrderInput | SortOrder
-    bankName?: SortOrderInput | SortOrder
-    accountNumber?: SortOrderInput | SortOrder
-    iban?: SortOrderInput | SortOrder
-    ifscCode?: SortOrderInput | SortOrder
-    basicSalary?: SortOrderInput | SortOrder
-    housingAllowance?: SortOrderInput | SortOrder
-    transportAllowance?: SortOrderInput | SortOrder
-    otherAllowance?: SortOrderInput | SortOrder
-    passportNumber?: SortOrderInput | SortOrder
-    passportExpiry?: SortOrderInput | SortOrder
-    emiratesId?: SortOrderInput | SortOrder
-    emiratesIdExpiry?: SortOrderInput | SortOrder
-    visaNumber?: SortOrderInput | SortOrder
-    visaExpiry?: SortOrderInput | SortOrder
-    visaType?: SortOrderInput | SortOrder
-    medicalInsuranceExpiry?: SortOrderInput | SortOrder
-    iloeInsuranceExpiry?: SortOrderInput | SortOrder
-    shiftId?: SortOrderInput | SortOrder
+    address?: SortOrder
+    permanentAddress?: SortOrder
+    emergencyContact?: SortOrder
+    emergencyPhone?: SortOrder
+    governmentId?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    iban?: SortOrder
+    ifscCode?: SortOrder
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
+    passportNumber?: SortOrder
+    passportExpiry?: SortOrder
+    emiratesId?: SortOrder
+    emiratesIdExpiry?: SortOrder
+    visaNumber?: SortOrder
+    visaExpiry?: SortOrder
+    visaType?: SortOrder
+    medicalInsuranceExpiry?: SortOrder
+    iloeInsuranceExpiry?: SortOrder
+    shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    managerId?: SortOrder
     user?: UserOrderByWithRelationInput
-    manager?: EmployeeOrderByWithRelationInput
-    reportees?: EmployeeOrderByRelationAggregateInput
     shift?: ShiftOrderByWithRelationInput
     leaveRequests?: LeaveRequestOrderByRelationAggregateInput
     leaveBalances?: LeaveBalanceOrderByRelationAggregateInput
@@ -31833,6 +29725,8 @@ export namespace Prisma {
     notifications?: NotificationOrderByRelationAggregateInput
     loans?: LoanOrderByRelationAggregateInput
     overtime?: OvertimeOrderByRelationAggregateInput
+    manager?: EmployeeOrderByWithRelationInput
+    reportees?: EmployeeOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -31860,7 +29754,6 @@ export namespace Prisma {
     probationDays?: IntFilter<"Employee"> | number
     currentStatus?: StringFilter<"Employee"> | string
     isActive?: BoolFilter<"Employee"> | boolean
-    managerId?: StringNullableFilter<"Employee"> | string | null
     address?: StringNullableFilter<"Employee"> | string | null
     permanentAddress?: StringNullableFilter<"Employee"> | string | null
     emergencyContact?: StringNullableFilter<"Employee"> | string | null
@@ -31886,9 +29779,8 @@ export namespace Prisma {
     shiftId?: StringNullableFilter<"Employee"> | string | null
     createdAt?: DateTimeFilter<"Employee"> | Date | string
     updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    managerId?: StringNullableFilter<"Employee"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
-    reportees?: EmployeeListRelationFilter
     shift?: XOR<ShiftNullableScalarRelationFilter, ShiftWhereInput> | null
     leaveRequests?: LeaveRequestListRelationFilter
     leaveBalances?: LeaveBalanceListRelationFilter
@@ -31904,56 +29796,58 @@ export namespace Prisma {
     notifications?: NotificationListRelationFilter
     loans?: LoanListRelationFilter
     overtime?: OvertimeListRelationFilter
+    manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+    reportees?: EmployeeListRelationFilter
   }, "id" | "userId" | "employeeCode" | "email" | "rollNumber">
 
   export type EmployeeOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    employeeCode?: SortOrderInput | SortOrder
+    employeeCode?: SortOrder
     firstName?: SortOrder
     lastName?: SortOrder
     email?: SortOrder
     rollNumber?: SortOrder
-    photo?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    gender?: SortOrderInput | SortOrder
-    dateOfBirth?: SortOrderInput | SortOrder
-    nationality?: SortOrderInput | SortOrder
-    maritalStatus?: SortOrderInput | SortOrder
+    photo?: SortOrder
+    phone?: SortOrder
+    gender?: SortOrder
+    dateOfBirth?: SortOrder
+    nationality?: SortOrder
+    maritalStatus?: SortOrder
     designation?: SortOrder
     department?: SortOrder
     joiningDate?: SortOrder
     employmentType?: SortOrder
-    workLocation?: SortOrderInput | SortOrder
+    workLocation?: SortOrder
     probationDays?: SortOrder
     currentStatus?: SortOrder
     isActive?: SortOrder
-    managerId?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
-    permanentAddress?: SortOrderInput | SortOrder
-    emergencyContact?: SortOrderInput | SortOrder
-    emergencyPhone?: SortOrderInput | SortOrder
-    governmentId?: SortOrderInput | SortOrder
-    bankName?: SortOrderInput | SortOrder
-    accountNumber?: SortOrderInput | SortOrder
-    iban?: SortOrderInput | SortOrder
-    ifscCode?: SortOrderInput | SortOrder
-    basicSalary?: SortOrderInput | SortOrder
-    housingAllowance?: SortOrderInput | SortOrder
-    transportAllowance?: SortOrderInput | SortOrder
-    otherAllowance?: SortOrderInput | SortOrder
-    passportNumber?: SortOrderInput | SortOrder
-    passportExpiry?: SortOrderInput | SortOrder
-    emiratesId?: SortOrderInput | SortOrder
-    emiratesIdExpiry?: SortOrderInput | SortOrder
-    visaNumber?: SortOrderInput | SortOrder
-    visaExpiry?: SortOrderInput | SortOrder
-    visaType?: SortOrderInput | SortOrder
-    medicalInsuranceExpiry?: SortOrderInput | SortOrder
-    iloeInsuranceExpiry?: SortOrderInput | SortOrder
-    shiftId?: SortOrderInput | SortOrder
+    address?: SortOrder
+    permanentAddress?: SortOrder
+    emergencyContact?: SortOrder
+    emergencyPhone?: SortOrder
+    governmentId?: SortOrder
+    bankName?: SortOrder
+    accountNumber?: SortOrder
+    iban?: SortOrder
+    ifscCode?: SortOrder
+    basicSalary?: SortOrder
+    housingAllowance?: SortOrder
+    transportAllowance?: SortOrder
+    otherAllowance?: SortOrder
+    passportNumber?: SortOrder
+    passportExpiry?: SortOrder
+    emiratesId?: SortOrder
+    emiratesIdExpiry?: SortOrder
+    visaNumber?: SortOrder
+    visaExpiry?: SortOrder
+    visaType?: SortOrder
+    medicalInsuranceExpiry?: SortOrder
+    iloeInsuranceExpiry?: SortOrder
+    shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    managerId?: SortOrder
     _count?: EmployeeCountOrderByAggregateInput
     _avg?: EmployeeAvgOrderByAggregateInput
     _max?: EmployeeMaxOrderByAggregateInput
@@ -31986,7 +29880,6 @@ export namespace Prisma {
     probationDays?: IntWithAggregatesFilter<"Employee"> | number
     currentStatus?: StringWithAggregatesFilter<"Employee"> | string
     isActive?: BoolWithAggregatesFilter<"Employee"> | boolean
-    managerId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     address?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     permanentAddress?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     emergencyContact?: StringNullableWithAggregatesFilter<"Employee"> | string | null
@@ -32012,6 +29905,7 @@ export namespace Prisma {
     shiftId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Employee"> | Date | string
+    managerId?: StringNullableWithAggregatesFilter<"Employee"> | string | null
   }
 
   export type LeaveBalanceWhereInput = {
@@ -32043,7 +29937,6 @@ export namespace Prisma {
 
   export type LeaveBalanceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    employeeId_leaveType_year?: LeaveBalanceEmployeeIdLeaveTypeYearCompoundUniqueInput
     AND?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
     OR?: LeaveBalanceWhereInput[]
     NOT?: LeaveBalanceWhereInput | LeaveBalanceWhereInput[]
@@ -32055,7 +29948,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LeaveBalance"> | Date | string
     updatedAt?: DateTimeFilter<"LeaveBalance"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
-  }, "id" | "employeeId_leaveType_year">
+  }, "id">
 
   export type LeaveBalanceOrderByWithAggregationInput = {
     id?: SortOrder
@@ -32109,7 +30002,7 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    link?: SortOrderInput | SortOrder
+    link?: SortOrder
     createdAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
   }
@@ -32136,7 +30029,7 @@ export namespace Prisma {
     message?: SortOrder
     type?: SortOrder
     isRead?: SortOrder
-    link?: SortOrderInput | SortOrder
+    link?: SortOrder
     createdAt?: SortOrder
     _count?: NotificationCountOrderByAggregateInput
     _max?: NotificationMaxOrderByAggregateInput
@@ -32181,12 +30074,12 @@ export namespace Prisma {
     id?: SortOrder
     employeeId?: SortOrder
     date?: SortOrder
-    checkIn?: SortOrderInput | SortOrder
-    checkOut?: SortOrderInput | SortOrder
+    checkIn?: SortOrder
+    checkOut?: SortOrder
     status?: SortOrder
     lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
-    shiftId?: SortOrderInput | SortOrder
+    shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -32218,12 +30111,12 @@ export namespace Prisma {
     id?: SortOrder
     employeeId?: SortOrder
     date?: SortOrder
-    checkIn?: SortOrderInput | SortOrder
-    checkOut?: SortOrderInput | SortOrder
+    checkIn?: SortOrder
+    checkOut?: SortOrder
     status?: SortOrder
     lateMinutes?: SortOrder
     overtimeMinutes?: SortOrder
-    shiftId?: SortOrderInput | SortOrder
+    shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AttendanceCountOrderByAggregateInput
@@ -32331,12 +30224,12 @@ export namespace Prisma {
 
   export type BiometricLogOrderByWithRelationInput = {
     id?: SortOrder
-    attendanceId?: SortOrderInput | SortOrder
-    deviceId?: SortOrderInput | SortOrder
+    attendanceId?: SortOrder
+    deviceId?: SortOrder
     employeeId?: SortOrder
     timestamp?: SortOrder
     type?: SortOrder
-    rawLog?: SortOrderInput | SortOrder
+    rawLog?: SortOrder
     attendance?: AttendanceOrderByWithRelationInput
   }
 
@@ -32356,12 +30249,12 @@ export namespace Prisma {
 
   export type BiometricLogOrderByWithAggregationInput = {
     id?: SortOrder
-    attendanceId?: SortOrderInput | SortOrder
-    deviceId?: SortOrderInput | SortOrder
+    attendanceId?: SortOrder
+    deviceId?: SortOrder
     employeeId?: SortOrder
     timestamp?: SortOrder
     type?: SortOrder
-    rawLog?: SortOrderInput | SortOrder
+    rawLog?: SortOrder
     _count?: BiometricLogCountOrderByAggregateInput
     _max?: BiometricLogMaxOrderByAggregateInput
     _min?: BiometricLogMinOrderByAggregateInput
@@ -32397,7 +30290,7 @@ export namespace Prisma {
     id?: SortOrder
     employeeId?: SortOrder
     action?: SortOrder
-    details?: SortOrderInput | SortOrder
+    details?: SortOrder
     changedBy?: SortOrder
     createdAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -32420,7 +30313,7 @@ export namespace Prisma {
     id?: SortOrder
     employeeId?: SortOrder
     action?: SortOrder
-    details?: SortOrderInput | SortOrder
+    details?: SortOrder
     changedBy?: SortOrder
     createdAt?: SortOrder
     _count?: AuditLogCountOrderByAggregateInput
@@ -32469,9 +30362,9 @@ export namespace Prisma {
     endDate?: SortOrder
     reason?: SortOrder
     managerStatus?: SortOrder
-    managerId?: SortOrderInput | SortOrder
+    managerId?: SortOrder
     hrStatus?: SortOrder
-    hrId?: SortOrderInput | SortOrder
+    hrId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -32508,9 +30401,9 @@ export namespace Prisma {
     endDate?: SortOrder
     reason?: SortOrder
     managerStatus?: SortOrder
-    managerId?: SortOrderInput | SortOrder
+    managerId?: SortOrder
     hrStatus?: SortOrder
-    hrId?: SortOrderInput | SortOrder
+    hrId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LeaveRequestCountOrderByAggregateInput
@@ -32572,8 +30465,8 @@ export namespace Prisma {
     commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
-    bankName?: SortOrderInput | SortOrder
-    iban?: SortOrderInput | SortOrder
+    bankName?: SortOrder
+    iban?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -32615,8 +30508,8 @@ export namespace Prisma {
     commission?: SortOrder
     otherAllowances?: SortOrder
     paymentMethod?: SortOrder
-    bankName?: SortOrderInput | SortOrder
-    iban?: SortOrderInput | SortOrder
+    bankName?: SortOrder
+    iban?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SalaryStructureCountOrderByAggregateInput
@@ -32705,7 +30598,7 @@ export namespace Prisma {
     netSalary?: SortOrder
     status?: SortOrder
     paymentMethod?: SortOrder
-    paidAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -32768,7 +30661,7 @@ export namespace Prisma {
     netSalary?: SortOrder
     status?: SortOrder
     paymentMethod?: SortOrder
-    paidAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: SalaryRecordCountOrderByAggregateInput
@@ -32983,8 +30876,8 @@ export namespace Prisma {
   export type StaffServiceTypeOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    icon?: SortOrderInput | SortOrder
-    description?: SortOrderInput | SortOrder
+    icon?: SortOrder
+    description?: SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
     isActive?: SortOrder
@@ -33012,8 +30905,8 @@ export namespace Prisma {
   export type StaffServiceTypeOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    icon?: SortOrderInput | SortOrder
-    description?: SortOrderInput | SortOrder
+    icon?: SortOrder
+    description?: SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
     isActive?: SortOrder
@@ -33064,11 +30957,11 @@ export namespace Prisma {
     employeeId?: SortOrder
     typeId?: SortOrder
     details?: SortOrder
-    amount?: SortOrderInput | SortOrder
-    startDate?: SortOrderInput | SortOrder
-    endDate?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
     status?: SortOrder
-    hrNote?: SortOrderInput | SortOrder
+    hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -33101,11 +30994,11 @@ export namespace Prisma {
     employeeId?: SortOrder
     typeId?: SortOrder
     details?: SortOrder
-    amount?: SortOrderInput | SortOrder
-    startDate?: SortOrderInput | SortOrder
-    endDate?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
     status?: SortOrder
-    hrNote?: SortOrderInput | SortOrder
+    hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StaffRequestCountOrderByAggregateInput
@@ -33154,15 +31047,15 @@ export namespace Prisma {
 
   export type AttachmentOrderByWithRelationInput = {
     id?: SortOrder
-    staffRequestId?: SortOrderInput | SortOrder
-    visaRequestId?: SortOrderInput | SortOrder
-    employeeId?: SortOrderInput | SortOrder
+    staffRequestId?: SortOrder
+    visaRequestId?: SortOrder
+    employeeId?: SortOrder
     fileName?: SortOrder
     fileUrl?: SortOrder
     fileType?: SortOrder
     category?: SortOrder
-    docNumber?: SortOrderInput | SortOrder
-    docExpiry?: SortOrderInput | SortOrder
+    docNumber?: SortOrder
+    docExpiry?: SortOrder
     createdAt?: SortOrder
     staffRequest?: StaffRequestOrderByWithRelationInput
     visaRequest?: VisaRequestOrderByWithRelationInput
@@ -33191,15 +31084,15 @@ export namespace Prisma {
 
   export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
-    staffRequestId?: SortOrderInput | SortOrder
-    visaRequestId?: SortOrderInput | SortOrder
-    employeeId?: SortOrderInput | SortOrder
+    staffRequestId?: SortOrder
+    visaRequestId?: SortOrder
+    employeeId?: SortOrder
     fileName?: SortOrder
     fileUrl?: SortOrder
     fileType?: SortOrder
     category?: SortOrder
-    docNumber?: SortOrderInput | SortOrder
-    docExpiry?: SortOrderInput | SortOrder
+    docNumber?: SortOrder
+    docExpiry?: SortOrder
     createdAt?: SortOrder
     _count?: AttachmentCountOrderByAggregateInput
     _max?: AttachmentMaxOrderByAggregateInput
@@ -33247,7 +31140,7 @@ export namespace Prisma {
     destinationCountry?: SortOrder
     purpose?: SortOrder
     status?: SortOrder
-    notes?: SortOrderInput | SortOrder
+    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -33278,7 +31171,7 @@ export namespace Prisma {
     destinationCountry?: SortOrder
     purpose?: SortOrder
     status?: SortOrder
-    notes?: SortOrderInput | SortOrder
+    notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: VisaRequestCountOrderByAggregateInput
@@ -33316,10 +31209,10 @@ export namespace Prisma {
 
   export type LetterRecordOrderByWithRelationInput = {
     id?: SortOrder
-    employeeId?: SortOrderInput | SortOrder
+    employeeId?: SortOrder
     type?: SortOrder
     recipientName?: SortOrder
-    details?: SortOrderInput | SortOrder
+    details?: SortOrder
     generatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
   }
@@ -33339,10 +31232,10 @@ export namespace Prisma {
 
   export type LetterRecordOrderByWithAggregationInput = {
     id?: SortOrder
-    employeeId?: SortOrderInput | SortOrder
+    employeeId?: SortOrder
     type?: SortOrder
     recipientName?: SortOrder
-    details?: SortOrderInput | SortOrder
+    details?: SortOrder
     generatedAt?: SortOrder
     _count?: LetterRecordCountOrderByAggregateInput
     _max?: LetterRecordMaxOrderByAggregateInput
@@ -33381,7 +31274,7 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     content_en?: SortOrder
-    content_ar?: SortOrderInput | SortOrder
+    content_ar?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33408,7 +31301,7 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     content_en?: SortOrder
-    content_ar?: SortOrderInput | SortOrder
+    content_ar?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33459,11 +31352,11 @@ export namespace Prisma {
     referenceNumber?: SortOrder
     status?: SortOrder
     content_en?: SortOrder
-    content_ar?: SortOrderInput | SortOrder
-    pdfUrl?: SortOrderInput | SortOrder
-    comments?: SortOrderInput | SortOrder
-    approvedBy?: SortOrderInput | SortOrder
-    approvedAt?: SortOrderInput | SortOrder
+    content_ar?: SortOrder
+    pdfUrl?: SortOrder
+    comments?: SortOrder
+    approvedBy?: SortOrder
+    approvedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
@@ -33498,11 +31391,11 @@ export namespace Prisma {
     referenceNumber?: SortOrder
     status?: SortOrder
     content_en?: SortOrder
-    content_ar?: SortOrderInput | SortOrder
-    pdfUrl?: SortOrderInput | SortOrder
-    comments?: SortOrderInput | SortOrder
-    approvedBy?: SortOrderInput | SortOrder
-    approvedAt?: SortOrderInput | SortOrder
+    content_ar?: SortOrder
+    pdfUrl?: SortOrder
+    comments?: SortOrder
+    approvedBy?: SortOrder
+    approvedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: LetterCountOrderByAggregateInput
@@ -33551,10 +31444,10 @@ export namespace Prisma {
     module?: SortOrder
     key?: SortOrder
     label?: SortOrder
-    description?: SortOrderInput | SortOrder
+    description?: SortOrder
     type?: SortOrder
     value?: SortOrder
-    options?: SortOrderInput | SortOrder
+    options?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33583,10 +31476,10 @@ export namespace Prisma {
     module?: SortOrder
     key?: SortOrder
     label?: SortOrder
-    description?: SortOrderInput | SortOrder
+    description?: SortOrder
     type?: SortOrder
     value?: SortOrder
-    options?: SortOrderInput | SortOrder
+    options?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33647,7 +31540,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33664,7 +31556,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33693,7 +31584,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33705,7 +31595,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33747,7 +31636,6 @@ export namespace Prisma {
   }
 
   export type AccountUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -33762,7 +31650,6 @@ export namespace Prisma {
   }
 
   export type AccountUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
@@ -33792,7 +31679,6 @@ export namespace Prisma {
   }
 
   export type AccountUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -33806,7 +31692,6 @@ export namespace Prisma {
   }
 
   export type AccountUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
@@ -33839,7 +31724,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33848,7 +31732,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -33866,7 +31749,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33874,7 +31756,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -33928,8 +31809,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -33945,6 +31824,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -33969,7 +31850,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -33995,7 +31875,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -34010,10 +31890,10 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -34058,8 +31938,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -34075,10 +31953,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -34099,7 +31978,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34125,7 +32003,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -34140,6 +32018,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -34164,7 +32043,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -34190,10 +32068,10 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    managerId?: string | null
   }
 
   export type EmployeeUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -34240,7 +32118,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -34261,7 +32138,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34287,6 +32163,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LeaveBalanceCreateInput = {
@@ -34312,7 +32189,6 @@ export namespace Prisma {
   }
 
   export type LeaveBalanceUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     leaveType?: StringFieldUpdateOperationsInput | string
     totalDays?: IntFieldUpdateOperationsInput | number
     usedDays?: IntFieldUpdateOperationsInput | number
@@ -34323,7 +32199,6 @@ export namespace Prisma {
   }
 
   export type LeaveBalanceUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     leaveType?: StringFieldUpdateOperationsInput | string
     totalDays?: IntFieldUpdateOperationsInput | number
@@ -34345,7 +32220,6 @@ export namespace Prisma {
   }
 
   export type LeaveBalanceUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     leaveType?: StringFieldUpdateOperationsInput | string
     totalDays?: IntFieldUpdateOperationsInput | number
     usedDays?: IntFieldUpdateOperationsInput | number
@@ -34355,7 +32229,6 @@ export namespace Prisma {
   }
 
   export type LeaveBalanceUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     leaveType?: StringFieldUpdateOperationsInput | string
     totalDays?: IntFieldUpdateOperationsInput | number
@@ -34388,7 +32261,6 @@ export namespace Prisma {
   }
 
   export type NotificationUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -34399,7 +32271,6 @@ export namespace Prisma {
   }
 
   export type NotificationUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -34421,7 +32292,6 @@ export namespace Prisma {
   }
 
   export type NotificationUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
@@ -34431,7 +32301,6 @@ export namespace Prisma {
   }
 
   export type NotificationUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
@@ -34472,7 +32341,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34487,7 +32355,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34516,7 +32383,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34528,7 +32394,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34564,7 +32429,6 @@ export namespace Prisma {
   }
 
   export type ShiftUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -34575,7 +32439,6 @@ export namespace Prisma {
   }
 
   export type ShiftUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -34595,7 +32458,6 @@ export namespace Prisma {
   }
 
   export type ShiftUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -34604,7 +32466,6 @@ export namespace Prisma {
   }
 
   export type ShiftUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -34633,7 +32494,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34643,7 +32503,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     attendanceId?: NullableStringFieldUpdateOperationsInput | string | null
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
@@ -34663,7 +32522,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34672,7 +32530,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     attendanceId?: NullableStringFieldUpdateOperationsInput | string | null
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
@@ -34700,7 +32557,6 @@ export namespace Prisma {
   }
 
   export type AuditLogUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     details?: NullableStringFieldUpdateOperationsInput | string | null
     changedBy?: StringFieldUpdateOperationsInput | string
@@ -34709,7 +32565,6 @@ export namespace Prisma {
   }
 
   export type AuditLogUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34727,7 +32582,6 @@ export namespace Prisma {
   }
 
   export type AuditLogUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     details?: NullableStringFieldUpdateOperationsInput | string | null
     changedBy?: StringFieldUpdateOperationsInput | string
@@ -34735,7 +32589,6 @@ export namespace Prisma {
   }
 
   export type AuditLogUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
     details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34774,7 +32627,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34789,7 +32641,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34819,7 +32670,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34831,7 +32681,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34884,7 +32733,6 @@ export namespace Prisma {
   }
 
   export type SalaryStructureUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     ctc?: FloatFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
     housingAllowance?: FloatFieldUpdateOperationsInput | number
@@ -34903,7 +32751,6 @@ export namespace Prisma {
   }
 
   export type SalaryStructureUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     ctc?: FloatFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
@@ -34941,7 +32788,6 @@ export namespace Prisma {
   }
 
   export type SalaryStructureUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     ctc?: FloatFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
     housingAllowance?: FloatFieldUpdateOperationsInput | number
@@ -34959,7 +32805,6 @@ export namespace Prisma {
   }
 
   export type SalaryStructureUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     ctc?: FloatFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
@@ -35036,7 +32881,6 @@ export namespace Prisma {
   }
 
   export type SalaryRecordUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
@@ -35065,7 +32909,6 @@ export namespace Prisma {
   }
 
   export type SalaryRecordUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -35123,7 +32966,6 @@ export namespace Prisma {
   }
 
   export type SalaryRecordUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
@@ -35151,7 +32993,6 @@ export namespace Prisma {
   }
 
   export type SalaryRecordUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
     year?: IntFieldUpdateOperationsInput | number
@@ -35204,7 +33045,6 @@ export namespace Prisma {
   }
 
   export type LoanUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
     issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     installmentAmount?: FloatFieldUpdateOperationsInput | number
@@ -35216,7 +33056,6 @@ export namespace Prisma {
   }
 
   export type LoanUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
     issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35240,7 +33079,6 @@ export namespace Prisma {
   }
 
   export type LoanUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
     issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     installmentAmount?: FloatFieldUpdateOperationsInput | number
@@ -35251,7 +33089,6 @@ export namespace Prisma {
   }
 
   export type LoanUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
     issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35287,7 +33124,6 @@ export namespace Prisma {
   }
 
   export type OvertimeUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     hours?: FloatFieldUpdateOperationsInput | number
     ratePerHour?: FloatFieldUpdateOperationsInput | number
@@ -35299,7 +33135,6 @@ export namespace Prisma {
   }
 
   export type OvertimeUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     hours?: FloatFieldUpdateOperationsInput | number
@@ -35323,7 +33158,6 @@ export namespace Prisma {
   }
 
   export type OvertimeUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     hours?: FloatFieldUpdateOperationsInput | number
     ratePerHour?: FloatFieldUpdateOperationsInput | number
@@ -35334,7 +33168,6 @@ export namespace Prisma {
   }
 
   export type OvertimeUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     hours?: FloatFieldUpdateOperationsInput | number
@@ -35372,7 +33205,6 @@ export namespace Prisma {
   }
 
   export type StaffServiceTypeUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35385,7 +33217,6 @@ export namespace Prisma {
   }
 
   export type StaffServiceTypeUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35410,7 +33241,6 @@ export namespace Prisma {
   }
 
   export type StaffServiceTypeUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35422,7 +33252,6 @@ export namespace Prisma {
   }
 
   export type StaffServiceTypeUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35464,7 +33293,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35479,7 +33307,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     typeId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -35508,7 +33335,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35520,7 +33346,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     typeId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -35562,7 +33387,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
@@ -35576,7 +33400,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35604,7 +33427,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
@@ -35615,7 +33437,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35655,7 +33476,6 @@ export namespace Prisma {
   }
 
   export type VisaRequestUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     visaType?: StringFieldUpdateOperationsInput | string
     destinationCountry?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
@@ -35668,7 +33488,6 @@ export namespace Prisma {
   }
 
   export type VisaRequestUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     visaType?: StringFieldUpdateOperationsInput | string
     destinationCountry?: StringFieldUpdateOperationsInput | string
@@ -35693,7 +33512,6 @@ export namespace Prisma {
   }
 
   export type VisaRequestUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     visaType?: StringFieldUpdateOperationsInput | string
     destinationCountry?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
@@ -35704,7 +33522,6 @@ export namespace Prisma {
   }
 
   export type VisaRequestUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     visaType?: StringFieldUpdateOperationsInput | string
     destinationCountry?: StringFieldUpdateOperationsInput | string
@@ -35734,7 +33551,6 @@ export namespace Prisma {
   }
 
   export type LetterRecordUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     recipientName?: StringFieldUpdateOperationsInput | string
     details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35743,7 +33559,6 @@ export namespace Prisma {
   }
 
   export type LetterRecordUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     recipientName?: StringFieldUpdateOperationsInput | string
@@ -35761,7 +33576,6 @@ export namespace Prisma {
   }
 
   export type LetterRecordUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     recipientName?: StringFieldUpdateOperationsInput | string
     details?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35769,7 +33583,6 @@ export namespace Prisma {
   }
 
   export type LetterRecordUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     recipientName?: StringFieldUpdateOperationsInput | string
@@ -35802,7 +33615,6 @@ export namespace Prisma {
   }
 
   export type LetterTemplateUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -35814,7 +33626,6 @@ export namespace Prisma {
   }
 
   export type LetterTemplateUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -35837,7 +33648,6 @@ export namespace Prisma {
   }
 
   export type LetterTemplateUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -35848,7 +33658,6 @@ export namespace Prisma {
   }
 
   export type LetterTemplateUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -35891,7 +33700,6 @@ export namespace Prisma {
   }
 
   export type LetterUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -35907,7 +33715,6 @@ export namespace Prisma {
   }
 
   export type LetterUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     templateId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
@@ -35939,7 +33746,6 @@ export namespace Prisma {
   }
 
   export type LetterUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -35953,7 +33759,6 @@ export namespace Prisma {
   }
 
   export type LetterUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     templateId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
@@ -35976,7 +33781,7 @@ export namespace Prisma {
     description?: string | null
     type: string
     value: string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -35990,35 +33795,33 @@ export namespace Prisma {
     description?: string | null
     type: string
     value: string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ServiceConfigUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     module?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | InputJsonValue | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceConfigUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     module?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | InputJsonValue | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36032,35 +33835,33 @@ export namespace Prisma {
     description?: string | null
     type: string
     value: string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ServiceConfigUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     module?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | InputJsonValue | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceConfigUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
     module?: StringFieldUpdateOperationsInput | string
     key?: StringFieldUpdateOperationsInput | string
     label?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    options?: NullableJsonNullValueInput | InputJsonValue
+    options?: InputJsonValue | InputJsonValue | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36068,8 +33869,8 @@ export namespace Prisma {
 
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -36077,13 +33878,14 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -36091,24 +33893,27 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -36137,11 +33942,6 @@ export namespace Prisma {
     every?: AccountWhereInput
     some?: AccountWhereInput
     none?: AccountWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type RoleRequestOrderByRelationAggregateInput = {
@@ -36194,8 +33994,8 @@ export namespace Prisma {
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -36203,6 +34003,7 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
@@ -36211,8 +34012,8 @@ export namespace Prisma {
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -36220,16 +34021,18 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
     not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -36238,12 +34041,13 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -36256,13 +34060,14 @@ export namespace Prisma {
 
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
   }
 
   export type UserScalarRelationFilter = {
@@ -36330,8 +34135,8 @@ export namespace Prisma {
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -36342,6 +34147,7 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type RoleRequestCountOrderByAggregateInput = {
@@ -36373,8 +34179,8 @@ export namespace Prisma {
 
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -36389,19 +34195,14 @@ export namespace Prisma {
 
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type EmployeeListRelationFilter = {
-    every?: EmployeeWhereInput
-    some?: EmployeeWhereInput
-    none?: EmployeeWhereInput
+    isSet?: boolean
   }
 
   export type ShiftNullableScalarRelationFilter = {
@@ -36486,8 +34287,10 @@ export namespace Prisma {
     none?: OvertimeWhereInput
   }
 
-  export type EmployeeOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type EmployeeListRelationFilter = {
+    every?: EmployeeWhereInput
+    some?: EmployeeWhereInput
+    none?: EmployeeWhereInput
   }
 
   export type LeaveBalanceOrderByRelationAggregateInput = {
@@ -36538,6 +34341,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type EmployeeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type EmployeeCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -36560,7 +34367,6 @@ export namespace Prisma {
     probationDays?: SortOrder
     currentStatus?: SortOrder
     isActive?: SortOrder
-    managerId?: SortOrder
     address?: SortOrder
     permanentAddress?: SortOrder
     emergencyContact?: SortOrder
@@ -36586,6 +34392,7 @@ export namespace Prisma {
     shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    managerId?: SortOrder
   }
 
   export type EmployeeAvgOrderByAggregateInput = {
@@ -36618,7 +34425,6 @@ export namespace Prisma {
     probationDays?: SortOrder
     currentStatus?: SortOrder
     isActive?: SortOrder
-    managerId?: SortOrder
     address?: SortOrder
     permanentAddress?: SortOrder
     emergencyContact?: SortOrder
@@ -36644,6 +34450,7 @@ export namespace Prisma {
     shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    managerId?: SortOrder
   }
 
   export type EmployeeMinOrderByAggregateInput = {
@@ -36668,7 +34475,6 @@ export namespace Prisma {
     probationDays?: SortOrder
     currentStatus?: SortOrder
     isActive?: SortOrder
-    managerId?: SortOrder
     address?: SortOrder
     permanentAddress?: SortOrder
     emergencyContact?: SortOrder
@@ -36694,6 +34500,7 @@ export namespace Prisma {
     shiftId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    managerId?: SortOrder
   }
 
   export type EmployeeSumOrderByAggregateInput = {
@@ -36706,8 +34513,8 @@ export namespace Prisma {
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -36730,8 +34537,8 @@ export namespace Prisma {
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -36742,17 +34549,12 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type EmployeeScalarRelationFilter = {
     is?: EmployeeWhereInput
     isNot?: EmployeeWhereInput
-  }
-
-  export type LeaveBalanceEmployeeIdLeaveTypeYearCompoundUniqueInput = {
-    employeeId: string
-    leaveType: string
-    year: number
   }
 
   export type LeaveBalanceCountOrderByAggregateInput = {
@@ -37044,8 +34846,8 @@ export namespace Prisma {
 
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -37136,8 +34938,8 @@ export namespace Prisma {
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -37676,15 +35478,9 @@ export namespace Prisma {
     | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
   export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    isSet?: boolean
   }
 
   export type ServiceConfigModuleKeyCompoundUniqueInput = {
@@ -37739,18 +35535,12 @@ export namespace Prisma {
     | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
   export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type EmployeeCreateNestedOneWithoutUserInput = {
@@ -37821,16 +35611,18 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+    unset?: boolean
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+    unset?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -37981,6 +35773,7 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+    unset?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -38009,19 +35802,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
     connectOrCreate?: UserCreateOrConnectWithoutEmployeeInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type EmployeeCreateNestedOneWithoutReporteesInput = {
-    create?: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutReporteesInput
-    connect?: EmployeeWhereUniqueInput
-  }
-
-  export type EmployeeCreateNestedManyWithoutManagerInput = {
-    create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
-    connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
-    createMany?: EmployeeCreateManyManagerInputEnvelope
-    connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
   }
 
   export type ShiftCreateNestedOneWithoutEmployeesInput = {
@@ -38127,7 +35907,13 @@ export namespace Prisma {
     connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
   }
 
-  export type EmployeeUncheckedCreateNestedManyWithoutManagerInput = {
+  export type EmployeeCreateNestedOneWithoutReporteesInput = {
+    create?: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutReporteesInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedManyWithoutManagerInput = {
     create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
     createMany?: EmployeeCreateManyManagerInputEnvelope
@@ -38231,6 +36017,13 @@ export namespace Prisma {
     connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
   }
 
+  export type EmployeeUncheckedCreateNestedManyWithoutManagerInput = {
+    create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
+    connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
+    createMany?: EmployeeCreateManyManagerInputEnvelope
+    connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -38249,6 +36042,7 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+    unset?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutEmployeeNestedInput = {
@@ -38259,35 +36053,11 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmployeeInput, UserUpdateWithoutEmployeeInput>, UserUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type EmployeeUpdateOneWithoutReporteesNestedInput = {
-    create?: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutReporteesInput
-    upsert?: EmployeeUpsertWithoutReporteesInput
-    disconnect?: EmployeeWhereInput | boolean
-    delete?: EmployeeWhereInput | boolean
-    connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutReporteesInput, EmployeeUpdateWithoutReporteesInput>, EmployeeUncheckedUpdateWithoutReporteesInput>
-  }
-
-  export type EmployeeUpdateManyWithoutManagerNestedInput = {
-    create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
-    connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
-    upsert?: EmployeeUpsertWithWhereUniqueWithoutManagerInput | EmployeeUpsertWithWhereUniqueWithoutManagerInput[]
-    createMany?: EmployeeCreateManyManagerInputEnvelope
-    set?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
-    disconnect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
-    delete?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
-    connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
-    update?: EmployeeUpdateWithWhereUniqueWithoutManagerInput | EmployeeUpdateWithWhereUniqueWithoutManagerInput[]
-    updateMany?: EmployeeUpdateManyWithWhereWithoutManagerInput | EmployeeUpdateManyWithWhereWithoutManagerInput[]
-    deleteMany?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
-  }
-
   export type ShiftUpdateOneWithoutEmployeesNestedInput = {
     create?: XOR<ShiftCreateWithoutEmployeesInput, ShiftUncheckedCreateWithoutEmployeesInput>
     connectOrCreate?: ShiftCreateOrConnectWithoutEmployeesInput
     upsert?: ShiftUpsertWithoutEmployeesInput
-    disconnect?: ShiftWhereInput | boolean
+    disconnect?: boolean
     delete?: ShiftWhereInput | boolean
     connect?: ShiftWhereUniqueInput
     update?: XOR<XOR<ShiftUpdateToOneWithWhereWithoutEmployeesInput, ShiftUpdateWithoutEmployeesInput>, ShiftUncheckedUpdateWithoutEmployeesInput>
@@ -38485,7 +36255,17 @@ export namespace Prisma {
     deleteMany?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
   }
 
-  export type EmployeeUncheckedUpdateManyWithoutManagerNestedInput = {
+  export type EmployeeUpdateOneWithoutReporteesNestedInput = {
+    create?: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutReporteesInput
+    upsert?: EmployeeUpsertWithoutReporteesInput
+    disconnect?: boolean
+    delete?: EmployeeWhereInput | boolean
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutReporteesInput, EmployeeUpdateWithoutReporteesInput>, EmployeeUncheckedUpdateWithoutReporteesInput>
+  }
+
+  export type EmployeeUpdateManyWithoutManagerNestedInput = {
     create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
     upsert?: EmployeeUpsertWithWhereUniqueWithoutManagerInput | EmployeeUpsertWithWhereUniqueWithoutManagerInput[]
@@ -38691,6 +36471,20 @@ export namespace Prisma {
     deleteMany?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
   }
 
+  export type EmployeeUncheckedUpdateManyWithoutManagerNestedInput = {
+    create?: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput> | EmployeeCreateWithoutManagerInput[] | EmployeeUncheckedCreateWithoutManagerInput[]
+    connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
+    upsert?: EmployeeUpsertWithWhereUniqueWithoutManagerInput | EmployeeUpsertWithWhereUniqueWithoutManagerInput[]
+    createMany?: EmployeeCreateManyManagerInputEnvelope
+    set?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+    disconnect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+    delete?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+    connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+    update?: EmployeeUpdateWithWhereUniqueWithoutManagerInput | EmployeeUpdateWithWhereUniqueWithoutManagerInput[]
+    updateMany?: EmployeeUpdateManyWithWhereWithoutManagerInput | EmployeeUpdateManyWithWhereWithoutManagerInput[]
+    deleteMany?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
+  }
+
   export type EmployeeCreateNestedOneWithoutLeaveBalancesInput = {
     create?: XOR<EmployeeCreateWithoutLeaveBalancesInput, EmployeeUncheckedCreateWithoutLeaveBalancesInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutLeaveBalancesInput
@@ -38757,7 +36551,7 @@ export namespace Prisma {
     create?: XOR<ShiftCreateWithoutAttendanceInput, ShiftUncheckedCreateWithoutAttendanceInput>
     connectOrCreate?: ShiftCreateOrConnectWithoutAttendanceInput
     upsert?: ShiftUpsertWithoutAttendanceInput
-    disconnect?: ShiftWhereInput | boolean
+    disconnect?: boolean
     delete?: ShiftWhereInput | boolean
     connect?: ShiftWhereUniqueInput
     update?: XOR<XOR<ShiftUpdateToOneWithWhereWithoutAttendanceInput, ShiftUpdateWithoutAttendanceInput>, ShiftUncheckedUpdateWithoutAttendanceInput>
@@ -38885,7 +36679,7 @@ export namespace Prisma {
     create?: XOR<AttendanceCreateWithoutBiometricLogsInput, AttendanceUncheckedCreateWithoutBiometricLogsInput>
     connectOrCreate?: AttendanceCreateOrConnectWithoutBiometricLogsInput
     upsert?: AttendanceUpsertWithoutBiometricLogsInput
-    disconnect?: AttendanceWhereInput | boolean
+    disconnect?: boolean
     delete?: AttendanceWhereInput | boolean
     connect?: AttendanceWhereUniqueInput
     update?: XOR<XOR<AttendanceUpdateToOneWithWhereWithoutBiometricLogsInput, AttendanceUpdateWithoutBiometricLogsInput>, AttendanceUncheckedUpdateWithoutBiometricLogsInput>
@@ -38935,7 +36729,7 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutApprovedLeavesManagerInput, UserUncheckedCreateWithoutApprovedLeavesManagerInput>
     connectOrCreate?: UserCreateOrConnectWithoutApprovedLeavesManagerInput
     upsert?: UserUpsertWithoutApprovedLeavesManagerInput
-    disconnect?: UserWhereInput | boolean
+    disconnect?: boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutApprovedLeavesManagerInput, UserUpdateWithoutApprovedLeavesManagerInput>, UserUncheckedUpdateWithoutApprovedLeavesManagerInput>
@@ -38945,7 +36739,7 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutApprovedLeavesHRInput, UserUncheckedCreateWithoutApprovedLeavesHRInput>
     connectOrCreate?: UserCreateOrConnectWithoutApprovedLeavesHRInput
     upsert?: UserUpsertWithoutApprovedLeavesHRInput
-    disconnect?: UserWhereInput | boolean
+    disconnect?: boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutApprovedLeavesHRInput, UserUpdateWithoutApprovedLeavesHRInput>, UserUncheckedUpdateWithoutApprovedLeavesHRInput>
@@ -39149,7 +36943,7 @@ export namespace Prisma {
     create?: XOR<StaffRequestCreateWithoutAttachmentsInput, StaffRequestUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: StaffRequestCreateOrConnectWithoutAttachmentsInput
     upsert?: StaffRequestUpsertWithoutAttachmentsInput
-    disconnect?: StaffRequestWhereInput | boolean
+    disconnect?: boolean
     delete?: StaffRequestWhereInput | boolean
     connect?: StaffRequestWhereUniqueInput
     update?: XOR<XOR<StaffRequestUpdateToOneWithWhereWithoutAttachmentsInput, StaffRequestUpdateWithoutAttachmentsInput>, StaffRequestUncheckedUpdateWithoutAttachmentsInput>
@@ -39159,7 +36953,7 @@ export namespace Prisma {
     create?: XOR<VisaRequestCreateWithoutAttachmentsInput, VisaRequestUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: VisaRequestCreateOrConnectWithoutAttachmentsInput
     upsert?: VisaRequestUpsertWithoutAttachmentsInput
-    disconnect?: VisaRequestWhereInput | boolean
+    disconnect?: boolean
     delete?: VisaRequestWhereInput | boolean
     connect?: VisaRequestWhereUniqueInput
     update?: XOR<XOR<VisaRequestUpdateToOneWithWhereWithoutAttachmentsInput, VisaRequestUpdateWithoutAttachmentsInput>, VisaRequestUncheckedUpdateWithoutAttachmentsInput>
@@ -39169,7 +36963,7 @@ export namespace Prisma {
     create?: XOR<EmployeeCreateWithoutAttachmentsInput, EmployeeUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutAttachmentsInput
     upsert?: EmployeeUpsertWithoutAttachmentsInput
-    disconnect?: EmployeeWhereInput | boolean
+    disconnect?: boolean
     delete?: EmployeeWhereInput | boolean
     connect?: EmployeeWhereUniqueInput
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutAttachmentsInput, EmployeeUpdateWithoutAttachmentsInput>, EmployeeUncheckedUpdateWithoutAttachmentsInput>
@@ -39241,7 +37035,7 @@ export namespace Prisma {
     create?: XOR<EmployeeCreateWithoutLetterRecordsInput, EmployeeUncheckedCreateWithoutLetterRecordsInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutLetterRecordsInput
     upsert?: EmployeeUpsertWithoutLetterRecordsInput
-    disconnect?: EmployeeWhereInput | boolean
+    disconnect?: boolean
     delete?: EmployeeWhereInput | boolean
     connect?: EmployeeWhereUniqueInput
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLetterRecordsInput, EmployeeUpdateWithoutLetterRecordsInput>, EmployeeUncheckedUpdateWithoutLetterRecordsInput>
@@ -39319,8 +37113,8 @@ export namespace Prisma {
 
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -39333,8 +37127,8 @@ export namespace Prisma {
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -39343,23 +37137,25 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    isSet?: boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -39369,8 +37165,8 @@ export namespace Prisma {
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[]
-    notIn?: string[]
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -39386,8 +37182,8 @@ export namespace Prisma {
 
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -39397,8 +37193,8 @@ export namespace Prisma {
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | null
-    notIn?: string[] | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     lt?: string | StringFieldRefInput<$PrismaModel>
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
@@ -39410,23 +37206,25 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -39435,12 +37233,13 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[]
-    notIn?: Date[] | string[]
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
     lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -39453,8 +37252,8 @@ export namespace Prisma {
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -39465,17 +37264,19 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    isSet?: boolean
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -39485,8 +37286,8 @@ export namespace Prisma {
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
@@ -39501,8 +37302,8 @@ export namespace Prisma {
 
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -39520,8 +37321,8 @@ export namespace Prisma {
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -39532,12 +37333,13 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+    isSet?: boolean
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
@@ -39557,15 +37359,9 @@ export namespace Prisma {
     | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
   export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    isSet?: boolean
   }
 
   export type EmployeeCreateWithoutUserInput = {
@@ -39613,8 +37409,6 @@ export namespace Prisma {
     iloeInsuranceExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -39630,6 +37424,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutUserInput = {
@@ -39653,7 +37449,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -39679,7 +37474,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -39694,6 +37489,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutUserInput = {
@@ -39849,7 +37645,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -39893,8 +37688,6 @@ export namespace Prisma {
     iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -39910,10 +37703,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -39933,7 +37727,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39959,7 +37752,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -39974,6 +37767,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type RoleRequestUpsertWithWhereUniqueWithoutUserInput = {
@@ -40137,7 +37931,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutAccountsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40153,7 +37946,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40217,7 +38009,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutRoleRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40233,7 +38024,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutRoleRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40283,276 +38073,6 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutEmployeeInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
-  }
-
-  export type EmployeeCreateWithoutReporteesInput = {
-    id?: string
-    employeeCode?: string | null
-    firstName: string
-    lastName: string
-    email: string
-    rollNumber: string
-    photo?: string | null
-    phone?: string | null
-    gender?: string | null
-    dateOfBirth?: Date | string | null
-    nationality?: string | null
-    maritalStatus?: string | null
-    designation: string
-    department: string
-    joiningDate: Date | string
-    employmentType?: string
-    workLocation?: string | null
-    probationDays?: number
-    currentStatus?: string
-    isActive?: boolean
-    address?: string | null
-    permanentAddress?: string | null
-    emergencyContact?: string | null
-    emergencyPhone?: string | null
-    governmentId?: string | null
-    bankName?: string | null
-    accountNumber?: string | null
-    iban?: string | null
-    ifscCode?: string | null
-    basicSalary?: number | null
-    housingAllowance?: number | null
-    transportAllowance?: number | null
-    otherAllowance?: number | null
-    passportNumber?: string | null
-    passportExpiry?: Date | string | null
-    emiratesId?: string | null
-    emiratesIdExpiry?: Date | string | null
-    visaNumber?: string | null
-    visaExpiry?: Date | string | null
-    visaType?: string | null
-    medicalInsuranceExpiry?: Date | string | null
-    iloeInsuranceExpiry?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    shift?: ShiftCreateNestedOneWithoutEmployeesInput
-    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
-    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
-    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
-    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
-    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
-    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
-    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
-    letters?: LetterCreateNestedManyWithoutEmployeeInput
-    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
-    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
-    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
-    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type EmployeeUncheckedCreateWithoutReporteesInput = {
-    id?: string
-    userId: string
-    employeeCode?: string | null
-    firstName: string
-    lastName: string
-    email: string
-    rollNumber: string
-    photo?: string | null
-    phone?: string | null
-    gender?: string | null
-    dateOfBirth?: Date | string | null
-    nationality?: string | null
-    maritalStatus?: string | null
-    designation: string
-    department: string
-    joiningDate: Date | string
-    employmentType?: string
-    workLocation?: string | null
-    probationDays?: number
-    currentStatus?: string
-    isActive?: boolean
-    managerId?: string | null
-    address?: string | null
-    permanentAddress?: string | null
-    emergencyContact?: string | null
-    emergencyPhone?: string | null
-    governmentId?: string | null
-    bankName?: string | null
-    accountNumber?: string | null
-    iban?: string | null
-    ifscCode?: string | null
-    basicSalary?: number | null
-    housingAllowance?: number | null
-    transportAllowance?: number | null
-    otherAllowance?: number | null
-    passportNumber?: string | null
-    passportExpiry?: Date | string | null
-    emiratesId?: string | null
-    emiratesIdExpiry?: Date | string | null
-    visaNumber?: string | null
-    visaExpiry?: Date | string | null
-    visaType?: string | null
-    medicalInsuranceExpiry?: Date | string | null
-    iloeInsuranceExpiry?: Date | string | null
-    shiftId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
-    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
-    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
-    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
-    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type EmployeeCreateOrConnectWithoutReporteesInput = {
-    where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
-  }
-
-  export type EmployeeCreateWithoutManagerInput = {
-    id?: string
-    employeeCode?: string | null
-    firstName: string
-    lastName: string
-    email: string
-    rollNumber: string
-    photo?: string | null
-    phone?: string | null
-    gender?: string | null
-    dateOfBirth?: Date | string | null
-    nationality?: string | null
-    maritalStatus?: string | null
-    designation: string
-    department: string
-    joiningDate: Date | string
-    employmentType?: string
-    workLocation?: string | null
-    probationDays?: number
-    currentStatus?: string
-    isActive?: boolean
-    address?: string | null
-    permanentAddress?: string | null
-    emergencyContact?: string | null
-    emergencyPhone?: string | null
-    governmentId?: string | null
-    bankName?: string | null
-    accountNumber?: string | null
-    iban?: string | null
-    ifscCode?: string | null
-    basicSalary?: number | null
-    housingAllowance?: number | null
-    transportAllowance?: number | null
-    otherAllowance?: number | null
-    passportNumber?: string | null
-    passportExpiry?: Date | string | null
-    emiratesId?: string | null
-    emiratesIdExpiry?: Date | string | null
-    visaNumber?: string | null
-    visaExpiry?: Date | string | null
-    visaType?: string | null
-    medicalInsuranceExpiry?: Date | string | null
-    iloeInsuranceExpiry?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutEmployeeInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
-    shift?: ShiftCreateNestedOneWithoutEmployeesInput
-    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
-    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
-    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
-    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
-    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
-    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
-    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
-    letters?: LetterCreateNestedManyWithoutEmployeeInput
-    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
-    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
-    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
-    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type EmployeeUncheckedCreateWithoutManagerInput = {
-    id?: string
-    userId: string
-    employeeCode?: string | null
-    firstName: string
-    lastName: string
-    email: string
-    rollNumber: string
-    photo?: string | null
-    phone?: string | null
-    gender?: string | null
-    dateOfBirth?: Date | string | null
-    nationality?: string | null
-    maritalStatus?: string | null
-    designation: string
-    department: string
-    joiningDate: Date | string
-    employmentType?: string
-    workLocation?: string | null
-    probationDays?: number
-    currentStatus?: string
-    isActive?: boolean
-    address?: string | null
-    permanentAddress?: string | null
-    emergencyContact?: string | null
-    emergencyPhone?: string | null
-    governmentId?: string | null
-    bankName?: string | null
-    accountNumber?: string | null
-    iban?: string | null
-    ifscCode?: string | null
-    basicSalary?: number | null
-    housingAllowance?: number | null
-    transportAllowance?: number | null
-    otherAllowance?: number | null
-    passportNumber?: string | null
-    passportExpiry?: Date | string | null
-    emiratesId?: string | null
-    emiratesIdExpiry?: Date | string | null
-    visaNumber?: string | null
-    visaExpiry?: Date | string | null
-    visaType?: string | null
-    medicalInsuranceExpiry?: Date | string | null
-    iloeInsuranceExpiry?: Date | string | null
-    shiftId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
-    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
-    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
-    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
-    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
-    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
-  }
-
-  export type EmployeeCreateOrConnectWithoutManagerInput = {
-    where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput>
-  }
-
-  export type EmployeeCreateManyManagerInputEnvelope = {
-    data: EmployeeCreateManyManagerInput | EmployeeCreateManyManagerInput[]
   }
 
   export type ShiftCreateWithoutEmployeesInput = {
@@ -41074,6 +38594,276 @@ export namespace Prisma {
     data: OvertimeCreateManyEmployeeInput | OvertimeCreateManyEmployeeInput[]
   }
 
+  export type EmployeeCreateWithoutReporteesInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutReporteesInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    managerId?: string | null
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutReporteesInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
+  }
+
+  export type EmployeeCreateWithoutManagerInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutManagerInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutManagerInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput>
+  }
+
+  export type EmployeeCreateManyManagerInputEnvelope = {
+    data: EmployeeCreateManyManagerInput | EmployeeCreateManyManagerInput[]
+  }
+
   export type UserUpsertWithoutEmployeeInput = {
     update: XOR<UserUpdateWithoutEmployeeInput, UserUncheckedUpdateWithoutEmployeeInput>
     create: XOR<UserCreateWithoutEmployeeInput, UserUncheckedCreateWithoutEmployeeInput>
@@ -41086,7 +38876,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41102,7 +38891,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -41117,214 +38905,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type EmployeeUpsertWithoutReporteesInput = {
-    update: XOR<EmployeeUpdateWithoutReporteesInput, EmployeeUncheckedUpdateWithoutReporteesInput>
-    create: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
-    where?: EmployeeWhereInput
-  }
-
-  export type EmployeeUpdateToOneWithWhereWithoutReporteesInput = {
-    where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutReporteesInput, EmployeeUncheckedUpdateWithoutReporteesInput>
-  }
-
-  export type EmployeeUpdateWithoutReporteesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    rollNumber?: StringFieldUpdateOperationsInput | string
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    designation?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    employmentType?: StringFieldUpdateOperationsInput | string
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    probationDays?: IntFieldUpdateOperationsInput | number
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
-    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
-    bankName?: NullableStringFieldUpdateOperationsInput | string | null
-    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    iban?: NullableStringFieldUpdateOperationsInput | string | null
-    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
-    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
-    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
-    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
-    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
-    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    visaType?: NullableStringFieldUpdateOperationsInput | string | null
-    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
-    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
-    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
-    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
-    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
-    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
-    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
-    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
-    letters?: LetterUpdateManyWithoutEmployeeNestedInput
-    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
-    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
-    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
-  }
-
-  export type EmployeeUncheckedUpdateWithoutReporteesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
-    firstName?: StringFieldUpdateOperationsInput | string
-    lastName?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    rollNumber?: StringFieldUpdateOperationsInput | string
-    photo?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    gender?: NullableStringFieldUpdateOperationsInput | string | null
-    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    nationality?: NullableStringFieldUpdateOperationsInput | string | null
-    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
-    designation?: StringFieldUpdateOperationsInput | string
-    department?: StringFieldUpdateOperationsInput | string
-    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    employmentType?: StringFieldUpdateOperationsInput | string
-    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
-    probationDays?: IntFieldUpdateOperationsInput | number
-    currentStatus?: StringFieldUpdateOperationsInput | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
-    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
-    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
-    bankName?: NullableStringFieldUpdateOperationsInput | string | null
-    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    iban?: NullableStringFieldUpdateOperationsInput | string | null
-    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
-    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
-    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
-    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
-    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
-    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
-    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    visaType?: NullableStringFieldUpdateOperationsInput | string | null
-    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
-    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
-    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
-    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
-    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
-    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
-    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
-    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
-    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
-  }
-
-  export type EmployeeUpsertWithWhereUniqueWithoutManagerInput = {
-    where: EmployeeWhereUniqueInput
-    update: XOR<EmployeeUpdateWithoutManagerInput, EmployeeUncheckedUpdateWithoutManagerInput>
-    create: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput>
-  }
-
-  export type EmployeeUpdateWithWhereUniqueWithoutManagerInput = {
-    where: EmployeeWhereUniqueInput
-    data: XOR<EmployeeUpdateWithoutManagerInput, EmployeeUncheckedUpdateWithoutManagerInput>
-  }
-
-  export type EmployeeUpdateManyWithWhereWithoutManagerInput = {
-    where: EmployeeScalarWhereInput
-    data: XOR<EmployeeUpdateManyMutationInput, EmployeeUncheckedUpdateManyWithoutManagerInput>
-  }
-
-  export type EmployeeScalarWhereInput = {
-    AND?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
-    OR?: EmployeeScalarWhereInput[]
-    NOT?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
-    id?: StringFilter<"Employee"> | string
-    userId?: StringFilter<"Employee"> | string
-    employeeCode?: StringNullableFilter<"Employee"> | string | null
-    firstName?: StringFilter<"Employee"> | string
-    lastName?: StringFilter<"Employee"> | string
-    email?: StringFilter<"Employee"> | string
-    rollNumber?: StringFilter<"Employee"> | string
-    photo?: StringNullableFilter<"Employee"> | string | null
-    phone?: StringNullableFilter<"Employee"> | string | null
-    gender?: StringNullableFilter<"Employee"> | string | null
-    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    nationality?: StringNullableFilter<"Employee"> | string | null
-    maritalStatus?: StringNullableFilter<"Employee"> | string | null
-    designation?: StringFilter<"Employee"> | string
-    department?: StringFilter<"Employee"> | string
-    joiningDate?: DateTimeFilter<"Employee"> | Date | string
-    employmentType?: StringFilter<"Employee"> | string
-    workLocation?: StringNullableFilter<"Employee"> | string | null
-    probationDays?: IntFilter<"Employee"> | number
-    currentStatus?: StringFilter<"Employee"> | string
-    isActive?: BoolFilter<"Employee"> | boolean
-    managerId?: StringNullableFilter<"Employee"> | string | null
-    address?: StringNullableFilter<"Employee"> | string | null
-    permanentAddress?: StringNullableFilter<"Employee"> | string | null
-    emergencyContact?: StringNullableFilter<"Employee"> | string | null
-    emergencyPhone?: StringNullableFilter<"Employee"> | string | null
-    governmentId?: StringNullableFilter<"Employee"> | string | null
-    bankName?: StringNullableFilter<"Employee"> | string | null
-    accountNumber?: StringNullableFilter<"Employee"> | string | null
-    iban?: StringNullableFilter<"Employee"> | string | null
-    ifscCode?: StringNullableFilter<"Employee"> | string | null
-    basicSalary?: FloatNullableFilter<"Employee"> | number | null
-    housingAllowance?: FloatNullableFilter<"Employee"> | number | null
-    transportAllowance?: FloatNullableFilter<"Employee"> | number | null
-    otherAllowance?: FloatNullableFilter<"Employee"> | number | null
-    passportNumber?: StringNullableFilter<"Employee"> | string | null
-    passportExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    emiratesId?: StringNullableFilter<"Employee"> | string | null
-    emiratesIdExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    visaNumber?: StringNullableFilter<"Employee"> | string | null
-    visaExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    visaType?: StringNullableFilter<"Employee"> | string | null
-    medicalInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    iloeInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
-    shiftId?: StringNullableFilter<"Employee"> | string | null
-    createdAt?: DateTimeFilter<"Employee"> | Date | string
-    updatedAt?: DateTimeFilter<"Employee"> | Date | string
-  }
-
   export type ShiftUpsertWithoutEmployeesInput = {
     update: XOR<ShiftUpdateWithoutEmployeesInput, ShiftUncheckedUpdateWithoutEmployeesInput>
     create: XOR<ShiftCreateWithoutEmployeesInput, ShiftUncheckedCreateWithoutEmployeesInput>
@@ -41337,7 +38917,6 @@ export namespace Prisma {
   }
 
   export type ShiftUpdateWithoutEmployeesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -41347,7 +38926,6 @@ export namespace Prisma {
   }
 
   export type ShiftUncheckedUpdateWithoutEmployeesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -41447,7 +39025,6 @@ export namespace Prisma {
   }
 
   export type SalaryStructureUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     ctc?: FloatFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
     housingAllowance?: FloatFieldUpdateOperationsInput | number
@@ -41465,7 +39042,6 @@ export namespace Prisma {
   }
 
   export type SalaryStructureUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     ctc?: FloatFieldUpdateOperationsInput | number
     basic?: FloatFieldUpdateOperationsInput | number
     housingAllowance?: FloatFieldUpdateOperationsInput | number
@@ -41810,6 +39386,212 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Overtime"> | Date | string
   }
 
+  export type EmployeeUpsertWithoutReporteesInput = {
+    update: XOR<EmployeeUpdateWithoutReporteesInput, EmployeeUncheckedUpdateWithoutReporteesInput>
+    create: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutReporteesInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutReporteesInput, EmployeeUncheckedUpdateWithoutReporteesInput>
+  }
+
+  export type EmployeeUpdateWithoutReporteesInput = {
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutReporteesInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+  }
+
+  export type EmployeeUpsertWithWhereUniqueWithoutManagerInput = {
+    where: EmployeeWhereUniqueInput
+    update: XOR<EmployeeUpdateWithoutManagerInput, EmployeeUncheckedUpdateWithoutManagerInput>
+    create: XOR<EmployeeCreateWithoutManagerInput, EmployeeUncheckedCreateWithoutManagerInput>
+  }
+
+  export type EmployeeUpdateWithWhereUniqueWithoutManagerInput = {
+    where: EmployeeWhereUniqueInput
+    data: XOR<EmployeeUpdateWithoutManagerInput, EmployeeUncheckedUpdateWithoutManagerInput>
+  }
+
+  export type EmployeeUpdateManyWithWhereWithoutManagerInput = {
+    where: EmployeeScalarWhereInput
+    data: XOR<EmployeeUpdateManyMutationInput, EmployeeUncheckedUpdateManyWithoutManagerInput>
+  }
+
+  export type EmployeeScalarWhereInput = {
+    AND?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
+    OR?: EmployeeScalarWhereInput[]
+    NOT?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
+    id?: StringFilter<"Employee"> | string
+    userId?: StringFilter<"Employee"> | string
+    employeeCode?: StringNullableFilter<"Employee"> | string | null
+    firstName?: StringFilter<"Employee"> | string
+    lastName?: StringFilter<"Employee"> | string
+    email?: StringFilter<"Employee"> | string
+    rollNumber?: StringFilter<"Employee"> | string
+    photo?: StringNullableFilter<"Employee"> | string | null
+    phone?: StringNullableFilter<"Employee"> | string | null
+    gender?: StringNullableFilter<"Employee"> | string | null
+    dateOfBirth?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    nationality?: StringNullableFilter<"Employee"> | string | null
+    maritalStatus?: StringNullableFilter<"Employee"> | string | null
+    designation?: StringFilter<"Employee"> | string
+    department?: StringFilter<"Employee"> | string
+    joiningDate?: DateTimeFilter<"Employee"> | Date | string
+    employmentType?: StringFilter<"Employee"> | string
+    workLocation?: StringNullableFilter<"Employee"> | string | null
+    probationDays?: IntFilter<"Employee"> | number
+    currentStatus?: StringFilter<"Employee"> | string
+    isActive?: BoolFilter<"Employee"> | boolean
+    address?: StringNullableFilter<"Employee"> | string | null
+    permanentAddress?: StringNullableFilter<"Employee"> | string | null
+    emergencyContact?: StringNullableFilter<"Employee"> | string | null
+    emergencyPhone?: StringNullableFilter<"Employee"> | string | null
+    governmentId?: StringNullableFilter<"Employee"> | string | null
+    bankName?: StringNullableFilter<"Employee"> | string | null
+    accountNumber?: StringNullableFilter<"Employee"> | string | null
+    iban?: StringNullableFilter<"Employee"> | string | null
+    ifscCode?: StringNullableFilter<"Employee"> | string | null
+    basicSalary?: FloatNullableFilter<"Employee"> | number | null
+    housingAllowance?: FloatNullableFilter<"Employee"> | number | null
+    transportAllowance?: FloatNullableFilter<"Employee"> | number | null
+    otherAllowance?: FloatNullableFilter<"Employee"> | number | null
+    passportNumber?: StringNullableFilter<"Employee"> | string | null
+    passportExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    emiratesId?: StringNullableFilter<"Employee"> | string | null
+    emiratesIdExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaNumber?: StringNullableFilter<"Employee"> | string | null
+    visaExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    visaType?: StringNullableFilter<"Employee"> | string | null
+    medicalInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    iloeInsuranceExpiry?: DateTimeNullableFilter<"Employee"> | Date | string | null
+    shiftId?: StringNullableFilter<"Employee"> | string | null
+    createdAt?: DateTimeFilter<"Employee"> | Date | string
+    updatedAt?: DateTimeFilter<"Employee"> | Date | string
+    managerId?: StringNullableFilter<"Employee"> | string | null
+  }
+
   export type EmployeeCreateWithoutLeaveBalancesInput = {
     id?: string
     employeeCode?: string | null
@@ -41856,8 +39638,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
@@ -41872,6 +39652,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveBalancesInput = {
@@ -41896,7 +39678,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -41922,7 +39703,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
@@ -41936,6 +39717,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveBalancesInput = {
@@ -41955,7 +39737,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutLeaveBalancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -42000,8 +39781,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
@@ -42016,10 +39795,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveBalancesInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -42040,7 +39820,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42066,7 +39845,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
@@ -42080,6 +39859,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutNotificationsInput = {
@@ -42128,8 +39908,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -42144,6 +39922,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutNotificationsInput = {
@@ -42168,7 +39948,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -42194,7 +39973,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -42208,6 +39987,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutNotificationsInput = {
@@ -42227,7 +40007,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -42272,8 +40051,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -42288,10 +40065,11 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -42312,7 +40090,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42338,7 +40115,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -42352,6 +40129,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutAttendanceInput = {
@@ -42400,8 +40178,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -42416,6 +40192,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttendanceInput = {
@@ -42440,7 +40218,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -42466,7 +40243,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
@@ -42480,6 +40257,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttendanceInput = {
@@ -42551,7 +40329,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -42596,8 +40373,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -42612,10 +40387,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -42636,7 +40412,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42662,7 +40437,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
@@ -42676,6 +40451,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type ShiftUpsertWithoutAttendanceInput = {
@@ -42690,7 +40466,6 @@ export namespace Prisma {
   }
 
   export type ShiftUpdateWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -42700,7 +40475,6 @@ export namespace Prisma {
   }
 
   export type ShiftUncheckedUpdateWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
@@ -42784,8 +40558,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
@@ -42800,6 +40572,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutShiftInput = {
@@ -42824,7 +40598,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -42849,7 +40622,7 @@ export namespace Prisma {
     iloeInsuranceExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -42864,6 +40637,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutShiftInput = {
@@ -42989,7 +40763,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUpdateWithoutBiometricLogsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43003,7 +40776,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUncheckedUpdateWithoutBiometricLogsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43062,8 +40834,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -43078,6 +40848,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutAuditLogsInput = {
@@ -43102,7 +40874,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -43128,7 +40899,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -43142,6 +40913,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutAuditLogsInput = {
@@ -43161,7 +40933,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutAuditLogsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -43206,8 +40977,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -43222,10 +40991,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAuditLogsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -43246,7 +41016,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43272,7 +41041,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -43286,6 +41055,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutLeaveRequestsInput = {
@@ -43334,8 +41104,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
@@ -43350,6 +41118,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveRequestsInput = {
@@ -43374,7 +41144,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -43400,7 +41169,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
@@ -43414,6 +41183,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveRequestsInput = {
@@ -43507,7 +41277,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutLeaveRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -43552,8 +41321,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
@@ -43568,10 +41335,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -43592,7 +41360,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43618,7 +41385,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
@@ -43632,6 +41399,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type UserUpsertWithoutApprovedLeavesManagerInput = {
@@ -43646,7 +41414,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutApprovedLeavesManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43662,7 +41429,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutApprovedLeavesManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43689,7 +41455,6 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutApprovedLeavesHRInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43705,7 +41470,6 @@ export namespace Prisma {
   }
 
   export type UserUncheckedUpdateWithoutApprovedLeavesHRInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -43766,8 +41530,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -43782,6 +41544,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryStructureInput = {
@@ -43806,7 +41570,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -43832,7 +41595,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -43846,6 +41609,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryStructureInput = {
@@ -43865,7 +41629,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutSalaryStructureInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -43910,8 +41673,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -43926,10 +41687,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryStructureInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -43950,7 +41712,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43976,7 +41737,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -43990,6 +41751,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutSalaryRecordsInput = {
@@ -44038,8 +41800,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -44054,6 +41814,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryRecordsInput = {
@@ -44078,7 +41840,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -44104,7 +41865,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -44118,6 +41879,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryRecordsInput = {
@@ -44137,7 +41899,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutSalaryRecordsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -44182,8 +41943,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -44198,10 +41957,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryRecordsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -44222,7 +41982,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44248,7 +42007,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -44262,6 +42021,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutLoansInput = {
@@ -44310,8 +42070,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -44326,6 +42084,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLoansInput = {
@@ -44350,7 +42110,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -44376,7 +42135,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -44390,6 +42149,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLoansInput = {
@@ -44409,7 +42169,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutLoansInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -44454,8 +42213,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -44470,10 +42227,11 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLoansInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -44494,7 +42252,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44520,7 +42277,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -44534,6 +42291,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutOvertimeInput = {
@@ -44582,8 +42340,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -44598,6 +42354,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutOvertimeInput = {
@@ -44622,7 +42380,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -44648,7 +42405,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -44662,6 +42419,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutOvertimeInput = {
@@ -44681,7 +42439,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutOvertimeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -44726,8 +42483,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -44742,10 +42497,11 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutOvertimeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -44766,7 +42522,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44792,7 +42547,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -44806,6 +42561,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type StaffRequestCreateWithoutServiceTypeInput = {
@@ -44907,8 +42663,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -44923,6 +42677,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutStaffRequestsInput = {
@@ -44947,7 +42703,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -44973,7 +42728,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -44987,6 +42742,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutStaffRequestsInput = {
@@ -45070,7 +42826,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutStaffRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -45115,8 +42870,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -45131,10 +42884,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutStaffRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -45155,7 +42909,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45181,7 +42934,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -45195,6 +42948,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type StaffServiceTypeUpsertWithoutStaffRequestsInput = {
@@ -45209,7 +42963,6 @@ export namespace Prisma {
   }
 
   export type StaffServiceTypeUpdateWithoutStaffRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45221,7 +42974,6 @@ export namespace Prisma {
   }
 
   export type StaffServiceTypeUncheckedUpdateWithoutStaffRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45356,8 +43108,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -45372,6 +43122,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttachmentsInput = {
@@ -45396,7 +43148,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -45422,7 +43173,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -45436,6 +43187,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttachmentsInput = {
@@ -45455,7 +43207,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -45469,7 +43220,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUncheckedUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     typeId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -45494,7 +43244,6 @@ export namespace Prisma {
   }
 
   export type VisaRequestUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     visaType?: StringFieldUpdateOperationsInput | string
     destinationCountry?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
@@ -45506,7 +43255,6 @@ export namespace Prisma {
   }
 
   export type VisaRequestUncheckedUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     visaType?: StringFieldUpdateOperationsInput | string
     destinationCountry?: StringFieldUpdateOperationsInput | string
@@ -45529,7 +43277,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -45574,8 +43321,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -45590,10 +43335,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttachmentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -45614,7 +43360,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45640,7 +43385,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -45654,6 +43399,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeCreateWithoutVisaRequestsInput = {
@@ -45702,8 +43448,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -45718,6 +43462,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutVisaRequestsInput = {
@@ -45742,7 +43488,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -45768,7 +43513,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -45782,6 +43527,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutVisaRequestsInput = {
@@ -45836,7 +43582,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutVisaRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -45881,8 +43626,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -45897,10 +43640,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutVisaRequestsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -45921,7 +43665,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -45947,7 +43690,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -45961,6 +43704,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type AttachmentUpsertWithWhereUniqueWithoutVisaRequestInput = {
@@ -46025,8 +43769,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -46041,6 +43783,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLetterRecordsInput = {
@@ -46065,7 +43809,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -46091,7 +43834,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -46105,6 +43848,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLetterRecordsInput = {
@@ -46124,7 +43868,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutLetterRecordsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -46169,8 +43912,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -46185,10 +43926,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLetterRecordsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -46209,7 +43951,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46235,7 +43976,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -46249,6 +43990,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type LetterCreateWithoutTemplateInput = {
@@ -46352,8 +44094,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutEmployeeInput
-    manager?: EmployeeCreateNestedOneWithoutReporteesInput
-    reportees?: EmployeeCreateNestedManyWithoutManagerInput
     shift?: ShiftCreateNestedOneWithoutEmployeesInput
     leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
@@ -46368,6 +44108,8 @@ export namespace Prisma {
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loans?: LoanCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLettersInput = {
@@ -46392,7 +44134,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -46418,7 +44159,7 @@ export namespace Prisma {
     shiftId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    managerId?: string | null
     leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
     leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
@@ -46432,6 +44173,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLettersInput = {
@@ -46478,7 +44220,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutLettersInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -46523,8 +44264,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -46539,10 +44278,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLettersInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -46563,7 +44303,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46589,7 +44328,7 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -46603,6 +44342,7 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type LetterTemplateUpsertWithoutLettersInput = {
@@ -46617,7 +44357,6 @@ export namespace Prisma {
   }
 
   export type LetterTemplateUpdateWithoutLettersInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -46628,7 +44367,6 @@ export namespace Prisma {
   }
 
   export type LetterTemplateUncheckedUpdateWithoutLettersInput = {
-    id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -46689,7 +44427,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46697,7 +44434,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46705,7 +44441,6 @@ export namespace Prisma {
   }
 
   export type RoleRequestUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     requestedRole?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46713,7 +44448,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUpdateWithoutManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46727,7 +44461,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUncheckedUpdateWithoutManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46741,7 +44474,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUncheckedUpdateManyWithoutManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46755,7 +44487,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUpdateWithoutHrInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46769,7 +44500,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUncheckedUpdateWithoutHrInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46783,7 +44513,6 @@ export namespace Prisma {
   }
 
   export type LeaveRequestUncheckedUpdateManyWithoutHrInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46797,7 +44526,6 @@ export namespace Prisma {
   }
 
   export type AccountUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -46811,7 +44539,6 @@ export namespace Prisma {
   }
 
   export type AccountUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -46825,7 +44552,6 @@ export namespace Prisma {
   }
 
   export type AccountUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     provider?: StringFieldUpdateOperationsInput | string
     providerAccountId?: StringFieldUpdateOperationsInput | string
@@ -46836,55 +44562,6 @@ export namespace Prisma {
     scope?: NullableStringFieldUpdateOperationsInput | string | null
     id_token?: NullableStringFieldUpdateOperationsInput | string | null
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type EmployeeCreateManyManagerInput = {
-    id?: string
-    userId: string
-    employeeCode?: string | null
-    firstName: string
-    lastName: string
-    email: string
-    rollNumber: string
-    photo?: string | null
-    phone?: string | null
-    gender?: string | null
-    dateOfBirth?: Date | string | null
-    nationality?: string | null
-    maritalStatus?: string | null
-    designation: string
-    department: string
-    joiningDate: Date | string
-    employmentType?: string
-    workLocation?: string | null
-    probationDays?: number
-    currentStatus?: string
-    isActive?: boolean
-    address?: string | null
-    permanentAddress?: string | null
-    emergencyContact?: string | null
-    emergencyPhone?: string | null
-    governmentId?: string | null
-    bankName?: string | null
-    accountNumber?: string | null
-    iban?: string | null
-    ifscCode?: string | null
-    basicSalary?: number | null
-    housingAllowance?: number | null
-    transportAllowance?: number | null
-    otherAllowance?: number | null
-    passportNumber?: string | null
-    passportExpiry?: Date | string | null
-    emiratesId?: string | null
-    emiratesIdExpiry?: Date | string | null
-    visaNumber?: string | null
-    visaExpiry?: Date | string | null
-    visaType?: string | null
-    medicalInsuranceExpiry?: Date | string | null
-    iloeInsuranceExpiry?: Date | string | null
-    shiftId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type LeaveRequestCreateManyEmployeeInput = {
@@ -47052,8 +44729,518 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type EmployeeCreateManyManagerInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LeaveRequestUpdateWithoutEmployeeInput = {
+    type?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    reason?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    manager?: UserUpdateOneWithoutApprovedLeavesManagerNestedInput
+    hr?: UserUpdateOneWithoutApprovedLeavesHRNestedInput
+  }
+
+  export type LeaveRequestUncheckedUpdateWithoutEmployeeInput = {
+    type?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    reason?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    hrId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    type?: StringFieldUpdateOperationsInput | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    reason?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    hrId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUpdateWithoutEmployeeInput = {
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateWithoutEmployeeInput = {
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LeaveBalanceUncheckedUpdateManyWithoutEmployeeInput = {
+    leaveType?: StringFieldUpdateOperationsInput | string
+    totalDays?: IntFieldUpdateOperationsInput | number
+    usedDays?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttendanceUpdateWithoutEmployeeInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
+    overtimeMinutes?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shift?: ShiftUpdateOneWithoutAttendanceNestedInput
+    biometricLogs?: BiometricLogUpdateManyWithoutAttendanceNestedInput
+  }
+
+  export type AttendanceUncheckedUpdateWithoutEmployeeInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
+    overtimeMinutes?: IntFieldUpdateOperationsInput | number
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    biometricLogs?: BiometricLogUncheckedUpdateManyWithoutAttendanceNestedInput
+  }
+
+  export type AttendanceUncheckedUpdateManyWithoutEmployeeInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    lateMinutes?: IntFieldUpdateOperationsInput | number
+    overtimeMinutes?: IntFieldUpdateOperationsInput | number
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryRecordUpdateWithoutEmployeeInput = {
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    housingAllowance?: FloatFieldUpdateOperationsInput | number
+    transportAllowance?: FloatFieldUpdateOperationsInput | number
+    medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
+    otherAllowances?: FloatFieldUpdateOperationsInput | number
+    latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
+    leaveDeduction?: FloatFieldUpdateOperationsInput | number
+    loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
+    otherDeductions?: FloatFieldUpdateOperationsInput | number
+    overtimePay?: FloatFieldUpdateOperationsInput | number
+    bonus?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryRecordUncheckedUpdateWithoutEmployeeInput = {
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    housingAllowance?: FloatFieldUpdateOperationsInput | number
+    transportAllowance?: FloatFieldUpdateOperationsInput | number
+    medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
+    otherAllowances?: FloatFieldUpdateOperationsInput | number
+    latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
+    leaveDeduction?: FloatFieldUpdateOperationsInput | number
+    loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
+    otherDeductions?: FloatFieldUpdateOperationsInput | number
+    overtimePay?: FloatFieldUpdateOperationsInput | number
+    bonus?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryRecordUncheckedUpdateManyWithoutEmployeeInput = {
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    housingAllowance?: FloatFieldUpdateOperationsInput | number
+    transportAllowance?: FloatFieldUpdateOperationsInput | number
+    medicalAllowance?: FloatFieldUpdateOperationsInput | number
+    foodAllowance?: FloatFieldUpdateOperationsInput | number
+    travelAllowance?: FloatFieldUpdateOperationsInput | number
+    commission?: FloatFieldUpdateOperationsInput | number
+    otherAllowances?: FloatFieldUpdateOperationsInput | number
+    latePenalty?: FloatFieldUpdateOperationsInput | number
+    penalty?: FloatFieldUpdateOperationsInput | number
+    leaveDeduction?: FloatFieldUpdateOperationsInput | number
+    loanDeduction?: FloatFieldUpdateOperationsInput | number
+    advanceSalary?: FloatFieldUpdateOperationsInput | number
+    otherDeductions?: FloatFieldUpdateOperationsInput | number
+    overtimePay?: FloatFieldUpdateOperationsInput | number
+    bonus?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    paymentMethod?: StringFieldUpdateOperationsInput | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRecordUpdateWithoutEmployeeInput = {
+    type?: StringFieldUpdateOperationsInput | string
+    recipientName?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRecordUncheckedUpdateWithoutEmployeeInput = {
+    type?: StringFieldUpdateOperationsInput | string
+    recipientName?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRecordUncheckedUpdateManyWithoutEmployeeInput = {
+    type?: StringFieldUpdateOperationsInput | string
+    recipientName?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StaffRequestUpdateWithoutEmployeeInput = {
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceType?: StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput
+    attachments?: AttachmentUpdateManyWithoutStaffRequestNestedInput
+  }
+
+  export type StaffRequestUncheckedUpdateWithoutEmployeeInput = {
+    typeId?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
+  }
+
+  export type StaffRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    typeId?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisaRequestUpdateWithoutEmployeeInput = {
+    visaType?: StringFieldUpdateOperationsInput | string
+    destinationCountry?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUpdateManyWithoutVisaRequestNestedInput
+  }
+
+  export type VisaRequestUncheckedUpdateWithoutEmployeeInput = {
+    visaType?: StringFieldUpdateOperationsInput | string
+    destinationCountry?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutVisaRequestNestedInput
+  }
+
+  export type VisaRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    visaType?: StringFieldUpdateOperationsInput | string
+    destinationCountry?: StringFieldUpdateOperationsInput | string
+    purpose?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterUpdateWithoutEmployeeInput = {
+    referenceNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    template?: LetterTemplateUpdateOneRequiredWithoutLettersNestedInput
+  }
+
+  export type LetterUncheckedUpdateWithoutEmployeeInput = {
+    templateId?: StringFieldUpdateOperationsInput | string
+    referenceNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterUncheckedUpdateManyWithoutEmployeeInput = {
+    templateId?: StringFieldUpdateOperationsInput | string
+    referenceNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUpdateWithoutEmployeeInput = {
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    staffRequest?: StaffRequestUpdateOneWithoutAttachmentsNestedInput
+    visaRequest?: VisaRequestUpdateOneWithoutAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateWithoutEmployeeInput = {
+    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutEmployeeInput = {
+    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUpdateWithoutEmployeeInput = {
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    changedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUncheckedUpdateWithoutEmployeeInput = {
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    changedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogUncheckedUpdateManyWithoutEmployeeInput = {
+    action?: StringFieldUpdateOperationsInput | string
+    details?: NullableStringFieldUpdateOperationsInput | string | null
+    changedBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutEmployeeInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateWithoutEmployeeInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutEmployeeInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    link?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUpdateWithoutEmployeeInput = {
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUncheckedUpdateWithoutEmployeeInput = {
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanUncheckedUpdateManyWithoutEmployeeInput = {
+    amount?: FloatFieldUpdateOperationsInput | number
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    installmentAmount?: FloatFieldUpdateOperationsInput | number
+    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUpdateWithoutEmployeeInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUncheckedUpdateWithoutEmployeeInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OvertimeUncheckedUpdateManyWithoutEmployeeInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    hours?: FloatFieldUpdateOperationsInput | number
+    ratePerHour?: FloatFieldUpdateOperationsInput | number
+    totalPay?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type EmployeeUpdateWithoutManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -47098,7 +45285,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     shift?: ShiftUpdateOneWithoutEmployeesNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
@@ -47114,10 +45300,10 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -47163,7 +45349,6 @@ export namespace Prisma {
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -47178,10 +45363,10 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutManagerInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -47229,507 +45414,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LeaveRequestUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: StringFieldUpdateOperationsInput | string
-    managerStatus?: StringFieldUpdateOperationsInput | string
-    hrStatus?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    manager?: UserUpdateOneWithoutApprovedLeavesManagerNestedInput
-    hr?: UserUpdateOneWithoutApprovedLeavesHRNestedInput
-  }
-
-  export type LeaveRequestUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: StringFieldUpdateOperationsInput | string
-    managerStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
-    hrStatus?: StringFieldUpdateOperationsInput | string
-    hrId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LeaveRequestUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    reason?: StringFieldUpdateOperationsInput | string
-    managerStatus?: StringFieldUpdateOperationsInput | string
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
-    hrStatus?: StringFieldUpdateOperationsInput | string
-    hrId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LeaveBalanceUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    leaveType?: StringFieldUpdateOperationsInput | string
-    totalDays?: IntFieldUpdateOperationsInput | number
-    usedDays?: IntFieldUpdateOperationsInput | number
-    year?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LeaveBalanceUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    leaveType?: StringFieldUpdateOperationsInput | string
-    totalDays?: IntFieldUpdateOperationsInput | number
-    usedDays?: IntFieldUpdateOperationsInput | number
-    year?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LeaveBalanceUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    leaveType?: StringFieldUpdateOperationsInput | string
-    totalDays?: IntFieldUpdateOperationsInput | number
-    usedDays?: IntFieldUpdateOperationsInput | number
-    year?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AttendanceUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    lateMinutes?: IntFieldUpdateOperationsInput | number
-    overtimeMinutes?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shift?: ShiftUpdateOneWithoutAttendanceNestedInput
-    biometricLogs?: BiometricLogUpdateManyWithoutAttendanceNestedInput
-  }
-
-  export type AttendanceUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    lateMinutes?: IntFieldUpdateOperationsInput | number
-    overtimeMinutes?: IntFieldUpdateOperationsInput | number
-    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    biometricLogs?: BiometricLogUncheckedUpdateManyWithoutAttendanceNestedInput
-  }
-
-  export type AttendanceUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    lateMinutes?: IntFieldUpdateOperationsInput | number
-    overtimeMinutes?: IntFieldUpdateOperationsInput | number
-    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SalaryRecordUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    month?: IntFieldUpdateOperationsInput | number
-    year?: IntFieldUpdateOperationsInput | number
-    basic?: FloatFieldUpdateOperationsInput | number
-    housingAllowance?: FloatFieldUpdateOperationsInput | number
-    transportAllowance?: FloatFieldUpdateOperationsInput | number
-    medicalAllowance?: FloatFieldUpdateOperationsInput | number
-    foodAllowance?: FloatFieldUpdateOperationsInput | number
-    travelAllowance?: FloatFieldUpdateOperationsInput | number
-    commission?: FloatFieldUpdateOperationsInput | number
-    otherAllowances?: FloatFieldUpdateOperationsInput | number
-    latePenalty?: FloatFieldUpdateOperationsInput | number
-    penalty?: FloatFieldUpdateOperationsInput | number
-    leaveDeduction?: FloatFieldUpdateOperationsInput | number
-    loanDeduction?: FloatFieldUpdateOperationsInput | number
-    advanceSalary?: FloatFieldUpdateOperationsInput | number
-    otherDeductions?: FloatFieldUpdateOperationsInput | number
-    overtimePay?: FloatFieldUpdateOperationsInput | number
-    bonus?: FloatFieldUpdateOperationsInput | number
-    netSalary?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    paymentMethod?: StringFieldUpdateOperationsInput | string
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SalaryRecordUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    month?: IntFieldUpdateOperationsInput | number
-    year?: IntFieldUpdateOperationsInput | number
-    basic?: FloatFieldUpdateOperationsInput | number
-    housingAllowance?: FloatFieldUpdateOperationsInput | number
-    transportAllowance?: FloatFieldUpdateOperationsInput | number
-    medicalAllowance?: FloatFieldUpdateOperationsInput | number
-    foodAllowance?: FloatFieldUpdateOperationsInput | number
-    travelAllowance?: FloatFieldUpdateOperationsInput | number
-    commission?: FloatFieldUpdateOperationsInput | number
-    otherAllowances?: FloatFieldUpdateOperationsInput | number
-    latePenalty?: FloatFieldUpdateOperationsInput | number
-    penalty?: FloatFieldUpdateOperationsInput | number
-    leaveDeduction?: FloatFieldUpdateOperationsInput | number
-    loanDeduction?: FloatFieldUpdateOperationsInput | number
-    advanceSalary?: FloatFieldUpdateOperationsInput | number
-    otherDeductions?: FloatFieldUpdateOperationsInput | number
-    overtimePay?: FloatFieldUpdateOperationsInput | number
-    bonus?: FloatFieldUpdateOperationsInput | number
-    netSalary?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    paymentMethod?: StringFieldUpdateOperationsInput | string
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SalaryRecordUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    month?: IntFieldUpdateOperationsInput | number
-    year?: IntFieldUpdateOperationsInput | number
-    basic?: FloatFieldUpdateOperationsInput | number
-    housingAllowance?: FloatFieldUpdateOperationsInput | number
-    transportAllowance?: FloatFieldUpdateOperationsInput | number
-    medicalAllowance?: FloatFieldUpdateOperationsInput | number
-    foodAllowance?: FloatFieldUpdateOperationsInput | number
-    travelAllowance?: FloatFieldUpdateOperationsInput | number
-    commission?: FloatFieldUpdateOperationsInput | number
-    otherAllowances?: FloatFieldUpdateOperationsInput | number
-    latePenalty?: FloatFieldUpdateOperationsInput | number
-    penalty?: FloatFieldUpdateOperationsInput | number
-    leaveDeduction?: FloatFieldUpdateOperationsInput | number
-    loanDeduction?: FloatFieldUpdateOperationsInput | number
-    advanceSalary?: FloatFieldUpdateOperationsInput | number
-    otherDeductions?: FloatFieldUpdateOperationsInput | number
-    overtimePay?: FloatFieldUpdateOperationsInput | number
-    bonus?: FloatFieldUpdateOperationsInput | number
-    netSalary?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    paymentMethod?: StringFieldUpdateOperationsInput | string
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LetterRecordUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    recipientName?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LetterRecordUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    recipientName?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LetterRecordUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    recipientName?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type StaffRequestUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    details?: StringFieldUpdateOperationsInput | string
-    amount?: NullableFloatFieldUpdateOperationsInput | number | null
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    serviceType?: StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput
-    attachments?: AttachmentUpdateManyWithoutStaffRequestNestedInput
-  }
-
-  export type StaffRequestUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    details?: StringFieldUpdateOperationsInput | string
-    amount?: NullableFloatFieldUpdateOperationsInput | number | null
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
-  }
-
-  export type StaffRequestUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
-    details?: StringFieldUpdateOperationsInput | string
-    amount?: NullableFloatFieldUpdateOperationsInput | number | null
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type VisaRequestUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    visaType?: StringFieldUpdateOperationsInput | string
-    destinationCountry?: StringFieldUpdateOperationsInput | string
-    purpose?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentUpdateManyWithoutVisaRequestNestedInput
-  }
-
-  export type VisaRequestUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    visaType?: StringFieldUpdateOperationsInput | string
-    destinationCountry?: StringFieldUpdateOperationsInput | string
-    purpose?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentUncheckedUpdateManyWithoutVisaRequestNestedInput
-  }
-
-  export type VisaRequestUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    visaType?: StringFieldUpdateOperationsInput | string
-    destinationCountry?: StringFieldUpdateOperationsInput | string
-    purpose?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LetterUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    referenceNumber?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    content_en?: StringFieldUpdateOperationsInput | string
-    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
-    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    comments?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    template?: LetterTemplateUpdateOneRequiredWithoutLettersNestedInput
-  }
-
-  export type LetterUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    templateId?: StringFieldUpdateOperationsInput | string
-    referenceNumber?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    content_en?: StringFieldUpdateOperationsInput | string
-    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
-    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    comments?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LetterUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    templateId?: StringFieldUpdateOperationsInput | string
-    referenceNumber?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    content_en?: StringFieldUpdateOperationsInput | string
-    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
-    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    comments?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
-    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AttachmentUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileType?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
-    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffRequest?: StaffRequestUpdateOneWithoutAttachmentsNestedInput
-    visaRequest?: VisaRequestUpdateOneWithoutAttachmentsNestedInput
-  }
-
-  export type AttachmentUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileType?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
-    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AttachmentUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileType?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
-    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    changedBy?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    changedBy?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    details?: NullableStringFieldUpdateOperationsInput | string | null
-    changedBy?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    isRead?: BoolFieldUpdateOperationsInput | boolean
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LoanUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LoanUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type LoanUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type OvertimeUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    hours?: FloatFieldUpdateOperationsInput | number
-    ratePerHour?: FloatFieldUpdateOperationsInput | number
-    totalPay?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type OvertimeUncheckedUpdateWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    hours?: FloatFieldUpdateOperationsInput | number
-    ratePerHour?: FloatFieldUpdateOperationsInput | number
-    totalPay?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type OvertimeUncheckedUpdateManyWithoutEmployeeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    hours?: FloatFieldUpdateOperationsInput | number
-    ratePerHour?: FloatFieldUpdateOperationsInput | number
-    totalPay?: FloatFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type BiometricLogCreateManyAttendanceInput = {
     id?: string
     deviceId?: string | null
@@ -47740,7 +45424,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUpdateWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47749,7 +45432,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUncheckedUpdateWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47758,7 +45440,6 @@ export namespace Prisma {
   }
 
   export type BiometricLogUncheckedUpdateManyWithoutAttendanceInput = {
-    id?: StringFieldUpdateOperationsInput | string
     deviceId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47788,7 +45469,6 @@ export namespace Prisma {
     probationDays?: number
     currentStatus?: string
     isActive?: boolean
-    managerId?: string | null
     address?: string | null
     permanentAddress?: string | null
     emergencyContact?: string | null
@@ -47813,6 +45493,7 @@ export namespace Prisma {
     iloeInsuranceExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    managerId?: string | null
   }
 
   export type AttendanceCreateManyShiftInput = {
@@ -47829,7 +45510,6 @@ export namespace Prisma {
   }
 
   export type EmployeeUpdateWithoutShiftInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -47874,8 +45554,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
-    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
-    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
@@ -47890,10 +45568,11 @@ export namespace Prisma {
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutShiftInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -47914,7 +45593,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47939,7 +45617,7 @@ export namespace Prisma {
     iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -47954,10 +45632,10 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutShiftInput = {
-    id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -47978,7 +45656,6 @@ export namespace Prisma {
     probationDays?: IntFieldUpdateOperationsInput | number
     currentStatus?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    managerId?: NullableStringFieldUpdateOperationsInput | string | null
     address?: NullableStringFieldUpdateOperationsInput | string | null
     permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
     emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48003,10 +45680,10 @@ export namespace Prisma {
     iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AttendanceUpdateWithoutShiftInput = {
-    id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkOut?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48020,7 +45697,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUncheckedUpdateWithoutShiftInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48034,7 +45710,6 @@ export namespace Prisma {
   }
 
   export type AttendanceUncheckedUpdateManyWithoutShiftInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     checkIn?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48060,7 +45735,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUpdateWithoutServiceTypeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48074,7 +45748,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUncheckedUpdateWithoutServiceTypeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48088,7 +45761,6 @@ export namespace Prisma {
   }
 
   export type StaffRequestUncheckedUpdateManyWithoutServiceTypeInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -48114,7 +45786,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUpdateWithoutStaffRequestInput = {
-    id?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
@@ -48127,7 +45798,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUncheckedUpdateWithoutStaffRequestInput = {
-    id?: StringFieldUpdateOperationsInput | string
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -48140,7 +45810,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUncheckedUpdateManyWithoutStaffRequestInput = {
-    id?: StringFieldUpdateOperationsInput | string
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -48166,7 +45835,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUpdateWithoutVisaRequestInput = {
-    id?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
     fileType?: StringFieldUpdateOperationsInput | string
@@ -48179,7 +45847,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUncheckedUpdateWithoutVisaRequestInput = {
-    id?: StringFieldUpdateOperationsInput | string
     staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -48192,7 +45859,6 @@ export namespace Prisma {
   }
 
   export type AttachmentUncheckedUpdateManyWithoutVisaRequestInput = {
-    id?: StringFieldUpdateOperationsInput | string
     staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -48220,7 +45886,6 @@ export namespace Prisma {
   }
 
   export type LetterUpdateWithoutTemplateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
@@ -48235,7 +45900,6 @@ export namespace Prisma {
   }
 
   export type LetterUncheckedUpdateWithoutTemplateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -48250,7 +45914,6 @@ export namespace Prisma {
   }
 
   export type LetterUncheckedUpdateManyWithoutTemplateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string

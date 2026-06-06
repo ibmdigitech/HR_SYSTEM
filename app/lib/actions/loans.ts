@@ -36,7 +36,7 @@ export async function createLoan(formData: FormData) {
                 employeeId,
                 action: "LOAN_CREATED",
                 details: `Loan of AED ${amount} issued with monthly installment of AED ${installmentAmount}`,
-                changedBy: session.user.email || "System"
+                changedBy: session.user?.email || "System"
             }
         });
 

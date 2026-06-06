@@ -55,7 +55,7 @@ A state-of-the-art, **Premium Glassmorphic** HRMS built with **Next.js 16**, **T
 
 1. **Environment Configuration**:
    ```env
-   DATABASE_URL="file:./dev.db"
+    MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.mongodb.net/hr-system?retryWrites=true&w=majority"
    AUTH_SECRET="your_secret_key"
    ```
 

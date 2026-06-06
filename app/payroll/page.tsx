@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
 import { PayrollStatusDropdown } from "@/components/payroll/PayrollStatusDropdown";
 import { PayrollCharts } from "@/components/payroll/PayrollCharts";
+import { PayrollExportButtons } from "@/components/payroll/PayrollExportButtons";
 
 export default async function PayrollPage() {
     const session = await auth();
@@ -123,6 +124,11 @@ export default async function PayrollPage() {
                     </div>
                 )}
             </div>
+
+            {/* Export Buttons - Admin/HR only */}
+            {(userRole === "ADMIN" || userRole === "HR") && (
+                <PayrollExportButtons />
+            )}
 
             {/* Dashboard Stats */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

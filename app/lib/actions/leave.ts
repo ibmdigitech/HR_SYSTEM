@@ -138,23 +138,25 @@ export async function approveLeaveHR(leaveId: string, status: "APPROVED" | "REJE
 
             // Decrement leave balance
             try {
-                await prisma.leaveBalance.upsert({
-                    where: {
-                        employeeId_leaveType_year: {
+                const existingBalance = await prisma.leaveBalance.findFirst({
+                    where: { employeeId: leave.employeeId, leaveType: leave.type, year },
+                });
+                if (existingBalance) {
+                    await prisma.leaveBalance.update({
+                        where: { id: existingBalance.id },
+                        data: { usedDays: { increment: days } },
+                    });
+                } else {
+                    await prisma.leaveBalance.create({
+                        data: {
                             employeeId: leave.employeeId,
                             leaveType:  leave.type,
+                            totalDays:  0,
+                            usedDays:   days,
                             year,
                         },
-                    },
-                    update: { usedDays: { increment: days } },
-                    create: {
-                        employeeId: leave.employeeId,
-                        leaveType:  leave.type,
-                        totalDays:  0,
-                        usedDays:   days,
-                        year,
-                    },
-                });
+                    });
+                }
             } catch (balErr) {
                 console.warn("[LEAVE_BALANCE_UPDATE_WARN]", balErr);
             }
