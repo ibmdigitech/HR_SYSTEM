@@ -113,14 +113,17 @@ model Employee {
   salaryStructure        SalaryStructure?
   salaryRecords          SalaryRecord[]
   letterRecords          LetterRecord[]
-  staffRequests          StaffRequest[]
+  serviceRequests        ServiceRequest[]
   visaRequests           VisaRequest[]
   letters                Letter[]
+  letterRequests         LetterRequest[]
   attachments            Attachment[]
   auditLogs              AuditLog[]
   notifications          Notification[]
   loanApplications       LoanApplication[]
   overtime               Overtime[]
+  salaryAdvances         SalaryAdvanceRequest[]
+  reimbursements         ReimbursementRequest[]
   createdAt              DateTime         @default(now())
   updatedAt              DateTime         @updatedAt
   managerId              String?
@@ -376,42 +379,96 @@ model Overtime {
   updatedAt   DateTime @updatedAt
 }
 
-// ─── STAFF SERVICES & REQUESTS ────────────────────────────────────────────────
-model StaffServiceType {
+// ─── UAE SERVICE REQUESTS ──────────────────────────────────────────────────────
+model ServiceCategory {
   id             String         @id @default(cuid())
-  name           String         @unique
+  name           String         @unique // e.g. Emirates ID, Visa Services, Medical
+  type           String         @default("GENERAL") // GOVERNMENT, VISA, MEDICAL, PAYROLL, LEAVE, HR_LETTER
   icon           String?
   description    String?
   requiresAmount Boolean        @default(false)
   requiresDates  Boolean        @default(false)
+  slaDays        Int            @default(3)
   isActive       Boolean        @default(true)
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
-  staffRequests  StaffRequest[]
+  requests       ServiceRequest[]
 }
 
-model StaffRequest {
-  id          String           @id @default(cuid())
-  employeeId  String
-  employee    Employee         @relation(fields: [employeeId], references: [id])
-  typeId      String
-  serviceType StaffServiceType @relation(fields: [typeId], references: [id])
-  details     String
-  amount      Float?
-  startDate   DateTime?
-  endDate     DateTime?
-  status      String           @default("PENDING") // PENDING, HR_REVIEW, APPROVED, REJECTED, COMPLETED
-  hrNote      String?
-  attachments Attachment[]
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+model ServiceRequest {
+  id              String            @id @default(cuid())
+  employeeId      String
+  employee        Employee          @relation(fields: [employeeId], references: [id])
+  categoryId      String
+  category        ServiceCategory   @relation(fields: [categoryId], references: [id])
+  details         String
+  amount          Float?
+  startDate       DateTime?
+  endDate         DateTime?
+  status          String            @default("PENDING") // PENDING, MANAGER_APPROVED, HR_APPROVED, PRO_PROCESSING, FINANCE_APPROVED, COMPLETED, REJECTED
+  workflowStep    Int               @default(1)
+  hrNote          String?
+  attachments     Attachment[]
+  approvals       ServiceApproval[]
+  comments        ServiceComment[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model ServiceApproval {
+  id                String         @id @default(cuid())
+  serviceRequestId  String
+  serviceRequest    ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+  approverId        String?
+  approverEmail     String?
+  level             String         // MANAGER, HR, FINANCE, PRO, CEO
+  action            String         // APPROVED, REJECTED
+  comments          String?
+  createdAt         DateTime       @default(now())
+}
+
+model ServiceComment {
+  id                String         @id @default(cuid())
+  serviceRequestId  String
+  serviceRequest    ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+  authorId          String
+  authorName        String
+  content           String
+  createdAt         DateTime       @default(now())
+}
+
+model ReimbursementRequest {
+  id              String   @id @default(cuid())
+  employeeId      String
+  employee        Employee @relation(fields: [employeeId], references: [id])
+  category        String   // Fuel, Travel, Mobile, Accommodation, Medical, Misc
+  amount          Float
+  details         String
+  status          String   @default("PENDING")
+  attachments     Attachment[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SalaryAdvanceRequest {
+  id              String   @id @default(cuid())
+  employeeId      String
+  employee        Employee @relation(fields: [employeeId], references: [id])
+  requestedAmount Float
+  repaymentMonths Int
+  reason          String
+  status          String   @default("PENDING") // PENDING, MANAGER_APPROVED, HR_APPROVED, FINANCE_APPROVED, PAID, REJECTED
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 // ─── DOCUMENTS & ATTACHMENTS ──────────────────────────────────────────────────
 model Attachment {
-  id             String        @id @default(cuid())
-  staffRequestId String?
-  staffRequest   StaffRequest? @relation(fields: [staffRequestId], references: [id], onDelete: Cascade)
+  id                   String        @id @default(cuid())
+  serviceRequestId     String?
+  serviceRequest       ServiceRequest? @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+  reimbursementId      String?
+  reimbursementRequest ReimbursementRequest? @relation(fields: [reimbursementId], references: [id], onDelete: Cascade)
   visaRequestId  String?
   visaRequest    VisaRequest?  @relation(fields: [visaRequestId], references: [id], onDelete: Cascade)
   employeeId     String?
@@ -451,6 +508,31 @@ model LetterRecord {
   generatedAt   DateTime  @default(now())
 }
 
+model LetterRequest {
+  id              String         @id @default(cuid())
+  employeeId      String
+  employee        Employee       @relation(fields: [employeeId], references: [id])
+  templateId      String
+  template        LetterTemplate @relation(fields: [templateId], references: [id])
+  reason          String?
+  status          String         @default("PENDING") // PENDING, MANAGER_APPROVED, HR_APPROVED, COMPLETED, REJECTED
+  approvals       LetterApproval[]
+  generatedLetter Letter?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model LetterApproval {
+  id                String         @id @default(cuid())
+  letterRequestId   String
+  letterRequest     LetterRequest  @relation(fields: [letterRequestId], references: [id], onDelete: Cascade)
+  approverId        String?
+  level             String         // MANAGER, HR
+  action            String         // APPROVED, REJECTED
+  comments          String?
+  createdAt         DateTime       @default(now())
+}
+
 model LetterTemplate {
   id         String   @id @default(cuid())
   name       String
@@ -461,6 +543,7 @@ model LetterTemplate {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   letters    Letter[]
+  requests   LetterRequest[]
 }
 
 model Letter {
@@ -470,6 +553,8 @@ model Letter {
   templateId      String
   template        LetterTemplate @relation(fields: [templateId], references: [id])
   referenceNumber String         @unique
+  letterRequestId String?        @unique
+  letterRequest   LetterRequest? @relation(fields: [letterRequestId], references: [id])
   status          String         @default("DRAFT")
   content_en      String
   content_ar      String?

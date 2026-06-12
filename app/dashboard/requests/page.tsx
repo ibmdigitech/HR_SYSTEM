@@ -24,20 +24,21 @@ import {
 } from "lucide-react";
 import { submitStaffRequest } from "@/app/lib/actions/staff-requests";
 import { Badge } from "@/components/ui/badge";
+import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/lib/utils";
 
 export default async function StaffRequestsPage() {
     const session = await auth();
     if (!session?.user) redirect("/login");
 
-    const services = await prisma.staffServiceType.findMany({
+    const services = await prisma.serviceCategory.findMany({
         where: { isActive: true },
         orderBy: { name: 'asc' }
     });
 
     const user = await prisma.user.findUnique({
         where: { email: session.user.email! },
-        include: { employee: { include: { staffRequests: { include: { serviceType: true }, orderBy: { createdAt: 'desc' } } } } }
+        include: { employee: { include: { serviceRequests: { include: { category: true }, orderBy: { createdAt: 'desc' } } } } }
     });
 
     if (!user?.employee) {
@@ -122,7 +123,7 @@ export default async function StaffRequestsPage() {
                                     {services.map((service: any) => (
                                         <TabsContent key={service.id} value={service.id} className="p-10 mt-0 focus-visible:outline-none">
                                             <form action={submitStaffRequest} className="space-y-10">
-                                                <input type="hidden" name="typeId" value={service.id} />
+                                                <input type="hidden" name="categoryId" value={service.id} />
 
                                                 <div className="grid md:grid-cols-2 gap-8">
                                                     <div className="md:col-span-2 space-y-4">
@@ -157,13 +158,13 @@ export default async function StaffRequestsPage() {
                                                                 <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1 flex items-center gap-2">
                                                                     <CalendarRange className="h-3 w-3 text-indigo-500" /> Start Date
                                                                 </Label>
-                                                                <Input type="date" name="startDate" required className="h-14 rounded-2xl bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 font-bold focus-visible:ring-2 focus-visible:ring-indigo-500" />
+                                                                <DatePicker name="startDate" required className="h-14 rounded-2xl bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 font-bold focus-visible:ring-2 focus-visible:ring-indigo-500" />
                                                             </div>
                                                             <div className="space-y-4">
                                                                 <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1 flex items-center gap-2">
                                                                     <CalendarRange className="h-3 w-3 text-indigo-500" /> End Date
                                                                 </Label>
-                                                                <Input type="date" name="endDate" required className="h-14 rounded-2xl bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 font-bold focus-visible:ring-2 focus-visible:ring-indigo-500" />
+                                                                <DatePicker name="endDate" required className="h-14 rounded-2xl bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 font-bold focus-visible:ring-2 focus-visible:ring-indigo-500" />
                                                             </div>
                                                         </>
                                                     )}
@@ -217,13 +218,13 @@ export default async function StaffRequestsPage() {
 
                         <ScrollArea className="flex-1 max-h-[700px]">
                             <div className="p-8 space-y-6">
-                                {user.employee.staffRequests.length === 0 ? (
+                                {user.employee.serviceRequests.length === 0 ? (
                                     <div className="py-24 text-center">
                                         <Activity className="h-12 w-12 mx-auto mb-4 text-slate-100" />
                                         <p className="text-xs font-black text-slate-300 uppercase tracking-widest">No Activity Recorded</p>
                                     </div>
                                 ) : (
-                                    (user.employee.staffRequests as any[]).map((req: any) => (
+                                    (user.employee.serviceRequests as any[]).map((req: any) => (
                                         <div key={req.id} className="group relative pl-8 pb-8 last:pb-0">
                                             {/* Timeline Line */}
                                             <div className="absolute left-[7px] top-0 bottom-0 w-[2px] bg-slate-100 dark:bg-slate-800 group-last:bottom-auto group-last:h-4" />
@@ -232,7 +233,7 @@ export default async function StaffRequestsPage() {
                                             <div className={cn(
                                                 "absolute left-0 top-1 h-4 w-4 rounded-full border-4 border-white dark:border-slate-950 shadow-sm z-10 transition-transform group-hover:scale-125",
                                                 req.status === 'PENDING' ? "bg-amber-500" :
-                                                    req.status === 'APPROVED' ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
+                                                    req.status === 'COMPLETED' || req.status.includes('APPROVED') ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
                                                         "bg-rose-500"
                                             )} />
 
@@ -241,7 +242,7 @@ export default async function StaffRequestsPage() {
                                                     <Badge className={cn(
                                                         "rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] border-0",
                                                         req.status === 'PENDING' ? "bg-amber-100 text-amber-700" :
-                                                            req.status === 'APPROVED' ? "bg-emerald-100 text-emerald-700" :
+                                                            req.status === 'COMPLETED' || req.status.includes('APPROVED') ? "bg-emerald-100 text-emerald-700" :
                                                                 "bg-rose-100 text-rose-700"
                                                     )}>
                                                         {req.status}
@@ -251,7 +252,7 @@ export default async function StaffRequestsPage() {
                                                     </span>
                                                 </div>
                                                 <h5 className="font-black text-sm text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">
-                                                    {req.serviceType.name}
+                                                    {req.category.name}
                                                 </h5>
                                                 <p className="text-[11px] font-medium text-slate-500 line-clamp-1 mt-1">{req.details}</p>
                                                 

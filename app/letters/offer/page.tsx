@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { getEmployeesForLetter, saveLetterRecord } from "@/app/lib/actions/letters";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
+import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -199,8 +201,10 @@ export default function OfferLetterPage() {
                         <div className="grid grid-cols-2 gap-3">
                             <div className="space-y-2">
                                 <Label>Joining Date</Label>
-                                <Input type="date" value={form.joiningDate}
-                                    onChange={e => setForm({ ...form, joiningDate: e.target.value })} />
+                                <DatePicker
+                                    value={form.joiningDate ? new Date(form.joiningDate) : undefined}
+                                    onChange={(date) => setForm({ ...form, joiningDate: date ? format(date, "yyyy-MM-dd") : "" })}
+                                />
                             </div>
                             <div className="space-y-2">
                                 <Label>Probation (days)</Label>

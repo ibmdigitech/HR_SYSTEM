@@ -27,13 +27,29 @@ export async function requestLoan(prevState: any, formData: FormData) {
 
         if (!user?.employee) return { message: "Employee profile not found.", success: false };
 
-        const loan = await prisma.loan.create({
+        // Get a default loan type or create one
+        let loanType = await prisma.loanType.findFirst({ where: { isActive: true } });
+        if (!loanType) {
+            loanType = await prisma.loanType.create({
+                data: {
+                    name: "Salary Advance",
+                    maxAmount: 50000,
+                    maxRepaymentMonths: 12,
+                    requiresProbation: false,
+                }
+            });
+        }
+
+        const repaymentMonths = Math.ceil(amount / installmentAmount);
+
+        await prisma.loanApplication.create({
             data: {
                 employeeId: user.employee.id,
-                amount,
-                installmentAmount,
+                loanTypeId: loanType.id,
+                requestedAmount: amount,
+                repaymentMonths,
                 reason,
-                status: "REQUESTED",
+                status: "SUBMITTED",
                 managerStatus: "PENDING",
                 hrStatus: "PENDING",
                 financeStatus: "PENDING"
@@ -54,7 +70,12 @@ export async function approveLoan(loanId: string, role: "MANAGER" | "HR" | "FINA
     if (!session?.user?.email) return { message: "Not authenticated", success: false };
 
     try {
-        const loan = await prisma.loan.findUnique({ where: { id: loanId } });
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+            include: { employee: true },
+        });
+
+        const loan = await prisma.loanApplication.findUnique({ where: { id: loanId } });
         if (!loan) return { message: "Loan not found", success: false };
 
         const updateData: any = {};
@@ -62,38 +83,40 @@ export async function approveLoan(loanId: string, role: "MANAGER" | "HR" | "FINA
         if (role === "MANAGER") {
             updateData.managerStatus = action === "APPROVE" ? "APPROVED" : "REJECTED";
             if (action === "REJECT") updateData.status = "REJECTED";
+            else updateData.status = "PENDING_HR";
         } else if (role === "HR") {
             updateData.hrStatus = action === "APPROVE" ? "APPROVED" : "REJECTED";
             if (action === "REJECT") updateData.status = "REJECTED";
+            else updateData.status = "PENDING_FINANCE";
         } else if (role === "FINANCE") {
             updateData.financeStatus = action === "APPROVE" ? "APPROVED" : "REJECTED";
             if (action === "REJECT") {
                 updateData.status = "REJECTED";
             } else if (action === "APPROVE") {
-                // Final approval by finance makes it active
-                updateData.status = "ACTIVE";
-                updateData.issueDate = new Date();
-                updateData.remainingBalance = loan.amount;
+                updateData.status = "APPROVED";
             }
         }
 
-        await prisma.loan.update({
+        await prisma.loanApplication.update({
             where: { id: loanId },
             data: updateData
         });
 
         // Add audit log
-        await prisma.auditLog.create({
-            data: {
-                action: `LOAN_${action}`,
-                details: `Loan ${loanId} ${action.toLowerCase()}ed by ${role}.`,
-                userId: session.user.email
-            }
-        });
+        if (user?.employee) {
+            await prisma.auditLog.create({
+                data: {
+                    action: `LOAN_${action}`,
+                    details: `Loan ${loanId} ${action.toLowerCase()}d by ${role}.`,
+                    employeeId: user.employee.id,
+                    changedBy: session.user.email
+                }
+            });
+        }
 
         revalidatePath("/payroll/loans");
         revalidatePath("/dashboard/approvals");
-        return { message: `Loan successfully ${action.toLowerCase()}ed!`, success: true };
+        return { message: `Loan successfully ${action.toLowerCase()}d!`, success: true };
     } catch (e) {
         console.error(e);
         return { message: "Database Error", success: false };

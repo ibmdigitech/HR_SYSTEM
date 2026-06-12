@@ -36,8 +36,8 @@ export default async function StaffServicesPage() {
                         ],
                         take: 12
                     },
-                    staffRequests: {
-                        include: { serviceType: true },
+                    serviceRequests: {
+                        include: { category: true },
                         orderBy: { createdAt: "desc" },
                         take: 5
                     }
@@ -67,11 +67,11 @@ export default async function StaffServicesPage() {
 
     const emp = user.employee;
     const stats = {
-        totalLeaves: emp.leaveBalances.reduce((acc, b) => acc + b.totalDays, 0),
-        usedLeaves: emp.leaveBalances.reduce((acc, b) => acc + b.usedDays, 0),
-        presenceCount: emp.attendance.filter(a => a.status === "PRESENT" || a.status === "LATE").length,
+        totalLeaves: emp.leaveBalances.reduce((acc: any, b: any) => acc + b.totalDays, 0),
+        usedLeaves: emp.leaveBalances.reduce((acc: any, b: any) => acc + b.usedDays, 0),
+        presenceCount: emp.attendance.filter((a: any) => a.status === "PRESENT" || a.status === "LATE").length,
         presencePct: emp.attendance.length > 0 
-            ? Math.round((emp.attendance.filter(a => a.status === "PRESENT" || a.status === "LATE").length / emp.attendance.length) * 100)
+            ? Math.round((emp.attendance.filter((a: any) => a.status === "PRESENT" || a.status === "LATE").length / emp.attendance.length) * 100)
             : 100
     };
 
@@ -150,7 +150,7 @@ export default async function StaffServicesPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-black text-slate-800 dark:text-white">
-                            {emp.attendance.filter(a => a.status === "LATE").length} Time(s)
+                            {emp.attendance.filter((a: any) => a.status === "LATE").length} Time(s)
                         </div>
                         <p className="text-xs font-medium text-slate-500 mt-1">Pending verification</p>
                     </CardContent>
@@ -232,21 +232,21 @@ export default async function StaffServicesPage() {
                                 <CardTitle className="text-lg font-bold">Recent Requests</CardTitle>
                             </CardHeader>
                             <CardContent className="p-4 space-y-4">
-                                {emp.staffRequests.map(r => (
+                                {emp.serviceRequests.map((r: any) => (
                                     <div key={r.id} className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100/50 dark:border-slate-800/50">
                                         <div>
-                                            <div className="font-bold text-xs text-slate-800 dark:text-slate-200">{r.serviceType.name}</div>
+                                            <div className="font-bold text-xs text-slate-800 dark:text-slate-200">{r.category.name}</div>
                                             <div className="text-[10px] text-slate-400">{new Date(r.createdAt).toLocaleDateString()}</div>
                                         </div>
                                         <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${
                                             r.status === "PENDING" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30" : 
-                                            r.status === "APPROVED" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30" : 
+                                            r.status === "COMPLETED" || r.status.includes("APPROVED") ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30" : 
                                             r.status === "REJECTED" ? "bg-rose-100 text-rose-700 dark:bg-rose-900/30" : 
                                             "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30"
                                         }`}>{r.status}</Badge>
                                     </div>
                                 ))}
-                                {emp.staffRequests.length === 0 && (
+                                {emp.serviceRequests.length === 0 && (
                                     <p className="text-center text-xs text-slate-400 italic py-10">No recent certificates or loans requested.</p>
                                 )}
                             </CardContent>
@@ -262,7 +262,7 @@ export default async function StaffServicesPage() {
                         </CardHeader>
                         <CardContent className="p-6">
                             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                {emp.leaveBalances.map((bal) => {
+                                {emp.leaveBalances.map((bal: any) => {
                                     const rem = Math.max(0, bal.totalDays - bal.usedDays);
                                     const pct = bal.totalDays > 0 ? Math.min(100, Math.round((bal.usedDays / bal.totalDays) * 100)) : 0;
                                     return (
@@ -311,7 +311,7 @@ export default async function StaffServicesPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {emp.attendance.map((record) => (
+                                    {emp.attendance.map((record: any) => (
                                         <TableRow key={record.id} className="border-slate-100 dark:border-slate-800 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors">
                                             <TableCell className="font-bold text-slate-800 dark:text-slate-200">
                                                 {new Date(record.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
@@ -418,7 +418,7 @@ export default async function StaffServicesPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {emp.salaryRecords.map((rec) => {
+                                        {emp.salaryRecords.map((rec: any) => {
                                             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                                             const period = `${monthNames[rec.month - 1]} ${rec.year}`;
                                             const allowances = rec.housingAllowance + rec.transportAllowance + rec.medicalAllowance + rec.otherAllowances;

@@ -57,6 +57,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { upsertEmployee, deleteEmployee } from "@/app/lib/actions/employees";
 import { uploadMasterFile } from "@/app/lib/actions/bulk-upload";
+import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -243,7 +244,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                             </DialogTrigger>
 
                             <DialogContent className="max-w-4xl max-h-[90vh] p-0 overflow-hidden rounded-[2.5rem] flex flex-col border-0 shadow-2xl">
-                                <form onSubmit={handleSubmit} className="flex flex-col h-full bg-white dark:bg-slate-950">
+                                <form key={selectedEmployee?.id || 'new'} onSubmit={handleSubmit} className="flex flex-col h-full bg-white dark:bg-slate-950">
                                     <DialogHeader className="p-8 pb-4 bg-slate-50/50 dark:bg-slate-900/50">
                                         <div className="flex items-center gap-3 mb-2">
                                             <div className="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
@@ -310,7 +311,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Joining Date</Label>
-                                                        <Input name="joiningDate" type="date" defaultValue={selectedEmployee?.joiningDate?.split('T')[0]} required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        <DatePicker name="joiningDate" defaultValue={selectedEmployee?.joiningDate?.split('T')[0]} required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                 </div>
                                             </TabsContent>
@@ -373,7 +374,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Passport Expiry</Label>
-                                                        <Input name="passportExpiry" type="date" defaultValue={selectedEmployee?.passportExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        <DatePicker name="passportExpiry" defaultValue={selectedEmployee?.passportExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Emirates ID</Label>
@@ -381,7 +382,7 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Emirates ID Expiry</Label>
-                                                        <Input name="emiratesIdExpiry" type="date" defaultValue={selectedEmployee?.emiratesIdExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        <DatePicker name="emiratesIdExpiry" defaultValue={selectedEmployee?.emiratesIdExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Visa Number</Label>
@@ -389,11 +390,11 @@ export default function EmployeeList({ initialEmployees, managers }: { initialEm
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Visa Expiry</Label>
-                                                        <Input name="visaExpiry" type="date" defaultValue={selectedEmployee?.visaExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        <DatePicker name="visaExpiry" defaultValue={selectedEmployee?.visaExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3 col-span-2">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Medical Insurance Expiry</Label>
-                                                        <Input name="medicalInsuranceExpiry" type="date" defaultValue={selectedEmployee?.medicalInsuranceExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        <DatePicker name="medicalInsuranceExpiry" defaultValue={selectedEmployee?.medicalInsuranceExpiry?.split('T')[0]} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                 </div>
                                             </TabsContent>

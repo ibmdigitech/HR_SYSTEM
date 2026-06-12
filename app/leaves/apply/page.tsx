@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CalendarIcon, Send, Clock, Sparkles, FileText, CheckCircle2, Info } from "lucide-react";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const LEAVE_TYPES = [
     { value: "ANNUAL",       label: "Annual Leave",         emoji: "✈️",  desc: "Paid yearly vacation entitlement" },
@@ -116,8 +117,7 @@ export default function ApplyLeavePage() {
                                         </Label>
                                         <div className="relative">
                                             <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
-                                            <Input 
-                                                type="date" 
+                                            <DatePicker 
                                                 name="startDate" 
                                                 required 
                                                 className="h-12 pl-10 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-indigo-500 rounded-xl shadow-sm"
@@ -130,8 +130,7 @@ export default function ApplyLeavePage() {
                                         </Label>
                                         <div className="relative">
                                             <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
-                                            <Input 
-                                                type="date" 
+                                            <DatePicker 
                                                 name="endDate" 
                                                 required 
                                                 className="h-12 pl-10 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-indigo-500 rounded-xl shadow-sm"

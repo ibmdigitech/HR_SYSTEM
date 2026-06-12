@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { FileText, Plus, DollarSign, Calendar, FileQuestion, ArrowRightLeft, HelpCircle, Check, X, Eye } from "lucide-react";
 import { submitStaffRequest, handleRequestAction } from "@/app/lib/actions/requests";
+import { DatePicker } from "@/components/ui/date-picker";
 import { toast } from "sonner";
 
 export default function RequestClient({
@@ -168,11 +169,11 @@ export default function RequestClient({
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-2">
                                                 <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Start Date</Label>
-                                                <Input type="date" name="startDate" required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                <DatePicker name="startDate" required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                             </div>
                                             <div className="space-y-2">
                                                 <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">End Date</Label>
-                                                <Input type="date" name="endDate" required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                <DatePicker name="endDate" required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                             </div>
                                         </div>
                                     )}

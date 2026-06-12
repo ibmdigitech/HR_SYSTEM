@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function applyForLoan(prevState: any, formData: FormData) {
+export async function applyForLoan(formData: FormData) {
     const session = await auth();
     if (!session?.user?.email) return { message: "Not authenticated", success: false };
 

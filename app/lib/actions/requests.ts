@@ -8,13 +8,13 @@ export async function submitStaffRequest(prevState: any, formData: FormData) {
     const session = await auth();
     if (!session?.user?.email) return { success: false, message: "Not authenticated" };
 
-    const typeId = formData.get("typeId") as string;
+    const categoryId = formData.get("categoryId") as string;
     const details = formData.get("details") as string;
     const amountVal = formData.get("amount") as string;
     const startDateVal = formData.get("startDate") as string;
     const endDateVal = formData.get("endDate") as string;
 
-    if (!typeId || !details) {
+    if (!categoryId || !details) {
         return { success: false, message: "Missing required fields" };
     }
 
@@ -32,10 +32,10 @@ export async function submitStaffRequest(prevState: any, formData: FormData) {
         const startDate = startDateVal ? new Date(startDateVal) : null;
         const endDate = endDateVal ? new Date(endDateVal) : null;
 
-        await prisma.staffRequest.create({
+        await prisma.serviceRequest.create({
             data: {
                 employeeId: user.employee.id,
-                typeId,
+                categoryId,
                 details,
                 amount,
                 startDate,
@@ -49,7 +49,7 @@ export async function submitStaffRequest(prevState: any, formData: FormData) {
             data: {
                 employeeId: user.employee.id,
                 action: "REQUEST_SUBMIT",
-                details: `Submitted a request of type ID: ${typeId}`,
+                details: `Submitted a request of category ID: ${categoryId}`,
                 changedBy: session.user.email
             }
         });
@@ -73,7 +73,7 @@ export async function handleRequestAction(requestId: string, action: "APPROVED" 
     }
 
     try {
-        const req = await prisma.staffRequest.update({
+        const req = await prisma.serviceRequest.update({
             where: { id: requestId },
             data: {
                 status: action,
@@ -81,7 +81,7 @@ export async function handleRequestAction(requestId: string, action: "APPROVED" 
             },
             include: {
                 employee: true,
-                serviceType: true
+                category: true
             }
         });
 
@@ -90,7 +90,7 @@ export async function handleRequestAction(requestId: string, action: "APPROVED" 
             data: {
                 employeeId: req.employeeId,
                 title: `Request ${action === "APPROVED" ? "Approved ✅" : action === "REJECTED" ? "Rejected ❌" : "Completed 🎉"}`,
-                message: `Your request for "${req.serviceType.name}" has been ${action.toLowerCase()}${hrNote ? `. Note: ${hrNote}` : ""}.`,
+                message: `Your request for "${req.category.name}" has been ${action.toLowerCase()}${hrNote ? `. Note: ${hrNote}` : ""}.`,
                 type: action === "APPROVED" || action === "COMPLETED" ? "SUCCESS" : "WARNING",
                 link: "/requests"
             }
@@ -101,7 +101,7 @@ export async function handleRequestAction(requestId: string, action: "APPROVED" 
             data: {
                 employeeId: req.employeeId,
                 action: `REQUEST_${action}`,
-                details: `Request for ${req.serviceType.name} was ${action.toLowerCase()}`,
+                details: `Request for ${req.category.name} was ${action.toLowerCase()}`,
                 changedBy: session.user.email
             }
         });

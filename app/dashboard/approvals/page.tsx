@@ -67,9 +67,9 @@ export default async function ApprovalsPage() {
     // ── Fetch Staff Requests ──
     let pendingStaffRequests: any[] = [];
     if (userRole === "HR" || userRole === "ADMIN" || userRole === "MANAGER") {
-        pendingStaffRequests = await prisma.staffRequest.findMany({
+        pendingStaffRequests = await prisma.serviceRequest.findMany({
             where: { status: "PENDING" },
-            include: { employee: true, serviceType: true },
+            include: { employee: true, category: true },
             orderBy: { createdAt: 'desc' }
         });
     }

@@ -22,12 +22,12 @@ export async function upsertServiceType(formData: FormData) {
 
     try {
         if (id) {
-            await prisma.staffServiceType.update({
+            await prisma.serviceCategory.update({
                 where: { id },
                 data: { name, icon, description, requiresAmount, requiresDates }
             });
         } else {
-            await prisma.staffServiceType.create({
+            await prisma.serviceCategory.create({
                 data: { name, icon, description, requiresAmount, requiresDates }
             });
         }
@@ -67,10 +67,10 @@ export async function submitStaffRequest(formData: FormData): Promise<void> {
     const endDate = formData.get("endDate") ? new Date(formData.get("endDate") as string) : null;
 
     try {
-        const staffRequest = await prisma.staffRequest.create({
+        const staffRequest = await prisma.serviceRequest.create({
             data: {
                 employeeId: user.employee.id,
-                typeId,
+                categoryId: typeId,
                 details,
                 amount,
                 startDate,
@@ -84,7 +84,7 @@ export async function submitStaffRequest(formData: FormData): Promise<void> {
         if (file && file.size > 0) {
             await prisma.attachment.create({
                 data: {
-                    staffRequestId: staffRequest.id,
+                    serviceRequestId: staffRequest.id,
                     fileName: file.name,
                     fileUrl: `/uploads/staff_${Date.now()}_${file.name}`,
                     fileType: file.type,
@@ -111,7 +111,7 @@ export async function deleteServiceType(id: string) {
     }
 
     try {
-        await prisma.staffServiceType.delete({ where: { id } });
+        await prisma.serviceCategory.delete({ where: { id } });
         revalidatePath("/dashboard/admin/services");
         revalidatePath("/dashboard/requests");
         return { success: true, message: "Service type deleted" };
@@ -135,7 +135,7 @@ export async function approveStaffRequest(requestId: string, status: "APPROVED" 
             return { success: false, message: "Unauthorized: Required role not found" };
         }
 
-        await prisma.staffRequest.update({
+        await prisma.serviceRequest.update({
             where: { id: requestId },
             data: { status }
         });

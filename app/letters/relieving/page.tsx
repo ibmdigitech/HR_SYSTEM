@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { getEmployeesForLetter, saveLetterRecord } from "@/app/lib/actions/letters";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
+import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -218,14 +220,18 @@ export default function RelievingLetterPage() {
                             {form.reason === "resignation" && (
                                 <div className="space-y-2">
                                     <Label>Resignation Date</Label>
-                                    <Input type="date" value={form.resignationDate}
-                                        onChange={e => setForm({ ...form, resignationDate: e.target.value })} />
+                                    <DatePicker
+                                        value={form.resignationDate ? new Date(form.resignationDate) : undefined}
+                                        onChange={(date) => setForm({ ...form, resignationDate: date ? format(date, "yyyy-MM-dd") : "" })}
+                                    />
                                 </div>
                             )}
                             <div className="space-y-2">
                                 <Label>Last Working Day *</Label>
-                                <Input type="date" value={form.lastWorkingDay}
-                                    onChange={e => setForm({ ...form, lastWorkingDay: e.target.value })} />
+                                <DatePicker
+                                    value={form.lastWorkingDay ? new Date(form.lastWorkingDay) : undefined}
+                                    onChange={(date) => setForm({ ...form, lastWorkingDay: date ? format(date, "yyyy-MM-dd") : "" })}
+                                />
                             </div>
                         </div>
                         <div className="space-y-2">

@@ -124,22 +124,22 @@ export async function generatePayroll(month: number, year: number) {
             });
             const overtimePay = overtimes.reduce((acc, curr) => acc + curr.totalPay, 0);
 
-            // 4. Loan deduction
-            const activeLoans = await prisma.loan.findMany({
+            // 4. Loan deduction - check pending installments for this month
+            const pendingInstallments = await prisma.loanInstallment.findMany({
                 where: {
-                    employeeId: emp.id,
-                    status: "ACTIVE",
-                    issueDate: { lte: endOfMonth }
+                    application: {
+                        employeeId: emp.id,
+                        status: "DISBURSED",
+                    },
+                    month,
+                    year,
+                    status: "PENDING"
                 }
             });
 
             let loanDeduction = 0;
-            for (const loan of activeLoans) {
-                if (loan.remainingBalance > 0) {
-                    const deduction = Math.min(loan.installmentAmount, loan.remainingBalance);
-                    loanDeduction += deduction;
-                    // Note: We don't deduct the balance immediately in generate phase. That happens on PAID status.
-                }
+            for (const inst of pendingInstallments) {
+                loanDeduction += inst.amount;
             }
 
             const penalty = 0;
@@ -233,30 +233,28 @@ export async function updatePayrollStatus(recordId: string, status: string) {
             include: { employee: true }
         });
 
-        // Deduct loan balance when actually paid
+        // Deduct loan installments when actually paid
         if (status === "PAID" && record.loanDeduction > 0) {
-            const activeLoans = await prisma.loan.findMany({
+            const pendingInstallments = await prisma.loanInstallment.findMany({
                 where: {
-                    employeeId: record.employeeId,
-                    status: "ACTIVE",
+                    application: {
+                        employeeId: record.employeeId,
+                        status: "DISBURSED",
+                    },
+                    month: record.month,
+                    year: record.year,
+                    status: "PENDING"
                 }
             });
 
-            let remainingDeduction = record.loanDeduction;
-            for (const loan of activeLoans) {
-                if (remainingDeduction <= 0) break;
-                if (loan.remainingBalance > 0) {
-                    const toDeduct = Math.min(loan.installmentAmount, loan.remainingBalance, remainingDeduction);
-                    const newBalance = loan.remainingBalance - toDeduct;
-                    await prisma.loan.update({
-                        where: { id: loan.id },
-                        data: {
-                            remainingBalance: newBalance,
-                            status: newBalance <= 0 ? "PAID" : "ACTIVE"
-                        }
-                    });
-                    remainingDeduction -= toDeduct;
-                }
+            for (const inst of pendingInstallments) {
+                await prisma.loanInstallment.update({
+                    where: { id: inst.id },
+                    data: {
+                        status: "DEDUCTED",
+                        deductedAt: new Date()
+                    }
+                });
             }
         }
 

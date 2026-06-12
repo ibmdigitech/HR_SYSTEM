@@ -421,35 +421,81 @@ exports.Prisma.OvertimeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.StaffServiceTypeScalarFieldEnum = {
+exports.Prisma.ServiceCategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  type: 'type',
   icon: 'icon',
   description: 'description',
   requiresAmount: 'requiresAmount',
   requiresDates: 'requiresDates',
+  slaDays: 'slaDays',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.StaffRequestScalarFieldEnum = {
+exports.Prisma.ServiceRequestScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
-  typeId: 'typeId',
+  categoryId: 'categoryId',
   details: 'details',
   amount: 'amount',
   startDate: 'startDate',
   endDate: 'endDate',
   status: 'status',
+  workflowStep: 'workflowStep',
   hrNote: 'hrNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ServiceApprovalScalarFieldEnum = {
+  id: 'id',
+  serviceRequestId: 'serviceRequestId',
+  approverId: 'approverId',
+  approverEmail: 'approverEmail',
+  level: 'level',
+  action: 'action',
+  comments: 'comments',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ServiceCommentScalarFieldEnum = {
+  id: 'id',
+  serviceRequestId: 'serviceRequestId',
+  authorId: 'authorId',
+  authorName: 'authorName',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReimbursementRequestScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  category: 'category',
+  amount: 'amount',
+  details: 'details',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SalaryAdvanceRequestScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  requestedAmount: 'requestedAmount',
+  repaymentMonths: 'repaymentMonths',
+  reason: 'reason',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.AttachmentScalarFieldEnum = {
   id: 'id',
-  staffRequestId: 'staffRequestId',
+  serviceRequestId: 'serviceRequestId',
+  reimbursementId: 'reimbursementId',
   visaRequestId: 'visaRequestId',
   employeeId: 'employeeId',
   fileName: 'fileName',
@@ -482,6 +528,26 @@ exports.Prisma.LetterRecordScalarFieldEnum = {
   generatedAt: 'generatedAt'
 };
 
+exports.Prisma.LetterRequestScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  templateId: 'templateId',
+  reason: 'reason',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LetterApprovalScalarFieldEnum = {
+  id: 'id',
+  letterRequestId: 'letterRequestId',
+  approverId: 'approverId',
+  level: 'level',
+  action: 'action',
+  comments: 'comments',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.LetterTemplateScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -498,6 +564,7 @@ exports.Prisma.LetterScalarFieldEnum = {
   employeeId: 'employeeId',
   templateId: 'templateId',
   referenceNumber: 'referenceNumber',
+  letterRequestId: 'letterRequestId',
   status: 'status',
   content_en: 'content_en',
   content_ar: 'content_ar',
@@ -628,11 +695,17 @@ exports.Prisma.ModelName = {
   LoanDocument: 'LoanDocument',
   LoanNotification: 'LoanNotification',
   Overtime: 'Overtime',
-  StaffServiceType: 'StaffServiceType',
-  StaffRequest: 'StaffRequest',
+  ServiceCategory: 'ServiceCategory',
+  ServiceRequest: 'ServiceRequest',
+  ServiceApproval: 'ServiceApproval',
+  ServiceComment: 'ServiceComment',
+  ReimbursementRequest: 'ReimbursementRequest',
+  SalaryAdvanceRequest: 'SalaryAdvanceRequest',
   Attachment: 'Attachment',
   VisaRequest: 'VisaRequest',
   LetterRecord: 'LetterRecord',
+  LetterRequest: 'LetterRequest',
+  LetterApproval: 'LetterApproval',
   LetterTemplate: 'LetterTemplate',
   Letter: 'Letter',
   ServiceConfig: 'ServiceConfig',

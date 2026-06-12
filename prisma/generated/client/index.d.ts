@@ -119,15 +119,35 @@ export type LoanNotification = $Result.DefaultSelection<Prisma.$LoanNotification
  */
 export type Overtime = $Result.DefaultSelection<Prisma.$OvertimePayload>
 /**
- * Model StaffServiceType
+ * Model ServiceCategory
  * 
  */
-export type StaffServiceType = $Result.DefaultSelection<Prisma.$StaffServiceTypePayload>
+export type ServiceCategory = $Result.DefaultSelection<Prisma.$ServiceCategoryPayload>
 /**
- * Model StaffRequest
+ * Model ServiceRequest
  * 
  */
-export type StaffRequest = $Result.DefaultSelection<Prisma.$StaffRequestPayload>
+export type ServiceRequest = $Result.DefaultSelection<Prisma.$ServiceRequestPayload>
+/**
+ * Model ServiceApproval
+ * 
+ */
+export type ServiceApproval = $Result.DefaultSelection<Prisma.$ServiceApprovalPayload>
+/**
+ * Model ServiceComment
+ * 
+ */
+export type ServiceComment = $Result.DefaultSelection<Prisma.$ServiceCommentPayload>
+/**
+ * Model ReimbursementRequest
+ * 
+ */
+export type ReimbursementRequest = $Result.DefaultSelection<Prisma.$ReimbursementRequestPayload>
+/**
+ * Model SalaryAdvanceRequest
+ * 
+ */
+export type SalaryAdvanceRequest = $Result.DefaultSelection<Prisma.$SalaryAdvanceRequestPayload>
 /**
  * Model Attachment
  * 
@@ -143,6 +163,16 @@ export type VisaRequest = $Result.DefaultSelection<Prisma.$VisaRequestPayload>
  * 
  */
 export type LetterRecord = $Result.DefaultSelection<Prisma.$LetterRecordPayload>
+/**
+ * Model LetterRequest
+ * 
+ */
+export type LetterRequest = $Result.DefaultSelection<Prisma.$LetterRequestPayload>
+/**
+ * Model LetterApproval
+ * 
+ */
+export type LetterApproval = $Result.DefaultSelection<Prisma.$LetterApprovalPayload>
 /**
  * Model LetterTemplate
  * 
@@ -508,24 +538,64 @@ export class PrismaClient<
   get overtime(): Prisma.OvertimeDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.staffServiceType`: Exposes CRUD operations for the **StaffServiceType** model.
+   * `prisma.serviceCategory`: Exposes CRUD operations for the **ServiceCategory** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more StaffServiceTypes
-    * const staffServiceTypes = await prisma.staffServiceType.findMany()
+    * // Fetch zero or more ServiceCategories
+    * const serviceCategories = await prisma.serviceCategory.findMany()
     * ```
     */
-  get staffServiceType(): Prisma.StaffServiceTypeDelegate<ExtArgs, ClientOptions>;
+  get serviceCategory(): Prisma.ServiceCategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.staffRequest`: Exposes CRUD operations for the **StaffRequest** model.
+   * `prisma.serviceRequest`: Exposes CRUD operations for the **ServiceRequest** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more StaffRequests
-    * const staffRequests = await prisma.staffRequest.findMany()
+    * // Fetch zero or more ServiceRequests
+    * const serviceRequests = await prisma.serviceRequest.findMany()
     * ```
     */
-  get staffRequest(): Prisma.StaffRequestDelegate<ExtArgs, ClientOptions>;
+  get serviceRequest(): Prisma.ServiceRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceApproval`: Exposes CRUD operations for the **ServiceApproval** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceApprovals
+    * const serviceApprovals = await prisma.serviceApproval.findMany()
+    * ```
+    */
+  get serviceApproval(): Prisma.ServiceApprovalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceComment`: Exposes CRUD operations for the **ServiceComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceComments
+    * const serviceComments = await prisma.serviceComment.findMany()
+    * ```
+    */
+  get serviceComment(): Prisma.ServiceCommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reimbursementRequest`: Exposes CRUD operations for the **ReimbursementRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReimbursementRequests
+    * const reimbursementRequests = await prisma.reimbursementRequest.findMany()
+    * ```
+    */
+  get reimbursementRequest(): Prisma.ReimbursementRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.salaryAdvanceRequest`: Exposes CRUD operations for the **SalaryAdvanceRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SalaryAdvanceRequests
+    * const salaryAdvanceRequests = await prisma.salaryAdvanceRequest.findMany()
+    * ```
+    */
+  get salaryAdvanceRequest(): Prisma.SalaryAdvanceRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.attachment`: Exposes CRUD operations for the **Attachment** model.
@@ -556,6 +626,26 @@ export class PrismaClient<
     * ```
     */
   get letterRecord(): Prisma.LetterRecordDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.letterRequest`: Exposes CRUD operations for the **LetterRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LetterRequests
+    * const letterRequests = await prisma.letterRequest.findMany()
+    * ```
+    */
+  get letterRequest(): Prisma.LetterRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.letterApproval`: Exposes CRUD operations for the **LetterApproval** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LetterApprovals
+    * const letterApprovals = await prisma.letterApproval.findMany()
+    * ```
+    */
+  get letterApproval(): Prisma.LetterApprovalDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.letterTemplate`: Exposes CRUD operations for the **LetterTemplate** model.
@@ -1088,11 +1178,17 @@ export namespace Prisma {
     LoanDocument: 'LoanDocument',
     LoanNotification: 'LoanNotification',
     Overtime: 'Overtime',
-    StaffServiceType: 'StaffServiceType',
-    StaffRequest: 'StaffRequest',
+    ServiceCategory: 'ServiceCategory',
+    ServiceRequest: 'ServiceRequest',
+    ServiceApproval: 'ServiceApproval',
+    ServiceComment: 'ServiceComment',
+    ReimbursementRequest: 'ReimbursementRequest',
+    SalaryAdvanceRequest: 'SalaryAdvanceRequest',
     Attachment: 'Attachment',
     VisaRequest: 'VisaRequest',
     LetterRecord: 'LetterRecord',
+    LetterRequest: 'LetterRequest',
+    LetterApproval: 'LetterApproval',
     LetterTemplate: 'LetterTemplate',
     Letter: 'Letter',
     ServiceConfig: 'ServiceConfig',
@@ -1118,7 +1214,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "loanType" | "loanApplication" | "loanApproval" | "loanDisbursement" | "loanInstallment" | "loanDocument" | "loanNotification" | "overtime" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig" | "jobRequisition" | "candidate" | "interview" | "offerLetter"
+      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "loanType" | "loanApplication" | "loanApproval" | "loanDisbursement" | "loanInstallment" | "loanDocument" | "loanNotification" | "overtime" | "serviceCategory" | "serviceRequest" | "serviceApproval" | "serviceComment" | "reimbursementRequest" | "salaryAdvanceRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterRequest" | "letterApproval" | "letterTemplate" | "letter" | "serviceConfig" | "jobRequisition" | "candidate" | "interview" | "offerLetter"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2676,151 +2772,447 @@ export namespace Prisma {
           }
         }
       }
-      StaffServiceType: {
-        payload: Prisma.$StaffServiceTypePayload<ExtArgs>
-        fields: Prisma.StaffServiceTypeFieldRefs
+      ServiceCategory: {
+        payload: Prisma.$ServiceCategoryPayload<ExtArgs>
+        fields: Prisma.ServiceCategoryFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.StaffServiceTypeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload> | null
+            args: Prisma.ServiceCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.StaffServiceTypeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
+            args: Prisma.ServiceCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>
           }
           findFirst: {
-            args: Prisma.StaffServiceTypeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload> | null
+            args: Prisma.ServiceCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.StaffServiceTypeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
+            args: Prisma.ServiceCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>
           }
           findMany: {
-            args: Prisma.StaffServiceTypeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>[]
+            args: Prisma.ServiceCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>[]
           }
           create: {
-            args: Prisma.StaffServiceTypeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
+            args: Prisma.ServiceCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>
           }
           createMany: {
-            args: Prisma.StaffServiceTypeCreateManyArgs<ExtArgs>
+            args: Prisma.ServiceCategoryCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.StaffServiceTypeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>[]
+            args: Prisma.ServiceCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>[]
           }
           delete: {
-            args: Prisma.StaffServiceTypeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
+            args: Prisma.ServiceCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>
           }
           update: {
-            args: Prisma.StaffServiceTypeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
+            args: Prisma.ServiceCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>
           }
           deleteMany: {
-            args: Prisma.StaffServiceTypeDeleteManyArgs<ExtArgs>
+            args: Prisma.ServiceCategoryDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.StaffServiceTypeUpdateManyArgs<ExtArgs>
+            args: Prisma.ServiceCategoryUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.StaffServiceTypeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>[]
+            args: Prisma.ServiceCategoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>[]
           }
           upsert: {
-            args: Prisma.StaffServiceTypeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffServiceTypePayload>
+            args: Prisma.ServiceCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCategoryPayload>
           }
           aggregate: {
-            args: Prisma.StaffServiceTypeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateStaffServiceType>
+            args: Prisma.ServiceCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceCategory>
           }
           groupBy: {
-            args: Prisma.StaffServiceTypeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<StaffServiceTypeGroupByOutputType>[]
+            args: Prisma.ServiceCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceCategoryGroupByOutputType>[]
           }
           count: {
-            args: Prisma.StaffServiceTypeCountArgs<ExtArgs>
-            result: $Utils.Optional<StaffServiceTypeCountAggregateOutputType> | number
+            args: Prisma.ServiceCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceCategoryCountAggregateOutputType> | number
           }
         }
       }
-      StaffRequest: {
-        payload: Prisma.$StaffRequestPayload<ExtArgs>
-        fields: Prisma.StaffRequestFieldRefs
+      ServiceRequest: {
+        payload: Prisma.$ServiceRequestPayload<ExtArgs>
+        fields: Prisma.ServiceRequestFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.StaffRequestFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload> | null
+            args: Prisma.ServiceRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.StaffRequestFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
+            args: Prisma.ServiceRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
           }
           findFirst: {
-            args: Prisma.StaffRequestFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload> | null
+            args: Prisma.ServiceRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.StaffRequestFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
+            args: Prisma.ServiceRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
           }
           findMany: {
-            args: Prisma.StaffRequestFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>[]
+            args: Prisma.ServiceRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>[]
           }
           create: {
-            args: Prisma.StaffRequestCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
+            args: Prisma.ServiceRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
           }
           createMany: {
-            args: Prisma.StaffRequestCreateManyArgs<ExtArgs>
+            args: Prisma.ServiceRequestCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.StaffRequestCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>[]
+            args: Prisma.ServiceRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>[]
           }
           delete: {
-            args: Prisma.StaffRequestDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
+            args: Prisma.ServiceRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
           }
           update: {
-            args: Prisma.StaffRequestUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
+            args: Prisma.ServiceRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
           }
           deleteMany: {
-            args: Prisma.StaffRequestDeleteManyArgs<ExtArgs>
+            args: Prisma.ServiceRequestDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.StaffRequestUpdateManyArgs<ExtArgs>
+            args: Prisma.ServiceRequestUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.StaffRequestUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>[]
+            args: Prisma.ServiceRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>[]
           }
           upsert: {
-            args: Prisma.StaffRequestUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$StaffRequestPayload>
+            args: Prisma.ServiceRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceRequestPayload>
           }
           aggregate: {
-            args: Prisma.StaffRequestAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateStaffRequest>
+            args: Prisma.ServiceRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceRequest>
           }
           groupBy: {
-            args: Prisma.StaffRequestGroupByArgs<ExtArgs>
-            result: $Utils.Optional<StaffRequestGroupByOutputType>[]
+            args: Prisma.ServiceRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceRequestGroupByOutputType>[]
           }
           count: {
-            args: Prisma.StaffRequestCountArgs<ExtArgs>
-            result: $Utils.Optional<StaffRequestCountAggregateOutputType> | number
+            args: Prisma.ServiceRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceApproval: {
+        payload: Prisma.$ServiceApprovalPayload<ExtArgs>
+        fields: Prisma.ServiceApprovalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceApprovalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceApprovalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceApprovalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceApprovalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceApprovalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceApprovalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceApprovalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceApprovalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceApprovalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>
+          }
+          update: {
+            args: Prisma.ServiceApprovalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceApprovalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceApprovalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceApprovalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceApprovalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceApprovalPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceApprovalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceApproval>
+          }
+          groupBy: {
+            args: Prisma.ServiceApprovalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceApprovalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceApprovalCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceApprovalCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceComment: {
+        payload: Prisma.$ServiceCommentPayload<ExtArgs>
+        fields: Prisma.ServiceCommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceCommentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceCommentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceCommentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceCommentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceCommentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceCommentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceCommentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceCommentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceCommentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>
+          }
+          update: {
+            args: Prisma.ServiceCommentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceCommentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceCommentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceCommentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceCommentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceCommentPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceCommentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceComment>
+          }
+          groupBy: {
+            args: Prisma.ServiceCommentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceCommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceCommentCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceCommentCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReimbursementRequest: {
+        payload: Prisma.$ReimbursementRequestPayload<ExtArgs>
+        fields: Prisma.ReimbursementRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReimbursementRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReimbursementRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.ReimbursementRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReimbursementRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>
+          }
+          findMany: {
+            args: Prisma.ReimbursementRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>[]
+          }
+          create: {
+            args: Prisma.ReimbursementRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>
+          }
+          createMany: {
+            args: Prisma.ReimbursementRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReimbursementRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.ReimbursementRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>
+          }
+          update: {
+            args: Prisma.ReimbursementRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReimbursementRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReimbursementRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ReimbursementRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.ReimbursementRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReimbursementRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.ReimbursementRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReimbursementRequest>
+          }
+          groupBy: {
+            args: Prisma.ReimbursementRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReimbursementRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReimbursementRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<ReimbursementRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      SalaryAdvanceRequest: {
+        payload: Prisma.$SalaryAdvanceRequestPayload<ExtArgs>
+        fields: Prisma.SalaryAdvanceRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SalaryAdvanceRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SalaryAdvanceRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.SalaryAdvanceRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SalaryAdvanceRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>
+          }
+          findMany: {
+            args: Prisma.SalaryAdvanceRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>[]
+          }
+          create: {
+            args: Prisma.SalaryAdvanceRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>
+          }
+          createMany: {
+            args: Prisma.SalaryAdvanceRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SalaryAdvanceRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.SalaryAdvanceRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>
+          }
+          update: {
+            args: Prisma.SalaryAdvanceRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.SalaryAdvanceRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SalaryAdvanceRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SalaryAdvanceRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.SalaryAdvanceRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryAdvanceRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.SalaryAdvanceRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSalaryAdvanceRequest>
+          }
+          groupBy: {
+            args: Prisma.SalaryAdvanceRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SalaryAdvanceRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SalaryAdvanceRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<SalaryAdvanceRequestCountAggregateOutputType> | number
           }
         }
       }
@@ -3043,6 +3435,154 @@ export namespace Prisma {
           count: {
             args: Prisma.LetterRecordCountArgs<ExtArgs>
             result: $Utils.Optional<LetterRecordCountAggregateOutputType> | number
+          }
+        }
+      }
+      LetterRequest: {
+        payload: Prisma.$LetterRequestPayload<ExtArgs>
+        fields: Prisma.LetterRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LetterRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LetterRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.LetterRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LetterRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>
+          }
+          findMany: {
+            args: Prisma.LetterRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>[]
+          }
+          create: {
+            args: Prisma.LetterRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>
+          }
+          createMany: {
+            args: Prisma.LetterRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LetterRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.LetterRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>
+          }
+          update: {
+            args: Prisma.LetterRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.LetterRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LetterRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LetterRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.LetterRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.LetterRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLetterRequest>
+          }
+          groupBy: {
+            args: Prisma.LetterRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LetterRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LetterRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<LetterRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      LetterApproval: {
+        payload: Prisma.$LetterApprovalPayload<ExtArgs>
+        fields: Prisma.LetterApprovalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LetterApprovalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LetterApprovalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>
+          }
+          findFirst: {
+            args: Prisma.LetterApprovalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LetterApprovalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>
+          }
+          findMany: {
+            args: Prisma.LetterApprovalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>[]
+          }
+          create: {
+            args: Prisma.LetterApprovalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>
+          }
+          createMany: {
+            args: Prisma.LetterApprovalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LetterApprovalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>[]
+          }
+          delete: {
+            args: Prisma.LetterApprovalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>
+          }
+          update: {
+            args: Prisma.LetterApprovalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>
+          }
+          deleteMany: {
+            args: Prisma.LetterApprovalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LetterApprovalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LetterApprovalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>[]
+          }
+          upsert: {
+            args: Prisma.LetterApprovalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LetterApprovalPayload>
+          }
+          aggregate: {
+            args: Prisma.LetterApprovalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLetterApproval>
+          }
+          groupBy: {
+            args: Prisma.LetterApprovalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LetterApprovalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LetterApprovalCountArgs<ExtArgs>
+            result: $Utils.Optional<LetterApprovalCountAggregateOutputType> | number
           }
         }
       }
@@ -3681,11 +4221,17 @@ export namespace Prisma {
     loanDocument?: LoanDocumentOmit
     loanNotification?: LoanNotificationOmit
     overtime?: OvertimeOmit
-    staffServiceType?: StaffServiceTypeOmit
-    staffRequest?: StaffRequestOmit
+    serviceCategory?: ServiceCategoryOmit
+    serviceRequest?: ServiceRequestOmit
+    serviceApproval?: ServiceApprovalOmit
+    serviceComment?: ServiceCommentOmit
+    reimbursementRequest?: ReimbursementRequestOmit
+    salaryAdvanceRequest?: SalaryAdvanceRequestOmit
     attachment?: AttachmentOmit
     visaRequest?: VisaRequestOmit
     letterRecord?: LetterRecordOmit
+    letterRequest?: LetterRequestOmit
+    letterApproval?: LetterApprovalOmit
     letterTemplate?: LetterTemplateOmit
     letter?: LetterOmit
     serviceConfig?: ServiceConfigOmit
@@ -3836,14 +4382,17 @@ export namespace Prisma {
     attendance: number
     salaryRecords: number
     letterRecords: number
-    staffRequests: number
+    serviceRequests: number
     visaRequests: number
     letters: number
+    letterRequests: number
     attachments: number
     auditLogs: number
     notifications: number
     loanApplications: number
     overtime: number
+    salaryAdvances: number
+    reimbursements: number
     reportees: number
     requestedJobs: number
     interviews: number
@@ -3855,14 +4404,17 @@ export namespace Prisma {
     attendance?: boolean | EmployeeCountOutputTypeCountAttendanceArgs
     salaryRecords?: boolean | EmployeeCountOutputTypeCountSalaryRecordsArgs
     letterRecords?: boolean | EmployeeCountOutputTypeCountLetterRecordsArgs
-    staffRequests?: boolean | EmployeeCountOutputTypeCountStaffRequestsArgs
+    serviceRequests?: boolean | EmployeeCountOutputTypeCountServiceRequestsArgs
     visaRequests?: boolean | EmployeeCountOutputTypeCountVisaRequestsArgs
     letters?: boolean | EmployeeCountOutputTypeCountLettersArgs
+    letterRequests?: boolean | EmployeeCountOutputTypeCountLetterRequestsArgs
     attachments?: boolean | EmployeeCountOutputTypeCountAttachmentsArgs
     auditLogs?: boolean | EmployeeCountOutputTypeCountAuditLogsArgs
     notifications?: boolean | EmployeeCountOutputTypeCountNotificationsArgs
     loanApplications?: boolean | EmployeeCountOutputTypeCountLoanApplicationsArgs
     overtime?: boolean | EmployeeCountOutputTypeCountOvertimeArgs
+    salaryAdvances?: boolean | EmployeeCountOutputTypeCountSalaryAdvancesArgs
+    reimbursements?: boolean | EmployeeCountOutputTypeCountReimbursementsArgs
     reportees?: boolean | EmployeeCountOutputTypeCountReporteesArgs
     requestedJobs?: boolean | EmployeeCountOutputTypeCountRequestedJobsArgs
     interviews?: boolean | EmployeeCountOutputTypeCountInterviewsArgs
@@ -3917,8 +4469,8 @@ export namespace Prisma {
   /**
    * EmployeeCountOutputType without action
    */
-  export type EmployeeCountOutputTypeCountStaffRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StaffRequestWhereInput
+  export type EmployeeCountOutputTypeCountServiceRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceRequestWhereInput
   }
 
   /**
@@ -3933,6 +4485,13 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountLettersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LetterWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountLetterRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LetterRequestWhereInput
   }
 
   /**
@@ -3968,6 +4527,20 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountOvertimeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OvertimeWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountSalaryAdvancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalaryAdvanceRequestWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountReimbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReimbursementRequestWhereInput
   }
 
   /**
@@ -4153,63 +4726,112 @@ export namespace Prisma {
 
 
   /**
-   * Count Type StaffServiceTypeCountOutputType
+   * Count Type ServiceCategoryCountOutputType
    */
 
-  export type StaffServiceTypeCountOutputType = {
-    staffRequests: number
+  export type ServiceCategoryCountOutputType = {
+    requests: number
   }
 
-  export type StaffServiceTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequests?: boolean | StaffServiceTypeCountOutputTypeCountStaffRequestsArgs
+  export type ServiceCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requests?: boolean | ServiceCategoryCountOutputTypeCountRequestsArgs
   }
 
   // Custom InputTypes
   /**
-   * StaffServiceTypeCountOutputType without action
+   * ServiceCategoryCountOutputType without action
    */
-  export type StaffServiceTypeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceTypeCountOutputType
+     * Select specific fields to fetch from the ServiceCategoryCountOutputType
      */
-    select?: StaffServiceTypeCountOutputTypeSelect<ExtArgs> | null
+    select?: ServiceCategoryCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * StaffServiceTypeCountOutputType without action
+   * ServiceCategoryCountOutputType without action
    */
-  export type StaffServiceTypeCountOutputTypeCountStaffRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StaffRequestWhereInput
+  export type ServiceCategoryCountOutputTypeCountRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceRequestWhereInput
   }
 
 
   /**
-   * Count Type StaffRequestCountOutputType
+   * Count Type ServiceRequestCountOutputType
    */
 
-  export type StaffRequestCountOutputType = {
+  export type ServiceRequestCountOutputType = {
+    attachments: number
+    approvals: number
+    comments: number
+  }
+
+  export type ServiceRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attachments?: boolean | ServiceRequestCountOutputTypeCountAttachmentsArgs
+    approvals?: boolean | ServiceRequestCountOutputTypeCountApprovalsArgs
+    comments?: boolean | ServiceRequestCountOutputTypeCountCommentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ServiceRequestCountOutputType without action
+   */
+  export type ServiceRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceRequestCountOutputType
+     */
+    select?: ServiceRequestCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ServiceRequestCountOutputType without action
+   */
+  export type ServiceRequestCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+  }
+
+  /**
+   * ServiceRequestCountOutputType without action
+   */
+  export type ServiceRequestCountOutputTypeCountApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceApprovalWhereInput
+  }
+
+  /**
+   * ServiceRequestCountOutputType without action
+   */
+  export type ServiceRequestCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceCommentWhereInput
+  }
+
+
+  /**
+   * Count Type ReimbursementRequestCountOutputType
+   */
+
+  export type ReimbursementRequestCountOutputType = {
     attachments: number
   }
 
-  export type StaffRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    attachments?: boolean | StaffRequestCountOutputTypeCountAttachmentsArgs
+  export type ReimbursementRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attachments?: boolean | ReimbursementRequestCountOutputTypeCountAttachmentsArgs
   }
 
   // Custom InputTypes
   /**
-   * StaffRequestCountOutputType without action
+   * ReimbursementRequestCountOutputType without action
    */
-  export type StaffRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReimbursementRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequestCountOutputType
+     * Select specific fields to fetch from the ReimbursementRequestCountOutputType
      */
-    select?: StaffRequestCountOutputTypeSelect<ExtArgs> | null
+    select?: ReimbursementRequestCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * StaffRequestCountOutputType without action
+   * ReimbursementRequestCountOutputType without action
    */
-  export type StaffRequestCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReimbursementRequestCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttachmentWhereInput
   }
 
@@ -4246,15 +4868,48 @@ export namespace Prisma {
 
 
   /**
+   * Count Type LetterRequestCountOutputType
+   */
+
+  export type LetterRequestCountOutputType = {
+    approvals: number
+  }
+
+  export type LetterRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    approvals?: boolean | LetterRequestCountOutputTypeCountApprovalsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LetterRequestCountOutputType without action
+   */
+  export type LetterRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequestCountOutputType
+     */
+    select?: LetterRequestCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LetterRequestCountOutputType without action
+   */
+  export type LetterRequestCountOutputTypeCountApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LetterApprovalWhereInput
+  }
+
+
+  /**
    * Count Type LetterTemplateCountOutputType
    */
 
   export type LetterTemplateCountOutputType = {
     letters: number
+    requests: number
   }
 
   export type LetterTemplateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     letters?: boolean | LetterTemplateCountOutputTypeCountLettersArgs
+    requests?: boolean | LetterTemplateCountOutputTypeCountRequestsArgs
   }
 
   // Custom InputTypes
@@ -4273,6 +4928,13 @@ export namespace Prisma {
    */
   export type LetterTemplateCountOutputTypeCountLettersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LetterWhereInput
+  }
+
+  /**
+   * LetterTemplateCountOutputType without action
+   */
+  export type LetterTemplateCountOutputTypeCountRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LetterRequestWhereInput
   }
 
 
@@ -8383,14 +9045,17 @@ export namespace Prisma {
     salaryStructure?: boolean | Employee$salaryStructureArgs<ExtArgs>
     salaryRecords?: boolean | Employee$salaryRecordsArgs<ExtArgs>
     letterRecords?: boolean | Employee$letterRecordsArgs<ExtArgs>
-    staffRequests?: boolean | Employee$staffRequestsArgs<ExtArgs>
+    serviceRequests?: boolean | Employee$serviceRequestsArgs<ExtArgs>
     visaRequests?: boolean | Employee$visaRequestsArgs<ExtArgs>
     letters?: boolean | Employee$lettersArgs<ExtArgs>
+    letterRequests?: boolean | Employee$letterRequestsArgs<ExtArgs>
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
     loanApplications?: boolean | Employee$loanApplicationsArgs<ExtArgs>
     overtime?: boolean | Employee$overtimeArgs<ExtArgs>
+    salaryAdvances?: boolean | Employee$salaryAdvancesArgs<ExtArgs>
+    reimbursements?: boolean | Employee$reimbursementsArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     requestedJobs?: boolean | Employee$requestedJobsArgs<ExtArgs>
@@ -8564,14 +9229,17 @@ export namespace Prisma {
     salaryStructure?: boolean | Employee$salaryStructureArgs<ExtArgs>
     salaryRecords?: boolean | Employee$salaryRecordsArgs<ExtArgs>
     letterRecords?: boolean | Employee$letterRecordsArgs<ExtArgs>
-    staffRequests?: boolean | Employee$staffRequestsArgs<ExtArgs>
+    serviceRequests?: boolean | Employee$serviceRequestsArgs<ExtArgs>
     visaRequests?: boolean | Employee$visaRequestsArgs<ExtArgs>
     letters?: boolean | Employee$lettersArgs<ExtArgs>
+    letterRequests?: boolean | Employee$letterRequestsArgs<ExtArgs>
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
     loanApplications?: boolean | Employee$loanApplicationsArgs<ExtArgs>
     overtime?: boolean | Employee$overtimeArgs<ExtArgs>
+    salaryAdvances?: boolean | Employee$salaryAdvancesArgs<ExtArgs>
+    reimbursements?: boolean | Employee$reimbursementsArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     reportees?: boolean | Employee$reporteesArgs<ExtArgs>
     requestedJobs?: boolean | Employee$requestedJobsArgs<ExtArgs>
@@ -8600,14 +9268,17 @@ export namespace Prisma {
       salaryStructure: Prisma.$SalaryStructurePayload<ExtArgs> | null
       salaryRecords: Prisma.$SalaryRecordPayload<ExtArgs>[]
       letterRecords: Prisma.$LetterRecordPayload<ExtArgs>[]
-      staffRequests: Prisma.$StaffRequestPayload<ExtArgs>[]
+      serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
       visaRequests: Prisma.$VisaRequestPayload<ExtArgs>[]
       letters: Prisma.$LetterPayload<ExtArgs>[]
+      letterRequests: Prisma.$LetterRequestPayload<ExtArgs>[]
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       loanApplications: Prisma.$LoanApplicationPayload<ExtArgs>[]
       overtime: Prisma.$OvertimePayload<ExtArgs>[]
+      salaryAdvances: Prisma.$SalaryAdvanceRequestPayload<ExtArgs>[]
+      reimbursements: Prisma.$ReimbursementRequestPayload<ExtArgs>[]
       manager: Prisma.$EmployeePayload<ExtArgs> | null
       reportees: Prisma.$EmployeePayload<ExtArgs>[]
       requestedJobs: Prisma.$JobRequisitionPayload<ExtArgs>[]
@@ -9063,14 +9734,17 @@ export namespace Prisma {
     salaryStructure<T extends Employee$salaryStructureArgs<ExtArgs> = {}>(args?: Subset<T, Employee$salaryStructureArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     salaryRecords<T extends Employee$salaryRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$salaryRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     letterRecords<T extends Employee$letterRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$letterRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    staffRequests<T extends Employee$staffRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$staffRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    serviceRequests<T extends Employee$serviceRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     visaRequests<T extends Employee$visaRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$visaRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisaRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     letters<T extends Employee$lettersArgs<ExtArgs> = {}>(args?: Subset<T, Employee$lettersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    letterRequests<T extends Employee$letterRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$letterRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     attachments<T extends Employee$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Employee$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Employee$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     loanApplications<T extends Employee$loanApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$loanApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     overtime<T extends Employee$overtimeArgs<ExtArgs> = {}>(args?: Subset<T, Employee$overtimeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    salaryAdvances<T extends Employee$salaryAdvancesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$salaryAdvancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reimbursements<T extends Employee$reimbursementsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reimbursementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     manager<T extends Employee$managerArgs<ExtArgs> = {}>(args?: Subset<T, Employee$managerArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     reportees<T extends Employee$reporteesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reporteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     requestedJobs<T extends Employee$requestedJobsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$requestedJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9705,27 +10379,27 @@ export namespace Prisma {
   }
 
   /**
-   * Employee.staffRequests
+   * Employee.serviceRequests
    */
-  export type Employee$staffRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Employee$serviceRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
-    where?: StaffRequestWhereInput
-    orderBy?: StaffRequestOrderByWithRelationInput | StaffRequestOrderByWithRelationInput[]
-    cursor?: StaffRequestWhereUniqueInput
+    include?: ServiceRequestInclude<ExtArgs> | null
+    where?: ServiceRequestWhereInput
+    orderBy?: ServiceRequestOrderByWithRelationInput | ServiceRequestOrderByWithRelationInput[]
+    cursor?: ServiceRequestWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: StaffRequestScalarFieldEnum | StaffRequestScalarFieldEnum[]
+    distinct?: ServiceRequestScalarFieldEnum | ServiceRequestScalarFieldEnum[]
   }
 
   /**
@@ -9774,6 +10448,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LetterScalarFieldEnum | LetterScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.letterRequests
+   */
+  export type Employee$letterRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    where?: LetterRequestWhereInput
+    orderBy?: LetterRequestOrderByWithRelationInput | LetterRequestOrderByWithRelationInput[]
+    cursor?: LetterRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LetterRequestScalarFieldEnum | LetterRequestScalarFieldEnum[]
   }
 
   /**
@@ -9894,6 +10592,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OvertimeScalarFieldEnum | OvertimeScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.salaryAdvances
+   */
+  export type Employee$salaryAdvancesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    where?: SalaryAdvanceRequestWhereInput
+    orderBy?: SalaryAdvanceRequestOrderByWithRelationInput | SalaryAdvanceRequestOrderByWithRelationInput[]
+    cursor?: SalaryAdvanceRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SalaryAdvanceRequestScalarFieldEnum | SalaryAdvanceRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.reimbursements
+   */
+  export type Employee$reimbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    where?: ReimbursementRequestWhereInput
+    orderBy?: ReimbursementRequestOrderByWithRelationInput | ReimbursementRequestOrderByWithRelationInput[]
+    cursor?: ReimbursementRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReimbursementRequestScalarFieldEnum | ReimbursementRequestScalarFieldEnum[]
   }
 
   /**
@@ -29732,46 +30478,62 @@ export namespace Prisma {
 
 
   /**
-   * Model StaffServiceType
+   * Model ServiceCategory
    */
 
-  export type AggregateStaffServiceType = {
-    _count: StaffServiceTypeCountAggregateOutputType | null
-    _min: StaffServiceTypeMinAggregateOutputType | null
-    _max: StaffServiceTypeMaxAggregateOutputType | null
+  export type AggregateServiceCategory = {
+    _count: ServiceCategoryCountAggregateOutputType | null
+    _avg: ServiceCategoryAvgAggregateOutputType | null
+    _sum: ServiceCategorySumAggregateOutputType | null
+    _min: ServiceCategoryMinAggregateOutputType | null
+    _max: ServiceCategoryMaxAggregateOutputType | null
   }
 
-  export type StaffServiceTypeMinAggregateOutputType = {
+  export type ServiceCategoryAvgAggregateOutputType = {
+    slaDays: number | null
+  }
+
+  export type ServiceCategorySumAggregateOutputType = {
+    slaDays: number | null
+  }
+
+  export type ServiceCategoryMinAggregateOutputType = {
     id: string | null
     name: string | null
+    type: string | null
     icon: string | null
     description: string | null
     requiresAmount: boolean | null
     requiresDates: boolean | null
+    slaDays: number | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type StaffServiceTypeMaxAggregateOutputType = {
+  export type ServiceCategoryMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    type: string | null
     icon: string | null
     description: string | null
     requiresAmount: boolean | null
     requiresDates: boolean | null
+    slaDays: number | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type StaffServiceTypeCountAggregateOutputType = {
+  export type ServiceCategoryCountAggregateOutputType = {
     id: number
     name: number
+    type: number
     icon: number
     description: number
     requiresAmount: number
     requiresDates: number
+    slaDays: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -29779,347 +30541,389 @@ export namespace Prisma {
   }
 
 
-  export type StaffServiceTypeMinAggregateInputType = {
+  export type ServiceCategoryAvgAggregateInputType = {
+    slaDays?: true
+  }
+
+  export type ServiceCategorySumAggregateInputType = {
+    slaDays?: true
+  }
+
+  export type ServiceCategoryMinAggregateInputType = {
     id?: true
     name?: true
+    type?: true
     icon?: true
     description?: true
     requiresAmount?: true
     requiresDates?: true
+    slaDays?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type StaffServiceTypeMaxAggregateInputType = {
+  export type ServiceCategoryMaxAggregateInputType = {
     id?: true
     name?: true
+    type?: true
     icon?: true
     description?: true
     requiresAmount?: true
     requiresDates?: true
+    slaDays?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type StaffServiceTypeCountAggregateInputType = {
+  export type ServiceCategoryCountAggregateInputType = {
     id?: true
     name?: true
+    type?: true
     icon?: true
     description?: true
     requiresAmount?: true
     requiresDates?: true
+    slaDays?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type StaffServiceTypeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which StaffServiceType to aggregate.
+     * Filter which ServiceCategory to aggregate.
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffServiceTypes to fetch.
+     * Determine the order of ServiceCategories to fetch.
      */
-    orderBy?: StaffServiceTypeOrderByWithRelationInput | StaffServiceTypeOrderByWithRelationInput[]
+    orderBy?: ServiceCategoryOrderByWithRelationInput | ServiceCategoryOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: StaffServiceTypeWhereUniqueInput
+    cursor?: ServiceCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffServiceTypes from the position of the cursor.
+     * Take `±n` ServiceCategories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffServiceTypes.
+     * Skip the first `n` ServiceCategories.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned StaffServiceTypes
+     * Count returned ServiceCategories
     **/
-    _count?: true | StaffServiceTypeCountAggregateInputType
+    _count?: true | ServiceCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ServiceCategoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ServiceCategorySumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: StaffServiceTypeMinAggregateInputType
+    _min?: ServiceCategoryMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: StaffServiceTypeMaxAggregateInputType
+    _max?: ServiceCategoryMaxAggregateInputType
   }
 
-  export type GetStaffServiceTypeAggregateType<T extends StaffServiceTypeAggregateArgs> = {
-        [P in keyof T & keyof AggregateStaffServiceType]: P extends '_count' | 'count'
+  export type GetServiceCategoryAggregateType<T extends ServiceCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceCategory]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateStaffServiceType[P]>
-      : GetScalarType<T[P], AggregateStaffServiceType[P]>
+        : GetScalarType<T[P], AggregateServiceCategory[P]>
+      : GetScalarType<T[P], AggregateServiceCategory[P]>
   }
 
 
 
 
-  export type StaffServiceTypeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StaffServiceTypeWhereInput
-    orderBy?: StaffServiceTypeOrderByWithAggregationInput | StaffServiceTypeOrderByWithAggregationInput[]
-    by: StaffServiceTypeScalarFieldEnum[] | StaffServiceTypeScalarFieldEnum
-    having?: StaffServiceTypeScalarWhereWithAggregatesInput
+  export type ServiceCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceCategoryWhereInput
+    orderBy?: ServiceCategoryOrderByWithAggregationInput | ServiceCategoryOrderByWithAggregationInput[]
+    by: ServiceCategoryScalarFieldEnum[] | ServiceCategoryScalarFieldEnum
+    having?: ServiceCategoryScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: StaffServiceTypeCountAggregateInputType | true
-    _min?: StaffServiceTypeMinAggregateInputType
-    _max?: StaffServiceTypeMaxAggregateInputType
+    _count?: ServiceCategoryCountAggregateInputType | true
+    _avg?: ServiceCategoryAvgAggregateInputType
+    _sum?: ServiceCategorySumAggregateInputType
+    _min?: ServiceCategoryMinAggregateInputType
+    _max?: ServiceCategoryMaxAggregateInputType
   }
 
-  export type StaffServiceTypeGroupByOutputType = {
+  export type ServiceCategoryGroupByOutputType = {
     id: string
     name: string
+    type: string
     icon: string | null
     description: string | null
     requiresAmount: boolean
     requiresDates: boolean
+    slaDays: number
     isActive: boolean
     createdAt: Date
     updatedAt: Date
-    _count: StaffServiceTypeCountAggregateOutputType | null
-    _min: StaffServiceTypeMinAggregateOutputType | null
-    _max: StaffServiceTypeMaxAggregateOutputType | null
+    _count: ServiceCategoryCountAggregateOutputType | null
+    _avg: ServiceCategoryAvgAggregateOutputType | null
+    _sum: ServiceCategorySumAggregateOutputType | null
+    _min: ServiceCategoryMinAggregateOutputType | null
+    _max: ServiceCategoryMaxAggregateOutputType | null
   }
 
-  type GetStaffServiceTypeGroupByPayload<T extends StaffServiceTypeGroupByArgs> = Prisma.PrismaPromise<
+  type GetServiceCategoryGroupByPayload<T extends ServiceCategoryGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<StaffServiceTypeGroupByOutputType, T['by']> &
+      PickEnumerable<ServiceCategoryGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof StaffServiceTypeGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ServiceCategoryGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], StaffServiceTypeGroupByOutputType[P]>
-            : GetScalarType<T[P], StaffServiceTypeGroupByOutputType[P]>
+              : GetScalarType<T[P], ServiceCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceCategoryGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type StaffServiceTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ServiceCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    type?: boolean
     icon?: boolean
     description?: boolean
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    staffRequests?: boolean | StaffServiceType$staffRequestsArgs<ExtArgs>
-    _count?: boolean | StaffServiceTypeCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["staffServiceType"]>
+    requests?: boolean | ServiceCategory$requestsArgs<ExtArgs>
+    _count?: boolean | ServiceCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceCategory"]>
 
-  export type StaffServiceTypeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ServiceCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    type?: boolean
     icon?: boolean
     description?: boolean
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["staffServiceType"]>
+  }, ExtArgs["result"]["serviceCategory"]>
 
-  export type StaffServiceTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ServiceCategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    type?: boolean
     icon?: boolean
     description?: boolean
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["staffServiceType"]>
+  }, ExtArgs["result"]["serviceCategory"]>
 
-  export type StaffServiceTypeSelectScalar = {
+  export type ServiceCategorySelectScalar = {
     id?: boolean
     name?: boolean
+    type?: boolean
     icon?: boolean
     description?: boolean
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StaffServiceTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "icon" | "description" | "requiresAmount" | "requiresDates" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["staffServiceType"]>
-  export type StaffServiceTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequests?: boolean | StaffServiceType$staffRequestsArgs<ExtArgs>
-    _count?: boolean | StaffServiceTypeCountOutputTypeDefaultArgs<ExtArgs>
+  export type ServiceCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "icon" | "description" | "requiresAmount" | "requiresDates" | "slaDays" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceCategory"]>
+  export type ServiceCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requests?: boolean | ServiceCategory$requestsArgs<ExtArgs>
+    _count?: boolean | ServiceCategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type StaffServiceTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type StaffServiceTypeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ServiceCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ServiceCategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $StaffServiceTypePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "StaffServiceType"
+  export type $ServiceCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceCategory"
     objects: {
-      staffRequests: Prisma.$StaffRequestPayload<ExtArgs>[]
+      requests: Prisma.$ServiceRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      type: string
       icon: string | null
       description: string | null
       requiresAmount: boolean
       requiresDates: boolean
+      slaDays: number
       isActive: boolean
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["staffServiceType"]>
+    }, ExtArgs["result"]["serviceCategory"]>
     composites: {}
   }
 
-  type StaffServiceTypeGetPayload<S extends boolean | null | undefined | StaffServiceTypeDefaultArgs> = $Result.GetResult<Prisma.$StaffServiceTypePayload, S>
+  type ServiceCategoryGetPayload<S extends boolean | null | undefined | ServiceCategoryDefaultArgs> = $Result.GetResult<Prisma.$ServiceCategoryPayload, S>
 
-  type StaffServiceTypeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<StaffServiceTypeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: StaffServiceTypeCountAggregateInputType | true
+  type ServiceCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceCategoryCountAggregateInputType | true
     }
 
-  export interface StaffServiceTypeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StaffServiceType'], meta: { name: 'StaffServiceType' } }
+  export interface ServiceCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceCategory'], meta: { name: 'ServiceCategory' } }
     /**
-     * Find zero or one StaffServiceType that matches the filter.
-     * @param {StaffServiceTypeFindUniqueArgs} args - Arguments to find a StaffServiceType
+     * Find zero or one ServiceCategory that matches the filter.
+     * @param {ServiceCategoryFindUniqueArgs} args - Arguments to find a ServiceCategory
      * @example
-     * // Get one StaffServiceType
-     * const staffServiceType = await prisma.staffServiceType.findUnique({
+     * // Get one ServiceCategory
+     * const serviceCategory = await prisma.serviceCategory.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends StaffServiceTypeFindUniqueArgs>(args: SelectSubset<T, StaffServiceTypeFindUniqueArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ServiceCategoryFindUniqueArgs>(args: SelectSubset<T, ServiceCategoryFindUniqueArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one StaffServiceType that matches the filter or throw an error with `error.code='P2025'`
+     * Find one ServiceCategory that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {StaffServiceTypeFindUniqueOrThrowArgs} args - Arguments to find a StaffServiceType
+     * @param {ServiceCategoryFindUniqueOrThrowArgs} args - Arguments to find a ServiceCategory
      * @example
-     * // Get one StaffServiceType
-     * const staffServiceType = await prisma.staffServiceType.findUniqueOrThrow({
+     * // Get one ServiceCategory
+     * const serviceCategory = await prisma.serviceCategory.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends StaffServiceTypeFindUniqueOrThrowArgs>(args: SelectSubset<T, StaffServiceTypeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ServiceCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first StaffServiceType that matches the filter.
+     * Find the first ServiceCategory that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeFindFirstArgs} args - Arguments to find a StaffServiceType
+     * @param {ServiceCategoryFindFirstArgs} args - Arguments to find a ServiceCategory
      * @example
-     * // Get one StaffServiceType
-     * const staffServiceType = await prisma.staffServiceType.findFirst({
+     * // Get one ServiceCategory
+     * const serviceCategory = await prisma.serviceCategory.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends StaffServiceTypeFindFirstArgs>(args?: SelectSubset<T, StaffServiceTypeFindFirstArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ServiceCategoryFindFirstArgs>(args?: SelectSubset<T, ServiceCategoryFindFirstArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first StaffServiceType that matches the filter or
+     * Find the first ServiceCategory that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeFindFirstOrThrowArgs} args - Arguments to find a StaffServiceType
+     * @param {ServiceCategoryFindFirstOrThrowArgs} args - Arguments to find a ServiceCategory
      * @example
-     * // Get one StaffServiceType
-     * const staffServiceType = await prisma.staffServiceType.findFirstOrThrow({
+     * // Get one ServiceCategory
+     * const serviceCategory = await prisma.serviceCategory.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends StaffServiceTypeFindFirstOrThrowArgs>(args?: SelectSubset<T, StaffServiceTypeFindFirstOrThrowArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ServiceCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more StaffServiceTypes that matches the filter.
+     * Find zero or more ServiceCategories that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ServiceCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all StaffServiceTypes
-     * const staffServiceTypes = await prisma.staffServiceType.findMany()
+     * // Get all ServiceCategories
+     * const serviceCategories = await prisma.serviceCategory.findMany()
      * 
-     * // Get first 10 StaffServiceTypes
-     * const staffServiceTypes = await prisma.staffServiceType.findMany({ take: 10 })
+     * // Get first 10 ServiceCategories
+     * const serviceCategories = await prisma.serviceCategory.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const staffServiceTypeWithIdOnly = await prisma.staffServiceType.findMany({ select: { id: true } })
+     * const serviceCategoryWithIdOnly = await prisma.serviceCategory.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends StaffServiceTypeFindManyArgs>(args?: SelectSubset<T, StaffServiceTypeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ServiceCategoryFindManyArgs>(args?: SelectSubset<T, ServiceCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a StaffServiceType.
-     * @param {StaffServiceTypeCreateArgs} args - Arguments to create a StaffServiceType.
+     * Create a ServiceCategory.
+     * @param {ServiceCategoryCreateArgs} args - Arguments to create a ServiceCategory.
      * @example
-     * // Create one StaffServiceType
-     * const StaffServiceType = await prisma.staffServiceType.create({
+     * // Create one ServiceCategory
+     * const ServiceCategory = await prisma.serviceCategory.create({
      *   data: {
-     *     // ... data to create a StaffServiceType
+     *     // ... data to create a ServiceCategory
      *   }
      * })
      * 
      */
-    create<T extends StaffServiceTypeCreateArgs>(args: SelectSubset<T, StaffServiceTypeCreateArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ServiceCategoryCreateArgs>(args: SelectSubset<T, ServiceCategoryCreateArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many StaffServiceTypes.
-     * @param {StaffServiceTypeCreateManyArgs} args - Arguments to create many StaffServiceTypes.
+     * Create many ServiceCategories.
+     * @param {ServiceCategoryCreateManyArgs} args - Arguments to create many ServiceCategories.
      * @example
-     * // Create many StaffServiceTypes
-     * const staffServiceType = await prisma.staffServiceType.createMany({
+     * // Create many ServiceCategories
+     * const serviceCategory = await prisma.serviceCategory.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends StaffServiceTypeCreateManyArgs>(args?: SelectSubset<T, StaffServiceTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ServiceCategoryCreateManyArgs>(args?: SelectSubset<T, ServiceCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many StaffServiceTypes and returns the data saved in the database.
-     * @param {StaffServiceTypeCreateManyAndReturnArgs} args - Arguments to create many StaffServiceTypes.
+     * Create many ServiceCategories and returns the data saved in the database.
+     * @param {ServiceCategoryCreateManyAndReturnArgs} args - Arguments to create many ServiceCategories.
      * @example
-     * // Create many StaffServiceTypes
-     * const staffServiceType = await prisma.staffServiceType.createManyAndReturn({
+     * // Create many ServiceCategories
+     * const serviceCategory = await prisma.serviceCategory.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many StaffServiceTypes and only return the `id`
-     * const staffServiceTypeWithIdOnly = await prisma.staffServiceType.createManyAndReturn({
+     * // Create many ServiceCategories and only return the `id`
+     * const serviceCategoryWithIdOnly = await prisma.serviceCategory.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -30129,28 +30933,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends StaffServiceTypeCreateManyAndReturnArgs>(args?: SelectSubset<T, StaffServiceTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ServiceCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a StaffServiceType.
-     * @param {StaffServiceTypeDeleteArgs} args - Arguments to delete one StaffServiceType.
+     * Delete a ServiceCategory.
+     * @param {ServiceCategoryDeleteArgs} args - Arguments to delete one ServiceCategory.
      * @example
-     * // Delete one StaffServiceType
-     * const StaffServiceType = await prisma.staffServiceType.delete({
+     * // Delete one ServiceCategory
+     * const ServiceCategory = await prisma.serviceCategory.delete({
      *   where: {
-     *     // ... filter to delete one StaffServiceType
+     *     // ... filter to delete one ServiceCategory
      *   }
      * })
      * 
      */
-    delete<T extends StaffServiceTypeDeleteArgs>(args: SelectSubset<T, StaffServiceTypeDeleteArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ServiceCategoryDeleteArgs>(args: SelectSubset<T, ServiceCategoryDeleteArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one StaffServiceType.
-     * @param {StaffServiceTypeUpdateArgs} args - Arguments to update one StaffServiceType.
+     * Update one ServiceCategory.
+     * @param {ServiceCategoryUpdateArgs} args - Arguments to update one ServiceCategory.
      * @example
-     * // Update one StaffServiceType
-     * const staffServiceType = await prisma.staffServiceType.update({
+     * // Update one ServiceCategory
+     * const serviceCategory = await prisma.serviceCategory.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -30160,30 +30964,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends StaffServiceTypeUpdateArgs>(args: SelectSubset<T, StaffServiceTypeUpdateArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ServiceCategoryUpdateArgs>(args: SelectSubset<T, ServiceCategoryUpdateArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more StaffServiceTypes.
-     * @param {StaffServiceTypeDeleteManyArgs} args - Arguments to filter StaffServiceTypes to delete.
+     * Delete zero or more ServiceCategories.
+     * @param {ServiceCategoryDeleteManyArgs} args - Arguments to filter ServiceCategories to delete.
      * @example
-     * // Delete a few StaffServiceTypes
-     * const { count } = await prisma.staffServiceType.deleteMany({
+     * // Delete a few ServiceCategories
+     * const { count } = await prisma.serviceCategory.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends StaffServiceTypeDeleteManyArgs>(args?: SelectSubset<T, StaffServiceTypeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ServiceCategoryDeleteManyArgs>(args?: SelectSubset<T, ServiceCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more StaffServiceTypes.
+     * Update zero or more ServiceCategories.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ServiceCategoryUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many StaffServiceTypes
-     * const staffServiceType = await prisma.staffServiceType.updateMany({
+     * // Update many ServiceCategories
+     * const serviceCategory = await prisma.serviceCategory.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -30193,14 +30997,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends StaffServiceTypeUpdateManyArgs>(args: SelectSubset<T, StaffServiceTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ServiceCategoryUpdateManyArgs>(args: SelectSubset<T, ServiceCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more StaffServiceTypes and returns the data updated in the database.
-     * @param {StaffServiceTypeUpdateManyAndReturnArgs} args - Arguments to update many StaffServiceTypes.
+     * Update zero or more ServiceCategories and returns the data updated in the database.
+     * @param {ServiceCategoryUpdateManyAndReturnArgs} args - Arguments to update many ServiceCategories.
      * @example
-     * // Update many StaffServiceTypes
-     * const staffServiceType = await prisma.staffServiceType.updateManyAndReturn({
+     * // Update many ServiceCategories
+     * const serviceCategory = await prisma.serviceCategory.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -30209,8 +31013,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more StaffServiceTypes and only return the `id`
-     * const staffServiceTypeWithIdOnly = await prisma.staffServiceType.updateManyAndReturn({
+     * // Update zero or more ServiceCategories and only return the `id`
+     * const serviceCategoryWithIdOnly = await prisma.serviceCategory.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -30223,56 +31027,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends StaffServiceTypeUpdateManyAndReturnArgs>(args: SelectSubset<T, StaffServiceTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ServiceCategoryUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceCategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one StaffServiceType.
-     * @param {StaffServiceTypeUpsertArgs} args - Arguments to update or create a StaffServiceType.
+     * Create or update one ServiceCategory.
+     * @param {ServiceCategoryUpsertArgs} args - Arguments to update or create a ServiceCategory.
      * @example
-     * // Update or create a StaffServiceType
-     * const staffServiceType = await prisma.staffServiceType.upsert({
+     * // Update or create a ServiceCategory
+     * const serviceCategory = await prisma.serviceCategory.upsert({
      *   create: {
-     *     // ... data to create a StaffServiceType
+     *     // ... data to create a ServiceCategory
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the StaffServiceType we want to update
+     *     // ... the filter for the ServiceCategory we want to update
      *   }
      * })
      */
-    upsert<T extends StaffServiceTypeUpsertArgs>(args: SelectSubset<T, StaffServiceTypeUpsertArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ServiceCategoryUpsertArgs>(args: SelectSubset<T, ServiceCategoryUpsertArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of StaffServiceTypes.
+     * Count the number of ServiceCategories.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeCountArgs} args - Arguments to filter StaffServiceTypes to count.
+     * @param {ServiceCategoryCountArgs} args - Arguments to filter ServiceCategories to count.
      * @example
-     * // Count the number of StaffServiceTypes
-     * const count = await prisma.staffServiceType.count({
+     * // Count the number of ServiceCategories
+     * const count = await prisma.serviceCategory.count({
      *   where: {
-     *     // ... the filter for the StaffServiceTypes we want to count
+     *     // ... the filter for the ServiceCategories we want to count
      *   }
      * })
     **/
-    count<T extends StaffServiceTypeCountArgs>(
-      args?: Subset<T, StaffServiceTypeCountArgs>,
+    count<T extends ServiceCategoryCountArgs>(
+      args?: Subset<T, ServiceCategoryCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], StaffServiceTypeCountAggregateOutputType>
+          : GetScalarType<T['select'], ServiceCategoryCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a StaffServiceType.
+     * Allows you to perform aggregations operations on a ServiceCategory.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ServiceCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -30292,13 +31096,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends StaffServiceTypeAggregateArgs>(args: Subset<T, StaffServiceTypeAggregateArgs>): Prisma.PrismaPromise<GetStaffServiceTypeAggregateType<T>>
+    aggregate<T extends ServiceCategoryAggregateArgs>(args: Subset<T, ServiceCategoryAggregateArgs>): Prisma.PrismaPromise<GetServiceCategoryAggregateType<T>>
 
     /**
-     * Group by StaffServiceType.
+     * Group by ServiceCategory.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffServiceTypeGroupByArgs} args - Group by arguments.
+     * @param {ServiceCategoryGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -30313,14 +31117,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends StaffServiceTypeGroupByArgs,
+      T extends ServiceCategoryGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: StaffServiceTypeGroupByArgs['orderBy'] }
-        : { orderBy?: StaffServiceTypeGroupByArgs['orderBy'] },
+        ? { orderBy: ServiceCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceCategoryGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -30369,22 +31173,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, StaffServiceTypeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStaffServiceTypeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ServiceCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the StaffServiceType model
+   * Fields of the ServiceCategory model
    */
-  readonly fields: StaffServiceTypeFieldRefs;
+  readonly fields: ServiceCategoryFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for StaffServiceType.
+   * The delegate class that acts as a "Promise-like" for ServiceCategory.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__StaffServiceTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ServiceCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    staffRequests<T extends StaffServiceType$staffRequestsArgs<ExtArgs> = {}>(args?: Subset<T, StaffServiceType$staffRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    requests<T extends ServiceCategory$requestsArgs<ExtArgs> = {}>(args?: Subset<T, ServiceCategory$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -30411,505 +31215,512 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the StaffServiceType model
+   * Fields of the ServiceCategory model
    */
-  interface StaffServiceTypeFieldRefs {
-    readonly id: FieldRef<"StaffServiceType", 'String'>
-    readonly name: FieldRef<"StaffServiceType", 'String'>
-    readonly icon: FieldRef<"StaffServiceType", 'String'>
-    readonly description: FieldRef<"StaffServiceType", 'String'>
-    readonly requiresAmount: FieldRef<"StaffServiceType", 'Boolean'>
-    readonly requiresDates: FieldRef<"StaffServiceType", 'Boolean'>
-    readonly isActive: FieldRef<"StaffServiceType", 'Boolean'>
-    readonly createdAt: FieldRef<"StaffServiceType", 'DateTime'>
-    readonly updatedAt: FieldRef<"StaffServiceType", 'DateTime'>
+  interface ServiceCategoryFieldRefs {
+    readonly id: FieldRef<"ServiceCategory", 'String'>
+    readonly name: FieldRef<"ServiceCategory", 'String'>
+    readonly type: FieldRef<"ServiceCategory", 'String'>
+    readonly icon: FieldRef<"ServiceCategory", 'String'>
+    readonly description: FieldRef<"ServiceCategory", 'String'>
+    readonly requiresAmount: FieldRef<"ServiceCategory", 'Boolean'>
+    readonly requiresDates: FieldRef<"ServiceCategory", 'Boolean'>
+    readonly slaDays: FieldRef<"ServiceCategory", 'Int'>
+    readonly isActive: FieldRef<"ServiceCategory", 'Boolean'>
+    readonly createdAt: FieldRef<"ServiceCategory", 'DateTime'>
+    readonly updatedAt: FieldRef<"ServiceCategory", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * StaffServiceType findUnique
+   * ServiceCategory findUnique
    */
-  export type StaffServiceTypeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * Filter, which StaffServiceType to fetch.
+     * Filter, which ServiceCategory to fetch.
      */
-    where: StaffServiceTypeWhereUniqueInput
+    where: ServiceCategoryWhereUniqueInput
   }
 
   /**
-   * StaffServiceType findUniqueOrThrow
+   * ServiceCategory findUniqueOrThrow
    */
-  export type StaffServiceTypeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * Filter, which StaffServiceType to fetch.
+     * Filter, which ServiceCategory to fetch.
      */
-    where: StaffServiceTypeWhereUniqueInput
+    where: ServiceCategoryWhereUniqueInput
   }
 
   /**
-   * StaffServiceType findFirst
+   * ServiceCategory findFirst
    */
-  export type StaffServiceTypeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * Filter, which StaffServiceType to fetch.
+     * Filter, which ServiceCategory to fetch.
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffServiceTypes to fetch.
+     * Determine the order of ServiceCategories to fetch.
      */
-    orderBy?: StaffServiceTypeOrderByWithRelationInput | StaffServiceTypeOrderByWithRelationInput[]
+    orderBy?: ServiceCategoryOrderByWithRelationInput | ServiceCategoryOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for StaffServiceTypes.
+     * Sets the position for searching for ServiceCategories.
      */
-    cursor?: StaffServiceTypeWhereUniqueInput
+    cursor?: ServiceCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffServiceTypes from the position of the cursor.
+     * Take `±n` ServiceCategories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffServiceTypes.
+     * Skip the first `n` ServiceCategories.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of StaffServiceTypes.
+     * Filter by unique combinations of ServiceCategories.
      */
-    distinct?: StaffServiceTypeScalarFieldEnum | StaffServiceTypeScalarFieldEnum[]
+    distinct?: ServiceCategoryScalarFieldEnum | ServiceCategoryScalarFieldEnum[]
   }
 
   /**
-   * StaffServiceType findFirstOrThrow
+   * ServiceCategory findFirstOrThrow
    */
-  export type StaffServiceTypeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * Filter, which StaffServiceType to fetch.
+     * Filter, which ServiceCategory to fetch.
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffServiceTypes to fetch.
+     * Determine the order of ServiceCategories to fetch.
      */
-    orderBy?: StaffServiceTypeOrderByWithRelationInput | StaffServiceTypeOrderByWithRelationInput[]
+    orderBy?: ServiceCategoryOrderByWithRelationInput | ServiceCategoryOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for StaffServiceTypes.
+     * Sets the position for searching for ServiceCategories.
      */
-    cursor?: StaffServiceTypeWhereUniqueInput
+    cursor?: ServiceCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffServiceTypes from the position of the cursor.
+     * Take `±n` ServiceCategories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffServiceTypes.
+     * Skip the first `n` ServiceCategories.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of StaffServiceTypes.
+     * Filter by unique combinations of ServiceCategories.
      */
-    distinct?: StaffServiceTypeScalarFieldEnum | StaffServiceTypeScalarFieldEnum[]
+    distinct?: ServiceCategoryScalarFieldEnum | ServiceCategoryScalarFieldEnum[]
   }
 
   /**
-   * StaffServiceType findMany
+   * ServiceCategory findMany
    */
-  export type StaffServiceTypeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * Filter, which StaffServiceTypes to fetch.
+     * Filter, which ServiceCategories to fetch.
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffServiceTypes to fetch.
+     * Determine the order of ServiceCategories to fetch.
      */
-    orderBy?: StaffServiceTypeOrderByWithRelationInput | StaffServiceTypeOrderByWithRelationInput[]
+    orderBy?: ServiceCategoryOrderByWithRelationInput | ServiceCategoryOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing StaffServiceTypes.
+     * Sets the position for listing ServiceCategories.
      */
-    cursor?: StaffServiceTypeWhereUniqueInput
+    cursor?: ServiceCategoryWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffServiceTypes from the position of the cursor.
+     * Take `±n` ServiceCategories from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffServiceTypes.
+     * Skip the first `n` ServiceCategories.
      */
     skip?: number
-    distinct?: StaffServiceTypeScalarFieldEnum | StaffServiceTypeScalarFieldEnum[]
+    distinct?: ServiceCategoryScalarFieldEnum | ServiceCategoryScalarFieldEnum[]
   }
 
   /**
-   * StaffServiceType create
+   * ServiceCategory create
    */
-  export type StaffServiceTypeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * The data needed to create a StaffServiceType.
+     * The data needed to create a ServiceCategory.
      */
-    data: XOR<StaffServiceTypeCreateInput, StaffServiceTypeUncheckedCreateInput>
+    data: XOR<ServiceCategoryCreateInput, ServiceCategoryUncheckedCreateInput>
   }
 
   /**
-   * StaffServiceType createMany
+   * ServiceCategory createMany
    */
-  export type StaffServiceTypeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many StaffServiceTypes.
+     * The data used to create many ServiceCategories.
      */
-    data: StaffServiceTypeCreateManyInput | StaffServiceTypeCreateManyInput[]
+    data: ServiceCategoryCreateManyInput | ServiceCategoryCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * StaffServiceType createManyAndReturn
+   * ServiceCategory createManyAndReturn
    */
-  export type StaffServiceTypeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ServiceCategorySelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
-     * The data used to create many StaffServiceTypes.
+     * The data used to create many ServiceCategories.
      */
-    data: StaffServiceTypeCreateManyInput | StaffServiceTypeCreateManyInput[]
+    data: ServiceCategoryCreateManyInput | ServiceCategoryCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * StaffServiceType update
+   * ServiceCategory update
    */
-  export type StaffServiceTypeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * The data needed to update a StaffServiceType.
+     * The data needed to update a ServiceCategory.
      */
-    data: XOR<StaffServiceTypeUpdateInput, StaffServiceTypeUncheckedUpdateInput>
+    data: XOR<ServiceCategoryUpdateInput, ServiceCategoryUncheckedUpdateInput>
     /**
-     * Choose, which StaffServiceType to update.
+     * Choose, which ServiceCategory to update.
      */
-    where: StaffServiceTypeWhereUniqueInput
+    where: ServiceCategoryWhereUniqueInput
   }
 
   /**
-   * StaffServiceType updateMany
+   * ServiceCategory updateMany
    */
-  export type StaffServiceTypeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update StaffServiceTypes.
+     * The data used to update ServiceCategories.
      */
-    data: XOR<StaffServiceTypeUpdateManyMutationInput, StaffServiceTypeUncheckedUpdateManyInput>
+    data: XOR<ServiceCategoryUpdateManyMutationInput, ServiceCategoryUncheckedUpdateManyInput>
     /**
-     * Filter which StaffServiceTypes to update
+     * Filter which ServiceCategories to update
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
-     * Limit how many StaffServiceTypes to update.
+     * Limit how many ServiceCategories to update.
      */
     limit?: number
   }
 
   /**
-   * StaffServiceType updateManyAndReturn
+   * ServiceCategory updateManyAndReturn
    */
-  export type StaffServiceTypeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ServiceCategorySelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
-     * The data used to update StaffServiceTypes.
+     * The data used to update ServiceCategories.
      */
-    data: XOR<StaffServiceTypeUpdateManyMutationInput, StaffServiceTypeUncheckedUpdateManyInput>
+    data: XOR<ServiceCategoryUpdateManyMutationInput, ServiceCategoryUncheckedUpdateManyInput>
     /**
-     * Filter which StaffServiceTypes to update
+     * Filter which ServiceCategories to update
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
-     * Limit how many StaffServiceTypes to update.
+     * Limit how many ServiceCategories to update.
      */
     limit?: number
   }
 
   /**
-   * StaffServiceType upsert
+   * ServiceCategory upsert
    */
-  export type StaffServiceTypeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * The filter to search for the StaffServiceType to update in case it exists.
+     * The filter to search for the ServiceCategory to update in case it exists.
      */
-    where: StaffServiceTypeWhereUniqueInput
+    where: ServiceCategoryWhereUniqueInput
     /**
-     * In case the StaffServiceType found by the `where` argument doesn't exist, create a new StaffServiceType with this data.
+     * In case the ServiceCategory found by the `where` argument doesn't exist, create a new ServiceCategory with this data.
      */
-    create: XOR<StaffServiceTypeCreateInput, StaffServiceTypeUncheckedCreateInput>
+    create: XOR<ServiceCategoryCreateInput, ServiceCategoryUncheckedCreateInput>
     /**
-     * In case the StaffServiceType was found with the provided `where` argument, update it with this data.
+     * In case the ServiceCategory was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<StaffServiceTypeUpdateInput, StaffServiceTypeUncheckedUpdateInput>
+    update: XOR<ServiceCategoryUpdateInput, ServiceCategoryUncheckedUpdateInput>
   }
 
   /**
-   * StaffServiceType delete
+   * ServiceCategory delete
    */
-  export type StaffServiceTypeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
     /**
-     * Filter which StaffServiceType to delete.
+     * Filter which ServiceCategory to delete.
      */
-    where: StaffServiceTypeWhereUniqueInput
+    where: ServiceCategoryWhereUniqueInput
   }
 
   /**
-   * StaffServiceType deleteMany
+   * ServiceCategory deleteMany
    */
-  export type StaffServiceTypeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which StaffServiceTypes to delete
+     * Filter which ServiceCategories to delete
      */
-    where?: StaffServiceTypeWhereInput
+    where?: ServiceCategoryWhereInput
     /**
-     * Limit how many StaffServiceTypes to delete.
+     * Limit how many ServiceCategories to delete.
      */
     limit?: number
   }
 
   /**
-   * StaffServiceType.staffRequests
+   * ServiceCategory.requests
    */
-  export type StaffServiceType$staffRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategory$requestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
-    where?: StaffRequestWhereInput
-    orderBy?: StaffRequestOrderByWithRelationInput | StaffRequestOrderByWithRelationInput[]
-    cursor?: StaffRequestWhereUniqueInput
+    include?: ServiceRequestInclude<ExtArgs> | null
+    where?: ServiceRequestWhereInput
+    orderBy?: ServiceRequestOrderByWithRelationInput | ServiceRequestOrderByWithRelationInput[]
+    cursor?: ServiceRequestWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: StaffRequestScalarFieldEnum | StaffRequestScalarFieldEnum[]
+    distinct?: ServiceRequestScalarFieldEnum | ServiceRequestScalarFieldEnum[]
   }
 
   /**
-   * StaffServiceType without action
+   * ServiceCategory without action
    */
-  export type StaffServiceTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffServiceType
+     * Select specific fields to fetch from the ServiceCategory
      */
-    select?: StaffServiceTypeSelect<ExtArgs> | null
+    select?: ServiceCategorySelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffServiceType
+     * Omit specific fields from the ServiceCategory
      */
-    omit?: StaffServiceTypeOmit<ExtArgs> | null
+    omit?: ServiceCategoryOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffServiceTypeInclude<ExtArgs> | null
+    include?: ServiceCategoryInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model StaffRequest
+   * Model ServiceRequest
    */
 
-  export type AggregateStaffRequest = {
-    _count: StaffRequestCountAggregateOutputType | null
-    _avg: StaffRequestAvgAggregateOutputType | null
-    _sum: StaffRequestSumAggregateOutputType | null
-    _min: StaffRequestMinAggregateOutputType | null
-    _max: StaffRequestMaxAggregateOutputType | null
+  export type AggregateServiceRequest = {
+    _count: ServiceRequestCountAggregateOutputType | null
+    _avg: ServiceRequestAvgAggregateOutputType | null
+    _sum: ServiceRequestSumAggregateOutputType | null
+    _min: ServiceRequestMinAggregateOutputType | null
+    _max: ServiceRequestMaxAggregateOutputType | null
   }
 
-  export type StaffRequestAvgAggregateOutputType = {
+  export type ServiceRequestAvgAggregateOutputType = {
     amount: number | null
+    workflowStep: number | null
   }
 
-  export type StaffRequestSumAggregateOutputType = {
+  export type ServiceRequestSumAggregateOutputType = {
     amount: number | null
+    workflowStep: number | null
   }
 
-  export type StaffRequestMinAggregateOutputType = {
+  export type ServiceRequestMinAggregateOutputType = {
     id: string | null
     employeeId: string | null
-    typeId: string | null
+    categoryId: string | null
     details: string | null
     amount: number | null
     startDate: Date | null
     endDate: Date | null
     status: string | null
+    workflowStep: number | null
     hrNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type StaffRequestMaxAggregateOutputType = {
+  export type ServiceRequestMaxAggregateOutputType = {
     id: string | null
     employeeId: string | null
-    typeId: string | null
+    categoryId: string | null
     details: string | null
     amount: number | null
     startDate: Date | null
     endDate: Date | null
     status: string | null
+    workflowStep: number | null
     hrNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type StaffRequestCountAggregateOutputType = {
+  export type ServiceRequestCountAggregateOutputType = {
     id: number
     employeeId: number
-    typeId: number
+    categoryId: number
     details: number
     amount: number
     startDate: number
     endDate: number
     status: number
+    workflowStep: number
     hrNote: number
     createdAt: number
     updatedAt: number
@@ -30917,405 +31728,422 @@ export namespace Prisma {
   }
 
 
-  export type StaffRequestAvgAggregateInputType = {
+  export type ServiceRequestAvgAggregateInputType = {
     amount?: true
+    workflowStep?: true
   }
 
-  export type StaffRequestSumAggregateInputType = {
+  export type ServiceRequestSumAggregateInputType = {
     amount?: true
+    workflowStep?: true
   }
 
-  export type StaffRequestMinAggregateInputType = {
+  export type ServiceRequestMinAggregateInputType = {
     id?: true
     employeeId?: true
-    typeId?: true
+    categoryId?: true
     details?: true
     amount?: true
     startDate?: true
     endDate?: true
     status?: true
+    workflowStep?: true
     hrNote?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type StaffRequestMaxAggregateInputType = {
+  export type ServiceRequestMaxAggregateInputType = {
     id?: true
     employeeId?: true
-    typeId?: true
+    categoryId?: true
     details?: true
     amount?: true
     startDate?: true
     endDate?: true
     status?: true
+    workflowStep?: true
     hrNote?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type StaffRequestCountAggregateInputType = {
+  export type ServiceRequestCountAggregateInputType = {
     id?: true
     employeeId?: true
-    typeId?: true
+    categoryId?: true
     details?: true
     amount?: true
     startDate?: true
     endDate?: true
     status?: true
+    workflowStep?: true
     hrNote?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type StaffRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which StaffRequest to aggregate.
+     * Filter which ServiceRequest to aggregate.
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffRequests to fetch.
+     * Determine the order of ServiceRequests to fetch.
      */
-    orderBy?: StaffRequestOrderByWithRelationInput | StaffRequestOrderByWithRelationInput[]
+    orderBy?: ServiceRequestOrderByWithRelationInput | ServiceRequestOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: StaffRequestWhereUniqueInput
+    cursor?: ServiceRequestWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffRequests from the position of the cursor.
+     * Take `±n` ServiceRequests from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffRequests.
+     * Skip the first `n` ServiceRequests.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned StaffRequests
+     * Count returned ServiceRequests
     **/
-    _count?: true | StaffRequestCountAggregateInputType
+    _count?: true | ServiceRequestCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: StaffRequestAvgAggregateInputType
+    _avg?: ServiceRequestAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: StaffRequestSumAggregateInputType
+    _sum?: ServiceRequestSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: StaffRequestMinAggregateInputType
+    _min?: ServiceRequestMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: StaffRequestMaxAggregateInputType
+    _max?: ServiceRequestMaxAggregateInputType
   }
 
-  export type GetStaffRequestAggregateType<T extends StaffRequestAggregateArgs> = {
-        [P in keyof T & keyof AggregateStaffRequest]: P extends '_count' | 'count'
+  export type GetServiceRequestAggregateType<T extends ServiceRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceRequest]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateStaffRequest[P]>
-      : GetScalarType<T[P], AggregateStaffRequest[P]>
+        : GetScalarType<T[P], AggregateServiceRequest[P]>
+      : GetScalarType<T[P], AggregateServiceRequest[P]>
   }
 
 
 
 
-  export type StaffRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StaffRequestWhereInput
-    orderBy?: StaffRequestOrderByWithAggregationInput | StaffRequestOrderByWithAggregationInput[]
-    by: StaffRequestScalarFieldEnum[] | StaffRequestScalarFieldEnum
-    having?: StaffRequestScalarWhereWithAggregatesInput
+  export type ServiceRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceRequestWhereInput
+    orderBy?: ServiceRequestOrderByWithAggregationInput | ServiceRequestOrderByWithAggregationInput[]
+    by: ServiceRequestScalarFieldEnum[] | ServiceRequestScalarFieldEnum
+    having?: ServiceRequestScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: StaffRequestCountAggregateInputType | true
-    _avg?: StaffRequestAvgAggregateInputType
-    _sum?: StaffRequestSumAggregateInputType
-    _min?: StaffRequestMinAggregateInputType
-    _max?: StaffRequestMaxAggregateInputType
+    _count?: ServiceRequestCountAggregateInputType | true
+    _avg?: ServiceRequestAvgAggregateInputType
+    _sum?: ServiceRequestSumAggregateInputType
+    _min?: ServiceRequestMinAggregateInputType
+    _max?: ServiceRequestMaxAggregateInputType
   }
 
-  export type StaffRequestGroupByOutputType = {
+  export type ServiceRequestGroupByOutputType = {
     id: string
     employeeId: string
-    typeId: string
+    categoryId: string
     details: string
     amount: number | null
     startDate: Date | null
     endDate: Date | null
     status: string
+    workflowStep: number
     hrNote: string | null
     createdAt: Date
     updatedAt: Date
-    _count: StaffRequestCountAggregateOutputType | null
-    _avg: StaffRequestAvgAggregateOutputType | null
-    _sum: StaffRequestSumAggregateOutputType | null
-    _min: StaffRequestMinAggregateOutputType | null
-    _max: StaffRequestMaxAggregateOutputType | null
+    _count: ServiceRequestCountAggregateOutputType | null
+    _avg: ServiceRequestAvgAggregateOutputType | null
+    _sum: ServiceRequestSumAggregateOutputType | null
+    _min: ServiceRequestMinAggregateOutputType | null
+    _max: ServiceRequestMaxAggregateOutputType | null
   }
 
-  type GetStaffRequestGroupByPayload<T extends StaffRequestGroupByArgs> = Prisma.PrismaPromise<
+  type GetServiceRequestGroupByPayload<T extends ServiceRequestGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<StaffRequestGroupByOutputType, T['by']> &
+      PickEnumerable<ServiceRequestGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof StaffRequestGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ServiceRequestGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], StaffRequestGroupByOutputType[P]>
-            : GetScalarType<T[P], StaffRequestGroupByOutputType[P]>
+              : GetScalarType<T[P], ServiceRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceRequestGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type StaffRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ServiceRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    typeId?: boolean
+    categoryId?: boolean
     details?: boolean
     amount?: boolean
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    workflowStep?: boolean
     hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-    attachments?: boolean | StaffRequest$attachmentsArgs<ExtArgs>
-    _count?: boolean | StaffRequestCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["staffRequest"]>
+    category?: boolean | ServiceCategoryDefaultArgs<ExtArgs>
+    attachments?: boolean | ServiceRequest$attachmentsArgs<ExtArgs>
+    approvals?: boolean | ServiceRequest$approvalsArgs<ExtArgs>
+    comments?: boolean | ServiceRequest$commentsArgs<ExtArgs>
+    _count?: boolean | ServiceRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceRequest"]>
 
-  export type StaffRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ServiceRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    typeId?: boolean
+    categoryId?: boolean
     details?: boolean
     amount?: boolean
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    workflowStep?: boolean
     hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["staffRequest"]>
+    category?: boolean | ServiceCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceRequest"]>
 
-  export type StaffRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ServiceRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     employeeId?: boolean
-    typeId?: boolean
+    categoryId?: boolean
     details?: boolean
     amount?: boolean
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    workflowStep?: boolean
     hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["staffRequest"]>
+    category?: boolean | ServiceCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceRequest"]>
 
-  export type StaffRequestSelectScalar = {
+  export type ServiceRequestSelectScalar = {
     id?: boolean
     employeeId?: boolean
-    typeId?: boolean
+    categoryId?: boolean
     details?: boolean
     amount?: boolean
     startDate?: boolean
     endDate?: boolean
     status?: boolean
+    workflowStep?: boolean
     hrNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StaffRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "typeId" | "details" | "amount" | "startDate" | "endDate" | "status" | "hrNote" | "createdAt" | "updatedAt", ExtArgs["result"]["staffRequest"]>
-  export type StaffRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "categoryId" | "details" | "amount" | "startDate" | "endDate" | "status" | "workflowStep" | "hrNote" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceRequest"]>
+  export type ServiceRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
-    attachments?: boolean | StaffRequest$attachmentsArgs<ExtArgs>
-    _count?: boolean | StaffRequestCountOutputTypeDefaultArgs<ExtArgs>
+    category?: boolean | ServiceCategoryDefaultArgs<ExtArgs>
+    attachments?: boolean | ServiceRequest$attachmentsArgs<ExtArgs>
+    approvals?: boolean | ServiceRequest$approvalsArgs<ExtArgs>
+    comments?: boolean | ServiceRequest$commentsArgs<ExtArgs>
+    _count?: boolean | ServiceRequestCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type StaffRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
+    category?: boolean | ServiceCategoryDefaultArgs<ExtArgs>
   }
-  export type StaffRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-    serviceType?: boolean | StaffServiceTypeDefaultArgs<ExtArgs>
+    category?: boolean | ServiceCategoryDefaultArgs<ExtArgs>
   }
 
-  export type $StaffRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "StaffRequest"
+  export type $ServiceRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceRequest"
     objects: {
       employee: Prisma.$EmployeePayload<ExtArgs>
-      serviceType: Prisma.$StaffServiceTypePayload<ExtArgs>
+      category: Prisma.$ServiceCategoryPayload<ExtArgs>
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
+      approvals: Prisma.$ServiceApprovalPayload<ExtArgs>[]
+      comments: Prisma.$ServiceCommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       employeeId: string
-      typeId: string
+      categoryId: string
       details: string
       amount: number | null
       startDate: Date | null
       endDate: Date | null
       status: string
+      workflowStep: number
       hrNote: string | null
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["staffRequest"]>
+    }, ExtArgs["result"]["serviceRequest"]>
     composites: {}
   }
 
-  type StaffRequestGetPayload<S extends boolean | null | undefined | StaffRequestDefaultArgs> = $Result.GetResult<Prisma.$StaffRequestPayload, S>
+  type ServiceRequestGetPayload<S extends boolean | null | undefined | ServiceRequestDefaultArgs> = $Result.GetResult<Prisma.$ServiceRequestPayload, S>
 
-  type StaffRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<StaffRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: StaffRequestCountAggregateInputType | true
+  type ServiceRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceRequestCountAggregateInputType | true
     }
 
-  export interface StaffRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StaffRequest'], meta: { name: 'StaffRequest' } }
+  export interface ServiceRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceRequest'], meta: { name: 'ServiceRequest' } }
     /**
-     * Find zero or one StaffRequest that matches the filter.
-     * @param {StaffRequestFindUniqueArgs} args - Arguments to find a StaffRequest
+     * Find zero or one ServiceRequest that matches the filter.
+     * @param {ServiceRequestFindUniqueArgs} args - Arguments to find a ServiceRequest
      * @example
-     * // Get one StaffRequest
-     * const staffRequest = await prisma.staffRequest.findUnique({
+     * // Get one ServiceRequest
+     * const serviceRequest = await prisma.serviceRequest.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends StaffRequestFindUniqueArgs>(args: SelectSubset<T, StaffRequestFindUniqueArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ServiceRequestFindUniqueArgs>(args: SelectSubset<T, ServiceRequestFindUniqueArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one StaffRequest that matches the filter or throw an error with `error.code='P2025'`
+     * Find one ServiceRequest that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {StaffRequestFindUniqueOrThrowArgs} args - Arguments to find a StaffRequest
+     * @param {ServiceRequestFindUniqueOrThrowArgs} args - Arguments to find a ServiceRequest
      * @example
-     * // Get one StaffRequest
-     * const staffRequest = await prisma.staffRequest.findUniqueOrThrow({
+     * // Get one ServiceRequest
+     * const serviceRequest = await prisma.serviceRequest.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends StaffRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, StaffRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ServiceRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first StaffRequest that matches the filter.
+     * Find the first ServiceRequest that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestFindFirstArgs} args - Arguments to find a StaffRequest
+     * @param {ServiceRequestFindFirstArgs} args - Arguments to find a ServiceRequest
      * @example
-     * // Get one StaffRequest
-     * const staffRequest = await prisma.staffRequest.findFirst({
+     * // Get one ServiceRequest
+     * const serviceRequest = await prisma.serviceRequest.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends StaffRequestFindFirstArgs>(args?: SelectSubset<T, StaffRequestFindFirstArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ServiceRequestFindFirstArgs>(args?: SelectSubset<T, ServiceRequestFindFirstArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first StaffRequest that matches the filter or
+     * Find the first ServiceRequest that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestFindFirstOrThrowArgs} args - Arguments to find a StaffRequest
+     * @param {ServiceRequestFindFirstOrThrowArgs} args - Arguments to find a ServiceRequest
      * @example
-     * // Get one StaffRequest
-     * const staffRequest = await prisma.staffRequest.findFirstOrThrow({
+     * // Get one ServiceRequest
+     * const serviceRequest = await prisma.serviceRequest.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends StaffRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, StaffRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ServiceRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more StaffRequests that matches the filter.
+     * Find zero or more ServiceRequests that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ServiceRequestFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all StaffRequests
-     * const staffRequests = await prisma.staffRequest.findMany()
+     * // Get all ServiceRequests
+     * const serviceRequests = await prisma.serviceRequest.findMany()
      * 
-     * // Get first 10 StaffRequests
-     * const staffRequests = await prisma.staffRequest.findMany({ take: 10 })
+     * // Get first 10 ServiceRequests
+     * const serviceRequests = await prisma.serviceRequest.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const staffRequestWithIdOnly = await prisma.staffRequest.findMany({ select: { id: true } })
+     * const serviceRequestWithIdOnly = await prisma.serviceRequest.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends StaffRequestFindManyArgs>(args?: SelectSubset<T, StaffRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ServiceRequestFindManyArgs>(args?: SelectSubset<T, ServiceRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a StaffRequest.
-     * @param {StaffRequestCreateArgs} args - Arguments to create a StaffRequest.
+     * Create a ServiceRequest.
+     * @param {ServiceRequestCreateArgs} args - Arguments to create a ServiceRequest.
      * @example
-     * // Create one StaffRequest
-     * const StaffRequest = await prisma.staffRequest.create({
+     * // Create one ServiceRequest
+     * const ServiceRequest = await prisma.serviceRequest.create({
      *   data: {
-     *     // ... data to create a StaffRequest
+     *     // ... data to create a ServiceRequest
      *   }
      * })
      * 
      */
-    create<T extends StaffRequestCreateArgs>(args: SelectSubset<T, StaffRequestCreateArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ServiceRequestCreateArgs>(args: SelectSubset<T, ServiceRequestCreateArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many StaffRequests.
-     * @param {StaffRequestCreateManyArgs} args - Arguments to create many StaffRequests.
+     * Create many ServiceRequests.
+     * @param {ServiceRequestCreateManyArgs} args - Arguments to create many ServiceRequests.
      * @example
-     * // Create many StaffRequests
-     * const staffRequest = await prisma.staffRequest.createMany({
+     * // Create many ServiceRequests
+     * const serviceRequest = await prisma.serviceRequest.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends StaffRequestCreateManyArgs>(args?: SelectSubset<T, StaffRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ServiceRequestCreateManyArgs>(args?: SelectSubset<T, ServiceRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many StaffRequests and returns the data saved in the database.
-     * @param {StaffRequestCreateManyAndReturnArgs} args - Arguments to create many StaffRequests.
+     * Create many ServiceRequests and returns the data saved in the database.
+     * @param {ServiceRequestCreateManyAndReturnArgs} args - Arguments to create many ServiceRequests.
      * @example
-     * // Create many StaffRequests
-     * const staffRequest = await prisma.staffRequest.createManyAndReturn({
+     * // Create many ServiceRequests
+     * const serviceRequest = await prisma.serviceRequest.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many StaffRequests and only return the `id`
-     * const staffRequestWithIdOnly = await prisma.staffRequest.createManyAndReturn({
+     * // Create many ServiceRequests and only return the `id`
+     * const serviceRequestWithIdOnly = await prisma.serviceRequest.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -31325,28 +32153,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends StaffRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, StaffRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ServiceRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a StaffRequest.
-     * @param {StaffRequestDeleteArgs} args - Arguments to delete one StaffRequest.
+     * Delete a ServiceRequest.
+     * @param {ServiceRequestDeleteArgs} args - Arguments to delete one ServiceRequest.
      * @example
-     * // Delete one StaffRequest
-     * const StaffRequest = await prisma.staffRequest.delete({
+     * // Delete one ServiceRequest
+     * const ServiceRequest = await prisma.serviceRequest.delete({
      *   where: {
-     *     // ... filter to delete one StaffRequest
+     *     // ... filter to delete one ServiceRequest
      *   }
      * })
      * 
      */
-    delete<T extends StaffRequestDeleteArgs>(args: SelectSubset<T, StaffRequestDeleteArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ServiceRequestDeleteArgs>(args: SelectSubset<T, ServiceRequestDeleteArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one StaffRequest.
-     * @param {StaffRequestUpdateArgs} args - Arguments to update one StaffRequest.
+     * Update one ServiceRequest.
+     * @param {ServiceRequestUpdateArgs} args - Arguments to update one ServiceRequest.
      * @example
-     * // Update one StaffRequest
-     * const staffRequest = await prisma.staffRequest.update({
+     * // Update one ServiceRequest
+     * const serviceRequest = await prisma.serviceRequest.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -31356,30 +32184,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends StaffRequestUpdateArgs>(args: SelectSubset<T, StaffRequestUpdateArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ServiceRequestUpdateArgs>(args: SelectSubset<T, ServiceRequestUpdateArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more StaffRequests.
-     * @param {StaffRequestDeleteManyArgs} args - Arguments to filter StaffRequests to delete.
+     * Delete zero or more ServiceRequests.
+     * @param {ServiceRequestDeleteManyArgs} args - Arguments to filter ServiceRequests to delete.
      * @example
-     * // Delete a few StaffRequests
-     * const { count } = await prisma.staffRequest.deleteMany({
+     * // Delete a few ServiceRequests
+     * const { count } = await prisma.serviceRequest.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends StaffRequestDeleteManyArgs>(args?: SelectSubset<T, StaffRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ServiceRequestDeleteManyArgs>(args?: SelectSubset<T, ServiceRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more StaffRequests.
+     * Update zero or more ServiceRequests.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ServiceRequestUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many StaffRequests
-     * const staffRequest = await prisma.staffRequest.updateMany({
+     * // Update many ServiceRequests
+     * const serviceRequest = await prisma.serviceRequest.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -31389,14 +32217,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends StaffRequestUpdateManyArgs>(args: SelectSubset<T, StaffRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ServiceRequestUpdateManyArgs>(args: SelectSubset<T, ServiceRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more StaffRequests and returns the data updated in the database.
-     * @param {StaffRequestUpdateManyAndReturnArgs} args - Arguments to update many StaffRequests.
+     * Update zero or more ServiceRequests and returns the data updated in the database.
+     * @param {ServiceRequestUpdateManyAndReturnArgs} args - Arguments to update many ServiceRequests.
      * @example
-     * // Update many StaffRequests
-     * const staffRequest = await prisma.staffRequest.updateManyAndReturn({
+     * // Update many ServiceRequests
+     * const serviceRequest = await prisma.serviceRequest.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -31405,8 +32233,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more StaffRequests and only return the `id`
-     * const staffRequestWithIdOnly = await prisma.staffRequest.updateManyAndReturn({
+     * // Update zero or more ServiceRequests and only return the `id`
+     * const serviceRequestWithIdOnly = await prisma.serviceRequest.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -31419,56 +32247,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends StaffRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, StaffRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ServiceRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one StaffRequest.
-     * @param {StaffRequestUpsertArgs} args - Arguments to update or create a StaffRequest.
+     * Create or update one ServiceRequest.
+     * @param {ServiceRequestUpsertArgs} args - Arguments to update or create a ServiceRequest.
      * @example
-     * // Update or create a StaffRequest
-     * const staffRequest = await prisma.staffRequest.upsert({
+     * // Update or create a ServiceRequest
+     * const serviceRequest = await prisma.serviceRequest.upsert({
      *   create: {
-     *     // ... data to create a StaffRequest
+     *     // ... data to create a ServiceRequest
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the StaffRequest we want to update
+     *     // ... the filter for the ServiceRequest we want to update
      *   }
      * })
      */
-    upsert<T extends StaffRequestUpsertArgs>(args: SelectSubset<T, StaffRequestUpsertArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ServiceRequestUpsertArgs>(args: SelectSubset<T, ServiceRequestUpsertArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of StaffRequests.
+     * Count the number of ServiceRequests.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestCountArgs} args - Arguments to filter StaffRequests to count.
+     * @param {ServiceRequestCountArgs} args - Arguments to filter ServiceRequests to count.
      * @example
-     * // Count the number of StaffRequests
-     * const count = await prisma.staffRequest.count({
+     * // Count the number of ServiceRequests
+     * const count = await prisma.serviceRequest.count({
      *   where: {
-     *     // ... the filter for the StaffRequests we want to count
+     *     // ... the filter for the ServiceRequests we want to count
      *   }
      * })
     **/
-    count<T extends StaffRequestCountArgs>(
-      args?: Subset<T, StaffRequestCountArgs>,
+    count<T extends ServiceRequestCountArgs>(
+      args?: Subset<T, ServiceRequestCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], StaffRequestCountAggregateOutputType>
+          : GetScalarType<T['select'], ServiceRequestCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a StaffRequest.
+     * Allows you to perform aggregations operations on a ServiceRequest.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ServiceRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -31488,13 +32316,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends StaffRequestAggregateArgs>(args: Subset<T, StaffRequestAggregateArgs>): Prisma.PrismaPromise<GetStaffRequestAggregateType<T>>
+    aggregate<T extends ServiceRequestAggregateArgs>(args: Subset<T, ServiceRequestAggregateArgs>): Prisma.PrismaPromise<GetServiceRequestAggregateType<T>>
 
     /**
-     * Group by StaffRequest.
+     * Group by ServiceRequest.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {StaffRequestGroupByArgs} args - Group by arguments.
+     * @param {ServiceRequestGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -31509,14 +32337,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends StaffRequestGroupByArgs,
+      T extends ServiceRequestGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: StaffRequestGroupByArgs['orderBy'] }
-        : { orderBy?: StaffRequestGroupByArgs['orderBy'] },
+        ? { orderBy: ServiceRequestGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceRequestGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -31565,24 +32393,26 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, StaffRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStaffRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ServiceRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the StaffRequest model
+   * Fields of the ServiceRequest model
    */
-  readonly fields: StaffRequestFieldRefs;
+  readonly fields: ServiceRequestFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for StaffRequest.
+   * The delegate class that acts as a "Promise-like" for ServiceRequest.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__StaffRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ServiceRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    serviceType<T extends StaffServiceTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StaffServiceTypeDefaultArgs<ExtArgs>>): Prisma__StaffServiceTypeClient<$Result.GetResult<Prisma.$StaffServiceTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    attachments<T extends StaffRequest$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, StaffRequest$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    category<T extends ServiceCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceCategoryDefaultArgs<ExtArgs>>): Prisma__ServiceCategoryClient<$Result.GetResult<Prisma.$ServiceCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    attachments<T extends ServiceRequest$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequest$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    approvals<T extends ServiceRequest$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequest$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends ServiceRequest$commentsArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequest$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -31609,419 +32439,420 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the StaffRequest model
+   * Fields of the ServiceRequest model
    */
-  interface StaffRequestFieldRefs {
-    readonly id: FieldRef<"StaffRequest", 'String'>
-    readonly employeeId: FieldRef<"StaffRequest", 'String'>
-    readonly typeId: FieldRef<"StaffRequest", 'String'>
-    readonly details: FieldRef<"StaffRequest", 'String'>
-    readonly amount: FieldRef<"StaffRequest", 'Float'>
-    readonly startDate: FieldRef<"StaffRequest", 'DateTime'>
-    readonly endDate: FieldRef<"StaffRequest", 'DateTime'>
-    readonly status: FieldRef<"StaffRequest", 'String'>
-    readonly hrNote: FieldRef<"StaffRequest", 'String'>
-    readonly createdAt: FieldRef<"StaffRequest", 'DateTime'>
-    readonly updatedAt: FieldRef<"StaffRequest", 'DateTime'>
+  interface ServiceRequestFieldRefs {
+    readonly id: FieldRef<"ServiceRequest", 'String'>
+    readonly employeeId: FieldRef<"ServiceRequest", 'String'>
+    readonly categoryId: FieldRef<"ServiceRequest", 'String'>
+    readonly details: FieldRef<"ServiceRequest", 'String'>
+    readonly amount: FieldRef<"ServiceRequest", 'Float'>
+    readonly startDate: FieldRef<"ServiceRequest", 'DateTime'>
+    readonly endDate: FieldRef<"ServiceRequest", 'DateTime'>
+    readonly status: FieldRef<"ServiceRequest", 'String'>
+    readonly workflowStep: FieldRef<"ServiceRequest", 'Int'>
+    readonly hrNote: FieldRef<"ServiceRequest", 'String'>
+    readonly createdAt: FieldRef<"ServiceRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"ServiceRequest", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * StaffRequest findUnique
+   * ServiceRequest findUnique
    */
-  export type StaffRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * Filter, which StaffRequest to fetch.
+     * Filter, which ServiceRequest to fetch.
      */
-    where: StaffRequestWhereUniqueInput
+    where: ServiceRequestWhereUniqueInput
   }
 
   /**
-   * StaffRequest findUniqueOrThrow
+   * ServiceRequest findUniqueOrThrow
    */
-  export type StaffRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * Filter, which StaffRequest to fetch.
+     * Filter, which ServiceRequest to fetch.
      */
-    where: StaffRequestWhereUniqueInput
+    where: ServiceRequestWhereUniqueInput
   }
 
   /**
-   * StaffRequest findFirst
+   * ServiceRequest findFirst
    */
-  export type StaffRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * Filter, which StaffRequest to fetch.
+     * Filter, which ServiceRequest to fetch.
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffRequests to fetch.
+     * Determine the order of ServiceRequests to fetch.
      */
-    orderBy?: StaffRequestOrderByWithRelationInput | StaffRequestOrderByWithRelationInput[]
+    orderBy?: ServiceRequestOrderByWithRelationInput | ServiceRequestOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for StaffRequests.
+     * Sets the position for searching for ServiceRequests.
      */
-    cursor?: StaffRequestWhereUniqueInput
+    cursor?: ServiceRequestWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffRequests from the position of the cursor.
+     * Take `±n` ServiceRequests from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffRequests.
+     * Skip the first `n` ServiceRequests.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of StaffRequests.
+     * Filter by unique combinations of ServiceRequests.
      */
-    distinct?: StaffRequestScalarFieldEnum | StaffRequestScalarFieldEnum[]
+    distinct?: ServiceRequestScalarFieldEnum | ServiceRequestScalarFieldEnum[]
   }
 
   /**
-   * StaffRequest findFirstOrThrow
+   * ServiceRequest findFirstOrThrow
    */
-  export type StaffRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * Filter, which StaffRequest to fetch.
+     * Filter, which ServiceRequest to fetch.
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffRequests to fetch.
+     * Determine the order of ServiceRequests to fetch.
      */
-    orderBy?: StaffRequestOrderByWithRelationInput | StaffRequestOrderByWithRelationInput[]
+    orderBy?: ServiceRequestOrderByWithRelationInput | ServiceRequestOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for StaffRequests.
+     * Sets the position for searching for ServiceRequests.
      */
-    cursor?: StaffRequestWhereUniqueInput
+    cursor?: ServiceRequestWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffRequests from the position of the cursor.
+     * Take `±n` ServiceRequests from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffRequests.
+     * Skip the first `n` ServiceRequests.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of StaffRequests.
+     * Filter by unique combinations of ServiceRequests.
      */
-    distinct?: StaffRequestScalarFieldEnum | StaffRequestScalarFieldEnum[]
+    distinct?: ServiceRequestScalarFieldEnum | ServiceRequestScalarFieldEnum[]
   }
 
   /**
-   * StaffRequest findMany
+   * ServiceRequest findMany
    */
-  export type StaffRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * Filter, which StaffRequests to fetch.
+     * Filter, which ServiceRequests to fetch.
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of StaffRequests to fetch.
+     * Determine the order of ServiceRequests to fetch.
      */
-    orderBy?: StaffRequestOrderByWithRelationInput | StaffRequestOrderByWithRelationInput[]
+    orderBy?: ServiceRequestOrderByWithRelationInput | ServiceRequestOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing StaffRequests.
+     * Sets the position for listing ServiceRequests.
      */
-    cursor?: StaffRequestWhereUniqueInput
+    cursor?: ServiceRequestWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` StaffRequests from the position of the cursor.
+     * Take `±n` ServiceRequests from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` StaffRequests.
+     * Skip the first `n` ServiceRequests.
      */
     skip?: number
-    distinct?: StaffRequestScalarFieldEnum | StaffRequestScalarFieldEnum[]
+    distinct?: ServiceRequestScalarFieldEnum | ServiceRequestScalarFieldEnum[]
   }
 
   /**
-   * StaffRequest create
+   * ServiceRequest create
    */
-  export type StaffRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * The data needed to create a StaffRequest.
+     * The data needed to create a ServiceRequest.
      */
-    data: XOR<StaffRequestCreateInput, StaffRequestUncheckedCreateInput>
+    data: XOR<ServiceRequestCreateInput, ServiceRequestUncheckedCreateInput>
   }
 
   /**
-   * StaffRequest createMany
+   * ServiceRequest createMany
    */
-  export type StaffRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many StaffRequests.
+     * The data used to create many ServiceRequests.
      */
-    data: StaffRequestCreateManyInput | StaffRequestCreateManyInput[]
+    data: ServiceRequestCreateManyInput | ServiceRequestCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * StaffRequest createManyAndReturn
+   * ServiceRequest createManyAndReturn
    */
-  export type StaffRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ServiceRequestSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
-     * The data used to create many StaffRequests.
+     * The data used to create many ServiceRequests.
      */
-    data: StaffRequestCreateManyInput | StaffRequestCreateManyInput[]
+    data: ServiceRequestCreateManyInput | ServiceRequestCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: ServiceRequestIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * StaffRequest update
+   * ServiceRequest update
    */
-  export type StaffRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * The data needed to update a StaffRequest.
+     * The data needed to update a ServiceRequest.
      */
-    data: XOR<StaffRequestUpdateInput, StaffRequestUncheckedUpdateInput>
+    data: XOR<ServiceRequestUpdateInput, ServiceRequestUncheckedUpdateInput>
     /**
-     * Choose, which StaffRequest to update.
+     * Choose, which ServiceRequest to update.
      */
-    where: StaffRequestWhereUniqueInput
+    where: ServiceRequestWhereUniqueInput
   }
 
   /**
-   * StaffRequest updateMany
+   * ServiceRequest updateMany
    */
-  export type StaffRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update StaffRequests.
+     * The data used to update ServiceRequests.
      */
-    data: XOR<StaffRequestUpdateManyMutationInput, StaffRequestUncheckedUpdateManyInput>
+    data: XOR<ServiceRequestUpdateManyMutationInput, ServiceRequestUncheckedUpdateManyInput>
     /**
-     * Filter which StaffRequests to update
+     * Filter which ServiceRequests to update
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
-     * Limit how many StaffRequests to update.
+     * Limit how many ServiceRequests to update.
      */
     limit?: number
   }
 
   /**
-   * StaffRequest updateManyAndReturn
+   * ServiceRequest updateManyAndReturn
    */
-  export type StaffRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ServiceRequestSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
-     * The data used to update StaffRequests.
+     * The data used to update ServiceRequests.
      */
-    data: XOR<StaffRequestUpdateManyMutationInput, StaffRequestUncheckedUpdateManyInput>
+    data: XOR<ServiceRequestUpdateManyMutationInput, ServiceRequestUncheckedUpdateManyInput>
     /**
-     * Filter which StaffRequests to update
+     * Filter which ServiceRequests to update
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
-     * Limit how many StaffRequests to update.
+     * Limit how many ServiceRequests to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: ServiceRequestIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * StaffRequest upsert
+   * ServiceRequest upsert
    */
-  export type StaffRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * The filter to search for the StaffRequest to update in case it exists.
+     * The filter to search for the ServiceRequest to update in case it exists.
      */
-    where: StaffRequestWhereUniqueInput
+    where: ServiceRequestWhereUniqueInput
     /**
-     * In case the StaffRequest found by the `where` argument doesn't exist, create a new StaffRequest with this data.
+     * In case the ServiceRequest found by the `where` argument doesn't exist, create a new ServiceRequest with this data.
      */
-    create: XOR<StaffRequestCreateInput, StaffRequestUncheckedCreateInput>
+    create: XOR<ServiceRequestCreateInput, ServiceRequestUncheckedCreateInput>
     /**
-     * In case the StaffRequest was found with the provided `where` argument, update it with this data.
+     * In case the ServiceRequest was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<StaffRequestUpdateInput, StaffRequestUncheckedUpdateInput>
+    update: XOR<ServiceRequestUpdateInput, ServiceRequestUncheckedUpdateInput>
   }
 
   /**
-   * StaffRequest delete
+   * ServiceRequest delete
    */
-  export type StaffRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceRequestInclude<ExtArgs> | null
     /**
-     * Filter which StaffRequest to delete.
+     * Filter which ServiceRequest to delete.
      */
-    where: StaffRequestWhereUniqueInput
+    where: ServiceRequestWhereUniqueInput
   }
 
   /**
-   * StaffRequest deleteMany
+   * ServiceRequest deleteMany
    */
-  export type StaffRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which StaffRequests to delete
+     * Filter which ServiceRequests to delete
      */
-    where?: StaffRequestWhereInput
+    where?: ServiceRequestWhereInput
     /**
-     * Limit how many StaffRequests to delete.
+     * Limit how many ServiceRequests to delete.
      */
     limit?: number
   }
 
   /**
-   * StaffRequest.attachments
+   * ServiceRequest.attachments
    */
-  export type StaffRequest$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequest$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Attachment
      */
@@ -32043,21 +32874,4533 @@ export namespace Prisma {
   }
 
   /**
-   * StaffRequest without action
+   * ServiceRequest.approvals
    */
-  export type StaffRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ServiceRequest$approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceApproval
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceApprovalSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceApproval
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceApprovalOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    where?: ServiceApprovalWhereInput
+    orderBy?: ServiceApprovalOrderByWithRelationInput | ServiceApprovalOrderByWithRelationInput[]
+    cursor?: ServiceApprovalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceApprovalScalarFieldEnum | ServiceApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceRequest.comments
+   */
+  export type ServiceRequest$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    where?: ServiceCommentWhereInput
+    orderBy?: ServiceCommentOrderByWithRelationInput | ServiceCommentOrderByWithRelationInput[]
+    cursor?: ServiceCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceCommentScalarFieldEnum | ServiceCommentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceRequest without action
+   */
+  export type ServiceRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceRequest
+     */
+    select?: ServiceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceRequest
+     */
+    omit?: ServiceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceApproval
+   */
+
+  export type AggregateServiceApproval = {
+    _count: ServiceApprovalCountAggregateOutputType | null
+    _min: ServiceApprovalMinAggregateOutputType | null
+    _max: ServiceApprovalMaxAggregateOutputType | null
+  }
+
+  export type ServiceApprovalMinAggregateOutputType = {
+    id: string | null
+    serviceRequestId: string | null
+    approverId: string | null
+    approverEmail: string | null
+    level: string | null
+    action: string | null
+    comments: string | null
+    createdAt: Date | null
+  }
+
+  export type ServiceApprovalMaxAggregateOutputType = {
+    id: string | null
+    serviceRequestId: string | null
+    approverId: string | null
+    approverEmail: string | null
+    level: string | null
+    action: string | null
+    comments: string | null
+    createdAt: Date | null
+  }
+
+  export type ServiceApprovalCountAggregateOutputType = {
+    id: number
+    serviceRequestId: number
+    approverId: number
+    approverEmail: number
+    level: number
+    action: number
+    comments: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ServiceApprovalMinAggregateInputType = {
+    id?: true
+    serviceRequestId?: true
+    approverId?: true
+    approverEmail?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+  }
+
+  export type ServiceApprovalMaxAggregateInputType = {
+    id?: true
+    serviceRequestId?: true
+    approverId?: true
+    approverEmail?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+  }
+
+  export type ServiceApprovalCountAggregateInputType = {
+    id?: true
+    serviceRequestId?: true
+    approverId?: true
+    approverEmail?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ServiceApprovalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceApproval to aggregate.
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceApprovals to fetch.
+     */
+    orderBy?: ServiceApprovalOrderByWithRelationInput | ServiceApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceApprovals
+    **/
+    _count?: true | ServiceApprovalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceApprovalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceApprovalMaxAggregateInputType
+  }
+
+  export type GetServiceApprovalAggregateType<T extends ServiceApprovalAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceApproval]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceApproval[P]>
+      : GetScalarType<T[P], AggregateServiceApproval[P]>
+  }
+
+
+
+
+  export type ServiceApprovalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceApprovalWhereInput
+    orderBy?: ServiceApprovalOrderByWithAggregationInput | ServiceApprovalOrderByWithAggregationInput[]
+    by: ServiceApprovalScalarFieldEnum[] | ServiceApprovalScalarFieldEnum
+    having?: ServiceApprovalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceApprovalCountAggregateInputType | true
+    _min?: ServiceApprovalMinAggregateInputType
+    _max?: ServiceApprovalMaxAggregateInputType
+  }
+
+  export type ServiceApprovalGroupByOutputType = {
+    id: string
+    serviceRequestId: string
+    approverId: string | null
+    approverEmail: string | null
+    level: string
+    action: string
+    comments: string | null
+    createdAt: Date
+    _count: ServiceApprovalCountAggregateOutputType | null
+    _min: ServiceApprovalMinAggregateOutputType | null
+    _max: ServiceApprovalMaxAggregateOutputType | null
+  }
+
+  type GetServiceApprovalGroupByPayload<T extends ServiceApprovalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceApprovalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceApprovalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceApprovalGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceApprovalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceApprovalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceRequestId?: boolean
+    approverId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceApproval"]>
+
+  export type ServiceApprovalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceRequestId?: boolean
+    approverId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceApproval"]>
+
+  export type ServiceApprovalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceRequestId?: boolean
+    approverId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceApproval"]>
+
+  export type ServiceApprovalSelectScalar = {
+    id?: boolean
+    serviceRequestId?: boolean
+    approverId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+  }
+
+  export type ServiceApprovalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceRequestId" | "approverId" | "approverEmail" | "level" | "action" | "comments" | "createdAt", ExtArgs["result"]["serviceApproval"]>
+  export type ServiceApprovalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+  export type ServiceApprovalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+  export type ServiceApprovalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceApprovalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceApproval"
+    objects: {
+      serviceRequest: Prisma.$ServiceRequestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      serviceRequestId: string
+      approverId: string | null
+      approverEmail: string | null
+      level: string
+      action: string
+      comments: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["serviceApproval"]>
+    composites: {}
+  }
+
+  type ServiceApprovalGetPayload<S extends boolean | null | undefined | ServiceApprovalDefaultArgs> = $Result.GetResult<Prisma.$ServiceApprovalPayload, S>
+
+  type ServiceApprovalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceApprovalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceApprovalCountAggregateInputType | true
+    }
+
+  export interface ServiceApprovalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceApproval'], meta: { name: 'ServiceApproval' } }
+    /**
+     * Find zero or one ServiceApproval that matches the filter.
+     * @param {ServiceApprovalFindUniqueArgs} args - Arguments to find a ServiceApproval
+     * @example
+     * // Get one ServiceApproval
+     * const serviceApproval = await prisma.serviceApproval.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceApprovalFindUniqueArgs>(args: SelectSubset<T, ServiceApprovalFindUniqueArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceApproval that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceApprovalFindUniqueOrThrowArgs} args - Arguments to find a ServiceApproval
+     * @example
+     * // Get one ServiceApproval
+     * const serviceApproval = await prisma.serviceApproval.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceApprovalFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceApprovalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceApproval that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalFindFirstArgs} args - Arguments to find a ServiceApproval
+     * @example
+     * // Get one ServiceApproval
+     * const serviceApproval = await prisma.serviceApproval.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceApprovalFindFirstArgs>(args?: SelectSubset<T, ServiceApprovalFindFirstArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceApproval that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalFindFirstOrThrowArgs} args - Arguments to find a ServiceApproval
+     * @example
+     * // Get one ServiceApproval
+     * const serviceApproval = await prisma.serviceApproval.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceApprovalFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceApprovalFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceApprovals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceApprovals
+     * const serviceApprovals = await prisma.serviceApproval.findMany()
+     * 
+     * // Get first 10 ServiceApprovals
+     * const serviceApprovals = await prisma.serviceApproval.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceApprovalWithIdOnly = await prisma.serviceApproval.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceApprovalFindManyArgs>(args?: SelectSubset<T, ServiceApprovalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceApproval.
+     * @param {ServiceApprovalCreateArgs} args - Arguments to create a ServiceApproval.
+     * @example
+     * // Create one ServiceApproval
+     * const ServiceApproval = await prisma.serviceApproval.create({
+     *   data: {
+     *     // ... data to create a ServiceApproval
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceApprovalCreateArgs>(args: SelectSubset<T, ServiceApprovalCreateArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceApprovals.
+     * @param {ServiceApprovalCreateManyArgs} args - Arguments to create many ServiceApprovals.
+     * @example
+     * // Create many ServiceApprovals
+     * const serviceApproval = await prisma.serviceApproval.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceApprovalCreateManyArgs>(args?: SelectSubset<T, ServiceApprovalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceApprovals and returns the data saved in the database.
+     * @param {ServiceApprovalCreateManyAndReturnArgs} args - Arguments to create many ServiceApprovals.
+     * @example
+     * // Create many ServiceApprovals
+     * const serviceApproval = await prisma.serviceApproval.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceApprovals and only return the `id`
+     * const serviceApprovalWithIdOnly = await prisma.serviceApproval.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceApprovalCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceApprovalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceApproval.
+     * @param {ServiceApprovalDeleteArgs} args - Arguments to delete one ServiceApproval.
+     * @example
+     * // Delete one ServiceApproval
+     * const ServiceApproval = await prisma.serviceApproval.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceApproval
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceApprovalDeleteArgs>(args: SelectSubset<T, ServiceApprovalDeleteArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceApproval.
+     * @param {ServiceApprovalUpdateArgs} args - Arguments to update one ServiceApproval.
+     * @example
+     * // Update one ServiceApproval
+     * const serviceApproval = await prisma.serviceApproval.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceApprovalUpdateArgs>(args: SelectSubset<T, ServiceApprovalUpdateArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceApprovals.
+     * @param {ServiceApprovalDeleteManyArgs} args - Arguments to filter ServiceApprovals to delete.
+     * @example
+     * // Delete a few ServiceApprovals
+     * const { count } = await prisma.serviceApproval.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceApprovalDeleteManyArgs>(args?: SelectSubset<T, ServiceApprovalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceApprovals
+     * const serviceApproval = await prisma.serviceApproval.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceApprovalUpdateManyArgs>(args: SelectSubset<T, ServiceApprovalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceApprovals and returns the data updated in the database.
+     * @param {ServiceApprovalUpdateManyAndReturnArgs} args - Arguments to update many ServiceApprovals.
+     * @example
+     * // Update many ServiceApprovals
+     * const serviceApproval = await prisma.serviceApproval.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceApprovals and only return the `id`
+     * const serviceApprovalWithIdOnly = await prisma.serviceApproval.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceApprovalUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceApprovalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceApproval.
+     * @param {ServiceApprovalUpsertArgs} args - Arguments to update or create a ServiceApproval.
+     * @example
+     * // Update or create a ServiceApproval
+     * const serviceApproval = await prisma.serviceApproval.upsert({
+     *   create: {
+     *     // ... data to create a ServiceApproval
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceApproval we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceApprovalUpsertArgs>(args: SelectSubset<T, ServiceApprovalUpsertArgs<ExtArgs>>): Prisma__ServiceApprovalClient<$Result.GetResult<Prisma.$ServiceApprovalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalCountArgs} args - Arguments to filter ServiceApprovals to count.
+     * @example
+     * // Count the number of ServiceApprovals
+     * const count = await prisma.serviceApproval.count({
+     *   where: {
+     *     // ... the filter for the ServiceApprovals we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceApprovalCountArgs>(
+      args?: Subset<T, ServiceApprovalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceApprovalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceApprovalAggregateArgs>(args: Subset<T, ServiceApprovalAggregateArgs>): Prisma.PrismaPromise<GetServiceApprovalAggregateType<T>>
+
+    /**
+     * Group by ServiceApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceApprovalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceApprovalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceApprovalGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceApprovalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceApprovalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceApprovalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceApproval model
+   */
+  readonly fields: ServiceApprovalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceApproval.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceApprovalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    serviceRequest<T extends ServiceRequestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequestDefaultArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceApproval model
+   */
+  interface ServiceApprovalFieldRefs {
+    readonly id: FieldRef<"ServiceApproval", 'String'>
+    readonly serviceRequestId: FieldRef<"ServiceApproval", 'String'>
+    readonly approverId: FieldRef<"ServiceApproval", 'String'>
+    readonly approverEmail: FieldRef<"ServiceApproval", 'String'>
+    readonly level: FieldRef<"ServiceApproval", 'String'>
+    readonly action: FieldRef<"ServiceApproval", 'String'>
+    readonly comments: FieldRef<"ServiceApproval", 'String'>
+    readonly createdAt: FieldRef<"ServiceApproval", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceApproval findUnique
+   */
+  export type ServiceApprovalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceApproval to fetch.
+     */
+    where: ServiceApprovalWhereUniqueInput
+  }
+
+  /**
+   * ServiceApproval findUniqueOrThrow
+   */
+  export type ServiceApprovalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceApproval to fetch.
+     */
+    where: ServiceApprovalWhereUniqueInput
+  }
+
+  /**
+   * ServiceApproval findFirst
+   */
+  export type ServiceApprovalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceApproval to fetch.
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceApprovals to fetch.
+     */
+    orderBy?: ServiceApprovalOrderByWithRelationInput | ServiceApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceApprovals.
+     */
+    cursor?: ServiceApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceApprovals.
+     */
+    distinct?: ServiceApprovalScalarFieldEnum | ServiceApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceApproval findFirstOrThrow
+   */
+  export type ServiceApprovalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceApproval to fetch.
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceApprovals to fetch.
+     */
+    orderBy?: ServiceApprovalOrderByWithRelationInput | ServiceApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceApprovals.
+     */
+    cursor?: ServiceApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceApprovals.
+     */
+    distinct?: ServiceApprovalScalarFieldEnum | ServiceApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceApproval findMany
+   */
+  export type ServiceApprovalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceApprovals to fetch.
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceApprovals to fetch.
+     */
+    orderBy?: ServiceApprovalOrderByWithRelationInput | ServiceApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceApprovals.
+     */
+    cursor?: ServiceApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceApprovals.
+     */
+    skip?: number
+    distinct?: ServiceApprovalScalarFieldEnum | ServiceApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceApproval create
+   */
+  export type ServiceApprovalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceApproval.
+     */
+    data: XOR<ServiceApprovalCreateInput, ServiceApprovalUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceApproval createMany
+   */
+  export type ServiceApprovalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceApprovals.
+     */
+    data: ServiceApprovalCreateManyInput | ServiceApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceApproval createManyAndReturn
+   */
+  export type ServiceApprovalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceApprovals.
+     */
+    data: ServiceApprovalCreateManyInput | ServiceApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceApproval update
+   */
+  export type ServiceApprovalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceApproval.
+     */
+    data: XOR<ServiceApprovalUpdateInput, ServiceApprovalUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceApproval to update.
+     */
+    where: ServiceApprovalWhereUniqueInput
+  }
+
+  /**
+   * ServiceApproval updateMany
+   */
+  export type ServiceApprovalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceApprovals.
+     */
+    data: XOR<ServiceApprovalUpdateManyMutationInput, ServiceApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceApprovals to update
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * Limit how many ServiceApprovals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceApproval updateManyAndReturn
+   */
+  export type ServiceApprovalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceApprovals.
+     */
+    data: XOR<ServiceApprovalUpdateManyMutationInput, ServiceApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceApprovals to update
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * Limit how many ServiceApprovals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceApproval upsert
+   */
+  export type ServiceApprovalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceApproval to update in case it exists.
+     */
+    where: ServiceApprovalWhereUniqueInput
+    /**
+     * In case the ServiceApproval found by the `where` argument doesn't exist, create a new ServiceApproval with this data.
+     */
+    create: XOR<ServiceApprovalCreateInput, ServiceApprovalUncheckedCreateInput>
+    /**
+     * In case the ServiceApproval was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceApprovalUpdateInput, ServiceApprovalUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceApproval delete
+   */
+  export type ServiceApprovalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceApproval to delete.
+     */
+    where: ServiceApprovalWhereUniqueInput
+  }
+
+  /**
+   * ServiceApproval deleteMany
+   */
+  export type ServiceApprovalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceApprovals to delete
+     */
+    where?: ServiceApprovalWhereInput
+    /**
+     * Limit how many ServiceApprovals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceApproval without action
+   */
+  export type ServiceApprovalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceApproval
+     */
+    select?: ServiceApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceApproval
+     */
+    omit?: ServiceApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceApprovalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceComment
+   */
+
+  export type AggregateServiceComment = {
+    _count: ServiceCommentCountAggregateOutputType | null
+    _min: ServiceCommentMinAggregateOutputType | null
+    _max: ServiceCommentMaxAggregateOutputType | null
+  }
+
+  export type ServiceCommentMinAggregateOutputType = {
+    id: string | null
+    serviceRequestId: string | null
+    authorId: string | null
+    authorName: string | null
+    content: string | null
+    createdAt: Date | null
+  }
+
+  export type ServiceCommentMaxAggregateOutputType = {
+    id: string | null
+    serviceRequestId: string | null
+    authorId: string | null
+    authorName: string | null
+    content: string | null
+    createdAt: Date | null
+  }
+
+  export type ServiceCommentCountAggregateOutputType = {
+    id: number
+    serviceRequestId: number
+    authorId: number
+    authorName: number
+    content: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ServiceCommentMinAggregateInputType = {
+    id?: true
+    serviceRequestId?: true
+    authorId?: true
+    authorName?: true
+    content?: true
+    createdAt?: true
+  }
+
+  export type ServiceCommentMaxAggregateInputType = {
+    id?: true
+    serviceRequestId?: true
+    authorId?: true
+    authorName?: true
+    content?: true
+    createdAt?: true
+  }
+
+  export type ServiceCommentCountAggregateInputType = {
+    id?: true
+    serviceRequestId?: true
+    authorId?: true
+    authorName?: true
+    content?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ServiceCommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceComment to aggregate.
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceComments to fetch.
+     */
+    orderBy?: ServiceCommentOrderByWithRelationInput | ServiceCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceComments
+    **/
+    _count?: true | ServiceCommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceCommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceCommentMaxAggregateInputType
+  }
+
+  export type GetServiceCommentAggregateType<T extends ServiceCommentAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceComment[P]>
+      : GetScalarType<T[P], AggregateServiceComment[P]>
+  }
+
+
+
+
+  export type ServiceCommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceCommentWhereInput
+    orderBy?: ServiceCommentOrderByWithAggregationInput | ServiceCommentOrderByWithAggregationInput[]
+    by: ServiceCommentScalarFieldEnum[] | ServiceCommentScalarFieldEnum
+    having?: ServiceCommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceCommentCountAggregateInputType | true
+    _min?: ServiceCommentMinAggregateInputType
+    _max?: ServiceCommentMaxAggregateInputType
+  }
+
+  export type ServiceCommentGroupByOutputType = {
+    id: string
+    serviceRequestId: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt: Date
+    _count: ServiceCommentCountAggregateOutputType | null
+    _min: ServiceCommentMinAggregateOutputType | null
+    _max: ServiceCommentMaxAggregateOutputType | null
+  }
+
+  type GetServiceCommentGroupByPayload<T extends ServiceCommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceCommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceCommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceCommentGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceCommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceRequestId?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    content?: boolean
+    createdAt?: boolean
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceComment"]>
+
+  export type ServiceCommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceRequestId?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    content?: boolean
+    createdAt?: boolean
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceComment"]>
+
+  export type ServiceCommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    serviceRequestId?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    content?: boolean
+    createdAt?: boolean
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceComment"]>
+
+  export type ServiceCommentSelectScalar = {
+    id?: boolean
+    serviceRequestId?: boolean
+    authorId?: boolean
+    authorName?: boolean
+    content?: boolean
+    createdAt?: boolean
+  }
+
+  export type ServiceCommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceRequestId" | "authorId" | "authorName" | "content" | "createdAt", ExtArgs["result"]["serviceComment"]>
+  export type ServiceCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+  export type ServiceCommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+  export type ServiceCommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    serviceRequest?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceCommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceComment"
+    objects: {
+      serviceRequest: Prisma.$ServiceRequestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      serviceRequestId: string
+      authorId: string
+      authorName: string
+      content: string
+      createdAt: Date
+    }, ExtArgs["result"]["serviceComment"]>
+    composites: {}
+  }
+
+  type ServiceCommentGetPayload<S extends boolean | null | undefined | ServiceCommentDefaultArgs> = $Result.GetResult<Prisma.$ServiceCommentPayload, S>
+
+  type ServiceCommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceCommentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceCommentCountAggregateInputType | true
+    }
+
+  export interface ServiceCommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceComment'], meta: { name: 'ServiceComment' } }
+    /**
+     * Find zero or one ServiceComment that matches the filter.
+     * @param {ServiceCommentFindUniqueArgs} args - Arguments to find a ServiceComment
+     * @example
+     * // Get one ServiceComment
+     * const serviceComment = await prisma.serviceComment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceCommentFindUniqueArgs>(args: SelectSubset<T, ServiceCommentFindUniqueArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceComment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceCommentFindUniqueOrThrowArgs} args - Arguments to find a ServiceComment
+     * @example
+     * // Get one ServiceComment
+     * const serviceComment = await prisma.serviceComment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceCommentFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceCommentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceComment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentFindFirstArgs} args - Arguments to find a ServiceComment
+     * @example
+     * // Get one ServiceComment
+     * const serviceComment = await prisma.serviceComment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceCommentFindFirstArgs>(args?: SelectSubset<T, ServiceCommentFindFirstArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceComment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentFindFirstOrThrowArgs} args - Arguments to find a ServiceComment
+     * @example
+     * // Get one ServiceComment
+     * const serviceComment = await prisma.serviceComment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceCommentFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceCommentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceComments
+     * const serviceComments = await prisma.serviceComment.findMany()
+     * 
+     * // Get first 10 ServiceComments
+     * const serviceComments = await prisma.serviceComment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceCommentWithIdOnly = await prisma.serviceComment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceCommentFindManyArgs>(args?: SelectSubset<T, ServiceCommentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceComment.
+     * @param {ServiceCommentCreateArgs} args - Arguments to create a ServiceComment.
+     * @example
+     * // Create one ServiceComment
+     * const ServiceComment = await prisma.serviceComment.create({
+     *   data: {
+     *     // ... data to create a ServiceComment
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceCommentCreateArgs>(args: SelectSubset<T, ServiceCommentCreateArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceComments.
+     * @param {ServiceCommentCreateManyArgs} args - Arguments to create many ServiceComments.
+     * @example
+     * // Create many ServiceComments
+     * const serviceComment = await prisma.serviceComment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceCommentCreateManyArgs>(args?: SelectSubset<T, ServiceCommentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceComments and returns the data saved in the database.
+     * @param {ServiceCommentCreateManyAndReturnArgs} args - Arguments to create many ServiceComments.
+     * @example
+     * // Create many ServiceComments
+     * const serviceComment = await prisma.serviceComment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceComments and only return the `id`
+     * const serviceCommentWithIdOnly = await prisma.serviceComment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceCommentCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceCommentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceComment.
+     * @param {ServiceCommentDeleteArgs} args - Arguments to delete one ServiceComment.
+     * @example
+     * // Delete one ServiceComment
+     * const ServiceComment = await prisma.serviceComment.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceComment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceCommentDeleteArgs>(args: SelectSubset<T, ServiceCommentDeleteArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceComment.
+     * @param {ServiceCommentUpdateArgs} args - Arguments to update one ServiceComment.
+     * @example
+     * // Update one ServiceComment
+     * const serviceComment = await prisma.serviceComment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceCommentUpdateArgs>(args: SelectSubset<T, ServiceCommentUpdateArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceComments.
+     * @param {ServiceCommentDeleteManyArgs} args - Arguments to filter ServiceComments to delete.
+     * @example
+     * // Delete a few ServiceComments
+     * const { count } = await prisma.serviceComment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceCommentDeleteManyArgs>(args?: SelectSubset<T, ServiceCommentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceComments
+     * const serviceComment = await prisma.serviceComment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceCommentUpdateManyArgs>(args: SelectSubset<T, ServiceCommentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceComments and returns the data updated in the database.
+     * @param {ServiceCommentUpdateManyAndReturnArgs} args - Arguments to update many ServiceComments.
+     * @example
+     * // Update many ServiceComments
+     * const serviceComment = await prisma.serviceComment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceComments and only return the `id`
+     * const serviceCommentWithIdOnly = await prisma.serviceComment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceCommentUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceCommentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceComment.
+     * @param {ServiceCommentUpsertArgs} args - Arguments to update or create a ServiceComment.
+     * @example
+     * // Update or create a ServiceComment
+     * const serviceComment = await prisma.serviceComment.upsert({
+     *   create: {
+     *     // ... data to create a ServiceComment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceComment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceCommentUpsertArgs>(args: SelectSubset<T, ServiceCommentUpsertArgs<ExtArgs>>): Prisma__ServiceCommentClient<$Result.GetResult<Prisma.$ServiceCommentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentCountArgs} args - Arguments to filter ServiceComments to count.
+     * @example
+     * // Count the number of ServiceComments
+     * const count = await prisma.serviceComment.count({
+     *   where: {
+     *     // ... the filter for the ServiceComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceCommentCountArgs>(
+      args?: Subset<T, ServiceCommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceCommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceCommentAggregateArgs>(args: Subset<T, ServiceCommentAggregateArgs>): Prisma.PrismaPromise<GetServiceCommentAggregateType<T>>
+
+    /**
+     * Group by ServiceComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceCommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceCommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceCommentGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceCommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceCommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceComment model
+   */
+  readonly fields: ServiceCommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceComment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceCommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    serviceRequest<T extends ServiceRequestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequestDefaultArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceComment model
+   */
+  interface ServiceCommentFieldRefs {
+    readonly id: FieldRef<"ServiceComment", 'String'>
+    readonly serviceRequestId: FieldRef<"ServiceComment", 'String'>
+    readonly authorId: FieldRef<"ServiceComment", 'String'>
+    readonly authorName: FieldRef<"ServiceComment", 'String'>
+    readonly content: FieldRef<"ServiceComment", 'String'>
+    readonly createdAt: FieldRef<"ServiceComment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceComment findUnique
+   */
+  export type ServiceCommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceComment to fetch.
+     */
+    where: ServiceCommentWhereUniqueInput
+  }
+
+  /**
+   * ServiceComment findUniqueOrThrow
+   */
+  export type ServiceCommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceComment to fetch.
+     */
+    where: ServiceCommentWhereUniqueInput
+  }
+
+  /**
+   * ServiceComment findFirst
+   */
+  export type ServiceCommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceComment to fetch.
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceComments to fetch.
+     */
+    orderBy?: ServiceCommentOrderByWithRelationInput | ServiceCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceComments.
+     */
+    cursor?: ServiceCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceComments.
+     */
+    distinct?: ServiceCommentScalarFieldEnum | ServiceCommentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceComment findFirstOrThrow
+   */
+  export type ServiceCommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceComment to fetch.
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceComments to fetch.
+     */
+    orderBy?: ServiceCommentOrderByWithRelationInput | ServiceCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceComments.
+     */
+    cursor?: ServiceCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceComments.
+     */
+    distinct?: ServiceCommentScalarFieldEnum | ServiceCommentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceComment findMany
+   */
+  export type ServiceCommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceComments to fetch.
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceComments to fetch.
+     */
+    orderBy?: ServiceCommentOrderByWithRelationInput | ServiceCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceComments.
+     */
+    cursor?: ServiceCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceComments.
+     */
+    skip?: number
+    distinct?: ServiceCommentScalarFieldEnum | ServiceCommentScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceComment create
+   */
+  export type ServiceCommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceComment.
+     */
+    data: XOR<ServiceCommentCreateInput, ServiceCommentUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceComment createMany
+   */
+  export type ServiceCommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceComments.
+     */
+    data: ServiceCommentCreateManyInput | ServiceCommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceComment createManyAndReturn
+   */
+  export type ServiceCommentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceComments.
+     */
+    data: ServiceCommentCreateManyInput | ServiceCommentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceComment update
+   */
+  export type ServiceCommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceComment.
+     */
+    data: XOR<ServiceCommentUpdateInput, ServiceCommentUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceComment to update.
+     */
+    where: ServiceCommentWhereUniqueInput
+  }
+
+  /**
+   * ServiceComment updateMany
+   */
+  export type ServiceCommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceComments.
+     */
+    data: XOR<ServiceCommentUpdateManyMutationInput, ServiceCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceComments to update
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * Limit how many ServiceComments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceComment updateManyAndReturn
+   */
+  export type ServiceCommentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceComments.
+     */
+    data: XOR<ServiceCommentUpdateManyMutationInput, ServiceCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceComments to update
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * Limit how many ServiceComments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceComment upsert
+   */
+  export type ServiceCommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceComment to update in case it exists.
+     */
+    where: ServiceCommentWhereUniqueInput
+    /**
+     * In case the ServiceComment found by the `where` argument doesn't exist, create a new ServiceComment with this data.
+     */
+    create: XOR<ServiceCommentCreateInput, ServiceCommentUncheckedCreateInput>
+    /**
+     * In case the ServiceComment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceCommentUpdateInput, ServiceCommentUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceComment delete
+   */
+  export type ServiceCommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceComment to delete.
+     */
+    where: ServiceCommentWhereUniqueInput
+  }
+
+  /**
+   * ServiceComment deleteMany
+   */
+  export type ServiceCommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceComments to delete
+     */
+    where?: ServiceCommentWhereInput
+    /**
+     * Limit how many ServiceComments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceComment without action
+   */
+  export type ServiceCommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceComment
+     */
+    select?: ServiceCommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceComment
+     */
+    omit?: ServiceCommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceCommentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReimbursementRequest
+   */
+
+  export type AggregateReimbursementRequest = {
+    _count: ReimbursementRequestCountAggregateOutputType | null
+    _avg: ReimbursementRequestAvgAggregateOutputType | null
+    _sum: ReimbursementRequestSumAggregateOutputType | null
+    _min: ReimbursementRequestMinAggregateOutputType | null
+    _max: ReimbursementRequestMaxAggregateOutputType | null
+  }
+
+  export type ReimbursementRequestAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type ReimbursementRequestSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type ReimbursementRequestMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    category: string | null
+    amount: number | null
+    details: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReimbursementRequestMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    category: string | null
+    amount: number | null
+    details: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReimbursementRequestCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    category: number
+    amount: number
+    details: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReimbursementRequestAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type ReimbursementRequestSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type ReimbursementRequestMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    category?: true
+    amount?: true
+    details?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReimbursementRequestMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    category?: true
+    amount?: true
+    details?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReimbursementRequestCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    category?: true
+    amount?: true
+    details?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReimbursementRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReimbursementRequest to aggregate.
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReimbursementRequests to fetch.
+     */
+    orderBy?: ReimbursementRequestOrderByWithRelationInput | ReimbursementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReimbursementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReimbursementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReimbursementRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReimbursementRequests
+    **/
+    _count?: true | ReimbursementRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReimbursementRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReimbursementRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReimbursementRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReimbursementRequestMaxAggregateInputType
+  }
+
+  export type GetReimbursementRequestAggregateType<T extends ReimbursementRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateReimbursementRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReimbursementRequest[P]>
+      : GetScalarType<T[P], AggregateReimbursementRequest[P]>
+  }
+
+
+
+
+  export type ReimbursementRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReimbursementRequestWhereInput
+    orderBy?: ReimbursementRequestOrderByWithAggregationInput | ReimbursementRequestOrderByWithAggregationInput[]
+    by: ReimbursementRequestScalarFieldEnum[] | ReimbursementRequestScalarFieldEnum
+    having?: ReimbursementRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReimbursementRequestCountAggregateInputType | true
+    _avg?: ReimbursementRequestAvgAggregateInputType
+    _sum?: ReimbursementRequestSumAggregateInputType
+    _min?: ReimbursementRequestMinAggregateInputType
+    _max?: ReimbursementRequestMaxAggregateInputType
+  }
+
+  export type ReimbursementRequestGroupByOutputType = {
+    id: string
+    employeeId: string
+    category: string
+    amount: number
+    details: string
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: ReimbursementRequestCountAggregateOutputType | null
+    _avg: ReimbursementRequestAvgAggregateOutputType | null
+    _sum: ReimbursementRequestSumAggregateOutputType | null
+    _min: ReimbursementRequestMinAggregateOutputType | null
+    _max: ReimbursementRequestMaxAggregateOutputType | null
+  }
+
+  type GetReimbursementRequestGroupByPayload<T extends ReimbursementRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReimbursementRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReimbursementRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReimbursementRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], ReimbursementRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReimbursementRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    category?: boolean
+    amount?: boolean
+    details?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    attachments?: boolean | ReimbursementRequest$attachmentsArgs<ExtArgs>
+    _count?: boolean | ReimbursementRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reimbursementRequest"]>
+
+  export type ReimbursementRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    category?: boolean
+    amount?: boolean
+    details?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reimbursementRequest"]>
+
+  export type ReimbursementRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    category?: boolean
+    amount?: boolean
+    details?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reimbursementRequest"]>
+
+  export type ReimbursementRequestSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    category?: boolean
+    amount?: boolean
+    details?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReimbursementRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "category" | "amount" | "details" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["reimbursementRequest"]>
+  export type ReimbursementRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    attachments?: boolean | ReimbursementRequest$attachmentsArgs<ExtArgs>
+    _count?: boolean | ReimbursementRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ReimbursementRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type ReimbursementRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $ReimbursementRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReimbursementRequest"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      category: string
+      amount: number
+      details: string
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["reimbursementRequest"]>
+    composites: {}
+  }
+
+  type ReimbursementRequestGetPayload<S extends boolean | null | undefined | ReimbursementRequestDefaultArgs> = $Result.GetResult<Prisma.$ReimbursementRequestPayload, S>
+
+  type ReimbursementRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReimbursementRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReimbursementRequestCountAggregateInputType | true
+    }
+
+  export interface ReimbursementRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReimbursementRequest'], meta: { name: 'ReimbursementRequest' } }
+    /**
+     * Find zero or one ReimbursementRequest that matches the filter.
+     * @param {ReimbursementRequestFindUniqueArgs} args - Arguments to find a ReimbursementRequest
+     * @example
+     * // Get one ReimbursementRequest
+     * const reimbursementRequest = await prisma.reimbursementRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReimbursementRequestFindUniqueArgs>(args: SelectSubset<T, ReimbursementRequestFindUniqueArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReimbursementRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReimbursementRequestFindUniqueOrThrowArgs} args - Arguments to find a ReimbursementRequest
+     * @example
+     * // Get one ReimbursementRequest
+     * const reimbursementRequest = await prisma.reimbursementRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReimbursementRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, ReimbursementRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReimbursementRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestFindFirstArgs} args - Arguments to find a ReimbursementRequest
+     * @example
+     * // Get one ReimbursementRequest
+     * const reimbursementRequest = await prisma.reimbursementRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReimbursementRequestFindFirstArgs>(args?: SelectSubset<T, ReimbursementRequestFindFirstArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReimbursementRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestFindFirstOrThrowArgs} args - Arguments to find a ReimbursementRequest
+     * @example
+     * // Get one ReimbursementRequest
+     * const reimbursementRequest = await prisma.reimbursementRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReimbursementRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, ReimbursementRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReimbursementRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReimbursementRequests
+     * const reimbursementRequests = await prisma.reimbursementRequest.findMany()
+     * 
+     * // Get first 10 ReimbursementRequests
+     * const reimbursementRequests = await prisma.reimbursementRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reimbursementRequestWithIdOnly = await prisma.reimbursementRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReimbursementRequestFindManyArgs>(args?: SelectSubset<T, ReimbursementRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReimbursementRequest.
+     * @param {ReimbursementRequestCreateArgs} args - Arguments to create a ReimbursementRequest.
+     * @example
+     * // Create one ReimbursementRequest
+     * const ReimbursementRequest = await prisma.reimbursementRequest.create({
+     *   data: {
+     *     // ... data to create a ReimbursementRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReimbursementRequestCreateArgs>(args: SelectSubset<T, ReimbursementRequestCreateArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReimbursementRequests.
+     * @param {ReimbursementRequestCreateManyArgs} args - Arguments to create many ReimbursementRequests.
+     * @example
+     * // Create many ReimbursementRequests
+     * const reimbursementRequest = await prisma.reimbursementRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReimbursementRequestCreateManyArgs>(args?: SelectSubset<T, ReimbursementRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReimbursementRequests and returns the data saved in the database.
+     * @param {ReimbursementRequestCreateManyAndReturnArgs} args - Arguments to create many ReimbursementRequests.
+     * @example
+     * // Create many ReimbursementRequests
+     * const reimbursementRequest = await prisma.reimbursementRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReimbursementRequests and only return the `id`
+     * const reimbursementRequestWithIdOnly = await prisma.reimbursementRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReimbursementRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, ReimbursementRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ReimbursementRequest.
+     * @param {ReimbursementRequestDeleteArgs} args - Arguments to delete one ReimbursementRequest.
+     * @example
+     * // Delete one ReimbursementRequest
+     * const ReimbursementRequest = await prisma.reimbursementRequest.delete({
+     *   where: {
+     *     // ... filter to delete one ReimbursementRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReimbursementRequestDeleteArgs>(args: SelectSubset<T, ReimbursementRequestDeleteArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReimbursementRequest.
+     * @param {ReimbursementRequestUpdateArgs} args - Arguments to update one ReimbursementRequest.
+     * @example
+     * // Update one ReimbursementRequest
+     * const reimbursementRequest = await prisma.reimbursementRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReimbursementRequestUpdateArgs>(args: SelectSubset<T, ReimbursementRequestUpdateArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReimbursementRequests.
+     * @param {ReimbursementRequestDeleteManyArgs} args - Arguments to filter ReimbursementRequests to delete.
+     * @example
+     * // Delete a few ReimbursementRequests
+     * const { count } = await prisma.reimbursementRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReimbursementRequestDeleteManyArgs>(args?: SelectSubset<T, ReimbursementRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReimbursementRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReimbursementRequests
+     * const reimbursementRequest = await prisma.reimbursementRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReimbursementRequestUpdateManyArgs>(args: SelectSubset<T, ReimbursementRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReimbursementRequests and returns the data updated in the database.
+     * @param {ReimbursementRequestUpdateManyAndReturnArgs} args - Arguments to update many ReimbursementRequests.
+     * @example
+     * // Update many ReimbursementRequests
+     * const reimbursementRequest = await prisma.reimbursementRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ReimbursementRequests and only return the `id`
+     * const reimbursementRequestWithIdOnly = await prisma.reimbursementRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ReimbursementRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, ReimbursementRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ReimbursementRequest.
+     * @param {ReimbursementRequestUpsertArgs} args - Arguments to update or create a ReimbursementRequest.
+     * @example
+     * // Update or create a ReimbursementRequest
+     * const reimbursementRequest = await prisma.reimbursementRequest.upsert({
+     *   create: {
+     *     // ... data to create a ReimbursementRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReimbursementRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReimbursementRequestUpsertArgs>(args: SelectSubset<T, ReimbursementRequestUpsertArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReimbursementRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestCountArgs} args - Arguments to filter ReimbursementRequests to count.
+     * @example
+     * // Count the number of ReimbursementRequests
+     * const count = await prisma.reimbursementRequest.count({
+     *   where: {
+     *     // ... the filter for the ReimbursementRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReimbursementRequestCountArgs>(
+      args?: Subset<T, ReimbursementRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReimbursementRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReimbursementRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReimbursementRequestAggregateArgs>(args: Subset<T, ReimbursementRequestAggregateArgs>): Prisma.PrismaPromise<GetReimbursementRequestAggregateType<T>>
+
+    /**
+     * Group by ReimbursementRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReimbursementRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReimbursementRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReimbursementRequestGroupByArgs['orderBy'] }
+        : { orderBy?: ReimbursementRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReimbursementRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReimbursementRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReimbursementRequest model
+   */
+  readonly fields: ReimbursementRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReimbursementRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReimbursementRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    attachments<T extends ReimbursementRequest$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, ReimbursementRequest$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReimbursementRequest model
+   */
+  interface ReimbursementRequestFieldRefs {
+    readonly id: FieldRef<"ReimbursementRequest", 'String'>
+    readonly employeeId: FieldRef<"ReimbursementRequest", 'String'>
+    readonly category: FieldRef<"ReimbursementRequest", 'String'>
+    readonly amount: FieldRef<"ReimbursementRequest", 'Float'>
+    readonly details: FieldRef<"ReimbursementRequest", 'String'>
+    readonly status: FieldRef<"ReimbursementRequest", 'String'>
+    readonly createdAt: FieldRef<"ReimbursementRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"ReimbursementRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReimbursementRequest findUnique
+   */
+  export type ReimbursementRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReimbursementRequest to fetch.
+     */
+    where: ReimbursementRequestWhereUniqueInput
+  }
+
+  /**
+   * ReimbursementRequest findUniqueOrThrow
+   */
+  export type ReimbursementRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReimbursementRequest to fetch.
+     */
+    where: ReimbursementRequestWhereUniqueInput
+  }
+
+  /**
+   * ReimbursementRequest findFirst
+   */
+  export type ReimbursementRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReimbursementRequest to fetch.
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReimbursementRequests to fetch.
+     */
+    orderBy?: ReimbursementRequestOrderByWithRelationInput | ReimbursementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReimbursementRequests.
+     */
+    cursor?: ReimbursementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReimbursementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReimbursementRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReimbursementRequests.
+     */
+    distinct?: ReimbursementRequestScalarFieldEnum | ReimbursementRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ReimbursementRequest findFirstOrThrow
+   */
+  export type ReimbursementRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReimbursementRequest to fetch.
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReimbursementRequests to fetch.
+     */
+    orderBy?: ReimbursementRequestOrderByWithRelationInput | ReimbursementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReimbursementRequests.
+     */
+    cursor?: ReimbursementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReimbursementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReimbursementRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReimbursementRequests.
+     */
+    distinct?: ReimbursementRequestScalarFieldEnum | ReimbursementRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ReimbursementRequest findMany
+   */
+  export type ReimbursementRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ReimbursementRequests to fetch.
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReimbursementRequests to fetch.
+     */
+    orderBy?: ReimbursementRequestOrderByWithRelationInput | ReimbursementRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReimbursementRequests.
+     */
+    cursor?: ReimbursementRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReimbursementRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReimbursementRequests.
+     */
+    skip?: number
+    distinct?: ReimbursementRequestScalarFieldEnum | ReimbursementRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ReimbursementRequest create
+   */
+  export type ReimbursementRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReimbursementRequest.
+     */
+    data: XOR<ReimbursementRequestCreateInput, ReimbursementRequestUncheckedCreateInput>
+  }
+
+  /**
+   * ReimbursementRequest createMany
+   */
+  export type ReimbursementRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReimbursementRequests.
+     */
+    data: ReimbursementRequestCreateManyInput | ReimbursementRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReimbursementRequest createManyAndReturn
+   */
+  export type ReimbursementRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many ReimbursementRequests.
+     */
+    data: ReimbursementRequestCreateManyInput | ReimbursementRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReimbursementRequest update
+   */
+  export type ReimbursementRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReimbursementRequest.
+     */
+    data: XOR<ReimbursementRequestUpdateInput, ReimbursementRequestUncheckedUpdateInput>
+    /**
+     * Choose, which ReimbursementRequest to update.
+     */
+    where: ReimbursementRequestWhereUniqueInput
+  }
+
+  /**
+   * ReimbursementRequest updateMany
+   */
+  export type ReimbursementRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReimbursementRequests.
+     */
+    data: XOR<ReimbursementRequestUpdateManyMutationInput, ReimbursementRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which ReimbursementRequests to update
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * Limit how many ReimbursementRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReimbursementRequest updateManyAndReturn
+   */
+  export type ReimbursementRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update ReimbursementRequests.
+     */
+    data: XOR<ReimbursementRequestUpdateManyMutationInput, ReimbursementRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which ReimbursementRequests to update
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * Limit how many ReimbursementRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ReimbursementRequest upsert
+   */
+  export type ReimbursementRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReimbursementRequest to update in case it exists.
+     */
+    where: ReimbursementRequestWhereUniqueInput
+    /**
+     * In case the ReimbursementRequest found by the `where` argument doesn't exist, create a new ReimbursementRequest with this data.
+     */
+    create: XOR<ReimbursementRequestCreateInput, ReimbursementRequestUncheckedCreateInput>
+    /**
+     * In case the ReimbursementRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReimbursementRequestUpdateInput, ReimbursementRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * ReimbursementRequest delete
+   */
+  export type ReimbursementRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    /**
+     * Filter which ReimbursementRequest to delete.
+     */
+    where: ReimbursementRequestWhereUniqueInput
+  }
+
+  /**
+   * ReimbursementRequest deleteMany
+   */
+  export type ReimbursementRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReimbursementRequests to delete
+     */
+    where?: ReimbursementRequestWhereInput
+    /**
+     * Limit how many ReimbursementRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReimbursementRequest.attachments
+   */
+  export type ReimbursementRequest$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * ReimbursementRequest without action
+   */
+  export type ReimbursementRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SalaryAdvanceRequest
+   */
+
+  export type AggregateSalaryAdvanceRequest = {
+    _count: SalaryAdvanceRequestCountAggregateOutputType | null
+    _avg: SalaryAdvanceRequestAvgAggregateOutputType | null
+    _sum: SalaryAdvanceRequestSumAggregateOutputType | null
+    _min: SalaryAdvanceRequestMinAggregateOutputType | null
+    _max: SalaryAdvanceRequestMaxAggregateOutputType | null
+  }
+
+  export type SalaryAdvanceRequestAvgAggregateOutputType = {
+    requestedAmount: number | null
+    repaymentMonths: number | null
+  }
+
+  export type SalaryAdvanceRequestSumAggregateOutputType = {
+    requestedAmount: number | null
+    repaymentMonths: number | null
+  }
+
+  export type SalaryAdvanceRequestMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    requestedAmount: number | null
+    repaymentMonths: number | null
+    reason: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SalaryAdvanceRequestMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    requestedAmount: number | null
+    repaymentMonths: number | null
+    reason: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SalaryAdvanceRequestCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    requestedAmount: number
+    repaymentMonths: number
+    reason: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SalaryAdvanceRequestAvgAggregateInputType = {
+    requestedAmount?: true
+    repaymentMonths?: true
+  }
+
+  export type SalaryAdvanceRequestSumAggregateInputType = {
+    requestedAmount?: true
+    repaymentMonths?: true
+  }
+
+  export type SalaryAdvanceRequestMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    requestedAmount?: true
+    repaymentMonths?: true
+    reason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SalaryAdvanceRequestMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    requestedAmount?: true
+    repaymentMonths?: true
+    reason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SalaryAdvanceRequestCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    requestedAmount?: true
+    repaymentMonths?: true
+    reason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SalaryAdvanceRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalaryAdvanceRequest to aggregate.
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdvanceRequests to fetch.
+     */
+    orderBy?: SalaryAdvanceRequestOrderByWithRelationInput | SalaryAdvanceRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SalaryAdvanceRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdvanceRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdvanceRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SalaryAdvanceRequests
+    **/
+    _count?: true | SalaryAdvanceRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SalaryAdvanceRequestAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SalaryAdvanceRequestSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SalaryAdvanceRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SalaryAdvanceRequestMaxAggregateInputType
+  }
+
+  export type GetSalaryAdvanceRequestAggregateType<T extends SalaryAdvanceRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateSalaryAdvanceRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSalaryAdvanceRequest[P]>
+      : GetScalarType<T[P], AggregateSalaryAdvanceRequest[P]>
+  }
+
+
+
+
+  export type SalaryAdvanceRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalaryAdvanceRequestWhereInput
+    orderBy?: SalaryAdvanceRequestOrderByWithAggregationInput | SalaryAdvanceRequestOrderByWithAggregationInput[]
+    by: SalaryAdvanceRequestScalarFieldEnum[] | SalaryAdvanceRequestScalarFieldEnum
+    having?: SalaryAdvanceRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SalaryAdvanceRequestCountAggregateInputType | true
+    _avg?: SalaryAdvanceRequestAvgAggregateInputType
+    _sum?: SalaryAdvanceRequestSumAggregateInputType
+    _min?: SalaryAdvanceRequestMinAggregateInputType
+    _max?: SalaryAdvanceRequestMaxAggregateInputType
+  }
+
+  export type SalaryAdvanceRequestGroupByOutputType = {
+    id: string
+    employeeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: SalaryAdvanceRequestCountAggregateOutputType | null
+    _avg: SalaryAdvanceRequestAvgAggregateOutputType | null
+    _sum: SalaryAdvanceRequestSumAggregateOutputType | null
+    _min: SalaryAdvanceRequestMinAggregateOutputType | null
+    _max: SalaryAdvanceRequestMaxAggregateOutputType | null
+  }
+
+  type GetSalaryAdvanceRequestGroupByPayload<T extends SalaryAdvanceRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SalaryAdvanceRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SalaryAdvanceRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SalaryAdvanceRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], SalaryAdvanceRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SalaryAdvanceRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryAdvanceRequest"]>
+
+  export type SalaryAdvanceRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryAdvanceRequest"]>
+
+  export type SalaryAdvanceRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryAdvanceRequest"]>
+
+  export type SalaryAdvanceRequestSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SalaryAdvanceRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "requestedAmount" | "repaymentMonths" | "reason" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["salaryAdvanceRequest"]>
+  export type SalaryAdvanceRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type SalaryAdvanceRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type SalaryAdvanceRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $SalaryAdvanceRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SalaryAdvanceRequest"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      requestedAmount: number
+      repaymentMonths: number
+      reason: string
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["salaryAdvanceRequest"]>
+    composites: {}
+  }
+
+  type SalaryAdvanceRequestGetPayload<S extends boolean | null | undefined | SalaryAdvanceRequestDefaultArgs> = $Result.GetResult<Prisma.$SalaryAdvanceRequestPayload, S>
+
+  type SalaryAdvanceRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SalaryAdvanceRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SalaryAdvanceRequestCountAggregateInputType | true
+    }
+
+  export interface SalaryAdvanceRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SalaryAdvanceRequest'], meta: { name: 'SalaryAdvanceRequest' } }
+    /**
+     * Find zero or one SalaryAdvanceRequest that matches the filter.
+     * @param {SalaryAdvanceRequestFindUniqueArgs} args - Arguments to find a SalaryAdvanceRequest
+     * @example
+     * // Get one SalaryAdvanceRequest
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SalaryAdvanceRequestFindUniqueArgs>(args: SelectSubset<T, SalaryAdvanceRequestFindUniqueArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SalaryAdvanceRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SalaryAdvanceRequestFindUniqueOrThrowArgs} args - Arguments to find a SalaryAdvanceRequest
+     * @example
+     * // Get one SalaryAdvanceRequest
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SalaryAdvanceRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, SalaryAdvanceRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalaryAdvanceRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestFindFirstArgs} args - Arguments to find a SalaryAdvanceRequest
+     * @example
+     * // Get one SalaryAdvanceRequest
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SalaryAdvanceRequestFindFirstArgs>(args?: SelectSubset<T, SalaryAdvanceRequestFindFirstArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SalaryAdvanceRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestFindFirstOrThrowArgs} args - Arguments to find a SalaryAdvanceRequest
+     * @example
+     * // Get one SalaryAdvanceRequest
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SalaryAdvanceRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, SalaryAdvanceRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SalaryAdvanceRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SalaryAdvanceRequests
+     * const salaryAdvanceRequests = await prisma.salaryAdvanceRequest.findMany()
+     * 
+     * // Get first 10 SalaryAdvanceRequests
+     * const salaryAdvanceRequests = await prisma.salaryAdvanceRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const salaryAdvanceRequestWithIdOnly = await prisma.salaryAdvanceRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SalaryAdvanceRequestFindManyArgs>(args?: SelectSubset<T, SalaryAdvanceRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SalaryAdvanceRequest.
+     * @param {SalaryAdvanceRequestCreateArgs} args - Arguments to create a SalaryAdvanceRequest.
+     * @example
+     * // Create one SalaryAdvanceRequest
+     * const SalaryAdvanceRequest = await prisma.salaryAdvanceRequest.create({
+     *   data: {
+     *     // ... data to create a SalaryAdvanceRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends SalaryAdvanceRequestCreateArgs>(args: SelectSubset<T, SalaryAdvanceRequestCreateArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SalaryAdvanceRequests.
+     * @param {SalaryAdvanceRequestCreateManyArgs} args - Arguments to create many SalaryAdvanceRequests.
+     * @example
+     * // Create many SalaryAdvanceRequests
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SalaryAdvanceRequestCreateManyArgs>(args?: SelectSubset<T, SalaryAdvanceRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SalaryAdvanceRequests and returns the data saved in the database.
+     * @param {SalaryAdvanceRequestCreateManyAndReturnArgs} args - Arguments to create many SalaryAdvanceRequests.
+     * @example
+     * // Create many SalaryAdvanceRequests
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SalaryAdvanceRequests and only return the `id`
+     * const salaryAdvanceRequestWithIdOnly = await prisma.salaryAdvanceRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SalaryAdvanceRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, SalaryAdvanceRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SalaryAdvanceRequest.
+     * @param {SalaryAdvanceRequestDeleteArgs} args - Arguments to delete one SalaryAdvanceRequest.
+     * @example
+     * // Delete one SalaryAdvanceRequest
+     * const SalaryAdvanceRequest = await prisma.salaryAdvanceRequest.delete({
+     *   where: {
+     *     // ... filter to delete one SalaryAdvanceRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SalaryAdvanceRequestDeleteArgs>(args: SelectSubset<T, SalaryAdvanceRequestDeleteArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SalaryAdvanceRequest.
+     * @param {SalaryAdvanceRequestUpdateArgs} args - Arguments to update one SalaryAdvanceRequest.
+     * @example
+     * // Update one SalaryAdvanceRequest
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SalaryAdvanceRequestUpdateArgs>(args: SelectSubset<T, SalaryAdvanceRequestUpdateArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SalaryAdvanceRequests.
+     * @param {SalaryAdvanceRequestDeleteManyArgs} args - Arguments to filter SalaryAdvanceRequests to delete.
+     * @example
+     * // Delete a few SalaryAdvanceRequests
+     * const { count } = await prisma.salaryAdvanceRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SalaryAdvanceRequestDeleteManyArgs>(args?: SelectSubset<T, SalaryAdvanceRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalaryAdvanceRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SalaryAdvanceRequests
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SalaryAdvanceRequestUpdateManyArgs>(args: SelectSubset<T, SalaryAdvanceRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalaryAdvanceRequests and returns the data updated in the database.
+     * @param {SalaryAdvanceRequestUpdateManyAndReturnArgs} args - Arguments to update many SalaryAdvanceRequests.
+     * @example
+     * // Update many SalaryAdvanceRequests
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SalaryAdvanceRequests and only return the `id`
+     * const salaryAdvanceRequestWithIdOnly = await prisma.salaryAdvanceRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SalaryAdvanceRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, SalaryAdvanceRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SalaryAdvanceRequest.
+     * @param {SalaryAdvanceRequestUpsertArgs} args - Arguments to update or create a SalaryAdvanceRequest.
+     * @example
+     * // Update or create a SalaryAdvanceRequest
+     * const salaryAdvanceRequest = await prisma.salaryAdvanceRequest.upsert({
+     *   create: {
+     *     // ... data to create a SalaryAdvanceRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SalaryAdvanceRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SalaryAdvanceRequestUpsertArgs>(args: SelectSubset<T, SalaryAdvanceRequestUpsertArgs<ExtArgs>>): Prisma__SalaryAdvanceRequestClient<$Result.GetResult<Prisma.$SalaryAdvanceRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SalaryAdvanceRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestCountArgs} args - Arguments to filter SalaryAdvanceRequests to count.
+     * @example
+     * // Count the number of SalaryAdvanceRequests
+     * const count = await prisma.salaryAdvanceRequest.count({
+     *   where: {
+     *     // ... the filter for the SalaryAdvanceRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends SalaryAdvanceRequestCountArgs>(
+      args?: Subset<T, SalaryAdvanceRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SalaryAdvanceRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SalaryAdvanceRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SalaryAdvanceRequestAggregateArgs>(args: Subset<T, SalaryAdvanceRequestAggregateArgs>): Prisma.PrismaPromise<GetSalaryAdvanceRequestAggregateType<T>>
+
+    /**
+     * Group by SalaryAdvanceRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryAdvanceRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SalaryAdvanceRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SalaryAdvanceRequestGroupByArgs['orderBy'] }
+        : { orderBy?: SalaryAdvanceRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SalaryAdvanceRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSalaryAdvanceRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SalaryAdvanceRequest model
+   */
+  readonly fields: SalaryAdvanceRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SalaryAdvanceRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SalaryAdvanceRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SalaryAdvanceRequest model
+   */
+  interface SalaryAdvanceRequestFieldRefs {
+    readonly id: FieldRef<"SalaryAdvanceRequest", 'String'>
+    readonly employeeId: FieldRef<"SalaryAdvanceRequest", 'String'>
+    readonly requestedAmount: FieldRef<"SalaryAdvanceRequest", 'Float'>
+    readonly repaymentMonths: FieldRef<"SalaryAdvanceRequest", 'Int'>
+    readonly reason: FieldRef<"SalaryAdvanceRequest", 'String'>
+    readonly status: FieldRef<"SalaryAdvanceRequest", 'String'>
+    readonly createdAt: FieldRef<"SalaryAdvanceRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"SalaryAdvanceRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SalaryAdvanceRequest findUnique
+   */
+  export type SalaryAdvanceRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdvanceRequest to fetch.
+     */
+    where: SalaryAdvanceRequestWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdvanceRequest findUniqueOrThrow
+   */
+  export type SalaryAdvanceRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdvanceRequest to fetch.
+     */
+    where: SalaryAdvanceRequestWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdvanceRequest findFirst
+   */
+  export type SalaryAdvanceRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdvanceRequest to fetch.
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdvanceRequests to fetch.
+     */
+    orderBy?: SalaryAdvanceRequestOrderByWithRelationInput | SalaryAdvanceRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalaryAdvanceRequests.
+     */
+    cursor?: SalaryAdvanceRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdvanceRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdvanceRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalaryAdvanceRequests.
+     */
+    distinct?: SalaryAdvanceRequestScalarFieldEnum | SalaryAdvanceRequestScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryAdvanceRequest findFirstOrThrow
+   */
+  export type SalaryAdvanceRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdvanceRequest to fetch.
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdvanceRequests to fetch.
+     */
+    orderBy?: SalaryAdvanceRequestOrderByWithRelationInput | SalaryAdvanceRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalaryAdvanceRequests.
+     */
+    cursor?: SalaryAdvanceRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdvanceRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdvanceRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalaryAdvanceRequests.
+     */
+    distinct?: SalaryAdvanceRequestScalarFieldEnum | SalaryAdvanceRequestScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryAdvanceRequest findMany
+   */
+  export type SalaryAdvanceRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryAdvanceRequests to fetch.
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryAdvanceRequests to fetch.
+     */
+    orderBy?: SalaryAdvanceRequestOrderByWithRelationInput | SalaryAdvanceRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SalaryAdvanceRequests.
+     */
+    cursor?: SalaryAdvanceRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryAdvanceRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryAdvanceRequests.
+     */
+    skip?: number
+    distinct?: SalaryAdvanceRequestScalarFieldEnum | SalaryAdvanceRequestScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryAdvanceRequest create
+   */
+  export type SalaryAdvanceRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SalaryAdvanceRequest.
+     */
+    data: XOR<SalaryAdvanceRequestCreateInput, SalaryAdvanceRequestUncheckedCreateInput>
+  }
+
+  /**
+   * SalaryAdvanceRequest createMany
+   */
+  export type SalaryAdvanceRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SalaryAdvanceRequests.
+     */
+    data: SalaryAdvanceRequestCreateManyInput | SalaryAdvanceRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SalaryAdvanceRequest createManyAndReturn
+   */
+  export type SalaryAdvanceRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many SalaryAdvanceRequests.
+     */
+    data: SalaryAdvanceRequestCreateManyInput | SalaryAdvanceRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalaryAdvanceRequest update
+   */
+  export type SalaryAdvanceRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SalaryAdvanceRequest.
+     */
+    data: XOR<SalaryAdvanceRequestUpdateInput, SalaryAdvanceRequestUncheckedUpdateInput>
+    /**
+     * Choose, which SalaryAdvanceRequest to update.
+     */
+    where: SalaryAdvanceRequestWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdvanceRequest updateMany
+   */
+  export type SalaryAdvanceRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SalaryAdvanceRequests.
+     */
+    data: XOR<SalaryAdvanceRequestUpdateManyMutationInput, SalaryAdvanceRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which SalaryAdvanceRequests to update
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * Limit how many SalaryAdvanceRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalaryAdvanceRequest updateManyAndReturn
+   */
+  export type SalaryAdvanceRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update SalaryAdvanceRequests.
+     */
+    data: XOR<SalaryAdvanceRequestUpdateManyMutationInput, SalaryAdvanceRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which SalaryAdvanceRequests to update
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * Limit how many SalaryAdvanceRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalaryAdvanceRequest upsert
+   */
+  export type SalaryAdvanceRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SalaryAdvanceRequest to update in case it exists.
+     */
+    where: SalaryAdvanceRequestWhereUniqueInput
+    /**
+     * In case the SalaryAdvanceRequest found by the `where` argument doesn't exist, create a new SalaryAdvanceRequest with this data.
+     */
+    create: XOR<SalaryAdvanceRequestCreateInput, SalaryAdvanceRequestUncheckedCreateInput>
+    /**
+     * In case the SalaryAdvanceRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SalaryAdvanceRequestUpdateInput, SalaryAdvanceRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * SalaryAdvanceRequest delete
+   */
+  export type SalaryAdvanceRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
+    /**
+     * Filter which SalaryAdvanceRequest to delete.
+     */
+    where: SalaryAdvanceRequestWhereUniqueInput
+  }
+
+  /**
+   * SalaryAdvanceRequest deleteMany
+   */
+  export type SalaryAdvanceRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalaryAdvanceRequests to delete
+     */
+    where?: SalaryAdvanceRequestWhereInput
+    /**
+     * Limit how many SalaryAdvanceRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SalaryAdvanceRequest without action
+   */
+  export type SalaryAdvanceRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryAdvanceRequest
+     */
+    select?: SalaryAdvanceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SalaryAdvanceRequest
+     */
+    omit?: SalaryAdvanceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryAdvanceRequestInclude<ExtArgs> | null
   }
 
 
@@ -32073,7 +37416,8 @@ export namespace Prisma {
 
   export type AttachmentMinAggregateOutputType = {
     id: string | null
-    staffRequestId: string | null
+    serviceRequestId: string | null
+    reimbursementId: string | null
     visaRequestId: string | null
     employeeId: string | null
     fileName: string | null
@@ -32087,7 +37431,8 @@ export namespace Prisma {
 
   export type AttachmentMaxAggregateOutputType = {
     id: string | null
-    staffRequestId: string | null
+    serviceRequestId: string | null
+    reimbursementId: string | null
     visaRequestId: string | null
     employeeId: string | null
     fileName: string | null
@@ -32101,7 +37446,8 @@ export namespace Prisma {
 
   export type AttachmentCountAggregateOutputType = {
     id: number
-    staffRequestId: number
+    serviceRequestId: number
+    reimbursementId: number
     visaRequestId: number
     employeeId: number
     fileName: number
@@ -32117,7 +37463,8 @@ export namespace Prisma {
 
   export type AttachmentMinAggregateInputType = {
     id?: true
-    staffRequestId?: true
+    serviceRequestId?: true
+    reimbursementId?: true
     visaRequestId?: true
     employeeId?: true
     fileName?: true
@@ -32131,7 +37478,8 @@ export namespace Prisma {
 
   export type AttachmentMaxAggregateInputType = {
     id?: true
-    staffRequestId?: true
+    serviceRequestId?: true
+    reimbursementId?: true
     visaRequestId?: true
     employeeId?: true
     fileName?: true
@@ -32145,7 +37493,8 @@ export namespace Prisma {
 
   export type AttachmentCountAggregateInputType = {
     id?: true
-    staffRequestId?: true
+    serviceRequestId?: true
+    reimbursementId?: true
     visaRequestId?: true
     employeeId?: true
     fileName?: true
@@ -32232,7 +37581,8 @@ export namespace Prisma {
 
   export type AttachmentGroupByOutputType = {
     id: string
-    staffRequestId: string | null
+    serviceRequestId: string | null
+    reimbursementId: string | null
     visaRequestId: string | null
     employeeId: string | null
     fileName: string
@@ -32263,7 +37613,8 @@ export namespace Prisma {
 
   export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    staffRequestId?: boolean
+    serviceRequestId?: boolean
+    reimbursementId?: boolean
     visaRequestId?: boolean
     employeeId?: boolean
     fileName?: boolean
@@ -32273,14 +37624,16 @@ export namespace Prisma {
     docNumber?: boolean
     docExpiry?: boolean
     createdAt?: boolean
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
+    serviceRequest?: boolean | Attachment$serviceRequestArgs<ExtArgs>
+    reimbursementRequest?: boolean | Attachment$reimbursementRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["attachment"]>
 
   export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    staffRequestId?: boolean
+    serviceRequestId?: boolean
+    reimbursementId?: boolean
     visaRequestId?: boolean
     employeeId?: boolean
     fileName?: boolean
@@ -32290,14 +37643,16 @@ export namespace Prisma {
     docNumber?: boolean
     docExpiry?: boolean
     createdAt?: boolean
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
+    serviceRequest?: boolean | Attachment$serviceRequestArgs<ExtArgs>
+    reimbursementRequest?: boolean | Attachment$reimbursementRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["attachment"]>
 
   export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    staffRequestId?: boolean
+    serviceRequestId?: boolean
+    reimbursementId?: boolean
     visaRequestId?: boolean
     employeeId?: boolean
     fileName?: boolean
@@ -32307,14 +37662,16 @@ export namespace Prisma {
     docNumber?: boolean
     docExpiry?: boolean
     createdAt?: boolean
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
+    serviceRequest?: boolean | Attachment$serviceRequestArgs<ExtArgs>
+    reimbursementRequest?: boolean | Attachment$reimbursementRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }, ExtArgs["result"]["attachment"]>
 
   export type AttachmentSelectScalar = {
     id?: boolean
-    staffRequestId?: boolean
+    serviceRequestId?: boolean
+    reimbursementId?: boolean
     visaRequestId?: boolean
     employeeId?: boolean
     fileName?: boolean
@@ -32326,19 +37683,22 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "staffRequestId" | "visaRequestId" | "employeeId" | "fileName" | "fileUrl" | "fileType" | "category" | "docNumber" | "docExpiry" | "createdAt", ExtArgs["result"]["attachment"]>
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "serviceRequestId" | "reimbursementId" | "visaRequestId" | "employeeId" | "fileName" | "fileUrl" | "fileType" | "category" | "docNumber" | "docExpiry" | "createdAt", ExtArgs["result"]["attachment"]>
   export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
+    serviceRequest?: boolean | Attachment$serviceRequestArgs<ExtArgs>
+    reimbursementRequest?: boolean | Attachment$reimbursementRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }
   export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
+    serviceRequest?: boolean | Attachment$serviceRequestArgs<ExtArgs>
+    reimbursementRequest?: boolean | Attachment$reimbursementRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }
   export type AttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    staffRequest?: boolean | Attachment$staffRequestArgs<ExtArgs>
+    serviceRequest?: boolean | Attachment$serviceRequestArgs<ExtArgs>
+    reimbursementRequest?: boolean | Attachment$reimbursementRequestArgs<ExtArgs>
     visaRequest?: boolean | Attachment$visaRequestArgs<ExtArgs>
     employee?: boolean | Attachment$employeeArgs<ExtArgs>
   }
@@ -32346,13 +37706,15 @@ export namespace Prisma {
   export type $AttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Attachment"
     objects: {
-      staffRequest: Prisma.$StaffRequestPayload<ExtArgs> | null
+      serviceRequest: Prisma.$ServiceRequestPayload<ExtArgs> | null
+      reimbursementRequest: Prisma.$ReimbursementRequestPayload<ExtArgs> | null
       visaRequest: Prisma.$VisaRequestPayload<ExtArgs> | null
       employee: Prisma.$EmployeePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      staffRequestId: string | null
+      serviceRequestId: string | null
+      reimbursementId: string | null
       visaRequestId: string | null
       employeeId: string | null
       fileName: string
@@ -32756,7 +38118,8 @@ export namespace Prisma {
    */
   export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    staffRequest<T extends Attachment$staffRequestArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$staffRequestArgs<ExtArgs>>): Prisma__StaffRequestClient<$Result.GetResult<Prisma.$StaffRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    serviceRequest<T extends Attachment$serviceRequestArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$serviceRequestArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    reimbursementRequest<T extends Attachment$reimbursementRequestArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$reimbursementRequestArgs<ExtArgs>>): Prisma__ReimbursementRequestClient<$Result.GetResult<Prisma.$ReimbursementRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     visaRequest<T extends Attachment$visaRequestArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$visaRequestArgs<ExtArgs>>): Prisma__VisaRequestClient<$Result.GetResult<Prisma.$VisaRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     employee<T extends Attachment$employeeArgs<ExtArgs> = {}>(args?: Subset<T, Attachment$employeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -32789,7 +38152,8 @@ export namespace Prisma {
    */
   interface AttachmentFieldRefs {
     readonly id: FieldRef<"Attachment", 'String'>
-    readonly staffRequestId: FieldRef<"Attachment", 'String'>
+    readonly serviceRequestId: FieldRef<"Attachment", 'String'>
+    readonly reimbursementId: FieldRef<"Attachment", 'String'>
     readonly visaRequestId: FieldRef<"Attachment", 'String'>
     readonly employeeId: FieldRef<"Attachment", 'String'>
     readonly fileName: FieldRef<"Attachment", 'String'>
@@ -33195,22 +38559,41 @@ export namespace Prisma {
   }
 
   /**
-   * Attachment.staffRequest
+   * Attachment.serviceRequest
    */
-  export type Attachment$staffRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Attachment$serviceRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StaffRequest
+     * Select specific fields to fetch from the ServiceRequest
      */
-    select?: StaffRequestSelect<ExtArgs> | null
+    select?: ServiceRequestSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the StaffRequest
+     * Omit specific fields from the ServiceRequest
      */
-    omit?: StaffRequestOmit<ExtArgs> | null
+    omit?: ServiceRequestOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: StaffRequestInclude<ExtArgs> | null
-    where?: StaffRequestWhereInput
+    include?: ServiceRequestInclude<ExtArgs> | null
+    where?: ServiceRequestWhereInput
+  }
+
+  /**
+   * Attachment.reimbursementRequest
+   */
+  export type Attachment$reimbursementRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReimbursementRequest
+     */
+    select?: ReimbursementRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReimbursementRequest
+     */
+    omit?: ReimbursementRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReimbursementRequestInclude<ExtArgs> | null
+    where?: ReimbursementRequestWhereInput
   }
 
   /**
@@ -35501,6 +40884,2235 @@ export namespace Prisma {
 
 
   /**
+   * Model LetterRequest
+   */
+
+  export type AggregateLetterRequest = {
+    _count: LetterRequestCountAggregateOutputType | null
+    _min: LetterRequestMinAggregateOutputType | null
+    _max: LetterRequestMaxAggregateOutputType | null
+  }
+
+  export type LetterRequestMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    templateId: string | null
+    reason: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LetterRequestMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    templateId: string | null
+    reason: string | null
+    status: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LetterRequestCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    templateId: number
+    reason: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LetterRequestMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    templateId?: true
+    reason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LetterRequestMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    templateId?: true
+    reason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LetterRequestCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    templateId?: true
+    reason?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LetterRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LetterRequest to aggregate.
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterRequests to fetch.
+     */
+    orderBy?: LetterRequestOrderByWithRelationInput | LetterRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LetterRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LetterRequests
+    **/
+    _count?: true | LetterRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LetterRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LetterRequestMaxAggregateInputType
+  }
+
+  export type GetLetterRequestAggregateType<T extends LetterRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateLetterRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLetterRequest[P]>
+      : GetScalarType<T[P], AggregateLetterRequest[P]>
+  }
+
+
+
+
+  export type LetterRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LetterRequestWhereInput
+    orderBy?: LetterRequestOrderByWithAggregationInput | LetterRequestOrderByWithAggregationInput[]
+    by: LetterRequestScalarFieldEnum[] | LetterRequestScalarFieldEnum
+    having?: LetterRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LetterRequestCountAggregateInputType | true
+    _min?: LetterRequestMinAggregateInputType
+    _max?: LetterRequestMaxAggregateInputType
+  }
+
+  export type LetterRequestGroupByOutputType = {
+    id: string
+    employeeId: string
+    templateId: string
+    reason: string | null
+    status: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LetterRequestCountAggregateOutputType | null
+    _min: LetterRequestMinAggregateOutputType | null
+    _max: LetterRequestMaxAggregateOutputType | null
+  }
+
+  type GetLetterRequestGroupByPayload<T extends LetterRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LetterRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LetterRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LetterRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], LetterRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LetterRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    templateId?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    approvals?: boolean | LetterRequest$approvalsArgs<ExtArgs>
+    generatedLetter?: boolean | LetterRequest$generatedLetterArgs<ExtArgs>
+    _count?: boolean | LetterRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["letterRequest"]>
+
+  export type LetterRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    templateId?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["letterRequest"]>
+
+  export type LetterRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    templateId?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["letterRequest"]>
+
+  export type LetterRequestSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    templateId?: boolean
+    reason?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LetterRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "templateId" | "reason" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["letterRequest"]>
+  export type LetterRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    approvals?: boolean | LetterRequest$approvalsArgs<ExtArgs>
+    generatedLetter?: boolean | LetterRequest$generatedLetterArgs<ExtArgs>
+    _count?: boolean | LetterRequestCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LetterRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+  }
+  export type LetterRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+  }
+
+  export type $LetterRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LetterRequest"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+      template: Prisma.$LetterTemplatePayload<ExtArgs>
+      approvals: Prisma.$LetterApprovalPayload<ExtArgs>[]
+      generatedLetter: Prisma.$LetterPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      templateId: string
+      reason: string | null
+      status: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["letterRequest"]>
+    composites: {}
+  }
+
+  type LetterRequestGetPayload<S extends boolean | null | undefined | LetterRequestDefaultArgs> = $Result.GetResult<Prisma.$LetterRequestPayload, S>
+
+  type LetterRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LetterRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LetterRequestCountAggregateInputType | true
+    }
+
+  export interface LetterRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LetterRequest'], meta: { name: 'LetterRequest' } }
+    /**
+     * Find zero or one LetterRequest that matches the filter.
+     * @param {LetterRequestFindUniqueArgs} args - Arguments to find a LetterRequest
+     * @example
+     * // Get one LetterRequest
+     * const letterRequest = await prisma.letterRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LetterRequestFindUniqueArgs>(args: SelectSubset<T, LetterRequestFindUniqueArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LetterRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LetterRequestFindUniqueOrThrowArgs} args - Arguments to find a LetterRequest
+     * @example
+     * // Get one LetterRequest
+     * const letterRequest = await prisma.letterRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LetterRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, LetterRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LetterRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestFindFirstArgs} args - Arguments to find a LetterRequest
+     * @example
+     * // Get one LetterRequest
+     * const letterRequest = await prisma.letterRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LetterRequestFindFirstArgs>(args?: SelectSubset<T, LetterRequestFindFirstArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LetterRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestFindFirstOrThrowArgs} args - Arguments to find a LetterRequest
+     * @example
+     * // Get one LetterRequest
+     * const letterRequest = await prisma.letterRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LetterRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, LetterRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LetterRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LetterRequests
+     * const letterRequests = await prisma.letterRequest.findMany()
+     * 
+     * // Get first 10 LetterRequests
+     * const letterRequests = await prisma.letterRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const letterRequestWithIdOnly = await prisma.letterRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LetterRequestFindManyArgs>(args?: SelectSubset<T, LetterRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LetterRequest.
+     * @param {LetterRequestCreateArgs} args - Arguments to create a LetterRequest.
+     * @example
+     * // Create one LetterRequest
+     * const LetterRequest = await prisma.letterRequest.create({
+     *   data: {
+     *     // ... data to create a LetterRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends LetterRequestCreateArgs>(args: SelectSubset<T, LetterRequestCreateArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LetterRequests.
+     * @param {LetterRequestCreateManyArgs} args - Arguments to create many LetterRequests.
+     * @example
+     * // Create many LetterRequests
+     * const letterRequest = await prisma.letterRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LetterRequestCreateManyArgs>(args?: SelectSubset<T, LetterRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LetterRequests and returns the data saved in the database.
+     * @param {LetterRequestCreateManyAndReturnArgs} args - Arguments to create many LetterRequests.
+     * @example
+     * // Create many LetterRequests
+     * const letterRequest = await prisma.letterRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LetterRequests and only return the `id`
+     * const letterRequestWithIdOnly = await prisma.letterRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LetterRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, LetterRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LetterRequest.
+     * @param {LetterRequestDeleteArgs} args - Arguments to delete one LetterRequest.
+     * @example
+     * // Delete one LetterRequest
+     * const LetterRequest = await prisma.letterRequest.delete({
+     *   where: {
+     *     // ... filter to delete one LetterRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LetterRequestDeleteArgs>(args: SelectSubset<T, LetterRequestDeleteArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LetterRequest.
+     * @param {LetterRequestUpdateArgs} args - Arguments to update one LetterRequest.
+     * @example
+     * // Update one LetterRequest
+     * const letterRequest = await prisma.letterRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LetterRequestUpdateArgs>(args: SelectSubset<T, LetterRequestUpdateArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LetterRequests.
+     * @param {LetterRequestDeleteManyArgs} args - Arguments to filter LetterRequests to delete.
+     * @example
+     * // Delete a few LetterRequests
+     * const { count } = await prisma.letterRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LetterRequestDeleteManyArgs>(args?: SelectSubset<T, LetterRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LetterRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LetterRequests
+     * const letterRequest = await prisma.letterRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LetterRequestUpdateManyArgs>(args: SelectSubset<T, LetterRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LetterRequests and returns the data updated in the database.
+     * @param {LetterRequestUpdateManyAndReturnArgs} args - Arguments to update many LetterRequests.
+     * @example
+     * // Update many LetterRequests
+     * const letterRequest = await prisma.letterRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LetterRequests and only return the `id`
+     * const letterRequestWithIdOnly = await prisma.letterRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LetterRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, LetterRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LetterRequest.
+     * @param {LetterRequestUpsertArgs} args - Arguments to update or create a LetterRequest.
+     * @example
+     * // Update or create a LetterRequest
+     * const letterRequest = await prisma.letterRequest.upsert({
+     *   create: {
+     *     // ... data to create a LetterRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LetterRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LetterRequestUpsertArgs>(args: SelectSubset<T, LetterRequestUpsertArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LetterRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestCountArgs} args - Arguments to filter LetterRequests to count.
+     * @example
+     * // Count the number of LetterRequests
+     * const count = await prisma.letterRequest.count({
+     *   where: {
+     *     // ... the filter for the LetterRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends LetterRequestCountArgs>(
+      args?: Subset<T, LetterRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LetterRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LetterRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LetterRequestAggregateArgs>(args: Subset<T, LetterRequestAggregateArgs>): Prisma.PrismaPromise<GetLetterRequestAggregateType<T>>
+
+    /**
+     * Group by LetterRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LetterRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LetterRequestGroupByArgs['orderBy'] }
+        : { orderBy?: LetterRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LetterRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLetterRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LetterRequest model
+   */
+  readonly fields: LetterRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LetterRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LetterRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    template<T extends LetterTemplateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LetterTemplateDefaultArgs<ExtArgs>>): Prisma__LetterTemplateClient<$Result.GetResult<Prisma.$LetterTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    approvals<T extends LetterRequest$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, LetterRequest$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    generatedLetter<T extends LetterRequest$generatedLetterArgs<ExtArgs> = {}>(args?: Subset<T, LetterRequest$generatedLetterArgs<ExtArgs>>): Prisma__LetterClient<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LetterRequest model
+   */
+  interface LetterRequestFieldRefs {
+    readonly id: FieldRef<"LetterRequest", 'String'>
+    readonly employeeId: FieldRef<"LetterRequest", 'String'>
+    readonly templateId: FieldRef<"LetterRequest", 'String'>
+    readonly reason: FieldRef<"LetterRequest", 'String'>
+    readonly status: FieldRef<"LetterRequest", 'String'>
+    readonly createdAt: FieldRef<"LetterRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"LetterRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LetterRequest findUnique
+   */
+  export type LetterRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterRequest to fetch.
+     */
+    where: LetterRequestWhereUniqueInput
+  }
+
+  /**
+   * LetterRequest findUniqueOrThrow
+   */
+  export type LetterRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterRequest to fetch.
+     */
+    where: LetterRequestWhereUniqueInput
+  }
+
+  /**
+   * LetterRequest findFirst
+   */
+  export type LetterRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterRequest to fetch.
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterRequests to fetch.
+     */
+    orderBy?: LetterRequestOrderByWithRelationInput | LetterRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LetterRequests.
+     */
+    cursor?: LetterRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LetterRequests.
+     */
+    distinct?: LetterRequestScalarFieldEnum | LetterRequestScalarFieldEnum[]
+  }
+
+  /**
+   * LetterRequest findFirstOrThrow
+   */
+  export type LetterRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterRequest to fetch.
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterRequests to fetch.
+     */
+    orderBy?: LetterRequestOrderByWithRelationInput | LetterRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LetterRequests.
+     */
+    cursor?: LetterRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LetterRequests.
+     */
+    distinct?: LetterRequestScalarFieldEnum | LetterRequestScalarFieldEnum[]
+  }
+
+  /**
+   * LetterRequest findMany
+   */
+  export type LetterRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterRequests to fetch.
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterRequests to fetch.
+     */
+    orderBy?: LetterRequestOrderByWithRelationInput | LetterRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LetterRequests.
+     */
+    cursor?: LetterRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterRequests.
+     */
+    skip?: number
+    distinct?: LetterRequestScalarFieldEnum | LetterRequestScalarFieldEnum[]
+  }
+
+  /**
+   * LetterRequest create
+   */
+  export type LetterRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LetterRequest.
+     */
+    data: XOR<LetterRequestCreateInput, LetterRequestUncheckedCreateInput>
+  }
+
+  /**
+   * LetterRequest createMany
+   */
+  export type LetterRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LetterRequests.
+     */
+    data: LetterRequestCreateManyInput | LetterRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LetterRequest createManyAndReturn
+   */
+  export type LetterRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many LetterRequests.
+     */
+    data: LetterRequestCreateManyInput | LetterRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LetterRequest update
+   */
+  export type LetterRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LetterRequest.
+     */
+    data: XOR<LetterRequestUpdateInput, LetterRequestUncheckedUpdateInput>
+    /**
+     * Choose, which LetterRequest to update.
+     */
+    where: LetterRequestWhereUniqueInput
+  }
+
+  /**
+   * LetterRequest updateMany
+   */
+  export type LetterRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LetterRequests.
+     */
+    data: XOR<LetterRequestUpdateManyMutationInput, LetterRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which LetterRequests to update
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * Limit how many LetterRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LetterRequest updateManyAndReturn
+   */
+  export type LetterRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update LetterRequests.
+     */
+    data: XOR<LetterRequestUpdateManyMutationInput, LetterRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which LetterRequests to update
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * Limit how many LetterRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LetterRequest upsert
+   */
+  export type LetterRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LetterRequest to update in case it exists.
+     */
+    where: LetterRequestWhereUniqueInput
+    /**
+     * In case the LetterRequest found by the `where` argument doesn't exist, create a new LetterRequest with this data.
+     */
+    create: XOR<LetterRequestCreateInput, LetterRequestUncheckedCreateInput>
+    /**
+     * In case the LetterRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LetterRequestUpdateInput, LetterRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * LetterRequest delete
+   */
+  export type LetterRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    /**
+     * Filter which LetterRequest to delete.
+     */
+    where: LetterRequestWhereUniqueInput
+  }
+
+  /**
+   * LetterRequest deleteMany
+   */
+  export type LetterRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LetterRequests to delete
+     */
+    where?: LetterRequestWhereInput
+    /**
+     * Limit how many LetterRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LetterRequest.approvals
+   */
+  export type LetterRequest$approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    where?: LetterApprovalWhereInput
+    orderBy?: LetterApprovalOrderByWithRelationInput | LetterApprovalOrderByWithRelationInput[]
+    cursor?: LetterApprovalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LetterApprovalScalarFieldEnum | LetterApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LetterRequest.generatedLetter
+   */
+  export type LetterRequest$generatedLetterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Letter
+     */
+    select?: LetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Letter
+     */
+    omit?: LetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterInclude<ExtArgs> | null
+    where?: LetterWhereInput
+  }
+
+  /**
+   * LetterRequest without action
+   */
+  export type LetterRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LetterApproval
+   */
+
+  export type AggregateLetterApproval = {
+    _count: LetterApprovalCountAggregateOutputType | null
+    _min: LetterApprovalMinAggregateOutputType | null
+    _max: LetterApprovalMaxAggregateOutputType | null
+  }
+
+  export type LetterApprovalMinAggregateOutputType = {
+    id: string | null
+    letterRequestId: string | null
+    approverId: string | null
+    level: string | null
+    action: string | null
+    comments: string | null
+    createdAt: Date | null
+  }
+
+  export type LetterApprovalMaxAggregateOutputType = {
+    id: string | null
+    letterRequestId: string | null
+    approverId: string | null
+    level: string | null
+    action: string | null
+    comments: string | null
+    createdAt: Date | null
+  }
+
+  export type LetterApprovalCountAggregateOutputType = {
+    id: number
+    letterRequestId: number
+    approverId: number
+    level: number
+    action: number
+    comments: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LetterApprovalMinAggregateInputType = {
+    id?: true
+    letterRequestId?: true
+    approverId?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+  }
+
+  export type LetterApprovalMaxAggregateInputType = {
+    id?: true
+    letterRequestId?: true
+    approverId?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+  }
+
+  export type LetterApprovalCountAggregateInputType = {
+    id?: true
+    letterRequestId?: true
+    approverId?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LetterApprovalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LetterApproval to aggregate.
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterApprovals to fetch.
+     */
+    orderBy?: LetterApprovalOrderByWithRelationInput | LetterApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LetterApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LetterApprovals
+    **/
+    _count?: true | LetterApprovalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LetterApprovalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LetterApprovalMaxAggregateInputType
+  }
+
+  export type GetLetterApprovalAggregateType<T extends LetterApprovalAggregateArgs> = {
+        [P in keyof T & keyof AggregateLetterApproval]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLetterApproval[P]>
+      : GetScalarType<T[P], AggregateLetterApproval[P]>
+  }
+
+
+
+
+  export type LetterApprovalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LetterApprovalWhereInput
+    orderBy?: LetterApprovalOrderByWithAggregationInput | LetterApprovalOrderByWithAggregationInput[]
+    by: LetterApprovalScalarFieldEnum[] | LetterApprovalScalarFieldEnum
+    having?: LetterApprovalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LetterApprovalCountAggregateInputType | true
+    _min?: LetterApprovalMinAggregateInputType
+    _max?: LetterApprovalMaxAggregateInputType
+  }
+
+  export type LetterApprovalGroupByOutputType = {
+    id: string
+    letterRequestId: string
+    approverId: string | null
+    level: string
+    action: string
+    comments: string | null
+    createdAt: Date
+    _count: LetterApprovalCountAggregateOutputType | null
+    _min: LetterApprovalMinAggregateOutputType | null
+    _max: LetterApprovalMaxAggregateOutputType | null
+  }
+
+  type GetLetterApprovalGroupByPayload<T extends LetterApprovalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LetterApprovalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LetterApprovalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LetterApprovalGroupByOutputType[P]>
+            : GetScalarType<T[P], LetterApprovalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LetterApprovalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    letterRequestId?: boolean
+    approverId?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    letterRequest?: boolean | LetterRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["letterApproval"]>
+
+  export type LetterApprovalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    letterRequestId?: boolean
+    approverId?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    letterRequest?: boolean | LetterRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["letterApproval"]>
+
+  export type LetterApprovalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    letterRequestId?: boolean
+    approverId?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    letterRequest?: boolean | LetterRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["letterApproval"]>
+
+  export type LetterApprovalSelectScalar = {
+    id?: boolean
+    letterRequestId?: boolean
+    approverId?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+  }
+
+  export type LetterApprovalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "letterRequestId" | "approverId" | "level" | "action" | "comments" | "createdAt", ExtArgs["result"]["letterApproval"]>
+  export type LetterApprovalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    letterRequest?: boolean | LetterRequestDefaultArgs<ExtArgs>
+  }
+  export type LetterApprovalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    letterRequest?: boolean | LetterRequestDefaultArgs<ExtArgs>
+  }
+  export type LetterApprovalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    letterRequest?: boolean | LetterRequestDefaultArgs<ExtArgs>
+  }
+
+  export type $LetterApprovalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LetterApproval"
+    objects: {
+      letterRequest: Prisma.$LetterRequestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      letterRequestId: string
+      approverId: string | null
+      level: string
+      action: string
+      comments: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["letterApproval"]>
+    composites: {}
+  }
+
+  type LetterApprovalGetPayload<S extends boolean | null | undefined | LetterApprovalDefaultArgs> = $Result.GetResult<Prisma.$LetterApprovalPayload, S>
+
+  type LetterApprovalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LetterApprovalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LetterApprovalCountAggregateInputType | true
+    }
+
+  export interface LetterApprovalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LetterApproval'], meta: { name: 'LetterApproval' } }
+    /**
+     * Find zero or one LetterApproval that matches the filter.
+     * @param {LetterApprovalFindUniqueArgs} args - Arguments to find a LetterApproval
+     * @example
+     * // Get one LetterApproval
+     * const letterApproval = await prisma.letterApproval.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LetterApprovalFindUniqueArgs>(args: SelectSubset<T, LetterApprovalFindUniqueArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LetterApproval that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LetterApprovalFindUniqueOrThrowArgs} args - Arguments to find a LetterApproval
+     * @example
+     * // Get one LetterApproval
+     * const letterApproval = await prisma.letterApproval.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LetterApprovalFindUniqueOrThrowArgs>(args: SelectSubset<T, LetterApprovalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LetterApproval that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalFindFirstArgs} args - Arguments to find a LetterApproval
+     * @example
+     * // Get one LetterApproval
+     * const letterApproval = await prisma.letterApproval.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LetterApprovalFindFirstArgs>(args?: SelectSubset<T, LetterApprovalFindFirstArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LetterApproval that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalFindFirstOrThrowArgs} args - Arguments to find a LetterApproval
+     * @example
+     * // Get one LetterApproval
+     * const letterApproval = await prisma.letterApproval.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LetterApprovalFindFirstOrThrowArgs>(args?: SelectSubset<T, LetterApprovalFindFirstOrThrowArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LetterApprovals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LetterApprovals
+     * const letterApprovals = await prisma.letterApproval.findMany()
+     * 
+     * // Get first 10 LetterApprovals
+     * const letterApprovals = await prisma.letterApproval.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const letterApprovalWithIdOnly = await prisma.letterApproval.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LetterApprovalFindManyArgs>(args?: SelectSubset<T, LetterApprovalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LetterApproval.
+     * @param {LetterApprovalCreateArgs} args - Arguments to create a LetterApproval.
+     * @example
+     * // Create one LetterApproval
+     * const LetterApproval = await prisma.letterApproval.create({
+     *   data: {
+     *     // ... data to create a LetterApproval
+     *   }
+     * })
+     * 
+     */
+    create<T extends LetterApprovalCreateArgs>(args: SelectSubset<T, LetterApprovalCreateArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LetterApprovals.
+     * @param {LetterApprovalCreateManyArgs} args - Arguments to create many LetterApprovals.
+     * @example
+     * // Create many LetterApprovals
+     * const letterApproval = await prisma.letterApproval.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LetterApprovalCreateManyArgs>(args?: SelectSubset<T, LetterApprovalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LetterApprovals and returns the data saved in the database.
+     * @param {LetterApprovalCreateManyAndReturnArgs} args - Arguments to create many LetterApprovals.
+     * @example
+     * // Create many LetterApprovals
+     * const letterApproval = await prisma.letterApproval.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LetterApprovals and only return the `id`
+     * const letterApprovalWithIdOnly = await prisma.letterApproval.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LetterApprovalCreateManyAndReturnArgs>(args?: SelectSubset<T, LetterApprovalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LetterApproval.
+     * @param {LetterApprovalDeleteArgs} args - Arguments to delete one LetterApproval.
+     * @example
+     * // Delete one LetterApproval
+     * const LetterApproval = await prisma.letterApproval.delete({
+     *   where: {
+     *     // ... filter to delete one LetterApproval
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LetterApprovalDeleteArgs>(args: SelectSubset<T, LetterApprovalDeleteArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LetterApproval.
+     * @param {LetterApprovalUpdateArgs} args - Arguments to update one LetterApproval.
+     * @example
+     * // Update one LetterApproval
+     * const letterApproval = await prisma.letterApproval.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LetterApprovalUpdateArgs>(args: SelectSubset<T, LetterApprovalUpdateArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LetterApprovals.
+     * @param {LetterApprovalDeleteManyArgs} args - Arguments to filter LetterApprovals to delete.
+     * @example
+     * // Delete a few LetterApprovals
+     * const { count } = await prisma.letterApproval.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LetterApprovalDeleteManyArgs>(args?: SelectSubset<T, LetterApprovalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LetterApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LetterApprovals
+     * const letterApproval = await prisma.letterApproval.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LetterApprovalUpdateManyArgs>(args: SelectSubset<T, LetterApprovalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LetterApprovals and returns the data updated in the database.
+     * @param {LetterApprovalUpdateManyAndReturnArgs} args - Arguments to update many LetterApprovals.
+     * @example
+     * // Update many LetterApprovals
+     * const letterApproval = await prisma.letterApproval.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LetterApprovals and only return the `id`
+     * const letterApprovalWithIdOnly = await prisma.letterApproval.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LetterApprovalUpdateManyAndReturnArgs>(args: SelectSubset<T, LetterApprovalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LetterApproval.
+     * @param {LetterApprovalUpsertArgs} args - Arguments to update or create a LetterApproval.
+     * @example
+     * // Update or create a LetterApproval
+     * const letterApproval = await prisma.letterApproval.upsert({
+     *   create: {
+     *     // ... data to create a LetterApproval
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LetterApproval we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LetterApprovalUpsertArgs>(args: SelectSubset<T, LetterApprovalUpsertArgs<ExtArgs>>): Prisma__LetterApprovalClient<$Result.GetResult<Prisma.$LetterApprovalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LetterApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalCountArgs} args - Arguments to filter LetterApprovals to count.
+     * @example
+     * // Count the number of LetterApprovals
+     * const count = await prisma.letterApproval.count({
+     *   where: {
+     *     // ... the filter for the LetterApprovals we want to count
+     *   }
+     * })
+    **/
+    count<T extends LetterApprovalCountArgs>(
+      args?: Subset<T, LetterApprovalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LetterApprovalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LetterApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LetterApprovalAggregateArgs>(args: Subset<T, LetterApprovalAggregateArgs>): Prisma.PrismaPromise<GetLetterApprovalAggregateType<T>>
+
+    /**
+     * Group by LetterApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LetterApprovalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LetterApprovalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LetterApprovalGroupByArgs['orderBy'] }
+        : { orderBy?: LetterApprovalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LetterApprovalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLetterApprovalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LetterApproval model
+   */
+  readonly fields: LetterApprovalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LetterApproval.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LetterApprovalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    letterRequest<T extends LetterRequestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LetterRequestDefaultArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LetterApproval model
+   */
+  interface LetterApprovalFieldRefs {
+    readonly id: FieldRef<"LetterApproval", 'String'>
+    readonly letterRequestId: FieldRef<"LetterApproval", 'String'>
+    readonly approverId: FieldRef<"LetterApproval", 'String'>
+    readonly level: FieldRef<"LetterApproval", 'String'>
+    readonly action: FieldRef<"LetterApproval", 'String'>
+    readonly comments: FieldRef<"LetterApproval", 'String'>
+    readonly createdAt: FieldRef<"LetterApproval", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LetterApproval findUnique
+   */
+  export type LetterApprovalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterApproval to fetch.
+     */
+    where: LetterApprovalWhereUniqueInput
+  }
+
+  /**
+   * LetterApproval findUniqueOrThrow
+   */
+  export type LetterApprovalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterApproval to fetch.
+     */
+    where: LetterApprovalWhereUniqueInput
+  }
+
+  /**
+   * LetterApproval findFirst
+   */
+  export type LetterApprovalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterApproval to fetch.
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterApprovals to fetch.
+     */
+    orderBy?: LetterApprovalOrderByWithRelationInput | LetterApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LetterApprovals.
+     */
+    cursor?: LetterApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LetterApprovals.
+     */
+    distinct?: LetterApprovalScalarFieldEnum | LetterApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LetterApproval findFirstOrThrow
+   */
+  export type LetterApprovalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterApproval to fetch.
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterApprovals to fetch.
+     */
+    orderBy?: LetterApprovalOrderByWithRelationInput | LetterApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LetterApprovals.
+     */
+    cursor?: LetterApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LetterApprovals.
+     */
+    distinct?: LetterApprovalScalarFieldEnum | LetterApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LetterApproval findMany
+   */
+  export type LetterApprovalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LetterApprovals to fetch.
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LetterApprovals to fetch.
+     */
+    orderBy?: LetterApprovalOrderByWithRelationInput | LetterApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LetterApprovals.
+     */
+    cursor?: LetterApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LetterApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LetterApprovals.
+     */
+    skip?: number
+    distinct?: LetterApprovalScalarFieldEnum | LetterApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LetterApproval create
+   */
+  export type LetterApprovalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LetterApproval.
+     */
+    data: XOR<LetterApprovalCreateInput, LetterApprovalUncheckedCreateInput>
+  }
+
+  /**
+   * LetterApproval createMany
+   */
+  export type LetterApprovalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LetterApprovals.
+     */
+    data: LetterApprovalCreateManyInput | LetterApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LetterApproval createManyAndReturn
+   */
+  export type LetterApprovalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to create many LetterApprovals.
+     */
+    data: LetterApprovalCreateManyInput | LetterApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LetterApproval update
+   */
+  export type LetterApprovalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LetterApproval.
+     */
+    data: XOR<LetterApprovalUpdateInput, LetterApprovalUncheckedUpdateInput>
+    /**
+     * Choose, which LetterApproval to update.
+     */
+    where: LetterApprovalWhereUniqueInput
+  }
+
+  /**
+   * LetterApproval updateMany
+   */
+  export type LetterApprovalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LetterApprovals.
+     */
+    data: XOR<LetterApprovalUpdateManyMutationInput, LetterApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which LetterApprovals to update
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * Limit how many LetterApprovals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LetterApproval updateManyAndReturn
+   */
+  export type LetterApprovalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to update LetterApprovals.
+     */
+    data: XOR<LetterApprovalUpdateManyMutationInput, LetterApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which LetterApprovals to update
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * Limit how many LetterApprovals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LetterApproval upsert
+   */
+  export type LetterApprovalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LetterApproval to update in case it exists.
+     */
+    where: LetterApprovalWhereUniqueInput
+    /**
+     * In case the LetterApproval found by the `where` argument doesn't exist, create a new LetterApproval with this data.
+     */
+    create: XOR<LetterApprovalCreateInput, LetterApprovalUncheckedCreateInput>
+    /**
+     * In case the LetterApproval was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LetterApprovalUpdateInput, LetterApprovalUncheckedUpdateInput>
+  }
+
+  /**
+   * LetterApproval delete
+   */
+  export type LetterApprovalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+    /**
+     * Filter which LetterApproval to delete.
+     */
+    where: LetterApprovalWhereUniqueInput
+  }
+
+  /**
+   * LetterApproval deleteMany
+   */
+  export type LetterApprovalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LetterApprovals to delete
+     */
+    where?: LetterApprovalWhereInput
+    /**
+     * Limit how many LetterApprovals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LetterApproval without action
+   */
+  export type LetterApprovalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterApproval
+     */
+    select?: LetterApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterApproval
+     */
+    omit?: LetterApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterApprovalInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model LetterTemplate
    */
 
@@ -35689,6 +43301,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     letters?: boolean | LetterTemplate$lettersArgs<ExtArgs>
+    requests?: boolean | LetterTemplate$requestsArgs<ExtArgs>
     _count?: boolean | LetterTemplateCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["letterTemplate"]>
 
@@ -35728,6 +43341,7 @@ export namespace Prisma {
   export type LetterTemplateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "content_en" | "content_ar" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["letterTemplate"]>
   export type LetterTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     letters?: boolean | LetterTemplate$lettersArgs<ExtArgs>
+    requests?: boolean | LetterTemplate$requestsArgs<ExtArgs>
     _count?: boolean | LetterTemplateCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type LetterTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -35737,6 +43351,7 @@ export namespace Prisma {
     name: "LetterTemplate"
     objects: {
       letters: Prisma.$LetterPayload<ExtArgs>[]
+      requests: Prisma.$LetterRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -36142,6 +43757,7 @@ export namespace Prisma {
   export interface Prisma__LetterTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     letters<T extends LetterTemplate$lettersArgs<ExtArgs> = {}>(args?: Subset<T, LetterTemplate$lettersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    requests<T extends LetterTemplate$requestsArgs<ExtArgs> = {}>(args?: Subset<T, LetterTemplate$requestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -36591,6 +44207,30 @@ export namespace Prisma {
   }
 
   /**
+   * LetterTemplate.requests
+   */
+  export type LetterTemplate$requestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    where?: LetterRequestWhereInput
+    orderBy?: LetterRequestOrderByWithRelationInput | LetterRequestOrderByWithRelationInput[]
+    cursor?: LetterRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LetterRequestScalarFieldEnum | LetterRequestScalarFieldEnum[]
+  }
+
+  /**
    * LetterTemplate without action
    */
   export type LetterTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -36624,6 +44264,7 @@ export namespace Prisma {
     employeeId: string | null
     templateId: string | null
     referenceNumber: string | null
+    letterRequestId: string | null
     status: string | null
     content_en: string | null
     content_ar: string | null
@@ -36640,6 +44281,7 @@ export namespace Prisma {
     employeeId: string | null
     templateId: string | null
     referenceNumber: string | null
+    letterRequestId: string | null
     status: string | null
     content_en: string | null
     content_ar: string | null
@@ -36656,6 +44298,7 @@ export namespace Prisma {
     employeeId: number
     templateId: number
     referenceNumber: number
+    letterRequestId: number
     status: number
     content_en: number
     content_ar: number
@@ -36674,6 +44317,7 @@ export namespace Prisma {
     employeeId?: true
     templateId?: true
     referenceNumber?: true
+    letterRequestId?: true
     status?: true
     content_en?: true
     content_ar?: true
@@ -36690,6 +44334,7 @@ export namespace Prisma {
     employeeId?: true
     templateId?: true
     referenceNumber?: true
+    letterRequestId?: true
     status?: true
     content_en?: true
     content_ar?: true
@@ -36706,6 +44351,7 @@ export namespace Prisma {
     employeeId?: true
     templateId?: true
     referenceNumber?: true
+    letterRequestId?: true
     status?: true
     content_en?: true
     content_ar?: true
@@ -36795,6 +44441,7 @@ export namespace Prisma {
     employeeId: string
     templateId: string
     referenceNumber: string
+    letterRequestId: string | null
     status: string
     content_en: string
     content_ar: string | null
@@ -36828,6 +44475,7 @@ export namespace Prisma {
     employeeId?: boolean
     templateId?: boolean
     referenceNumber?: boolean
+    letterRequestId?: boolean
     status?: boolean
     content_en?: boolean
     content_ar?: boolean
@@ -36839,6 +44487,7 @@ export namespace Prisma {
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    letterRequest?: boolean | Letter$letterRequestArgs<ExtArgs>
   }, ExtArgs["result"]["letter"]>
 
   export type LetterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -36846,6 +44495,7 @@ export namespace Prisma {
     employeeId?: boolean
     templateId?: boolean
     referenceNumber?: boolean
+    letterRequestId?: boolean
     status?: boolean
     content_en?: boolean
     content_ar?: boolean
@@ -36857,6 +44507,7 @@ export namespace Prisma {
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    letterRequest?: boolean | Letter$letterRequestArgs<ExtArgs>
   }, ExtArgs["result"]["letter"]>
 
   export type LetterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -36864,6 +44515,7 @@ export namespace Prisma {
     employeeId?: boolean
     templateId?: boolean
     referenceNumber?: boolean
+    letterRequestId?: boolean
     status?: boolean
     content_en?: boolean
     content_ar?: boolean
@@ -36875,6 +44527,7 @@ export namespace Prisma {
     updatedAt?: boolean
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    letterRequest?: boolean | Letter$letterRequestArgs<ExtArgs>
   }, ExtArgs["result"]["letter"]>
 
   export type LetterSelectScalar = {
@@ -36882,6 +44535,7 @@ export namespace Prisma {
     employeeId?: boolean
     templateId?: boolean
     referenceNumber?: boolean
+    letterRequestId?: boolean
     status?: boolean
     content_en?: boolean
     content_ar?: boolean
@@ -36893,18 +44547,21 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type LetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "templateId" | "referenceNumber" | "status" | "content_en" | "content_ar" | "pdfUrl" | "comments" | "approvedBy" | "approvedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["letter"]>
+  export type LetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "templateId" | "referenceNumber" | "letterRequestId" | "status" | "content_en" | "content_ar" | "pdfUrl" | "comments" | "approvedBy" | "approvedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["letter"]>
   export type LetterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    letterRequest?: boolean | Letter$letterRequestArgs<ExtArgs>
   }
   export type LetterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    letterRequest?: boolean | Letter$letterRequestArgs<ExtArgs>
   }
   export type LetterIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employee?: boolean | EmployeeDefaultArgs<ExtArgs>
     template?: boolean | LetterTemplateDefaultArgs<ExtArgs>
+    letterRequest?: boolean | Letter$letterRequestArgs<ExtArgs>
   }
 
   export type $LetterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -36912,12 +44569,14 @@ export namespace Prisma {
     objects: {
       employee: Prisma.$EmployeePayload<ExtArgs>
       template: Prisma.$LetterTemplatePayload<ExtArgs>
+      letterRequest: Prisma.$LetterRequestPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       employeeId: string
       templateId: string
       referenceNumber: string
+      letterRequestId: string | null
       status: string
       content_en: string
       content_ar: string | null
@@ -37323,6 +44982,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     template<T extends LetterTemplateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LetterTemplateDefaultArgs<ExtArgs>>): Prisma__LetterTemplateClient<$Result.GetResult<Prisma.$LetterTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    letterRequest<T extends Letter$letterRequestArgs<ExtArgs> = {}>(args?: Subset<T, Letter$letterRequestArgs<ExtArgs>>): Prisma__LetterRequestClient<$Result.GetResult<Prisma.$LetterRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -37356,6 +45016,7 @@ export namespace Prisma {
     readonly employeeId: FieldRef<"Letter", 'String'>
     readonly templateId: FieldRef<"Letter", 'String'>
     readonly referenceNumber: FieldRef<"Letter", 'String'>
+    readonly letterRequestId: FieldRef<"Letter", 'String'>
     readonly status: FieldRef<"Letter", 'String'>
     readonly content_en: FieldRef<"Letter", 'String'>
     readonly content_ar: FieldRef<"Letter", 'String'>
@@ -37758,6 +45419,25 @@ export namespace Prisma {
      * Limit how many Letters to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Letter.letterRequest
+   */
+  export type Letter$letterRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LetterRequest
+     */
+    select?: LetterRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LetterRequest
+     */
+    omit?: LetterRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LetterRequestInclude<ExtArgs> | null
+    where?: LetterRequestWhereInput
   }
 
   /**
@@ -43974,41 +51654,99 @@ export namespace Prisma {
   export type OvertimeScalarFieldEnum = (typeof OvertimeScalarFieldEnum)[keyof typeof OvertimeScalarFieldEnum]
 
 
-  export const StaffServiceTypeScalarFieldEnum: {
+  export const ServiceCategoryScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    type: 'type',
     icon: 'icon',
     description: 'description',
     requiresAmount: 'requiresAmount',
     requiresDates: 'requiresDates',
+    slaDays: 'slaDays',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type StaffServiceTypeScalarFieldEnum = (typeof StaffServiceTypeScalarFieldEnum)[keyof typeof StaffServiceTypeScalarFieldEnum]
+  export type ServiceCategoryScalarFieldEnum = (typeof ServiceCategoryScalarFieldEnum)[keyof typeof ServiceCategoryScalarFieldEnum]
 
 
-  export const StaffRequestScalarFieldEnum: {
+  export const ServiceRequestScalarFieldEnum: {
     id: 'id',
     employeeId: 'employeeId',
-    typeId: 'typeId',
+    categoryId: 'categoryId',
     details: 'details',
     amount: 'amount',
     startDate: 'startDate',
     endDate: 'endDate',
     status: 'status',
+    workflowStep: 'workflowStep',
     hrNote: 'hrNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type StaffRequestScalarFieldEnum = (typeof StaffRequestScalarFieldEnum)[keyof typeof StaffRequestScalarFieldEnum]
+  export type ServiceRequestScalarFieldEnum = (typeof ServiceRequestScalarFieldEnum)[keyof typeof ServiceRequestScalarFieldEnum]
+
+
+  export const ServiceApprovalScalarFieldEnum: {
+    id: 'id',
+    serviceRequestId: 'serviceRequestId',
+    approverId: 'approverId',
+    approverEmail: 'approverEmail',
+    level: 'level',
+    action: 'action',
+    comments: 'comments',
+    createdAt: 'createdAt'
+  };
+
+  export type ServiceApprovalScalarFieldEnum = (typeof ServiceApprovalScalarFieldEnum)[keyof typeof ServiceApprovalScalarFieldEnum]
+
+
+  export const ServiceCommentScalarFieldEnum: {
+    id: 'id',
+    serviceRequestId: 'serviceRequestId',
+    authorId: 'authorId',
+    authorName: 'authorName',
+    content: 'content',
+    createdAt: 'createdAt'
+  };
+
+  export type ServiceCommentScalarFieldEnum = (typeof ServiceCommentScalarFieldEnum)[keyof typeof ServiceCommentScalarFieldEnum]
+
+
+  export const ReimbursementRequestScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    category: 'category',
+    amount: 'amount',
+    details: 'details',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReimbursementRequestScalarFieldEnum = (typeof ReimbursementRequestScalarFieldEnum)[keyof typeof ReimbursementRequestScalarFieldEnum]
+
+
+  export const SalaryAdvanceRequestScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    requestedAmount: 'requestedAmount',
+    repaymentMonths: 'repaymentMonths',
+    reason: 'reason',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SalaryAdvanceRequestScalarFieldEnum = (typeof SalaryAdvanceRequestScalarFieldEnum)[keyof typeof SalaryAdvanceRequestScalarFieldEnum]
 
 
   export const AttachmentScalarFieldEnum: {
     id: 'id',
-    staffRequestId: 'staffRequestId',
+    serviceRequestId: 'serviceRequestId',
+    reimbursementId: 'reimbursementId',
     visaRequestId: 'visaRequestId',
     employeeId: 'employeeId',
     fileName: 'fileName',
@@ -44050,6 +51788,32 @@ export namespace Prisma {
   export type LetterRecordScalarFieldEnum = (typeof LetterRecordScalarFieldEnum)[keyof typeof LetterRecordScalarFieldEnum]
 
 
+  export const LetterRequestScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    templateId: 'templateId',
+    reason: 'reason',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LetterRequestScalarFieldEnum = (typeof LetterRequestScalarFieldEnum)[keyof typeof LetterRequestScalarFieldEnum]
+
+
+  export const LetterApprovalScalarFieldEnum: {
+    id: 'id',
+    letterRequestId: 'letterRequestId',
+    approverId: 'approverId',
+    level: 'level',
+    action: 'action',
+    comments: 'comments',
+    createdAt: 'createdAt'
+  };
+
+  export type LetterApprovalScalarFieldEnum = (typeof LetterApprovalScalarFieldEnum)[keyof typeof LetterApprovalScalarFieldEnum]
+
+
   export const LetterTemplateScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -44069,6 +51833,7 @@ export namespace Prisma {
     employeeId: 'employeeId',
     templateId: 'templateId',
     referenceNumber: 'referenceNumber',
+    letterRequestId: 'letterRequestId',
     status: 'status',
     content_en: 'content_en',
     content_ar: 'content_ar',
@@ -44593,14 +52358,17 @@ export namespace Prisma {
     salaryStructure?: XOR<SalaryStructureNullableScalarRelationFilter, SalaryStructureWhereInput> | null
     salaryRecords?: SalaryRecordListRelationFilter
     letterRecords?: LetterRecordListRelationFilter
-    staffRequests?: StaffRequestListRelationFilter
+    serviceRequests?: ServiceRequestListRelationFilter
     visaRequests?: VisaRequestListRelationFilter
     letters?: LetterListRelationFilter
+    letterRequests?: LetterRequestListRelationFilter
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     notifications?: NotificationListRelationFilter
     loanApplications?: LoanApplicationListRelationFilter
     overtime?: OvertimeListRelationFilter
+    salaryAdvances?: SalaryAdvanceRequestListRelationFilter
+    reimbursements?: ReimbursementRequestListRelationFilter
     manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     reportees?: EmployeeListRelationFilter
     requestedJobs?: JobRequisitionListRelationFilter
@@ -44663,14 +52431,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureOrderByWithRelationInput
     salaryRecords?: SalaryRecordOrderByRelationAggregateInput
     letterRecords?: LetterRecordOrderByRelationAggregateInput
-    staffRequests?: StaffRequestOrderByRelationAggregateInput
+    serviceRequests?: ServiceRequestOrderByRelationAggregateInput
     visaRequests?: VisaRequestOrderByRelationAggregateInput
     letters?: LetterOrderByRelationAggregateInput
+    letterRequests?: LetterRequestOrderByRelationAggregateInput
     attachments?: AttachmentOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
     loanApplications?: LoanApplicationOrderByRelationAggregateInput
     overtime?: OvertimeOrderByRelationAggregateInput
+    salaryAdvances?: SalaryAdvanceRequestOrderByRelationAggregateInput
+    reimbursements?: ReimbursementRequestOrderByRelationAggregateInput
     manager?: EmployeeOrderByWithRelationInput
     reportees?: EmployeeOrderByRelationAggregateInput
     requestedJobs?: JobRequisitionOrderByRelationAggregateInput
@@ -44736,14 +52507,17 @@ export namespace Prisma {
     salaryStructure?: XOR<SalaryStructureNullableScalarRelationFilter, SalaryStructureWhereInput> | null
     salaryRecords?: SalaryRecordListRelationFilter
     letterRecords?: LetterRecordListRelationFilter
-    staffRequests?: StaffRequestListRelationFilter
+    serviceRequests?: ServiceRequestListRelationFilter
     visaRequests?: VisaRequestListRelationFilter
     letters?: LetterListRelationFilter
+    letterRequests?: LetterRequestListRelationFilter
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     notifications?: NotificationListRelationFilter
     loanApplications?: LoanApplicationListRelationFilter
     overtime?: OvertimeListRelationFilter
+    salaryAdvances?: SalaryAdvanceRequestListRelationFilter
+    reimbursements?: ReimbursementRequestListRelationFilter
     manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     reportees?: EmployeeListRelationFilter
     requestedJobs?: JobRequisitionListRelationFilter
@@ -46230,172 +54004,472 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Overtime"> | Date | string
   }
 
-  export type StaffServiceTypeWhereInput = {
-    AND?: StaffServiceTypeWhereInput | StaffServiceTypeWhereInput[]
-    OR?: StaffServiceTypeWhereInput[]
-    NOT?: StaffServiceTypeWhereInput | StaffServiceTypeWhereInput[]
-    id?: StringFilter<"StaffServiceType"> | string
-    name?: StringFilter<"StaffServiceType"> | string
-    icon?: StringNullableFilter<"StaffServiceType"> | string | null
-    description?: StringNullableFilter<"StaffServiceType"> | string | null
-    requiresAmount?: BoolFilter<"StaffServiceType"> | boolean
-    requiresDates?: BoolFilter<"StaffServiceType"> | boolean
-    isActive?: BoolFilter<"StaffServiceType"> | boolean
-    createdAt?: DateTimeFilter<"StaffServiceType"> | Date | string
-    updatedAt?: DateTimeFilter<"StaffServiceType"> | Date | string
-    staffRequests?: StaffRequestListRelationFilter
+  export type ServiceCategoryWhereInput = {
+    AND?: ServiceCategoryWhereInput | ServiceCategoryWhereInput[]
+    OR?: ServiceCategoryWhereInput[]
+    NOT?: ServiceCategoryWhereInput | ServiceCategoryWhereInput[]
+    id?: StringFilter<"ServiceCategory"> | string
+    name?: StringFilter<"ServiceCategory"> | string
+    type?: StringFilter<"ServiceCategory"> | string
+    icon?: StringNullableFilter<"ServiceCategory"> | string | null
+    description?: StringNullableFilter<"ServiceCategory"> | string | null
+    requiresAmount?: BoolFilter<"ServiceCategory"> | boolean
+    requiresDates?: BoolFilter<"ServiceCategory"> | boolean
+    slaDays?: IntFilter<"ServiceCategory"> | number
+    isActive?: BoolFilter<"ServiceCategory"> | boolean
+    createdAt?: DateTimeFilter<"ServiceCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceCategory"> | Date | string
+    requests?: ServiceRequestListRelationFilter
   }
 
-  export type StaffServiceTypeOrderByWithRelationInput = {
+  export type ServiceCategoryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     icon?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
+    slaDays?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    staffRequests?: StaffRequestOrderByRelationAggregateInput
+    requests?: ServiceRequestOrderByRelationAggregateInput
   }
 
-  export type StaffServiceTypeWhereUniqueInput = Prisma.AtLeast<{
+  export type ServiceCategoryWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     name?: string
-    AND?: StaffServiceTypeWhereInput | StaffServiceTypeWhereInput[]
-    OR?: StaffServiceTypeWhereInput[]
-    NOT?: StaffServiceTypeWhereInput | StaffServiceTypeWhereInput[]
-    icon?: StringNullableFilter<"StaffServiceType"> | string | null
-    description?: StringNullableFilter<"StaffServiceType"> | string | null
-    requiresAmount?: BoolFilter<"StaffServiceType"> | boolean
-    requiresDates?: BoolFilter<"StaffServiceType"> | boolean
-    isActive?: BoolFilter<"StaffServiceType"> | boolean
-    createdAt?: DateTimeFilter<"StaffServiceType"> | Date | string
-    updatedAt?: DateTimeFilter<"StaffServiceType"> | Date | string
-    staffRequests?: StaffRequestListRelationFilter
+    AND?: ServiceCategoryWhereInput | ServiceCategoryWhereInput[]
+    OR?: ServiceCategoryWhereInput[]
+    NOT?: ServiceCategoryWhereInput | ServiceCategoryWhereInput[]
+    type?: StringFilter<"ServiceCategory"> | string
+    icon?: StringNullableFilter<"ServiceCategory"> | string | null
+    description?: StringNullableFilter<"ServiceCategory"> | string | null
+    requiresAmount?: BoolFilter<"ServiceCategory"> | boolean
+    requiresDates?: BoolFilter<"ServiceCategory"> | boolean
+    slaDays?: IntFilter<"ServiceCategory"> | number
+    isActive?: BoolFilter<"ServiceCategory"> | boolean
+    createdAt?: DateTimeFilter<"ServiceCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceCategory"> | Date | string
+    requests?: ServiceRequestListRelationFilter
   }, "id" | "name">
 
-  export type StaffServiceTypeOrderByWithAggregationInput = {
+  export type ServiceCategoryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     icon?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
+    slaDays?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: StaffServiceTypeCountOrderByAggregateInput
-    _max?: StaffServiceTypeMaxOrderByAggregateInput
-    _min?: StaffServiceTypeMinOrderByAggregateInput
+    _count?: ServiceCategoryCountOrderByAggregateInput
+    _avg?: ServiceCategoryAvgOrderByAggregateInput
+    _max?: ServiceCategoryMaxOrderByAggregateInput
+    _min?: ServiceCategoryMinOrderByAggregateInput
+    _sum?: ServiceCategorySumOrderByAggregateInput
   }
 
-  export type StaffServiceTypeScalarWhereWithAggregatesInput = {
-    AND?: StaffServiceTypeScalarWhereWithAggregatesInput | StaffServiceTypeScalarWhereWithAggregatesInput[]
-    OR?: StaffServiceTypeScalarWhereWithAggregatesInput[]
-    NOT?: StaffServiceTypeScalarWhereWithAggregatesInput | StaffServiceTypeScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"StaffServiceType"> | string
-    name?: StringWithAggregatesFilter<"StaffServiceType"> | string
-    icon?: StringNullableWithAggregatesFilter<"StaffServiceType"> | string | null
-    description?: StringNullableWithAggregatesFilter<"StaffServiceType"> | string | null
-    requiresAmount?: BoolWithAggregatesFilter<"StaffServiceType"> | boolean
-    requiresDates?: BoolWithAggregatesFilter<"StaffServiceType"> | boolean
-    isActive?: BoolWithAggregatesFilter<"StaffServiceType"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"StaffServiceType"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"StaffServiceType"> | Date | string
+  export type ServiceCategoryScalarWhereWithAggregatesInput = {
+    AND?: ServiceCategoryScalarWhereWithAggregatesInput | ServiceCategoryScalarWhereWithAggregatesInput[]
+    OR?: ServiceCategoryScalarWhereWithAggregatesInput[]
+    NOT?: ServiceCategoryScalarWhereWithAggregatesInput | ServiceCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceCategory"> | string
+    name?: StringWithAggregatesFilter<"ServiceCategory"> | string
+    type?: StringWithAggregatesFilter<"ServiceCategory"> | string
+    icon?: StringNullableWithAggregatesFilter<"ServiceCategory"> | string | null
+    description?: StringNullableWithAggregatesFilter<"ServiceCategory"> | string | null
+    requiresAmount?: BoolWithAggregatesFilter<"ServiceCategory"> | boolean
+    requiresDates?: BoolWithAggregatesFilter<"ServiceCategory"> | boolean
+    slaDays?: IntWithAggregatesFilter<"ServiceCategory"> | number
+    isActive?: BoolWithAggregatesFilter<"ServiceCategory"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceCategory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ServiceCategory"> | Date | string
   }
 
-  export type StaffRequestWhereInput = {
-    AND?: StaffRequestWhereInput | StaffRequestWhereInput[]
-    OR?: StaffRequestWhereInput[]
-    NOT?: StaffRequestWhereInput | StaffRequestWhereInput[]
-    id?: StringFilter<"StaffRequest"> | string
-    employeeId?: StringFilter<"StaffRequest"> | string
-    typeId?: StringFilter<"StaffRequest"> | string
-    details?: StringFilter<"StaffRequest"> | string
-    amount?: FloatNullableFilter<"StaffRequest"> | number | null
-    startDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
-    endDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
-    status?: StringFilter<"StaffRequest"> | string
-    hrNote?: StringNullableFilter<"StaffRequest"> | string | null
-    createdAt?: DateTimeFilter<"StaffRequest"> | Date | string
-    updatedAt?: DateTimeFilter<"StaffRequest"> | Date | string
+  export type ServiceRequestWhereInput = {
+    AND?: ServiceRequestWhereInput | ServiceRequestWhereInput[]
+    OR?: ServiceRequestWhereInput[]
+    NOT?: ServiceRequestWhereInput | ServiceRequestWhereInput[]
+    id?: StringFilter<"ServiceRequest"> | string
+    employeeId?: StringFilter<"ServiceRequest"> | string
+    categoryId?: StringFilter<"ServiceRequest"> | string
+    details?: StringFilter<"ServiceRequest"> | string
+    amount?: FloatNullableFilter<"ServiceRequest"> | number | null
+    startDate?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    status?: StringFilter<"ServiceRequest"> | string
+    workflowStep?: IntFilter<"ServiceRequest"> | number
+    hrNote?: StringNullableFilter<"ServiceRequest"> | string | null
+    createdAt?: DateTimeFilter<"ServiceRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceRequest"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
-    serviceType?: XOR<StaffServiceTypeScalarRelationFilter, StaffServiceTypeWhereInput>
+    category?: XOR<ServiceCategoryScalarRelationFilter, ServiceCategoryWhereInput>
     attachments?: AttachmentListRelationFilter
+    approvals?: ServiceApprovalListRelationFilter
+    comments?: ServiceCommentListRelationFilter
   }
 
-  export type StaffRequestOrderByWithRelationInput = {
+  export type ServiceRequestOrderByWithRelationInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    typeId?: SortOrder
+    categoryId?: SortOrder
     details?: SortOrder
     amount?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     status?: SortOrder
+    workflowStep?: SortOrder
     hrNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
-    serviceType?: StaffServiceTypeOrderByWithRelationInput
+    category?: ServiceCategoryOrderByWithRelationInput
     attachments?: AttachmentOrderByRelationAggregateInput
+    approvals?: ServiceApprovalOrderByRelationAggregateInput
+    comments?: ServiceCommentOrderByRelationAggregateInput
   }
 
-  export type StaffRequestWhereUniqueInput = Prisma.AtLeast<{
+  export type ServiceRequestWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: StaffRequestWhereInput | StaffRequestWhereInput[]
-    OR?: StaffRequestWhereInput[]
-    NOT?: StaffRequestWhereInput | StaffRequestWhereInput[]
-    employeeId?: StringFilter<"StaffRequest"> | string
-    typeId?: StringFilter<"StaffRequest"> | string
-    details?: StringFilter<"StaffRequest"> | string
-    amount?: FloatNullableFilter<"StaffRequest"> | number | null
-    startDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
-    endDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
-    status?: StringFilter<"StaffRequest"> | string
-    hrNote?: StringNullableFilter<"StaffRequest"> | string | null
-    createdAt?: DateTimeFilter<"StaffRequest"> | Date | string
-    updatedAt?: DateTimeFilter<"StaffRequest"> | Date | string
+    AND?: ServiceRequestWhereInput | ServiceRequestWhereInput[]
+    OR?: ServiceRequestWhereInput[]
+    NOT?: ServiceRequestWhereInput | ServiceRequestWhereInput[]
+    employeeId?: StringFilter<"ServiceRequest"> | string
+    categoryId?: StringFilter<"ServiceRequest"> | string
+    details?: StringFilter<"ServiceRequest"> | string
+    amount?: FloatNullableFilter<"ServiceRequest"> | number | null
+    startDate?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    status?: StringFilter<"ServiceRequest"> | string
+    workflowStep?: IntFilter<"ServiceRequest"> | number
+    hrNote?: StringNullableFilter<"ServiceRequest"> | string | null
+    createdAt?: DateTimeFilter<"ServiceRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceRequest"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
-    serviceType?: XOR<StaffServiceTypeScalarRelationFilter, StaffServiceTypeWhereInput>
+    category?: XOR<ServiceCategoryScalarRelationFilter, ServiceCategoryWhereInput>
     attachments?: AttachmentListRelationFilter
+    approvals?: ServiceApprovalListRelationFilter
+    comments?: ServiceCommentListRelationFilter
   }, "id">
 
-  export type StaffRequestOrderByWithAggregationInput = {
+  export type ServiceRequestOrderByWithAggregationInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    typeId?: SortOrder
+    categoryId?: SortOrder
     details?: SortOrder
     amount?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     status?: SortOrder
+    workflowStep?: SortOrder
     hrNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: StaffRequestCountOrderByAggregateInput
-    _avg?: StaffRequestAvgOrderByAggregateInput
-    _max?: StaffRequestMaxOrderByAggregateInput
-    _min?: StaffRequestMinOrderByAggregateInput
-    _sum?: StaffRequestSumOrderByAggregateInput
+    _count?: ServiceRequestCountOrderByAggregateInput
+    _avg?: ServiceRequestAvgOrderByAggregateInput
+    _max?: ServiceRequestMaxOrderByAggregateInput
+    _min?: ServiceRequestMinOrderByAggregateInput
+    _sum?: ServiceRequestSumOrderByAggregateInput
   }
 
-  export type StaffRequestScalarWhereWithAggregatesInput = {
-    AND?: StaffRequestScalarWhereWithAggregatesInput | StaffRequestScalarWhereWithAggregatesInput[]
-    OR?: StaffRequestScalarWhereWithAggregatesInput[]
-    NOT?: StaffRequestScalarWhereWithAggregatesInput | StaffRequestScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"StaffRequest"> | string
-    employeeId?: StringWithAggregatesFilter<"StaffRequest"> | string
-    typeId?: StringWithAggregatesFilter<"StaffRequest"> | string
-    details?: StringWithAggregatesFilter<"StaffRequest"> | string
-    amount?: FloatNullableWithAggregatesFilter<"StaffRequest"> | number | null
-    startDate?: DateTimeNullableWithAggregatesFilter<"StaffRequest"> | Date | string | null
-    endDate?: DateTimeNullableWithAggregatesFilter<"StaffRequest"> | Date | string | null
-    status?: StringWithAggregatesFilter<"StaffRequest"> | string
-    hrNote?: StringNullableWithAggregatesFilter<"StaffRequest"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"StaffRequest"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"StaffRequest"> | Date | string
+  export type ServiceRequestScalarWhereWithAggregatesInput = {
+    AND?: ServiceRequestScalarWhereWithAggregatesInput | ServiceRequestScalarWhereWithAggregatesInput[]
+    OR?: ServiceRequestScalarWhereWithAggregatesInput[]
+    NOT?: ServiceRequestScalarWhereWithAggregatesInput | ServiceRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceRequest"> | string
+    employeeId?: StringWithAggregatesFilter<"ServiceRequest"> | string
+    categoryId?: StringWithAggregatesFilter<"ServiceRequest"> | string
+    details?: StringWithAggregatesFilter<"ServiceRequest"> | string
+    amount?: FloatNullableWithAggregatesFilter<"ServiceRequest"> | number | null
+    startDate?: DateTimeNullableWithAggregatesFilter<"ServiceRequest"> | Date | string | null
+    endDate?: DateTimeNullableWithAggregatesFilter<"ServiceRequest"> | Date | string | null
+    status?: StringWithAggregatesFilter<"ServiceRequest"> | string
+    workflowStep?: IntWithAggregatesFilter<"ServiceRequest"> | number
+    hrNote?: StringNullableWithAggregatesFilter<"ServiceRequest"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ServiceRequest"> | Date | string
+  }
+
+  export type ServiceApprovalWhereInput = {
+    AND?: ServiceApprovalWhereInput | ServiceApprovalWhereInput[]
+    OR?: ServiceApprovalWhereInput[]
+    NOT?: ServiceApprovalWhereInput | ServiceApprovalWhereInput[]
+    id?: StringFilter<"ServiceApproval"> | string
+    serviceRequestId?: StringFilter<"ServiceApproval"> | string
+    approverId?: StringNullableFilter<"ServiceApproval"> | string | null
+    approverEmail?: StringNullableFilter<"ServiceApproval"> | string | null
+    level?: StringFilter<"ServiceApproval"> | string
+    action?: StringFilter<"ServiceApproval"> | string
+    comments?: StringNullableFilter<"ServiceApproval"> | string | null
+    createdAt?: DateTimeFilter<"ServiceApproval"> | Date | string
+    serviceRequest?: XOR<ServiceRequestScalarRelationFilter, ServiceRequestWhereInput>
+  }
+
+  export type ServiceApprovalOrderByWithRelationInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    approverId?: SortOrderInput | SortOrder
+    approverEmail?: SortOrderInput | SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    serviceRequest?: ServiceRequestOrderByWithRelationInput
+  }
+
+  export type ServiceApprovalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServiceApprovalWhereInput | ServiceApprovalWhereInput[]
+    OR?: ServiceApprovalWhereInput[]
+    NOT?: ServiceApprovalWhereInput | ServiceApprovalWhereInput[]
+    serviceRequestId?: StringFilter<"ServiceApproval"> | string
+    approverId?: StringNullableFilter<"ServiceApproval"> | string | null
+    approverEmail?: StringNullableFilter<"ServiceApproval"> | string | null
+    level?: StringFilter<"ServiceApproval"> | string
+    action?: StringFilter<"ServiceApproval"> | string
+    comments?: StringNullableFilter<"ServiceApproval"> | string | null
+    createdAt?: DateTimeFilter<"ServiceApproval"> | Date | string
+    serviceRequest?: XOR<ServiceRequestScalarRelationFilter, ServiceRequestWhereInput>
+  }, "id">
+
+  export type ServiceApprovalOrderByWithAggregationInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    approverId?: SortOrderInput | SortOrder
+    approverEmail?: SortOrderInput | SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ServiceApprovalCountOrderByAggregateInput
+    _max?: ServiceApprovalMaxOrderByAggregateInput
+    _min?: ServiceApprovalMinOrderByAggregateInput
+  }
+
+  export type ServiceApprovalScalarWhereWithAggregatesInput = {
+    AND?: ServiceApprovalScalarWhereWithAggregatesInput | ServiceApprovalScalarWhereWithAggregatesInput[]
+    OR?: ServiceApprovalScalarWhereWithAggregatesInput[]
+    NOT?: ServiceApprovalScalarWhereWithAggregatesInput | ServiceApprovalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceApproval"> | string
+    serviceRequestId?: StringWithAggregatesFilter<"ServiceApproval"> | string
+    approverId?: StringNullableWithAggregatesFilter<"ServiceApproval"> | string | null
+    approverEmail?: StringNullableWithAggregatesFilter<"ServiceApproval"> | string | null
+    level?: StringWithAggregatesFilter<"ServiceApproval"> | string
+    action?: StringWithAggregatesFilter<"ServiceApproval"> | string
+    comments?: StringNullableWithAggregatesFilter<"ServiceApproval"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceApproval"> | Date | string
+  }
+
+  export type ServiceCommentWhereInput = {
+    AND?: ServiceCommentWhereInput | ServiceCommentWhereInput[]
+    OR?: ServiceCommentWhereInput[]
+    NOT?: ServiceCommentWhereInput | ServiceCommentWhereInput[]
+    id?: StringFilter<"ServiceComment"> | string
+    serviceRequestId?: StringFilter<"ServiceComment"> | string
+    authorId?: StringFilter<"ServiceComment"> | string
+    authorName?: StringFilter<"ServiceComment"> | string
+    content?: StringFilter<"ServiceComment"> | string
+    createdAt?: DateTimeFilter<"ServiceComment"> | Date | string
+    serviceRequest?: XOR<ServiceRequestScalarRelationFilter, ServiceRequestWhereInput>
+  }
+
+  export type ServiceCommentOrderByWithRelationInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    serviceRequest?: ServiceRequestOrderByWithRelationInput
+  }
+
+  export type ServiceCommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServiceCommentWhereInput | ServiceCommentWhereInput[]
+    OR?: ServiceCommentWhereInput[]
+    NOT?: ServiceCommentWhereInput | ServiceCommentWhereInput[]
+    serviceRequestId?: StringFilter<"ServiceComment"> | string
+    authorId?: StringFilter<"ServiceComment"> | string
+    authorName?: StringFilter<"ServiceComment"> | string
+    content?: StringFilter<"ServiceComment"> | string
+    createdAt?: DateTimeFilter<"ServiceComment"> | Date | string
+    serviceRequest?: XOR<ServiceRequestScalarRelationFilter, ServiceRequestWhereInput>
+  }, "id">
+
+  export type ServiceCommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    _count?: ServiceCommentCountOrderByAggregateInput
+    _max?: ServiceCommentMaxOrderByAggregateInput
+    _min?: ServiceCommentMinOrderByAggregateInput
+  }
+
+  export type ServiceCommentScalarWhereWithAggregatesInput = {
+    AND?: ServiceCommentScalarWhereWithAggregatesInput | ServiceCommentScalarWhereWithAggregatesInput[]
+    OR?: ServiceCommentScalarWhereWithAggregatesInput[]
+    NOT?: ServiceCommentScalarWhereWithAggregatesInput | ServiceCommentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceComment"> | string
+    serviceRequestId?: StringWithAggregatesFilter<"ServiceComment"> | string
+    authorId?: StringWithAggregatesFilter<"ServiceComment"> | string
+    authorName?: StringWithAggregatesFilter<"ServiceComment"> | string
+    content?: StringWithAggregatesFilter<"ServiceComment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceComment"> | Date | string
+  }
+
+  export type ReimbursementRequestWhereInput = {
+    AND?: ReimbursementRequestWhereInput | ReimbursementRequestWhereInput[]
+    OR?: ReimbursementRequestWhereInput[]
+    NOT?: ReimbursementRequestWhereInput | ReimbursementRequestWhereInput[]
+    id?: StringFilter<"ReimbursementRequest"> | string
+    employeeId?: StringFilter<"ReimbursementRequest"> | string
+    category?: StringFilter<"ReimbursementRequest"> | string
+    amount?: FloatFilter<"ReimbursementRequest"> | number
+    details?: StringFilter<"ReimbursementRequest"> | string
+    status?: StringFilter<"ReimbursementRequest"> | string
+    createdAt?: DateTimeFilter<"ReimbursementRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ReimbursementRequest"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    attachments?: AttachmentListRelationFilter
+  }
+
+  export type ReimbursementRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    category?: SortOrder
+    amount?: SortOrder
+    details?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+    attachments?: AttachmentOrderByRelationAggregateInput
+  }
+
+  export type ReimbursementRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReimbursementRequestWhereInput | ReimbursementRequestWhereInput[]
+    OR?: ReimbursementRequestWhereInput[]
+    NOT?: ReimbursementRequestWhereInput | ReimbursementRequestWhereInput[]
+    employeeId?: StringFilter<"ReimbursementRequest"> | string
+    category?: StringFilter<"ReimbursementRequest"> | string
+    amount?: FloatFilter<"ReimbursementRequest"> | number
+    details?: StringFilter<"ReimbursementRequest"> | string
+    status?: StringFilter<"ReimbursementRequest"> | string
+    createdAt?: DateTimeFilter<"ReimbursementRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ReimbursementRequest"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    attachments?: AttachmentListRelationFilter
+  }, "id">
+
+  export type ReimbursementRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    category?: SortOrder
+    amount?: SortOrder
+    details?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReimbursementRequestCountOrderByAggregateInput
+    _avg?: ReimbursementRequestAvgOrderByAggregateInput
+    _max?: ReimbursementRequestMaxOrderByAggregateInput
+    _min?: ReimbursementRequestMinOrderByAggregateInput
+    _sum?: ReimbursementRequestSumOrderByAggregateInput
+  }
+
+  export type ReimbursementRequestScalarWhereWithAggregatesInput = {
+    AND?: ReimbursementRequestScalarWhereWithAggregatesInput | ReimbursementRequestScalarWhereWithAggregatesInput[]
+    OR?: ReimbursementRequestScalarWhereWithAggregatesInput[]
+    NOT?: ReimbursementRequestScalarWhereWithAggregatesInput | ReimbursementRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReimbursementRequest"> | string
+    employeeId?: StringWithAggregatesFilter<"ReimbursementRequest"> | string
+    category?: StringWithAggregatesFilter<"ReimbursementRequest"> | string
+    amount?: FloatWithAggregatesFilter<"ReimbursementRequest"> | number
+    details?: StringWithAggregatesFilter<"ReimbursementRequest"> | string
+    status?: StringWithAggregatesFilter<"ReimbursementRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ReimbursementRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ReimbursementRequest"> | Date | string
+  }
+
+  export type SalaryAdvanceRequestWhereInput = {
+    AND?: SalaryAdvanceRequestWhereInput | SalaryAdvanceRequestWhereInput[]
+    OR?: SalaryAdvanceRequestWhereInput[]
+    NOT?: SalaryAdvanceRequestWhereInput | SalaryAdvanceRequestWhereInput[]
+    id?: StringFilter<"SalaryAdvanceRequest"> | string
+    employeeId?: StringFilter<"SalaryAdvanceRequest"> | string
+    requestedAmount?: FloatFilter<"SalaryAdvanceRequest"> | number
+    repaymentMonths?: IntFilter<"SalaryAdvanceRequest"> | number
+    reason?: StringFilter<"SalaryAdvanceRequest"> | string
+    status?: StringFilter<"SalaryAdvanceRequest"> | string
+    createdAt?: DateTimeFilter<"SalaryAdvanceRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"SalaryAdvanceRequest"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type SalaryAdvanceRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+  }
+
+  export type SalaryAdvanceRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SalaryAdvanceRequestWhereInput | SalaryAdvanceRequestWhereInput[]
+    OR?: SalaryAdvanceRequestWhereInput[]
+    NOT?: SalaryAdvanceRequestWhereInput | SalaryAdvanceRequestWhereInput[]
+    employeeId?: StringFilter<"SalaryAdvanceRequest"> | string
+    requestedAmount?: FloatFilter<"SalaryAdvanceRequest"> | number
+    repaymentMonths?: IntFilter<"SalaryAdvanceRequest"> | number
+    reason?: StringFilter<"SalaryAdvanceRequest"> | string
+    status?: StringFilter<"SalaryAdvanceRequest"> | string
+    createdAt?: DateTimeFilter<"SalaryAdvanceRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"SalaryAdvanceRequest"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type SalaryAdvanceRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SalaryAdvanceRequestCountOrderByAggregateInput
+    _avg?: SalaryAdvanceRequestAvgOrderByAggregateInput
+    _max?: SalaryAdvanceRequestMaxOrderByAggregateInput
+    _min?: SalaryAdvanceRequestMinOrderByAggregateInput
+    _sum?: SalaryAdvanceRequestSumOrderByAggregateInput
+  }
+
+  export type SalaryAdvanceRequestScalarWhereWithAggregatesInput = {
+    AND?: SalaryAdvanceRequestScalarWhereWithAggregatesInput | SalaryAdvanceRequestScalarWhereWithAggregatesInput[]
+    OR?: SalaryAdvanceRequestScalarWhereWithAggregatesInput[]
+    NOT?: SalaryAdvanceRequestScalarWhereWithAggregatesInput | SalaryAdvanceRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SalaryAdvanceRequest"> | string
+    employeeId?: StringWithAggregatesFilter<"SalaryAdvanceRequest"> | string
+    requestedAmount?: FloatWithAggregatesFilter<"SalaryAdvanceRequest"> | number
+    repaymentMonths?: IntWithAggregatesFilter<"SalaryAdvanceRequest"> | number
+    reason?: StringWithAggregatesFilter<"SalaryAdvanceRequest"> | string
+    status?: StringWithAggregatesFilter<"SalaryAdvanceRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SalaryAdvanceRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SalaryAdvanceRequest"> | Date | string
   }
 
   export type AttachmentWhereInput = {
@@ -46403,7 +54477,8 @@ export namespace Prisma {
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
     id?: StringFilter<"Attachment"> | string
-    staffRequestId?: StringNullableFilter<"Attachment"> | string | null
+    serviceRequestId?: StringNullableFilter<"Attachment"> | string | null
+    reimbursementId?: StringNullableFilter<"Attachment"> | string | null
     visaRequestId?: StringNullableFilter<"Attachment"> | string | null
     employeeId?: StringNullableFilter<"Attachment"> | string | null
     fileName?: StringFilter<"Attachment"> | string
@@ -46413,14 +54488,16 @@ export namespace Prisma {
     docNumber?: StringNullableFilter<"Attachment"> | string | null
     docExpiry?: DateTimeNullableFilter<"Attachment"> | Date | string | null
     createdAt?: DateTimeFilter<"Attachment"> | Date | string
-    staffRequest?: XOR<StaffRequestNullableScalarRelationFilter, StaffRequestWhereInput> | null
+    serviceRequest?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
+    reimbursementRequest?: XOR<ReimbursementRequestNullableScalarRelationFilter, ReimbursementRequestWhereInput> | null
     visaRequest?: XOR<VisaRequestNullableScalarRelationFilter, VisaRequestWhereInput> | null
     employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
   }
 
   export type AttachmentOrderByWithRelationInput = {
     id?: SortOrder
-    staffRequestId?: SortOrderInput | SortOrder
+    serviceRequestId?: SortOrderInput | SortOrder
+    reimbursementId?: SortOrderInput | SortOrder
     visaRequestId?: SortOrderInput | SortOrder
     employeeId?: SortOrderInput | SortOrder
     fileName?: SortOrder
@@ -46430,7 +54507,8 @@ export namespace Prisma {
     docNumber?: SortOrderInput | SortOrder
     docExpiry?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    staffRequest?: StaffRequestOrderByWithRelationInput
+    serviceRequest?: ServiceRequestOrderByWithRelationInput
+    reimbursementRequest?: ReimbursementRequestOrderByWithRelationInput
     visaRequest?: VisaRequestOrderByWithRelationInput
     employee?: EmployeeOrderByWithRelationInput
   }
@@ -46440,7 +54518,8 @@ export namespace Prisma {
     AND?: AttachmentWhereInput | AttachmentWhereInput[]
     OR?: AttachmentWhereInput[]
     NOT?: AttachmentWhereInput | AttachmentWhereInput[]
-    staffRequestId?: StringNullableFilter<"Attachment"> | string | null
+    serviceRequestId?: StringNullableFilter<"Attachment"> | string | null
+    reimbursementId?: StringNullableFilter<"Attachment"> | string | null
     visaRequestId?: StringNullableFilter<"Attachment"> | string | null
     employeeId?: StringNullableFilter<"Attachment"> | string | null
     fileName?: StringFilter<"Attachment"> | string
@@ -46450,14 +54529,16 @@ export namespace Prisma {
     docNumber?: StringNullableFilter<"Attachment"> | string | null
     docExpiry?: DateTimeNullableFilter<"Attachment"> | Date | string | null
     createdAt?: DateTimeFilter<"Attachment"> | Date | string
-    staffRequest?: XOR<StaffRequestNullableScalarRelationFilter, StaffRequestWhereInput> | null
+    serviceRequest?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
+    reimbursementRequest?: XOR<ReimbursementRequestNullableScalarRelationFilter, ReimbursementRequestWhereInput> | null
     visaRequest?: XOR<VisaRequestNullableScalarRelationFilter, VisaRequestWhereInput> | null
     employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
   }, "id">
 
   export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
-    staffRequestId?: SortOrderInput | SortOrder
+    serviceRequestId?: SortOrderInput | SortOrder
+    reimbursementId?: SortOrderInput | SortOrder
     visaRequestId?: SortOrderInput | SortOrder
     employeeId?: SortOrderInput | SortOrder
     fileName?: SortOrder
@@ -46477,7 +54558,8 @@ export namespace Prisma {
     OR?: AttachmentScalarWhereWithAggregatesInput[]
     NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Attachment"> | string
-    staffRequestId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
+    serviceRequestId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
+    reimbursementId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
     visaRequestId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
     employeeId?: StringNullableWithAggregatesFilter<"Attachment"> | string | null
     fileName?: StringWithAggregatesFilter<"Attachment"> | string
@@ -46627,6 +54709,145 @@ export namespace Prisma {
     generatedAt?: DateTimeWithAggregatesFilter<"LetterRecord"> | Date | string
   }
 
+  export type LetterRequestWhereInput = {
+    AND?: LetterRequestWhereInput | LetterRequestWhereInput[]
+    OR?: LetterRequestWhereInput[]
+    NOT?: LetterRequestWhereInput | LetterRequestWhereInput[]
+    id?: StringFilter<"LetterRequest"> | string
+    employeeId?: StringFilter<"LetterRequest"> | string
+    templateId?: StringFilter<"LetterRequest"> | string
+    reason?: StringNullableFilter<"LetterRequest"> | string | null
+    status?: StringFilter<"LetterRequest"> | string
+    createdAt?: DateTimeFilter<"LetterRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"LetterRequest"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    template?: XOR<LetterTemplateScalarRelationFilter, LetterTemplateWhereInput>
+    approvals?: LetterApprovalListRelationFilter
+    generatedLetter?: XOR<LetterNullableScalarRelationFilter, LetterWhereInput> | null
+  }
+
+  export type LetterRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    templateId?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    employee?: EmployeeOrderByWithRelationInput
+    template?: LetterTemplateOrderByWithRelationInput
+    approvals?: LetterApprovalOrderByRelationAggregateInput
+    generatedLetter?: LetterOrderByWithRelationInput
+  }
+
+  export type LetterRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LetterRequestWhereInput | LetterRequestWhereInput[]
+    OR?: LetterRequestWhereInput[]
+    NOT?: LetterRequestWhereInput | LetterRequestWhereInput[]
+    employeeId?: StringFilter<"LetterRequest"> | string
+    templateId?: StringFilter<"LetterRequest"> | string
+    reason?: StringNullableFilter<"LetterRequest"> | string | null
+    status?: StringFilter<"LetterRequest"> | string
+    createdAt?: DateTimeFilter<"LetterRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"LetterRequest"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    template?: XOR<LetterTemplateScalarRelationFilter, LetterTemplateWhereInput>
+    approvals?: LetterApprovalListRelationFilter
+    generatedLetter?: XOR<LetterNullableScalarRelationFilter, LetterWhereInput> | null
+  }, "id">
+
+  export type LetterRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    templateId?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LetterRequestCountOrderByAggregateInput
+    _max?: LetterRequestMaxOrderByAggregateInput
+    _min?: LetterRequestMinOrderByAggregateInput
+  }
+
+  export type LetterRequestScalarWhereWithAggregatesInput = {
+    AND?: LetterRequestScalarWhereWithAggregatesInput | LetterRequestScalarWhereWithAggregatesInput[]
+    OR?: LetterRequestScalarWhereWithAggregatesInput[]
+    NOT?: LetterRequestScalarWhereWithAggregatesInput | LetterRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LetterRequest"> | string
+    employeeId?: StringWithAggregatesFilter<"LetterRequest"> | string
+    templateId?: StringWithAggregatesFilter<"LetterRequest"> | string
+    reason?: StringNullableWithAggregatesFilter<"LetterRequest"> | string | null
+    status?: StringWithAggregatesFilter<"LetterRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LetterRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LetterRequest"> | Date | string
+  }
+
+  export type LetterApprovalWhereInput = {
+    AND?: LetterApprovalWhereInput | LetterApprovalWhereInput[]
+    OR?: LetterApprovalWhereInput[]
+    NOT?: LetterApprovalWhereInput | LetterApprovalWhereInput[]
+    id?: StringFilter<"LetterApproval"> | string
+    letterRequestId?: StringFilter<"LetterApproval"> | string
+    approverId?: StringNullableFilter<"LetterApproval"> | string | null
+    level?: StringFilter<"LetterApproval"> | string
+    action?: StringFilter<"LetterApproval"> | string
+    comments?: StringNullableFilter<"LetterApproval"> | string | null
+    createdAt?: DateTimeFilter<"LetterApproval"> | Date | string
+    letterRequest?: XOR<LetterRequestScalarRelationFilter, LetterRequestWhereInput>
+  }
+
+  export type LetterApprovalOrderByWithRelationInput = {
+    id?: SortOrder
+    letterRequestId?: SortOrder
+    approverId?: SortOrderInput | SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    letterRequest?: LetterRequestOrderByWithRelationInput
+  }
+
+  export type LetterApprovalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LetterApprovalWhereInput | LetterApprovalWhereInput[]
+    OR?: LetterApprovalWhereInput[]
+    NOT?: LetterApprovalWhereInput | LetterApprovalWhereInput[]
+    letterRequestId?: StringFilter<"LetterApproval"> | string
+    approverId?: StringNullableFilter<"LetterApproval"> | string | null
+    level?: StringFilter<"LetterApproval"> | string
+    action?: StringFilter<"LetterApproval"> | string
+    comments?: StringNullableFilter<"LetterApproval"> | string | null
+    createdAt?: DateTimeFilter<"LetterApproval"> | Date | string
+    letterRequest?: XOR<LetterRequestScalarRelationFilter, LetterRequestWhereInput>
+  }, "id">
+
+  export type LetterApprovalOrderByWithAggregationInput = {
+    id?: SortOrder
+    letterRequestId?: SortOrder
+    approverId?: SortOrderInput | SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LetterApprovalCountOrderByAggregateInput
+    _max?: LetterApprovalMaxOrderByAggregateInput
+    _min?: LetterApprovalMinOrderByAggregateInput
+  }
+
+  export type LetterApprovalScalarWhereWithAggregatesInput = {
+    AND?: LetterApprovalScalarWhereWithAggregatesInput | LetterApprovalScalarWhereWithAggregatesInput[]
+    OR?: LetterApprovalScalarWhereWithAggregatesInput[]
+    NOT?: LetterApprovalScalarWhereWithAggregatesInput | LetterApprovalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LetterApproval"> | string
+    letterRequestId?: StringWithAggregatesFilter<"LetterApproval"> | string
+    approverId?: StringNullableWithAggregatesFilter<"LetterApproval"> | string | null
+    level?: StringWithAggregatesFilter<"LetterApproval"> | string
+    action?: StringWithAggregatesFilter<"LetterApproval"> | string
+    comments?: StringNullableWithAggregatesFilter<"LetterApproval"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LetterApproval"> | Date | string
+  }
+
   export type LetterTemplateWhereInput = {
     AND?: LetterTemplateWhereInput | LetterTemplateWhereInput[]
     OR?: LetterTemplateWhereInput[]
@@ -46640,6 +54861,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LetterTemplate"> | Date | string
     updatedAt?: DateTimeFilter<"LetterTemplate"> | Date | string
     letters?: LetterListRelationFilter
+    requests?: LetterRequestListRelationFilter
   }
 
   export type LetterTemplateOrderByWithRelationInput = {
@@ -46652,6 +54874,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     letters?: LetterOrderByRelationAggregateInput
+    requests?: LetterRequestOrderByRelationAggregateInput
   }
 
   export type LetterTemplateWhereUniqueInput = Prisma.AtLeast<{
@@ -46667,6 +54890,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LetterTemplate"> | Date | string
     updatedAt?: DateTimeFilter<"LetterTemplate"> | Date | string
     letters?: LetterListRelationFilter
+    requests?: LetterRequestListRelationFilter
   }, "id">
 
   export type LetterTemplateOrderByWithAggregationInput = {
@@ -46705,6 +54929,7 @@ export namespace Prisma {
     employeeId?: StringFilter<"Letter"> | string
     templateId?: StringFilter<"Letter"> | string
     referenceNumber?: StringFilter<"Letter"> | string
+    letterRequestId?: StringNullableFilter<"Letter"> | string | null
     status?: StringFilter<"Letter"> | string
     content_en?: StringFilter<"Letter"> | string
     content_ar?: StringNullableFilter<"Letter"> | string | null
@@ -46716,6 +54941,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Letter"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
     template?: XOR<LetterTemplateScalarRelationFilter, LetterTemplateWhereInput>
+    letterRequest?: XOR<LetterRequestNullableScalarRelationFilter, LetterRequestWhereInput> | null
   }
 
   export type LetterOrderByWithRelationInput = {
@@ -46723,6 +54949,7 @@ export namespace Prisma {
     employeeId?: SortOrder
     templateId?: SortOrder
     referenceNumber?: SortOrder
+    letterRequestId?: SortOrderInput | SortOrder
     status?: SortOrder
     content_en?: SortOrder
     content_ar?: SortOrderInput | SortOrder
@@ -46734,11 +54961,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
     template?: LetterTemplateOrderByWithRelationInput
+    letterRequest?: LetterRequestOrderByWithRelationInput
   }
 
   export type LetterWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     referenceNumber?: string
+    letterRequestId?: string
     AND?: LetterWhereInput | LetterWhereInput[]
     OR?: LetterWhereInput[]
     NOT?: LetterWhereInput | LetterWhereInput[]
@@ -46755,13 +54984,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Letter"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
     template?: XOR<LetterTemplateScalarRelationFilter, LetterTemplateWhereInput>
-  }, "id" | "referenceNumber">
+    letterRequest?: XOR<LetterRequestNullableScalarRelationFilter, LetterRequestWhereInput> | null
+  }, "id" | "referenceNumber" | "letterRequestId">
 
   export type LetterOrderByWithAggregationInput = {
     id?: SortOrder
     employeeId?: SortOrder
     templateId?: SortOrder
     referenceNumber?: SortOrder
+    letterRequestId?: SortOrderInput | SortOrder
     status?: SortOrder
     content_en?: SortOrder
     content_ar?: SortOrderInput | SortOrder
@@ -46784,6 +55015,7 @@ export namespace Prisma {
     employeeId?: StringWithAggregatesFilter<"Letter"> | string
     templateId?: StringWithAggregatesFilter<"Letter"> | string
     referenceNumber?: StringWithAggregatesFilter<"Letter"> | string
+    letterRequestId?: StringNullableWithAggregatesFilter<"Letter"> | string | null
     status?: StringWithAggregatesFilter<"Letter"> | string
     content_en?: StringWithAggregatesFilter<"Letter"> | string
     content_ar?: StringNullableWithAggregatesFilter<"Letter"> | string | null
@@ -47559,14 +55791,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -47627,14 +55862,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -47693,14 +55931,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -47761,14 +56002,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -49433,190 +57677,513 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffServiceTypeCreateInput = {
+  export type ServiceCategoryCreateInput = {
     id?: string
     name: string
+    type?: string
     icon?: string | null
     description?: string | null
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: number
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    staffRequests?: StaffRequestCreateNestedManyWithoutServiceTypeInput
+    requests?: ServiceRequestCreateNestedManyWithoutCategoryInput
   }
 
-  export type StaffServiceTypeUncheckedCreateInput = {
+  export type ServiceCategoryUncheckedCreateInput = {
     id?: string
     name: string
+    type?: string
     icon?: string | null
     description?: string | null
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: number
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutServiceTypeInput
+    requests?: ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
   }
 
-  export type StaffServiceTypeUpdateInput = {
+  export type ServiceCategoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     requiresAmount?: BoolFieldUpdateOperationsInput | boolean
     requiresDates?: BoolFieldUpdateOperationsInput | boolean
+    slaDays?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffRequests?: StaffRequestUpdateManyWithoutServiceTypeNestedInput
+    requests?: ServiceRequestUpdateManyWithoutCategoryNestedInput
   }
 
-  export type StaffServiceTypeUncheckedUpdateInput = {
+  export type ServiceCategoryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     requiresAmount?: BoolFieldUpdateOperationsInput | boolean
     requiresDates?: BoolFieldUpdateOperationsInput | boolean
+    slaDays?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutServiceTypeNestedInput
+    requests?: ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
-  export type StaffServiceTypeCreateManyInput = {
+  export type ServiceCategoryCreateManyInput = {
     id?: string
     name: string
+    type?: string
     icon?: string | null
     description?: string | null
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: number
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type StaffServiceTypeUpdateManyMutationInput = {
+  export type ServiceCategoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     requiresAmount?: BoolFieldUpdateOperationsInput | boolean
     requiresDates?: BoolFieldUpdateOperationsInput | boolean
+    slaDays?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffServiceTypeUncheckedUpdateManyInput = {
+  export type ServiceCategoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     requiresAmount?: BoolFieldUpdateOperationsInput | boolean
     requiresDates?: BoolFieldUpdateOperationsInput | boolean
+    slaDays?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffRequestCreateInput = {
+  export type ServiceRequestCreateInput = {
     id?: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    employee: EmployeeCreateNestedOneWithoutStaffRequestsInput
-    serviceType: StaffServiceTypeCreateNestedOneWithoutStaffRequestsInput
-    attachments?: AttachmentCreateNestedManyWithoutStaffRequestInput
+    employee: EmployeeCreateNestedOneWithoutServiceRequestsInput
+    category: ServiceCategoryCreateNestedOneWithoutRequestsInput
+    attachments?: AttachmentCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestUncheckedCreateInput = {
+  export type ServiceRequestUncheckedCreateInput = {
     id?: string
     employeeId: string
-    typeId: string
+    categoryId: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalUncheckedCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentUncheckedCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestUpdateInput = {
+  export type ServiceRequestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    employee?: EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput
-    serviceType?: StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput
-    attachments?: AttachmentUpdateManyWithoutStaffRequestNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutServiceRequestsNestedInput
+    category?: ServiceCategoryUpdateOneRequiredWithoutRequestsNestedInput
+    attachments?: AttachmentUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUpdateManyWithoutServiceRequestNestedInput
   }
 
-  export type StaffRequestUncheckedUpdateInput = {
+  export type ServiceRequestUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUncheckedUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUncheckedUpdateManyWithoutServiceRequestNestedInput
   }
 
-  export type StaffRequestCreateManyInput = {
+  export type ServiceRequestCreateManyInput = {
     id?: string
     employeeId: string
-    typeId: string
+    categoryId: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type StaffRequestUpdateManyMutationInput = {
+  export type ServiceRequestUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffRequestUncheckedUpdateManyInput = {
+  export type ServiceRequestUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceApprovalCreateInput = {
+    id?: string
+    approverId?: string | null
+    approverEmail?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+    serviceRequest: ServiceRequestCreateNestedOneWithoutApprovalsInput
+  }
+
+  export type ServiceApprovalUncheckedCreateInput = {
+    id?: string
+    serviceRequestId: string
+    approverId?: string | null
+    approverEmail?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ServiceApprovalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceRequest?: ServiceRequestUpdateOneRequiredWithoutApprovalsNestedInput
+  }
+
+  export type ServiceApprovalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceRequestId?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceApprovalCreateManyInput = {
+    id?: string
+    serviceRequestId: string
+    approverId?: string | null
+    approverEmail?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ServiceApprovalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceApprovalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceRequestId?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceCommentCreateInput = {
+    id?: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt?: Date | string
+    serviceRequest: ServiceRequestCreateNestedOneWithoutCommentsInput
+  }
+
+  export type ServiceCommentUncheckedCreateInput = {
+    id?: string
+    serviceRequestId: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceCommentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceRequest?: ServiceRequestUpdateOneRequiredWithoutCommentsNestedInput
+  }
+
+  export type ServiceCommentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceRequestId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceCommentCreateManyInput = {
+    id?: string
+    serviceRequestId: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceCommentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceCommentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceRequestId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReimbursementRequestCreateInput = {
+    id?: string
+    category: string
+    amount: number
+    details: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutReimbursementsInput
+    attachments?: AttachmentCreateNestedManyWithoutReimbursementRequestInput
+  }
+
+  export type ReimbursementRequestUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    category: string
+    amount: number
+    details: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutReimbursementRequestInput
+  }
+
+  export type ReimbursementRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutReimbursementsNestedInput
+    attachments?: AttachmentUpdateManyWithoutReimbursementRequestNestedInput
+  }
+
+  export type ReimbursementRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutReimbursementRequestNestedInput
+  }
+
+  export type ReimbursementRequestCreateManyInput = {
+    id?: string
+    employeeId: string
+    category: string
+    amount: number
+    details: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReimbursementRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReimbursementRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdvanceRequestCreateInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutSalaryAdvancesInput
+  }
+
+  export type SalaryAdvanceRequestUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryAdvanceRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutSalaryAdvancesNestedInput
+  }
+
+  export type SalaryAdvanceRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdvanceRequestCreateManyInput = {
+    id?: string
+    employeeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryAdvanceRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdvanceRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -49630,14 +58197,16 @@ export namespace Prisma {
     docNumber?: string | null
     docExpiry?: Date | string | null
     createdAt?: Date | string
-    staffRequest?: StaffRequestCreateNestedOneWithoutAttachmentsInput
+    serviceRequest?: ServiceRequestCreateNestedOneWithoutAttachmentsInput
+    reimbursementRequest?: ReimbursementRequestCreateNestedOneWithoutAttachmentsInput
     visaRequest?: VisaRequestCreateNestedOneWithoutAttachmentsInput
     employee?: EmployeeCreateNestedOneWithoutAttachmentsInput
   }
 
   export type AttachmentUncheckedCreateInput = {
     id?: string
-    staffRequestId?: string | null
+    serviceRequestId?: string | null
+    reimbursementId?: string | null
     visaRequestId?: string | null
     employeeId?: string | null
     fileName: string
@@ -49658,14 +58227,16 @@ export namespace Prisma {
     docNumber?: NullableStringFieldUpdateOperationsInput | string | null
     docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffRequest?: StaffRequestUpdateOneWithoutAttachmentsNestedInput
+    serviceRequest?: ServiceRequestUpdateOneWithoutAttachmentsNestedInput
+    reimbursementRequest?: ReimbursementRequestUpdateOneWithoutAttachmentsNestedInput
     visaRequest?: VisaRequestUpdateOneWithoutAttachmentsNestedInput
     employee?: EmployeeUpdateOneWithoutAttachmentsNestedInput
   }
 
   export type AttachmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -49679,7 +58250,8 @@ export namespace Prisma {
 
   export type AttachmentCreateManyInput = {
     id?: string
-    staffRequestId?: string | null
+    serviceRequestId?: string | null
+    reimbursementId?: string | null
     visaRequestId?: string | null
     employeeId?: string | null
     fileName: string
@@ -49704,7 +58276,8 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -49865,6 +58438,151 @@ export namespace Prisma {
     generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LetterRequestCreateInput = {
+    id?: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLetterRequestsInput
+    template: LetterTemplateCreateNestedOneWithoutRequestsInput
+    approvals?: LetterApprovalCreateNestedManyWithoutLetterRequestInput
+    generatedLetter?: LetterCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestUncheckedCreateInput = {
+    id?: string
+    employeeId: string
+    templateId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LetterApprovalUncheckedCreateNestedManyWithoutLetterRequestInput
+    generatedLetter?: LetterUncheckedCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLetterRequestsNestedInput
+    template?: LetterTemplateUpdateOneRequiredWithoutRequestsNestedInput
+    approvals?: LetterApprovalUpdateManyWithoutLetterRequestNestedInput
+    generatedLetter?: LetterUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LetterApprovalUncheckedUpdateManyWithoutLetterRequestNestedInput
+    generatedLetter?: LetterUncheckedUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestCreateManyInput = {
+    id?: string
+    employeeId: string
+    templateId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LetterRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterApprovalCreateInput = {
+    id?: string
+    approverId?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+    letterRequest: LetterRequestCreateNestedOneWithoutApprovalsInput
+  }
+
+  export type LetterApprovalUncheckedCreateInput = {
+    id?: string
+    letterRequestId: string
+    approverId?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LetterApprovalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    letterRequest?: LetterRequestUpdateOneRequiredWithoutApprovalsNestedInput
+  }
+
+  export type LetterApprovalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterApprovalCreateManyInput = {
+    id?: string
+    letterRequestId: string
+    approverId?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LetterApprovalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterApprovalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LetterTemplateCreateInput = {
     id?: string
     name: string
@@ -49875,6 +58593,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     letters?: LetterCreateNestedManyWithoutTemplateInput
+    requests?: LetterRequestCreateNestedManyWithoutTemplateInput
   }
 
   export type LetterTemplateUncheckedCreateInput = {
@@ -49887,6 +58606,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     letters?: LetterUncheckedCreateNestedManyWithoutTemplateInput
+    requests?: LetterRequestUncheckedCreateNestedManyWithoutTemplateInput
   }
 
   export type LetterTemplateUpdateInput = {
@@ -49899,6 +58619,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     letters?: LetterUpdateManyWithoutTemplateNestedInput
+    requests?: LetterRequestUpdateManyWithoutTemplateNestedInput
   }
 
   export type LetterTemplateUncheckedUpdateInput = {
@@ -49911,6 +58632,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     letters?: LetterUncheckedUpdateManyWithoutTemplateNestedInput
+    requests?: LetterRequestUncheckedUpdateManyWithoutTemplateNestedInput
   }
 
   export type LetterTemplateCreateManyInput = {
@@ -49960,6 +58682,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     employee: EmployeeCreateNestedOneWithoutLettersInput
     template: LetterTemplateCreateNestedOneWithoutLettersInput
+    letterRequest?: LetterRequestCreateNestedOneWithoutGeneratedLetterInput
   }
 
   export type LetterUncheckedCreateInput = {
@@ -49967,6 +58690,7 @@ export namespace Prisma {
     employeeId: string
     templateId: string
     referenceNumber: string
+    letterRequestId?: string | null
     status?: string
     content_en: string
     content_ar?: string | null
@@ -49992,6 +58716,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     employee?: EmployeeUpdateOneRequiredWithoutLettersNestedInput
     template?: LetterTemplateUpdateOneRequiredWithoutLettersNestedInput
+    letterRequest?: LetterRequestUpdateOneWithoutGeneratedLetterNestedInput
   }
 
   export type LetterUncheckedUpdateInput = {
@@ -49999,6 +58724,7 @@ export namespace Prisma {
     employeeId?: StringFieldUpdateOperationsInput | string
     templateId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
     content_ar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50015,6 +58741,7 @@ export namespace Prisma {
     employeeId: string
     templateId: string
     referenceNumber: string
+    letterRequestId?: string | null
     status?: string
     content_en: string
     content_ar?: string | null
@@ -50045,6 +58772,7 @@ export namespace Prisma {
     employeeId?: StringFieldUpdateOperationsInput | string
     templateId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
     content_ar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -50923,10 +59651,10 @@ export namespace Prisma {
     none?: LetterRecordWhereInput
   }
 
-  export type StaffRequestListRelationFilter = {
-    every?: StaffRequestWhereInput
-    some?: StaffRequestWhereInput
-    none?: StaffRequestWhereInput
+  export type ServiceRequestListRelationFilter = {
+    every?: ServiceRequestWhereInput
+    some?: ServiceRequestWhereInput
+    none?: ServiceRequestWhereInput
   }
 
   export type VisaRequestListRelationFilter = {
@@ -50939,6 +59667,12 @@ export namespace Prisma {
     every?: LetterWhereInput
     some?: LetterWhereInput
     none?: LetterWhereInput
+  }
+
+  export type LetterRequestListRelationFilter = {
+    every?: LetterRequestWhereInput
+    some?: LetterRequestWhereInput
+    none?: LetterRequestWhereInput
   }
 
   export type AttachmentListRelationFilter = {
@@ -50969,6 +59703,18 @@ export namespace Prisma {
     every?: OvertimeWhereInput
     some?: OvertimeWhereInput
     none?: OvertimeWhereInput
+  }
+
+  export type SalaryAdvanceRequestListRelationFilter = {
+    every?: SalaryAdvanceRequestWhereInput
+    some?: SalaryAdvanceRequestWhereInput
+    none?: SalaryAdvanceRequestWhereInput
+  }
+
+  export type ReimbursementRequestListRelationFilter = {
+    every?: ReimbursementRequestWhereInput
+    some?: ReimbursementRequestWhereInput
+    none?: ReimbursementRequestWhereInput
   }
 
   export type EmployeeListRelationFilter = {
@@ -51005,7 +59751,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type StaffRequestOrderByRelationAggregateInput = {
+  export type ServiceRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -51014,6 +59760,10 @@ export namespace Prisma {
   }
 
   export type LetterOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LetterRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -51034,6 +59784,14 @@ export namespace Prisma {
   }
 
   export type OvertimeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SalaryAdvanceRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReimbursementRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -52151,100 +60909,293 @@ export namespace Prisma {
     totalPay?: SortOrder
   }
 
-  export type StaffServiceTypeCountOrderByAggregateInput = {
+  export type ServiceCategoryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     icon?: SortOrder
     description?: SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
+    slaDays?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type StaffServiceTypeMaxOrderByAggregateInput = {
+  export type ServiceCategoryAvgOrderByAggregateInput = {
+    slaDays?: SortOrder
+  }
+
+  export type ServiceCategoryMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     icon?: SortOrder
     description?: SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
+    slaDays?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type StaffServiceTypeMinOrderByAggregateInput = {
+  export type ServiceCategoryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     icon?: SortOrder
     description?: SortOrder
     requiresAmount?: SortOrder
     requiresDates?: SortOrder
+    slaDays?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type StaffServiceTypeScalarRelationFilter = {
-    is?: StaffServiceTypeWhereInput
-    isNot?: StaffServiceTypeWhereInput
+  export type ServiceCategorySumOrderByAggregateInput = {
+    slaDays?: SortOrder
   }
 
-  export type StaffRequestCountOrderByAggregateInput = {
+  export type ServiceCategoryScalarRelationFilter = {
+    is?: ServiceCategoryWhereInput
+    isNot?: ServiceCategoryWhereInput
+  }
+
+  export type ServiceApprovalListRelationFilter = {
+    every?: ServiceApprovalWhereInput
+    some?: ServiceApprovalWhereInput
+    none?: ServiceApprovalWhereInput
+  }
+
+  export type ServiceCommentListRelationFilter = {
+    every?: ServiceCommentWhereInput
+    some?: ServiceCommentWhereInput
+    none?: ServiceCommentWhereInput
+  }
+
+  export type ServiceApprovalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServiceCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ServiceRequestCountOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    typeId?: SortOrder
+    categoryId?: SortOrder
     details?: SortOrder
     amount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     status?: SortOrder
+    workflowStep?: SortOrder
     hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type StaffRequestAvgOrderByAggregateInput = {
+  export type ServiceRequestAvgOrderByAggregateInput = {
     amount?: SortOrder
+    workflowStep?: SortOrder
   }
 
-  export type StaffRequestMaxOrderByAggregateInput = {
+  export type ServiceRequestMaxOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    typeId?: SortOrder
+    categoryId?: SortOrder
     details?: SortOrder
     amount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     status?: SortOrder
+    workflowStep?: SortOrder
     hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type StaffRequestMinOrderByAggregateInput = {
+  export type ServiceRequestMinOrderByAggregateInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    typeId?: SortOrder
+    categoryId?: SortOrder
     details?: SortOrder
     amount?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     status?: SortOrder
+    workflowStep?: SortOrder
     hrNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type StaffRequestSumOrderByAggregateInput = {
+  export type ServiceRequestSumOrderByAggregateInput = {
+    amount?: SortOrder
+    workflowStep?: SortOrder
+  }
+
+  export type ServiceRequestScalarRelationFilter = {
+    is?: ServiceRequestWhereInput
+    isNot?: ServiceRequestWhereInput
+  }
+
+  export type ServiceApprovalCountOrderByAggregateInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    approverId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceApprovalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    approverId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceApprovalMinOrderByAggregateInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    approverId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceCommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceCommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ServiceCommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    serviceRequestId?: SortOrder
+    authorId?: SortOrder
+    authorName?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReimbursementRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    category?: SortOrder
+    amount?: SortOrder
+    details?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReimbursementRequestAvgOrderByAggregateInput = {
     amount?: SortOrder
   }
 
-  export type StaffRequestNullableScalarRelationFilter = {
-    is?: StaffRequestWhereInput | null
-    isNot?: StaffRequestWhereInput | null
+  export type ReimbursementRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    category?: SortOrder
+    amount?: SortOrder
+    details?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReimbursementRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    category?: SortOrder
+    amount?: SortOrder
+    details?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReimbursementRequestSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type SalaryAdvanceRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SalaryAdvanceRequestAvgOrderByAggregateInput = {
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+  }
+
+  export type SalaryAdvanceRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SalaryAdvanceRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SalaryAdvanceRequestSumOrderByAggregateInput = {
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+  }
+
+  export type ServiceRequestNullableScalarRelationFilter = {
+    is?: ServiceRequestWhereInput | null
+    isNot?: ServiceRequestWhereInput | null
+  }
+
+  export type ReimbursementRequestNullableScalarRelationFilter = {
+    is?: ReimbursementRequestWhereInput | null
+    isNot?: ReimbursementRequestWhereInput | null
   }
 
   export type VisaRequestNullableScalarRelationFilter = {
@@ -52254,7 +61205,8 @@ export namespace Prisma {
 
   export type AttachmentCountOrderByAggregateInput = {
     id?: SortOrder
-    staffRequestId?: SortOrder
+    serviceRequestId?: SortOrder
+    reimbursementId?: SortOrder
     visaRequestId?: SortOrder
     employeeId?: SortOrder
     fileName?: SortOrder
@@ -52268,7 +61220,8 @@ export namespace Prisma {
 
   export type AttachmentMaxOrderByAggregateInput = {
     id?: SortOrder
-    staffRequestId?: SortOrder
+    serviceRequestId?: SortOrder
+    reimbursementId?: SortOrder
     visaRequestId?: SortOrder
     employeeId?: SortOrder
     fileName?: SortOrder
@@ -52282,7 +61235,8 @@ export namespace Prisma {
 
   export type AttachmentMinOrderByAggregateInput = {
     id?: SortOrder
-    staffRequestId?: SortOrder
+    serviceRequestId?: SortOrder
+    reimbursementId?: SortOrder
     visaRequestId?: SortOrder
     employeeId?: SortOrder
     fileName?: SortOrder
@@ -52357,6 +61311,91 @@ export namespace Prisma {
     generatedAt?: SortOrder
   }
 
+  export type LetterTemplateScalarRelationFilter = {
+    is?: LetterTemplateWhereInput
+    isNot?: LetterTemplateWhereInput
+  }
+
+  export type LetterApprovalListRelationFilter = {
+    every?: LetterApprovalWhereInput
+    some?: LetterApprovalWhereInput
+    none?: LetterApprovalWhereInput
+  }
+
+  export type LetterNullableScalarRelationFilter = {
+    is?: LetterWhereInput | null
+    isNot?: LetterWhereInput | null
+  }
+
+  export type LetterApprovalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LetterRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    templateId?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LetterRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    templateId?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LetterRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    templateId?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LetterRequestScalarRelationFilter = {
+    is?: LetterRequestWhereInput
+    isNot?: LetterRequestWhereInput
+  }
+
+  export type LetterApprovalCountOrderByAggregateInput = {
+    id?: SortOrder
+    letterRequestId?: SortOrder
+    approverId?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LetterApprovalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    letterRequestId?: SortOrder
+    approverId?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LetterApprovalMinOrderByAggregateInput = {
+    id?: SortOrder
+    letterRequestId?: SortOrder
+    approverId?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type LetterTemplateCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -52390,9 +61429,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type LetterTemplateScalarRelationFilter = {
-    is?: LetterTemplateWhereInput
-    isNot?: LetterTemplateWhereInput
+  export type LetterRequestNullableScalarRelationFilter = {
+    is?: LetterRequestWhereInput | null
+    isNot?: LetterRequestWhereInput | null
   }
 
   export type LetterCountOrderByAggregateInput = {
@@ -52400,6 +61439,7 @@ export namespace Prisma {
     employeeId?: SortOrder
     templateId?: SortOrder
     referenceNumber?: SortOrder
+    letterRequestId?: SortOrder
     status?: SortOrder
     content_en?: SortOrder
     content_ar?: SortOrder
@@ -52416,6 +61456,7 @@ export namespace Prisma {
     employeeId?: SortOrder
     templateId?: SortOrder
     referenceNumber?: SortOrder
+    letterRequestId?: SortOrder
     status?: SortOrder
     content_en?: SortOrder
     content_ar?: SortOrder
@@ -52432,6 +61473,7 @@ export namespace Prisma {
     employeeId?: SortOrder
     templateId?: SortOrder
     referenceNumber?: SortOrder
+    letterRequestId?: SortOrder
     status?: SortOrder
     content_en?: SortOrder
     content_ar?: SortOrder
@@ -53065,11 +62107,11 @@ export namespace Prisma {
     connect?: LetterRecordWhereUniqueInput | LetterRecordWhereUniqueInput[]
   }
 
-  export type StaffRequestCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<StaffRequestCreateWithoutEmployeeInput, StaffRequestUncheckedCreateWithoutEmployeeInput> | StaffRequestCreateWithoutEmployeeInput[] | StaffRequestUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutEmployeeInput | StaffRequestCreateOrConnectWithoutEmployeeInput[]
-    createMany?: StaffRequestCreateManyEmployeeInputEnvelope
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
+  export type ServiceRequestCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<ServiceRequestCreateWithoutEmployeeInput, ServiceRequestUncheckedCreateWithoutEmployeeInput> | ServiceRequestCreateWithoutEmployeeInput[] | ServiceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutEmployeeInput | ServiceRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: ServiceRequestCreateManyEmployeeInputEnvelope
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
   }
 
   export type VisaRequestCreateNestedManyWithoutEmployeeInput = {
@@ -53084,6 +62126,13 @@ export namespace Prisma {
     connectOrCreate?: LetterCreateOrConnectWithoutEmployeeInput | LetterCreateOrConnectWithoutEmployeeInput[]
     createMany?: LetterCreateManyEmployeeInputEnvelope
     connect?: LetterWhereUniqueInput | LetterWhereUniqueInput[]
+  }
+
+  export type LetterRequestCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LetterRequestCreateWithoutEmployeeInput, LetterRequestUncheckedCreateWithoutEmployeeInput> | LetterRequestCreateWithoutEmployeeInput[] | LetterRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutEmployeeInput | LetterRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LetterRequestCreateManyEmployeeInputEnvelope
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
   }
 
   export type AttachmentCreateNestedManyWithoutEmployeeInput = {
@@ -53119,6 +62168,20 @@ export namespace Prisma {
     connectOrCreate?: OvertimeCreateOrConnectWithoutEmployeeInput | OvertimeCreateOrConnectWithoutEmployeeInput[]
     createMany?: OvertimeCreateManyEmployeeInputEnvelope
     connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+  }
+
+  export type SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<SalaryAdvanceRequestCreateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput> | SalaryAdvanceRequestCreateWithoutEmployeeInput[] | SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput | SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: SalaryAdvanceRequestCreateManyEmployeeInputEnvelope
+    connect?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+  }
+
+  export type ReimbursementRequestCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<ReimbursementRequestCreateWithoutEmployeeInput, ReimbursementRequestUncheckedCreateWithoutEmployeeInput> | ReimbursementRequestCreateWithoutEmployeeInput[] | ReimbursementRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ReimbursementRequestCreateOrConnectWithoutEmployeeInput | ReimbursementRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: ReimbursementRequestCreateManyEmployeeInputEnvelope
+    connect?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
   }
 
   export type EmployeeCreateNestedOneWithoutReporteesInput = {
@@ -53189,11 +62252,11 @@ export namespace Prisma {
     connect?: LetterRecordWhereUniqueInput | LetterRecordWhereUniqueInput[]
   }
 
-  export type StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<StaffRequestCreateWithoutEmployeeInput, StaffRequestUncheckedCreateWithoutEmployeeInput> | StaffRequestCreateWithoutEmployeeInput[] | StaffRequestUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutEmployeeInput | StaffRequestCreateOrConnectWithoutEmployeeInput[]
-    createMany?: StaffRequestCreateManyEmployeeInputEnvelope
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
+  export type ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<ServiceRequestCreateWithoutEmployeeInput, ServiceRequestUncheckedCreateWithoutEmployeeInput> | ServiceRequestCreateWithoutEmployeeInput[] | ServiceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutEmployeeInput | ServiceRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: ServiceRequestCreateManyEmployeeInputEnvelope
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
   }
 
   export type VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -53208,6 +62271,13 @@ export namespace Prisma {
     connectOrCreate?: LetterCreateOrConnectWithoutEmployeeInput | LetterCreateOrConnectWithoutEmployeeInput[]
     createMany?: LetterCreateManyEmployeeInputEnvelope
     connect?: LetterWhereUniqueInput | LetterWhereUniqueInput[]
+  }
+
+  export type LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LetterRequestCreateWithoutEmployeeInput, LetterRequestUncheckedCreateWithoutEmployeeInput> | LetterRequestCreateWithoutEmployeeInput[] | LetterRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutEmployeeInput | LetterRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LetterRequestCreateManyEmployeeInputEnvelope
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
   }
 
   export type AttachmentUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -53243,6 +62313,20 @@ export namespace Prisma {
     connectOrCreate?: OvertimeCreateOrConnectWithoutEmployeeInput | OvertimeCreateOrConnectWithoutEmployeeInput[]
     createMany?: OvertimeCreateManyEmployeeInputEnvelope
     connect?: OvertimeWhereUniqueInput | OvertimeWhereUniqueInput[]
+  }
+
+  export type SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<SalaryAdvanceRequestCreateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput> | SalaryAdvanceRequestCreateWithoutEmployeeInput[] | SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput | SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: SalaryAdvanceRequestCreateManyEmployeeInputEnvelope
+    connect?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+  }
+
+  export type ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<ReimbursementRequestCreateWithoutEmployeeInput, ReimbursementRequestUncheckedCreateWithoutEmployeeInput> | ReimbursementRequestCreateWithoutEmployeeInput[] | ReimbursementRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ReimbursementRequestCreateOrConnectWithoutEmployeeInput | ReimbursementRequestCreateOrConnectWithoutEmployeeInput[]
+    createMany?: ReimbursementRequestCreateManyEmployeeInputEnvelope
+    connect?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
   }
 
   export type EmployeeUncheckedCreateNestedManyWithoutManagerInput = {
@@ -53384,18 +62468,18 @@ export namespace Prisma {
     deleteMany?: LetterRecordScalarWhereInput | LetterRecordScalarWhereInput[]
   }
 
-  export type StaffRequestUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<StaffRequestCreateWithoutEmployeeInput, StaffRequestUncheckedCreateWithoutEmployeeInput> | StaffRequestCreateWithoutEmployeeInput[] | StaffRequestUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutEmployeeInput | StaffRequestCreateOrConnectWithoutEmployeeInput[]
-    upsert?: StaffRequestUpsertWithWhereUniqueWithoutEmployeeInput | StaffRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: StaffRequestCreateManyEmployeeInputEnvelope
-    set?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    disconnect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    delete?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    update?: StaffRequestUpdateWithWhereUniqueWithoutEmployeeInput | StaffRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: StaffRequestUpdateManyWithWhereWithoutEmployeeInput | StaffRequestUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: StaffRequestScalarWhereInput | StaffRequestScalarWhereInput[]
+  export type ServiceRequestUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutEmployeeInput, ServiceRequestUncheckedCreateWithoutEmployeeInput> | ServiceRequestCreateWithoutEmployeeInput[] | ServiceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutEmployeeInput | ServiceRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: ServiceRequestUpsertWithWhereUniqueWithoutEmployeeInput | ServiceRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: ServiceRequestCreateManyEmployeeInputEnvelope
+    set?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    disconnect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    delete?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    update?: ServiceRequestUpdateWithWhereUniqueWithoutEmployeeInput | ServiceRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: ServiceRequestUpdateManyWithWhereWithoutEmployeeInput | ServiceRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: ServiceRequestScalarWhereInput | ServiceRequestScalarWhereInput[]
   }
 
   export type VisaRequestUpdateManyWithoutEmployeeNestedInput = {
@@ -53424,6 +62508,20 @@ export namespace Prisma {
     update?: LetterUpdateWithWhereUniqueWithoutEmployeeInput | LetterUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: LetterUpdateManyWithWhereWithoutEmployeeInput | LetterUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: LetterScalarWhereInput | LetterScalarWhereInput[]
+  }
+
+  export type LetterRequestUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LetterRequestCreateWithoutEmployeeInput, LetterRequestUncheckedCreateWithoutEmployeeInput> | LetterRequestCreateWithoutEmployeeInput[] | LetterRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutEmployeeInput | LetterRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LetterRequestUpsertWithWhereUniqueWithoutEmployeeInput | LetterRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LetterRequestCreateManyEmployeeInputEnvelope
+    set?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    disconnect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    delete?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    update?: LetterRequestUpdateWithWhereUniqueWithoutEmployeeInput | LetterRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LetterRequestUpdateManyWithWhereWithoutEmployeeInput | LetterRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LetterRequestScalarWhereInput | LetterRequestScalarWhereInput[]
   }
 
   export type AttachmentUpdateManyWithoutEmployeeNestedInput = {
@@ -53494,6 +62592,34 @@ export namespace Prisma {
     update?: OvertimeUpdateWithWhereUniqueWithoutEmployeeInput | OvertimeUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: OvertimeUpdateManyWithWhereWithoutEmployeeInput | OvertimeUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
+  }
+
+  export type SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<SalaryAdvanceRequestCreateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput> | SalaryAdvanceRequestCreateWithoutEmployeeInput[] | SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput | SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: SalaryAdvanceRequestUpsertWithWhereUniqueWithoutEmployeeInput | SalaryAdvanceRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: SalaryAdvanceRequestCreateManyEmployeeInputEnvelope
+    set?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    disconnect?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    delete?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    connect?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    update?: SalaryAdvanceRequestUpdateWithWhereUniqueWithoutEmployeeInput | SalaryAdvanceRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: SalaryAdvanceRequestUpdateManyWithWhereWithoutEmployeeInput | SalaryAdvanceRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: SalaryAdvanceRequestScalarWhereInput | SalaryAdvanceRequestScalarWhereInput[]
+  }
+
+  export type ReimbursementRequestUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<ReimbursementRequestCreateWithoutEmployeeInput, ReimbursementRequestUncheckedCreateWithoutEmployeeInput> | ReimbursementRequestCreateWithoutEmployeeInput[] | ReimbursementRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ReimbursementRequestCreateOrConnectWithoutEmployeeInput | ReimbursementRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: ReimbursementRequestUpsertWithWhereUniqueWithoutEmployeeInput | ReimbursementRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: ReimbursementRequestCreateManyEmployeeInputEnvelope
+    set?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    disconnect?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    delete?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    connect?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    update?: ReimbursementRequestUpdateWithWhereUniqueWithoutEmployeeInput | ReimbursementRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: ReimbursementRequestUpdateManyWithWhereWithoutEmployeeInput | ReimbursementRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: ReimbursementRequestScalarWhereInput | ReimbursementRequestScalarWhereInput[]
   }
 
   export type EmployeeUpdateOneWithoutReporteesNestedInput = {
@@ -53628,18 +62754,18 @@ export namespace Prisma {
     deleteMany?: LetterRecordScalarWhereInput | LetterRecordScalarWhereInput[]
   }
 
-  export type StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<StaffRequestCreateWithoutEmployeeInput, StaffRequestUncheckedCreateWithoutEmployeeInput> | StaffRequestCreateWithoutEmployeeInput[] | StaffRequestUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutEmployeeInput | StaffRequestCreateOrConnectWithoutEmployeeInput[]
-    upsert?: StaffRequestUpsertWithWhereUniqueWithoutEmployeeInput | StaffRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: StaffRequestCreateManyEmployeeInputEnvelope
-    set?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    disconnect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    delete?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    update?: StaffRequestUpdateWithWhereUniqueWithoutEmployeeInput | StaffRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: StaffRequestUpdateManyWithWhereWithoutEmployeeInput | StaffRequestUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: StaffRequestScalarWhereInput | StaffRequestScalarWhereInput[]
+  export type ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutEmployeeInput, ServiceRequestUncheckedCreateWithoutEmployeeInput> | ServiceRequestCreateWithoutEmployeeInput[] | ServiceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutEmployeeInput | ServiceRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: ServiceRequestUpsertWithWhereUniqueWithoutEmployeeInput | ServiceRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: ServiceRequestCreateManyEmployeeInputEnvelope
+    set?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    disconnect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    delete?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    update?: ServiceRequestUpdateWithWhereUniqueWithoutEmployeeInput | ServiceRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: ServiceRequestUpdateManyWithWhereWithoutEmployeeInput | ServiceRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: ServiceRequestScalarWhereInput | ServiceRequestScalarWhereInput[]
   }
 
   export type VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -53668,6 +62794,20 @@ export namespace Prisma {
     update?: LetterUpdateWithWhereUniqueWithoutEmployeeInput | LetterUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: LetterUpdateManyWithWhereWithoutEmployeeInput | LetterUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: LetterScalarWhereInput | LetterScalarWhereInput[]
+  }
+
+  export type LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LetterRequestCreateWithoutEmployeeInput, LetterRequestUncheckedCreateWithoutEmployeeInput> | LetterRequestCreateWithoutEmployeeInput[] | LetterRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutEmployeeInput | LetterRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LetterRequestUpsertWithWhereUniqueWithoutEmployeeInput | LetterRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LetterRequestCreateManyEmployeeInputEnvelope
+    set?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    disconnect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    delete?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    update?: LetterRequestUpdateWithWhereUniqueWithoutEmployeeInput | LetterRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LetterRequestUpdateManyWithWhereWithoutEmployeeInput | LetterRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LetterRequestScalarWhereInput | LetterRequestScalarWhereInput[]
   }
 
   export type AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -53738,6 +62878,34 @@ export namespace Prisma {
     update?: OvertimeUpdateWithWhereUniqueWithoutEmployeeInput | OvertimeUpdateWithWhereUniqueWithoutEmployeeInput[]
     updateMany?: OvertimeUpdateManyWithWhereWithoutEmployeeInput | OvertimeUpdateManyWithWhereWithoutEmployeeInput[]
     deleteMany?: OvertimeScalarWhereInput | OvertimeScalarWhereInput[]
+  }
+
+  export type SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<SalaryAdvanceRequestCreateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput> | SalaryAdvanceRequestCreateWithoutEmployeeInput[] | SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput | SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: SalaryAdvanceRequestUpsertWithWhereUniqueWithoutEmployeeInput | SalaryAdvanceRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: SalaryAdvanceRequestCreateManyEmployeeInputEnvelope
+    set?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    disconnect?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    delete?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    connect?: SalaryAdvanceRequestWhereUniqueInput | SalaryAdvanceRequestWhereUniqueInput[]
+    update?: SalaryAdvanceRequestUpdateWithWhereUniqueWithoutEmployeeInput | SalaryAdvanceRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: SalaryAdvanceRequestUpdateManyWithWhereWithoutEmployeeInput | SalaryAdvanceRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: SalaryAdvanceRequestScalarWhereInput | SalaryAdvanceRequestScalarWhereInput[]
+  }
+
+  export type ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<ReimbursementRequestCreateWithoutEmployeeInput, ReimbursementRequestUncheckedCreateWithoutEmployeeInput> | ReimbursementRequestCreateWithoutEmployeeInput[] | ReimbursementRequestUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: ReimbursementRequestCreateOrConnectWithoutEmployeeInput | ReimbursementRequestCreateOrConnectWithoutEmployeeInput[]
+    upsert?: ReimbursementRequestUpsertWithWhereUniqueWithoutEmployeeInput | ReimbursementRequestUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: ReimbursementRequestCreateManyEmployeeInputEnvelope
+    set?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    disconnect?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    delete?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    connect?: ReimbursementRequestWhereUniqueInput | ReimbursementRequestWhereUniqueInput[]
+    update?: ReimbursementRequestUpdateWithWhereUniqueWithoutEmployeeInput | ReimbursementRequestUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: ReimbursementRequestUpdateManyWithWhereWithoutEmployeeInput | ReimbursementRequestUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: ReimbursementRequestScalarWhereInput | ReimbursementRequestScalarWhereInput[]
   }
 
   export type EmployeeUncheckedUpdateManyWithoutManagerNestedInput = {
@@ -54386,122 +63554,310 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutOvertimeInput, EmployeeUpdateWithoutOvertimeInput>, EmployeeUncheckedUpdateWithoutOvertimeInput>
   }
 
-  export type StaffRequestCreateNestedManyWithoutServiceTypeInput = {
-    create?: XOR<StaffRequestCreateWithoutServiceTypeInput, StaffRequestUncheckedCreateWithoutServiceTypeInput> | StaffRequestCreateWithoutServiceTypeInput[] | StaffRequestUncheckedCreateWithoutServiceTypeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutServiceTypeInput | StaffRequestCreateOrConnectWithoutServiceTypeInput[]
-    createMany?: StaffRequestCreateManyServiceTypeInputEnvelope
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
+  export type ServiceRequestCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ServiceRequestCreateWithoutCategoryInput, ServiceRequestUncheckedCreateWithoutCategoryInput> | ServiceRequestCreateWithoutCategoryInput[] | ServiceRequestUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutCategoryInput | ServiceRequestCreateOrConnectWithoutCategoryInput[]
+    createMany?: ServiceRequestCreateManyCategoryInputEnvelope
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
   }
 
-  export type StaffRequestUncheckedCreateNestedManyWithoutServiceTypeInput = {
-    create?: XOR<StaffRequestCreateWithoutServiceTypeInput, StaffRequestUncheckedCreateWithoutServiceTypeInput> | StaffRequestCreateWithoutServiceTypeInput[] | StaffRequestUncheckedCreateWithoutServiceTypeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutServiceTypeInput | StaffRequestCreateOrConnectWithoutServiceTypeInput[]
-    createMany?: StaffRequestCreateManyServiceTypeInputEnvelope
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
+  export type ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<ServiceRequestCreateWithoutCategoryInput, ServiceRequestUncheckedCreateWithoutCategoryInput> | ServiceRequestCreateWithoutCategoryInput[] | ServiceRequestUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutCategoryInput | ServiceRequestCreateOrConnectWithoutCategoryInput[]
+    createMany?: ServiceRequestCreateManyCategoryInputEnvelope
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
   }
 
-  export type StaffRequestUpdateManyWithoutServiceTypeNestedInput = {
-    create?: XOR<StaffRequestCreateWithoutServiceTypeInput, StaffRequestUncheckedCreateWithoutServiceTypeInput> | StaffRequestCreateWithoutServiceTypeInput[] | StaffRequestUncheckedCreateWithoutServiceTypeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutServiceTypeInput | StaffRequestCreateOrConnectWithoutServiceTypeInput[]
-    upsert?: StaffRequestUpsertWithWhereUniqueWithoutServiceTypeInput | StaffRequestUpsertWithWhereUniqueWithoutServiceTypeInput[]
-    createMany?: StaffRequestCreateManyServiceTypeInputEnvelope
-    set?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    disconnect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    delete?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    update?: StaffRequestUpdateWithWhereUniqueWithoutServiceTypeInput | StaffRequestUpdateWithWhereUniqueWithoutServiceTypeInput[]
-    updateMany?: StaffRequestUpdateManyWithWhereWithoutServiceTypeInput | StaffRequestUpdateManyWithWhereWithoutServiceTypeInput[]
-    deleteMany?: StaffRequestScalarWhereInput | StaffRequestScalarWhereInput[]
+  export type ServiceRequestUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutCategoryInput, ServiceRequestUncheckedCreateWithoutCategoryInput> | ServiceRequestCreateWithoutCategoryInput[] | ServiceRequestUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutCategoryInput | ServiceRequestCreateOrConnectWithoutCategoryInput[]
+    upsert?: ServiceRequestUpsertWithWhereUniqueWithoutCategoryInput | ServiceRequestUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ServiceRequestCreateManyCategoryInputEnvelope
+    set?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    disconnect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    delete?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    update?: ServiceRequestUpdateWithWhereUniqueWithoutCategoryInput | ServiceRequestUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ServiceRequestUpdateManyWithWhereWithoutCategoryInput | ServiceRequestUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: ServiceRequestScalarWhereInput | ServiceRequestScalarWhereInput[]
   }
 
-  export type StaffRequestUncheckedUpdateManyWithoutServiceTypeNestedInput = {
-    create?: XOR<StaffRequestCreateWithoutServiceTypeInput, StaffRequestUncheckedCreateWithoutServiceTypeInput> | StaffRequestCreateWithoutServiceTypeInput[] | StaffRequestUncheckedCreateWithoutServiceTypeInput[]
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutServiceTypeInput | StaffRequestCreateOrConnectWithoutServiceTypeInput[]
-    upsert?: StaffRequestUpsertWithWhereUniqueWithoutServiceTypeInput | StaffRequestUpsertWithWhereUniqueWithoutServiceTypeInput[]
-    createMany?: StaffRequestCreateManyServiceTypeInputEnvelope
-    set?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    disconnect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    delete?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    connect?: StaffRequestWhereUniqueInput | StaffRequestWhereUniqueInput[]
-    update?: StaffRequestUpdateWithWhereUniqueWithoutServiceTypeInput | StaffRequestUpdateWithWhereUniqueWithoutServiceTypeInput[]
-    updateMany?: StaffRequestUpdateManyWithWhereWithoutServiceTypeInput | StaffRequestUpdateManyWithWhereWithoutServiceTypeInput[]
-    deleteMany?: StaffRequestScalarWhereInput | StaffRequestScalarWhereInput[]
+  export type ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutCategoryInput, ServiceRequestUncheckedCreateWithoutCategoryInput> | ServiceRequestCreateWithoutCategoryInput[] | ServiceRequestUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutCategoryInput | ServiceRequestCreateOrConnectWithoutCategoryInput[]
+    upsert?: ServiceRequestUpsertWithWhereUniqueWithoutCategoryInput | ServiceRequestUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: ServiceRequestCreateManyCategoryInputEnvelope
+    set?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    disconnect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    delete?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    connect?: ServiceRequestWhereUniqueInput | ServiceRequestWhereUniqueInput[]
+    update?: ServiceRequestUpdateWithWhereUniqueWithoutCategoryInput | ServiceRequestUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: ServiceRequestUpdateManyWithWhereWithoutCategoryInput | ServiceRequestUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: ServiceRequestScalarWhereInput | ServiceRequestScalarWhereInput[]
   }
 
-  export type EmployeeCreateNestedOneWithoutStaffRequestsInput = {
-    create?: XOR<EmployeeCreateWithoutStaffRequestsInput, EmployeeUncheckedCreateWithoutStaffRequestsInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutStaffRequestsInput
+  export type EmployeeCreateNestedOneWithoutServiceRequestsInput = {
+    create?: XOR<EmployeeCreateWithoutServiceRequestsInput, EmployeeUncheckedCreateWithoutServiceRequestsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutServiceRequestsInput
     connect?: EmployeeWhereUniqueInput
   }
 
-  export type StaffServiceTypeCreateNestedOneWithoutStaffRequestsInput = {
-    create?: XOR<StaffServiceTypeCreateWithoutStaffRequestsInput, StaffServiceTypeUncheckedCreateWithoutStaffRequestsInput>
-    connectOrCreate?: StaffServiceTypeCreateOrConnectWithoutStaffRequestsInput
-    connect?: StaffServiceTypeWhereUniqueInput
+  export type ServiceCategoryCreateNestedOneWithoutRequestsInput = {
+    create?: XOR<ServiceCategoryCreateWithoutRequestsInput, ServiceCategoryUncheckedCreateWithoutRequestsInput>
+    connectOrCreate?: ServiceCategoryCreateOrConnectWithoutRequestsInput
+    connect?: ServiceCategoryWhereUniqueInput
   }
 
-  export type AttachmentCreateNestedManyWithoutStaffRequestInput = {
-    create?: XOR<AttachmentCreateWithoutStaffRequestInput, AttachmentUncheckedCreateWithoutStaffRequestInput> | AttachmentCreateWithoutStaffRequestInput[] | AttachmentUncheckedCreateWithoutStaffRequestInput[]
-    connectOrCreate?: AttachmentCreateOrConnectWithoutStaffRequestInput | AttachmentCreateOrConnectWithoutStaffRequestInput[]
-    createMany?: AttachmentCreateManyStaffRequestInputEnvelope
+  export type AttachmentCreateNestedManyWithoutServiceRequestInput = {
+    create?: XOR<AttachmentCreateWithoutServiceRequestInput, AttachmentUncheckedCreateWithoutServiceRequestInput> | AttachmentCreateWithoutServiceRequestInput[] | AttachmentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutServiceRequestInput | AttachmentCreateOrConnectWithoutServiceRequestInput[]
+    createMany?: AttachmentCreateManyServiceRequestInputEnvelope
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
-  export type AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput = {
-    create?: XOR<AttachmentCreateWithoutStaffRequestInput, AttachmentUncheckedCreateWithoutStaffRequestInput> | AttachmentCreateWithoutStaffRequestInput[] | AttachmentUncheckedCreateWithoutStaffRequestInput[]
-    connectOrCreate?: AttachmentCreateOrConnectWithoutStaffRequestInput | AttachmentCreateOrConnectWithoutStaffRequestInput[]
-    createMany?: AttachmentCreateManyStaffRequestInputEnvelope
+  export type ServiceApprovalCreateNestedManyWithoutServiceRequestInput = {
+    create?: XOR<ServiceApprovalCreateWithoutServiceRequestInput, ServiceApprovalUncheckedCreateWithoutServiceRequestInput> | ServiceApprovalCreateWithoutServiceRequestInput[] | ServiceApprovalUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceApprovalCreateOrConnectWithoutServiceRequestInput | ServiceApprovalCreateOrConnectWithoutServiceRequestInput[]
+    createMany?: ServiceApprovalCreateManyServiceRequestInputEnvelope
+    connect?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+  }
+
+  export type ServiceCommentCreateNestedManyWithoutServiceRequestInput = {
+    create?: XOR<ServiceCommentCreateWithoutServiceRequestInput, ServiceCommentUncheckedCreateWithoutServiceRequestInput> | ServiceCommentCreateWithoutServiceRequestInput[] | ServiceCommentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceCommentCreateOrConnectWithoutServiceRequestInput | ServiceCommentCreateOrConnectWithoutServiceRequestInput[]
+    createMany?: ServiceCommentCreateManyServiceRequestInputEnvelope
+    connect?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+  }
+
+  export type AttachmentUncheckedCreateNestedManyWithoutServiceRequestInput = {
+    create?: XOR<AttachmentCreateWithoutServiceRequestInput, AttachmentUncheckedCreateWithoutServiceRequestInput> | AttachmentCreateWithoutServiceRequestInput[] | AttachmentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutServiceRequestInput | AttachmentCreateOrConnectWithoutServiceRequestInput[]
+    createMany?: AttachmentCreateManyServiceRequestInputEnvelope
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
-  export type EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput = {
-    create?: XOR<EmployeeCreateWithoutStaffRequestsInput, EmployeeUncheckedCreateWithoutStaffRequestsInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutStaffRequestsInput
-    upsert?: EmployeeUpsertWithoutStaffRequestsInput
+  export type ServiceApprovalUncheckedCreateNestedManyWithoutServiceRequestInput = {
+    create?: XOR<ServiceApprovalCreateWithoutServiceRequestInput, ServiceApprovalUncheckedCreateWithoutServiceRequestInput> | ServiceApprovalCreateWithoutServiceRequestInput[] | ServiceApprovalUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceApprovalCreateOrConnectWithoutServiceRequestInput | ServiceApprovalCreateOrConnectWithoutServiceRequestInput[]
+    createMany?: ServiceApprovalCreateManyServiceRequestInputEnvelope
+    connect?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+  }
+
+  export type ServiceCommentUncheckedCreateNestedManyWithoutServiceRequestInput = {
+    create?: XOR<ServiceCommentCreateWithoutServiceRequestInput, ServiceCommentUncheckedCreateWithoutServiceRequestInput> | ServiceCommentCreateWithoutServiceRequestInput[] | ServiceCommentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceCommentCreateOrConnectWithoutServiceRequestInput | ServiceCommentCreateOrConnectWithoutServiceRequestInput[]
+    createMany?: ServiceCommentCreateManyServiceRequestInputEnvelope
+    connect?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutServiceRequestsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutServiceRequestsInput, EmployeeUncheckedCreateWithoutServiceRequestsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutServiceRequestsInput
+    upsert?: EmployeeUpsertWithoutServiceRequestsInput
     connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutStaffRequestsInput, EmployeeUpdateWithoutStaffRequestsInput>, EmployeeUncheckedUpdateWithoutStaffRequestsInput>
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutServiceRequestsInput, EmployeeUpdateWithoutServiceRequestsInput>, EmployeeUncheckedUpdateWithoutServiceRequestsInput>
   }
 
-  export type StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput = {
-    create?: XOR<StaffServiceTypeCreateWithoutStaffRequestsInput, StaffServiceTypeUncheckedCreateWithoutStaffRequestsInput>
-    connectOrCreate?: StaffServiceTypeCreateOrConnectWithoutStaffRequestsInput
-    upsert?: StaffServiceTypeUpsertWithoutStaffRequestsInput
-    connect?: StaffServiceTypeWhereUniqueInput
-    update?: XOR<XOR<StaffServiceTypeUpdateToOneWithWhereWithoutStaffRequestsInput, StaffServiceTypeUpdateWithoutStaffRequestsInput>, StaffServiceTypeUncheckedUpdateWithoutStaffRequestsInput>
+  export type ServiceCategoryUpdateOneRequiredWithoutRequestsNestedInput = {
+    create?: XOR<ServiceCategoryCreateWithoutRequestsInput, ServiceCategoryUncheckedCreateWithoutRequestsInput>
+    connectOrCreate?: ServiceCategoryCreateOrConnectWithoutRequestsInput
+    upsert?: ServiceCategoryUpsertWithoutRequestsInput
+    connect?: ServiceCategoryWhereUniqueInput
+    update?: XOR<XOR<ServiceCategoryUpdateToOneWithWhereWithoutRequestsInput, ServiceCategoryUpdateWithoutRequestsInput>, ServiceCategoryUncheckedUpdateWithoutRequestsInput>
   }
 
-  export type AttachmentUpdateManyWithoutStaffRequestNestedInput = {
-    create?: XOR<AttachmentCreateWithoutStaffRequestInput, AttachmentUncheckedCreateWithoutStaffRequestInput> | AttachmentCreateWithoutStaffRequestInput[] | AttachmentUncheckedCreateWithoutStaffRequestInput[]
-    connectOrCreate?: AttachmentCreateOrConnectWithoutStaffRequestInput | AttachmentCreateOrConnectWithoutStaffRequestInput[]
-    upsert?: AttachmentUpsertWithWhereUniqueWithoutStaffRequestInput | AttachmentUpsertWithWhereUniqueWithoutStaffRequestInput[]
-    createMany?: AttachmentCreateManyStaffRequestInputEnvelope
+  export type AttachmentUpdateManyWithoutServiceRequestNestedInput = {
+    create?: XOR<AttachmentCreateWithoutServiceRequestInput, AttachmentUncheckedCreateWithoutServiceRequestInput> | AttachmentCreateWithoutServiceRequestInput[] | AttachmentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutServiceRequestInput | AttachmentCreateOrConnectWithoutServiceRequestInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutServiceRequestInput | AttachmentUpsertWithWhereUniqueWithoutServiceRequestInput[]
+    createMany?: AttachmentCreateManyServiceRequestInputEnvelope
     set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
     disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
     delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
-    update?: AttachmentUpdateWithWhereUniqueWithoutStaffRequestInput | AttachmentUpdateWithWhereUniqueWithoutStaffRequestInput[]
-    updateMany?: AttachmentUpdateManyWithWhereWithoutStaffRequestInput | AttachmentUpdateManyWithWhereWithoutStaffRequestInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutServiceRequestInput | AttachmentUpdateWithWhereUniqueWithoutServiceRequestInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutServiceRequestInput | AttachmentUpdateManyWithWhereWithoutServiceRequestInput[]
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
-  export type AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput = {
-    create?: XOR<AttachmentCreateWithoutStaffRequestInput, AttachmentUncheckedCreateWithoutStaffRequestInput> | AttachmentCreateWithoutStaffRequestInput[] | AttachmentUncheckedCreateWithoutStaffRequestInput[]
-    connectOrCreate?: AttachmentCreateOrConnectWithoutStaffRequestInput | AttachmentCreateOrConnectWithoutStaffRequestInput[]
-    upsert?: AttachmentUpsertWithWhereUniqueWithoutStaffRequestInput | AttachmentUpsertWithWhereUniqueWithoutStaffRequestInput[]
-    createMany?: AttachmentCreateManyStaffRequestInputEnvelope
+  export type ServiceApprovalUpdateManyWithoutServiceRequestNestedInput = {
+    create?: XOR<ServiceApprovalCreateWithoutServiceRequestInput, ServiceApprovalUncheckedCreateWithoutServiceRequestInput> | ServiceApprovalCreateWithoutServiceRequestInput[] | ServiceApprovalUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceApprovalCreateOrConnectWithoutServiceRequestInput | ServiceApprovalCreateOrConnectWithoutServiceRequestInput[]
+    upsert?: ServiceApprovalUpsertWithWhereUniqueWithoutServiceRequestInput | ServiceApprovalUpsertWithWhereUniqueWithoutServiceRequestInput[]
+    createMany?: ServiceApprovalCreateManyServiceRequestInputEnvelope
+    set?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    disconnect?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    delete?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    connect?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    update?: ServiceApprovalUpdateWithWhereUniqueWithoutServiceRequestInput | ServiceApprovalUpdateWithWhereUniqueWithoutServiceRequestInput[]
+    updateMany?: ServiceApprovalUpdateManyWithWhereWithoutServiceRequestInput | ServiceApprovalUpdateManyWithWhereWithoutServiceRequestInput[]
+    deleteMany?: ServiceApprovalScalarWhereInput | ServiceApprovalScalarWhereInput[]
+  }
+
+  export type ServiceCommentUpdateManyWithoutServiceRequestNestedInput = {
+    create?: XOR<ServiceCommentCreateWithoutServiceRequestInput, ServiceCommentUncheckedCreateWithoutServiceRequestInput> | ServiceCommentCreateWithoutServiceRequestInput[] | ServiceCommentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceCommentCreateOrConnectWithoutServiceRequestInput | ServiceCommentCreateOrConnectWithoutServiceRequestInput[]
+    upsert?: ServiceCommentUpsertWithWhereUniqueWithoutServiceRequestInput | ServiceCommentUpsertWithWhereUniqueWithoutServiceRequestInput[]
+    createMany?: ServiceCommentCreateManyServiceRequestInputEnvelope
+    set?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    disconnect?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    delete?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    connect?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    update?: ServiceCommentUpdateWithWhereUniqueWithoutServiceRequestInput | ServiceCommentUpdateWithWhereUniqueWithoutServiceRequestInput[]
+    updateMany?: ServiceCommentUpdateManyWithWhereWithoutServiceRequestInput | ServiceCommentUpdateManyWithWhereWithoutServiceRequestInput[]
+    deleteMany?: ServiceCommentScalarWhereInput | ServiceCommentScalarWhereInput[]
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutServiceRequestNestedInput = {
+    create?: XOR<AttachmentCreateWithoutServiceRequestInput, AttachmentUncheckedCreateWithoutServiceRequestInput> | AttachmentCreateWithoutServiceRequestInput[] | AttachmentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutServiceRequestInput | AttachmentCreateOrConnectWithoutServiceRequestInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutServiceRequestInput | AttachmentUpsertWithWhereUniqueWithoutServiceRequestInput[]
+    createMany?: AttachmentCreateManyServiceRequestInputEnvelope
     set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
     disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
     delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
     connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
-    update?: AttachmentUpdateWithWhereUniqueWithoutStaffRequestInput | AttachmentUpdateWithWhereUniqueWithoutStaffRequestInput[]
-    updateMany?: AttachmentUpdateManyWithWhereWithoutStaffRequestInput | AttachmentUpdateManyWithWhereWithoutStaffRequestInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutServiceRequestInput | AttachmentUpdateWithWhereUniqueWithoutServiceRequestInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutServiceRequestInput | AttachmentUpdateManyWithWhereWithoutServiceRequestInput[]
     deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
-  export type StaffRequestCreateNestedOneWithoutAttachmentsInput = {
-    create?: XOR<StaffRequestCreateWithoutAttachmentsInput, StaffRequestUncheckedCreateWithoutAttachmentsInput>
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutAttachmentsInput
-    connect?: StaffRequestWhereUniqueInput
+  export type ServiceApprovalUncheckedUpdateManyWithoutServiceRequestNestedInput = {
+    create?: XOR<ServiceApprovalCreateWithoutServiceRequestInput, ServiceApprovalUncheckedCreateWithoutServiceRequestInput> | ServiceApprovalCreateWithoutServiceRequestInput[] | ServiceApprovalUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceApprovalCreateOrConnectWithoutServiceRequestInput | ServiceApprovalCreateOrConnectWithoutServiceRequestInput[]
+    upsert?: ServiceApprovalUpsertWithWhereUniqueWithoutServiceRequestInput | ServiceApprovalUpsertWithWhereUniqueWithoutServiceRequestInput[]
+    createMany?: ServiceApprovalCreateManyServiceRequestInputEnvelope
+    set?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    disconnect?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    delete?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    connect?: ServiceApprovalWhereUniqueInput | ServiceApprovalWhereUniqueInput[]
+    update?: ServiceApprovalUpdateWithWhereUniqueWithoutServiceRequestInput | ServiceApprovalUpdateWithWhereUniqueWithoutServiceRequestInput[]
+    updateMany?: ServiceApprovalUpdateManyWithWhereWithoutServiceRequestInput | ServiceApprovalUpdateManyWithWhereWithoutServiceRequestInput[]
+    deleteMany?: ServiceApprovalScalarWhereInput | ServiceApprovalScalarWhereInput[]
+  }
+
+  export type ServiceCommentUncheckedUpdateManyWithoutServiceRequestNestedInput = {
+    create?: XOR<ServiceCommentCreateWithoutServiceRequestInput, ServiceCommentUncheckedCreateWithoutServiceRequestInput> | ServiceCommentCreateWithoutServiceRequestInput[] | ServiceCommentUncheckedCreateWithoutServiceRequestInput[]
+    connectOrCreate?: ServiceCommentCreateOrConnectWithoutServiceRequestInput | ServiceCommentCreateOrConnectWithoutServiceRequestInput[]
+    upsert?: ServiceCommentUpsertWithWhereUniqueWithoutServiceRequestInput | ServiceCommentUpsertWithWhereUniqueWithoutServiceRequestInput[]
+    createMany?: ServiceCommentCreateManyServiceRequestInputEnvelope
+    set?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    disconnect?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    delete?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    connect?: ServiceCommentWhereUniqueInput | ServiceCommentWhereUniqueInput[]
+    update?: ServiceCommentUpdateWithWhereUniqueWithoutServiceRequestInput | ServiceCommentUpdateWithWhereUniqueWithoutServiceRequestInput[]
+    updateMany?: ServiceCommentUpdateManyWithWhereWithoutServiceRequestInput | ServiceCommentUpdateManyWithWhereWithoutServiceRequestInput[]
+    deleteMany?: ServiceCommentScalarWhereInput | ServiceCommentScalarWhereInput[]
+  }
+
+  export type ServiceRequestCreateNestedOneWithoutApprovalsInput = {
+    create?: XOR<ServiceRequestCreateWithoutApprovalsInput, ServiceRequestUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutApprovalsInput
+    connect?: ServiceRequestWhereUniqueInput
+  }
+
+  export type ServiceRequestUpdateOneRequiredWithoutApprovalsNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutApprovalsInput, ServiceRequestUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutApprovalsInput
+    upsert?: ServiceRequestUpsertWithoutApprovalsInput
+    connect?: ServiceRequestWhereUniqueInput
+    update?: XOR<XOR<ServiceRequestUpdateToOneWithWhereWithoutApprovalsInput, ServiceRequestUpdateWithoutApprovalsInput>, ServiceRequestUncheckedUpdateWithoutApprovalsInput>
+  }
+
+  export type ServiceRequestCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<ServiceRequestCreateWithoutCommentsInput, ServiceRequestUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutCommentsInput
+    connect?: ServiceRequestWhereUniqueInput
+  }
+
+  export type ServiceRequestUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutCommentsInput, ServiceRequestUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutCommentsInput
+    upsert?: ServiceRequestUpsertWithoutCommentsInput
+    connect?: ServiceRequestWhereUniqueInput
+    update?: XOR<XOR<ServiceRequestUpdateToOneWithWhereWithoutCommentsInput, ServiceRequestUpdateWithoutCommentsInput>, ServiceRequestUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type EmployeeCreateNestedOneWithoutReimbursementsInput = {
+    create?: XOR<EmployeeCreateWithoutReimbursementsInput, EmployeeUncheckedCreateWithoutReimbursementsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutReimbursementsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type AttachmentCreateNestedManyWithoutReimbursementRequestInput = {
+    create?: XOR<AttachmentCreateWithoutReimbursementRequestInput, AttachmentUncheckedCreateWithoutReimbursementRequestInput> | AttachmentCreateWithoutReimbursementRequestInput[] | AttachmentUncheckedCreateWithoutReimbursementRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutReimbursementRequestInput | AttachmentCreateOrConnectWithoutReimbursementRequestInput[]
+    createMany?: AttachmentCreateManyReimbursementRequestInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type AttachmentUncheckedCreateNestedManyWithoutReimbursementRequestInput = {
+    create?: XOR<AttachmentCreateWithoutReimbursementRequestInput, AttachmentUncheckedCreateWithoutReimbursementRequestInput> | AttachmentCreateWithoutReimbursementRequestInput[] | AttachmentUncheckedCreateWithoutReimbursementRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutReimbursementRequestInput | AttachmentCreateOrConnectWithoutReimbursementRequestInput[]
+    createMany?: AttachmentCreateManyReimbursementRequestInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutReimbursementsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutReimbursementsInput, EmployeeUncheckedCreateWithoutReimbursementsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutReimbursementsInput
+    upsert?: EmployeeUpsertWithoutReimbursementsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutReimbursementsInput, EmployeeUpdateWithoutReimbursementsInput>, EmployeeUncheckedUpdateWithoutReimbursementsInput>
+  }
+
+  export type AttachmentUpdateManyWithoutReimbursementRequestNestedInput = {
+    create?: XOR<AttachmentCreateWithoutReimbursementRequestInput, AttachmentUncheckedCreateWithoutReimbursementRequestInput> | AttachmentCreateWithoutReimbursementRequestInput[] | AttachmentUncheckedCreateWithoutReimbursementRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutReimbursementRequestInput | AttachmentCreateOrConnectWithoutReimbursementRequestInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutReimbursementRequestInput | AttachmentUpsertWithWhereUniqueWithoutReimbursementRequestInput[]
+    createMany?: AttachmentCreateManyReimbursementRequestInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutReimbursementRequestInput | AttachmentUpdateWithWhereUniqueWithoutReimbursementRequestInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutReimbursementRequestInput | AttachmentUpdateManyWithWhereWithoutReimbursementRequestInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutReimbursementRequestNestedInput = {
+    create?: XOR<AttachmentCreateWithoutReimbursementRequestInput, AttachmentUncheckedCreateWithoutReimbursementRequestInput> | AttachmentCreateWithoutReimbursementRequestInput[] | AttachmentUncheckedCreateWithoutReimbursementRequestInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutReimbursementRequestInput | AttachmentCreateOrConnectWithoutReimbursementRequestInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutReimbursementRequestInput | AttachmentUpsertWithWhereUniqueWithoutReimbursementRequestInput[]
+    createMany?: AttachmentCreateManyReimbursementRequestInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutReimbursementRequestInput | AttachmentUpdateWithWhereUniqueWithoutReimbursementRequestInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutReimbursementRequestInput | AttachmentUpdateManyWithWhereWithoutReimbursementRequestInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type EmployeeCreateNestedOneWithoutSalaryAdvancesInput = {
+    create?: XOR<EmployeeCreateWithoutSalaryAdvancesInput, EmployeeUncheckedCreateWithoutSalaryAdvancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutSalaryAdvancesInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutSalaryAdvancesNestedInput = {
+    create?: XOR<EmployeeCreateWithoutSalaryAdvancesInput, EmployeeUncheckedCreateWithoutSalaryAdvancesInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutSalaryAdvancesInput
+    upsert?: EmployeeUpsertWithoutSalaryAdvancesInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutSalaryAdvancesInput, EmployeeUpdateWithoutSalaryAdvancesInput>, EmployeeUncheckedUpdateWithoutSalaryAdvancesInput>
+  }
+
+  export type ServiceRequestCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<ServiceRequestCreateWithoutAttachmentsInput, ServiceRequestUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutAttachmentsInput
+    connect?: ServiceRequestWhereUniqueInput
+  }
+
+  export type ReimbursementRequestCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<ReimbursementRequestCreateWithoutAttachmentsInput, ReimbursementRequestUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ReimbursementRequestCreateOrConnectWithoutAttachmentsInput
+    connect?: ReimbursementRequestWhereUniqueInput
   }
 
   export type VisaRequestCreateNestedOneWithoutAttachmentsInput = {
@@ -54516,14 +63872,24 @@ export namespace Prisma {
     connect?: EmployeeWhereUniqueInput
   }
 
-  export type StaffRequestUpdateOneWithoutAttachmentsNestedInput = {
-    create?: XOR<StaffRequestCreateWithoutAttachmentsInput, StaffRequestUncheckedCreateWithoutAttachmentsInput>
-    connectOrCreate?: StaffRequestCreateOrConnectWithoutAttachmentsInput
-    upsert?: StaffRequestUpsertWithoutAttachmentsInput
-    disconnect?: StaffRequestWhereInput | boolean
-    delete?: StaffRequestWhereInput | boolean
-    connect?: StaffRequestWhereUniqueInput
-    update?: XOR<XOR<StaffRequestUpdateToOneWithWhereWithoutAttachmentsInput, StaffRequestUpdateWithoutAttachmentsInput>, StaffRequestUncheckedUpdateWithoutAttachmentsInput>
+  export type ServiceRequestUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutAttachmentsInput, ServiceRequestUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutAttachmentsInput
+    upsert?: ServiceRequestUpsertWithoutAttachmentsInput
+    disconnect?: ServiceRequestWhereInput | boolean
+    delete?: ServiceRequestWhereInput | boolean
+    connect?: ServiceRequestWhereUniqueInput
+    update?: XOR<XOR<ServiceRequestUpdateToOneWithWhereWithoutAttachmentsInput, ServiceRequestUpdateWithoutAttachmentsInput>, ServiceRequestUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ReimbursementRequestUpdateOneWithoutAttachmentsNestedInput = {
+    create?: XOR<ReimbursementRequestCreateWithoutAttachmentsInput, ReimbursementRequestUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: ReimbursementRequestCreateOrConnectWithoutAttachmentsInput
+    upsert?: ReimbursementRequestUpsertWithoutAttachmentsInput
+    disconnect?: ReimbursementRequestWhereInput | boolean
+    delete?: ReimbursementRequestWhereInput | boolean
+    connect?: ReimbursementRequestWhereUniqueInput
+    update?: XOR<XOR<ReimbursementRequestUpdateToOneWithWhereWithoutAttachmentsInput, ReimbursementRequestUpdateWithoutAttachmentsInput>, ReimbursementRequestUncheckedUpdateWithoutAttachmentsInput>
   }
 
   export type VisaRequestUpdateOneWithoutAttachmentsNestedInput = {
@@ -54618,6 +63984,122 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLetterRecordsInput, EmployeeUpdateWithoutLetterRecordsInput>, EmployeeUncheckedUpdateWithoutLetterRecordsInput>
   }
 
+  export type EmployeeCreateNestedOneWithoutLetterRequestsInput = {
+    create?: XOR<EmployeeCreateWithoutLetterRequestsInput, EmployeeUncheckedCreateWithoutLetterRequestsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLetterRequestsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type LetterTemplateCreateNestedOneWithoutRequestsInput = {
+    create?: XOR<LetterTemplateCreateWithoutRequestsInput, LetterTemplateUncheckedCreateWithoutRequestsInput>
+    connectOrCreate?: LetterTemplateCreateOrConnectWithoutRequestsInput
+    connect?: LetterTemplateWhereUniqueInput
+  }
+
+  export type LetterApprovalCreateNestedManyWithoutLetterRequestInput = {
+    create?: XOR<LetterApprovalCreateWithoutLetterRequestInput, LetterApprovalUncheckedCreateWithoutLetterRequestInput> | LetterApprovalCreateWithoutLetterRequestInput[] | LetterApprovalUncheckedCreateWithoutLetterRequestInput[]
+    connectOrCreate?: LetterApprovalCreateOrConnectWithoutLetterRequestInput | LetterApprovalCreateOrConnectWithoutLetterRequestInput[]
+    createMany?: LetterApprovalCreateManyLetterRequestInputEnvelope
+    connect?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+  }
+
+  export type LetterCreateNestedOneWithoutLetterRequestInput = {
+    create?: XOR<LetterCreateWithoutLetterRequestInput, LetterUncheckedCreateWithoutLetterRequestInput>
+    connectOrCreate?: LetterCreateOrConnectWithoutLetterRequestInput
+    connect?: LetterWhereUniqueInput
+  }
+
+  export type LetterApprovalUncheckedCreateNestedManyWithoutLetterRequestInput = {
+    create?: XOR<LetterApprovalCreateWithoutLetterRequestInput, LetterApprovalUncheckedCreateWithoutLetterRequestInput> | LetterApprovalCreateWithoutLetterRequestInput[] | LetterApprovalUncheckedCreateWithoutLetterRequestInput[]
+    connectOrCreate?: LetterApprovalCreateOrConnectWithoutLetterRequestInput | LetterApprovalCreateOrConnectWithoutLetterRequestInput[]
+    createMany?: LetterApprovalCreateManyLetterRequestInputEnvelope
+    connect?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+  }
+
+  export type LetterUncheckedCreateNestedOneWithoutLetterRequestInput = {
+    create?: XOR<LetterCreateWithoutLetterRequestInput, LetterUncheckedCreateWithoutLetterRequestInput>
+    connectOrCreate?: LetterCreateOrConnectWithoutLetterRequestInput
+    connect?: LetterWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutLetterRequestsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutLetterRequestsInput, EmployeeUncheckedCreateWithoutLetterRequestsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLetterRequestsInput
+    upsert?: EmployeeUpsertWithoutLetterRequestsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLetterRequestsInput, EmployeeUpdateWithoutLetterRequestsInput>, EmployeeUncheckedUpdateWithoutLetterRequestsInput>
+  }
+
+  export type LetterTemplateUpdateOneRequiredWithoutRequestsNestedInput = {
+    create?: XOR<LetterTemplateCreateWithoutRequestsInput, LetterTemplateUncheckedCreateWithoutRequestsInput>
+    connectOrCreate?: LetterTemplateCreateOrConnectWithoutRequestsInput
+    upsert?: LetterTemplateUpsertWithoutRequestsInput
+    connect?: LetterTemplateWhereUniqueInput
+    update?: XOR<XOR<LetterTemplateUpdateToOneWithWhereWithoutRequestsInput, LetterTemplateUpdateWithoutRequestsInput>, LetterTemplateUncheckedUpdateWithoutRequestsInput>
+  }
+
+  export type LetterApprovalUpdateManyWithoutLetterRequestNestedInput = {
+    create?: XOR<LetterApprovalCreateWithoutLetterRequestInput, LetterApprovalUncheckedCreateWithoutLetterRequestInput> | LetterApprovalCreateWithoutLetterRequestInput[] | LetterApprovalUncheckedCreateWithoutLetterRequestInput[]
+    connectOrCreate?: LetterApprovalCreateOrConnectWithoutLetterRequestInput | LetterApprovalCreateOrConnectWithoutLetterRequestInput[]
+    upsert?: LetterApprovalUpsertWithWhereUniqueWithoutLetterRequestInput | LetterApprovalUpsertWithWhereUniqueWithoutLetterRequestInput[]
+    createMany?: LetterApprovalCreateManyLetterRequestInputEnvelope
+    set?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    disconnect?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    delete?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    connect?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    update?: LetterApprovalUpdateWithWhereUniqueWithoutLetterRequestInput | LetterApprovalUpdateWithWhereUniqueWithoutLetterRequestInput[]
+    updateMany?: LetterApprovalUpdateManyWithWhereWithoutLetterRequestInput | LetterApprovalUpdateManyWithWhereWithoutLetterRequestInput[]
+    deleteMany?: LetterApprovalScalarWhereInput | LetterApprovalScalarWhereInput[]
+  }
+
+  export type LetterUpdateOneWithoutLetterRequestNestedInput = {
+    create?: XOR<LetterCreateWithoutLetterRequestInput, LetterUncheckedCreateWithoutLetterRequestInput>
+    connectOrCreate?: LetterCreateOrConnectWithoutLetterRequestInput
+    upsert?: LetterUpsertWithoutLetterRequestInput
+    disconnect?: LetterWhereInput | boolean
+    delete?: LetterWhereInput | boolean
+    connect?: LetterWhereUniqueInput
+    update?: XOR<XOR<LetterUpdateToOneWithWhereWithoutLetterRequestInput, LetterUpdateWithoutLetterRequestInput>, LetterUncheckedUpdateWithoutLetterRequestInput>
+  }
+
+  export type LetterApprovalUncheckedUpdateManyWithoutLetterRequestNestedInput = {
+    create?: XOR<LetterApprovalCreateWithoutLetterRequestInput, LetterApprovalUncheckedCreateWithoutLetterRequestInput> | LetterApprovalCreateWithoutLetterRequestInput[] | LetterApprovalUncheckedCreateWithoutLetterRequestInput[]
+    connectOrCreate?: LetterApprovalCreateOrConnectWithoutLetterRequestInput | LetterApprovalCreateOrConnectWithoutLetterRequestInput[]
+    upsert?: LetterApprovalUpsertWithWhereUniqueWithoutLetterRequestInput | LetterApprovalUpsertWithWhereUniqueWithoutLetterRequestInput[]
+    createMany?: LetterApprovalCreateManyLetterRequestInputEnvelope
+    set?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    disconnect?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    delete?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    connect?: LetterApprovalWhereUniqueInput | LetterApprovalWhereUniqueInput[]
+    update?: LetterApprovalUpdateWithWhereUniqueWithoutLetterRequestInput | LetterApprovalUpdateWithWhereUniqueWithoutLetterRequestInput[]
+    updateMany?: LetterApprovalUpdateManyWithWhereWithoutLetterRequestInput | LetterApprovalUpdateManyWithWhereWithoutLetterRequestInput[]
+    deleteMany?: LetterApprovalScalarWhereInput | LetterApprovalScalarWhereInput[]
+  }
+
+  export type LetterUncheckedUpdateOneWithoutLetterRequestNestedInput = {
+    create?: XOR<LetterCreateWithoutLetterRequestInput, LetterUncheckedCreateWithoutLetterRequestInput>
+    connectOrCreate?: LetterCreateOrConnectWithoutLetterRequestInput
+    upsert?: LetterUpsertWithoutLetterRequestInput
+    disconnect?: LetterWhereInput | boolean
+    delete?: LetterWhereInput | boolean
+    connect?: LetterWhereUniqueInput
+    update?: XOR<XOR<LetterUpdateToOneWithWhereWithoutLetterRequestInput, LetterUpdateWithoutLetterRequestInput>, LetterUncheckedUpdateWithoutLetterRequestInput>
+  }
+
+  export type LetterRequestCreateNestedOneWithoutApprovalsInput = {
+    create?: XOR<LetterRequestCreateWithoutApprovalsInput, LetterRequestUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutApprovalsInput
+    connect?: LetterRequestWhereUniqueInput
+  }
+
+  export type LetterRequestUpdateOneRequiredWithoutApprovalsNestedInput = {
+    create?: XOR<LetterRequestCreateWithoutApprovalsInput, LetterRequestUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutApprovalsInput
+    upsert?: LetterRequestUpsertWithoutApprovalsInput
+    connect?: LetterRequestWhereUniqueInput
+    update?: XOR<XOR<LetterRequestUpdateToOneWithWhereWithoutApprovalsInput, LetterRequestUpdateWithoutApprovalsInput>, LetterRequestUncheckedUpdateWithoutApprovalsInput>
+  }
+
   export type LetterCreateNestedManyWithoutTemplateInput = {
     create?: XOR<LetterCreateWithoutTemplateInput, LetterUncheckedCreateWithoutTemplateInput> | LetterCreateWithoutTemplateInput[] | LetterUncheckedCreateWithoutTemplateInput[]
     connectOrCreate?: LetterCreateOrConnectWithoutTemplateInput | LetterCreateOrConnectWithoutTemplateInput[]
@@ -54625,11 +64107,25 @@ export namespace Prisma {
     connect?: LetterWhereUniqueInput | LetterWhereUniqueInput[]
   }
 
+  export type LetterRequestCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<LetterRequestCreateWithoutTemplateInput, LetterRequestUncheckedCreateWithoutTemplateInput> | LetterRequestCreateWithoutTemplateInput[] | LetterRequestUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutTemplateInput | LetterRequestCreateOrConnectWithoutTemplateInput[]
+    createMany?: LetterRequestCreateManyTemplateInputEnvelope
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+  }
+
   export type LetterUncheckedCreateNestedManyWithoutTemplateInput = {
     create?: XOR<LetterCreateWithoutTemplateInput, LetterUncheckedCreateWithoutTemplateInput> | LetterCreateWithoutTemplateInput[] | LetterUncheckedCreateWithoutTemplateInput[]
     connectOrCreate?: LetterCreateOrConnectWithoutTemplateInput | LetterCreateOrConnectWithoutTemplateInput[]
     createMany?: LetterCreateManyTemplateInputEnvelope
     connect?: LetterWhereUniqueInput | LetterWhereUniqueInput[]
+  }
+
+  export type LetterRequestUncheckedCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<LetterRequestCreateWithoutTemplateInput, LetterRequestUncheckedCreateWithoutTemplateInput> | LetterRequestCreateWithoutTemplateInput[] | LetterRequestUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutTemplateInput | LetterRequestCreateOrConnectWithoutTemplateInput[]
+    createMany?: LetterRequestCreateManyTemplateInputEnvelope
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
   }
 
   export type LetterUpdateManyWithoutTemplateNestedInput = {
@@ -54646,6 +64142,20 @@ export namespace Prisma {
     deleteMany?: LetterScalarWhereInput | LetterScalarWhereInput[]
   }
 
+  export type LetterRequestUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<LetterRequestCreateWithoutTemplateInput, LetterRequestUncheckedCreateWithoutTemplateInput> | LetterRequestCreateWithoutTemplateInput[] | LetterRequestUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutTemplateInput | LetterRequestCreateOrConnectWithoutTemplateInput[]
+    upsert?: LetterRequestUpsertWithWhereUniqueWithoutTemplateInput | LetterRequestUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: LetterRequestCreateManyTemplateInputEnvelope
+    set?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    disconnect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    delete?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    update?: LetterRequestUpdateWithWhereUniqueWithoutTemplateInput | LetterRequestUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: LetterRequestUpdateManyWithWhereWithoutTemplateInput | LetterRequestUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: LetterRequestScalarWhereInput | LetterRequestScalarWhereInput[]
+  }
+
   export type LetterUncheckedUpdateManyWithoutTemplateNestedInput = {
     create?: XOR<LetterCreateWithoutTemplateInput, LetterUncheckedCreateWithoutTemplateInput> | LetterCreateWithoutTemplateInput[] | LetterUncheckedCreateWithoutTemplateInput[]
     connectOrCreate?: LetterCreateOrConnectWithoutTemplateInput | LetterCreateOrConnectWithoutTemplateInput[]
@@ -54660,6 +64170,20 @@ export namespace Prisma {
     deleteMany?: LetterScalarWhereInput | LetterScalarWhereInput[]
   }
 
+  export type LetterRequestUncheckedUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<LetterRequestCreateWithoutTemplateInput, LetterRequestUncheckedCreateWithoutTemplateInput> | LetterRequestCreateWithoutTemplateInput[] | LetterRequestUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutTemplateInput | LetterRequestCreateOrConnectWithoutTemplateInput[]
+    upsert?: LetterRequestUpsertWithWhereUniqueWithoutTemplateInput | LetterRequestUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: LetterRequestCreateManyTemplateInputEnvelope
+    set?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    disconnect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    delete?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    connect?: LetterRequestWhereUniqueInput | LetterRequestWhereUniqueInput[]
+    update?: LetterRequestUpdateWithWhereUniqueWithoutTemplateInput | LetterRequestUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: LetterRequestUpdateManyWithWhereWithoutTemplateInput | LetterRequestUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: LetterRequestScalarWhereInput | LetterRequestScalarWhereInput[]
+  }
+
   export type EmployeeCreateNestedOneWithoutLettersInput = {
     create?: XOR<EmployeeCreateWithoutLettersInput, EmployeeUncheckedCreateWithoutLettersInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutLettersInput
@@ -54670,6 +64194,12 @@ export namespace Prisma {
     create?: XOR<LetterTemplateCreateWithoutLettersInput, LetterTemplateUncheckedCreateWithoutLettersInput>
     connectOrCreate?: LetterTemplateCreateOrConnectWithoutLettersInput
     connect?: LetterTemplateWhereUniqueInput
+  }
+
+  export type LetterRequestCreateNestedOneWithoutGeneratedLetterInput = {
+    create?: XOR<LetterRequestCreateWithoutGeneratedLetterInput, LetterRequestUncheckedCreateWithoutGeneratedLetterInput>
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutGeneratedLetterInput
+    connect?: LetterRequestWhereUniqueInput
   }
 
   export type EmployeeUpdateOneRequiredWithoutLettersNestedInput = {
@@ -54686,6 +64216,16 @@ export namespace Prisma {
     upsert?: LetterTemplateUpsertWithoutLettersInput
     connect?: LetterTemplateWhereUniqueInput
     update?: XOR<XOR<LetterTemplateUpdateToOneWithWhereWithoutLettersInput, LetterTemplateUpdateWithoutLettersInput>, LetterTemplateUncheckedUpdateWithoutLettersInput>
+  }
+
+  export type LetterRequestUpdateOneWithoutGeneratedLetterNestedInput = {
+    create?: XOR<LetterRequestCreateWithoutGeneratedLetterInput, LetterRequestUncheckedCreateWithoutGeneratedLetterInput>
+    connectOrCreate?: LetterRequestCreateOrConnectWithoutGeneratedLetterInput
+    upsert?: LetterRequestUpsertWithoutGeneratedLetterInput
+    disconnect?: LetterRequestWhereInput | boolean
+    delete?: LetterRequestWhereInput | boolean
+    connect?: LetterRequestWhereUniqueInput
+    update?: XOR<XOR<LetterRequestUpdateToOneWithWhereWithoutGeneratedLetterInput, LetterRequestUpdateWithoutGeneratedLetterInput>, LetterRequestUncheckedUpdateWithoutGeneratedLetterInput>
   }
 
   export type EmployeeCreateNestedOneWithoutRequestedJobsInput = {
@@ -55182,14 +64722,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -55249,14 +64792,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -55470,14 +65016,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -55537,14 +65086,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -56123,41 +65675,47 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type StaffRequestCreateWithoutEmployeeInput = {
+  export type ServiceRequestCreateWithoutEmployeeInput = {
     id?: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    serviceType: StaffServiceTypeCreateNestedOneWithoutStaffRequestsInput
-    attachments?: AttachmentCreateNestedManyWithoutStaffRequestInput
+    category: ServiceCategoryCreateNestedOneWithoutRequestsInput
+    attachments?: AttachmentCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestUncheckedCreateWithoutEmployeeInput = {
+  export type ServiceRequestUncheckedCreateWithoutEmployeeInput = {
     id?: string
-    typeId: string
+    categoryId: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalUncheckedCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentUncheckedCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestCreateOrConnectWithoutEmployeeInput = {
-    where: StaffRequestWhereUniqueInput
-    create: XOR<StaffRequestCreateWithoutEmployeeInput, StaffRequestUncheckedCreateWithoutEmployeeInput>
+  export type ServiceRequestCreateOrConnectWithoutEmployeeInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutEmployeeInput, ServiceRequestUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type StaffRequestCreateManyEmployeeInputEnvelope = {
-    data: StaffRequestCreateManyEmployeeInput | StaffRequestCreateManyEmployeeInput[]
+  export type ServiceRequestCreateManyEmployeeInputEnvelope = {
+    data: ServiceRequestCreateManyEmployeeInput | ServiceRequestCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
@@ -56208,12 +65766,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     template: LetterTemplateCreateNestedOneWithoutLettersInput
+    letterRequest?: LetterRequestCreateNestedOneWithoutGeneratedLetterInput
   }
 
   export type LetterUncheckedCreateWithoutEmployeeInput = {
     id?: string
     templateId: string
     referenceNumber: string
+    letterRequestId?: string | null
     status?: string
     content_en: string
     content_ar?: string | null
@@ -56235,6 +65795,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LetterRequestCreateWithoutEmployeeInput = {
+    id?: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    template: LetterTemplateCreateNestedOneWithoutRequestsInput
+    approvals?: LetterApprovalCreateNestedManyWithoutLetterRequestInput
+    generatedLetter?: LetterCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    templateId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LetterApprovalUncheckedCreateNestedManyWithoutLetterRequestInput
+    generatedLetter?: LetterUncheckedCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestCreateOrConnectWithoutEmployeeInput = {
+    where: LetterRequestWhereUniqueInput
+    create: XOR<LetterRequestCreateWithoutEmployeeInput, LetterRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LetterRequestCreateManyEmployeeInputEnvelope = {
+    data: LetterRequestCreateManyEmployeeInput | LetterRequestCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AttachmentCreateWithoutEmployeeInput = {
     id?: string
     fileName: string
@@ -56244,13 +65836,15 @@ export namespace Prisma {
     docNumber?: string | null
     docExpiry?: Date | string | null
     createdAt?: Date | string
-    staffRequest?: StaffRequestCreateNestedOneWithoutAttachmentsInput
+    serviceRequest?: ServiceRequestCreateNestedOneWithoutAttachmentsInput
+    reimbursementRequest?: ReimbursementRequestCreateNestedOneWithoutAttachmentsInput
     visaRequest?: VisaRequestCreateNestedOneWithoutAttachmentsInput
   }
 
   export type AttachmentUncheckedCreateWithoutEmployeeInput = {
     id?: string
-    staffRequestId?: string | null
+    serviceRequestId?: string | null
+    reimbursementId?: string | null
     visaRequestId?: string | null
     fileName: string
     fileUrl: string
@@ -56405,6 +65999,68 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SalaryAdvanceRequestCreateWithoutEmployeeInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryAdvanceRequestCreateOrConnectWithoutEmployeeInput = {
+    where: SalaryAdvanceRequestWhereUniqueInput
+    create: XOR<SalaryAdvanceRequestCreateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type SalaryAdvanceRequestCreateManyEmployeeInputEnvelope = {
+    data: SalaryAdvanceRequestCreateManyEmployeeInput | SalaryAdvanceRequestCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReimbursementRequestCreateWithoutEmployeeInput = {
+    id?: string
+    category: string
+    amount: number
+    details: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attachments?: AttachmentCreateNestedManyWithoutReimbursementRequestInput
+  }
+
+  export type ReimbursementRequestUncheckedCreateWithoutEmployeeInput = {
+    id?: string
+    category: string
+    amount: number
+    details: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutReimbursementRequestInput
+  }
+
+  export type ReimbursementRequestCreateOrConnectWithoutEmployeeInput = {
+    where: ReimbursementRequestWhereUniqueInput
+    create: XOR<ReimbursementRequestCreateWithoutEmployeeInput, ReimbursementRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type ReimbursementRequestCreateManyEmployeeInputEnvelope = {
+    data: ReimbursementRequestCreateManyEmployeeInput | ReimbursementRequestCreateManyEmployeeInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EmployeeCreateWithoutReporteesInput = {
     id?: string
     employeeCode?: string | null
@@ -56458,14 +66114,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewCreateNestedManyWithoutInterviewerInput
@@ -56525,14 +66184,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
@@ -56595,14 +66257,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewCreateNestedManyWithoutInterviewerInput
@@ -56661,14 +66326,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -57038,37 +66706,38 @@ export namespace Prisma {
     generatedAt?: DateTimeFilter<"LetterRecord"> | Date | string
   }
 
-  export type StaffRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
-    where: StaffRequestWhereUniqueInput
-    update: XOR<StaffRequestUpdateWithoutEmployeeInput, StaffRequestUncheckedUpdateWithoutEmployeeInput>
-    create: XOR<StaffRequestCreateWithoutEmployeeInput, StaffRequestUncheckedCreateWithoutEmployeeInput>
+  export type ServiceRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: ServiceRequestWhereUniqueInput
+    update: XOR<ServiceRequestUpdateWithoutEmployeeInput, ServiceRequestUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<ServiceRequestCreateWithoutEmployeeInput, ServiceRequestUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type StaffRequestUpdateWithWhereUniqueWithoutEmployeeInput = {
-    where: StaffRequestWhereUniqueInput
-    data: XOR<StaffRequestUpdateWithoutEmployeeInput, StaffRequestUncheckedUpdateWithoutEmployeeInput>
+  export type ServiceRequestUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: ServiceRequestWhereUniqueInput
+    data: XOR<ServiceRequestUpdateWithoutEmployeeInput, ServiceRequestUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type StaffRequestUpdateManyWithWhereWithoutEmployeeInput = {
-    where: StaffRequestScalarWhereInput
-    data: XOR<StaffRequestUpdateManyMutationInput, StaffRequestUncheckedUpdateManyWithoutEmployeeInput>
+  export type ServiceRequestUpdateManyWithWhereWithoutEmployeeInput = {
+    where: ServiceRequestScalarWhereInput
+    data: XOR<ServiceRequestUpdateManyMutationInput, ServiceRequestUncheckedUpdateManyWithoutEmployeeInput>
   }
 
-  export type StaffRequestScalarWhereInput = {
-    AND?: StaffRequestScalarWhereInput | StaffRequestScalarWhereInput[]
-    OR?: StaffRequestScalarWhereInput[]
-    NOT?: StaffRequestScalarWhereInput | StaffRequestScalarWhereInput[]
-    id?: StringFilter<"StaffRequest"> | string
-    employeeId?: StringFilter<"StaffRequest"> | string
-    typeId?: StringFilter<"StaffRequest"> | string
-    details?: StringFilter<"StaffRequest"> | string
-    amount?: FloatNullableFilter<"StaffRequest"> | number | null
-    startDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
-    endDate?: DateTimeNullableFilter<"StaffRequest"> | Date | string | null
-    status?: StringFilter<"StaffRequest"> | string
-    hrNote?: StringNullableFilter<"StaffRequest"> | string | null
-    createdAt?: DateTimeFilter<"StaffRequest"> | Date | string
-    updatedAt?: DateTimeFilter<"StaffRequest"> | Date | string
+  export type ServiceRequestScalarWhereInput = {
+    AND?: ServiceRequestScalarWhereInput | ServiceRequestScalarWhereInput[]
+    OR?: ServiceRequestScalarWhereInput[]
+    NOT?: ServiceRequestScalarWhereInput | ServiceRequestScalarWhereInput[]
+    id?: StringFilter<"ServiceRequest"> | string
+    employeeId?: StringFilter<"ServiceRequest"> | string
+    categoryId?: StringFilter<"ServiceRequest"> | string
+    details?: StringFilter<"ServiceRequest"> | string
+    amount?: FloatNullableFilter<"ServiceRequest"> | number | null
+    startDate?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    status?: StringFilter<"ServiceRequest"> | string
+    workflowStep?: IntFilter<"ServiceRequest"> | number
+    hrNote?: StringNullableFilter<"ServiceRequest"> | string | null
+    createdAt?: DateTimeFilter<"ServiceRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceRequest"> | Date | string
   }
 
   export type VisaRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -57126,6 +66795,7 @@ export namespace Prisma {
     employeeId?: StringFilter<"Letter"> | string
     templateId?: StringFilter<"Letter"> | string
     referenceNumber?: StringFilter<"Letter"> | string
+    letterRequestId?: StringNullableFilter<"Letter"> | string | null
     status?: StringFilter<"Letter"> | string
     content_en?: StringFilter<"Letter"> | string
     content_ar?: StringNullableFilter<"Letter"> | string | null
@@ -57135,6 +66805,35 @@ export namespace Prisma {
     approvedAt?: DateTimeNullableFilter<"Letter"> | Date | string | null
     createdAt?: DateTimeFilter<"Letter"> | Date | string
     updatedAt?: DateTimeFilter<"Letter"> | Date | string
+  }
+
+  export type LetterRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: LetterRequestWhereUniqueInput
+    update: XOR<LetterRequestUpdateWithoutEmployeeInput, LetterRequestUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<LetterRequestCreateWithoutEmployeeInput, LetterRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type LetterRequestUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: LetterRequestWhereUniqueInput
+    data: XOR<LetterRequestUpdateWithoutEmployeeInput, LetterRequestUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type LetterRequestUpdateManyWithWhereWithoutEmployeeInput = {
+    where: LetterRequestScalarWhereInput
+    data: XOR<LetterRequestUpdateManyMutationInput, LetterRequestUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type LetterRequestScalarWhereInput = {
+    AND?: LetterRequestScalarWhereInput | LetterRequestScalarWhereInput[]
+    OR?: LetterRequestScalarWhereInput[]
+    NOT?: LetterRequestScalarWhereInput | LetterRequestScalarWhereInput[]
+    id?: StringFilter<"LetterRequest"> | string
+    employeeId?: StringFilter<"LetterRequest"> | string
+    templateId?: StringFilter<"LetterRequest"> | string
+    reason?: StringNullableFilter<"LetterRequest"> | string | null
+    status?: StringFilter<"LetterRequest"> | string
+    createdAt?: DateTimeFilter<"LetterRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"LetterRequest"> | Date | string
   }
 
   export type AttachmentUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -57158,7 +66857,8 @@ export namespace Prisma {
     OR?: AttachmentScalarWhereInput[]
     NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
     id?: StringFilter<"Attachment"> | string
-    staffRequestId?: StringNullableFilter<"Attachment"> | string | null
+    serviceRequestId?: StringNullableFilter<"Attachment"> | string | null
+    reimbursementId?: StringNullableFilter<"Attachment"> | string | null
     visaRequestId?: StringNullableFilter<"Attachment"> | string | null
     employeeId?: StringNullableFilter<"Attachment"> | string | null
     fileName?: StringFilter<"Attachment"> | string
@@ -57293,6 +66993,66 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Overtime"> | Date | string
   }
 
+  export type SalaryAdvanceRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: SalaryAdvanceRequestWhereUniqueInput
+    update: XOR<SalaryAdvanceRequestUpdateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<SalaryAdvanceRequestCreateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type SalaryAdvanceRequestUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: SalaryAdvanceRequestWhereUniqueInput
+    data: XOR<SalaryAdvanceRequestUpdateWithoutEmployeeInput, SalaryAdvanceRequestUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type SalaryAdvanceRequestUpdateManyWithWhereWithoutEmployeeInput = {
+    where: SalaryAdvanceRequestScalarWhereInput
+    data: XOR<SalaryAdvanceRequestUpdateManyMutationInput, SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type SalaryAdvanceRequestScalarWhereInput = {
+    AND?: SalaryAdvanceRequestScalarWhereInput | SalaryAdvanceRequestScalarWhereInput[]
+    OR?: SalaryAdvanceRequestScalarWhereInput[]
+    NOT?: SalaryAdvanceRequestScalarWhereInput | SalaryAdvanceRequestScalarWhereInput[]
+    id?: StringFilter<"SalaryAdvanceRequest"> | string
+    employeeId?: StringFilter<"SalaryAdvanceRequest"> | string
+    requestedAmount?: FloatFilter<"SalaryAdvanceRequest"> | number
+    repaymentMonths?: IntFilter<"SalaryAdvanceRequest"> | number
+    reason?: StringFilter<"SalaryAdvanceRequest"> | string
+    status?: StringFilter<"SalaryAdvanceRequest"> | string
+    createdAt?: DateTimeFilter<"SalaryAdvanceRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"SalaryAdvanceRequest"> | Date | string
+  }
+
+  export type ReimbursementRequestUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: ReimbursementRequestWhereUniqueInput
+    update: XOR<ReimbursementRequestUpdateWithoutEmployeeInput, ReimbursementRequestUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<ReimbursementRequestCreateWithoutEmployeeInput, ReimbursementRequestUncheckedCreateWithoutEmployeeInput>
+  }
+
+  export type ReimbursementRequestUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: ReimbursementRequestWhereUniqueInput
+    data: XOR<ReimbursementRequestUpdateWithoutEmployeeInput, ReimbursementRequestUncheckedUpdateWithoutEmployeeInput>
+  }
+
+  export type ReimbursementRequestUpdateManyWithWhereWithoutEmployeeInput = {
+    where: ReimbursementRequestScalarWhereInput
+    data: XOR<ReimbursementRequestUpdateManyMutationInput, ReimbursementRequestUncheckedUpdateManyWithoutEmployeeInput>
+  }
+
+  export type ReimbursementRequestScalarWhereInput = {
+    AND?: ReimbursementRequestScalarWhereInput | ReimbursementRequestScalarWhereInput[]
+    OR?: ReimbursementRequestScalarWhereInput[]
+    NOT?: ReimbursementRequestScalarWhereInput | ReimbursementRequestScalarWhereInput[]
+    id?: StringFilter<"ReimbursementRequest"> | string
+    employeeId?: StringFilter<"ReimbursementRequest"> | string
+    category?: StringFilter<"ReimbursementRequest"> | string
+    amount?: FloatFilter<"ReimbursementRequest"> | number
+    details?: StringFilter<"ReimbursementRequest"> | string
+    status?: StringFilter<"ReimbursementRequest"> | string
+    createdAt?: DateTimeFilter<"ReimbursementRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ReimbursementRequest"> | Date | string
+  }
+
   export type EmployeeUpsertWithoutReporteesInput = {
     update: XOR<EmployeeUpdateWithoutReporteesInput, EmployeeUncheckedUpdateWithoutReporteesInput>
     create: XOR<EmployeeCreateWithoutReporteesInput, EmployeeUncheckedCreateWithoutReporteesInput>
@@ -57357,14 +67117,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
@@ -57424,14 +67187,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
@@ -57625,14 +67391,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -57692,14 +67461,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -57773,14 +67545,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -57840,14 +67615,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -57906,13 +67684,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -57973,13 +67754,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -58054,13 +67838,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -58121,13 +67908,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -58185,14 +67975,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -58252,14 +68045,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -58386,14 +68182,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -58453,14 +68252,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -58578,14 +68380,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -58645,14 +68450,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -58863,13 +68671,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -58930,13 +68741,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -59011,13 +68825,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -59078,13 +68895,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -59142,14 +68962,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -59209,14 +69032,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -59364,14 +69190,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -59431,14 +69260,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -59582,14 +69414,17 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -59649,14 +69484,17 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -59730,14 +69568,17 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -59797,14 +69638,17 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -59862,14 +69706,17 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -59929,14 +69776,17 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -60010,14 +69860,17 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -60077,14 +69930,17 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -60205,13 +70061,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -60272,13 +70131,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -60492,13 +70354,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -60559,13 +70424,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -61127,13 +70995,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -61194,13 +71065,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -61275,13 +71149,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -61342,33 +71219,39 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
-  export type StaffRequestCreateWithoutServiceTypeInput = {
+  export type ServiceRequestCreateWithoutCategoryInput = {
     id?: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    employee: EmployeeCreateNestedOneWithoutStaffRequestsInput
-    attachments?: AttachmentCreateNestedManyWithoutStaffRequestInput
+    employee: EmployeeCreateNestedOneWithoutServiceRequestsInput
+    attachments?: AttachmentCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestUncheckedCreateWithoutServiceTypeInput = {
+  export type ServiceRequestUncheckedCreateWithoutCategoryInput = {
     id?: string
     employeeId: string
     details: string
@@ -61376,39 +71259,42 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    attachments?: AttachmentUncheckedCreateNestedManyWithoutStaffRequestInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalUncheckedCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentUncheckedCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestCreateOrConnectWithoutServiceTypeInput = {
-    where: StaffRequestWhereUniqueInput
-    create: XOR<StaffRequestCreateWithoutServiceTypeInput, StaffRequestUncheckedCreateWithoutServiceTypeInput>
+  export type ServiceRequestCreateOrConnectWithoutCategoryInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutCategoryInput, ServiceRequestUncheckedCreateWithoutCategoryInput>
   }
 
-  export type StaffRequestCreateManyServiceTypeInputEnvelope = {
-    data: StaffRequestCreateManyServiceTypeInput | StaffRequestCreateManyServiceTypeInput[]
+  export type ServiceRequestCreateManyCategoryInputEnvelope = {
+    data: ServiceRequestCreateManyCategoryInput | ServiceRequestCreateManyCategoryInput[]
     skipDuplicates?: boolean
   }
 
-  export type StaffRequestUpsertWithWhereUniqueWithoutServiceTypeInput = {
-    where: StaffRequestWhereUniqueInput
-    update: XOR<StaffRequestUpdateWithoutServiceTypeInput, StaffRequestUncheckedUpdateWithoutServiceTypeInput>
-    create: XOR<StaffRequestCreateWithoutServiceTypeInput, StaffRequestUncheckedCreateWithoutServiceTypeInput>
+  export type ServiceRequestUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: ServiceRequestWhereUniqueInput
+    update: XOR<ServiceRequestUpdateWithoutCategoryInput, ServiceRequestUncheckedUpdateWithoutCategoryInput>
+    create: XOR<ServiceRequestCreateWithoutCategoryInput, ServiceRequestUncheckedCreateWithoutCategoryInput>
   }
 
-  export type StaffRequestUpdateWithWhereUniqueWithoutServiceTypeInput = {
-    where: StaffRequestWhereUniqueInput
-    data: XOR<StaffRequestUpdateWithoutServiceTypeInput, StaffRequestUncheckedUpdateWithoutServiceTypeInput>
+  export type ServiceRequestUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: ServiceRequestWhereUniqueInput
+    data: XOR<ServiceRequestUpdateWithoutCategoryInput, ServiceRequestUncheckedUpdateWithoutCategoryInput>
   }
 
-  export type StaffRequestUpdateManyWithWhereWithoutServiceTypeInput = {
-    where: StaffRequestScalarWhereInput
-    data: XOR<StaffRequestUpdateManyMutationInput, StaffRequestUncheckedUpdateManyWithoutServiceTypeInput>
+  export type ServiceRequestUpdateManyWithWhereWithoutCategoryInput = {
+    where: ServiceRequestScalarWhereInput
+    data: XOR<ServiceRequestUpdateManyMutationInput, ServiceRequestUncheckedUpdateManyWithoutCategoryInput>
   }
 
-  export type EmployeeCreateWithoutStaffRequestsInput = {
+  export type EmployeeCreateWithoutServiceRequestsInput = {
     id?: string
     employeeCode?: string | null
     firstName: string
@@ -61463,18 +71349,21 @@ export namespace Prisma {
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
-  export type EmployeeUncheckedCreateWithoutStaffRequestsInput = {
+  export type EmployeeUncheckedCreateWithoutServiceRequestsInput = {
     id?: string
     userId: string
     employeeCode?: string | null
@@ -61530,51 +71419,58 @@ export namespace Prisma {
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
-  export type EmployeeCreateOrConnectWithoutStaffRequestsInput = {
+  export type EmployeeCreateOrConnectWithoutServiceRequestsInput = {
     where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutStaffRequestsInput, EmployeeUncheckedCreateWithoutStaffRequestsInput>
+    create: XOR<EmployeeCreateWithoutServiceRequestsInput, EmployeeUncheckedCreateWithoutServiceRequestsInput>
   }
 
-  export type StaffServiceTypeCreateWithoutStaffRequestsInput = {
+  export type ServiceCategoryCreateWithoutRequestsInput = {
     id?: string
     name: string
+    type?: string
     icon?: string | null
     description?: string | null
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: number
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type StaffServiceTypeUncheckedCreateWithoutStaffRequestsInput = {
+  export type ServiceCategoryUncheckedCreateWithoutRequestsInput = {
     id?: string
     name: string
+    type?: string
     icon?: string | null
     description?: string | null
     requiresAmount?: boolean
     requiresDates?: boolean
+    slaDays?: number
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type StaffServiceTypeCreateOrConnectWithoutStaffRequestsInput = {
-    where: StaffServiceTypeWhereUniqueInput
-    create: XOR<StaffServiceTypeCreateWithoutStaffRequestsInput, StaffServiceTypeUncheckedCreateWithoutStaffRequestsInput>
+  export type ServiceCategoryCreateOrConnectWithoutRequestsInput = {
+    where: ServiceCategoryWhereUniqueInput
+    create: XOR<ServiceCategoryCreateWithoutRequestsInput, ServiceCategoryUncheckedCreateWithoutRequestsInput>
   }
 
-  export type AttachmentCreateWithoutStaffRequestInput = {
+  export type AttachmentCreateWithoutServiceRequestInput = {
     id?: string
     fileName: string
     fileUrl: string
@@ -61583,12 +71479,14 @@ export namespace Prisma {
     docNumber?: string | null
     docExpiry?: Date | string | null
     createdAt?: Date | string
+    reimbursementRequest?: ReimbursementRequestCreateNestedOneWithoutAttachmentsInput
     visaRequest?: VisaRequestCreateNestedOneWithoutAttachmentsInput
     employee?: EmployeeCreateNestedOneWithoutAttachmentsInput
   }
 
-  export type AttachmentUncheckedCreateWithoutStaffRequestInput = {
+  export type AttachmentUncheckedCreateWithoutServiceRequestInput = {
     id?: string
+    reimbursementId?: string | null
     visaRequestId?: string | null
     employeeId?: string | null
     fileName: string
@@ -61600,28 +71498,84 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentCreateOrConnectWithoutStaffRequestInput = {
+  export type AttachmentCreateOrConnectWithoutServiceRequestInput = {
     where: AttachmentWhereUniqueInput
-    create: XOR<AttachmentCreateWithoutStaffRequestInput, AttachmentUncheckedCreateWithoutStaffRequestInput>
+    create: XOR<AttachmentCreateWithoutServiceRequestInput, AttachmentUncheckedCreateWithoutServiceRequestInput>
   }
 
-  export type AttachmentCreateManyStaffRequestInputEnvelope = {
-    data: AttachmentCreateManyStaffRequestInput | AttachmentCreateManyStaffRequestInput[]
+  export type AttachmentCreateManyServiceRequestInputEnvelope = {
+    data: AttachmentCreateManyServiceRequestInput | AttachmentCreateManyServiceRequestInput[]
     skipDuplicates?: boolean
   }
 
-  export type EmployeeUpsertWithoutStaffRequestsInput = {
-    update: XOR<EmployeeUpdateWithoutStaffRequestsInput, EmployeeUncheckedUpdateWithoutStaffRequestsInput>
-    create: XOR<EmployeeCreateWithoutStaffRequestsInput, EmployeeUncheckedCreateWithoutStaffRequestsInput>
+  export type ServiceApprovalCreateWithoutServiceRequestInput = {
+    id?: string
+    approverId?: string | null
+    approverEmail?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ServiceApprovalUncheckedCreateWithoutServiceRequestInput = {
+    id?: string
+    approverId?: string | null
+    approverEmail?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ServiceApprovalCreateOrConnectWithoutServiceRequestInput = {
+    where: ServiceApprovalWhereUniqueInput
+    create: XOR<ServiceApprovalCreateWithoutServiceRequestInput, ServiceApprovalUncheckedCreateWithoutServiceRequestInput>
+  }
+
+  export type ServiceApprovalCreateManyServiceRequestInputEnvelope = {
+    data: ServiceApprovalCreateManyServiceRequestInput | ServiceApprovalCreateManyServiceRequestInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceCommentCreateWithoutServiceRequestInput = {
+    id?: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceCommentUncheckedCreateWithoutServiceRequestInput = {
+    id?: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type ServiceCommentCreateOrConnectWithoutServiceRequestInput = {
+    where: ServiceCommentWhereUniqueInput
+    create: XOR<ServiceCommentCreateWithoutServiceRequestInput, ServiceCommentUncheckedCreateWithoutServiceRequestInput>
+  }
+
+  export type ServiceCommentCreateManyServiceRequestInputEnvelope = {
+    data: ServiceCommentCreateManyServiceRequestInput | ServiceCommentCreateManyServiceRequestInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmployeeUpsertWithoutServiceRequestsInput = {
+    update: XOR<EmployeeUpdateWithoutServiceRequestsInput, EmployeeUncheckedUpdateWithoutServiceRequestsInput>
+    create: XOR<EmployeeCreateWithoutServiceRequestsInput, EmployeeUncheckedCreateWithoutServiceRequestsInput>
     where?: EmployeeWhereInput
   }
 
-  export type EmployeeUpdateToOneWithWhereWithoutStaffRequestsInput = {
+  export type EmployeeUpdateToOneWithWhereWithoutServiceRequestsInput = {
     where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutStaffRequestsInput, EmployeeUncheckedUpdateWithoutStaffRequestsInput>
+    data: XOR<EmployeeUpdateWithoutServiceRequestsInput, EmployeeUncheckedUpdateWithoutServiceRequestsInput>
   }
 
-  export type EmployeeUpdateWithoutStaffRequestsInput = {
+  export type EmployeeUpdateWithoutServiceRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -61676,18 +71630,21 @@ export namespace Prisma {
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
-  export type EmployeeUncheckedUpdateWithoutStaffRequestsInput = {
+  export type EmployeeUncheckedUpdateWithoutServiceRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -61743,98 +71700,1002 @@ export namespace Prisma {
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
-  export type StaffServiceTypeUpsertWithoutStaffRequestsInput = {
-    update: XOR<StaffServiceTypeUpdateWithoutStaffRequestsInput, StaffServiceTypeUncheckedUpdateWithoutStaffRequestsInput>
-    create: XOR<StaffServiceTypeCreateWithoutStaffRequestsInput, StaffServiceTypeUncheckedCreateWithoutStaffRequestsInput>
-    where?: StaffServiceTypeWhereInput
+  export type ServiceCategoryUpsertWithoutRequestsInput = {
+    update: XOR<ServiceCategoryUpdateWithoutRequestsInput, ServiceCategoryUncheckedUpdateWithoutRequestsInput>
+    create: XOR<ServiceCategoryCreateWithoutRequestsInput, ServiceCategoryUncheckedCreateWithoutRequestsInput>
+    where?: ServiceCategoryWhereInput
   }
 
-  export type StaffServiceTypeUpdateToOneWithWhereWithoutStaffRequestsInput = {
-    where?: StaffServiceTypeWhereInput
-    data: XOR<StaffServiceTypeUpdateWithoutStaffRequestsInput, StaffServiceTypeUncheckedUpdateWithoutStaffRequestsInput>
+  export type ServiceCategoryUpdateToOneWithWhereWithoutRequestsInput = {
+    where?: ServiceCategoryWhereInput
+    data: XOR<ServiceCategoryUpdateWithoutRequestsInput, ServiceCategoryUncheckedUpdateWithoutRequestsInput>
   }
 
-  export type StaffServiceTypeUpdateWithoutStaffRequestsInput = {
+  export type ServiceCategoryUpdateWithoutRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     requiresAmount?: BoolFieldUpdateOperationsInput | boolean
     requiresDates?: BoolFieldUpdateOperationsInput | boolean
+    slaDays?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffServiceTypeUncheckedUpdateWithoutStaffRequestsInput = {
+  export type ServiceCategoryUncheckedUpdateWithoutRequestsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     requiresAmount?: BoolFieldUpdateOperationsInput | boolean
     requiresDates?: BoolFieldUpdateOperationsInput | boolean
+    slaDays?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentUpsertWithWhereUniqueWithoutStaffRequestInput = {
+  export type AttachmentUpsertWithWhereUniqueWithoutServiceRequestInput = {
     where: AttachmentWhereUniqueInput
-    update: XOR<AttachmentUpdateWithoutStaffRequestInput, AttachmentUncheckedUpdateWithoutStaffRequestInput>
-    create: XOR<AttachmentCreateWithoutStaffRequestInput, AttachmentUncheckedCreateWithoutStaffRequestInput>
+    update: XOR<AttachmentUpdateWithoutServiceRequestInput, AttachmentUncheckedUpdateWithoutServiceRequestInput>
+    create: XOR<AttachmentCreateWithoutServiceRequestInput, AttachmentUncheckedCreateWithoutServiceRequestInput>
   }
 
-  export type AttachmentUpdateWithWhereUniqueWithoutStaffRequestInput = {
+  export type AttachmentUpdateWithWhereUniqueWithoutServiceRequestInput = {
     where: AttachmentWhereUniqueInput
-    data: XOR<AttachmentUpdateWithoutStaffRequestInput, AttachmentUncheckedUpdateWithoutStaffRequestInput>
+    data: XOR<AttachmentUpdateWithoutServiceRequestInput, AttachmentUncheckedUpdateWithoutServiceRequestInput>
   }
 
-  export type AttachmentUpdateManyWithWhereWithoutStaffRequestInput = {
+  export type AttachmentUpdateManyWithWhereWithoutServiceRequestInput = {
     where: AttachmentScalarWhereInput
-    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutStaffRequestInput>
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutServiceRequestInput>
   }
 
-  export type StaffRequestCreateWithoutAttachmentsInput = {
+  export type ServiceApprovalUpsertWithWhereUniqueWithoutServiceRequestInput = {
+    where: ServiceApprovalWhereUniqueInput
+    update: XOR<ServiceApprovalUpdateWithoutServiceRequestInput, ServiceApprovalUncheckedUpdateWithoutServiceRequestInput>
+    create: XOR<ServiceApprovalCreateWithoutServiceRequestInput, ServiceApprovalUncheckedCreateWithoutServiceRequestInput>
+  }
+
+  export type ServiceApprovalUpdateWithWhereUniqueWithoutServiceRequestInput = {
+    where: ServiceApprovalWhereUniqueInput
+    data: XOR<ServiceApprovalUpdateWithoutServiceRequestInput, ServiceApprovalUncheckedUpdateWithoutServiceRequestInput>
+  }
+
+  export type ServiceApprovalUpdateManyWithWhereWithoutServiceRequestInput = {
+    where: ServiceApprovalScalarWhereInput
+    data: XOR<ServiceApprovalUpdateManyMutationInput, ServiceApprovalUncheckedUpdateManyWithoutServiceRequestInput>
+  }
+
+  export type ServiceApprovalScalarWhereInput = {
+    AND?: ServiceApprovalScalarWhereInput | ServiceApprovalScalarWhereInput[]
+    OR?: ServiceApprovalScalarWhereInput[]
+    NOT?: ServiceApprovalScalarWhereInput | ServiceApprovalScalarWhereInput[]
+    id?: StringFilter<"ServiceApproval"> | string
+    serviceRequestId?: StringFilter<"ServiceApproval"> | string
+    approverId?: StringNullableFilter<"ServiceApproval"> | string | null
+    approverEmail?: StringNullableFilter<"ServiceApproval"> | string | null
+    level?: StringFilter<"ServiceApproval"> | string
+    action?: StringFilter<"ServiceApproval"> | string
+    comments?: StringNullableFilter<"ServiceApproval"> | string | null
+    createdAt?: DateTimeFilter<"ServiceApproval"> | Date | string
+  }
+
+  export type ServiceCommentUpsertWithWhereUniqueWithoutServiceRequestInput = {
+    where: ServiceCommentWhereUniqueInput
+    update: XOR<ServiceCommentUpdateWithoutServiceRequestInput, ServiceCommentUncheckedUpdateWithoutServiceRequestInput>
+    create: XOR<ServiceCommentCreateWithoutServiceRequestInput, ServiceCommentUncheckedCreateWithoutServiceRequestInput>
+  }
+
+  export type ServiceCommentUpdateWithWhereUniqueWithoutServiceRequestInput = {
+    where: ServiceCommentWhereUniqueInput
+    data: XOR<ServiceCommentUpdateWithoutServiceRequestInput, ServiceCommentUncheckedUpdateWithoutServiceRequestInput>
+  }
+
+  export type ServiceCommentUpdateManyWithWhereWithoutServiceRequestInput = {
+    where: ServiceCommentScalarWhereInput
+    data: XOR<ServiceCommentUpdateManyMutationInput, ServiceCommentUncheckedUpdateManyWithoutServiceRequestInput>
+  }
+
+  export type ServiceCommentScalarWhereInput = {
+    AND?: ServiceCommentScalarWhereInput | ServiceCommentScalarWhereInput[]
+    OR?: ServiceCommentScalarWhereInput[]
+    NOT?: ServiceCommentScalarWhereInput | ServiceCommentScalarWhereInput[]
+    id?: StringFilter<"ServiceComment"> | string
+    serviceRequestId?: StringFilter<"ServiceComment"> | string
+    authorId?: StringFilter<"ServiceComment"> | string
+    authorName?: StringFilter<"ServiceComment"> | string
+    content?: StringFilter<"ServiceComment"> | string
+    createdAt?: DateTimeFilter<"ServiceComment"> | Date | string
+  }
+
+  export type ServiceRequestCreateWithoutApprovalsInput = {
     id?: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    employee: EmployeeCreateNestedOneWithoutStaffRequestsInput
-    serviceType: StaffServiceTypeCreateNestedOneWithoutStaffRequestsInput
+    employee: EmployeeCreateNestedOneWithoutServiceRequestsInput
+    category: ServiceCategoryCreateNestedOneWithoutRequestsInput
+    attachments?: AttachmentCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentCreateNestedManyWithoutServiceRequestInput
   }
 
-  export type StaffRequestUncheckedCreateWithoutAttachmentsInput = {
+  export type ServiceRequestUncheckedCreateWithoutApprovalsInput = {
     id?: string
     employeeId: string
-    typeId: string
+    categoryId: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentUncheckedCreateNestedManyWithoutServiceRequestInput
+  }
+
+  export type ServiceRequestCreateOrConnectWithoutApprovalsInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutApprovalsInput, ServiceRequestUncheckedCreateWithoutApprovalsInput>
+  }
+
+  export type ServiceRequestUpsertWithoutApprovalsInput = {
+    update: XOR<ServiceRequestUpdateWithoutApprovalsInput, ServiceRequestUncheckedUpdateWithoutApprovalsInput>
+    create: XOR<ServiceRequestCreateWithoutApprovalsInput, ServiceRequestUncheckedCreateWithoutApprovalsInput>
+    where?: ServiceRequestWhereInput
+  }
+
+  export type ServiceRequestUpdateToOneWithWhereWithoutApprovalsInput = {
+    where?: ServiceRequestWhereInput
+    data: XOR<ServiceRequestUpdateWithoutApprovalsInput, ServiceRequestUncheckedUpdateWithoutApprovalsInput>
+  }
+
+  export type ServiceRequestUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutServiceRequestsNestedInput
+    category?: ServiceCategoryUpdateOneRequiredWithoutRequestsNestedInput
+    attachments?: AttachmentUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUpdateManyWithoutServiceRequestNestedInput
+  }
+
+  export type ServiceRequestUncheckedUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUncheckedUpdateManyWithoutServiceRequestNestedInput
+  }
+
+  export type ServiceRequestCreateWithoutCommentsInput = {
+    id?: string
+    details: string
+    amount?: number | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    status?: string
+    workflowStep?: number
+    hrNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutServiceRequestsInput
+    category: ServiceCategoryCreateNestedOneWithoutRequestsInput
+    attachments?: AttachmentCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalCreateNestedManyWithoutServiceRequestInput
+  }
+
+  export type ServiceRequestUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    employeeId: string
+    categoryId: string
+    details: string
+    amount?: number | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    status?: string
+    workflowStep?: number
+    hrNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutServiceRequestInput
+    approvals?: ServiceApprovalUncheckedCreateNestedManyWithoutServiceRequestInput
+  }
+
+  export type ServiceRequestCreateOrConnectWithoutCommentsInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutCommentsInput, ServiceRequestUncheckedCreateWithoutCommentsInput>
+  }
+
+  export type ServiceRequestUpsertWithoutCommentsInput = {
+    update: XOR<ServiceRequestUpdateWithoutCommentsInput, ServiceRequestUncheckedUpdateWithoutCommentsInput>
+    create: XOR<ServiceRequestCreateWithoutCommentsInput, ServiceRequestUncheckedCreateWithoutCommentsInput>
+    where?: ServiceRequestWhereInput
+  }
+
+  export type ServiceRequestUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: ServiceRequestWhereInput
+    data: XOR<ServiceRequestUpdateWithoutCommentsInput, ServiceRequestUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type ServiceRequestUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutServiceRequestsNestedInput
+    category?: ServiceCategoryUpdateOneRequiredWithoutRequestsNestedInput
+    attachments?: AttachmentUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUpdateManyWithoutServiceRequestNestedInput
+  }
+
+  export type ServiceRequestUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUncheckedUpdateManyWithoutServiceRequestNestedInput
+  }
+
+  export type EmployeeCreateWithoutReimbursementsInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutReimbursementsInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    managerId?: string | null
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutReimbursementsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutReimbursementsInput, EmployeeUncheckedCreateWithoutReimbursementsInput>
+  }
+
+  export type AttachmentCreateWithoutReimbursementRequestInput = {
+    id?: string
+    fileName: string
+    fileUrl: string
+    fileType: string
+    category: string
+    docNumber?: string | null
+    docExpiry?: Date | string | null
+    createdAt?: Date | string
+    serviceRequest?: ServiceRequestCreateNestedOneWithoutAttachmentsInput
+    visaRequest?: VisaRequestCreateNestedOneWithoutAttachmentsInput
+    employee?: EmployeeCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type AttachmentUncheckedCreateWithoutReimbursementRequestInput = {
+    id?: string
+    serviceRequestId?: string | null
+    visaRequestId?: string | null
+    employeeId?: string | null
+    fileName: string
+    fileUrl: string
+    fileType: string
+    category: string
+    docNumber?: string | null
+    docExpiry?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AttachmentCreateOrConnectWithoutReimbursementRequestInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutReimbursementRequestInput, AttachmentUncheckedCreateWithoutReimbursementRequestInput>
+  }
+
+  export type AttachmentCreateManyReimbursementRequestInputEnvelope = {
+    data: AttachmentCreateManyReimbursementRequestInput | AttachmentCreateManyReimbursementRequestInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmployeeUpsertWithoutReimbursementsInput = {
+    update: XOR<EmployeeUpdateWithoutReimbursementsInput, EmployeeUncheckedUpdateWithoutReimbursementsInput>
+    create: XOR<EmployeeCreateWithoutReimbursementsInput, EmployeeUncheckedCreateWithoutReimbursementsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutReimbursementsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutReimbursementsInput, EmployeeUncheckedUpdateWithoutReimbursementsInput>
+  }
+
+  export type EmployeeUpdateWithoutReimbursementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutReimbursementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type AttachmentUpsertWithWhereUniqueWithoutReimbursementRequestInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutReimbursementRequestInput, AttachmentUncheckedUpdateWithoutReimbursementRequestInput>
+    create: XOR<AttachmentCreateWithoutReimbursementRequestInput, AttachmentUncheckedCreateWithoutReimbursementRequestInput>
+  }
+
+  export type AttachmentUpdateWithWhereUniqueWithoutReimbursementRequestInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutReimbursementRequestInput, AttachmentUncheckedUpdateWithoutReimbursementRequestInput>
+  }
+
+  export type AttachmentUpdateManyWithWhereWithoutReimbursementRequestInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutReimbursementRequestInput>
+  }
+
+  export type EmployeeCreateWithoutSalaryAdvancesInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutSalaryAdvancesInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    managerId?: string | null
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutSalaryAdvancesInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutSalaryAdvancesInput, EmployeeUncheckedCreateWithoutSalaryAdvancesInput>
+  }
+
+  export type EmployeeUpsertWithoutSalaryAdvancesInput = {
+    update: XOR<EmployeeUpdateWithoutSalaryAdvancesInput, EmployeeUncheckedUpdateWithoutSalaryAdvancesInput>
+    create: XOR<EmployeeCreateWithoutSalaryAdvancesInput, EmployeeUncheckedCreateWithoutSalaryAdvancesInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutSalaryAdvancesInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutSalaryAdvancesInput, EmployeeUncheckedUpdateWithoutSalaryAdvancesInput>
+  }
+
+  export type EmployeeUpdateWithoutSalaryAdvancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutSalaryAdvancesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type ServiceRequestCreateWithoutAttachmentsInput = {
+    id?: string
+    details: string
+    amount?: number | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    status?: string
+    workflowStep?: number
+    hrNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutServiceRequestsInput
+    category: ServiceCategoryCreateNestedOneWithoutRequestsInput
+    approvals?: ServiceApprovalCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentCreateNestedManyWithoutServiceRequestInput
+  }
+
+  export type ServiceRequestUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    employeeId: string
+    categoryId: string
+    details: string
+    amount?: number | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    status?: string
+    workflowStep?: number
+    hrNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: ServiceApprovalUncheckedCreateNestedManyWithoutServiceRequestInput
+    comments?: ServiceCommentUncheckedCreateNestedManyWithoutServiceRequestInput
+  }
+
+  export type ServiceRequestCreateOrConnectWithoutAttachmentsInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutAttachmentsInput, ServiceRequestUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type ReimbursementRequestCreateWithoutAttachmentsInput = {
+    id?: string
+    category: string
+    amount: number
+    details: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutReimbursementsInput
+  }
+
+  export type ReimbursementRequestUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    employeeId: string
+    category: string
+    amount: number
+    details: string
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type StaffRequestCreateOrConnectWithoutAttachmentsInput = {
-    where: StaffRequestWhereUniqueInput
-    create: XOR<StaffRequestCreateWithoutAttachmentsInput, StaffRequestUncheckedCreateWithoutAttachmentsInput>
+  export type ReimbursementRequestCreateOrConnectWithoutAttachmentsInput = {
+    where: ReimbursementRequestWhereUniqueInput
+    create: XOR<ReimbursementRequestCreateWithoutAttachmentsInput, ReimbursementRequestUncheckedCreateWithoutAttachmentsInput>
   }
 
   export type VisaRequestCreateWithoutAttachmentsInput = {
@@ -61919,13 +72780,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -61986,13 +72850,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -62003,41 +72870,80 @@ export namespace Prisma {
     create: XOR<EmployeeCreateWithoutAttachmentsInput, EmployeeUncheckedCreateWithoutAttachmentsInput>
   }
 
-  export type StaffRequestUpsertWithoutAttachmentsInput = {
-    update: XOR<StaffRequestUpdateWithoutAttachmentsInput, StaffRequestUncheckedUpdateWithoutAttachmentsInput>
-    create: XOR<StaffRequestCreateWithoutAttachmentsInput, StaffRequestUncheckedCreateWithoutAttachmentsInput>
-    where?: StaffRequestWhereInput
+  export type ServiceRequestUpsertWithoutAttachmentsInput = {
+    update: XOR<ServiceRequestUpdateWithoutAttachmentsInput, ServiceRequestUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<ServiceRequestCreateWithoutAttachmentsInput, ServiceRequestUncheckedCreateWithoutAttachmentsInput>
+    where?: ServiceRequestWhereInput
   }
 
-  export type StaffRequestUpdateToOneWithWhereWithoutAttachmentsInput = {
-    where?: StaffRequestWhereInput
-    data: XOR<StaffRequestUpdateWithoutAttachmentsInput, StaffRequestUncheckedUpdateWithoutAttachmentsInput>
+  export type ServiceRequestUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: ServiceRequestWhereInput
+    data: XOR<ServiceRequestUpdateWithoutAttachmentsInput, ServiceRequestUncheckedUpdateWithoutAttachmentsInput>
   }
 
-  export type StaffRequestUpdateWithoutAttachmentsInput = {
+  export type ServiceRequestUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    employee?: EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput
-    serviceType?: StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutServiceRequestsNestedInput
+    category?: ServiceCategoryUpdateOneRequiredWithoutRequestsNestedInput
+    approvals?: ServiceApprovalUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUpdateManyWithoutServiceRequestNestedInput
   }
 
-  export type StaffRequestUncheckedUpdateWithoutAttachmentsInput = {
+  export type ServiceRequestUncheckedUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: ServiceApprovalUncheckedUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUncheckedUpdateManyWithoutServiceRequestNestedInput
+  }
+
+  export type ReimbursementRequestUpsertWithoutAttachmentsInput = {
+    update: XOR<ReimbursementRequestUpdateWithoutAttachmentsInput, ReimbursementRequestUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<ReimbursementRequestCreateWithoutAttachmentsInput, ReimbursementRequestUncheckedCreateWithoutAttachmentsInput>
+    where?: ReimbursementRequestWhereInput
+  }
+
+  export type ReimbursementRequestUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: ReimbursementRequestWhereInput
+    data: XOR<ReimbursementRequestUpdateWithoutAttachmentsInput, ReimbursementRequestUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type ReimbursementRequestUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutReimbursementsNestedInput
+  }
+
+  export type ReimbursementRequestUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -62141,13 +73047,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -62208,13 +73117,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -62273,13 +73185,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -62340,13 +73255,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -62366,13 +73284,15 @@ export namespace Prisma {
     docNumber?: string | null
     docExpiry?: Date | string | null
     createdAt?: Date | string
-    staffRequest?: StaffRequestCreateNestedOneWithoutAttachmentsInput
+    serviceRequest?: ServiceRequestCreateNestedOneWithoutAttachmentsInput
+    reimbursementRequest?: ReimbursementRequestCreateNestedOneWithoutAttachmentsInput
     employee?: EmployeeCreateNestedOneWithoutAttachmentsInput
   }
 
   export type AttachmentUncheckedCreateWithoutVisaRequestInput = {
     id?: string
-    staffRequestId?: string | null
+    serviceRequestId?: string | null
+    reimbursementId?: string | null
     employeeId?: string | null
     fileName: string
     fileUrl: string
@@ -62457,13 +73377,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -62524,13 +73447,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -62604,14 +73530,17 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -62671,14 +73600,17 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -62752,14 +73684,17 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -62819,7 +73754,394 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type EmployeeCreateWithoutLetterRequestsInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutLetterRequestsInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    managerId?: string | null
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutLetterRequestsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutLetterRequestsInput, EmployeeUncheckedCreateWithoutLetterRequestsInput>
+  }
+
+  export type LetterTemplateCreateWithoutRequestsInput = {
+    id?: string
+    name: string
+    type: string
+    content_en: string
+    content_ar?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    letters?: LetterCreateNestedManyWithoutTemplateInput
+  }
+
+  export type LetterTemplateUncheckedCreateWithoutRequestsInput = {
+    id?: string
+    name: string
+    type: string
+    content_en: string
+    content_ar?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    letters?: LetterUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type LetterTemplateCreateOrConnectWithoutRequestsInput = {
+    where: LetterTemplateWhereUniqueInput
+    create: XOR<LetterTemplateCreateWithoutRequestsInput, LetterTemplateUncheckedCreateWithoutRequestsInput>
+  }
+
+  export type LetterApprovalCreateWithoutLetterRequestInput = {
+    id?: string
+    approverId?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LetterApprovalUncheckedCreateWithoutLetterRequestInput = {
+    id?: string
+    approverId?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LetterApprovalCreateOrConnectWithoutLetterRequestInput = {
+    where: LetterApprovalWhereUniqueInput
+    create: XOR<LetterApprovalCreateWithoutLetterRequestInput, LetterApprovalUncheckedCreateWithoutLetterRequestInput>
+  }
+
+  export type LetterApprovalCreateManyLetterRequestInputEnvelope = {
+    data: LetterApprovalCreateManyLetterRequestInput | LetterApprovalCreateManyLetterRequestInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LetterCreateWithoutLetterRequestInput = {
+    id?: string
+    referenceNumber: string
+    status?: string
+    content_en: string
+    content_ar?: string | null
+    pdfUrl?: string | null
+    comments?: string | null
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLettersInput
+    template: LetterTemplateCreateNestedOneWithoutLettersInput
+  }
+
+  export type LetterUncheckedCreateWithoutLetterRequestInput = {
+    id?: string
+    employeeId: string
+    templateId: string
+    referenceNumber: string
+    status?: string
+    content_en: string
+    content_ar?: string | null
+    pdfUrl?: string | null
+    comments?: string | null
+    approvedBy?: string | null
+    approvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LetterCreateOrConnectWithoutLetterRequestInput = {
+    where: LetterWhereUniqueInput
+    create: XOR<LetterCreateWithoutLetterRequestInput, LetterUncheckedCreateWithoutLetterRequestInput>
+  }
+
+  export type EmployeeUpsertWithoutLetterRequestsInput = {
+    update: XOR<EmployeeUpdateWithoutLetterRequestsInput, EmployeeUncheckedUpdateWithoutLetterRequestsInput>
+    create: XOR<EmployeeCreateWithoutLetterRequestsInput, EmployeeUncheckedCreateWithoutLetterRequestsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutLetterRequestsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutLetterRequestsInput, EmployeeUncheckedUpdateWithoutLetterRequestsInput>
+  }
+
+  export type EmployeeUpdateWithoutLetterRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutLetterRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
@@ -62827,9 +74149,178 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type LetterTemplateUpsertWithoutRequestsInput = {
+    update: XOR<LetterTemplateUpdateWithoutRequestsInput, LetterTemplateUncheckedUpdateWithoutRequestsInput>
+    create: XOR<LetterTemplateCreateWithoutRequestsInput, LetterTemplateUncheckedCreateWithoutRequestsInput>
+    where?: LetterTemplateWhereInput
+  }
+
+  export type LetterTemplateUpdateToOneWithWhereWithoutRequestsInput = {
+    where?: LetterTemplateWhereInput
+    data: XOR<LetterTemplateUpdateWithoutRequestsInput, LetterTemplateUncheckedUpdateWithoutRequestsInput>
+  }
+
+  export type LetterTemplateUpdateWithoutRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    letters?: LetterUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type LetterTemplateUncheckedUpdateWithoutRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    letters?: LetterUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type LetterApprovalUpsertWithWhereUniqueWithoutLetterRequestInput = {
+    where: LetterApprovalWhereUniqueInput
+    update: XOR<LetterApprovalUpdateWithoutLetterRequestInput, LetterApprovalUncheckedUpdateWithoutLetterRequestInput>
+    create: XOR<LetterApprovalCreateWithoutLetterRequestInput, LetterApprovalUncheckedCreateWithoutLetterRequestInput>
+  }
+
+  export type LetterApprovalUpdateWithWhereUniqueWithoutLetterRequestInput = {
+    where: LetterApprovalWhereUniqueInput
+    data: XOR<LetterApprovalUpdateWithoutLetterRequestInput, LetterApprovalUncheckedUpdateWithoutLetterRequestInput>
+  }
+
+  export type LetterApprovalUpdateManyWithWhereWithoutLetterRequestInput = {
+    where: LetterApprovalScalarWhereInput
+    data: XOR<LetterApprovalUpdateManyMutationInput, LetterApprovalUncheckedUpdateManyWithoutLetterRequestInput>
+  }
+
+  export type LetterApprovalScalarWhereInput = {
+    AND?: LetterApprovalScalarWhereInput | LetterApprovalScalarWhereInput[]
+    OR?: LetterApprovalScalarWhereInput[]
+    NOT?: LetterApprovalScalarWhereInput | LetterApprovalScalarWhereInput[]
+    id?: StringFilter<"LetterApproval"> | string
+    letterRequestId?: StringFilter<"LetterApproval"> | string
+    approverId?: StringNullableFilter<"LetterApproval"> | string | null
+    level?: StringFilter<"LetterApproval"> | string
+    action?: StringFilter<"LetterApproval"> | string
+    comments?: StringNullableFilter<"LetterApproval"> | string | null
+    createdAt?: DateTimeFilter<"LetterApproval"> | Date | string
+  }
+
+  export type LetterUpsertWithoutLetterRequestInput = {
+    update: XOR<LetterUpdateWithoutLetterRequestInput, LetterUncheckedUpdateWithoutLetterRequestInput>
+    create: XOR<LetterCreateWithoutLetterRequestInput, LetterUncheckedCreateWithoutLetterRequestInput>
+    where?: LetterWhereInput
+  }
+
+  export type LetterUpdateToOneWithWhereWithoutLetterRequestInput = {
+    where?: LetterWhereInput
+    data: XOR<LetterUpdateWithoutLetterRequestInput, LetterUncheckedUpdateWithoutLetterRequestInput>
+  }
+
+  export type LetterUpdateWithoutLetterRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referenceNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLettersNestedInput
+    template?: LetterTemplateUpdateOneRequiredWithoutLettersNestedInput
+  }
+
+  export type LetterUncheckedUpdateWithoutLetterRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    referenceNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    content_en?: StringFieldUpdateOperationsInput | string
+    content_ar?: NullableStringFieldUpdateOperationsInput | string | null
+    pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRequestCreateWithoutApprovalsInput = {
+    id?: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLetterRequestsInput
+    template: LetterTemplateCreateNestedOneWithoutRequestsInput
+    generatedLetter?: LetterCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestUncheckedCreateWithoutApprovalsInput = {
+    id?: string
+    employeeId: string
+    templateId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    generatedLetter?: LetterUncheckedCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestCreateOrConnectWithoutApprovalsInput = {
+    where: LetterRequestWhereUniqueInput
+    create: XOR<LetterRequestCreateWithoutApprovalsInput, LetterRequestUncheckedCreateWithoutApprovalsInput>
+  }
+
+  export type LetterRequestUpsertWithoutApprovalsInput = {
+    update: XOR<LetterRequestUpdateWithoutApprovalsInput, LetterRequestUncheckedUpdateWithoutApprovalsInput>
+    create: XOR<LetterRequestCreateWithoutApprovalsInput, LetterRequestUncheckedCreateWithoutApprovalsInput>
+    where?: LetterRequestWhereInput
+  }
+
+  export type LetterRequestUpdateToOneWithWhereWithoutApprovalsInput = {
+    where?: LetterRequestWhereInput
+    data: XOR<LetterRequestUpdateWithoutApprovalsInput, LetterRequestUncheckedUpdateWithoutApprovalsInput>
+  }
+
+  export type LetterRequestUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLetterRequestsNestedInput
+    template?: LetterTemplateUpdateOneRequiredWithoutRequestsNestedInput
+    generatedLetter?: LetterUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    generatedLetter?: LetterUncheckedUpdateOneWithoutLetterRequestNestedInput
   }
 
   export type LetterCreateWithoutTemplateInput = {
@@ -62845,12 +74336,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     employee: EmployeeCreateNestedOneWithoutLettersInput
+    letterRequest?: LetterRequestCreateNestedOneWithoutGeneratedLetterInput
   }
 
   export type LetterUncheckedCreateWithoutTemplateInput = {
     id?: string
     employeeId: string
     referenceNumber: string
+    letterRequestId?: string | null
     status?: string
     content_en: string
     content_ar?: string | null
@@ -62872,6 +74365,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LetterRequestCreateWithoutTemplateInput = {
+    id?: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLetterRequestsInput
+    approvals?: LetterApprovalCreateNestedManyWithoutLetterRequestInput
+    generatedLetter?: LetterCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestUncheckedCreateWithoutTemplateInput = {
+    id?: string
+    employeeId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LetterApprovalUncheckedCreateNestedManyWithoutLetterRequestInput
+    generatedLetter?: LetterUncheckedCreateNestedOneWithoutLetterRequestInput
+  }
+
+  export type LetterRequestCreateOrConnectWithoutTemplateInput = {
+    where: LetterRequestWhereUniqueInput
+    create: XOR<LetterRequestCreateWithoutTemplateInput, LetterRequestUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type LetterRequestCreateManyTemplateInputEnvelope = {
+    data: LetterRequestCreateManyTemplateInput | LetterRequestCreateManyTemplateInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LetterUpsertWithWhereUniqueWithoutTemplateInput = {
     where: LetterWhereUniqueInput
     update: XOR<LetterUpdateWithoutTemplateInput, LetterUncheckedUpdateWithoutTemplateInput>
@@ -62886,6 +74411,22 @@ export namespace Prisma {
   export type LetterUpdateManyWithWhereWithoutTemplateInput = {
     where: LetterScalarWhereInput
     data: XOR<LetterUpdateManyMutationInput, LetterUncheckedUpdateManyWithoutTemplateInput>
+  }
+
+  export type LetterRequestUpsertWithWhereUniqueWithoutTemplateInput = {
+    where: LetterRequestWhereUniqueInput
+    update: XOR<LetterRequestUpdateWithoutTemplateInput, LetterRequestUncheckedUpdateWithoutTemplateInput>
+    create: XOR<LetterRequestCreateWithoutTemplateInput, LetterRequestUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type LetterRequestUpdateWithWhereUniqueWithoutTemplateInput = {
+    where: LetterRequestWhereUniqueInput
+    data: XOR<LetterRequestUpdateWithoutTemplateInput, LetterRequestUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type LetterRequestUpdateManyWithWhereWithoutTemplateInput = {
+    where: LetterRequestScalarWhereInput
+    data: XOR<LetterRequestUpdateManyMutationInput, LetterRequestUncheckedUpdateManyWithoutTemplateInput>
   }
 
   export type EmployeeCreateWithoutLettersInput = {
@@ -62941,13 +74482,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -63008,13 +74552,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
@@ -63034,6 +74581,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    requests?: LetterRequestCreateNestedManyWithoutTemplateInput
   }
 
   export type LetterTemplateUncheckedCreateWithoutLettersInput = {
@@ -63045,11 +74593,39 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    requests?: LetterRequestUncheckedCreateNestedManyWithoutTemplateInput
   }
 
   export type LetterTemplateCreateOrConnectWithoutLettersInput = {
     where: LetterTemplateWhereUniqueInput
     create: XOR<LetterTemplateCreateWithoutLettersInput, LetterTemplateUncheckedCreateWithoutLettersInput>
+  }
+
+  export type LetterRequestCreateWithoutGeneratedLetterInput = {
+    id?: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLetterRequestsInput
+    template: LetterTemplateCreateNestedOneWithoutRequestsInput
+    approvals?: LetterApprovalCreateNestedManyWithoutLetterRequestInput
+  }
+
+  export type LetterRequestUncheckedCreateWithoutGeneratedLetterInput = {
+    id?: string
+    employeeId: string
+    templateId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LetterApprovalUncheckedCreateNestedManyWithoutLetterRequestInput
+  }
+
+  export type LetterRequestCreateOrConnectWithoutGeneratedLetterInput = {
+    where: LetterRequestWhereUniqueInput
+    create: XOR<LetterRequestCreateWithoutGeneratedLetterInput, LetterRequestUncheckedCreateWithoutGeneratedLetterInput>
   }
 
   export type EmployeeUpsertWithoutLettersInput = {
@@ -63116,13 +74692,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -63183,13 +74762,16 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -63215,6 +74797,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requests?: LetterRequestUpdateManyWithoutTemplateNestedInput
   }
 
   export type LetterTemplateUncheckedUpdateWithoutLettersInput = {
@@ -63226,6 +74809,40 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requests?: LetterRequestUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type LetterRequestUpsertWithoutGeneratedLetterInput = {
+    update: XOR<LetterRequestUpdateWithoutGeneratedLetterInput, LetterRequestUncheckedUpdateWithoutGeneratedLetterInput>
+    create: XOR<LetterRequestCreateWithoutGeneratedLetterInput, LetterRequestUncheckedCreateWithoutGeneratedLetterInput>
+    where?: LetterRequestWhereInput
+  }
+
+  export type LetterRequestUpdateToOneWithWhereWithoutGeneratedLetterInput = {
+    where?: LetterRequestWhereInput
+    data: XOR<LetterRequestUpdateWithoutGeneratedLetterInput, LetterRequestUncheckedUpdateWithoutGeneratedLetterInput>
+  }
+
+  export type LetterRequestUpdateWithoutGeneratedLetterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLetterRequestsNestedInput
+    template?: LetterTemplateUpdateOneRequiredWithoutRequestsNestedInput
+    approvals?: LetterApprovalUpdateManyWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateWithoutGeneratedLetterInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LetterApprovalUncheckedUpdateManyWithoutLetterRequestNestedInput
   }
 
   export type EmployeeCreateWithoutRequestedJobsInput = {
@@ -63281,14 +74898,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     interviews?: InterviewCreateNestedManyWithoutInterviewerInput
@@ -63348,14 +74968,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
@@ -63467,14 +75090,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
@@ -63534,14 +75160,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
@@ -63862,14 +75491,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
     letters?: LetterCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
@@ -63929,14 +75561,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
     salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
     letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    serviceRequests?: ServiceRequestUncheckedCreateNestedManyWithoutEmployeeInput
     visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRequests?: LetterRequestUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    reimbursements?: ReimbursementRequestUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
     requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
   }
@@ -64049,14 +75684,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -64116,14 +75754,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
   }
@@ -64473,14 +76114,15 @@ export namespace Prisma {
     generatedAt?: Date | string
   }
 
-  export type StaffRequestCreateManyEmployeeInput = {
+  export type ServiceRequestCreateManyEmployeeInput = {
     id?: string
-    typeId: string
+    categoryId: string
     details: string
     amount?: number | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64501,6 +76143,7 @@ export namespace Prisma {
     id?: string
     templateId: string
     referenceNumber: string
+    letterRequestId?: string | null
     status?: string
     content_en: string
     content_ar?: string | null
@@ -64512,9 +76155,19 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type LetterRequestCreateManyEmployeeInput = {
+    id?: string
+    templateId: string
+    reason?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type AttachmentCreateManyEmployeeInput = {
     id?: string
-    staffRequestId?: string | null
+    serviceRequestId?: string | null
+    reimbursementId?: string | null
     visaRequestId?: string | null
     fileName: string
     fileUrl: string
@@ -64563,6 +76216,26 @@ export namespace Prisma {
     hours: number
     ratePerHour: number
     totalPay: number
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryAdvanceRequestCreateManyEmployeeInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReimbursementRequestCreateManyEmployeeInput = {
+    id?: string
+    category: string
+    amount: number
+    details: string
     status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64866,42 +76539,49 @@ export namespace Prisma {
     generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffRequestUpdateWithoutEmployeeInput = {
+  export type ServiceRequestUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    serviceType?: StaffServiceTypeUpdateOneRequiredWithoutStaffRequestsNestedInput
-    attachments?: AttachmentUpdateManyWithoutStaffRequestNestedInput
+    category?: ServiceCategoryUpdateOneRequiredWithoutRequestsNestedInput
+    attachments?: AttachmentUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUpdateManyWithoutServiceRequestNestedInput
   }
 
-  export type StaffRequestUncheckedUpdateWithoutEmployeeInput = {
+  export type ServiceRequestUncheckedUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUncheckedUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUncheckedUpdateManyWithoutServiceRequestNestedInput
   }
 
-  export type StaffRequestUncheckedUpdateManyWithoutEmployeeInput = {
+  export type ServiceRequestUncheckedUpdateManyWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    typeId?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64955,12 +76635,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     template?: LetterTemplateUpdateOneRequiredWithoutLettersNestedInput
+    letterRequest?: LetterRequestUpdateOneWithoutGeneratedLetterNestedInput
   }
 
   export type LetterUncheckedUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
     templateId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
     content_ar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64976,6 +76658,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     templateId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
     content_ar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -64983,6 +76666,37 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRequestUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    template?: LetterTemplateUpdateOneRequiredWithoutRequestsNestedInput
+    approvals?: LetterApprovalUpdateManyWithoutLetterRequestNestedInput
+    generatedLetter?: LetterUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LetterApprovalUncheckedUpdateManyWithoutLetterRequestNestedInput
+    generatedLetter?: LetterUncheckedUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    templateId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -64996,13 +76710,15 @@ export namespace Prisma {
     docNumber?: NullableStringFieldUpdateOperationsInput | string | null
     docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffRequest?: StaffRequestUpdateOneWithoutAttachmentsNestedInput
+    serviceRequest?: ServiceRequestUpdateOneWithoutAttachmentsNestedInput
+    reimbursementRequest?: ReimbursementRequestUpdateOneWithoutAttachmentsNestedInput
     visaRequest?: VisaRequestUpdateOneWithoutAttachmentsNestedInput
   }
 
   export type AttachmentUncheckedUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
@@ -65015,7 +76731,8 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateManyWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
@@ -65163,6 +76880,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SalaryAdvanceRequestUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdvanceRequestUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReimbursementRequestUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUpdateManyWithoutReimbursementRequestNestedInput
+  }
+
+  export type ReimbursementRequestUncheckedUpdateWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutReimbursementRequestNestedInput
+  }
+
+  export type ReimbursementRequestUncheckedUpdateManyWithoutEmployeeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    details?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type EmployeeUpdateWithoutManagerInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -65216,14 +76995,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
@@ -65282,14 +77064,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -65580,14 +77365,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
@@ -65647,14 +77435,17 @@ export namespace Prisma {
     salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
     salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
     letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    serviceRequests?: ServiceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRequests?: LetterRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryAdvances?: SalaryAdvanceRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    reimbursements?: ReimbursementRequestUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
     requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
     interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
@@ -65950,7 +77741,7 @@ export namespace Prisma {
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type StaffRequestCreateManyServiceTypeInput = {
+  export type ServiceRequestCreateManyCategoryInput = {
     id?: string
     employeeId: string
     details: string
@@ -65958,40 +77749,30 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     status?: string
+    workflowStep?: number
     hrNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type StaffRequestUpdateWithoutServiceTypeInput = {
+  export type ServiceRequestUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
     amount?: NullableFloatFieldUpdateOperationsInput | number | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    employee?: EmployeeUpdateOneRequiredWithoutStaffRequestsNestedInput
-    attachments?: AttachmentUpdateManyWithoutStaffRequestNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutServiceRequestsNestedInput
+    attachments?: AttachmentUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUpdateManyWithoutServiceRequestNestedInput
   }
 
-  export type StaffRequestUncheckedUpdateWithoutServiceTypeInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    employeeId?: StringFieldUpdateOperationsInput | string
-    details?: StringFieldUpdateOperationsInput | string
-    amount?: NullableFloatFieldUpdateOperationsInput | number | null
-    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attachments?: AttachmentUncheckedUpdateManyWithoutStaffRequestNestedInput
-  }
-
-  export type StaffRequestUncheckedUpdateManyWithoutServiceTypeInput = {
+  export type ServiceRequestUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     details?: StringFieldUpdateOperationsInput | string
@@ -65999,13 +77780,32 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
+    hrNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: AttachmentUncheckedUpdateManyWithoutServiceRequestNestedInput
+    approvals?: ServiceApprovalUncheckedUpdateManyWithoutServiceRequestNestedInput
+    comments?: ServiceCommentUncheckedUpdateManyWithoutServiceRequestNestedInput
+  }
+
+  export type ServiceRequestUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    details?: StringFieldUpdateOperationsInput | string
+    amount?: NullableFloatFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    workflowStep?: IntFieldUpdateOperationsInput | number
     hrNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentCreateManyStaffRequestInput = {
+  export type AttachmentCreateManyServiceRequestInput = {
     id?: string
+    reimbursementId?: string | null
     visaRequestId?: string | null
     employeeId?: string | null
     fileName: string
@@ -66017,7 +77817,25 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type AttachmentUpdateWithoutStaffRequestInput = {
+  export type ServiceApprovalCreateManyServiceRequestInput = {
+    id?: string
+    approverId?: string | null
+    approverEmail?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ServiceCommentCreateManyServiceRequestInput = {
+    id?: string
+    authorId: string
+    authorName: string
+    content: string
+    createdAt?: Date | string
+  }
+
+  export type AttachmentUpdateWithoutServiceRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
@@ -66026,12 +77844,14 @@ export namespace Prisma {
     docNumber?: NullableStringFieldUpdateOperationsInput | string | null
     docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reimbursementRequest?: ReimbursementRequestUpdateOneWithoutAttachmentsNestedInput
     visaRequest?: VisaRequestUpdateOneWithoutAttachmentsNestedInput
     employee?: EmployeeUpdateOneWithoutAttachmentsNestedInput
   }
 
-  export type AttachmentUncheckedUpdateWithoutStaffRequestInput = {
+  export type AttachmentUncheckedUpdateWithoutServiceRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -66043,8 +77863,119 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type AttachmentUncheckedUpdateManyWithoutStaffRequestInput = {
+  export type AttachmentUncheckedUpdateManyWithoutServiceRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
+    visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceApprovalUpdateWithoutServiceRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceApprovalUncheckedUpdateWithoutServiceRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceApprovalUncheckedUpdateManyWithoutServiceRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    approverEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceCommentUpdateWithoutServiceRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceCommentUncheckedUpdateWithoutServiceRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceCommentUncheckedUpdateManyWithoutServiceRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    authorName?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentCreateManyReimbursementRequestInput = {
+    id?: string
+    serviceRequestId?: string | null
+    visaRequestId?: string | null
+    employeeId?: string | null
+    fileName: string
+    fileUrl: string
+    fileType: string
+    category: string
+    docNumber?: string | null
+    docExpiry?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type AttachmentUpdateWithoutReimbursementRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceRequest?: ServiceRequestUpdateOneWithoutAttachmentsNestedInput
+    visaRequest?: VisaRequestUpdateOneWithoutAttachmentsNestedInput
+    employee?: EmployeeUpdateOneWithoutAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateWithoutReimbursementRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    employeeId?: NullableStringFieldUpdateOperationsInput | string | null
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    docNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutReimbursementRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     visaRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
@@ -66058,7 +77989,8 @@ export namespace Prisma {
 
   export type AttachmentCreateManyVisaRequestInput = {
     id?: string
-    staffRequestId?: string | null
+    serviceRequestId?: string | null
+    reimbursementId?: string | null
     employeeId?: string | null
     fileName: string
     fileUrl: string
@@ -66078,13 +78010,15 @@ export namespace Prisma {
     docNumber?: NullableStringFieldUpdateOperationsInput | string | null
     docExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    staffRequest?: StaffRequestUpdateOneWithoutAttachmentsNestedInput
+    serviceRequest?: ServiceRequestUpdateOneWithoutAttachmentsNestedInput
+    reimbursementRequest?: ReimbursementRequestUpdateOneWithoutAttachmentsNestedInput
     employee?: EmployeeUpdateOneWithoutAttachmentsNestedInput
   }
 
   export type AttachmentUncheckedUpdateWithoutVisaRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
@@ -66097,7 +78031,8 @@ export namespace Prisma {
 
   export type AttachmentUncheckedUpdateManyWithoutVisaRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
-    staffRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    reimbursementId?: NullableStringFieldUpdateOperationsInput | string | null
     employeeId?: NullableStringFieldUpdateOperationsInput | string | null
     fileName?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
@@ -66108,10 +78043,47 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LetterApprovalCreateManyLetterRequestInput = {
+    id?: string
+    approverId?: string | null
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LetterApprovalUpdateWithoutLetterRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterApprovalUncheckedUpdateWithoutLetterRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterApprovalUncheckedUpdateManyWithoutLetterRequestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverId?: NullableStringFieldUpdateOperationsInput | string | null
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type LetterCreateManyTemplateInput = {
     id?: string
     employeeId: string
     referenceNumber: string
+    letterRequestId?: string | null
     status?: string
     content_en: string
     content_ar?: string | null
@@ -66119,6 +78091,15 @@ export namespace Prisma {
     comments?: string | null
     approvedBy?: string | null
     approvedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LetterRequestCreateManyTemplateInput = {
+    id?: string
+    employeeId: string
+    reason?: string | null
+    status?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -66136,12 +78117,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     employee?: EmployeeUpdateOneRequiredWithoutLettersNestedInput
+    letterRequest?: LetterRequestUpdateOneWithoutGeneratedLetterNestedInput
   }
 
   export type LetterUncheckedUpdateWithoutTemplateInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
     content_ar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66157,6 +78140,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
     referenceNumber?: StringFieldUpdateOperationsInput | string
+    letterRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     content_en?: StringFieldUpdateOperationsInput | string
     content_ar?: NullableStringFieldUpdateOperationsInput | string | null
@@ -66164,6 +78148,37 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LetterRequestUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLetterRequestsNestedInput
+    approvals?: LetterApprovalUpdateManyWithoutLetterRequestNestedInput
+    generatedLetter?: LetterUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LetterApprovalUncheckedUpdateManyWithoutLetterRequestNestedInput
+    generatedLetter?: LetterUncheckedUpdateOneWithoutLetterRequestNestedInput
+  }
+
+  export type LetterRequestUncheckedUpdateManyWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

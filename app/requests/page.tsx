@@ -5,9 +5,9 @@ import RequestClient from "./request-client";
 
 // Helper to auto-seed service types if empty
 async function ensureServiceTypes() {
-    const count = await prisma.staffServiceType.count();
+    const count = await prisma.serviceCategory.count();
     if (count === 0) {
-        await prisma.staffServiceType.createMany({
+        await prisma.serviceCategory.createMany({
             data: [
                 { name: "Salary Certificate Request", icon: "CreditCard", description: "Official document outlining your designation and monthly salary structure for banks/financial entities.", requiresAmount: false, requiresDates: false },
                 { name: "NOC Certificate Request", icon: "FileText", description: "No Objection Certificate for travel, visa application, or driving license registry.", requiresAmount: false, requiresDates: false },
@@ -39,10 +39,10 @@ export default async function RequestsPage() {
     let requests: any[] = [];
     if (role === "ADMIN" || role === "HR") {
         // Admins and HR see all requests
-        requests = await prisma.staffRequest.findMany({
+        requests = await prisma.serviceRequest.findMany({
             include: {
                 employee: true,
-                serviceType: true
+                category: true
             },
             orderBy: { createdAt: "desc" }
         });
@@ -50,18 +50,18 @@ export default async function RequestsPage() {
         // Managers and Staff see only their own requests
         // (For simplicity, managers submit/track their own requests here as well)
         if (user.employee) {
-            requests = await prisma.staffRequest.findMany({
+            requests = await prisma.serviceRequest.findMany({
                 where: { employeeId: user.employee.id },
                 include: {
                     employee: true,
-                    serviceType: true
+                    category: true
                 },
                 orderBy: { createdAt: "desc" }
             });
         }
     }
 
-    const serviceTypes = await prisma.staffServiceType.findMany({
+    const serviceTypes = await prisma.serviceCategory.findMany({
         where: { isActive: true },
         orderBy: { name: "asc" }
     });

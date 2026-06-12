@@ -6,8 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FileText, Download, User, Calendar, Briefcase, Building2 } from "lucide-react";
+import { FileText, Download, User, Briefcase, Building2 } from "lucide-react";
 import jsPDF from "jspdf";
+import { DatePicker } from "@/components/ui/date-picker";
+import { format } from "date-fns";
 
 export default function LetterGeneratorPage() {
     const [letterType, setLetterType] = useState("OFFER");
@@ -115,10 +117,9 @@ export default function LetterGeneratorPage() {
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label>Date</Label>
-                                <Input
-                                    type="date"
+                                <DatePicker
                                     value={formData.joiningDate}
-                                    onChange={(e) => setFormData({ ...formData, joiningDate: e.target.value })}
+                                    onChange={(date) => setFormData({ ...formData, joiningDate: date ? format(date, "yyyy-MM-dd") : "" })}
                                 />
                             </div>
                             <div className="space-y-2">

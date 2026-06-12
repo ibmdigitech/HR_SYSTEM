@@ -12,7 +12,6 @@ export async function createLoan(formData: FormData) {
 
     const employeeId = formData.get("employeeId") as string;
     const amount = parseFloat(formData.get("amount") as string) || 0;
-    const issueDate = new Date(formData.get("issueDate") as string);
     const installmentAmount = parseFloat(formData.get("installmentAmount") as string) || 0;
 
     if (!employeeId || amount <= 0 || installmentAmount <= 0) {
@@ -20,14 +19,32 @@ export async function createLoan(formData: FormData) {
     }
 
     try {
-        await prisma.loan.create({
+        // Get or create default loan type
+        let loanType = await prisma.loanType.findFirst({ where: { isActive: true } });
+        if (!loanType) {
+            loanType = await prisma.loanType.create({
+                data: {
+                    name: "Salary Advance",
+                    maxAmount: 50000,
+                    maxRepaymentMonths: 12,
+                    requiresProbation: false,
+                }
+            });
+        }
+
+        const repaymentMonths = Math.ceil(amount / installmentAmount);
+
+        await prisma.loanApplication.create({
             data: {
                 employeeId,
-                amount,
-                issueDate,
-                installmentAmount,
-                remainingBalance: amount,
-                status: "ACTIVE"
+                loanTypeId: loanType.id,
+                requestedAmount: amount,
+                repaymentMonths,
+                reason: `Admin-created loan: AED ${amount} with AED ${installmentAmount}/month`,
+                status: "APPROVED",
+                managerStatus: "APPROVED",
+                hrStatus: "APPROVED",
+                financeStatus: "APPROVED"
             }
         });
 
@@ -55,7 +72,7 @@ export async function cancelLoan(loanId: string) {
     }
 
     try {
-        await prisma.loan.update({
+        await prisma.loanApplication.update({
             where: { id: loanId },
             data: { status: "CANCELLED" }
         });

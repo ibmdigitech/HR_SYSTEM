@@ -20,7 +20,7 @@ export default async function LoansPage() {
         redirect("/");
     }
 
-    const loans = await prisma.loan.findMany({
+    const loans = await prisma.loanApplication.findMany({
         include: { employee: true },
         orderBy: { createdAt: 'desc' }
     });
@@ -30,7 +30,7 @@ export default async function LoansPage() {
         orderBy: { firstName: 'asc' }
     });
 
-    const totalActiveLoans = loans.filter(l => l.status === "ACTIVE").reduce((acc, l) => acc + l.remainingBalance, 0);
+    const totalActiveLoans = loans.filter((l: any) => l.status === "ACTIVE").reduce((acc: any, l: any) => acc + l.remainingBalance, 0);
 
     return (
         <div className="p-8 space-y-8">
@@ -74,7 +74,7 @@ export default async function LoansPage() {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            loans.map((loan) => (
+                            loans.map((loan: any) => (
                                 <TableRow key={loan.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                                     <TableCell>
                                         <div className="font-medium text-slate-900 dark:text-slate-100">
