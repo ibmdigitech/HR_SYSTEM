@@ -4,10 +4,11 @@ const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: process.env.MONGODB_URI
+      url: process.env.DATABASE_URL || process.env.MONGODB_URI
     }
   }
 });
+
 
 async function main() {
     console.log('Seeding standalone...');

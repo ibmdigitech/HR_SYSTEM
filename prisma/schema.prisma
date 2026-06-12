@@ -3,30 +3,36 @@ generator client {
   output   = "./generated/client"
 }
 
+generator client_default {
+  provider = "prisma-client-js"
+}
+
+
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB_URI")
+  provider = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-   id            String    @id @default(cuid()) @map("_id")
-   name          String?
-   email         String    @unique
-   emailVerified DateTime?
-   image         String?
-   password      String?   // Hashed, null for OAuth users
-   role          String    @default("STAFF")
-   createdAt     DateTime  @default(now())
-   updatedAt     DateTime  @updatedAt
-   employee      Employee?
-   roleRequests  RoleRequest[]
-   approvedLeavesManager LeaveRequest[] @relation("ManagerApprovals")
-   approvedLeavesHR      LeaveRequest[] @relation("HRApprovals")
-   accounts      Account[]
+  id                    String         @id @default(cuid())
+  name                  String?
+  email                 String         @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String? // Hashed, null for OAuth users
+  role                  String         @default("STAFF")
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  employee              Employee?
+  roleRequests          RoleRequest[]
+  approvedLeavesManager LeaveRequest[] @relation("ManagerApprovals")
+  approvedLeavesHR      LeaveRequest[] @relation("HRApprovals")
+  accounts              Account[]
 }
 
 model Account {
-   id          String   @id @default(cuid()) @map("_id")
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -44,182 +50,182 @@ model Account {
 }
 
 model RoleRequest {
-   id            String    @id @default(cuid()) @map("_id")
-   userId        String
-   user          User      @relation(fields: [userId], references: [id])
-   requestedRole String
-   status        String    @default("PENDING")
-   createdAt     DateTime  @default(now())
-   updatedAt     DateTime  @updatedAt
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  requestedRole String
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // ─── EMPLOYEE MASTER TABLE (Central Entity) ───────────────────────────────────
 model Employee {
-   id            String    @id @default(cuid()) @map("_id")
-   userId            String    @unique
-   user              User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-   employeeCode      String?   @unique // Auto-generated: EMP-001
-   firstName         String
-   lastName          String
-   email             String    @unique
-   rollNumber        String    @unique
-   photo             String?
-   phone             String?
-   gender            String?
-   dateOfBirth       DateTime?
-   nationality       String?
-   maritalStatus     String?
-   designation       String
-   department        String
-   joiningDate       DateTime
-   employmentType    String    @default("FULL_TIME")
-   workLocation      String?
-   probationDays     Int       @default(90)
-   currentStatus     String    @default("ACTIVE") // ACTIVE, ON_LEAVE, RESIGNED, TERMINATED
-   isActive          Boolean   @default(true)
-   address           String?
-   permanentAddress  String?
-   emergencyContact  String?
-   emergencyPhone    String?
-   governmentId      String?
-   bankName          String?
-   accountNumber     String?
-   iban              String?
-   ifscCode          String?
-   basicSalary           Float?
-   housingAllowance      Float?
-   transportAllowance    Float?
-   otherAllowance        Float?
-   passportNumber        String?
-   passportExpiry        DateTime?
-   emiratesId            String?
-   emiratesIdExpiry      DateTime?
-   visaNumber            String?
-   visaExpiry            DateTime?
-   visaType              String?
-   medicalInsuranceExpiry DateTime?
-   iloeInsuranceExpiry   DateTime?
-   shiftId           String?
-   shift             Shift?    @relation(fields: [shiftId], references: [id])
-   leaveRequests     LeaveRequest[]
-   leaveBalances     LeaveBalance[]
-   attendance        Attendance[]
-   salaryStructure   SalaryStructure?
-   salaryRecords     SalaryRecord[]
-   letterRecords     LetterRecord[]
-   staffRequests     StaffRequest[]
-   visaRequests      VisaRequest[]
-   letters           Letter[]
-   attachments       Attachment[]
-   auditLogs         AuditLog[]
-   notifications     Notification[]
-   loans             Loan[]
-   overtime          Overtime[]
-   createdAt         DateTime  @default(now())
-   updatedAt         DateTime  @updatedAt
-   managerId         String?
-   manager           Employee? @relation("ManagerToStaff", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-   reportees         Employee[] @relation("ManagerToStaff")
+  id                     String           @id @default(cuid())
+  userId                 String           @unique
+  user                   User             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  employeeCode           String?          @unique // Auto-generated: EMP-001
+  firstName              String
+  lastName               String
+  email                  String           @unique
+  rollNumber             String           @unique
+  photo                  String?
+  phone                  String?
+  gender                 String?
+  dateOfBirth            DateTime?
+  nationality            String?
+  maritalStatus          String?
+  designation            String
+  department             String
+  joiningDate            DateTime
+  employmentType         String           @default("FULL_TIME")
+  workLocation           String?
+  probationDays          Int              @default(90)
+  currentStatus          String           @default("ACTIVE") // ACTIVE, ON_LEAVE, RESIGNED, TERMINATED
+  isActive               Boolean          @default(true)
+  address                String?
+  permanentAddress       String?
+  emergencyContact       String?
+  emergencyPhone         String?
+  governmentId           String?
+  bankName               String?
+  accountNumber          String?
+  iban                   String?
+  ifscCode               String?
+  basicSalary            Float?
+  housingAllowance       Float?
+  transportAllowance     Float?
+  otherAllowance         Float?
+  passportNumber         String?
+  passportExpiry         DateTime?
+  emiratesId             String?
+  emiratesIdExpiry       DateTime?
+  visaNumber             String?
+  visaExpiry             DateTime?
+  visaType               String?
+  medicalInsuranceExpiry DateTime?
+  iloeInsuranceExpiry    DateTime?
+  shiftId                String?
+  shift                  Shift?           @relation(fields: [shiftId], references: [id])
+  leaveRequests          LeaveRequest[]
+  leaveBalances          LeaveBalance[]
+  attendance             Attendance[]
+  salaryStructure        SalaryStructure?
+  salaryRecords          SalaryRecord[]
+  letterRecords          LetterRecord[]
+  staffRequests          StaffRequest[]
+  visaRequests           VisaRequest[]
+  letters                Letter[]
+  attachments            Attachment[]
+  auditLogs              AuditLog[]
+  notifications          Notification[]
+  loans                  Loan[]
+  overtime               Overtime[]
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  managerId              String?
+  manager                Employee?        @relation("ManagerToStaff", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reportees              Employee[]       @relation("ManagerToStaff")
 }
 
 // ─── LEAVE BALANCE (Auto-created on employee onboarding) ─────────────────────
 model LeaveBalance {
-   id          String   @id @default(cuid()) @map("_id")
-   employeeId  String
-   employee    Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-   leaveType   String   // ANNUAL, SICK, CASUAL, EMERGENCY, UNPAID, MATERNITY, PATERNITY, etc.
-   totalDays   Int      @default(0)
-   usedDays    Int      @default(0)
-   year        Int      // Calendar year this balance applies to
-   createdAt   DateTime @default(now())
-   updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  leaveType  String // ANNUAL, SICK, CASUAL, EMERGENCY, UNPAID, MATERNITY, PATERNITY, etc.
+  totalDays  Int      @default(0)
+  usedDays   Int      @default(0)
+  year       Int // Calendar year this balance applies to
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 // ─── NOTIFICATIONS ────────────────────────────────────────────────────────────
 model Notification {
-   id          String   @id @default(cuid()) @map("_id")
-   employeeId  String
-   employee    Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-   title       String
-   message     String
-   type        String   @default("INFO") // INFO, SUCCESS, WARNING, ALERT
-   isRead      Boolean  @default(false)
-   link        String?  // Optional deep link
-   createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title      String
+  message    String
+  type       String   @default("INFO") // INFO, SUCCESS, WARNING, ALERT
+  isRead     Boolean  @default(false)
+  link       String? // Optional deep link
+  createdAt  DateTime @default(now())
 }
 
 // ─── ATTENDANCE ───────────────────────────────────────────────────────────────
 model Attendance {
-  id            String    @id @default(cuid()) @map("_id")
-  employeeId    String
-  employee      Employee  @relation(fields: [employeeId], references: [id])
-  date          DateTime
-  checkIn       DateTime?
-  checkOut      DateTime?
-  status        String    @default("PRESENT") // PRESENT, ABSENT, LATE, LEAVE, HOLIDAY
-  lateMinutes   Int       @default(0)
-  overtimeMinutes Int     @default(0)
-  shiftId       String?
-  shift         Shift?    @relation(fields: [shiftId], references: [id])
-  biometricLogs BiometricLog[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id              String         @id @default(cuid())
+  employeeId      String
+  employee        Employee       @relation(fields: [employeeId], references: [id])
+  date            DateTime
+  checkIn         DateTime?
+  checkOut        DateTime?
+  status          String         @default("PRESENT") // PRESENT, ABSENT, LATE, LEAVE, HOLIDAY
+  lateMinutes     Int            @default(0)
+  overtimeMinutes Int            @default(0)
+  shiftId         String?
+  shift           Shift?         @relation(fields: [shiftId], references: [id])
+  biometricLogs   BiometricLog[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 }
 
 model Shift {
-  id            String    @id @default(cuid()) @map("_id")
+  id            String       @id @default(cuid())
   name          String
   startTime     String
   endTime       String
-  lateThreshold Int       @default(15)
+  lateThreshold Int          @default(15)
   weeklyOffs    String
   employees     Employee[]
   attendance    Attendance[]
 }
 
 model BiometricLog {
-  id            String    @id @default(cuid()) @map("_id")
-  attendanceId  String?
-  attendance    Attendance? @relation(fields: [attendanceId], references: [id])
-  deviceId      String?
-  employeeId    String
-  timestamp     DateTime
-  type          String    // IN, OUT
-  rawLog        String?
+  id           String      @id @default(cuid())
+  attendanceId String?
+  attendance   Attendance? @relation(fields: [attendanceId], references: [id])
+  deviceId     String?
+  employeeId   String
+  timestamp    DateTime
+  type         String // IN, OUT
+  rawLog       String?
 }
 
 model AuditLog {
-  id          String   @id @default(cuid()) @map("_id")
-  employeeId  String
-  employee    Employee @relation(fields: [employeeId], references: [id])
-  action      String
-  details     String?
-  changedBy   String
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  action     String
+  details    String?
+  changedBy  String
+  createdAt  DateTime @default(now())
 }
 
 // ─── LEAVE ────────────────────────────────────────────────────────────────────
 model LeaveRequest {
-  id            String    @id @default(cuid()) @map("_id")
+  id            String   @id @default(cuid())
   employeeId    String
-  employee      Employee  @relation(fields: [employeeId], references: [id])
+  employee      Employee @relation(fields: [employeeId], references: [id])
   type          String
   startDate     DateTime
   endDate       DateTime
   reason        String
-  managerStatus String    @default("PENDING")
+  managerStatus String   @default("PENDING")
   managerId     String?
-  manager       User?     @relation("ManagerApprovals", fields: [managerId], references: [id])
-  hrStatus      String    @default("PENDING")
+  manager       User?    @relation("ManagerApprovals", fields: [managerId], references: [id])
+  hrStatus      String   @default("PENDING")
   hrId          String?
-  hr            User?     @relation("HRApprovals", fields: [hrId], references: [id])
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  hr            User?    @relation("HRApprovals", fields: [hrId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // ─── PAYROLL ──────────────────────────────────────────────────────────────────
 model SalaryStructure {
-  id                 String   @id @default(cuid()) @map("_id")
+  id                 String   @id @default(cuid())
   employeeId         String   @unique
   employee           Employee @relation(fields: [employeeId], references: [id])
   ctc                Float    @default(0)
@@ -239,95 +245,95 @@ model SalaryStructure {
 }
 
 model SalaryRecord {
-  id                 String   @id @default(cuid()) @map("_id")
+  id                 String    @id @default(cuid())
   employeeId         String
-  employee           Employee @relation(fields: [employeeId], references: [id])
+  employee           Employee  @relation(fields: [employeeId], references: [id])
   month              Int
   year               Int
   basic              Float
-  housingAllowance   Float    @default(0)
-  transportAllowance Float    @default(0)
-  medicalAllowance   Float    @default(0)
-  foodAllowance      Float    @default(0)
-  travelAllowance    Float    @default(0)
-  commission         Float    @default(0)
-  otherAllowances    Float    @default(0)
-  latePenalty        Float    @default(0)
-  penalty            Float    @default(0)
-  leaveDeduction     Float    @default(0)
-  loanDeduction      Float    @default(0)
-  advanceSalary      Float    @default(0)
-  otherDeductions    Float    @default(0)
-  overtimePay        Float    @default(0)
-  bonus              Float    @default(0)
+  housingAllowance   Float     @default(0)
+  transportAllowance Float     @default(0)
+  medicalAllowance   Float     @default(0)
+  foodAllowance      Float     @default(0)
+  travelAllowance    Float     @default(0)
+  commission         Float     @default(0)
+  otherAllowances    Float     @default(0)
+  latePenalty        Float     @default(0)
+  penalty            Float     @default(0)
+  leaveDeduction     Float     @default(0)
+  loanDeduction      Float     @default(0)
+  advanceSalary      Float     @default(0)
+  otherDeductions    Float     @default(0)
+  overtimePay        Float     @default(0)
+  bonus              Float     @default(0)
   netSalary          Float
-  status             String   @default("DRAFT") // DRAFT, PENDING_HR, PENDING_FINANCE, PENDING_MANAGEMENT, PROCESSED, PAID, CANCELLED
-  paymentMethod      String   @default("BANK_TRANSFER")
+  status             String    @default("DRAFT") // DRAFT, PENDING_HR, PENDING_FINANCE, PENDING_MANAGEMENT, PROCESSED, PAID, CANCELLED
+  paymentMethod      String    @default("BANK_TRANSFER")
   paidAt             DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 }
 
 model Loan {
-  id                 String   @id @default(cuid()) @map("_id")
-  employeeId         String
-  employee           Employee @relation(fields: [employeeId], references: [id])
-  amount             Float
-  issueDate          DateTime
-  installmentAmount  Float
-  remainingBalance   Float
-  status             String   @default("ACTIVE") // ACTIVE, PAID, CANCELLED
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default(cuid())
+  employeeId        String
+  employee          Employee @relation(fields: [employeeId], references: [id])
+  amount            Float
+  issueDate         DateTime
+  installmentAmount Float
+  remainingBalance  Float
+  status            String   @default("ACTIVE") // ACTIVE, PAID, CANCELLED
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model Overtime {
-  id                 String   @id @default(cuid()) @map("_id")
-  employeeId         String
-  employee           Employee @relation(fields: [employeeId], references: [id])
-  date               DateTime
-  hours              Float
-  ratePerHour        Float
-  totalPay           Float
-  status             String   @default("PENDING") // PENDING, APPROVED, PAID, REJECTED
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id          String   @id @default(cuid())
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id])
+  date        DateTime
+  hours       Float
+  ratePerHour Float
+  totalPay    Float
+  status      String   @default("PENDING") // PENDING, APPROVED, PAID, REJECTED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // ─── STAFF SERVICES & REQUESTS ────────────────────────────────────────────────
 model StaffServiceType {
-  id             String   @id @default(cuid()) @map("_id")
-  name           String   @unique
+  id             String         @id @default(cuid())
+  name           String         @unique
   icon           String?
   description    String?
-  requiresAmount Boolean  @default(false)
-  requiresDates  Boolean  @default(false)
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  requiresAmount Boolean        @default(false)
+  requiresDates  Boolean        @default(false)
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
   staffRequests  StaffRequest[]
 }
 
 model StaffRequest {
-   id            String    @id @default(cuid()) @map("_id")
-   employeeId    String
-   employee      Employee  @relation(fields: [employeeId], references: [id])
-   typeId        String
-   serviceType   StaffServiceType @relation(fields: [typeId], references: [id])
-   details       String
-   amount        Float?
-   startDate     DateTime?
-   endDate       DateTime?
-   status        String    @default("PENDING") // PENDING, HR_REVIEW, APPROVED, REJECTED, COMPLETED
-   hrNote        String?
-   attachments   Attachment[]
-   createdAt     DateTime  @default(now())
-   updatedAt     DateTime  @updatedAt
+  id          String           @id @default(cuid())
+  employeeId  String
+  employee    Employee         @relation(fields: [employeeId], references: [id])
+  typeId      String
+  serviceType StaffServiceType @relation(fields: [typeId], references: [id])
+  details     String
+  amount      Float?
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String           @default("PENDING") // PENDING, HR_REVIEW, APPROVED, REJECTED, COMPLETED
+  hrNote      String?
+  attachments Attachment[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 }
 
 // ─── DOCUMENTS & ATTACHMENTS ──────────────────────────────────────────────────
 model Attachment {
-  id             String        @id @default(cuid()) @map("_id")
+  id             String        @id @default(cuid())
   staffRequestId String?
   staffRequest   StaffRequest? @relation(fields: [staffRequestId], references: [id], onDelete: Cascade)
   visaRequestId  String?
@@ -345,7 +351,7 @@ model Attachment {
 
 // ─── VISA APPLICATIONS ────────────────────────────────────────────────────────
 model VisaRequest {
-  id                 String       @id @default(cuid()) @map("_id")
+  id                 String       @id @default(cuid())
   employeeId         String
   employee           Employee     @relation(fields: [employeeId], references: [id])
   visaType           String
@@ -360,7 +366,7 @@ model VisaRequest {
 
 // ─── LETTERS ──────────────────────────────────────────────────────────────────
 model LetterRecord {
-  id            String    @id @default(cuid()) @map("_id")
+  id            String    @id @default(cuid())
   employeeId    String?
   employee      Employee? @relation(fields: [employeeId], references: [id])
   type          String
@@ -370,19 +376,19 @@ model LetterRecord {
 }
 
 model LetterTemplate {
-  id          String   @id @default(cuid()) @map("_id")
-  name        String
-  type        String
-  content_en  String
-  content_ar  String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  letters     Letter[]
+  id         String   @id @default(cuid())
+  name       String
+  type       String
+  content_en String
+  content_ar String?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  letters    Letter[]
 }
 
 model Letter {
-  id              String         @id @default(cuid()) @map("_id")
+  id              String         @id @default(cuid())
   employeeId      String
   employee        Employee       @relation(fields: [employeeId], references: [id])
   templateId      String
@@ -401,7 +407,7 @@ model Letter {
 
 // ─── SYSTEM CONFIG ────────────────────────────────────────────────────────────
 model ServiceConfig {
-  id          String   @id @default(cuid()) @map("_id")
+  id          String   @id @default(cuid())
   module      String
   key         String
   label       String

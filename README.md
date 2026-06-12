@@ -38,7 +38,7 @@ A state-of-the-art, **Premium Glassmorphic** HRMS built with **Next.js 16**, **T
 ### 🏢 Core Stack
 - **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Server Actions)
 - **Language**: [TypeScript](https://www.typescriptlang.org/) for type-safe development.
-- **ORM**: [Prisma](https://www.prisma.io/) with SQLite (Production-ready for PostgreSQL/MySQL).
+- **ORM**: [Prisma](https://www.prisma.io/) with PostgreSQL/Supabase.
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/) with custom Glassmorphic tokens.
 - **Components**: Radix UI primitives & Lucide Icons.
 
@@ -55,7 +55,8 @@ A state-of-the-art, **Premium Glassmorphic** HRMS built with **Next.js 16**, **T
 
 1. **Environment Configuration**:
    ```env
-    MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.mongodb.net/hr-system?retryWrites=true&w=majority"
+   DATABASE_URL="postgresql://postgres.[YOUR_PROJECT_REF]:[YOUR_PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+   DIRECT_URL="postgresql://postgres.[YOUR_PROJECT_REF]:[YOUR_PASSWORD]@aws-0-us-east-1.pooler.supabase.com:5432/postgres"
    AUTH_SECRET="your_secret_key"
    ```
 

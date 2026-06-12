@@ -3,13 +3,18 @@ generator client {
   output   = "./generated/client"
 }
 
+generator client_default {
+  provider = "prisma-client-js"
+}
+
 datasource db {
-  provider = "mongodb"
-  url      = env("MONGODB_URI")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id                    String         @id @default(cuid()) @map("_id")
+  id                    String         @id @default(cuid())
   name                  String?
   email                 String         @unique
   emailVerified         DateTime?
@@ -26,7 +31,7 @@ model User {
 }
 
 model Account {
-  id                String  @id @default(cuid()) @map("_id")
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -44,7 +49,7 @@ model Account {
 }
 
 model RoleRequest {
-  id            String   @id @default(cuid()) @map("_id")
+  id            String   @id @default(cuid())
   userId        String
   user          User     @relation(fields: [userId], references: [id])
   requestedRole String
@@ -55,7 +60,7 @@ model RoleRequest {
 
 // ─── EMPLOYEE MASTER TABLE (Central Entity) ───────────────────────────────────
 model Employee {
-  id                     String           @id @default(cuid()) @map("_id")
+  id                     String           @id @default(cuid())
   userId                 String           @unique
   user                   User             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   employeeCode           String?          @unique // Auto-generated: EMP-001
@@ -124,7 +129,7 @@ model Employee {
 
 // ─── LEAVE BALANCE (Auto-created on employee onboarding) ─────────────────────
 model LeaveBalance {
-  id         String   @id @default(cuid()) @map("_id")
+  id         String   @id @default(cuid())
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   leaveType  String // ANNUAL, SICK, CASUAL, EMERGENCY, UNPAID, MATERNITY, PATERNITY, etc.
@@ -137,7 +142,7 @@ model LeaveBalance {
 
 // ─── NOTIFICATIONS ────────────────────────────────────────────────────────────
 model Notification {
-  id         String   @id @default(cuid()) @map("_id")
+  id         String   @id @default(cuid())
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   title      String
@@ -150,7 +155,7 @@ model Notification {
 
 // ─── ATTENDANCE ───────────────────────────────────────────────────────────────
 model Attendance {
-  id              String         @id @default(cuid()) @map("_id")
+  id              String         @id @default(cuid())
   employeeId      String
   employee        Employee       @relation(fields: [employeeId], references: [id])
   date            DateTime
@@ -167,7 +172,7 @@ model Attendance {
 }
 
 model Shift {
-  id            String       @id @default(cuid()) @map("_id")
+  id            String       @id @default(cuid())
   name          String
   startTime     String
   endTime       String
@@ -178,7 +183,7 @@ model Shift {
 }
 
 model BiometricLog {
-  id           String      @id @default(cuid()) @map("_id")
+  id           String      @id @default(cuid())
   attendanceId String?
   attendance   Attendance? @relation(fields: [attendanceId], references: [id])
   deviceId     String?
@@ -189,7 +194,7 @@ model BiometricLog {
 }
 
 model AuditLog {
-  id         String   @id @default(cuid()) @map("_id")
+  id         String   @id @default(cuid())
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id])
   action     String
@@ -200,7 +205,7 @@ model AuditLog {
 
 // ─── LEAVE ────────────────────────────────────────────────────────────────────
 model LeaveRequest {
-  id            String   @id @default(cuid()) @map("_id")
+  id            String   @id @default(cuid())
   employeeId    String
   employee      Employee @relation(fields: [employeeId], references: [id])
   type          String
@@ -219,7 +224,7 @@ model LeaveRequest {
 
 // ─── PAYROLL ──────────────────────────────────────────────────────────────────
 model SalaryStructure {
-  id                 String   @id @default(cuid()) @map("_id")
+  id                 String   @id @default(cuid())
   employeeId         String   @unique
   employee           Employee @relation(fields: [employeeId], references: [id])
   ctc                Float    @default(0)
@@ -239,7 +244,7 @@ model SalaryStructure {
 }
 
 model SalaryRecord {
-  id                 String    @id @default(cuid()) @map("_id")
+  id                 String    @id @default(cuid())
   employeeId         String
   employee           Employee  @relation(fields: [employeeId], references: [id])
   month              Int
@@ -269,7 +274,7 @@ model SalaryRecord {
 }
 
 model Loan {
-  id                String   @id @default(cuid()) @map("_id")
+  id                String   @id @default(cuid())
   employeeId        String
   employee          Employee @relation(fields: [employeeId], references: [id])
   amount            Float
@@ -282,7 +287,7 @@ model Loan {
 }
 
 model Overtime {
-  id          String   @id @default(cuid()) @map("_id")
+  id          String   @id @default(cuid())
   employeeId  String
   employee    Employee @relation(fields: [employeeId], references: [id])
   date        DateTime
@@ -296,7 +301,7 @@ model Overtime {
 
 // ─── STAFF SERVICES & REQUESTS ────────────────────────────────────────────────
 model StaffServiceType {
-  id             String         @id @default(cuid()) @map("_id")
+  id             String         @id @default(cuid())
   name           String         @unique
   icon           String?
   description    String?
@@ -309,7 +314,7 @@ model StaffServiceType {
 }
 
 model StaffRequest {
-  id          String           @id @default(cuid()) @map("_id")
+  id          String           @id @default(cuid())
   employeeId  String
   employee    Employee         @relation(fields: [employeeId], references: [id])
   typeId      String
@@ -327,7 +332,7 @@ model StaffRequest {
 
 // ─── DOCUMENTS & ATTACHMENTS ──────────────────────────────────────────────────
 model Attachment {
-  id             String        @id @default(cuid()) @map("_id")
+  id             String        @id @default(cuid())
   staffRequestId String?
   staffRequest   StaffRequest? @relation(fields: [staffRequestId], references: [id], onDelete: Cascade)
   visaRequestId  String?
@@ -345,7 +350,7 @@ model Attachment {
 
 // ─── VISA APPLICATIONS ────────────────────────────────────────────────────────
 model VisaRequest {
-  id                 String       @id @default(cuid()) @map("_id")
+  id                 String       @id @default(cuid())
   employeeId         String
   employee           Employee     @relation(fields: [employeeId], references: [id])
   visaType           String
@@ -360,7 +365,7 @@ model VisaRequest {
 
 // ─── LETTERS ──────────────────────────────────────────────────────────────────
 model LetterRecord {
-  id            String    @id @default(cuid()) @map("_id")
+  id            String    @id @default(cuid())
   employeeId    String?
   employee      Employee? @relation(fields: [employeeId], references: [id])
   type          String
@@ -370,7 +375,7 @@ model LetterRecord {
 }
 
 model LetterTemplate {
-  id         String   @id @default(cuid()) @map("_id")
+  id         String   @id @default(cuid())
   name       String
   type       String
   content_en String
@@ -382,7 +387,7 @@ model LetterTemplate {
 }
 
 model Letter {
-  id              String         @id @default(cuid()) @map("_id")
+  id              String         @id @default(cuid())
   employeeId      String
   employee        Employee       @relation(fields: [employeeId], references: [id])
   templateId      String
@@ -401,7 +406,7 @@ model Letter {
 
 // ─── SYSTEM CONFIG ────────────────────────────────────────────────────────────
 model ServiceConfig {
-  id          String   @id @default(cuid()) @map("_id")
+  id          String   @id @default(cuid())
   module      String
   key         String
   label       String
