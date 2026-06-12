@@ -2,7 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Download, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getCompanySettings, CompanySettings } from "@/app/lib/actions/company-settings";
 
 interface Props {
     record: any;
@@ -10,6 +11,21 @@ interface Props {
 
 export function DownloadPDFButton({ record }: Props) {
     const [loading, setLoading] = useState(false);
+    const [companySettings, setCompanySettings] = useState<CompanySettings>({
+        name: "IBMDigiTech LLC",
+        logo: "",
+        address: "Dubai, UAE",
+        phone: "+971 4 123 4567",
+        email: "hr@ibmdigitech.com",
+        website: "https://ibmdigitech.com",
+        signature: "",
+        letterhead: "",
+    });
+
+    useEffect(() => {
+        getCompanySettings().then(setCompanySettings);
+    }, []);
+
 
     const handleDownload = () => {
         setLoading(true);
@@ -480,7 +496,7 @@ export function DownloadPDFButton({ record }: Props) {
         <!-- Header -->
         <div class="header">
             <div class="confidential">CONFIDENTIAL</div>
-            <div class="company-name">IBM<span>DigiTech</span></div>
+            ${companySettings.logo ? `<div class="company-logo" style="margin-bottom: 12px; display: flex; justify-content: center;"><img src="${companySettings.logo}" style="max-height: 48px; max-width: 180px; object-fit: contain;" /></div>` : `<div class="company-name">${companySettings.name}</div>`}
             <div class="payslip-title">Salary Statement</div>
             <div class="payslip-badge">${monthName} ${record.year} — Pay Period</div>
         </div>
@@ -599,7 +615,9 @@ export function DownloadPDFButton({ record }: Props) {
                     <div class="stamp-label">Employee Signature</div>
                 </div>
                 <div class="stamp-box">
-                    <div class="stamp-line"></div>
+                    <div class="stamp-line" style="display: flex; align-items: flex-end; justify-content: center; height: 50px;">
+                        ${companySettings.signature ? `<img src="${companySettings.signature}" style="max-height: 48px; max-width: 130px; object-fit: contain;" />` : ''}
+                    </div>
                     <div class="stamp-label">Authorized Signatory</div>
                 </div>
             </div>
@@ -610,10 +628,10 @@ export function DownloadPDFButton({ record }: Props) {
             <div class="footer-left">
                 This is a system-generated payslip.<br>
                 Generated on ${new Date().toLocaleDateString("en-GB")} at ${new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}<br>
-                For queries, contact hr@ibmdigitech.com
+                For queries, contact ${companySettings.email}
             </div>
             <div class="footer-right">
-                <div class="footer-company">IBMDigiTech</div>
+                <div class="footer-company">${companySettings.name}</div>
                 <div class="footer-tagline">Human Resources Management System</div>
             </div>
         </div>

@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir *)"
+      "Bash(dir *)",
+      "Bash(npm run *)",
+      "Bash(timeout *)",
+      "Bash(taskkill *)",
+      "Bash(node *)",
+      "Bash(curl *)",
+      "Bash(tasklist)",
+      "Bash(netstat *)",
+      "Bash(npx *)",
+      "Bash(type *)",
+      "Bash(rmdir *)",
+      "Bash(f *)",
+      "Bash('node -p \"json.parse(require('fs').readfilesync('jar.txt','utf8').split(' *)",
+      "Bash(do *)",
+      "Bash(set *)",
+      "Bash(del *)",
+      "Bash(copy *)",
+      "Bash(___run_app_click_me.bat)",
+      "Bash(powershell *)"
     ]
-  }
+  },
+  "$version": 3
 }

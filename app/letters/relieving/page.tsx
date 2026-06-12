@@ -12,8 +12,7 @@ import { ArrowLeft, Download, UserMinus, Loader2, CheckCircle2, Building2 } from
 import Link from "next/link";
 import jsPDF from "jspdf";
 
-const COMPANY_NAME = "IBMDIGITECH LLC";
-const COMPANY_ADDRESS = "Dubai, United Arab Emirates";
+import { getCompanySettings, CompanySettings } from "@/app/lib/actions/company-settings";
 
 export default function RelievingLetterPage() {
     const [employees, setEmployees] = useState<any[]>([]);
@@ -25,9 +24,20 @@ export default function RelievingLetterPage() {
         joiningDate: "", resignationDate: "", lastWorkingDay: "",
         reason: "resignation", remarks: "",
     });
+    const [companySettings, setCompanySettings] = useState<CompanySettings>({
+        name: "IBMDigiTech LLC",
+        logo: "",
+        address: "Dubai, UAE",
+        phone: "+971 4 123 4567",
+        email: "hr@ibmdigitech.com",
+        website: "https://ibmdigitech.com",
+        signature: "",
+        letterhead: "",
+    });
 
     useEffect(() => {
         getEmployeesForLetter().then(res => { if (res.success) setEmployees(res.data as any[]); });
+        getCompanySettings().then(settings => setCompanySettings(settings));
     }, []);
 
     const handleEmployeeSelect = (empId: string) => {
@@ -53,9 +63,18 @@ export default function RelievingLetterPage() {
         doc.rect(0, 0, 210, 28, "F");
         doc.setFontSize(18); doc.setTextColor(255, 255, 255);
         doc.setFont("helvetica", "bold");
-        doc.text(COMPANY_NAME, 105, 12, { align: "center" });
+        doc.text(companySettings.name, 105, 12, { align: "center" });
         doc.setFontSize(9); doc.setFont("helvetica", "normal");
-        doc.text(COMPANY_ADDRESS, 105, 20, { align: "center" });
+        doc.text(companySettings.address, 105, 20, { align: "center" });
+
+        // Add logo if exists
+        if (companySettings.logo) {
+            try {
+                doc.addImage(companySettings.logo, "PNG", 15, 4, 20, 20);
+            } catch (e) {
+                console.error("Failed to add logo to PDF:", e);
+            }
+        }
 
         // Title
         doc.setFontSize(16); doc.setTextColor(239, 68, 68);
@@ -84,12 +103,12 @@ export default function RelievingLetterPage() {
             : "[Resignation Date]";
 
         const body =
-            `This is to certify that ${form.recipientName || "[Employee Name]"} was employed with ${COMPANY_NAME} ` +
+            `This is to certify that ${form.recipientName || "[Employee Name]"} was employed with ${companySettings.name} ` +
             `as ${form.designation || "[Designation]"} in the ${form.department || "[Department]"} department ` +
             `from ${joinFormatted} to ${lastDayFormatted}.\n\n` +
             `${form.reason === "resignation"
                 ? `Based on ${form.recipientName?.split(" ")[0] || "their"}'s resignation dated ${resignFormatted}, the resignation has been accepted and they have been relieved from their duties effective ${lastDayFormatted}.`
-                : `Their employment with ${COMPANY_NAME} has come to an end effective ${lastDayFormatted} as per the terms of the employment agreement.`
+                : `Their employment with ${companySettings.name} has come to an end effective ${lastDayFormatted} as per the terms of the employment agreement.`
             }\n\n` +
             `During their tenure, ${form.recipientName?.split(" ")[0] || "the employee"} demonstrated professionalism and commitment to their responsibilities. ` +
             (form.remarks ? `${form.remarks}\n\n` : "\n") +
@@ -99,15 +118,21 @@ export default function RelievingLetterPage() {
         const lines = doc.splitTextToSize(body, 170);
         doc.text(lines, 20, 94);
 
-        doc.text("Yours sincerely,", 20, 220);
-        doc.setFont("helvetica", "bold");
-        doc.text("Director of Human Resources", 20, 230);
-        doc.setFont("helvetica", "normal"); doc.setTextColor(100, 116, 139);
-        doc.text(COMPANY_NAME, 20, 237);
+        doc.text("Yours sincerely,", 20, 195);
 
-        doc.setFillColor(248, 250, 252); doc.rect(0, 272, 210, 25, "F");
-        doc.setFontSize(7); doc.setTextColor(148, 163, 184);
-        doc.text("This is a computer-generated document and does not require a physical signature.", 105, 282, { align: "center" });
+        // Add signature if exists
+        if (companySettings.signature) {
+            try {
+                doc.addImage(companySettings.signature, "PNG", 20, 198, 30, 15);
+            } catch (e) {
+                console.error("Failed to add signature to PDF:", e);
+            }
+        }
+
+        doc.setFont("helvetica", "bold");
+        doc.text("Director of Human Resources", 20, 222);
+        doc.setFont("helvetica", "normal"); doc.setTextColor(100, 116, 139);
+        doc.text(companySettings.name, 20, 228);
 
         doc.save(`Relieving_Letter_${(form.recipientName || "employee").replace(/\s+/g, "_")}.pdf`);
 

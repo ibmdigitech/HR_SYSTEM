@@ -11,8 +11,7 @@ import { ArrowLeft, Download, Briefcase, Loader2, CheckCircle2, Building2 } from
 import Link from "next/link";
 import jsPDF from "jspdf";
 
-const COMPANY_NAME = "IBMDIGITECH LLC";
-const COMPANY_ADDRESS = "Dubai, United Arab Emirates";
+import { getCompanySettings, CompanySettings } from "@/app/lib/actions/company-settings";
 
 export default function AppointmentLetterPage() {
     const [employees, setEmployees] = useState<any[]>([]);
@@ -23,9 +22,20 @@ export default function AppointmentLetterPage() {
         recipientName: "", designation: "", department: "",
         joiningDate: "", reportingManager: "", workLocation: "",
     });
+    const [companySettings, setCompanySettings] = useState<CompanySettings>({
+        name: "IBMDigiTech LLC",
+        logo: "",
+        address: "Dubai, UAE",
+        phone: "+971 4 123 4567",
+        email: "hr@ibmdigitech.com",
+        website: "https://ibmdigitech.com",
+        signature: "",
+        letterhead: "",
+    });
 
     useEffect(() => {
         getEmployeesForLetter().then(res => { if (res.success) setEmployees(res.data as any[]); });
+        getCompanySettings().then(settings => setCompanySettings(settings));
     }, []);
 
     const handleEmployeeSelect = (empId: string) => {
@@ -51,9 +61,18 @@ export default function AppointmentLetterPage() {
         doc.rect(0, 0, 210, 28, "F");
         doc.setFontSize(18); doc.setTextColor(255, 255, 255);
         doc.setFont("helvetica", "bold");
-        doc.text(COMPANY_NAME, 105, 12, { align: "center" });
+        doc.text(companySettings.name, 105, 12, { align: "center" });
         doc.setFontSize(9); doc.setFont("helvetica", "normal");
-        doc.text(COMPANY_ADDRESS, 105, 20, { align: "center" });
+        doc.text(companySettings.address, 105, 20, { align: "center" });
+
+        // Add logo if exists
+        if (companySettings.logo) {
+            try {
+                doc.addImage(companySettings.logo, "PNG", 15, 4, 20, 20);
+            } catch (e) {
+                console.error("Failed to add logo to PDF:", e);
+            }
+        }
 
         // Title
         doc.setFontSize(16); doc.setTextColor(16, 185, 129);
@@ -79,7 +98,7 @@ export default function AppointmentLetterPage() {
             `Dear ${form.recipientName || "Employee"},\n\n` +
             `Further to your acceptance of our offer of employment, we are pleased to formally appoint you ` +
             `as ${form.designation || "[Designation]"} in the ${form.department || "[Department]"} department ` +
-            `at ${COMPANY_NAME}, effective from ${joiningDateFormatted}.\n\n` +
+            `at ${companySettings.name}, effective from ${joiningDateFormatted}.\n\n` +
             `Your appointment is subject to the following terms and conditions:\n\n` +
             `  Position       : ${form.designation || "[Designation]"}\n` +
             `  Department     : ${form.department || "[Department]"}\n` +
@@ -89,16 +108,26 @@ export default function AppointmentLetterPage() {
             `  Probation      : 90 days from date of joining\n\n` +
             `You will abide by the company's policies, rules, and regulations as amended from time to time. ` +
             `This appointment is on a permanent basis subject to satisfactory performance during probation.\n\n` +
-            `We welcome you to ${COMPANY_NAME} and look forward to your valuable contributions.`;
+            `We welcome you to ${companySettings.name} and look forward to your valuable contributions.`;
 
         const lines = doc.splitTextToSize(body, 170);
         doc.text(lines, 20, 92);
 
-        doc.text("Yours sincerely,", 20, 222);
+        doc.text("Yours sincerely,", 20, 195);
+        
+        // Add signature if exists
+        if (companySettings.signature) {
+            try {
+                doc.addImage(companySettings.signature, "PNG", 20, 198, 30, 15);
+            } catch (e) {
+                console.error("Failed to add signature to PDF:", e);
+            }
+        }
+
         doc.setFont("helvetica", "bold");
-        doc.text("Director of Human Resources", 20, 232);
+        doc.text("Director of Human Resources", 20, 222);
         doc.setFont("helvetica", "normal"); doc.setTextColor(100, 116, 139);
-        doc.text(COMPANY_NAME, 20, 239);
+        doc.text(companySettings.name, 20, 228);
 
         doc.setFillColor(248, 250, 252); doc.rect(0, 272, 210, 25, "F");
         doc.setFontSize(7); doc.setTextColor(148, 163, 184);
@@ -116,6 +145,7 @@ export default function AppointmentLetterPage() {
         setLoading(false); setSaved(true);
         setTimeout(() => setSaved(false), 4000);
     };
+
 
     return (
         <div className="max-w-3xl mx-auto space-y-6">

@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('../prisma/generated/client');
 const bcrypt = require('bcryptjs');
 
 const prisma = new PrismaClient({
@@ -10,119 +10,147 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-    console.log('Seeding...');
+    console.log('Seeding standalone...');
     const rawPassword = 'password123';
     const password = await bcrypt.hash(rawPassword, 10);
 
     try {
-        const admin = await prisma.user.upsert({
-            where: { email: 'admin@company.com' },
-            update: { password: password },
-            create: {
-                email: 'admin@company.com',
-                password: password,
-                role: 'ADMIN',
-                name: 'Admin User',
-                employee: {
-                    create: {
-                        firstName: 'Admin',
-                        lastName: 'User',
-                        email: 'admin@company.com',
-                        rollNumber: 'ADM-001',
-                        designation: 'System Administrator',
-                        department: 'IT',
-                        joiningDate: new Date(),
-                    }
+        // --- ADMIN USER ---
+        let admin = await prisma.user.findUnique({ where: { email: 'admin@company.com' } });
+        if (!admin) {
+            admin = await prisma.user.create({
+                data: {
+                    email: 'admin@company.com',
+                    password: password,
+                    role: 'ADMIN',
+                    name: 'Admin User',
                 }
-            },
-        });
-        console.log('Admin seeded:', admin);
+            });
+        } else {
+            admin = await prisma.user.update({
+                where: { email: 'admin@company.com' },
+                data: { password: password }
+            });
+        }
 
-        const manager = await prisma.user.upsert({
-            where: { email: 'manager@company.com' },
-            update: { password: password },
-            create: {
-                email: 'manager@company.com',
-                password: password,
-                role: 'MANAGER',
-                name: 'Manager User',
-                employee: {
-                    create: {
-                        firstName: 'Manager',
-                        lastName: 'User',
-                        email: 'manager@company.com',
-                        rollNumber: 'MGR-001',
-                        designation: 'Operations Manager',
-                        department: 'Operations',
-                        joiningDate: new Date(),
-                    }
+        let adminEmp = await prisma.employee.findUnique({ where: { userId: admin.id } });
+        if (!adminEmp) {
+            adminEmp = await prisma.employee.create({
+                data: {
+                    userId: admin.id,
+                    firstName: 'Admin',
+                    lastName: 'User',
+                    email: 'admin@company.com',
+                    rollNumber: 'ADM-001',
+                    designation: 'System Administrator',
+                    department: 'IT',
+                    joiningDate: new Date(),
                 }
-            },
-        });
-        console.log('Manager seeded:', manager);
+            });
+        }
+        console.log('Admin seeded:', admin.email);
 
-        const staff = await prisma.user.upsert({
-            where: { email: 'staff@company.com' },
-            update: { password: password },
-            create: {
-                email: 'staff@company.com',
-                password: password,
-                role: 'STAFF',
-                name: 'Staff User',
-                employee: {
-                    create: {
-                        firstName: 'Staff',
-                        lastName: 'User',
-                        email: 'staff@company.com',
-                        rollNumber: 'STF-001',
-                        designation: 'Software Developer',
-                        department: 'Engineering',
-                        joiningDate: new Date(),
-                    }
+        // --- MANAGER USER ---
+        let manager = await prisma.user.findUnique({ where: { email: 'manager@company.com' } });
+        if (!manager) {
+            manager = await prisma.user.create({
+                data: {
+                    email: 'manager@company.com',
+                    password: password,
+                    role: 'MANAGER',
+                    name: 'Manager User',
                 }
-            },
-        });
-        console.log('Staff seeded:', staff);
+            });
+        } else {
+            manager = await prisma.user.update({
+                where: { email: 'manager@company.com' },
+                data: { password: password }
+            });
+        }
 
-        const employees = [admin, manager, staff];
+        let managerEmp = await prisma.employee.findUnique({ where: { userId: manager.id } });
+        if (!managerEmp) {
+            managerEmp = await prisma.employee.create({
+                data: {
+                    userId: manager.id,
+                    firstName: 'Manager',
+                    lastName: 'User',
+                    email: 'manager@company.com',
+                    rollNumber: 'MGR-001',
+                    designation: 'Operations Manager',
+                    department: 'Operations',
+                    joiningDate: new Date(),
+                }
+            });
+        }
+        console.log('Manager seeded:', manager.email);
 
-        console.log('Seeding Attendance and Payroll...');
-        for (const user of employees) {
-            const employee = await prisma.employee.findUnique({ where: { userId: user.id } });
-            if (!employee) continue;
+        // --- STAFF USER ---
+        let staff = await prisma.user.findUnique({ where: { email: 'staff@company.com' } });
+        if (!staff) {
+            staff = await prisma.user.create({
+                data: {
+                    email: 'staff@company.com',
+                    password: password,
+                    role: 'STAFF',
+                    name: 'Staff User',
+                }
+            });
+        } else {
+            staff = await prisma.user.update({
+                where: { email: 'staff@company.com' },
+                data: { password: password }
+            });
+        }
 
-            // Seed 7 days of attendance
-            const now = new Date();
-            for (let i = 0; i < 7; i++) {
-                const date = new Date();
-                date.setDate(now.getDate() - i);
-                await prisma.attendance.create({
-                    data: {
-                        employeeId: employee.id,
-                        date: date,
-                        checkIn: new Date(date.setHours(9, 0, 0)),
-                        checkOut: new Date(date.setHours(18, 0, 0)),
-                        status: i % 7 === 0 ? "ABSENT" : "PRESENT",
-                    }
-                });
+        let staffEmp = await prisma.employee.findUnique({ where: { userId: staff.id } });
+        if (!staffEmp) {
+            staffEmp = await prisma.employee.create({
+                data: {
+                    userId: staff.id,
+                    firstName: 'Staff',
+                    lastName: 'User',
+                    email: 'staff@company.com',
+                    rollNumber: 'STF-001',
+                    designation: 'Software Developer',
+                    department: 'Engineering',
+                    joiningDate: new Date(),
+                }
+            });
+        }
+        console.log('Staff seeded:', staff.email);
+
+        const employees = [
+            { user: admin, emp: adminEmp },
+            { user: manager, emp: managerEmp },
+            { user: staff, emp: staffEmp }
+        ];
+
+        console.log('Seeding Attendance records...');
+        for (const item of employees) {
+            const employee = item.emp;
+            
+            // Check if attendance already exists to prevent duplication
+            const existingAttendance = await prisma.attendance.findFirst({
+                where: { employeeId: employee.id }
+            });
+
+            if (!existingAttendance) {
+                const now = new Date();
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date();
+                    date.setDate(now.getDate() - i);
+                    await prisma.attendance.create({
+                        data: {
+                            employeeId: employee.id,
+                            date: date,
+                            checkIn: new Date(date.setHours(9, 0, 0)),
+                            checkOut: new Date(date.setHours(18, 0, 0)),
+                            status: i % 7 === 0 ? "ABSENT" : "PRESENT",
+                        }
+                    });
+                }
             }
-
-            /*
-                        // Seed Payroll
-                        await prisma.salaryRecord.create({
-                            data: {
-                                employeeId: employee.id,
-                                month: now.getMonth() + 1,
-                                year: now.getFullYear(),
-                                basic: 50000,
-                                allowance: 5000,
-                                deduction: 2000,
-                                netSalary: 53000,
-                                status: "PAID",
-                                paidAt: new Date(),
-                            }
-                        });
-            */
         }
 
         console.log('Seeding Service Types...');
@@ -137,17 +165,18 @@ async function main() {
         ];
 
         for (const type of serviceTypes) {
-            await prisma.staffServiceType.upsert({
-                where: { name: type.name },
-                update: type,
-                create: type
+            const existingType = await prisma.staffServiceType.findUnique({
+                where: { name: type.name }
             });
+            if (!existingType) {
+                await prisma.staffServiceType.create({ data: type });
+            }
         }
 
         console.log('Seeding Service Configurations...');
         const serviceConfigs = [
             // Payroll
-            { module: 'payroll', key: 'payroll_cycle', label: 'Payroll Cycle', type: 'select', value: 'Monthly', options: ['Monthly', 'Weekly'] },
+            { module: 'payroll', key: 'payroll_cycle', label: 'Payroll Cycle', type: 'select', value: 'Monthly' },
             { module: 'payroll', key: 'basic_salary_percentage', label: 'Basic Salary %', type: 'number', value: '50' },
             { module: 'payroll', key: 'overtime_rate_per_hour', label: 'Overtime Rate (Hour)', type: 'number', value: '1.5' },
             { module: 'payroll', key: 'late_penalty_amount', label: 'Late Penalty Amount', type: 'number', value: '50' },
@@ -177,17 +206,23 @@ async function main() {
         ];
 
         for (const config of serviceConfigs) {
-            await prisma.serviceConfig.upsert({
-                where: { module_key: { module: config.module, key: config.key } },
-                update: config,
-                create: config
+            const existingConfig = await prisma.serviceConfig.findUnique({
+                where: { module_key: { module: config.module, key: config.key } }
             });
+            if (!existingConfig) {
+                await prisma.serviceConfig.create({ data: config });
+            } else {
+                await prisma.serviceConfig.update({
+                    where: { module_key: { module: config.module, key: config.key } },
+                    data: { value: config.value }
+                });
+            }
         }
 
         console.log('Seeding Complete!');
 
     } catch (e) {
-        console.error(e);
+        console.error('Seeding failed:', e);
         process.exit(1);
     } finally {
         await prisma.$disconnect();

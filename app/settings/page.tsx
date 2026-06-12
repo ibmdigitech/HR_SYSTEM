@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { signOut } from "@/auth";
 import { cn } from "@/lib/utils";
+import { getCompanySettings } from "@/app/lib/actions/company-settings";
+import { CompanySettingsForm } from "@/components/settings/CompanySettingsForm";
 
 export default async function SettingsPage() {
     const session = await auth();
@@ -29,8 +31,12 @@ export default async function SettingsPage() {
 
     if (!user) redirect("/login");
 
+    const companySettings = await getCompanySettings();
+    const isPowerUser = user.role === "ADMIN" || user.role === "HR";
+
     const emp = user.employee;
     const initials = `${user.name?.split(" ").map(n => n[0]).join("") || user.email[0].toUpperCase()}`;
+
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-5xl mx-auto">
@@ -158,6 +164,22 @@ export default async function SettingsPage() {
                             </CardContent>
                         </Card>
                     )}
+
+                    {/* Company Profile Settings (ADMIN & HR Only) */}
+                    {isPowerUser && (
+                        <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 shadow-2xl rounded-[3rem] overflow-hidden">
+                            <CardHeader className="p-8 pb-4 bg-slate-50/50 dark:bg-slate-900/50">
+                                <CardTitle className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-2">
+                                    <Building2 className="h-5 w-5 text-indigo-600" /> Company profile
+                                </CardTitle>
+                                <CardDescription className="font-bold text-[10px] uppercase tracking-widest text-slate-400 mt-1">Centralized corporate branding and identity settings</CardDescription>
+                            </CardHeader>
+                            <CardContent className="p-8">
+                                <CompanySettingsForm initialSettings={companySettings} />
+                            </CardContent>
+                        </Card>
+                    )}
+
                 </div>
 
                 {/* Sidebar Settings */}
