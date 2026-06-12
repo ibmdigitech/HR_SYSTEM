@@ -27,82 +27,66 @@ export default async function DashboardPage() {
 
     const sevenDaysAgo = new Date(today);
     sevenDaysAgo.setDate(today.getDate() - 7);
-
-    // Fetch Stats
-    const totalEmployees = await prisma.employee.count({ where: { isActive: true } });
     
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    const thirtyDaysFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const currentMonth = today.getMonth() + 1;
+    const currentYear = today.getFullYear();
+
+    // Parallelize all independent root queries
+    const [
+        totalEmployees,
+        todayRecords,
+        expiringVisasCount,
+        payrollAgg,
+        recentAuditLogs,
+        recentAttendance,
+        deptGroup
+    ] = await Promise.all([
+        prisma.employee.count({ where: { isActive: true } }),
+        prisma.attendance.findMany({ where: { date: { gte: today, lt: tomorrow } } }),
+        prisma.employee.count({
+            where: {
+                isActive: true,
+                OR: [
+                    { passportExpiry: { gte: today, lte: thirtyDaysFromNow } },
+                    { emiratesIdExpiry: { gte: today, lte: thirtyDaysFromNow } },
+                    { visaExpiry: { gte: today, lte: thirtyDaysFromNow } }
+                ]
+            }
+        }),
+        prisma.salaryRecord.aggregate({ _sum: { netSalary: true }, where: { month: currentMonth, year: currentYear } }),
+        prisma.auditLog.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
+        prisma.attendance.findMany({ where: { date: { gte: sevenDaysAgo } } }),
+        prisma.employee.groupBy({ by: ["department"], _count: { id: true }, where: { isActive: true } })
+    ]);
+
+    // Handle Pending Leaves Count which depends on userRole sequentially
     let pendingLeavesCount = 0;
     if (userRole === "MANAGER" && user.employee) {
         pendingLeavesCount = await prisma.leaveRequest.count({
-            where: {
-                managerStatus: "PENDING",
-                employee: { managerId: user.employee.id }
-            }
+            where: { managerStatus: "PENDING", employee: { managerId: user.employee.id } }
         });
     } else if (userRole === "HR" || userRole === "ADMIN") {
-        pendingLeavesCount = await prisma.leaveRequest.count({
-            where: { hrStatus: "PENDING" }
-        });
+        pendingLeavesCount = await prisma.leaveRequest.count({ where: { hrStatus: "PENDING" } });
     } else if (userRole === "STAFF" && user.employee) {
         pendingLeavesCount = await prisma.leaveRequest.count({
-            where: {
-                employeeId: user.employee.id,
-                hrStatus: "PENDING"
-            }
+            where: { employeeId: user.employee.id, hrStatus: "PENDING" }
         });
     }
-
-    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-    const todayRecords = await prisma.attendance.findMany({
-        where: {
-            date: {
-                gte: today,
-                lt: tomorrow
-            }
-        }
-    });
 
     const presentTodayCount = todayRecords.filter(r => r.status === "PRESENT" || r.status === "LATE").length;
     const lateTodayCount = todayRecords.filter(r => r.status === "LATE" || r.lateMinutes > 0).length;
     const leavesTodayCount = todayRecords.filter(r => r.status === "LEAVE").length;
     const absentTodayCount = Math.max(0, totalEmployees - presentTodayCount - leavesTodayCount);
 
-    // Expiring Visas Count (within 30 days)
-    const thirtyDaysFromNow = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
-    const expiringVisasCount = await prisma.employee.count({
-        where: {
-            isActive: true,
-            OR: [
-                { passportExpiry: { gte: today, lte: thirtyDaysFromNow } },
-                { emiratesIdExpiry: { gte: today, lte: thirtyDaysFromNow } },
-                { visaExpiry: { gte: today, lte: thirtyDaysFromNow } }
-            ]
-        }
-    });
-
-    // Payroll Summary (Current month)
-    const currentMonth = today.getMonth() + 1;
-    const currentYear = today.getFullYear();
-    const payrollAgg = await prisma.salaryRecord.aggregate({
-        _sum: { netSalary: true },
-        where: { month: currentMonth, year: currentYear }
-    });
     const monthlyNetSalarySpent = payrollAgg._sum.netSalary || 0;
 
-    const recentAuditLogs = await prisma.auditLog.findMany({
-        orderBy: { createdAt: 'desc' },
-        take: 5
-    });
-
-    // On-time check (last 7 days)
-    const recentAttendance = await prisma.attendance.findMany({
-        where: { date: { gte: sevenDaysAgo } }
-    });
     const totalPresent = recentAttendance.length;
     const onTimeCount = recentAttendance.filter(a => a.status === "PRESENT").length;
     const onTimeRate = totalPresent > 0 ? Math.round((onTimeCount / totalPresent) * 100) : 0;
 
-    // Fetch Last 7 Days Attendance Trend
+    // Fetch Last 7 Days Attendance Trend in parallel
     const last7Days = Array.from({ length: 7 }, (_, i) => {
         const d = new Date(today);
         d.setDate(today.getDate() - i);
@@ -110,27 +94,22 @@ export default async function DashboardPage() {
         return d;
     }).reverse();
 
-    const attendanceTrend: { dayName: string; count: number }[] = [];
-    for (const day of last7Days) {
-        const nextDay = new Date(day.getTime() + 24 * 60 * 60 * 1000);
-        const count = await prisma.attendance.count({
-            where: {
-                date: { gte: day, lt: nextDay },
-                status: { in: ["PRESENT", "LATE"] }
-            }
-        });
-        attendanceTrend.push({
-            dayName: day.toLocaleDateString(undefined, { weekday: "short" }),
-            count
-        });
-    }
+    const attendanceTrendCounts = await Promise.all(
+        last7Days.map(day => {
+            const nextDay = new Date(day.getTime() + 24 * 60 * 60 * 1000);
+            return prisma.attendance.count({
+                where: {
+                    date: { gte: day, lt: nextDay },
+                    status: { in: ["PRESENT", "LATE"] }
+                }
+            });
+        })
+    );
 
-    // Fetch Department headcount distribution
-    const deptGroup = await prisma.employee.groupBy({
-        by: ["department"],
-        _count: { id: true },
-        where: { isActive: true }
-    });
+    const attendanceTrend = last7Days.map((day, idx) => ({
+        dayName: day.toLocaleDateString(undefined, { weekday: "short" }),
+        count: attendanceTrendCounts[idx]
+    }));
     const departmentHeadcounts = deptGroup.map(g => ({
         department: g.department || "General",
         count: g._count.id

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#a78bfa" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="10" y="10" width="180" height="180" rx="36" ry="36" fill="url(#brandGradient)" />
+
+  <!-- Subtle inner highlight -->
+  <rect x="10" y="10" width="180" height="90" rx="36" ry="36" fill="white" opacity="0.08" />
+
+  <!-- "IDT" letterforms — clean geometric style -->
+  <!-- I -->
+  <rect x="38" y="62" width="16" height="76" rx="4" fill="white" />
+
+  <!-- D -->
+  <path d="M72 62 h20 a38 38 0 0 1 0 76 h-20 z" fill="none" stroke="white" stroke-width="14" stroke-linejoin="round" />
+
+  <!-- T -->
+  <rect x="126" y="62" width="46" height="14" rx="4" fill="white" />
+  <rect x="141" y="62" width="16" height="76" rx="4" fill="white" />
+</svg>

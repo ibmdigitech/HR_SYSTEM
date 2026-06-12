@@ -334,16 +334,79 @@ exports.Prisma.SalaryRecordScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.LoanScalarFieldEnum = {
+exports.Prisma.LoanTypeScalarFieldEnum = {
   id: 'id',
-  employeeId: 'employeeId',
-  amount: 'amount',
-  issueDate: 'issueDate',
-  installmentAmount: 'installmentAmount',
-  remainingBalance: 'remainingBalance',
-  status: 'status',
+  name: 'name',
+  description: 'description',
+  maxAmount: 'maxAmount',
+  interestRate: 'interestRate',
+  maxRepaymentMonths: 'maxRepaymentMonths',
+  requiresProbation: 'requiresProbation',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LoanApplicationScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  loanTypeId: 'loanTypeId',
+  requestedAmount: 'requestedAmount',
+  repaymentMonths: 'repaymentMonths',
+  reason: 'reason',
+  status: 'status',
+  managerStatus: 'managerStatus',
+  hrStatus: 'hrStatus',
+  financeStatus: 'financeStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LoanApprovalScalarFieldEnum = {
+  id: 'id',
+  applicationId: 'applicationId',
+  approverEmail: 'approverEmail',
+  level: 'level',
+  action: 'action',
+  comments: 'comments',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LoanDisbursementScalarFieldEnum = {
+  id: 'id',
+  applicationId: 'applicationId',
+  method: 'method',
+  amount: 'amount',
+  transactionRef: 'transactionRef',
+  disbursedAt: 'disbursedAt'
+};
+
+exports.Prisma.LoanInstallmentScalarFieldEnum = {
+  id: 'id',
+  applicationId: 'applicationId',
+  month: 'month',
+  year: 'year',
+  amount: 'amount',
+  status: 'status',
+  deductedAt: 'deductedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LoanDocumentScalarFieldEnum = {
+  id: 'id',
+  applicationId: 'applicationId',
+  fileUrl: 'fileUrl',
+  fileName: 'fileName',
+  uploadedAt: 'uploadedAt'
+};
+
+exports.Prisma.LoanNotificationScalarFieldEnum = {
+  id: 'id',
+  targetEmail: 'targetEmail',
+  title: 'title',
+  message: 'message',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.OvertimeScalarFieldEnum = {
@@ -460,6 +523,62 @@ exports.Prisma.ServiceConfigScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.JobRequisitionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  department: 'department',
+  location: 'location',
+  employmentType: 'employmentType',
+  positionsCount: 'positionsCount',
+  status: 'status',
+  description: 'description',
+  requirements: 'requirements',
+  minSalary: 'minSalary',
+  maxSalary: 'maxSalary',
+  requestedById: 'requestedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CandidateScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  resumeUrl: 'resumeUrl',
+  status: 'status',
+  jobId: 'jobId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InterviewScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  interviewerId: 'interviewerId',
+  scheduledAt: 'scheduledAt',
+  durationMins: 'durationMins',
+  status: 'status',
+  feedback: 'feedback',
+  rating: 'rating',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OfferLetterScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  offeredSalary: 'offeredSalary',
+  designation: 'designation',
+  department: 'department',
+  joiningDate: 'joiningDate',
+  status: 'status',
+  fileUrl: 'fileUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -501,7 +620,13 @@ exports.Prisma.ModelName = {
   LeaveRequest: 'LeaveRequest',
   SalaryStructure: 'SalaryStructure',
   SalaryRecord: 'SalaryRecord',
-  Loan: 'Loan',
+  LoanType: 'LoanType',
+  LoanApplication: 'LoanApplication',
+  LoanApproval: 'LoanApproval',
+  LoanDisbursement: 'LoanDisbursement',
+  LoanInstallment: 'LoanInstallment',
+  LoanDocument: 'LoanDocument',
+  LoanNotification: 'LoanNotification',
   Overtime: 'Overtime',
   StaffServiceType: 'StaffServiceType',
   StaffRequest: 'StaffRequest',
@@ -510,7 +635,11 @@ exports.Prisma.ModelName = {
   LetterRecord: 'LetterRecord',
   LetterTemplate: 'LetterTemplate',
   Letter: 'Letter',
-  ServiceConfig: 'ServiceConfig'
+  ServiceConfig: 'ServiceConfig',
+  JobRequisition: 'JobRequisition',
+  Candidate: 'Candidate',
+  Interview: 'Interview',
+  OfferLetter: 'OfferLetter'
 };
 
 /**

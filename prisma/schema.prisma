@@ -119,13 +119,15 @@ model Employee {
   attachments            Attachment[]
   auditLogs              AuditLog[]
   notifications          Notification[]
-  loans                  Loan[]
+  loanApplications       LoanApplication[]
   overtime               Overtime[]
   createdAt              DateTime         @default(now())
   updatedAt              DateTime         @updatedAt
   managerId              String?
   manager                Employee?        @relation("ManagerToStaff", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   reportees              Employee[]       @relation("ManagerToStaff")
+  requestedJobs          JobRequisition[] @relation("RequestedJobs")
+  interviews             Interview[]      @relation("Interviewer")
 }
 
 // ─── LEAVE BALANCE (Auto-created on employee onboarding) ─────────────────────
@@ -274,17 +276,91 @@ model SalaryRecord {
   updatedAt          DateTime  @updatedAt
 }
 
-model Loan {
+model LoanType {
+  id                 String   @id @default(cuid())
+  name               String   @unique // e.g. "Personal Loan", "Salary Advance"
+  description        String?
+  maxAmount          Float
+  interestRate       Float    @default(0)
+  maxRepaymentMonths Int
+  requiresProbation  Boolean  @default(true)
+  isActive           Boolean  @default(true)
+  applications       LoanApplication[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model LoanApplication {
+  id               String   @id @default(cuid())
+  employeeId       String
+  employee         Employee @relation(fields: [employeeId], references: [id])
+  loanTypeId       String
+  loanType         LoanType @relation(fields: [loanTypeId], references: [id])
+  requestedAmount  Float
+  repaymentMonths  Int
+  reason           String?
+  status           String   @default("DRAFT") // DRAFT, SUBMITTED, PENDING_MANAGER, PENDING_HR, PENDING_FINANCE, APPROVED, REJECTED, DISBURSED, CLOSED, CANCELLED
+  managerStatus    String   @default("PENDING")
+  hrStatus         String   @default("PENDING")
+  financeStatus    String   @default("PENDING")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  approvals        LoanApproval[]
+  disbursements    LoanDisbursement[]
+  installments     LoanInstallment[]
+  documents        LoanDocument[]
+}
+
+model LoanApproval {
   id                String   @id @default(cuid())
-  employeeId        String
-  employee          Employee @relation(fields: [employeeId], references: [id])
-  amount            Float
-  issueDate         DateTime
-  installmentAmount Float
-  remainingBalance  Float
-  status            String   @default("ACTIVE") // ACTIVE, PAID, CANCELLED
+  applicationId     String
+  application       LoanApplication @relation(fields: [applicationId], references: [id])
+  approverEmail     String
+  level             String   // MANAGER, HR, FINANCE, FINAL
+  action            String   // APPROVED, REJECTED, ON_HOLD
+  comments          String?
   createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+}
+
+model LoanDisbursement {
+  id                String   @id @default(cuid())
+  applicationId     String
+  application       LoanApplication @relation(fields: [applicationId], references: [id])
+  method            String   // BANK_TRANSFER, CASH, SALARY_CREDIT
+  amount            Float
+  transactionRef    String?
+  disbursedAt       DateTime @default(now())
+}
+
+model LoanInstallment {
+  id                String   @id @default(cuid())
+  applicationId     String
+  application       LoanApplication @relation(fields: [applicationId], references: [id])
+  month             Int
+  year              Int
+  amount            Float
+  status            String   @default("PENDING") // PENDING, DEDUCTED, SKIPPED
+  deductedAt        DateTime?
+  createdAt         DateTime @default(now())
+}
+
+model LoanDocument {
+  id                String   @id @default(cuid())
+  applicationId     String
+  application       LoanApplication @relation(fields: [applicationId], references: [id])
+  fileUrl           String
+  fileName          String
+  uploadedAt        DateTime @default(now())
+}
+
+model LoanNotification {
+  id                String   @id @default(cuid())
+  targetEmail       String
+  title             String
+  message           String
+  isRead            Boolean  @default(false)
+  createdAt         DateTime @default(now())
 }
 
 model Overtime {
@@ -420,4 +496,69 @@ model ServiceConfig {
   updatedAt   DateTime @updatedAt
 
   @@unique([module, key])
+}
+
+// ─── RECRUITMENT & ONBOARDING ──────────────────────────────────────────────────
+model JobRequisition {
+  id              String      @id @default(cuid())
+  title           String
+  department      String
+  location        String?
+  employmentType  String      @default("FULL_TIME")
+  positionsCount  Int         @default(1)
+  status          String      @default("OPEN") // OPEN, ON_HOLD, CLOSED, FILLED
+  description     String?
+  requirements    String?
+  minSalary       Float?
+  maxSalary       Float?
+  requestedById   String
+  requestedBy     Employee    @relation("RequestedJobs", fields: [requestedById], references: [id])
+  candidates      Candidate[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Candidate {
+  id              String         @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String         @unique
+  phone           String?
+  resumeUrl       String?
+  status          String         @default("APPLIED") // APPLIED, SCREENING, INTERVIEW, OFFERED, HIRED, REJECTED
+  jobId           String
+  job             JobRequisition @relation(fields: [jobId], references: [id])
+  interviews      Interview[]
+  offer           OfferLetter?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Interview {
+  id            String    @id @default(cuid())
+  candidateId   String
+  candidate     Candidate @relation(fields: [candidateId], references: [id])
+  interviewerId String
+  interviewer   Employee  @relation("Interviewer", fields: [interviewerId], references: [id])
+  scheduledAt   DateTime
+  durationMins  Int       @default(60)
+  status        String    @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED, NO_SHOW
+  feedback      String?
+  rating        Int?      // 1-5 scale
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model OfferLetter {
+  id            String    @id @default(cuid())
+  candidateId   String    @unique
+  candidate     Candidate @relation(fields: [candidateId], references: [id])
+  offeredSalary Float
+  designation   String
+  department    String
+  joiningDate   DateTime
+  status        String    @default("DRAFT") // DRAFT, SENT, ACCEPTED, DECLINED
+  fileUrl       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }

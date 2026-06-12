@@ -79,10 +79,40 @@ export type SalaryStructure = $Result.DefaultSelection<Prisma.$SalaryStructurePa
  */
 export type SalaryRecord = $Result.DefaultSelection<Prisma.$SalaryRecordPayload>
 /**
- * Model Loan
+ * Model LoanType
  * 
  */
-export type Loan = $Result.DefaultSelection<Prisma.$LoanPayload>
+export type LoanType = $Result.DefaultSelection<Prisma.$LoanTypePayload>
+/**
+ * Model LoanApplication
+ * 
+ */
+export type LoanApplication = $Result.DefaultSelection<Prisma.$LoanApplicationPayload>
+/**
+ * Model LoanApproval
+ * 
+ */
+export type LoanApproval = $Result.DefaultSelection<Prisma.$LoanApprovalPayload>
+/**
+ * Model LoanDisbursement
+ * 
+ */
+export type LoanDisbursement = $Result.DefaultSelection<Prisma.$LoanDisbursementPayload>
+/**
+ * Model LoanInstallment
+ * 
+ */
+export type LoanInstallment = $Result.DefaultSelection<Prisma.$LoanInstallmentPayload>
+/**
+ * Model LoanDocument
+ * 
+ */
+export type LoanDocument = $Result.DefaultSelection<Prisma.$LoanDocumentPayload>
+/**
+ * Model LoanNotification
+ * 
+ */
+export type LoanNotification = $Result.DefaultSelection<Prisma.$LoanNotificationPayload>
 /**
  * Model Overtime
  * 
@@ -128,6 +158,26 @@ export type Letter = $Result.DefaultSelection<Prisma.$LetterPayload>
  * 
  */
 export type ServiceConfig = $Result.DefaultSelection<Prisma.$ServiceConfigPayload>
+/**
+ * Model JobRequisition
+ * 
+ */
+export type JobRequisition = $Result.DefaultSelection<Prisma.$JobRequisitionPayload>
+/**
+ * Model Candidate
+ * 
+ */
+export type Candidate = $Result.DefaultSelection<Prisma.$CandidatePayload>
+/**
+ * Model Interview
+ * 
+ */
+export type Interview = $Result.DefaultSelection<Prisma.$InterviewPayload>
+/**
+ * Model OfferLetter
+ * 
+ */
+export type OfferLetter = $Result.DefaultSelection<Prisma.$OfferLetterPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -378,14 +428,74 @@ export class PrismaClient<
   get salaryRecord(): Prisma.SalaryRecordDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.loan`: Exposes CRUD operations for the **Loan** model.
+   * `prisma.loanType`: Exposes CRUD operations for the **LoanType** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Loans
-    * const loans = await prisma.loan.findMany()
+    * // Fetch zero or more LoanTypes
+    * const loanTypes = await prisma.loanType.findMany()
     * ```
     */
-  get loan(): Prisma.LoanDelegate<ExtArgs, ClientOptions>;
+  get loanType(): Prisma.LoanTypeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loanApplication`: Exposes CRUD operations for the **LoanApplication** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoanApplications
+    * const loanApplications = await prisma.loanApplication.findMany()
+    * ```
+    */
+  get loanApplication(): Prisma.LoanApplicationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loanApproval`: Exposes CRUD operations for the **LoanApproval** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoanApprovals
+    * const loanApprovals = await prisma.loanApproval.findMany()
+    * ```
+    */
+  get loanApproval(): Prisma.LoanApprovalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loanDisbursement`: Exposes CRUD operations for the **LoanDisbursement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoanDisbursements
+    * const loanDisbursements = await prisma.loanDisbursement.findMany()
+    * ```
+    */
+  get loanDisbursement(): Prisma.LoanDisbursementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loanInstallment`: Exposes CRUD operations for the **LoanInstallment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoanInstallments
+    * const loanInstallments = await prisma.loanInstallment.findMany()
+    * ```
+    */
+  get loanInstallment(): Prisma.LoanInstallmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loanDocument`: Exposes CRUD operations for the **LoanDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoanDocuments
+    * const loanDocuments = await prisma.loanDocument.findMany()
+    * ```
+    */
+  get loanDocument(): Prisma.LoanDocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.loanNotification`: Exposes CRUD operations for the **LoanNotification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LoanNotifications
+    * const loanNotifications = await prisma.loanNotification.findMany()
+    * ```
+    */
+  get loanNotification(): Prisma.LoanNotificationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.overtime`: Exposes CRUD operations for the **Overtime** model.
@@ -476,6 +586,46 @@ export class PrismaClient<
     * ```
     */
   get serviceConfig(): Prisma.ServiceConfigDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.jobRequisition`: Exposes CRUD operations for the **JobRequisition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more JobRequisitions
+    * const jobRequisitions = await prisma.jobRequisition.findMany()
+    * ```
+    */
+  get jobRequisition(): Prisma.JobRequisitionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.candidate`: Exposes CRUD operations for the **Candidate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Candidates
+    * const candidates = await prisma.candidate.findMany()
+    * ```
+    */
+  get candidate(): Prisma.CandidateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.interview`: Exposes CRUD operations for the **Interview** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Interviews
+    * const interviews = await prisma.interview.findMany()
+    * ```
+    */
+  get interview(): Prisma.InterviewDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.offerLetter`: Exposes CRUD operations for the **OfferLetter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OfferLetters
+    * const offerLetters = await prisma.offerLetter.findMany()
+    * ```
+    */
+  get offerLetter(): Prisma.OfferLetterDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -930,7 +1080,13 @@ export namespace Prisma {
     LeaveRequest: 'LeaveRequest',
     SalaryStructure: 'SalaryStructure',
     SalaryRecord: 'SalaryRecord',
-    Loan: 'Loan',
+    LoanType: 'LoanType',
+    LoanApplication: 'LoanApplication',
+    LoanApproval: 'LoanApproval',
+    LoanDisbursement: 'LoanDisbursement',
+    LoanInstallment: 'LoanInstallment',
+    LoanDocument: 'LoanDocument',
+    LoanNotification: 'LoanNotification',
     Overtime: 'Overtime',
     StaffServiceType: 'StaffServiceType',
     StaffRequest: 'StaffRequest',
@@ -939,7 +1095,11 @@ export namespace Prisma {
     LetterRecord: 'LetterRecord',
     LetterTemplate: 'LetterTemplate',
     Letter: 'Letter',
-    ServiceConfig: 'ServiceConfig'
+    ServiceConfig: 'ServiceConfig',
+    JobRequisition: 'JobRequisition',
+    Candidate: 'Candidate',
+    Interview: 'Interview',
+    OfferLetter: 'OfferLetter'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -958,7 +1118,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "loan" | "overtime" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig"
+      modelProps: "user" | "account" | "roleRequest" | "employee" | "leaveBalance" | "notification" | "attendance" | "shift" | "biometricLog" | "auditLog" | "leaveRequest" | "salaryStructure" | "salaryRecord" | "loanType" | "loanApplication" | "loanApproval" | "loanDisbursement" | "loanInstallment" | "loanDocument" | "loanNotification" | "overtime" | "staffServiceType" | "staffRequest" | "attachment" | "visaRequest" | "letterRecord" | "letterTemplate" | "letter" | "serviceConfig" | "jobRequisition" | "candidate" | "interview" | "offerLetter"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1924,77 +2084,521 @@ export namespace Prisma {
           }
         }
       }
-      Loan: {
-        payload: Prisma.$LoanPayload<ExtArgs>
-        fields: Prisma.LoanFieldRefs
+      LoanType: {
+        payload: Prisma.$LoanTypePayload<ExtArgs>
+        fields: Prisma.LoanTypeFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.LoanFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload> | null
+            args: Prisma.LoanTypeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.LoanFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+            args: Prisma.LoanTypeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>
           }
           findFirst: {
-            args: Prisma.LoanFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload> | null
+            args: Prisma.LoanTypeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.LoanFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+            args: Prisma.LoanTypeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>
           }
           findMany: {
-            args: Prisma.LoanFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
+            args: Prisma.LoanTypeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>[]
           }
           create: {
-            args: Prisma.LoanCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+            args: Prisma.LoanTypeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>
           }
           createMany: {
-            args: Prisma.LoanCreateManyArgs<ExtArgs>
+            args: Prisma.LoanTypeCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.LoanCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
+            args: Prisma.LoanTypeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>[]
           }
           delete: {
-            args: Prisma.LoanDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+            args: Prisma.LoanTypeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>
           }
           update: {
-            args: Prisma.LoanUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+            args: Prisma.LoanTypeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>
           }
           deleteMany: {
-            args: Prisma.LoanDeleteManyArgs<ExtArgs>
+            args: Prisma.LoanTypeDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.LoanUpdateManyArgs<ExtArgs>
+            args: Prisma.LoanTypeUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.LoanUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>[]
+            args: Prisma.LoanTypeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>[]
           }
           upsert: {
-            args: Prisma.LoanUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LoanPayload>
+            args: Prisma.LoanTypeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanTypePayload>
           }
           aggregate: {
-            args: Prisma.LoanAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateLoan>
+            args: Prisma.LoanTypeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanType>
           }
           groupBy: {
-            args: Prisma.LoanGroupByArgs<ExtArgs>
-            result: $Utils.Optional<LoanGroupByOutputType>[]
+            args: Prisma.LoanTypeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanTypeGroupByOutputType>[]
           }
           count: {
-            args: Prisma.LoanCountArgs<ExtArgs>
-            result: $Utils.Optional<LoanCountAggregateOutputType> | number
+            args: Prisma.LoanTypeCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanTypeCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoanApplication: {
+        payload: Prisma.$LoanApplicationPayload<ExtArgs>
+        fields: Prisma.LoanApplicationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanApplicationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanApplicationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanApplicationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanApplicationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>
+          }
+          findMany: {
+            args: Prisma.LoanApplicationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>[]
+          }
+          create: {
+            args: Prisma.LoanApplicationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>
+          }
+          createMany: {
+            args: Prisma.LoanApplicationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanApplicationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanApplicationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>
+          }
+          update: {
+            args: Prisma.LoanApplicationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanApplicationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanApplicationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanApplicationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanApplicationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApplicationPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanApplicationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanApplication>
+          }
+          groupBy: {
+            args: Prisma.LoanApplicationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanApplicationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanApplicationCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanApplicationCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoanApproval: {
+        payload: Prisma.$LoanApprovalPayload<ExtArgs>
+        fields: Prisma.LoanApprovalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanApprovalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanApprovalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanApprovalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanApprovalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>
+          }
+          findMany: {
+            args: Prisma.LoanApprovalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>[]
+          }
+          create: {
+            args: Prisma.LoanApprovalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>
+          }
+          createMany: {
+            args: Prisma.LoanApprovalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanApprovalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanApprovalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>
+          }
+          update: {
+            args: Prisma.LoanApprovalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanApprovalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanApprovalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanApprovalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanApprovalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanApprovalPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanApprovalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanApproval>
+          }
+          groupBy: {
+            args: Prisma.LoanApprovalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanApprovalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanApprovalCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanApprovalCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoanDisbursement: {
+        payload: Prisma.$LoanDisbursementPayload<ExtArgs>
+        fields: Prisma.LoanDisbursementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanDisbursementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanDisbursementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanDisbursementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanDisbursementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>
+          }
+          findMany: {
+            args: Prisma.LoanDisbursementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>[]
+          }
+          create: {
+            args: Prisma.LoanDisbursementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>
+          }
+          createMany: {
+            args: Prisma.LoanDisbursementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanDisbursementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanDisbursementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>
+          }
+          update: {
+            args: Prisma.LoanDisbursementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanDisbursementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanDisbursementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanDisbursementUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanDisbursementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDisbursementPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanDisbursementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanDisbursement>
+          }
+          groupBy: {
+            args: Prisma.LoanDisbursementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanDisbursementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanDisbursementCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanDisbursementCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoanInstallment: {
+        payload: Prisma.$LoanInstallmentPayload<ExtArgs>
+        fields: Prisma.LoanInstallmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanInstallmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanInstallmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanInstallmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanInstallmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>
+          }
+          findMany: {
+            args: Prisma.LoanInstallmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>[]
+          }
+          create: {
+            args: Prisma.LoanInstallmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>
+          }
+          createMany: {
+            args: Prisma.LoanInstallmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanInstallmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanInstallmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>
+          }
+          update: {
+            args: Prisma.LoanInstallmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanInstallmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanInstallmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanInstallmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanInstallmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanInstallmentPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanInstallmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanInstallment>
+          }
+          groupBy: {
+            args: Prisma.LoanInstallmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanInstallmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanInstallmentCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanInstallmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoanDocument: {
+        payload: Prisma.$LoanDocumentPayload<ExtArgs>
+        fields: Prisma.LoanDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.LoanDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.LoanDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.LoanDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanDocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>
+          }
+          update: {
+            args: Prisma.LoanDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanDocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanDocument>
+          }
+          groupBy: {
+            args: Prisma.LoanDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
+      LoanNotification: {
+        payload: Prisma.$LoanNotificationPayload<ExtArgs>
+        fields: Prisma.LoanNotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LoanNotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LoanNotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.LoanNotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LoanNotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>
+          }
+          findMany: {
+            args: Prisma.LoanNotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>[]
+          }
+          create: {
+            args: Prisma.LoanNotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>
+          }
+          createMany: {
+            args: Prisma.LoanNotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LoanNotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.LoanNotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>
+          }
+          update: {
+            args: Prisma.LoanNotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.LoanNotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LoanNotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LoanNotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.LoanNotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LoanNotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.LoanNotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLoanNotification>
+          }
+          groupBy: {
+            args: Prisma.LoanNotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LoanNotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LoanNotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<LoanNotificationCountAggregateOutputType> | number
           }
         }
       }
@@ -2664,6 +3268,302 @@ export namespace Prisma {
           }
         }
       }
+      JobRequisition: {
+        payload: Prisma.$JobRequisitionPayload<ExtArgs>
+        fields: Prisma.JobRequisitionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.JobRequisitionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.JobRequisitionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>
+          }
+          findFirst: {
+            args: Prisma.JobRequisitionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.JobRequisitionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>
+          }
+          findMany: {
+            args: Prisma.JobRequisitionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>[]
+          }
+          create: {
+            args: Prisma.JobRequisitionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>
+          }
+          createMany: {
+            args: Prisma.JobRequisitionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.JobRequisitionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>[]
+          }
+          delete: {
+            args: Prisma.JobRequisitionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>
+          }
+          update: {
+            args: Prisma.JobRequisitionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>
+          }
+          deleteMany: {
+            args: Prisma.JobRequisitionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.JobRequisitionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.JobRequisitionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>[]
+          }
+          upsert: {
+            args: Prisma.JobRequisitionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$JobRequisitionPayload>
+          }
+          aggregate: {
+            args: Prisma.JobRequisitionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateJobRequisition>
+          }
+          groupBy: {
+            args: Prisma.JobRequisitionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<JobRequisitionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.JobRequisitionCountArgs<ExtArgs>
+            result: $Utils.Optional<JobRequisitionCountAggregateOutputType> | number
+          }
+        }
+      }
+      Candidate: {
+        payload: Prisma.$CandidatePayload<ExtArgs>
+        fields: Prisma.CandidateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CandidateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CandidateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          findFirst: {
+            args: Prisma.CandidateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CandidateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          findMany: {
+            args: Prisma.CandidateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+          }
+          create: {
+            args: Prisma.CandidateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          createMany: {
+            args: Prisma.CandidateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CandidateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+          }
+          delete: {
+            args: Prisma.CandidateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          update: {
+            args: Prisma.CandidateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          deleteMany: {
+            args: Prisma.CandidateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CandidateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CandidateUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+          }
+          upsert: {
+            args: Prisma.CandidateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CandidatePayload>
+          }
+          aggregate: {
+            args: Prisma.CandidateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCandidate>
+          }
+          groupBy: {
+            args: Prisma.CandidateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CandidateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CandidateCountArgs<ExtArgs>
+            result: $Utils.Optional<CandidateCountAggregateOutputType> | number
+          }
+        }
+      }
+      Interview: {
+        payload: Prisma.$InterviewPayload<ExtArgs>
+        fields: Prisma.InterviewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InterviewFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InterviewFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>
+          }
+          findFirst: {
+            args: Prisma.InterviewFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InterviewFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>
+          }
+          findMany: {
+            args: Prisma.InterviewFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>[]
+          }
+          create: {
+            args: Prisma.InterviewCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>
+          }
+          createMany: {
+            args: Prisma.InterviewCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InterviewCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>[]
+          }
+          delete: {
+            args: Prisma.InterviewDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>
+          }
+          update: {
+            args: Prisma.InterviewUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>
+          }
+          deleteMany: {
+            args: Prisma.InterviewDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InterviewUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InterviewUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>[]
+          }
+          upsert: {
+            args: Prisma.InterviewUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InterviewPayload>
+          }
+          aggregate: {
+            args: Prisma.InterviewAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInterview>
+          }
+          groupBy: {
+            args: Prisma.InterviewGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InterviewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InterviewCountArgs<ExtArgs>
+            result: $Utils.Optional<InterviewCountAggregateOutputType> | number
+          }
+        }
+      }
+      OfferLetter: {
+        payload: Prisma.$OfferLetterPayload<ExtArgs>
+        fields: Prisma.OfferLetterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OfferLetterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OfferLetterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>
+          }
+          findFirst: {
+            args: Prisma.OfferLetterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OfferLetterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>
+          }
+          findMany: {
+            args: Prisma.OfferLetterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>[]
+          }
+          create: {
+            args: Prisma.OfferLetterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>
+          }
+          createMany: {
+            args: Prisma.OfferLetterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OfferLetterCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>[]
+          }
+          delete: {
+            args: Prisma.OfferLetterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>
+          }
+          update: {
+            args: Prisma.OfferLetterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>
+          }
+          deleteMany: {
+            args: Prisma.OfferLetterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OfferLetterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OfferLetterUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>[]
+          }
+          upsert: {
+            args: Prisma.OfferLetterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfferLetterPayload>
+          }
+          aggregate: {
+            args: Prisma.OfferLetterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOfferLetter>
+          }
+          groupBy: {
+            args: Prisma.OfferLetterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OfferLetterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OfferLetterCountArgs<ExtArgs>
+            result: $Utils.Optional<OfferLetterCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2773,7 +3673,13 @@ export namespace Prisma {
     leaveRequest?: LeaveRequestOmit
     salaryStructure?: SalaryStructureOmit
     salaryRecord?: SalaryRecordOmit
-    loan?: LoanOmit
+    loanType?: LoanTypeOmit
+    loanApplication?: LoanApplicationOmit
+    loanApproval?: LoanApprovalOmit
+    loanDisbursement?: LoanDisbursementOmit
+    loanInstallment?: LoanInstallmentOmit
+    loanDocument?: LoanDocumentOmit
+    loanNotification?: LoanNotificationOmit
     overtime?: OvertimeOmit
     staffServiceType?: StaffServiceTypeOmit
     staffRequest?: StaffRequestOmit
@@ -2783,6 +3689,10 @@ export namespace Prisma {
     letterTemplate?: LetterTemplateOmit
     letter?: LetterOmit
     serviceConfig?: ServiceConfigOmit
+    jobRequisition?: JobRequisitionOmit
+    candidate?: CandidateOmit
+    interview?: InterviewOmit
+    offerLetter?: OfferLetterOmit
   }
 
   /* Types for Logging */
@@ -2932,9 +3842,11 @@ export namespace Prisma {
     attachments: number
     auditLogs: number
     notifications: number
-    loans: number
+    loanApplications: number
     overtime: number
     reportees: number
+    requestedJobs: number
+    interviews: number
   }
 
   export type EmployeeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2949,9 +3861,11 @@ export namespace Prisma {
     attachments?: boolean | EmployeeCountOutputTypeCountAttachmentsArgs
     auditLogs?: boolean | EmployeeCountOutputTypeCountAuditLogsArgs
     notifications?: boolean | EmployeeCountOutputTypeCountNotificationsArgs
-    loans?: boolean | EmployeeCountOutputTypeCountLoansArgs
+    loanApplications?: boolean | EmployeeCountOutputTypeCountLoanApplicationsArgs
     overtime?: boolean | EmployeeCountOutputTypeCountOvertimeArgs
     reportees?: boolean | EmployeeCountOutputTypeCountReporteesArgs
+    requestedJobs?: boolean | EmployeeCountOutputTypeCountRequestedJobsArgs
+    interviews?: boolean | EmployeeCountOutputTypeCountInterviewsArgs
   }
 
   // Custom InputTypes
@@ -3045,8 +3959,8 @@ export namespace Prisma {
   /**
    * EmployeeCountOutputType without action
    */
-  export type EmployeeCountOutputTypeCountLoansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LoanWhereInput
+  export type EmployeeCountOutputTypeCountLoanApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanApplicationWhereInput
   }
 
   /**
@@ -3061,6 +3975,20 @@ export namespace Prisma {
    */
   export type EmployeeCountOutputTypeCountReporteesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EmployeeWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountRequestedJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobRequisitionWhereInput
+  }
+
+  /**
+   * EmployeeCountOutputType without action
+   */
+  export type EmployeeCountOutputTypeCountInterviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InterviewWhereInput
   }
 
 
@@ -3132,6 +4060,95 @@ export namespace Prisma {
    */
   export type ShiftCountOutputTypeCountAttendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceWhereInput
+  }
+
+
+  /**
+   * Count Type LoanTypeCountOutputType
+   */
+
+  export type LoanTypeCountOutputType = {
+    applications: number
+  }
+
+  export type LoanTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    applications?: boolean | LoanTypeCountOutputTypeCountApplicationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LoanTypeCountOutputType without action
+   */
+  export type LoanTypeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanTypeCountOutputType
+     */
+    select?: LoanTypeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LoanTypeCountOutputType without action
+   */
+  export type LoanTypeCountOutputTypeCountApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanApplicationWhereInput
+  }
+
+
+  /**
+   * Count Type LoanApplicationCountOutputType
+   */
+
+  export type LoanApplicationCountOutputType = {
+    approvals: number
+    disbursements: number
+    installments: number
+    documents: number
+  }
+
+  export type LoanApplicationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    approvals?: boolean | LoanApplicationCountOutputTypeCountApprovalsArgs
+    disbursements?: boolean | LoanApplicationCountOutputTypeCountDisbursementsArgs
+    installments?: boolean | LoanApplicationCountOutputTypeCountInstallmentsArgs
+    documents?: boolean | LoanApplicationCountOutputTypeCountDocumentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * LoanApplicationCountOutputType without action
+   */
+  export type LoanApplicationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplicationCountOutputType
+     */
+    select?: LoanApplicationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * LoanApplicationCountOutputType without action
+   */
+  export type LoanApplicationCountOutputTypeCountApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanApprovalWhereInput
+  }
+
+  /**
+   * LoanApplicationCountOutputType without action
+   */
+  export type LoanApplicationCountOutputTypeCountDisbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanDisbursementWhereInput
+  }
+
+  /**
+   * LoanApplicationCountOutputType without action
+   */
+  export type LoanApplicationCountOutputTypeCountInstallmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanInstallmentWhereInput
+  }
+
+  /**
+   * LoanApplicationCountOutputType without action
+   */
+  export type LoanApplicationCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanDocumentWhereInput
   }
 
 
@@ -3256,6 +4273,68 @@ export namespace Prisma {
    */
   export type LetterTemplateCountOutputTypeCountLettersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LetterWhereInput
+  }
+
+
+  /**
+   * Count Type JobRequisitionCountOutputType
+   */
+
+  export type JobRequisitionCountOutputType = {
+    candidates: number
+  }
+
+  export type JobRequisitionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidates?: boolean | JobRequisitionCountOutputTypeCountCandidatesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * JobRequisitionCountOutputType without action
+   */
+  export type JobRequisitionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisitionCountOutputType
+     */
+    select?: JobRequisitionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * JobRequisitionCountOutputType without action
+   */
+  export type JobRequisitionCountOutputTypeCountCandidatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CandidateWhereInput
+  }
+
+
+  /**
+   * Count Type CandidateCountOutputType
+   */
+
+  export type CandidateCountOutputType = {
+    interviews: number
+  }
+
+  export type CandidateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    interviews?: boolean | CandidateCountOutputTypeCountInterviewsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * CandidateCountOutputType without action
+   */
+  export type CandidateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CandidateCountOutputType
+     */
+    select?: CandidateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * CandidateCountOutputType without action
+   */
+  export type CandidateCountOutputTypeCountInterviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InterviewWhereInput
   }
 
 
@@ -7310,10 +8389,12 @@ export namespace Prisma {
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
-    loans?: boolean | Employee$loansArgs<ExtArgs>
+    loanApplications?: boolean | Employee$loanApplicationsArgs<ExtArgs>
     overtime?: boolean | Employee$overtimeArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     reportees?: boolean | Employee$reporteesArgs<ExtArgs>
+    requestedJobs?: boolean | Employee$requestedJobsArgs<ExtArgs>
+    interviews?: boolean | Employee$interviewsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["employee"]>
 
@@ -7489,10 +8570,12 @@ export namespace Prisma {
     attachments?: boolean | Employee$attachmentsArgs<ExtArgs>
     auditLogs?: boolean | Employee$auditLogsArgs<ExtArgs>
     notifications?: boolean | Employee$notificationsArgs<ExtArgs>
-    loans?: boolean | Employee$loansArgs<ExtArgs>
+    loanApplications?: boolean | Employee$loanApplicationsArgs<ExtArgs>
     overtime?: boolean | Employee$overtimeArgs<ExtArgs>
     manager?: boolean | Employee$managerArgs<ExtArgs>
     reportees?: boolean | Employee$reporteesArgs<ExtArgs>
+    requestedJobs?: boolean | Employee$requestedJobsArgs<ExtArgs>
+    interviews?: boolean | Employee$interviewsArgs<ExtArgs>
     _count?: boolean | EmployeeCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EmployeeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7523,10 +8606,12 @@ export namespace Prisma {
       attachments: Prisma.$AttachmentPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
-      loans: Prisma.$LoanPayload<ExtArgs>[]
+      loanApplications: Prisma.$LoanApplicationPayload<ExtArgs>[]
       overtime: Prisma.$OvertimePayload<ExtArgs>[]
       manager: Prisma.$EmployeePayload<ExtArgs> | null
       reportees: Prisma.$EmployeePayload<ExtArgs>[]
+      requestedJobs: Prisma.$JobRequisitionPayload<ExtArgs>[]
+      interviews: Prisma.$InterviewPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7984,10 +9069,12 @@ export namespace Prisma {
     attachments<T extends Employee$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends Employee$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Employee$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    loans<T extends Employee$loansArgs<ExtArgs> = {}>(args?: Subset<T, Employee$loansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    loanApplications<T extends Employee$loanApplicationsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$loanApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     overtime<T extends Employee$overtimeArgs<ExtArgs> = {}>(args?: Subset<T, Employee$overtimeArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OvertimePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     manager<T extends Employee$managerArgs<ExtArgs> = {}>(args?: Subset<T, Employee$managerArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     reportees<T extends Employee$reporteesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$reporteesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    requestedJobs<T extends Employee$requestedJobsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$requestedJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    interviews<T extends Employee$interviewsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$interviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8762,27 +9849,27 @@ export namespace Prisma {
   }
 
   /**
-   * Employee.loans
+   * Employee.loanApplications
    */
-  export type Employee$loansArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Employee$loanApplicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanApplication
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanApplicationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanApplication
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanApplicationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
-    where?: LoanWhereInput
-    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
-    cursor?: LoanWhereUniqueInput
+    include?: LoanApplicationInclude<ExtArgs> | null
+    where?: LoanApplicationWhereInput
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    cursor?: LoanApplicationWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+    distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
   }
 
   /**
@@ -8850,6 +9937,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EmployeeScalarFieldEnum | EmployeeScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.requestedJobs
+   */
+  export type Employee$requestedJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    where?: JobRequisitionWhereInput
+    orderBy?: JobRequisitionOrderByWithRelationInput | JobRequisitionOrderByWithRelationInput[]
+    cursor?: JobRequisitionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: JobRequisitionScalarFieldEnum | JobRequisitionScalarFieldEnum[]
+  }
+
+  /**
+   * Employee.interviews
+   */
+  export type Employee$interviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    where?: InterviewWhereInput
+    orderBy?: InterviewOrderByWithRelationInput | InterviewOrderByWithRelationInput[]
+    cursor?: InterviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InterviewScalarFieldEnum | InterviewScalarFieldEnum[]
   }
 
   /**
@@ -19565,440 +20700,448 @@ export namespace Prisma {
 
 
   /**
-   * Model Loan
+   * Model LoanType
    */
 
-  export type AggregateLoan = {
-    _count: LoanCountAggregateOutputType | null
-    _avg: LoanAvgAggregateOutputType | null
-    _sum: LoanSumAggregateOutputType | null
-    _min: LoanMinAggregateOutputType | null
-    _max: LoanMaxAggregateOutputType | null
+  export type AggregateLoanType = {
+    _count: LoanTypeCountAggregateOutputType | null
+    _avg: LoanTypeAvgAggregateOutputType | null
+    _sum: LoanTypeSumAggregateOutputType | null
+    _min: LoanTypeMinAggregateOutputType | null
+    _max: LoanTypeMaxAggregateOutputType | null
   }
 
-  export type LoanAvgAggregateOutputType = {
-    amount: number | null
-    installmentAmount: number | null
-    remainingBalance: number | null
+  export type LoanTypeAvgAggregateOutputType = {
+    maxAmount: number | null
+    interestRate: number | null
+    maxRepaymentMonths: number | null
   }
 
-  export type LoanSumAggregateOutputType = {
-    amount: number | null
-    installmentAmount: number | null
-    remainingBalance: number | null
+  export type LoanTypeSumAggregateOutputType = {
+    maxAmount: number | null
+    interestRate: number | null
+    maxRepaymentMonths: number | null
   }
 
-  export type LoanMinAggregateOutputType = {
+  export type LoanTypeMinAggregateOutputType = {
     id: string | null
-    employeeId: string | null
-    amount: number | null
-    issueDate: Date | null
-    installmentAmount: number | null
-    remainingBalance: number | null
-    status: string | null
+    name: string | null
+    description: string | null
+    maxAmount: number | null
+    interestRate: number | null
+    maxRepaymentMonths: number | null
+    requiresProbation: boolean | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type LoanMaxAggregateOutputType = {
+  export type LoanTypeMaxAggregateOutputType = {
     id: string | null
-    employeeId: string | null
-    amount: number | null
-    issueDate: Date | null
-    installmentAmount: number | null
-    remainingBalance: number | null
-    status: string | null
+    name: string | null
+    description: string | null
+    maxAmount: number | null
+    interestRate: number | null
+    maxRepaymentMonths: number | null
+    requiresProbation: boolean | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type LoanCountAggregateOutputType = {
+  export type LoanTypeCountAggregateOutputType = {
     id: number
-    employeeId: number
-    amount: number
-    issueDate: number
-    installmentAmount: number
-    remainingBalance: number
-    status: number
+    name: number
+    description: number
+    maxAmount: number
+    interestRate: number
+    maxRepaymentMonths: number
+    requiresProbation: number
+    isActive: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type LoanAvgAggregateInputType = {
-    amount?: true
-    installmentAmount?: true
-    remainingBalance?: true
+  export type LoanTypeAvgAggregateInputType = {
+    maxAmount?: true
+    interestRate?: true
+    maxRepaymentMonths?: true
   }
 
-  export type LoanSumAggregateInputType = {
-    amount?: true
-    installmentAmount?: true
-    remainingBalance?: true
+  export type LoanTypeSumAggregateInputType = {
+    maxAmount?: true
+    interestRate?: true
+    maxRepaymentMonths?: true
   }
 
-  export type LoanMinAggregateInputType = {
+  export type LoanTypeMinAggregateInputType = {
     id?: true
-    employeeId?: true
-    amount?: true
-    issueDate?: true
-    installmentAmount?: true
-    remainingBalance?: true
-    status?: true
+    name?: true
+    description?: true
+    maxAmount?: true
+    interestRate?: true
+    maxRepaymentMonths?: true
+    requiresProbation?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type LoanMaxAggregateInputType = {
+  export type LoanTypeMaxAggregateInputType = {
     id?: true
-    employeeId?: true
-    amount?: true
-    issueDate?: true
-    installmentAmount?: true
-    remainingBalance?: true
-    status?: true
+    name?: true
+    description?: true
+    maxAmount?: true
+    interestRate?: true
+    maxRepaymentMonths?: true
+    requiresProbation?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type LoanCountAggregateInputType = {
+  export type LoanTypeCountAggregateInputType = {
     id?: true
-    employeeId?: true
-    amount?: true
-    issueDate?: true
-    installmentAmount?: true
-    remainingBalance?: true
-    status?: true
+    name?: true
+    description?: true
+    maxAmount?: true
+    interestRate?: true
+    maxRepaymentMonths?: true
+    requiresProbation?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type LoanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Loan to aggregate.
+     * Filter which LoanType to aggregate.
      */
-    where?: LoanWhereInput
+    where?: LoanTypeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Loans to fetch.
+     * Determine the order of LoanTypes to fetch.
      */
-    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    orderBy?: LoanTypeOrderByWithRelationInput | LoanTypeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: LoanWhereUniqueInput
+    cursor?: LoanTypeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Loans from the position of the cursor.
+     * Take `±n` LoanTypes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Loans.
+     * Skip the first `n` LoanTypes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Loans
+     * Count returned LoanTypes
     **/
-    _count?: true | LoanCountAggregateInputType
+    _count?: true | LoanTypeCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: LoanAvgAggregateInputType
+    _avg?: LoanTypeAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: LoanSumAggregateInputType
+    _sum?: LoanTypeSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: LoanMinAggregateInputType
+    _min?: LoanTypeMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: LoanMaxAggregateInputType
+    _max?: LoanTypeMaxAggregateInputType
   }
 
-  export type GetLoanAggregateType<T extends LoanAggregateArgs> = {
-        [P in keyof T & keyof AggregateLoan]: P extends '_count' | 'count'
+  export type GetLoanTypeAggregateType<T extends LoanTypeAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanType]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateLoan[P]>
-      : GetScalarType<T[P], AggregateLoan[P]>
+        : GetScalarType<T[P], AggregateLoanType[P]>
+      : GetScalarType<T[P], AggregateLoanType[P]>
   }
 
 
 
 
-  export type LoanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LoanWhereInput
-    orderBy?: LoanOrderByWithAggregationInput | LoanOrderByWithAggregationInput[]
-    by: LoanScalarFieldEnum[] | LoanScalarFieldEnum
-    having?: LoanScalarWhereWithAggregatesInput
+  export type LoanTypeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanTypeWhereInput
+    orderBy?: LoanTypeOrderByWithAggregationInput | LoanTypeOrderByWithAggregationInput[]
+    by: LoanTypeScalarFieldEnum[] | LoanTypeScalarFieldEnum
+    having?: LoanTypeScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: LoanCountAggregateInputType | true
-    _avg?: LoanAvgAggregateInputType
-    _sum?: LoanSumAggregateInputType
-    _min?: LoanMinAggregateInputType
-    _max?: LoanMaxAggregateInputType
+    _count?: LoanTypeCountAggregateInputType | true
+    _avg?: LoanTypeAvgAggregateInputType
+    _sum?: LoanTypeSumAggregateInputType
+    _min?: LoanTypeMinAggregateInputType
+    _max?: LoanTypeMaxAggregateInputType
   }
 
-  export type LoanGroupByOutputType = {
+  export type LoanTypeGroupByOutputType = {
     id: string
-    employeeId: string
-    amount: number
-    issueDate: Date
-    installmentAmount: number
-    remainingBalance: number
-    status: string
+    name: string
+    description: string | null
+    maxAmount: number
+    interestRate: number
+    maxRepaymentMonths: number
+    requiresProbation: boolean
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
-    _count: LoanCountAggregateOutputType | null
-    _avg: LoanAvgAggregateOutputType | null
-    _sum: LoanSumAggregateOutputType | null
-    _min: LoanMinAggregateOutputType | null
-    _max: LoanMaxAggregateOutputType | null
+    _count: LoanTypeCountAggregateOutputType | null
+    _avg: LoanTypeAvgAggregateOutputType | null
+    _sum: LoanTypeSumAggregateOutputType | null
+    _min: LoanTypeMinAggregateOutputType | null
+    _max: LoanTypeMaxAggregateOutputType | null
   }
 
-  type GetLoanGroupByPayload<T extends LoanGroupByArgs> = Prisma.PrismaPromise<
+  type GetLoanTypeGroupByPayload<T extends LoanTypeGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<LoanGroupByOutputType, T['by']> &
+      PickEnumerable<LoanTypeGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof LoanGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof LoanTypeGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], LoanGroupByOutputType[P]>
-            : GetScalarType<T[P], LoanGroupByOutputType[P]>
+              : GetScalarType<T[P], LoanTypeGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanTypeGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type LoanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LoanTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
-    amount?: boolean
-    issueDate?: boolean
-    installmentAmount?: boolean
-    remainingBalance?: boolean
-    status?: boolean
+    name?: boolean
+    description?: boolean
+    maxAmount?: boolean
+    interestRate?: boolean
+    maxRepaymentMonths?: boolean
+    requiresProbation?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["loan"]>
+    applications?: boolean | LoanType$applicationsArgs<ExtArgs>
+    _count?: boolean | LoanTypeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanType"]>
 
-  export type LoanSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LoanTypeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
-    amount?: boolean
-    issueDate?: boolean
-    installmentAmount?: boolean
-    remainingBalance?: boolean
-    status?: boolean
+    name?: boolean
+    description?: boolean
+    maxAmount?: boolean
+    interestRate?: boolean
+    maxRepaymentMonths?: boolean
+    requiresProbation?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["loan"]>
+  }, ExtArgs["result"]["loanType"]>
 
-  export type LoanSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LoanTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    employeeId?: boolean
-    amount?: boolean
-    issueDate?: boolean
-    installmentAmount?: boolean
-    remainingBalance?: boolean
-    status?: boolean
+    name?: boolean
+    description?: boolean
+    maxAmount?: boolean
+    interestRate?: boolean
+    maxRepaymentMonths?: boolean
+    requiresProbation?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["loan"]>
+  }, ExtArgs["result"]["loanType"]>
 
-  export type LoanSelectScalar = {
+  export type LoanTypeSelectScalar = {
     id?: boolean
-    employeeId?: boolean
-    amount?: boolean
-    issueDate?: boolean
-    installmentAmount?: boolean
-    remainingBalance?: boolean
-    status?: boolean
+    name?: boolean
+    description?: boolean
+    maxAmount?: boolean
+    interestRate?: boolean
+    maxRepaymentMonths?: boolean
+    requiresProbation?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type LoanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "amount" | "issueDate" | "installmentAmount" | "remainingBalance" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["loan"]>
-  export type LoanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+  export type LoanTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "maxAmount" | "interestRate" | "maxRepaymentMonths" | "requiresProbation" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["loanType"]>
+  export type LoanTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    applications?: boolean | LoanType$applicationsArgs<ExtArgs>
+    _count?: boolean | LoanTypeCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type LoanIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
-  export type LoanIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
-  }
+  export type LoanTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LoanTypeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $LoanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Loan"
+  export type $LoanTypePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanType"
     objects: {
-      employee: Prisma.$EmployeePayload<ExtArgs>
+      applications: Prisma.$LoanApplicationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      employeeId: string
-      amount: number
-      issueDate: Date
-      installmentAmount: number
-      remainingBalance: number
-      status: string
+      name: string
+      description: string | null
+      maxAmount: number
+      interestRate: number
+      maxRepaymentMonths: number
+      requiresProbation: boolean
+      isActive: boolean
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["loan"]>
+    }, ExtArgs["result"]["loanType"]>
     composites: {}
   }
 
-  type LoanGetPayload<S extends boolean | null | undefined | LoanDefaultArgs> = $Result.GetResult<Prisma.$LoanPayload, S>
+  type LoanTypeGetPayload<S extends boolean | null | undefined | LoanTypeDefaultArgs> = $Result.GetResult<Prisma.$LoanTypePayload, S>
 
-  type LoanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<LoanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: LoanCountAggregateInputType | true
+  type LoanTypeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanTypeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanTypeCountAggregateInputType | true
     }
 
-  export interface LoanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Loan'], meta: { name: 'Loan' } }
+  export interface LoanTypeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanType'], meta: { name: 'LoanType' } }
     /**
-     * Find zero or one Loan that matches the filter.
-     * @param {LoanFindUniqueArgs} args - Arguments to find a Loan
+     * Find zero or one LoanType that matches the filter.
+     * @param {LoanTypeFindUniqueArgs} args - Arguments to find a LoanType
      * @example
-     * // Get one Loan
-     * const loan = await prisma.loan.findUnique({
+     * // Get one LoanType
+     * const loanType = await prisma.loanType.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends LoanFindUniqueArgs>(args: SelectSubset<T, LoanFindUniqueArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends LoanTypeFindUniqueArgs>(args: SelectSubset<T, LoanTypeFindUniqueArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Loan that matches the filter or throw an error with `error.code='P2025'`
+     * Find one LoanType that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {LoanFindUniqueOrThrowArgs} args - Arguments to find a Loan
+     * @param {LoanTypeFindUniqueOrThrowArgs} args - Arguments to find a LoanType
      * @example
-     * // Get one Loan
-     * const loan = await prisma.loan.findUniqueOrThrow({
+     * // Get one LoanType
+     * const loanType = await prisma.loanType.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends LoanFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends LoanTypeFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanTypeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Loan that matches the filter.
+     * Find the first LoanType that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanFindFirstArgs} args - Arguments to find a Loan
+     * @param {LoanTypeFindFirstArgs} args - Arguments to find a LoanType
      * @example
-     * // Get one Loan
-     * const loan = await prisma.loan.findFirst({
+     * // Get one LoanType
+     * const loanType = await prisma.loanType.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends LoanFindFirstArgs>(args?: SelectSubset<T, LoanFindFirstArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends LoanTypeFindFirstArgs>(args?: SelectSubset<T, LoanTypeFindFirstArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Loan that matches the filter or
+     * Find the first LoanType that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanFindFirstOrThrowArgs} args - Arguments to find a Loan
+     * @param {LoanTypeFindFirstOrThrowArgs} args - Arguments to find a LoanType
      * @example
-     * // Get one Loan
-     * const loan = await prisma.loan.findFirstOrThrow({
+     * // Get one LoanType
+     * const loanType = await prisma.loanType.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends LoanFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends LoanTypeFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanTypeFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Loans that matches the filter.
+     * Find zero or more LoanTypes that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {LoanTypeFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Loans
-     * const loans = await prisma.loan.findMany()
+     * // Get all LoanTypes
+     * const loanTypes = await prisma.loanType.findMany()
      * 
-     * // Get first 10 Loans
-     * const loans = await prisma.loan.findMany({ take: 10 })
+     * // Get first 10 LoanTypes
+     * const loanTypes = await prisma.loanType.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const loanWithIdOnly = await prisma.loan.findMany({ select: { id: true } })
+     * const loanTypeWithIdOnly = await prisma.loanType.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends LoanFindManyArgs>(args?: SelectSubset<T, LoanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends LoanTypeFindManyArgs>(args?: SelectSubset<T, LoanTypeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Loan.
-     * @param {LoanCreateArgs} args - Arguments to create a Loan.
+     * Create a LoanType.
+     * @param {LoanTypeCreateArgs} args - Arguments to create a LoanType.
      * @example
-     * // Create one Loan
-     * const Loan = await prisma.loan.create({
+     * // Create one LoanType
+     * const LoanType = await prisma.loanType.create({
      *   data: {
-     *     // ... data to create a Loan
+     *     // ... data to create a LoanType
      *   }
      * })
      * 
      */
-    create<T extends LoanCreateArgs>(args: SelectSubset<T, LoanCreateArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends LoanTypeCreateArgs>(args: SelectSubset<T, LoanTypeCreateArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Loans.
-     * @param {LoanCreateManyArgs} args - Arguments to create many Loans.
+     * Create many LoanTypes.
+     * @param {LoanTypeCreateManyArgs} args - Arguments to create many LoanTypes.
      * @example
-     * // Create many Loans
-     * const loan = await prisma.loan.createMany({
+     * // Create many LoanTypes
+     * const loanType = await prisma.loanType.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends LoanCreateManyArgs>(args?: SelectSubset<T, LoanCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends LoanTypeCreateManyArgs>(args?: SelectSubset<T, LoanTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Loans and returns the data saved in the database.
-     * @param {LoanCreateManyAndReturnArgs} args - Arguments to create many Loans.
+     * Create many LoanTypes and returns the data saved in the database.
+     * @param {LoanTypeCreateManyAndReturnArgs} args - Arguments to create many LoanTypes.
      * @example
-     * // Create many Loans
-     * const loan = await prisma.loan.createManyAndReturn({
+     * // Create many LoanTypes
+     * const loanType = await prisma.loanType.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Loans and only return the `id`
-     * const loanWithIdOnly = await prisma.loan.createManyAndReturn({
+     * // Create many LoanTypes and only return the `id`
+     * const loanTypeWithIdOnly = await prisma.loanType.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -20008,28 +21151,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends LoanCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends LoanTypeCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Loan.
-     * @param {LoanDeleteArgs} args - Arguments to delete one Loan.
+     * Delete a LoanType.
+     * @param {LoanTypeDeleteArgs} args - Arguments to delete one LoanType.
      * @example
-     * // Delete one Loan
-     * const Loan = await prisma.loan.delete({
+     * // Delete one LoanType
+     * const LoanType = await prisma.loanType.delete({
      *   where: {
-     *     // ... filter to delete one Loan
+     *     // ... filter to delete one LoanType
      *   }
      * })
      * 
      */
-    delete<T extends LoanDeleteArgs>(args: SelectSubset<T, LoanDeleteArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends LoanTypeDeleteArgs>(args: SelectSubset<T, LoanTypeDeleteArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Loan.
-     * @param {LoanUpdateArgs} args - Arguments to update one Loan.
+     * Update one LoanType.
+     * @param {LoanTypeUpdateArgs} args - Arguments to update one LoanType.
      * @example
-     * // Update one Loan
-     * const loan = await prisma.loan.update({
+     * // Update one LoanType
+     * const loanType = await prisma.loanType.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -20039,30 +21182,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends LoanUpdateArgs>(args: SelectSubset<T, LoanUpdateArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends LoanTypeUpdateArgs>(args: SelectSubset<T, LoanTypeUpdateArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Loans.
-     * @param {LoanDeleteManyArgs} args - Arguments to filter Loans to delete.
+     * Delete zero or more LoanTypes.
+     * @param {LoanTypeDeleteManyArgs} args - Arguments to filter LoanTypes to delete.
      * @example
-     * // Delete a few Loans
-     * const { count } = await prisma.loan.deleteMany({
+     * // Delete a few LoanTypes
+     * const { count } = await prisma.loanType.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends LoanDeleteManyArgs>(args?: SelectSubset<T, LoanDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends LoanTypeDeleteManyArgs>(args?: SelectSubset<T, LoanTypeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Loans.
+     * Update zero or more LoanTypes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {LoanTypeUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Loans
-     * const loan = await prisma.loan.updateMany({
+     * // Update many LoanTypes
+     * const loanType = await prisma.loanType.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -20072,14 +21215,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends LoanUpdateManyArgs>(args: SelectSubset<T, LoanUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends LoanTypeUpdateManyArgs>(args: SelectSubset<T, LoanTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Loans and returns the data updated in the database.
-     * @param {LoanUpdateManyAndReturnArgs} args - Arguments to update many Loans.
+     * Update zero or more LoanTypes and returns the data updated in the database.
+     * @param {LoanTypeUpdateManyAndReturnArgs} args - Arguments to update many LoanTypes.
      * @example
-     * // Update many Loans
-     * const loan = await prisma.loan.updateManyAndReturn({
+     * // Update many LoanTypes
+     * const loanType = await prisma.loanType.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -20088,8 +21231,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Loans and only return the `id`
-     * const loanWithIdOnly = await prisma.loan.updateManyAndReturn({
+     * // Update zero or more LoanTypes and only return the `id`
+     * const loanTypeWithIdOnly = await prisma.loanType.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -20102,56 +21245,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends LoanUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends LoanTypeUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Loan.
-     * @param {LoanUpsertArgs} args - Arguments to update or create a Loan.
+     * Create or update one LoanType.
+     * @param {LoanTypeUpsertArgs} args - Arguments to update or create a LoanType.
      * @example
-     * // Update or create a Loan
-     * const loan = await prisma.loan.upsert({
+     * // Update or create a LoanType
+     * const loanType = await prisma.loanType.upsert({
      *   create: {
-     *     // ... data to create a Loan
+     *     // ... data to create a LoanType
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Loan we want to update
+     *     // ... the filter for the LoanType we want to update
      *   }
      * })
      */
-    upsert<T extends LoanUpsertArgs>(args: SelectSubset<T, LoanUpsertArgs<ExtArgs>>): Prisma__LoanClient<$Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends LoanTypeUpsertArgs>(args: SelectSubset<T, LoanTypeUpsertArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Loans.
+     * Count the number of LoanTypes.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanCountArgs} args - Arguments to filter Loans to count.
+     * @param {LoanTypeCountArgs} args - Arguments to filter LoanTypes to count.
      * @example
-     * // Count the number of Loans
-     * const count = await prisma.loan.count({
+     * // Count the number of LoanTypes
+     * const count = await prisma.loanType.count({
      *   where: {
-     *     // ... the filter for the Loans we want to count
+     *     // ... the filter for the LoanTypes we want to count
      *   }
      * })
     **/
-    count<T extends LoanCountArgs>(
-      args?: Subset<T, LoanCountArgs>,
+    count<T extends LoanTypeCountArgs>(
+      args?: Subset<T, LoanTypeCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], LoanCountAggregateOutputType>
+          : GetScalarType<T['select'], LoanTypeCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Loan.
+     * Allows you to perform aggregations operations on a LoanType.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {LoanTypeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -20171,13 +21314,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends LoanAggregateArgs>(args: Subset<T, LoanAggregateArgs>): Prisma.PrismaPromise<GetLoanAggregateType<T>>
+    aggregate<T extends LoanTypeAggregateArgs>(args: Subset<T, LoanTypeAggregateArgs>): Prisma.PrismaPromise<GetLoanTypeAggregateType<T>>
 
     /**
-     * Group by Loan.
+     * Group by LoanType.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LoanGroupByArgs} args - Group by arguments.
+     * @param {LoanTypeGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -20192,14 +21335,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends LoanGroupByArgs,
+      T extends LoanTypeGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: LoanGroupByArgs['orderBy'] }
-        : { orderBy?: LoanGroupByArgs['orderBy'] },
+        ? { orderBy: LoanTypeGroupByArgs['orderBy'] }
+        : { orderBy?: LoanTypeGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -20248,22 +21391,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, LoanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, LoanTypeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanTypeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Loan model
+   * Fields of the LoanType model
    */
-  readonly fields: LoanFieldRefs;
+  readonly fields: LoanTypeFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Loan.
+   * The delegate class that acts as a "Promise-like" for LoanType.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__LoanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__LoanTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    applications<T extends LoanType$applicationsArgs<ExtArgs> = {}>(args?: Subset<T, LoanType$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20290,429 +21433,7149 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Loan model
+   * Fields of the LoanType model
    */
-  interface LoanFieldRefs {
-    readonly id: FieldRef<"Loan", 'String'>
-    readonly employeeId: FieldRef<"Loan", 'String'>
-    readonly amount: FieldRef<"Loan", 'Float'>
-    readonly issueDate: FieldRef<"Loan", 'DateTime'>
-    readonly installmentAmount: FieldRef<"Loan", 'Float'>
-    readonly remainingBalance: FieldRef<"Loan", 'Float'>
-    readonly status: FieldRef<"Loan", 'String'>
-    readonly createdAt: FieldRef<"Loan", 'DateTime'>
-    readonly updatedAt: FieldRef<"Loan", 'DateTime'>
+  interface LoanTypeFieldRefs {
+    readonly id: FieldRef<"LoanType", 'String'>
+    readonly name: FieldRef<"LoanType", 'String'>
+    readonly description: FieldRef<"LoanType", 'String'>
+    readonly maxAmount: FieldRef<"LoanType", 'Float'>
+    readonly interestRate: FieldRef<"LoanType", 'Float'>
+    readonly maxRepaymentMonths: FieldRef<"LoanType", 'Int'>
+    readonly requiresProbation: FieldRef<"LoanType", 'Boolean'>
+    readonly isActive: FieldRef<"LoanType", 'Boolean'>
+    readonly createdAt: FieldRef<"LoanType", 'DateTime'>
+    readonly updatedAt: FieldRef<"LoanType", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Loan findUnique
+   * LoanType findUnique
    */
-  export type LoanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanTypeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanTypeInclude<ExtArgs> | null
     /**
-     * Filter, which Loan to fetch.
+     * Filter, which LoanType to fetch.
      */
-    where: LoanWhereUniqueInput
+    where: LoanTypeWhereUniqueInput
   }
 
   /**
-   * Loan findUniqueOrThrow
+   * LoanType findUniqueOrThrow
    */
-  export type LoanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanTypeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanTypeInclude<ExtArgs> | null
     /**
-     * Filter, which Loan to fetch.
+     * Filter, which LoanType to fetch.
      */
-    where: LoanWhereUniqueInput
+    where: LoanTypeWhereUniqueInput
   }
 
   /**
-   * Loan findFirst
+   * LoanType findFirst
    */
-  export type LoanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanTypeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanTypeInclude<ExtArgs> | null
     /**
-     * Filter, which Loan to fetch.
+     * Filter, which LoanType to fetch.
      */
-    where?: LoanWhereInput
+    where?: LoanTypeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Loans to fetch.
+     * Determine the order of LoanTypes to fetch.
      */
-    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    orderBy?: LoanTypeOrderByWithRelationInput | LoanTypeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Loans.
+     * Sets the position for searching for LoanTypes.
      */
-    cursor?: LoanWhereUniqueInput
+    cursor?: LoanTypeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Loans from the position of the cursor.
+     * Take `±n` LoanTypes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Loans.
+     * Skip the first `n` LoanTypes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Loans.
+     * Filter by unique combinations of LoanTypes.
      */
-    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+    distinct?: LoanTypeScalarFieldEnum | LoanTypeScalarFieldEnum[]
   }
 
   /**
-   * Loan findFirstOrThrow
+   * LoanType findFirstOrThrow
    */
-  export type LoanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanTypeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanTypeInclude<ExtArgs> | null
     /**
-     * Filter, which Loan to fetch.
+     * Filter, which LoanType to fetch.
      */
-    where?: LoanWhereInput
+    where?: LoanTypeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Loans to fetch.
+     * Determine the order of LoanTypes to fetch.
      */
-    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    orderBy?: LoanTypeOrderByWithRelationInput | LoanTypeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Loans.
+     * Sets the position for searching for LoanTypes.
      */
-    cursor?: LoanWhereUniqueInput
+    cursor?: LoanTypeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Loans from the position of the cursor.
+     * Take `±n` LoanTypes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Loans.
+     * Skip the first `n` LoanTypes.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Loans.
+     * Filter by unique combinations of LoanTypes.
      */
-    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+    distinct?: LoanTypeScalarFieldEnum | LoanTypeScalarFieldEnum[]
   }
 
   /**
-   * Loan findMany
+   * LoanType findMany
    */
-  export type LoanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanTypeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanTypeInclude<ExtArgs> | null
     /**
-     * Filter, which Loans to fetch.
+     * Filter, which LoanTypes to fetch.
      */
-    where?: LoanWhereInput
+    where?: LoanTypeWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Loans to fetch.
+     * Determine the order of LoanTypes to fetch.
      */
-    orderBy?: LoanOrderByWithRelationInput | LoanOrderByWithRelationInput[]
+    orderBy?: LoanTypeOrderByWithRelationInput | LoanTypeOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Loans.
+     * Sets the position for listing LoanTypes.
      */
-    cursor?: LoanWhereUniqueInput
+    cursor?: LoanTypeWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Loans from the position of the cursor.
+     * Take `±n` LoanTypes from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Loans.
+     * Skip the first `n` LoanTypes.
      */
     skip?: number
-    distinct?: LoanScalarFieldEnum | LoanScalarFieldEnum[]
+    distinct?: LoanTypeScalarFieldEnum | LoanTypeScalarFieldEnum[]
   }
 
   /**
-   * Loan create
+   * LoanType create
    */
-  export type LoanCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanTypeSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanTypeInclude<ExtArgs> | null
     /**
-     * The data needed to create a Loan.
+     * The data needed to create a LoanType.
      */
-    data: XOR<LoanCreateInput, LoanUncheckedCreateInput>
+    data: XOR<LoanTypeCreateInput, LoanTypeUncheckedCreateInput>
   }
 
   /**
-   * Loan createMany
+   * LoanType createMany
    */
-  export type LoanCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Loans.
+     * The data used to create many LoanTypes.
      */
-    data: LoanCreateManyInput | LoanCreateManyInput[]
+    data: LoanTypeCreateManyInput | LoanTypeCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Loan createManyAndReturn
+   * LoanType createManyAndReturn
    */
-  export type LoanCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanTypeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanType
      */
-    select?: LoanSelectCreateManyAndReturn<ExtArgs> | null
+    select?: LoanTypeSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanType
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanTypeOmit<ExtArgs> | null
     /**
-     * The data used to create many Loans.
+     * The data used to create many LoanTypes.
      */
-    data: LoanCreateManyInput | LoanCreateManyInput[]
+    data: LoanTypeCreateManyInput | LoanTypeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanType update
+   */
+  export type LoanTypeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanType
+     */
+    select?: LoanTypeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanType
+     */
+    omit?: LoanTypeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanTypeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoanType.
+     */
+    data: XOR<LoanTypeUpdateInput, LoanTypeUncheckedUpdateInput>
+    /**
+     * Choose, which LoanType to update.
+     */
+    where: LoanTypeWhereUniqueInput
+  }
+
+  /**
+   * LoanType updateMany
+   */
+  export type LoanTypeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoanTypes.
+     */
+    data: XOR<LoanTypeUpdateManyMutationInput, LoanTypeUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanTypes to update
+     */
+    where?: LoanTypeWhereInput
+    /**
+     * Limit how many LoanTypes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanType updateManyAndReturn
+   */
+  export type LoanTypeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanType
+     */
+    select?: LoanTypeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanType
+     */
+    omit?: LoanTypeOmit<ExtArgs> | null
+    /**
+     * The data used to update LoanTypes.
+     */
+    data: XOR<LoanTypeUpdateManyMutationInput, LoanTypeUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanTypes to update
+     */
+    where?: LoanTypeWhereInput
+    /**
+     * Limit how many LoanTypes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanType upsert
+   */
+  export type LoanTypeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanType
+     */
+    select?: LoanTypeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanType
+     */
+    omit?: LoanTypeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanTypeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoanType to update in case it exists.
+     */
+    where: LoanTypeWhereUniqueInput
+    /**
+     * In case the LoanType found by the `where` argument doesn't exist, create a new LoanType with this data.
+     */
+    create: XOR<LoanTypeCreateInput, LoanTypeUncheckedCreateInput>
+    /**
+     * In case the LoanType was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanTypeUpdateInput, LoanTypeUncheckedUpdateInput>
+  }
+
+  /**
+   * LoanType delete
+   */
+  export type LoanTypeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanType
+     */
+    select?: LoanTypeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanType
+     */
+    omit?: LoanTypeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanTypeInclude<ExtArgs> | null
+    /**
+     * Filter which LoanType to delete.
+     */
+    where: LoanTypeWhereUniqueInput
+  }
+
+  /**
+   * LoanType deleteMany
+   */
+  export type LoanTypeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanTypes to delete
+     */
+    where?: LoanTypeWhereInput
+    /**
+     * Limit how many LoanTypes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanType.applications
+   */
+  export type LoanType$applicationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    where?: LoanApplicationWhereInput
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    cursor?: LoanApplicationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanType without action
+   */
+  export type LoanTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanType
+     */
+    select?: LoanTypeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanType
+     */
+    omit?: LoanTypeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanTypeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoanApplication
+   */
+
+  export type AggregateLoanApplication = {
+    _count: LoanApplicationCountAggregateOutputType | null
+    _avg: LoanApplicationAvgAggregateOutputType | null
+    _sum: LoanApplicationSumAggregateOutputType | null
+    _min: LoanApplicationMinAggregateOutputType | null
+    _max: LoanApplicationMaxAggregateOutputType | null
+  }
+
+  export type LoanApplicationAvgAggregateOutputType = {
+    requestedAmount: number | null
+    repaymentMonths: number | null
+  }
+
+  export type LoanApplicationSumAggregateOutputType = {
+    requestedAmount: number | null
+    repaymentMonths: number | null
+  }
+
+  export type LoanApplicationMinAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    loanTypeId: string | null
+    requestedAmount: number | null
+    repaymentMonths: number | null
+    reason: string | null
+    status: string | null
+    managerStatus: string | null
+    hrStatus: string | null
+    financeStatus: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LoanApplicationMaxAggregateOutputType = {
+    id: string | null
+    employeeId: string | null
+    loanTypeId: string | null
+    requestedAmount: number | null
+    repaymentMonths: number | null
+    reason: string | null
+    status: string | null
+    managerStatus: string | null
+    hrStatus: string | null
+    financeStatus: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LoanApplicationCountAggregateOutputType = {
+    id: number
+    employeeId: number
+    loanTypeId: number
+    requestedAmount: number
+    repaymentMonths: number
+    reason: number
+    status: number
+    managerStatus: number
+    hrStatus: number
+    financeStatus: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LoanApplicationAvgAggregateInputType = {
+    requestedAmount?: true
+    repaymentMonths?: true
+  }
+
+  export type LoanApplicationSumAggregateInputType = {
+    requestedAmount?: true
+    repaymentMonths?: true
+  }
+
+  export type LoanApplicationMinAggregateInputType = {
+    id?: true
+    employeeId?: true
+    loanTypeId?: true
+    requestedAmount?: true
+    repaymentMonths?: true
+    reason?: true
+    status?: true
+    managerStatus?: true
+    hrStatus?: true
+    financeStatus?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LoanApplicationMaxAggregateInputType = {
+    id?: true
+    employeeId?: true
+    loanTypeId?: true
+    requestedAmount?: true
+    repaymentMonths?: true
+    reason?: true
+    status?: true
+    managerStatus?: true
+    hrStatus?: true
+    financeStatus?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LoanApplicationCountAggregateInputType = {
+    id?: true
+    employeeId?: true
+    loanTypeId?: true
+    requestedAmount?: true
+    repaymentMonths?: true
+    reason?: true
+    status?: true
+    managerStatus?: true
+    hrStatus?: true
+    financeStatus?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LoanApplicationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanApplication to aggregate.
+     */
+    where?: LoanApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApplications to fetch.
+     */
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApplications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoanApplications
+    **/
+    _count?: true | LoanApplicationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoanApplicationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoanApplicationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanApplicationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanApplicationMaxAggregateInputType
+  }
+
+  export type GetLoanApplicationAggregateType<T extends LoanApplicationAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanApplication]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoanApplication[P]>
+      : GetScalarType<T[P], AggregateLoanApplication[P]>
+  }
+
+
+
+
+  export type LoanApplicationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanApplicationWhereInput
+    orderBy?: LoanApplicationOrderByWithAggregationInput | LoanApplicationOrderByWithAggregationInput[]
+    by: LoanApplicationScalarFieldEnum[] | LoanApplicationScalarFieldEnum
+    having?: LoanApplicationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanApplicationCountAggregateInputType | true
+    _avg?: LoanApplicationAvgAggregateInputType
+    _sum?: LoanApplicationSumAggregateInputType
+    _min?: LoanApplicationMinAggregateInputType
+    _max?: LoanApplicationMaxAggregateInputType
+  }
+
+  export type LoanApplicationGroupByOutputType = {
+    id: string
+    employeeId: string
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason: string | null
+    status: string
+    managerStatus: string
+    hrStatus: string
+    financeStatus: string
+    createdAt: Date
+    updatedAt: Date
+    _count: LoanApplicationCountAggregateOutputType | null
+    _avg: LoanApplicationAvgAggregateOutputType | null
+    _sum: LoanApplicationSumAggregateOutputType | null
+    _min: LoanApplicationMinAggregateOutputType | null
+    _max: LoanApplicationMaxAggregateOutputType | null
+  }
+
+  type GetLoanApplicationGroupByPayload<T extends LoanApplicationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanApplicationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanApplicationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanApplicationGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanApplicationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanApplicationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    loanTypeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    managerStatus?: boolean
+    hrStatus?: boolean
+    financeStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    loanType?: boolean | LoanTypeDefaultArgs<ExtArgs>
+    approvals?: boolean | LoanApplication$approvalsArgs<ExtArgs>
+    disbursements?: boolean | LoanApplication$disbursementsArgs<ExtArgs>
+    installments?: boolean | LoanApplication$installmentsArgs<ExtArgs>
+    documents?: boolean | LoanApplication$documentsArgs<ExtArgs>
+    _count?: boolean | LoanApplicationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanApplication"]>
+
+  export type LoanApplicationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    loanTypeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    managerStatus?: boolean
+    hrStatus?: boolean
+    financeStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    loanType?: boolean | LoanTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanApplication"]>
+
+  export type LoanApplicationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    employeeId?: boolean
+    loanTypeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    managerStatus?: boolean
+    hrStatus?: boolean
+    financeStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    loanType?: boolean | LoanTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanApplication"]>
+
+  export type LoanApplicationSelectScalar = {
+    id?: boolean
+    employeeId?: boolean
+    loanTypeId?: boolean
+    requestedAmount?: boolean
+    repaymentMonths?: boolean
+    reason?: boolean
+    status?: boolean
+    managerStatus?: boolean
+    hrStatus?: boolean
+    financeStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LoanApplicationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "employeeId" | "loanTypeId" | "requestedAmount" | "repaymentMonths" | "reason" | "status" | "managerStatus" | "hrStatus" | "financeStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["loanApplication"]>
+  export type LoanApplicationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    loanType?: boolean | LoanTypeDefaultArgs<ExtArgs>
+    approvals?: boolean | LoanApplication$approvalsArgs<ExtArgs>
+    disbursements?: boolean | LoanApplication$disbursementsArgs<ExtArgs>
+    installments?: boolean | LoanApplication$installmentsArgs<ExtArgs>
+    documents?: boolean | LoanApplication$documentsArgs<ExtArgs>
+    _count?: boolean | LoanApplicationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type LoanApplicationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    loanType?: boolean | LoanTypeDefaultArgs<ExtArgs>
+  }
+  export type LoanApplicationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    employee?: boolean | EmployeeDefaultArgs<ExtArgs>
+    loanType?: boolean | LoanTypeDefaultArgs<ExtArgs>
+  }
+
+  export type $LoanApplicationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanApplication"
+    objects: {
+      employee: Prisma.$EmployeePayload<ExtArgs>
+      loanType: Prisma.$LoanTypePayload<ExtArgs>
+      approvals: Prisma.$LoanApprovalPayload<ExtArgs>[]
+      disbursements: Prisma.$LoanDisbursementPayload<ExtArgs>[]
+      installments: Prisma.$LoanInstallmentPayload<ExtArgs>[]
+      documents: Prisma.$LoanDocumentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      employeeId: string
+      loanTypeId: string
+      requestedAmount: number
+      repaymentMonths: number
+      reason: string | null
+      status: string
+      managerStatus: string
+      hrStatus: string
+      financeStatus: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["loanApplication"]>
+    composites: {}
+  }
+
+  type LoanApplicationGetPayload<S extends boolean | null | undefined | LoanApplicationDefaultArgs> = $Result.GetResult<Prisma.$LoanApplicationPayload, S>
+
+  type LoanApplicationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanApplicationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanApplicationCountAggregateInputType | true
+    }
+
+  export interface LoanApplicationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanApplication'], meta: { name: 'LoanApplication' } }
+    /**
+     * Find zero or one LoanApplication that matches the filter.
+     * @param {LoanApplicationFindUniqueArgs} args - Arguments to find a LoanApplication
+     * @example
+     * // Get one LoanApplication
+     * const loanApplication = await prisma.loanApplication.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanApplicationFindUniqueArgs>(args: SelectSubset<T, LoanApplicationFindUniqueArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoanApplication that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanApplicationFindUniqueOrThrowArgs} args - Arguments to find a LoanApplication
+     * @example
+     * // Get one LoanApplication
+     * const loanApplication = await prisma.loanApplication.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanApplicationFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanApplicationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanApplication that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationFindFirstArgs} args - Arguments to find a LoanApplication
+     * @example
+     * // Get one LoanApplication
+     * const loanApplication = await prisma.loanApplication.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanApplicationFindFirstArgs>(args?: SelectSubset<T, LoanApplicationFindFirstArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanApplication that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationFindFirstOrThrowArgs} args - Arguments to find a LoanApplication
+     * @example
+     * // Get one LoanApplication
+     * const loanApplication = await prisma.loanApplication.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanApplicationFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanApplicationFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoanApplications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoanApplications
+     * const loanApplications = await prisma.loanApplication.findMany()
+     * 
+     * // Get first 10 LoanApplications
+     * const loanApplications = await prisma.loanApplication.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanApplicationWithIdOnly = await prisma.loanApplication.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanApplicationFindManyArgs>(args?: SelectSubset<T, LoanApplicationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoanApplication.
+     * @param {LoanApplicationCreateArgs} args - Arguments to create a LoanApplication.
+     * @example
+     * // Create one LoanApplication
+     * const LoanApplication = await prisma.loanApplication.create({
+     *   data: {
+     *     // ... data to create a LoanApplication
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanApplicationCreateArgs>(args: SelectSubset<T, LoanApplicationCreateArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoanApplications.
+     * @param {LoanApplicationCreateManyArgs} args - Arguments to create many LoanApplications.
+     * @example
+     * // Create many LoanApplications
+     * const loanApplication = await prisma.loanApplication.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanApplicationCreateManyArgs>(args?: SelectSubset<T, LoanApplicationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoanApplications and returns the data saved in the database.
+     * @param {LoanApplicationCreateManyAndReturnArgs} args - Arguments to create many LoanApplications.
+     * @example
+     * // Create many LoanApplications
+     * const loanApplication = await prisma.loanApplication.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoanApplications and only return the `id`
+     * const loanApplicationWithIdOnly = await prisma.loanApplication.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanApplicationCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanApplicationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoanApplication.
+     * @param {LoanApplicationDeleteArgs} args - Arguments to delete one LoanApplication.
+     * @example
+     * // Delete one LoanApplication
+     * const LoanApplication = await prisma.loanApplication.delete({
+     *   where: {
+     *     // ... filter to delete one LoanApplication
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanApplicationDeleteArgs>(args: SelectSubset<T, LoanApplicationDeleteArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoanApplication.
+     * @param {LoanApplicationUpdateArgs} args - Arguments to update one LoanApplication.
+     * @example
+     * // Update one LoanApplication
+     * const loanApplication = await prisma.loanApplication.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanApplicationUpdateArgs>(args: SelectSubset<T, LoanApplicationUpdateArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoanApplications.
+     * @param {LoanApplicationDeleteManyArgs} args - Arguments to filter LoanApplications to delete.
+     * @example
+     * // Delete a few LoanApplications
+     * const { count } = await prisma.loanApplication.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanApplicationDeleteManyArgs>(args?: SelectSubset<T, LoanApplicationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanApplications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoanApplications
+     * const loanApplication = await prisma.loanApplication.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanApplicationUpdateManyArgs>(args: SelectSubset<T, LoanApplicationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanApplications and returns the data updated in the database.
+     * @param {LoanApplicationUpdateManyAndReturnArgs} args - Arguments to update many LoanApplications.
+     * @example
+     * // Update many LoanApplications
+     * const loanApplication = await prisma.loanApplication.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoanApplications and only return the `id`
+     * const loanApplicationWithIdOnly = await prisma.loanApplication.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanApplicationUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanApplicationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoanApplication.
+     * @param {LoanApplicationUpsertArgs} args - Arguments to update or create a LoanApplication.
+     * @example
+     * // Update or create a LoanApplication
+     * const loanApplication = await prisma.loanApplication.upsert({
+     *   create: {
+     *     // ... data to create a LoanApplication
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoanApplication we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanApplicationUpsertArgs>(args: SelectSubset<T, LoanApplicationUpsertArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoanApplications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationCountArgs} args - Arguments to filter LoanApplications to count.
+     * @example
+     * // Count the number of LoanApplications
+     * const count = await prisma.loanApplication.count({
+     *   where: {
+     *     // ... the filter for the LoanApplications we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanApplicationCountArgs>(
+      args?: Subset<T, LoanApplicationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanApplicationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoanApplication.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanApplicationAggregateArgs>(args: Subset<T, LoanApplicationAggregateArgs>): Prisma.PrismaPromise<GetLoanApplicationAggregateType<T>>
+
+    /**
+     * Group by LoanApplication.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApplicationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanApplicationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanApplicationGroupByArgs['orderBy'] }
+        : { orderBy?: LoanApplicationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanApplicationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanApplicationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoanApplication model
+   */
+  readonly fields: LoanApplicationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoanApplication.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanApplicationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    employee<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    loanType<T extends LoanTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoanTypeDefaultArgs<ExtArgs>>): Prisma__LoanTypeClient<$Result.GetResult<Prisma.$LoanTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    approvals<T extends LoanApplication$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplication$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    disbursements<T extends LoanApplication$disbursementsArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplication$disbursementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    installments<T extends LoanApplication$installmentsArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplication$installmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documents<T extends LoanApplication$documentsArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplication$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoanApplication model
+   */
+  interface LoanApplicationFieldRefs {
+    readonly id: FieldRef<"LoanApplication", 'String'>
+    readonly employeeId: FieldRef<"LoanApplication", 'String'>
+    readonly loanTypeId: FieldRef<"LoanApplication", 'String'>
+    readonly requestedAmount: FieldRef<"LoanApplication", 'Float'>
+    readonly repaymentMonths: FieldRef<"LoanApplication", 'Int'>
+    readonly reason: FieldRef<"LoanApplication", 'String'>
+    readonly status: FieldRef<"LoanApplication", 'String'>
+    readonly managerStatus: FieldRef<"LoanApplication", 'String'>
+    readonly hrStatus: FieldRef<"LoanApplication", 'String'>
+    readonly financeStatus: FieldRef<"LoanApplication", 'String'>
+    readonly createdAt: FieldRef<"LoanApplication", 'DateTime'>
+    readonly updatedAt: FieldRef<"LoanApplication", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoanApplication findUnique
+   */
+  export type LoanApplicationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApplication to fetch.
+     */
+    where: LoanApplicationWhereUniqueInput
+  }
+
+  /**
+   * LoanApplication findUniqueOrThrow
+   */
+  export type LoanApplicationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApplication to fetch.
+     */
+    where: LoanApplicationWhereUniqueInput
+  }
+
+  /**
+   * LoanApplication findFirst
+   */
+  export type LoanApplicationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApplication to fetch.
+     */
+    where?: LoanApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApplications to fetch.
+     */
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanApplications.
+     */
+    cursor?: LoanApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApplications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanApplications.
+     */
+    distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication findFirstOrThrow
+   */
+  export type LoanApplicationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApplication to fetch.
+     */
+    where?: LoanApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApplications to fetch.
+     */
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanApplications.
+     */
+    cursor?: LoanApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApplications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanApplications.
+     */
+    distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication findMany
+   */
+  export type LoanApplicationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApplications to fetch.
+     */
+    where?: LoanApplicationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApplications to fetch.
+     */
+    orderBy?: LoanApplicationOrderByWithRelationInput | LoanApplicationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoanApplications.
+     */
+    cursor?: LoanApplicationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApplications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApplications.
+     */
+    skip?: number
+    distinct?: LoanApplicationScalarFieldEnum | LoanApplicationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication create
+   */
+  export type LoanApplicationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoanApplication.
+     */
+    data: XOR<LoanApplicationCreateInput, LoanApplicationUncheckedCreateInput>
+  }
+
+  /**
+   * LoanApplication createMany
+   */
+  export type LoanApplicationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoanApplications.
+     */
+    data: LoanApplicationCreateManyInput | LoanApplicationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanApplication createManyAndReturn
+   */
+  export type LoanApplicationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoanApplications.
+     */
+    data: LoanApplicationCreateManyInput | LoanApplicationCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: LoanApplicationIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Loan update
+   * LoanApplication update
    */
-  export type LoanUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplicationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanApplication
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanApplicationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanApplication
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanApplicationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanApplicationInclude<ExtArgs> | null
     /**
-     * The data needed to update a Loan.
+     * The data needed to update a LoanApplication.
      */
-    data: XOR<LoanUpdateInput, LoanUncheckedUpdateInput>
+    data: XOR<LoanApplicationUpdateInput, LoanApplicationUncheckedUpdateInput>
     /**
-     * Choose, which Loan to update.
+     * Choose, which LoanApplication to update.
      */
-    where: LoanWhereUniqueInput
+    where: LoanApplicationWhereUniqueInput
   }
 
   /**
-   * Loan updateMany
+   * LoanApplication updateMany
    */
-  export type LoanUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplicationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Loans.
+     * The data used to update LoanApplications.
      */
-    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyInput>
+    data: XOR<LoanApplicationUpdateManyMutationInput, LoanApplicationUncheckedUpdateManyInput>
     /**
-     * Filter which Loans to update
+     * Filter which LoanApplications to update
      */
-    where?: LoanWhereInput
+    where?: LoanApplicationWhereInput
     /**
-     * Limit how many Loans to update.
+     * Limit how many LoanApplications to update.
      */
     limit?: number
   }
 
   /**
-   * Loan updateManyAndReturn
+   * LoanApplication updateManyAndReturn
    */
-  export type LoanUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplicationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanApplication
      */
-    select?: LoanSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: LoanApplicationSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanApplication
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanApplicationOmit<ExtArgs> | null
     /**
-     * The data used to update Loans.
+     * The data used to update LoanApplications.
      */
-    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyInput>
+    data: XOR<LoanApplicationUpdateManyMutationInput, LoanApplicationUncheckedUpdateManyInput>
     /**
-     * Filter which Loans to update
+     * Filter which LoanApplications to update
      */
-    where?: LoanWhereInput
+    where?: LoanApplicationWhereInput
     /**
-     * Limit how many Loans to update.
+     * Limit how many LoanApplications to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: LoanApplicationIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Loan upsert
+   * LoanApplication upsert
    */
-  export type LoanUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplicationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanApplication
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanApplicationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanApplication
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanApplicationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanApplicationInclude<ExtArgs> | null
     /**
-     * The filter to search for the Loan to update in case it exists.
+     * The filter to search for the LoanApplication to update in case it exists.
      */
-    where: LoanWhereUniqueInput
+    where: LoanApplicationWhereUniqueInput
     /**
-     * In case the Loan found by the `where` argument doesn't exist, create a new Loan with this data.
+     * In case the LoanApplication found by the `where` argument doesn't exist, create a new LoanApplication with this data.
      */
-    create: XOR<LoanCreateInput, LoanUncheckedCreateInput>
+    create: XOR<LoanApplicationCreateInput, LoanApplicationUncheckedCreateInput>
     /**
-     * In case the Loan was found with the provided `where` argument, update it with this data.
+     * In case the LoanApplication was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<LoanUpdateInput, LoanUncheckedUpdateInput>
+    update: XOR<LoanApplicationUpdateInput, LoanApplicationUncheckedUpdateInput>
   }
 
   /**
-   * Loan delete
+   * LoanApplication delete
    */
-  export type LoanDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplicationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanApplication
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanApplicationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanApplication
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanApplicationOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanApplicationInclude<ExtArgs> | null
     /**
-     * Filter which Loan to delete.
+     * Filter which LoanApplication to delete.
      */
-    where: LoanWhereUniqueInput
+    where: LoanApplicationWhereUniqueInput
   }
 
   /**
-   * Loan deleteMany
+   * LoanApplication deleteMany
    */
-  export type LoanDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplicationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Loans to delete
+     * Filter which LoanApplications to delete
      */
-    where?: LoanWhereInput
+    where?: LoanApplicationWhereInput
     /**
-     * Limit how many Loans to delete.
+     * Limit how many LoanApplications to delete.
      */
     limit?: number
   }
 
   /**
-   * Loan without action
+   * LoanApplication.approvals
    */
-  export type LoanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LoanApplication$approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Loan
+     * Select specific fields to fetch from the LoanApproval
      */
-    select?: LoanSelect<ExtArgs> | null
+    select?: LoanApprovalSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Loan
+     * Omit specific fields from the LoanApproval
      */
-    omit?: LoanOmit<ExtArgs> | null
+    omit?: LoanApprovalOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LoanInclude<ExtArgs> | null
+    include?: LoanApprovalInclude<ExtArgs> | null
+    where?: LoanApprovalWhereInput
+    orderBy?: LoanApprovalOrderByWithRelationInput | LoanApprovalOrderByWithRelationInput[]
+    cursor?: LoanApprovalWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanApprovalScalarFieldEnum | LoanApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication.disbursements
+   */
+  export type LoanApplication$disbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    where?: LoanDisbursementWhereInput
+    orderBy?: LoanDisbursementOrderByWithRelationInput | LoanDisbursementOrderByWithRelationInput[]
+    cursor?: LoanDisbursementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanDisbursementScalarFieldEnum | LoanDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication.installments
+   */
+  export type LoanApplication$installmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    where?: LoanInstallmentWhereInput
+    orderBy?: LoanInstallmentOrderByWithRelationInput | LoanInstallmentOrderByWithRelationInput[]
+    cursor?: LoanInstallmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanInstallmentScalarFieldEnum | LoanInstallmentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication.documents
+   */
+  export type LoanApplication$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    where?: LoanDocumentWhereInput
+    orderBy?: LoanDocumentOrderByWithRelationInput | LoanDocumentOrderByWithRelationInput[]
+    cursor?: LoanDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LoanDocumentScalarFieldEnum | LoanDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApplication without action
+   */
+  export type LoanApplicationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApplication
+     */
+    select?: LoanApplicationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApplication
+     */
+    omit?: LoanApplicationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApplicationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoanApproval
+   */
+
+  export type AggregateLoanApproval = {
+    _count: LoanApprovalCountAggregateOutputType | null
+    _min: LoanApprovalMinAggregateOutputType | null
+    _max: LoanApprovalMaxAggregateOutputType | null
+  }
+
+  export type LoanApprovalMinAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    approverEmail: string | null
+    level: string | null
+    action: string | null
+    comments: string | null
+    createdAt: Date | null
+  }
+
+  export type LoanApprovalMaxAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    approverEmail: string | null
+    level: string | null
+    action: string | null
+    comments: string | null
+    createdAt: Date | null
+  }
+
+  export type LoanApprovalCountAggregateOutputType = {
+    id: number
+    applicationId: number
+    approverEmail: number
+    level: number
+    action: number
+    comments: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LoanApprovalMinAggregateInputType = {
+    id?: true
+    applicationId?: true
+    approverEmail?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+  }
+
+  export type LoanApprovalMaxAggregateInputType = {
+    id?: true
+    applicationId?: true
+    approverEmail?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+  }
+
+  export type LoanApprovalCountAggregateInputType = {
+    id?: true
+    applicationId?: true
+    approverEmail?: true
+    level?: true
+    action?: true
+    comments?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LoanApprovalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanApproval to aggregate.
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApprovals to fetch.
+     */
+    orderBy?: LoanApprovalOrderByWithRelationInput | LoanApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoanApprovals
+    **/
+    _count?: true | LoanApprovalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanApprovalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanApprovalMaxAggregateInputType
+  }
+
+  export type GetLoanApprovalAggregateType<T extends LoanApprovalAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanApproval]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoanApproval[P]>
+      : GetScalarType<T[P], AggregateLoanApproval[P]>
+  }
+
+
+
+
+  export type LoanApprovalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanApprovalWhereInput
+    orderBy?: LoanApprovalOrderByWithAggregationInput | LoanApprovalOrderByWithAggregationInput[]
+    by: LoanApprovalScalarFieldEnum[] | LoanApprovalScalarFieldEnum
+    having?: LoanApprovalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanApprovalCountAggregateInputType | true
+    _min?: LoanApprovalMinAggregateInputType
+    _max?: LoanApprovalMaxAggregateInputType
+  }
+
+  export type LoanApprovalGroupByOutputType = {
+    id: string
+    applicationId: string
+    approverEmail: string
+    level: string
+    action: string
+    comments: string | null
+    createdAt: Date
+    _count: LoanApprovalCountAggregateOutputType | null
+    _min: LoanApprovalMinAggregateOutputType | null
+    _max: LoanApprovalMaxAggregateOutputType | null
+  }
+
+  type GetLoanApprovalGroupByPayload<T extends LoanApprovalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanApprovalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanApprovalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanApprovalGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanApprovalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanApprovalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanApproval"]>
+
+  export type LoanApprovalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanApproval"]>
+
+  export type LoanApprovalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanApproval"]>
+
+  export type LoanApprovalSelectScalar = {
+    id?: boolean
+    applicationId?: boolean
+    approverEmail?: boolean
+    level?: boolean
+    action?: boolean
+    comments?: boolean
+    createdAt?: boolean
+  }
+
+  export type LoanApprovalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "applicationId" | "approverEmail" | "level" | "action" | "comments" | "createdAt", ExtArgs["result"]["loanApproval"]>
+  export type LoanApprovalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanApprovalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanApprovalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+
+  export type $LoanApprovalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanApproval"
+    objects: {
+      application: Prisma.$LoanApplicationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      applicationId: string
+      approverEmail: string
+      level: string
+      action: string
+      comments: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["loanApproval"]>
+    composites: {}
+  }
+
+  type LoanApprovalGetPayload<S extends boolean | null | undefined | LoanApprovalDefaultArgs> = $Result.GetResult<Prisma.$LoanApprovalPayload, S>
+
+  type LoanApprovalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanApprovalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanApprovalCountAggregateInputType | true
+    }
+
+  export interface LoanApprovalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanApproval'], meta: { name: 'LoanApproval' } }
+    /**
+     * Find zero or one LoanApproval that matches the filter.
+     * @param {LoanApprovalFindUniqueArgs} args - Arguments to find a LoanApproval
+     * @example
+     * // Get one LoanApproval
+     * const loanApproval = await prisma.loanApproval.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanApprovalFindUniqueArgs>(args: SelectSubset<T, LoanApprovalFindUniqueArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoanApproval that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanApprovalFindUniqueOrThrowArgs} args - Arguments to find a LoanApproval
+     * @example
+     * // Get one LoanApproval
+     * const loanApproval = await prisma.loanApproval.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanApprovalFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanApprovalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanApproval that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalFindFirstArgs} args - Arguments to find a LoanApproval
+     * @example
+     * // Get one LoanApproval
+     * const loanApproval = await prisma.loanApproval.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanApprovalFindFirstArgs>(args?: SelectSubset<T, LoanApprovalFindFirstArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanApproval that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalFindFirstOrThrowArgs} args - Arguments to find a LoanApproval
+     * @example
+     * // Get one LoanApproval
+     * const loanApproval = await prisma.loanApproval.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanApprovalFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanApprovalFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoanApprovals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoanApprovals
+     * const loanApprovals = await prisma.loanApproval.findMany()
+     * 
+     * // Get first 10 LoanApprovals
+     * const loanApprovals = await prisma.loanApproval.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanApprovalWithIdOnly = await prisma.loanApproval.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanApprovalFindManyArgs>(args?: SelectSubset<T, LoanApprovalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoanApproval.
+     * @param {LoanApprovalCreateArgs} args - Arguments to create a LoanApproval.
+     * @example
+     * // Create one LoanApproval
+     * const LoanApproval = await prisma.loanApproval.create({
+     *   data: {
+     *     // ... data to create a LoanApproval
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanApprovalCreateArgs>(args: SelectSubset<T, LoanApprovalCreateArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoanApprovals.
+     * @param {LoanApprovalCreateManyArgs} args - Arguments to create many LoanApprovals.
+     * @example
+     * // Create many LoanApprovals
+     * const loanApproval = await prisma.loanApproval.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanApprovalCreateManyArgs>(args?: SelectSubset<T, LoanApprovalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoanApprovals and returns the data saved in the database.
+     * @param {LoanApprovalCreateManyAndReturnArgs} args - Arguments to create many LoanApprovals.
+     * @example
+     * // Create many LoanApprovals
+     * const loanApproval = await prisma.loanApproval.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoanApprovals and only return the `id`
+     * const loanApprovalWithIdOnly = await prisma.loanApproval.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanApprovalCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanApprovalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoanApproval.
+     * @param {LoanApprovalDeleteArgs} args - Arguments to delete one LoanApproval.
+     * @example
+     * // Delete one LoanApproval
+     * const LoanApproval = await prisma.loanApproval.delete({
+     *   where: {
+     *     // ... filter to delete one LoanApproval
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanApprovalDeleteArgs>(args: SelectSubset<T, LoanApprovalDeleteArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoanApproval.
+     * @param {LoanApprovalUpdateArgs} args - Arguments to update one LoanApproval.
+     * @example
+     * // Update one LoanApproval
+     * const loanApproval = await prisma.loanApproval.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanApprovalUpdateArgs>(args: SelectSubset<T, LoanApprovalUpdateArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoanApprovals.
+     * @param {LoanApprovalDeleteManyArgs} args - Arguments to filter LoanApprovals to delete.
+     * @example
+     * // Delete a few LoanApprovals
+     * const { count } = await prisma.loanApproval.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanApprovalDeleteManyArgs>(args?: SelectSubset<T, LoanApprovalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoanApprovals
+     * const loanApproval = await prisma.loanApproval.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanApprovalUpdateManyArgs>(args: SelectSubset<T, LoanApprovalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanApprovals and returns the data updated in the database.
+     * @param {LoanApprovalUpdateManyAndReturnArgs} args - Arguments to update many LoanApprovals.
+     * @example
+     * // Update many LoanApprovals
+     * const loanApproval = await prisma.loanApproval.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoanApprovals and only return the `id`
+     * const loanApprovalWithIdOnly = await prisma.loanApproval.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanApprovalUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanApprovalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoanApproval.
+     * @param {LoanApprovalUpsertArgs} args - Arguments to update or create a LoanApproval.
+     * @example
+     * // Update or create a LoanApproval
+     * const loanApproval = await prisma.loanApproval.upsert({
+     *   create: {
+     *     // ... data to create a LoanApproval
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoanApproval we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanApprovalUpsertArgs>(args: SelectSubset<T, LoanApprovalUpsertArgs<ExtArgs>>): Prisma__LoanApprovalClient<$Result.GetResult<Prisma.$LoanApprovalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoanApprovals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalCountArgs} args - Arguments to filter LoanApprovals to count.
+     * @example
+     * // Count the number of LoanApprovals
+     * const count = await prisma.loanApproval.count({
+     *   where: {
+     *     // ... the filter for the LoanApprovals we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanApprovalCountArgs>(
+      args?: Subset<T, LoanApprovalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanApprovalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoanApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanApprovalAggregateArgs>(args: Subset<T, LoanApprovalAggregateArgs>): Prisma.PrismaPromise<GetLoanApprovalAggregateType<T>>
+
+    /**
+     * Group by LoanApproval.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanApprovalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanApprovalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanApprovalGroupByArgs['orderBy'] }
+        : { orderBy?: LoanApprovalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanApprovalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanApprovalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoanApproval model
+   */
+  readonly fields: LoanApprovalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoanApproval.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanApprovalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    application<T extends LoanApplicationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplicationDefaultArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoanApproval model
+   */
+  interface LoanApprovalFieldRefs {
+    readonly id: FieldRef<"LoanApproval", 'String'>
+    readonly applicationId: FieldRef<"LoanApproval", 'String'>
+    readonly approverEmail: FieldRef<"LoanApproval", 'String'>
+    readonly level: FieldRef<"LoanApproval", 'String'>
+    readonly action: FieldRef<"LoanApproval", 'String'>
+    readonly comments: FieldRef<"LoanApproval", 'String'>
+    readonly createdAt: FieldRef<"LoanApproval", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoanApproval findUnique
+   */
+  export type LoanApprovalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApproval to fetch.
+     */
+    where: LoanApprovalWhereUniqueInput
+  }
+
+  /**
+   * LoanApproval findUniqueOrThrow
+   */
+  export type LoanApprovalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApproval to fetch.
+     */
+    where: LoanApprovalWhereUniqueInput
+  }
+
+  /**
+   * LoanApproval findFirst
+   */
+  export type LoanApprovalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApproval to fetch.
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApprovals to fetch.
+     */
+    orderBy?: LoanApprovalOrderByWithRelationInput | LoanApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanApprovals.
+     */
+    cursor?: LoanApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanApprovals.
+     */
+    distinct?: LoanApprovalScalarFieldEnum | LoanApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApproval findFirstOrThrow
+   */
+  export type LoanApprovalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApproval to fetch.
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApprovals to fetch.
+     */
+    orderBy?: LoanApprovalOrderByWithRelationInput | LoanApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanApprovals.
+     */
+    cursor?: LoanApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApprovals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanApprovals.
+     */
+    distinct?: LoanApprovalScalarFieldEnum | LoanApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApproval findMany
+   */
+  export type LoanApprovalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanApprovals to fetch.
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanApprovals to fetch.
+     */
+    orderBy?: LoanApprovalOrderByWithRelationInput | LoanApprovalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoanApprovals.
+     */
+    cursor?: LoanApprovalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanApprovals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanApprovals.
+     */
+    skip?: number
+    distinct?: LoanApprovalScalarFieldEnum | LoanApprovalScalarFieldEnum[]
+  }
+
+  /**
+   * LoanApproval create
+   */
+  export type LoanApprovalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoanApproval.
+     */
+    data: XOR<LoanApprovalCreateInput, LoanApprovalUncheckedCreateInput>
+  }
+
+  /**
+   * LoanApproval createMany
+   */
+  export type LoanApprovalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoanApprovals.
+     */
+    data: LoanApprovalCreateManyInput | LoanApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanApproval createManyAndReturn
+   */
+  export type LoanApprovalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoanApprovals.
+     */
+    data: LoanApprovalCreateManyInput | LoanApprovalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanApproval update
+   */
+  export type LoanApprovalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoanApproval.
+     */
+    data: XOR<LoanApprovalUpdateInput, LoanApprovalUncheckedUpdateInput>
+    /**
+     * Choose, which LoanApproval to update.
+     */
+    where: LoanApprovalWhereUniqueInput
+  }
+
+  /**
+   * LoanApproval updateMany
+   */
+  export type LoanApprovalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoanApprovals.
+     */
+    data: XOR<LoanApprovalUpdateManyMutationInput, LoanApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanApprovals to update
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * Limit how many LoanApprovals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanApproval updateManyAndReturn
+   */
+  export type LoanApprovalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * The data used to update LoanApprovals.
+     */
+    data: XOR<LoanApprovalUpdateManyMutationInput, LoanApprovalUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanApprovals to update
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * Limit how many LoanApprovals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanApproval upsert
+   */
+  export type LoanApprovalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoanApproval to update in case it exists.
+     */
+    where: LoanApprovalWhereUniqueInput
+    /**
+     * In case the LoanApproval found by the `where` argument doesn't exist, create a new LoanApproval with this data.
+     */
+    create: XOR<LoanApprovalCreateInput, LoanApprovalUncheckedCreateInput>
+    /**
+     * In case the LoanApproval was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanApprovalUpdateInput, LoanApprovalUncheckedUpdateInput>
+  }
+
+  /**
+   * LoanApproval delete
+   */
+  export type LoanApprovalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+    /**
+     * Filter which LoanApproval to delete.
+     */
+    where: LoanApprovalWhereUniqueInput
+  }
+
+  /**
+   * LoanApproval deleteMany
+   */
+  export type LoanApprovalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanApprovals to delete
+     */
+    where?: LoanApprovalWhereInput
+    /**
+     * Limit how many LoanApprovals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanApproval without action
+   */
+  export type LoanApprovalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanApproval
+     */
+    select?: LoanApprovalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanApproval
+     */
+    omit?: LoanApprovalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanApprovalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoanDisbursement
+   */
+
+  export type AggregateLoanDisbursement = {
+    _count: LoanDisbursementCountAggregateOutputType | null
+    _avg: LoanDisbursementAvgAggregateOutputType | null
+    _sum: LoanDisbursementSumAggregateOutputType | null
+    _min: LoanDisbursementMinAggregateOutputType | null
+    _max: LoanDisbursementMaxAggregateOutputType | null
+  }
+
+  export type LoanDisbursementAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type LoanDisbursementSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type LoanDisbursementMinAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    method: string | null
+    amount: number | null
+    transactionRef: string | null
+    disbursedAt: Date | null
+  }
+
+  export type LoanDisbursementMaxAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    method: string | null
+    amount: number | null
+    transactionRef: string | null
+    disbursedAt: Date | null
+  }
+
+  export type LoanDisbursementCountAggregateOutputType = {
+    id: number
+    applicationId: number
+    method: number
+    amount: number
+    transactionRef: number
+    disbursedAt: number
+    _all: number
+  }
+
+
+  export type LoanDisbursementAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type LoanDisbursementSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type LoanDisbursementMinAggregateInputType = {
+    id?: true
+    applicationId?: true
+    method?: true
+    amount?: true
+    transactionRef?: true
+    disbursedAt?: true
+  }
+
+  export type LoanDisbursementMaxAggregateInputType = {
+    id?: true
+    applicationId?: true
+    method?: true
+    amount?: true
+    transactionRef?: true
+    disbursedAt?: true
+  }
+
+  export type LoanDisbursementCountAggregateInputType = {
+    id?: true
+    applicationId?: true
+    method?: true
+    amount?: true
+    transactionRef?: true
+    disbursedAt?: true
+    _all?: true
+  }
+
+  export type LoanDisbursementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanDisbursement to aggregate.
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDisbursements to fetch.
+     */
+    orderBy?: LoanDisbursementOrderByWithRelationInput | LoanDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDisbursements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoanDisbursements
+    **/
+    _count?: true | LoanDisbursementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoanDisbursementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoanDisbursementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanDisbursementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanDisbursementMaxAggregateInputType
+  }
+
+  export type GetLoanDisbursementAggregateType<T extends LoanDisbursementAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanDisbursement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoanDisbursement[P]>
+      : GetScalarType<T[P], AggregateLoanDisbursement[P]>
+  }
+
+
+
+
+  export type LoanDisbursementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanDisbursementWhereInput
+    orderBy?: LoanDisbursementOrderByWithAggregationInput | LoanDisbursementOrderByWithAggregationInput[]
+    by: LoanDisbursementScalarFieldEnum[] | LoanDisbursementScalarFieldEnum
+    having?: LoanDisbursementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanDisbursementCountAggregateInputType | true
+    _avg?: LoanDisbursementAvgAggregateInputType
+    _sum?: LoanDisbursementSumAggregateInputType
+    _min?: LoanDisbursementMinAggregateInputType
+    _max?: LoanDisbursementMaxAggregateInputType
+  }
+
+  export type LoanDisbursementGroupByOutputType = {
+    id: string
+    applicationId: string
+    method: string
+    amount: number
+    transactionRef: string | null
+    disbursedAt: Date
+    _count: LoanDisbursementCountAggregateOutputType | null
+    _avg: LoanDisbursementAvgAggregateOutputType | null
+    _sum: LoanDisbursementSumAggregateOutputType | null
+    _min: LoanDisbursementMinAggregateOutputType | null
+    _max: LoanDisbursementMaxAggregateOutputType | null
+  }
+
+  type GetLoanDisbursementGroupByPayload<T extends LoanDisbursementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanDisbursementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanDisbursementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanDisbursementGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanDisbursementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanDisbursementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    method?: boolean
+    amount?: boolean
+    transactionRef?: boolean
+    disbursedAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanDisbursement"]>
+
+  export type LoanDisbursementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    method?: boolean
+    amount?: boolean
+    transactionRef?: boolean
+    disbursedAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanDisbursement"]>
+
+  export type LoanDisbursementSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    method?: boolean
+    amount?: boolean
+    transactionRef?: boolean
+    disbursedAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanDisbursement"]>
+
+  export type LoanDisbursementSelectScalar = {
+    id?: boolean
+    applicationId?: boolean
+    method?: boolean
+    amount?: boolean
+    transactionRef?: boolean
+    disbursedAt?: boolean
+  }
+
+  export type LoanDisbursementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "applicationId" | "method" | "amount" | "transactionRef" | "disbursedAt", ExtArgs["result"]["loanDisbursement"]>
+  export type LoanDisbursementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanDisbursementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanDisbursementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+
+  export type $LoanDisbursementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanDisbursement"
+    objects: {
+      application: Prisma.$LoanApplicationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      applicationId: string
+      method: string
+      amount: number
+      transactionRef: string | null
+      disbursedAt: Date
+    }, ExtArgs["result"]["loanDisbursement"]>
+    composites: {}
+  }
+
+  type LoanDisbursementGetPayload<S extends boolean | null | undefined | LoanDisbursementDefaultArgs> = $Result.GetResult<Prisma.$LoanDisbursementPayload, S>
+
+  type LoanDisbursementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanDisbursementFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanDisbursementCountAggregateInputType | true
+    }
+
+  export interface LoanDisbursementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanDisbursement'], meta: { name: 'LoanDisbursement' } }
+    /**
+     * Find zero or one LoanDisbursement that matches the filter.
+     * @param {LoanDisbursementFindUniqueArgs} args - Arguments to find a LoanDisbursement
+     * @example
+     * // Get one LoanDisbursement
+     * const loanDisbursement = await prisma.loanDisbursement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanDisbursementFindUniqueArgs>(args: SelectSubset<T, LoanDisbursementFindUniqueArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoanDisbursement that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanDisbursementFindUniqueOrThrowArgs} args - Arguments to find a LoanDisbursement
+     * @example
+     * // Get one LoanDisbursement
+     * const loanDisbursement = await prisma.loanDisbursement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanDisbursementFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanDisbursementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanDisbursement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementFindFirstArgs} args - Arguments to find a LoanDisbursement
+     * @example
+     * // Get one LoanDisbursement
+     * const loanDisbursement = await prisma.loanDisbursement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanDisbursementFindFirstArgs>(args?: SelectSubset<T, LoanDisbursementFindFirstArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanDisbursement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementFindFirstOrThrowArgs} args - Arguments to find a LoanDisbursement
+     * @example
+     * // Get one LoanDisbursement
+     * const loanDisbursement = await prisma.loanDisbursement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanDisbursementFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanDisbursementFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoanDisbursements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoanDisbursements
+     * const loanDisbursements = await prisma.loanDisbursement.findMany()
+     * 
+     * // Get first 10 LoanDisbursements
+     * const loanDisbursements = await prisma.loanDisbursement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanDisbursementWithIdOnly = await prisma.loanDisbursement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanDisbursementFindManyArgs>(args?: SelectSubset<T, LoanDisbursementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoanDisbursement.
+     * @param {LoanDisbursementCreateArgs} args - Arguments to create a LoanDisbursement.
+     * @example
+     * // Create one LoanDisbursement
+     * const LoanDisbursement = await prisma.loanDisbursement.create({
+     *   data: {
+     *     // ... data to create a LoanDisbursement
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanDisbursementCreateArgs>(args: SelectSubset<T, LoanDisbursementCreateArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoanDisbursements.
+     * @param {LoanDisbursementCreateManyArgs} args - Arguments to create many LoanDisbursements.
+     * @example
+     * // Create many LoanDisbursements
+     * const loanDisbursement = await prisma.loanDisbursement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanDisbursementCreateManyArgs>(args?: SelectSubset<T, LoanDisbursementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoanDisbursements and returns the data saved in the database.
+     * @param {LoanDisbursementCreateManyAndReturnArgs} args - Arguments to create many LoanDisbursements.
+     * @example
+     * // Create many LoanDisbursements
+     * const loanDisbursement = await prisma.loanDisbursement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoanDisbursements and only return the `id`
+     * const loanDisbursementWithIdOnly = await prisma.loanDisbursement.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanDisbursementCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanDisbursementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoanDisbursement.
+     * @param {LoanDisbursementDeleteArgs} args - Arguments to delete one LoanDisbursement.
+     * @example
+     * // Delete one LoanDisbursement
+     * const LoanDisbursement = await prisma.loanDisbursement.delete({
+     *   where: {
+     *     // ... filter to delete one LoanDisbursement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanDisbursementDeleteArgs>(args: SelectSubset<T, LoanDisbursementDeleteArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoanDisbursement.
+     * @param {LoanDisbursementUpdateArgs} args - Arguments to update one LoanDisbursement.
+     * @example
+     * // Update one LoanDisbursement
+     * const loanDisbursement = await prisma.loanDisbursement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanDisbursementUpdateArgs>(args: SelectSubset<T, LoanDisbursementUpdateArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoanDisbursements.
+     * @param {LoanDisbursementDeleteManyArgs} args - Arguments to filter LoanDisbursements to delete.
+     * @example
+     * // Delete a few LoanDisbursements
+     * const { count } = await prisma.loanDisbursement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanDisbursementDeleteManyArgs>(args?: SelectSubset<T, LoanDisbursementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanDisbursements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoanDisbursements
+     * const loanDisbursement = await prisma.loanDisbursement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanDisbursementUpdateManyArgs>(args: SelectSubset<T, LoanDisbursementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanDisbursements and returns the data updated in the database.
+     * @param {LoanDisbursementUpdateManyAndReturnArgs} args - Arguments to update many LoanDisbursements.
+     * @example
+     * // Update many LoanDisbursements
+     * const loanDisbursement = await prisma.loanDisbursement.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoanDisbursements and only return the `id`
+     * const loanDisbursementWithIdOnly = await prisma.loanDisbursement.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanDisbursementUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanDisbursementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoanDisbursement.
+     * @param {LoanDisbursementUpsertArgs} args - Arguments to update or create a LoanDisbursement.
+     * @example
+     * // Update or create a LoanDisbursement
+     * const loanDisbursement = await prisma.loanDisbursement.upsert({
+     *   create: {
+     *     // ... data to create a LoanDisbursement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoanDisbursement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanDisbursementUpsertArgs>(args: SelectSubset<T, LoanDisbursementUpsertArgs<ExtArgs>>): Prisma__LoanDisbursementClient<$Result.GetResult<Prisma.$LoanDisbursementPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoanDisbursements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementCountArgs} args - Arguments to filter LoanDisbursements to count.
+     * @example
+     * // Count the number of LoanDisbursements
+     * const count = await prisma.loanDisbursement.count({
+     *   where: {
+     *     // ... the filter for the LoanDisbursements we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanDisbursementCountArgs>(
+      args?: Subset<T, LoanDisbursementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanDisbursementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoanDisbursement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanDisbursementAggregateArgs>(args: Subset<T, LoanDisbursementAggregateArgs>): Prisma.PrismaPromise<GetLoanDisbursementAggregateType<T>>
+
+    /**
+     * Group by LoanDisbursement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDisbursementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanDisbursementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanDisbursementGroupByArgs['orderBy'] }
+        : { orderBy?: LoanDisbursementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanDisbursementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanDisbursementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoanDisbursement model
+   */
+  readonly fields: LoanDisbursementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoanDisbursement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanDisbursementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    application<T extends LoanApplicationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplicationDefaultArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoanDisbursement model
+   */
+  interface LoanDisbursementFieldRefs {
+    readonly id: FieldRef<"LoanDisbursement", 'String'>
+    readonly applicationId: FieldRef<"LoanDisbursement", 'String'>
+    readonly method: FieldRef<"LoanDisbursement", 'String'>
+    readonly amount: FieldRef<"LoanDisbursement", 'Float'>
+    readonly transactionRef: FieldRef<"LoanDisbursement", 'String'>
+    readonly disbursedAt: FieldRef<"LoanDisbursement", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoanDisbursement findUnique
+   */
+  export type LoanDisbursementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDisbursement to fetch.
+     */
+    where: LoanDisbursementWhereUniqueInput
+  }
+
+  /**
+   * LoanDisbursement findUniqueOrThrow
+   */
+  export type LoanDisbursementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDisbursement to fetch.
+     */
+    where: LoanDisbursementWhereUniqueInput
+  }
+
+  /**
+   * LoanDisbursement findFirst
+   */
+  export type LoanDisbursementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDisbursement to fetch.
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDisbursements to fetch.
+     */
+    orderBy?: LoanDisbursementOrderByWithRelationInput | LoanDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanDisbursements.
+     */
+    cursor?: LoanDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDisbursements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanDisbursements.
+     */
+    distinct?: LoanDisbursementScalarFieldEnum | LoanDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * LoanDisbursement findFirstOrThrow
+   */
+  export type LoanDisbursementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDisbursement to fetch.
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDisbursements to fetch.
+     */
+    orderBy?: LoanDisbursementOrderByWithRelationInput | LoanDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanDisbursements.
+     */
+    cursor?: LoanDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDisbursements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanDisbursements.
+     */
+    distinct?: LoanDisbursementScalarFieldEnum | LoanDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * LoanDisbursement findMany
+   */
+  export type LoanDisbursementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDisbursements to fetch.
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDisbursements to fetch.
+     */
+    orderBy?: LoanDisbursementOrderByWithRelationInput | LoanDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoanDisbursements.
+     */
+    cursor?: LoanDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDisbursements.
+     */
+    skip?: number
+    distinct?: LoanDisbursementScalarFieldEnum | LoanDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * LoanDisbursement create
+   */
+  export type LoanDisbursementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoanDisbursement.
+     */
+    data: XOR<LoanDisbursementCreateInput, LoanDisbursementUncheckedCreateInput>
+  }
+
+  /**
+   * LoanDisbursement createMany
+   */
+  export type LoanDisbursementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoanDisbursements.
+     */
+    data: LoanDisbursementCreateManyInput | LoanDisbursementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanDisbursement createManyAndReturn
+   */
+  export type LoanDisbursementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoanDisbursements.
+     */
+    data: LoanDisbursementCreateManyInput | LoanDisbursementCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanDisbursement update
+   */
+  export type LoanDisbursementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoanDisbursement.
+     */
+    data: XOR<LoanDisbursementUpdateInput, LoanDisbursementUncheckedUpdateInput>
+    /**
+     * Choose, which LoanDisbursement to update.
+     */
+    where: LoanDisbursementWhereUniqueInput
+  }
+
+  /**
+   * LoanDisbursement updateMany
+   */
+  export type LoanDisbursementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoanDisbursements.
+     */
+    data: XOR<LoanDisbursementUpdateManyMutationInput, LoanDisbursementUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanDisbursements to update
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * Limit how many LoanDisbursements to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanDisbursement updateManyAndReturn
+   */
+  export type LoanDisbursementUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * The data used to update LoanDisbursements.
+     */
+    data: XOR<LoanDisbursementUpdateManyMutationInput, LoanDisbursementUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanDisbursements to update
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * Limit how many LoanDisbursements to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanDisbursement upsert
+   */
+  export type LoanDisbursementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoanDisbursement to update in case it exists.
+     */
+    where: LoanDisbursementWhereUniqueInput
+    /**
+     * In case the LoanDisbursement found by the `where` argument doesn't exist, create a new LoanDisbursement with this data.
+     */
+    create: XOR<LoanDisbursementCreateInput, LoanDisbursementUncheckedCreateInput>
+    /**
+     * In case the LoanDisbursement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanDisbursementUpdateInput, LoanDisbursementUncheckedUpdateInput>
+  }
+
+  /**
+   * LoanDisbursement delete
+   */
+  export type LoanDisbursementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+    /**
+     * Filter which LoanDisbursement to delete.
+     */
+    where: LoanDisbursementWhereUniqueInput
+  }
+
+  /**
+   * LoanDisbursement deleteMany
+   */
+  export type LoanDisbursementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanDisbursements to delete
+     */
+    where?: LoanDisbursementWhereInput
+    /**
+     * Limit how many LoanDisbursements to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanDisbursement without action
+   */
+  export type LoanDisbursementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDisbursement
+     */
+    select?: LoanDisbursementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDisbursement
+     */
+    omit?: LoanDisbursementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDisbursementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoanInstallment
+   */
+
+  export type AggregateLoanInstallment = {
+    _count: LoanInstallmentCountAggregateOutputType | null
+    _avg: LoanInstallmentAvgAggregateOutputType | null
+    _sum: LoanInstallmentSumAggregateOutputType | null
+    _min: LoanInstallmentMinAggregateOutputType | null
+    _max: LoanInstallmentMaxAggregateOutputType | null
+  }
+
+  export type LoanInstallmentAvgAggregateOutputType = {
+    month: number | null
+    year: number | null
+    amount: number | null
+  }
+
+  export type LoanInstallmentSumAggregateOutputType = {
+    month: number | null
+    year: number | null
+    amount: number | null
+  }
+
+  export type LoanInstallmentMinAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    month: number | null
+    year: number | null
+    amount: number | null
+    status: string | null
+    deductedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type LoanInstallmentMaxAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    month: number | null
+    year: number | null
+    amount: number | null
+    status: string | null
+    deductedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type LoanInstallmentCountAggregateOutputType = {
+    id: number
+    applicationId: number
+    month: number
+    year: number
+    amount: number
+    status: number
+    deductedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LoanInstallmentAvgAggregateInputType = {
+    month?: true
+    year?: true
+    amount?: true
+  }
+
+  export type LoanInstallmentSumAggregateInputType = {
+    month?: true
+    year?: true
+    amount?: true
+  }
+
+  export type LoanInstallmentMinAggregateInputType = {
+    id?: true
+    applicationId?: true
+    month?: true
+    year?: true
+    amount?: true
+    status?: true
+    deductedAt?: true
+    createdAt?: true
+  }
+
+  export type LoanInstallmentMaxAggregateInputType = {
+    id?: true
+    applicationId?: true
+    month?: true
+    year?: true
+    amount?: true
+    status?: true
+    deductedAt?: true
+    createdAt?: true
+  }
+
+  export type LoanInstallmentCountAggregateInputType = {
+    id?: true
+    applicationId?: true
+    month?: true
+    year?: true
+    amount?: true
+    status?: true
+    deductedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LoanInstallmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanInstallment to aggregate.
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanInstallments to fetch.
+     */
+    orderBy?: LoanInstallmentOrderByWithRelationInput | LoanInstallmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanInstallmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanInstallments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanInstallments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoanInstallments
+    **/
+    _count?: true | LoanInstallmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LoanInstallmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LoanInstallmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanInstallmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanInstallmentMaxAggregateInputType
+  }
+
+  export type GetLoanInstallmentAggregateType<T extends LoanInstallmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanInstallment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoanInstallment[P]>
+      : GetScalarType<T[P], AggregateLoanInstallment[P]>
+  }
+
+
+
+
+  export type LoanInstallmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanInstallmentWhereInput
+    orderBy?: LoanInstallmentOrderByWithAggregationInput | LoanInstallmentOrderByWithAggregationInput[]
+    by: LoanInstallmentScalarFieldEnum[] | LoanInstallmentScalarFieldEnum
+    having?: LoanInstallmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanInstallmentCountAggregateInputType | true
+    _avg?: LoanInstallmentAvgAggregateInputType
+    _sum?: LoanInstallmentSumAggregateInputType
+    _min?: LoanInstallmentMinAggregateInputType
+    _max?: LoanInstallmentMaxAggregateInputType
+  }
+
+  export type LoanInstallmentGroupByOutputType = {
+    id: string
+    applicationId: string
+    month: number
+    year: number
+    amount: number
+    status: string
+    deductedAt: Date | null
+    createdAt: Date
+    _count: LoanInstallmentCountAggregateOutputType | null
+    _avg: LoanInstallmentAvgAggregateOutputType | null
+    _sum: LoanInstallmentSumAggregateOutputType | null
+    _min: LoanInstallmentMinAggregateOutputType | null
+    _max: LoanInstallmentMaxAggregateOutputType | null
+  }
+
+  type GetLoanInstallmentGroupByPayload<T extends LoanInstallmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanInstallmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanInstallmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanInstallmentGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanInstallmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanInstallmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    month?: boolean
+    year?: boolean
+    amount?: boolean
+    status?: boolean
+    deductedAt?: boolean
+    createdAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanInstallment"]>
+
+  export type LoanInstallmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    month?: boolean
+    year?: boolean
+    amount?: boolean
+    status?: boolean
+    deductedAt?: boolean
+    createdAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanInstallment"]>
+
+  export type LoanInstallmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    month?: boolean
+    year?: boolean
+    amount?: boolean
+    status?: boolean
+    deductedAt?: boolean
+    createdAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanInstallment"]>
+
+  export type LoanInstallmentSelectScalar = {
+    id?: boolean
+    applicationId?: boolean
+    month?: boolean
+    year?: boolean
+    amount?: boolean
+    status?: boolean
+    deductedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type LoanInstallmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "applicationId" | "month" | "year" | "amount" | "status" | "deductedAt" | "createdAt", ExtArgs["result"]["loanInstallment"]>
+  export type LoanInstallmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanInstallmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanInstallmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+
+  export type $LoanInstallmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanInstallment"
+    objects: {
+      application: Prisma.$LoanApplicationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      applicationId: string
+      month: number
+      year: number
+      amount: number
+      status: string
+      deductedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["loanInstallment"]>
+    composites: {}
+  }
+
+  type LoanInstallmentGetPayload<S extends boolean | null | undefined | LoanInstallmentDefaultArgs> = $Result.GetResult<Prisma.$LoanInstallmentPayload, S>
+
+  type LoanInstallmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanInstallmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanInstallmentCountAggregateInputType | true
+    }
+
+  export interface LoanInstallmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanInstallment'], meta: { name: 'LoanInstallment' } }
+    /**
+     * Find zero or one LoanInstallment that matches the filter.
+     * @param {LoanInstallmentFindUniqueArgs} args - Arguments to find a LoanInstallment
+     * @example
+     * // Get one LoanInstallment
+     * const loanInstallment = await prisma.loanInstallment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanInstallmentFindUniqueArgs>(args: SelectSubset<T, LoanInstallmentFindUniqueArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoanInstallment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanInstallmentFindUniqueOrThrowArgs} args - Arguments to find a LoanInstallment
+     * @example
+     * // Get one LoanInstallment
+     * const loanInstallment = await prisma.loanInstallment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanInstallmentFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanInstallmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanInstallment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentFindFirstArgs} args - Arguments to find a LoanInstallment
+     * @example
+     * // Get one LoanInstallment
+     * const loanInstallment = await prisma.loanInstallment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanInstallmentFindFirstArgs>(args?: SelectSubset<T, LoanInstallmentFindFirstArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanInstallment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentFindFirstOrThrowArgs} args - Arguments to find a LoanInstallment
+     * @example
+     * // Get one LoanInstallment
+     * const loanInstallment = await prisma.loanInstallment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanInstallmentFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanInstallmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoanInstallments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoanInstallments
+     * const loanInstallments = await prisma.loanInstallment.findMany()
+     * 
+     * // Get first 10 LoanInstallments
+     * const loanInstallments = await prisma.loanInstallment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanInstallmentWithIdOnly = await prisma.loanInstallment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanInstallmentFindManyArgs>(args?: SelectSubset<T, LoanInstallmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoanInstallment.
+     * @param {LoanInstallmentCreateArgs} args - Arguments to create a LoanInstallment.
+     * @example
+     * // Create one LoanInstallment
+     * const LoanInstallment = await prisma.loanInstallment.create({
+     *   data: {
+     *     // ... data to create a LoanInstallment
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanInstallmentCreateArgs>(args: SelectSubset<T, LoanInstallmentCreateArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoanInstallments.
+     * @param {LoanInstallmentCreateManyArgs} args - Arguments to create many LoanInstallments.
+     * @example
+     * // Create many LoanInstallments
+     * const loanInstallment = await prisma.loanInstallment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanInstallmentCreateManyArgs>(args?: SelectSubset<T, LoanInstallmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoanInstallments and returns the data saved in the database.
+     * @param {LoanInstallmentCreateManyAndReturnArgs} args - Arguments to create many LoanInstallments.
+     * @example
+     * // Create many LoanInstallments
+     * const loanInstallment = await prisma.loanInstallment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoanInstallments and only return the `id`
+     * const loanInstallmentWithIdOnly = await prisma.loanInstallment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanInstallmentCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanInstallmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoanInstallment.
+     * @param {LoanInstallmentDeleteArgs} args - Arguments to delete one LoanInstallment.
+     * @example
+     * // Delete one LoanInstallment
+     * const LoanInstallment = await prisma.loanInstallment.delete({
+     *   where: {
+     *     // ... filter to delete one LoanInstallment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanInstallmentDeleteArgs>(args: SelectSubset<T, LoanInstallmentDeleteArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoanInstallment.
+     * @param {LoanInstallmentUpdateArgs} args - Arguments to update one LoanInstallment.
+     * @example
+     * // Update one LoanInstallment
+     * const loanInstallment = await prisma.loanInstallment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanInstallmentUpdateArgs>(args: SelectSubset<T, LoanInstallmentUpdateArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoanInstallments.
+     * @param {LoanInstallmentDeleteManyArgs} args - Arguments to filter LoanInstallments to delete.
+     * @example
+     * // Delete a few LoanInstallments
+     * const { count } = await prisma.loanInstallment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanInstallmentDeleteManyArgs>(args?: SelectSubset<T, LoanInstallmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanInstallments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoanInstallments
+     * const loanInstallment = await prisma.loanInstallment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanInstallmentUpdateManyArgs>(args: SelectSubset<T, LoanInstallmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanInstallments and returns the data updated in the database.
+     * @param {LoanInstallmentUpdateManyAndReturnArgs} args - Arguments to update many LoanInstallments.
+     * @example
+     * // Update many LoanInstallments
+     * const loanInstallment = await prisma.loanInstallment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoanInstallments and only return the `id`
+     * const loanInstallmentWithIdOnly = await prisma.loanInstallment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanInstallmentUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanInstallmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoanInstallment.
+     * @param {LoanInstallmentUpsertArgs} args - Arguments to update or create a LoanInstallment.
+     * @example
+     * // Update or create a LoanInstallment
+     * const loanInstallment = await prisma.loanInstallment.upsert({
+     *   create: {
+     *     // ... data to create a LoanInstallment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoanInstallment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanInstallmentUpsertArgs>(args: SelectSubset<T, LoanInstallmentUpsertArgs<ExtArgs>>): Prisma__LoanInstallmentClient<$Result.GetResult<Prisma.$LoanInstallmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoanInstallments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentCountArgs} args - Arguments to filter LoanInstallments to count.
+     * @example
+     * // Count the number of LoanInstallments
+     * const count = await prisma.loanInstallment.count({
+     *   where: {
+     *     // ... the filter for the LoanInstallments we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanInstallmentCountArgs>(
+      args?: Subset<T, LoanInstallmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanInstallmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoanInstallment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanInstallmentAggregateArgs>(args: Subset<T, LoanInstallmentAggregateArgs>): Prisma.PrismaPromise<GetLoanInstallmentAggregateType<T>>
+
+    /**
+     * Group by LoanInstallment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanInstallmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanInstallmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanInstallmentGroupByArgs['orderBy'] }
+        : { orderBy?: LoanInstallmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanInstallmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanInstallmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoanInstallment model
+   */
+  readonly fields: LoanInstallmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoanInstallment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanInstallmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    application<T extends LoanApplicationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplicationDefaultArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoanInstallment model
+   */
+  interface LoanInstallmentFieldRefs {
+    readonly id: FieldRef<"LoanInstallment", 'String'>
+    readonly applicationId: FieldRef<"LoanInstallment", 'String'>
+    readonly month: FieldRef<"LoanInstallment", 'Int'>
+    readonly year: FieldRef<"LoanInstallment", 'Int'>
+    readonly amount: FieldRef<"LoanInstallment", 'Float'>
+    readonly status: FieldRef<"LoanInstallment", 'String'>
+    readonly deductedAt: FieldRef<"LoanInstallment", 'DateTime'>
+    readonly createdAt: FieldRef<"LoanInstallment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoanInstallment findUnique
+   */
+  export type LoanInstallmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanInstallment to fetch.
+     */
+    where: LoanInstallmentWhereUniqueInput
+  }
+
+  /**
+   * LoanInstallment findUniqueOrThrow
+   */
+  export type LoanInstallmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanInstallment to fetch.
+     */
+    where: LoanInstallmentWhereUniqueInput
+  }
+
+  /**
+   * LoanInstallment findFirst
+   */
+  export type LoanInstallmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanInstallment to fetch.
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanInstallments to fetch.
+     */
+    orderBy?: LoanInstallmentOrderByWithRelationInput | LoanInstallmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanInstallments.
+     */
+    cursor?: LoanInstallmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanInstallments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanInstallments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanInstallments.
+     */
+    distinct?: LoanInstallmentScalarFieldEnum | LoanInstallmentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanInstallment findFirstOrThrow
+   */
+  export type LoanInstallmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanInstallment to fetch.
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanInstallments to fetch.
+     */
+    orderBy?: LoanInstallmentOrderByWithRelationInput | LoanInstallmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanInstallments.
+     */
+    cursor?: LoanInstallmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanInstallments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanInstallments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanInstallments.
+     */
+    distinct?: LoanInstallmentScalarFieldEnum | LoanInstallmentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanInstallment findMany
+   */
+  export type LoanInstallmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanInstallments to fetch.
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanInstallments to fetch.
+     */
+    orderBy?: LoanInstallmentOrderByWithRelationInput | LoanInstallmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoanInstallments.
+     */
+    cursor?: LoanInstallmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanInstallments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanInstallments.
+     */
+    skip?: number
+    distinct?: LoanInstallmentScalarFieldEnum | LoanInstallmentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanInstallment create
+   */
+  export type LoanInstallmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoanInstallment.
+     */
+    data: XOR<LoanInstallmentCreateInput, LoanInstallmentUncheckedCreateInput>
+  }
+
+  /**
+   * LoanInstallment createMany
+   */
+  export type LoanInstallmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoanInstallments.
+     */
+    data: LoanInstallmentCreateManyInput | LoanInstallmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanInstallment createManyAndReturn
+   */
+  export type LoanInstallmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoanInstallments.
+     */
+    data: LoanInstallmentCreateManyInput | LoanInstallmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanInstallment update
+   */
+  export type LoanInstallmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoanInstallment.
+     */
+    data: XOR<LoanInstallmentUpdateInput, LoanInstallmentUncheckedUpdateInput>
+    /**
+     * Choose, which LoanInstallment to update.
+     */
+    where: LoanInstallmentWhereUniqueInput
+  }
+
+  /**
+   * LoanInstallment updateMany
+   */
+  export type LoanInstallmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoanInstallments.
+     */
+    data: XOR<LoanInstallmentUpdateManyMutationInput, LoanInstallmentUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanInstallments to update
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * Limit how many LoanInstallments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanInstallment updateManyAndReturn
+   */
+  export type LoanInstallmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * The data used to update LoanInstallments.
+     */
+    data: XOR<LoanInstallmentUpdateManyMutationInput, LoanInstallmentUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanInstallments to update
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * Limit how many LoanInstallments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanInstallment upsert
+   */
+  export type LoanInstallmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoanInstallment to update in case it exists.
+     */
+    where: LoanInstallmentWhereUniqueInput
+    /**
+     * In case the LoanInstallment found by the `where` argument doesn't exist, create a new LoanInstallment with this data.
+     */
+    create: XOR<LoanInstallmentCreateInput, LoanInstallmentUncheckedCreateInput>
+    /**
+     * In case the LoanInstallment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanInstallmentUpdateInput, LoanInstallmentUncheckedUpdateInput>
+  }
+
+  /**
+   * LoanInstallment delete
+   */
+  export type LoanInstallmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+    /**
+     * Filter which LoanInstallment to delete.
+     */
+    where: LoanInstallmentWhereUniqueInput
+  }
+
+  /**
+   * LoanInstallment deleteMany
+   */
+  export type LoanInstallmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanInstallments to delete
+     */
+    where?: LoanInstallmentWhereInput
+    /**
+     * Limit how many LoanInstallments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanInstallment without action
+   */
+  export type LoanInstallmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanInstallment
+     */
+    select?: LoanInstallmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanInstallment
+     */
+    omit?: LoanInstallmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanInstallmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoanDocument
+   */
+
+  export type AggregateLoanDocument = {
+    _count: LoanDocumentCountAggregateOutputType | null
+    _min: LoanDocumentMinAggregateOutputType | null
+    _max: LoanDocumentMaxAggregateOutputType | null
+  }
+
+  export type LoanDocumentMinAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    fileUrl: string | null
+    fileName: string | null
+    uploadedAt: Date | null
+  }
+
+  export type LoanDocumentMaxAggregateOutputType = {
+    id: string | null
+    applicationId: string | null
+    fileUrl: string | null
+    fileName: string | null
+    uploadedAt: Date | null
+  }
+
+  export type LoanDocumentCountAggregateOutputType = {
+    id: number
+    applicationId: number
+    fileUrl: number
+    fileName: number
+    uploadedAt: number
+    _all: number
+  }
+
+
+  export type LoanDocumentMinAggregateInputType = {
+    id?: true
+    applicationId?: true
+    fileUrl?: true
+    fileName?: true
+    uploadedAt?: true
+  }
+
+  export type LoanDocumentMaxAggregateInputType = {
+    id?: true
+    applicationId?: true
+    fileUrl?: true
+    fileName?: true
+    uploadedAt?: true
+  }
+
+  export type LoanDocumentCountAggregateInputType = {
+    id?: true
+    applicationId?: true
+    fileUrl?: true
+    fileName?: true
+    uploadedAt?: true
+    _all?: true
+  }
+
+  export type LoanDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanDocument to aggregate.
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDocuments to fetch.
+     */
+    orderBy?: LoanDocumentOrderByWithRelationInput | LoanDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoanDocuments
+    **/
+    _count?: true | LoanDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanDocumentMaxAggregateInputType
+  }
+
+  export type GetLoanDocumentAggregateType<T extends LoanDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoanDocument[P]>
+      : GetScalarType<T[P], AggregateLoanDocument[P]>
+  }
+
+
+
+
+  export type LoanDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanDocumentWhereInput
+    orderBy?: LoanDocumentOrderByWithAggregationInput | LoanDocumentOrderByWithAggregationInput[]
+    by: LoanDocumentScalarFieldEnum[] | LoanDocumentScalarFieldEnum
+    having?: LoanDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanDocumentCountAggregateInputType | true
+    _min?: LoanDocumentMinAggregateInputType
+    _max?: LoanDocumentMaxAggregateInputType
+  }
+
+  export type LoanDocumentGroupByOutputType = {
+    id: string
+    applicationId: string
+    fileUrl: string
+    fileName: string
+    uploadedAt: Date
+    _count: LoanDocumentCountAggregateOutputType | null
+    _min: LoanDocumentMinAggregateOutputType | null
+    _max: LoanDocumentMaxAggregateOutputType | null
+  }
+
+  type GetLoanDocumentGroupByPayload<T extends LoanDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    uploadedAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanDocument"]>
+
+  export type LoanDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    uploadedAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanDocument"]>
+
+  export type LoanDocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    applicationId?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    uploadedAt?: boolean
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["loanDocument"]>
+
+  export type LoanDocumentSelectScalar = {
+    id?: boolean
+    applicationId?: boolean
+    fileUrl?: boolean
+    fileName?: boolean
+    uploadedAt?: boolean
+  }
+
+  export type LoanDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "applicationId" | "fileUrl" | "fileName" | "uploadedAt", ExtArgs["result"]["loanDocument"]>
+  export type LoanDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+  export type LoanDocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    application?: boolean | LoanApplicationDefaultArgs<ExtArgs>
+  }
+
+  export type $LoanDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanDocument"
+    objects: {
+      application: Prisma.$LoanApplicationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      applicationId: string
+      fileUrl: string
+      fileName: string
+      uploadedAt: Date
+    }, ExtArgs["result"]["loanDocument"]>
+    composites: {}
+  }
+
+  type LoanDocumentGetPayload<S extends boolean | null | undefined | LoanDocumentDefaultArgs> = $Result.GetResult<Prisma.$LoanDocumentPayload, S>
+
+  type LoanDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanDocumentCountAggregateInputType | true
+    }
+
+  export interface LoanDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanDocument'], meta: { name: 'LoanDocument' } }
+    /**
+     * Find zero or one LoanDocument that matches the filter.
+     * @param {LoanDocumentFindUniqueArgs} args - Arguments to find a LoanDocument
+     * @example
+     * // Get one LoanDocument
+     * const loanDocument = await prisma.loanDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanDocumentFindUniqueArgs>(args: SelectSubset<T, LoanDocumentFindUniqueArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoanDocument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanDocumentFindUniqueOrThrowArgs} args - Arguments to find a LoanDocument
+     * @example
+     * // Get one LoanDocument
+     * const loanDocument = await prisma.loanDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentFindFirstArgs} args - Arguments to find a LoanDocument
+     * @example
+     * // Get one LoanDocument
+     * const loanDocument = await prisma.loanDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanDocumentFindFirstArgs>(args?: SelectSubset<T, LoanDocumentFindFirstArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentFindFirstOrThrowArgs} args - Arguments to find a LoanDocument
+     * @example
+     * // Get one LoanDocument
+     * const loanDocument = await prisma.loanDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoanDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoanDocuments
+     * const loanDocuments = await prisma.loanDocument.findMany()
+     * 
+     * // Get first 10 LoanDocuments
+     * const loanDocuments = await prisma.loanDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanDocumentWithIdOnly = await prisma.loanDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanDocumentFindManyArgs>(args?: SelectSubset<T, LoanDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoanDocument.
+     * @param {LoanDocumentCreateArgs} args - Arguments to create a LoanDocument.
+     * @example
+     * // Create one LoanDocument
+     * const LoanDocument = await prisma.loanDocument.create({
+     *   data: {
+     *     // ... data to create a LoanDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanDocumentCreateArgs>(args: SelectSubset<T, LoanDocumentCreateArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoanDocuments.
+     * @param {LoanDocumentCreateManyArgs} args - Arguments to create many LoanDocuments.
+     * @example
+     * // Create many LoanDocuments
+     * const loanDocument = await prisma.loanDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanDocumentCreateManyArgs>(args?: SelectSubset<T, LoanDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoanDocuments and returns the data saved in the database.
+     * @param {LoanDocumentCreateManyAndReturnArgs} args - Arguments to create many LoanDocuments.
+     * @example
+     * // Create many LoanDocuments
+     * const loanDocument = await prisma.loanDocument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoanDocuments and only return the `id`
+     * const loanDocumentWithIdOnly = await prisma.loanDocument.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanDocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanDocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoanDocument.
+     * @param {LoanDocumentDeleteArgs} args - Arguments to delete one LoanDocument.
+     * @example
+     * // Delete one LoanDocument
+     * const LoanDocument = await prisma.loanDocument.delete({
+     *   where: {
+     *     // ... filter to delete one LoanDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanDocumentDeleteArgs>(args: SelectSubset<T, LoanDocumentDeleteArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoanDocument.
+     * @param {LoanDocumentUpdateArgs} args - Arguments to update one LoanDocument.
+     * @example
+     * // Update one LoanDocument
+     * const loanDocument = await prisma.loanDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanDocumentUpdateArgs>(args: SelectSubset<T, LoanDocumentUpdateArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoanDocuments.
+     * @param {LoanDocumentDeleteManyArgs} args - Arguments to filter LoanDocuments to delete.
+     * @example
+     * // Delete a few LoanDocuments
+     * const { count } = await prisma.loanDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanDocumentDeleteManyArgs>(args?: SelectSubset<T, LoanDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoanDocuments
+     * const loanDocument = await prisma.loanDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanDocumentUpdateManyArgs>(args: SelectSubset<T, LoanDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanDocuments and returns the data updated in the database.
+     * @param {LoanDocumentUpdateManyAndReturnArgs} args - Arguments to update many LoanDocuments.
+     * @example
+     * // Update many LoanDocuments
+     * const loanDocument = await prisma.loanDocument.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoanDocuments and only return the `id`
+     * const loanDocumentWithIdOnly = await prisma.loanDocument.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanDocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanDocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoanDocument.
+     * @param {LoanDocumentUpsertArgs} args - Arguments to update or create a LoanDocument.
+     * @example
+     * // Update or create a LoanDocument
+     * const loanDocument = await prisma.loanDocument.upsert({
+     *   create: {
+     *     // ... data to create a LoanDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoanDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanDocumentUpsertArgs>(args: SelectSubset<T, LoanDocumentUpsertArgs<ExtArgs>>): Prisma__LoanDocumentClient<$Result.GetResult<Prisma.$LoanDocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoanDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentCountArgs} args - Arguments to filter LoanDocuments to count.
+     * @example
+     * // Count the number of LoanDocuments
+     * const count = await prisma.loanDocument.count({
+     *   where: {
+     *     // ... the filter for the LoanDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanDocumentCountArgs>(
+      args?: Subset<T, LoanDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoanDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanDocumentAggregateArgs>(args: Subset<T, LoanDocumentAggregateArgs>): Prisma.PrismaPromise<GetLoanDocumentAggregateType<T>>
+
+    /**
+     * Group by LoanDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: LoanDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoanDocument model
+   */
+  readonly fields: LoanDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoanDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    application<T extends LoanApplicationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LoanApplicationDefaultArgs<ExtArgs>>): Prisma__LoanApplicationClient<$Result.GetResult<Prisma.$LoanApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoanDocument model
+   */
+  interface LoanDocumentFieldRefs {
+    readonly id: FieldRef<"LoanDocument", 'String'>
+    readonly applicationId: FieldRef<"LoanDocument", 'String'>
+    readonly fileUrl: FieldRef<"LoanDocument", 'String'>
+    readonly fileName: FieldRef<"LoanDocument", 'String'>
+    readonly uploadedAt: FieldRef<"LoanDocument", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoanDocument findUnique
+   */
+  export type LoanDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDocument to fetch.
+     */
+    where: LoanDocumentWhereUniqueInput
+  }
+
+  /**
+   * LoanDocument findUniqueOrThrow
+   */
+  export type LoanDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDocument to fetch.
+     */
+    where: LoanDocumentWhereUniqueInput
+  }
+
+  /**
+   * LoanDocument findFirst
+   */
+  export type LoanDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDocument to fetch.
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDocuments to fetch.
+     */
+    orderBy?: LoanDocumentOrderByWithRelationInput | LoanDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanDocuments.
+     */
+    cursor?: LoanDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanDocuments.
+     */
+    distinct?: LoanDocumentScalarFieldEnum | LoanDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanDocument findFirstOrThrow
+   */
+  export type LoanDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDocument to fetch.
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDocuments to fetch.
+     */
+    orderBy?: LoanDocumentOrderByWithRelationInput | LoanDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanDocuments.
+     */
+    cursor?: LoanDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanDocuments.
+     */
+    distinct?: LoanDocumentScalarFieldEnum | LoanDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanDocument findMany
+   */
+  export type LoanDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which LoanDocuments to fetch.
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanDocuments to fetch.
+     */
+    orderBy?: LoanDocumentOrderByWithRelationInput | LoanDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoanDocuments.
+     */
+    cursor?: LoanDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanDocuments.
+     */
+    skip?: number
+    distinct?: LoanDocumentScalarFieldEnum | LoanDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * LoanDocument create
+   */
+  export type LoanDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LoanDocument.
+     */
+    data: XOR<LoanDocumentCreateInput, LoanDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * LoanDocument createMany
+   */
+  export type LoanDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoanDocuments.
+     */
+    data: LoanDocumentCreateManyInput | LoanDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanDocument createManyAndReturn
+   */
+  export type LoanDocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoanDocuments.
+     */
+    data: LoanDocumentCreateManyInput | LoanDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanDocument update
+   */
+  export type LoanDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LoanDocument.
+     */
+    data: XOR<LoanDocumentUpdateInput, LoanDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which LoanDocument to update.
+     */
+    where: LoanDocumentWhereUniqueInput
+  }
+
+  /**
+   * LoanDocument updateMany
+   */
+  export type LoanDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoanDocuments.
+     */
+    data: XOR<LoanDocumentUpdateManyMutationInput, LoanDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanDocuments to update
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * Limit how many LoanDocuments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanDocument updateManyAndReturn
+   */
+  export type LoanDocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update LoanDocuments.
+     */
+    data: XOR<LoanDocumentUpdateManyMutationInput, LoanDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanDocuments to update
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * Limit how many LoanDocuments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LoanDocument upsert
+   */
+  export type LoanDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LoanDocument to update in case it exists.
+     */
+    where: LoanDocumentWhereUniqueInput
+    /**
+     * In case the LoanDocument found by the `where` argument doesn't exist, create a new LoanDocument with this data.
+     */
+    create: XOR<LoanDocumentCreateInput, LoanDocumentUncheckedCreateInput>
+    /**
+     * In case the LoanDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanDocumentUpdateInput, LoanDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * LoanDocument delete
+   */
+  export type LoanDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which LoanDocument to delete.
+     */
+    where: LoanDocumentWhereUniqueInput
+  }
+
+  /**
+   * LoanDocument deleteMany
+   */
+  export type LoanDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanDocuments to delete
+     */
+    where?: LoanDocumentWhereInput
+    /**
+     * Limit how many LoanDocuments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanDocument without action
+   */
+  export type LoanDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanDocument
+     */
+    select?: LoanDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanDocument
+     */
+    omit?: LoanDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LoanDocumentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model LoanNotification
+   */
+
+  export type AggregateLoanNotification = {
+    _count: LoanNotificationCountAggregateOutputType | null
+    _min: LoanNotificationMinAggregateOutputType | null
+    _max: LoanNotificationMaxAggregateOutputType | null
+  }
+
+  export type LoanNotificationMinAggregateOutputType = {
+    id: string | null
+    targetEmail: string | null
+    title: string | null
+    message: string | null
+    isRead: boolean | null
+    createdAt: Date | null
+  }
+
+  export type LoanNotificationMaxAggregateOutputType = {
+    id: string | null
+    targetEmail: string | null
+    title: string | null
+    message: string | null
+    isRead: boolean | null
+    createdAt: Date | null
+  }
+
+  export type LoanNotificationCountAggregateOutputType = {
+    id: number
+    targetEmail: number
+    title: number
+    message: number
+    isRead: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LoanNotificationMinAggregateInputType = {
+    id?: true
+    targetEmail?: true
+    title?: true
+    message?: true
+    isRead?: true
+    createdAt?: true
+  }
+
+  export type LoanNotificationMaxAggregateInputType = {
+    id?: true
+    targetEmail?: true
+    title?: true
+    message?: true
+    isRead?: true
+    createdAt?: true
+  }
+
+  export type LoanNotificationCountAggregateInputType = {
+    id?: true
+    targetEmail?: true
+    title?: true
+    message?: true
+    isRead?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LoanNotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanNotification to aggregate.
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanNotifications to fetch.
+     */
+    orderBy?: LoanNotificationOrderByWithRelationInput | LoanNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LoanNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LoanNotifications
+    **/
+    _count?: true | LoanNotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LoanNotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LoanNotificationMaxAggregateInputType
+  }
+
+  export type GetLoanNotificationAggregateType<T extends LoanNotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateLoanNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLoanNotification[P]>
+      : GetScalarType<T[P], AggregateLoanNotification[P]>
+  }
+
+
+
+
+  export type LoanNotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LoanNotificationWhereInput
+    orderBy?: LoanNotificationOrderByWithAggregationInput | LoanNotificationOrderByWithAggregationInput[]
+    by: LoanNotificationScalarFieldEnum[] | LoanNotificationScalarFieldEnum
+    having?: LoanNotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LoanNotificationCountAggregateInputType | true
+    _min?: LoanNotificationMinAggregateInputType
+    _max?: LoanNotificationMaxAggregateInputType
+  }
+
+  export type LoanNotificationGroupByOutputType = {
+    id: string
+    targetEmail: string
+    title: string
+    message: string
+    isRead: boolean
+    createdAt: Date
+    _count: LoanNotificationCountAggregateOutputType | null
+    _min: LoanNotificationMinAggregateOutputType | null
+    _max: LoanNotificationMaxAggregateOutputType | null
+  }
+
+  type GetLoanNotificationGroupByPayload<T extends LoanNotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LoanNotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LoanNotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LoanNotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], LoanNotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LoanNotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    targetEmail?: boolean
+    title?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["loanNotification"]>
+
+  export type LoanNotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    targetEmail?: boolean
+    title?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["loanNotification"]>
+
+  export type LoanNotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    targetEmail?: boolean
+    title?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["loanNotification"]>
+
+  export type LoanNotificationSelectScalar = {
+    id?: boolean
+    targetEmail?: boolean
+    title?: boolean
+    message?: boolean
+    isRead?: boolean
+    createdAt?: boolean
+  }
+
+  export type LoanNotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "targetEmail" | "title" | "message" | "isRead" | "createdAt", ExtArgs["result"]["loanNotification"]>
+
+  export type $LoanNotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LoanNotification"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      targetEmail: string
+      title: string
+      message: string
+      isRead: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["loanNotification"]>
+    composites: {}
+  }
+
+  type LoanNotificationGetPayload<S extends boolean | null | undefined | LoanNotificationDefaultArgs> = $Result.GetResult<Prisma.$LoanNotificationPayload, S>
+
+  type LoanNotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LoanNotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LoanNotificationCountAggregateInputType | true
+    }
+
+  export interface LoanNotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LoanNotification'], meta: { name: 'LoanNotification' } }
+    /**
+     * Find zero or one LoanNotification that matches the filter.
+     * @param {LoanNotificationFindUniqueArgs} args - Arguments to find a LoanNotification
+     * @example
+     * // Get one LoanNotification
+     * const loanNotification = await prisma.loanNotification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LoanNotificationFindUniqueArgs>(args: SelectSubset<T, LoanNotificationFindUniqueArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LoanNotification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LoanNotificationFindUniqueOrThrowArgs} args - Arguments to find a LoanNotification
+     * @example
+     * // Get one LoanNotification
+     * const loanNotification = await prisma.loanNotification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LoanNotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, LoanNotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanNotification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationFindFirstArgs} args - Arguments to find a LoanNotification
+     * @example
+     * // Get one LoanNotification
+     * const loanNotification = await prisma.loanNotification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LoanNotificationFindFirstArgs>(args?: SelectSubset<T, LoanNotificationFindFirstArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LoanNotification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationFindFirstOrThrowArgs} args - Arguments to find a LoanNotification
+     * @example
+     * // Get one LoanNotification
+     * const loanNotification = await prisma.loanNotification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LoanNotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, LoanNotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LoanNotifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LoanNotifications
+     * const loanNotifications = await prisma.loanNotification.findMany()
+     * 
+     * // Get first 10 LoanNotifications
+     * const loanNotifications = await prisma.loanNotification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const loanNotificationWithIdOnly = await prisma.loanNotification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LoanNotificationFindManyArgs>(args?: SelectSubset<T, LoanNotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LoanNotification.
+     * @param {LoanNotificationCreateArgs} args - Arguments to create a LoanNotification.
+     * @example
+     * // Create one LoanNotification
+     * const LoanNotification = await prisma.loanNotification.create({
+     *   data: {
+     *     // ... data to create a LoanNotification
+     *   }
+     * })
+     * 
+     */
+    create<T extends LoanNotificationCreateArgs>(args: SelectSubset<T, LoanNotificationCreateArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LoanNotifications.
+     * @param {LoanNotificationCreateManyArgs} args - Arguments to create many LoanNotifications.
+     * @example
+     * // Create many LoanNotifications
+     * const loanNotification = await prisma.loanNotification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LoanNotificationCreateManyArgs>(args?: SelectSubset<T, LoanNotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LoanNotifications and returns the data saved in the database.
+     * @param {LoanNotificationCreateManyAndReturnArgs} args - Arguments to create many LoanNotifications.
+     * @example
+     * // Create many LoanNotifications
+     * const loanNotification = await prisma.loanNotification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LoanNotifications and only return the `id`
+     * const loanNotificationWithIdOnly = await prisma.loanNotification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LoanNotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, LoanNotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LoanNotification.
+     * @param {LoanNotificationDeleteArgs} args - Arguments to delete one LoanNotification.
+     * @example
+     * // Delete one LoanNotification
+     * const LoanNotification = await prisma.loanNotification.delete({
+     *   where: {
+     *     // ... filter to delete one LoanNotification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LoanNotificationDeleteArgs>(args: SelectSubset<T, LoanNotificationDeleteArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LoanNotification.
+     * @param {LoanNotificationUpdateArgs} args - Arguments to update one LoanNotification.
+     * @example
+     * // Update one LoanNotification
+     * const loanNotification = await prisma.loanNotification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LoanNotificationUpdateArgs>(args: SelectSubset<T, LoanNotificationUpdateArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LoanNotifications.
+     * @param {LoanNotificationDeleteManyArgs} args - Arguments to filter LoanNotifications to delete.
+     * @example
+     * // Delete a few LoanNotifications
+     * const { count } = await prisma.loanNotification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LoanNotificationDeleteManyArgs>(args?: SelectSubset<T, LoanNotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LoanNotifications
+     * const loanNotification = await prisma.loanNotification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LoanNotificationUpdateManyArgs>(args: SelectSubset<T, LoanNotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LoanNotifications and returns the data updated in the database.
+     * @param {LoanNotificationUpdateManyAndReturnArgs} args - Arguments to update many LoanNotifications.
+     * @example
+     * // Update many LoanNotifications
+     * const loanNotification = await prisma.loanNotification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LoanNotifications and only return the `id`
+     * const loanNotificationWithIdOnly = await prisma.loanNotification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LoanNotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, LoanNotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LoanNotification.
+     * @param {LoanNotificationUpsertArgs} args - Arguments to update or create a LoanNotification.
+     * @example
+     * // Update or create a LoanNotification
+     * const loanNotification = await prisma.loanNotification.upsert({
+     *   create: {
+     *     // ... data to create a LoanNotification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LoanNotification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LoanNotificationUpsertArgs>(args: SelectSubset<T, LoanNotificationUpsertArgs<ExtArgs>>): Prisma__LoanNotificationClient<$Result.GetResult<Prisma.$LoanNotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LoanNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationCountArgs} args - Arguments to filter LoanNotifications to count.
+     * @example
+     * // Count the number of LoanNotifications
+     * const count = await prisma.loanNotification.count({
+     *   where: {
+     *     // ... the filter for the LoanNotifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends LoanNotificationCountArgs>(
+      args?: Subset<T, LoanNotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LoanNotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LoanNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LoanNotificationAggregateArgs>(args: Subset<T, LoanNotificationAggregateArgs>): Prisma.PrismaPromise<GetLoanNotificationAggregateType<T>>
+
+    /**
+     * Group by LoanNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LoanNotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LoanNotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LoanNotificationGroupByArgs['orderBy'] }
+        : { orderBy?: LoanNotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LoanNotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLoanNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LoanNotification model
+   */
+  readonly fields: LoanNotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LoanNotification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LoanNotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LoanNotification model
+   */
+  interface LoanNotificationFieldRefs {
+    readonly id: FieldRef<"LoanNotification", 'String'>
+    readonly targetEmail: FieldRef<"LoanNotification", 'String'>
+    readonly title: FieldRef<"LoanNotification", 'String'>
+    readonly message: FieldRef<"LoanNotification", 'String'>
+    readonly isRead: FieldRef<"LoanNotification", 'Boolean'>
+    readonly createdAt: FieldRef<"LoanNotification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LoanNotification findUnique
+   */
+  export type LoanNotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which LoanNotification to fetch.
+     */
+    where: LoanNotificationWhereUniqueInput
+  }
+
+  /**
+   * LoanNotification findUniqueOrThrow
+   */
+  export type LoanNotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which LoanNotification to fetch.
+     */
+    where: LoanNotificationWhereUniqueInput
+  }
+
+  /**
+   * LoanNotification findFirst
+   */
+  export type LoanNotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which LoanNotification to fetch.
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanNotifications to fetch.
+     */
+    orderBy?: LoanNotificationOrderByWithRelationInput | LoanNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanNotifications.
+     */
+    cursor?: LoanNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanNotifications.
+     */
+    distinct?: LoanNotificationScalarFieldEnum | LoanNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanNotification findFirstOrThrow
+   */
+  export type LoanNotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which LoanNotification to fetch.
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanNotifications to fetch.
+     */
+    orderBy?: LoanNotificationOrderByWithRelationInput | LoanNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LoanNotifications.
+     */
+    cursor?: LoanNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LoanNotifications.
+     */
+    distinct?: LoanNotificationScalarFieldEnum | LoanNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanNotification findMany
+   */
+  export type LoanNotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * Filter, which LoanNotifications to fetch.
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LoanNotifications to fetch.
+     */
+    orderBy?: LoanNotificationOrderByWithRelationInput | LoanNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LoanNotifications.
+     */
+    cursor?: LoanNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LoanNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LoanNotifications.
+     */
+    skip?: number
+    distinct?: LoanNotificationScalarFieldEnum | LoanNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * LoanNotification create
+   */
+  export type LoanNotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a LoanNotification.
+     */
+    data: XOR<LoanNotificationCreateInput, LoanNotificationUncheckedCreateInput>
+  }
+
+  /**
+   * LoanNotification createMany
+   */
+  export type LoanNotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LoanNotifications.
+     */
+    data: LoanNotificationCreateManyInput | LoanNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanNotification createManyAndReturn
+   */
+  export type LoanNotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many LoanNotifications.
+     */
+    data: LoanNotificationCreateManyInput | LoanNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LoanNotification update
+   */
+  export type LoanNotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a LoanNotification.
+     */
+    data: XOR<LoanNotificationUpdateInput, LoanNotificationUncheckedUpdateInput>
+    /**
+     * Choose, which LoanNotification to update.
+     */
+    where: LoanNotificationWhereUniqueInput
+  }
+
+  /**
+   * LoanNotification updateMany
+   */
+  export type LoanNotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LoanNotifications.
+     */
+    data: XOR<LoanNotificationUpdateManyMutationInput, LoanNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanNotifications to update
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * Limit how many LoanNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanNotification updateManyAndReturn
+   */
+  export type LoanNotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update LoanNotifications.
+     */
+    data: XOR<LoanNotificationUpdateManyMutationInput, LoanNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which LoanNotifications to update
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * Limit how many LoanNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanNotification upsert
+   */
+  export type LoanNotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the LoanNotification to update in case it exists.
+     */
+    where: LoanNotificationWhereUniqueInput
+    /**
+     * In case the LoanNotification found by the `where` argument doesn't exist, create a new LoanNotification with this data.
+     */
+    create: XOR<LoanNotificationCreateInput, LoanNotificationUncheckedCreateInput>
+    /**
+     * In case the LoanNotification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LoanNotificationUpdateInput, LoanNotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * LoanNotification delete
+   */
+  export type LoanNotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
+    /**
+     * Filter which LoanNotification to delete.
+     */
+    where: LoanNotificationWhereUniqueInput
+  }
+
+  /**
+   * LoanNotification deleteMany
+   */
+  export type LoanNotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LoanNotifications to delete
+     */
+    where?: LoanNotificationWhereInput
+    /**
+     * Limit how many LoanNotifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LoanNotification without action
+   */
+  export type LoanNotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LoanNotification
+     */
+    select?: LoanNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LoanNotification
+     */
+    omit?: LoanNotificationOmit<ExtArgs> | null
   }
 
 
@@ -30986,6 +38849,4755 @@ export namespace Prisma {
 
 
   /**
+   * Model JobRequisition
+   */
+
+  export type AggregateJobRequisition = {
+    _count: JobRequisitionCountAggregateOutputType | null
+    _avg: JobRequisitionAvgAggregateOutputType | null
+    _sum: JobRequisitionSumAggregateOutputType | null
+    _min: JobRequisitionMinAggregateOutputType | null
+    _max: JobRequisitionMaxAggregateOutputType | null
+  }
+
+  export type JobRequisitionAvgAggregateOutputType = {
+    positionsCount: number | null
+    minSalary: number | null
+    maxSalary: number | null
+  }
+
+  export type JobRequisitionSumAggregateOutputType = {
+    positionsCount: number | null
+    minSalary: number | null
+    maxSalary: number | null
+  }
+
+  export type JobRequisitionMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    department: string | null
+    location: string | null
+    employmentType: string | null
+    positionsCount: number | null
+    status: string | null
+    description: string | null
+    requirements: string | null
+    minSalary: number | null
+    maxSalary: number | null
+    requestedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type JobRequisitionMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    department: string | null
+    location: string | null
+    employmentType: string | null
+    positionsCount: number | null
+    status: string | null
+    description: string | null
+    requirements: string | null
+    minSalary: number | null
+    maxSalary: number | null
+    requestedById: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type JobRequisitionCountAggregateOutputType = {
+    id: number
+    title: number
+    department: number
+    location: number
+    employmentType: number
+    positionsCount: number
+    status: number
+    description: number
+    requirements: number
+    minSalary: number
+    maxSalary: number
+    requestedById: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type JobRequisitionAvgAggregateInputType = {
+    positionsCount?: true
+    minSalary?: true
+    maxSalary?: true
+  }
+
+  export type JobRequisitionSumAggregateInputType = {
+    positionsCount?: true
+    minSalary?: true
+    maxSalary?: true
+  }
+
+  export type JobRequisitionMinAggregateInputType = {
+    id?: true
+    title?: true
+    department?: true
+    location?: true
+    employmentType?: true
+    positionsCount?: true
+    status?: true
+    description?: true
+    requirements?: true
+    minSalary?: true
+    maxSalary?: true
+    requestedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobRequisitionMaxAggregateInputType = {
+    id?: true
+    title?: true
+    department?: true
+    location?: true
+    employmentType?: true
+    positionsCount?: true
+    status?: true
+    description?: true
+    requirements?: true
+    minSalary?: true
+    maxSalary?: true
+    requestedById?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type JobRequisitionCountAggregateInputType = {
+    id?: true
+    title?: true
+    department?: true
+    location?: true
+    employmentType?: true
+    positionsCount?: true
+    status?: true
+    description?: true
+    requirements?: true
+    minSalary?: true
+    maxSalary?: true
+    requestedById?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type JobRequisitionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JobRequisition to aggregate.
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobRequisitions to fetch.
+     */
+    orderBy?: JobRequisitionOrderByWithRelationInput | JobRequisitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: JobRequisitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobRequisitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobRequisitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned JobRequisitions
+    **/
+    _count?: true | JobRequisitionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: JobRequisitionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: JobRequisitionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: JobRequisitionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: JobRequisitionMaxAggregateInputType
+  }
+
+  export type GetJobRequisitionAggregateType<T extends JobRequisitionAggregateArgs> = {
+        [P in keyof T & keyof AggregateJobRequisition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateJobRequisition[P]>
+      : GetScalarType<T[P], AggregateJobRequisition[P]>
+  }
+
+
+
+
+  export type JobRequisitionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: JobRequisitionWhereInput
+    orderBy?: JobRequisitionOrderByWithAggregationInput | JobRequisitionOrderByWithAggregationInput[]
+    by: JobRequisitionScalarFieldEnum[] | JobRequisitionScalarFieldEnum
+    having?: JobRequisitionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: JobRequisitionCountAggregateInputType | true
+    _avg?: JobRequisitionAvgAggregateInputType
+    _sum?: JobRequisitionSumAggregateInputType
+    _min?: JobRequisitionMinAggregateInputType
+    _max?: JobRequisitionMaxAggregateInputType
+  }
+
+  export type JobRequisitionGroupByOutputType = {
+    id: string
+    title: string
+    department: string
+    location: string | null
+    employmentType: string
+    positionsCount: number
+    status: string
+    description: string | null
+    requirements: string | null
+    minSalary: number | null
+    maxSalary: number | null
+    requestedById: string
+    createdAt: Date
+    updatedAt: Date
+    _count: JobRequisitionCountAggregateOutputType | null
+    _avg: JobRequisitionAvgAggregateOutputType | null
+    _sum: JobRequisitionSumAggregateOutputType | null
+    _min: JobRequisitionMinAggregateOutputType | null
+    _max: JobRequisitionMaxAggregateOutputType | null
+  }
+
+  type GetJobRequisitionGroupByPayload<T extends JobRequisitionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<JobRequisitionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof JobRequisitionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], JobRequisitionGroupByOutputType[P]>
+            : GetScalarType<T[P], JobRequisitionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type JobRequisitionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    employmentType?: boolean
+    positionsCount?: boolean
+    status?: boolean
+    description?: boolean
+    requirements?: boolean
+    minSalary?: boolean
+    maxSalary?: boolean
+    requestedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requestedBy?: boolean | EmployeeDefaultArgs<ExtArgs>
+    candidates?: boolean | JobRequisition$candidatesArgs<ExtArgs>
+    _count?: boolean | JobRequisitionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobRequisition"]>
+
+  export type JobRequisitionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    employmentType?: boolean
+    positionsCount?: boolean
+    status?: boolean
+    description?: boolean
+    requirements?: boolean
+    minSalary?: boolean
+    maxSalary?: boolean
+    requestedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requestedBy?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobRequisition"]>
+
+  export type JobRequisitionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    employmentType?: boolean
+    positionsCount?: boolean
+    status?: boolean
+    description?: boolean
+    requirements?: boolean
+    minSalary?: boolean
+    maxSalary?: boolean
+    requestedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requestedBy?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["jobRequisition"]>
+
+  export type JobRequisitionSelectScalar = {
+    id?: boolean
+    title?: boolean
+    department?: boolean
+    location?: boolean
+    employmentType?: boolean
+    positionsCount?: boolean
+    status?: boolean
+    description?: boolean
+    requirements?: boolean
+    minSalary?: boolean
+    maxSalary?: boolean
+    requestedById?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type JobRequisitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "department" | "location" | "employmentType" | "positionsCount" | "status" | "description" | "requirements" | "minSalary" | "maxSalary" | "requestedById" | "createdAt" | "updatedAt", ExtArgs["result"]["jobRequisition"]>
+  export type JobRequisitionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requestedBy?: boolean | EmployeeDefaultArgs<ExtArgs>
+    candidates?: boolean | JobRequisition$candidatesArgs<ExtArgs>
+    _count?: boolean | JobRequisitionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type JobRequisitionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requestedBy?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type JobRequisitionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requestedBy?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $JobRequisitionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "JobRequisition"
+    objects: {
+      requestedBy: Prisma.$EmployeePayload<ExtArgs>
+      candidates: Prisma.$CandidatePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      department: string
+      location: string | null
+      employmentType: string
+      positionsCount: number
+      status: string
+      description: string | null
+      requirements: string | null
+      minSalary: number | null
+      maxSalary: number | null
+      requestedById: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["jobRequisition"]>
+    composites: {}
+  }
+
+  type JobRequisitionGetPayload<S extends boolean | null | undefined | JobRequisitionDefaultArgs> = $Result.GetResult<Prisma.$JobRequisitionPayload, S>
+
+  type JobRequisitionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<JobRequisitionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: JobRequisitionCountAggregateInputType | true
+    }
+
+  export interface JobRequisitionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['JobRequisition'], meta: { name: 'JobRequisition' } }
+    /**
+     * Find zero or one JobRequisition that matches the filter.
+     * @param {JobRequisitionFindUniqueArgs} args - Arguments to find a JobRequisition
+     * @example
+     * // Get one JobRequisition
+     * const jobRequisition = await prisma.jobRequisition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends JobRequisitionFindUniqueArgs>(args: SelectSubset<T, JobRequisitionFindUniqueArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one JobRequisition that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {JobRequisitionFindUniqueOrThrowArgs} args - Arguments to find a JobRequisition
+     * @example
+     * // Get one JobRequisition
+     * const jobRequisition = await prisma.jobRequisition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends JobRequisitionFindUniqueOrThrowArgs>(args: SelectSubset<T, JobRequisitionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JobRequisition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionFindFirstArgs} args - Arguments to find a JobRequisition
+     * @example
+     * // Get one JobRequisition
+     * const jobRequisition = await prisma.jobRequisition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends JobRequisitionFindFirstArgs>(args?: SelectSubset<T, JobRequisitionFindFirstArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first JobRequisition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionFindFirstOrThrowArgs} args - Arguments to find a JobRequisition
+     * @example
+     * // Get one JobRequisition
+     * const jobRequisition = await prisma.jobRequisition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends JobRequisitionFindFirstOrThrowArgs>(args?: SelectSubset<T, JobRequisitionFindFirstOrThrowArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more JobRequisitions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all JobRequisitions
+     * const jobRequisitions = await prisma.jobRequisition.findMany()
+     * 
+     * // Get first 10 JobRequisitions
+     * const jobRequisitions = await prisma.jobRequisition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const jobRequisitionWithIdOnly = await prisma.jobRequisition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends JobRequisitionFindManyArgs>(args?: SelectSubset<T, JobRequisitionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a JobRequisition.
+     * @param {JobRequisitionCreateArgs} args - Arguments to create a JobRequisition.
+     * @example
+     * // Create one JobRequisition
+     * const JobRequisition = await prisma.jobRequisition.create({
+     *   data: {
+     *     // ... data to create a JobRequisition
+     *   }
+     * })
+     * 
+     */
+    create<T extends JobRequisitionCreateArgs>(args: SelectSubset<T, JobRequisitionCreateArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many JobRequisitions.
+     * @param {JobRequisitionCreateManyArgs} args - Arguments to create many JobRequisitions.
+     * @example
+     * // Create many JobRequisitions
+     * const jobRequisition = await prisma.jobRequisition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends JobRequisitionCreateManyArgs>(args?: SelectSubset<T, JobRequisitionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many JobRequisitions and returns the data saved in the database.
+     * @param {JobRequisitionCreateManyAndReturnArgs} args - Arguments to create many JobRequisitions.
+     * @example
+     * // Create many JobRequisitions
+     * const jobRequisition = await prisma.jobRequisition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many JobRequisitions and only return the `id`
+     * const jobRequisitionWithIdOnly = await prisma.jobRequisition.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends JobRequisitionCreateManyAndReturnArgs>(args?: SelectSubset<T, JobRequisitionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a JobRequisition.
+     * @param {JobRequisitionDeleteArgs} args - Arguments to delete one JobRequisition.
+     * @example
+     * // Delete one JobRequisition
+     * const JobRequisition = await prisma.jobRequisition.delete({
+     *   where: {
+     *     // ... filter to delete one JobRequisition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends JobRequisitionDeleteArgs>(args: SelectSubset<T, JobRequisitionDeleteArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one JobRequisition.
+     * @param {JobRequisitionUpdateArgs} args - Arguments to update one JobRequisition.
+     * @example
+     * // Update one JobRequisition
+     * const jobRequisition = await prisma.jobRequisition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends JobRequisitionUpdateArgs>(args: SelectSubset<T, JobRequisitionUpdateArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more JobRequisitions.
+     * @param {JobRequisitionDeleteManyArgs} args - Arguments to filter JobRequisitions to delete.
+     * @example
+     * // Delete a few JobRequisitions
+     * const { count } = await prisma.jobRequisition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends JobRequisitionDeleteManyArgs>(args?: SelectSubset<T, JobRequisitionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobRequisitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many JobRequisitions
+     * const jobRequisition = await prisma.jobRequisition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends JobRequisitionUpdateManyArgs>(args: SelectSubset<T, JobRequisitionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more JobRequisitions and returns the data updated in the database.
+     * @param {JobRequisitionUpdateManyAndReturnArgs} args - Arguments to update many JobRequisitions.
+     * @example
+     * // Update many JobRequisitions
+     * const jobRequisition = await prisma.jobRequisition.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more JobRequisitions and only return the `id`
+     * const jobRequisitionWithIdOnly = await prisma.jobRequisition.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends JobRequisitionUpdateManyAndReturnArgs>(args: SelectSubset<T, JobRequisitionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one JobRequisition.
+     * @param {JobRequisitionUpsertArgs} args - Arguments to update or create a JobRequisition.
+     * @example
+     * // Update or create a JobRequisition
+     * const jobRequisition = await prisma.jobRequisition.upsert({
+     *   create: {
+     *     // ... data to create a JobRequisition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the JobRequisition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends JobRequisitionUpsertArgs>(args: SelectSubset<T, JobRequisitionUpsertArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of JobRequisitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionCountArgs} args - Arguments to filter JobRequisitions to count.
+     * @example
+     * // Count the number of JobRequisitions
+     * const count = await prisma.jobRequisition.count({
+     *   where: {
+     *     // ... the filter for the JobRequisitions we want to count
+     *   }
+     * })
+    **/
+    count<T extends JobRequisitionCountArgs>(
+      args?: Subset<T, JobRequisitionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], JobRequisitionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a JobRequisition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends JobRequisitionAggregateArgs>(args: Subset<T, JobRequisitionAggregateArgs>): Prisma.PrismaPromise<GetJobRequisitionAggregateType<T>>
+
+    /**
+     * Group by JobRequisition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {JobRequisitionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends JobRequisitionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: JobRequisitionGroupByArgs['orderBy'] }
+        : { orderBy?: JobRequisitionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, JobRequisitionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetJobRequisitionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the JobRequisition model
+   */
+  readonly fields: JobRequisitionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for JobRequisition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__JobRequisitionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    requestedBy<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    candidates<T extends JobRequisition$candidatesArgs<ExtArgs> = {}>(args?: Subset<T, JobRequisition$candidatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the JobRequisition model
+   */
+  interface JobRequisitionFieldRefs {
+    readonly id: FieldRef<"JobRequisition", 'String'>
+    readonly title: FieldRef<"JobRequisition", 'String'>
+    readonly department: FieldRef<"JobRequisition", 'String'>
+    readonly location: FieldRef<"JobRequisition", 'String'>
+    readonly employmentType: FieldRef<"JobRequisition", 'String'>
+    readonly positionsCount: FieldRef<"JobRequisition", 'Int'>
+    readonly status: FieldRef<"JobRequisition", 'String'>
+    readonly description: FieldRef<"JobRequisition", 'String'>
+    readonly requirements: FieldRef<"JobRequisition", 'String'>
+    readonly minSalary: FieldRef<"JobRequisition", 'Float'>
+    readonly maxSalary: FieldRef<"JobRequisition", 'Float'>
+    readonly requestedById: FieldRef<"JobRequisition", 'String'>
+    readonly createdAt: FieldRef<"JobRequisition", 'DateTime'>
+    readonly updatedAt: FieldRef<"JobRequisition", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * JobRequisition findUnique
+   */
+  export type JobRequisitionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * Filter, which JobRequisition to fetch.
+     */
+    where: JobRequisitionWhereUniqueInput
+  }
+
+  /**
+   * JobRequisition findUniqueOrThrow
+   */
+  export type JobRequisitionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * Filter, which JobRequisition to fetch.
+     */
+    where: JobRequisitionWhereUniqueInput
+  }
+
+  /**
+   * JobRequisition findFirst
+   */
+  export type JobRequisitionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * Filter, which JobRequisition to fetch.
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobRequisitions to fetch.
+     */
+    orderBy?: JobRequisitionOrderByWithRelationInput | JobRequisitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JobRequisitions.
+     */
+    cursor?: JobRequisitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobRequisitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobRequisitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobRequisitions.
+     */
+    distinct?: JobRequisitionScalarFieldEnum | JobRequisitionScalarFieldEnum[]
+  }
+
+  /**
+   * JobRequisition findFirstOrThrow
+   */
+  export type JobRequisitionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * Filter, which JobRequisition to fetch.
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobRequisitions to fetch.
+     */
+    orderBy?: JobRequisitionOrderByWithRelationInput | JobRequisitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for JobRequisitions.
+     */
+    cursor?: JobRequisitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobRequisitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobRequisitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of JobRequisitions.
+     */
+    distinct?: JobRequisitionScalarFieldEnum | JobRequisitionScalarFieldEnum[]
+  }
+
+  /**
+   * JobRequisition findMany
+   */
+  export type JobRequisitionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * Filter, which JobRequisitions to fetch.
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of JobRequisitions to fetch.
+     */
+    orderBy?: JobRequisitionOrderByWithRelationInput | JobRequisitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing JobRequisitions.
+     */
+    cursor?: JobRequisitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` JobRequisitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` JobRequisitions.
+     */
+    skip?: number
+    distinct?: JobRequisitionScalarFieldEnum | JobRequisitionScalarFieldEnum[]
+  }
+
+  /**
+   * JobRequisition create
+   */
+  export type JobRequisitionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a JobRequisition.
+     */
+    data: XOR<JobRequisitionCreateInput, JobRequisitionUncheckedCreateInput>
+  }
+
+  /**
+   * JobRequisition createMany
+   */
+  export type JobRequisitionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many JobRequisitions.
+     */
+    data: JobRequisitionCreateManyInput | JobRequisitionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * JobRequisition createManyAndReturn
+   */
+  export type JobRequisitionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * The data used to create many JobRequisitions.
+     */
+    data: JobRequisitionCreateManyInput | JobRequisitionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * JobRequisition update
+   */
+  export type JobRequisitionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a JobRequisition.
+     */
+    data: XOR<JobRequisitionUpdateInput, JobRequisitionUncheckedUpdateInput>
+    /**
+     * Choose, which JobRequisition to update.
+     */
+    where: JobRequisitionWhereUniqueInput
+  }
+
+  /**
+   * JobRequisition updateMany
+   */
+  export type JobRequisitionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update JobRequisitions.
+     */
+    data: XOR<JobRequisitionUpdateManyMutationInput, JobRequisitionUncheckedUpdateManyInput>
+    /**
+     * Filter which JobRequisitions to update
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * Limit how many JobRequisitions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobRequisition updateManyAndReturn
+   */
+  export type JobRequisitionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * The data used to update JobRequisitions.
+     */
+    data: XOR<JobRequisitionUpdateManyMutationInput, JobRequisitionUncheckedUpdateManyInput>
+    /**
+     * Filter which JobRequisitions to update
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * Limit how many JobRequisitions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * JobRequisition upsert
+   */
+  export type JobRequisitionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the JobRequisition to update in case it exists.
+     */
+    where: JobRequisitionWhereUniqueInput
+    /**
+     * In case the JobRequisition found by the `where` argument doesn't exist, create a new JobRequisition with this data.
+     */
+    create: XOR<JobRequisitionCreateInput, JobRequisitionUncheckedCreateInput>
+    /**
+     * In case the JobRequisition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<JobRequisitionUpdateInput, JobRequisitionUncheckedUpdateInput>
+  }
+
+  /**
+   * JobRequisition delete
+   */
+  export type JobRequisitionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+    /**
+     * Filter which JobRequisition to delete.
+     */
+    where: JobRequisitionWhereUniqueInput
+  }
+
+  /**
+   * JobRequisition deleteMany
+   */
+  export type JobRequisitionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which JobRequisitions to delete
+     */
+    where?: JobRequisitionWhereInput
+    /**
+     * Limit how many JobRequisitions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * JobRequisition.candidates
+   */
+  export type JobRequisition$candidatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    where?: CandidateWhereInput
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    cursor?: CandidateWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * JobRequisition without action
+   */
+  export type JobRequisitionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the JobRequisition
+     */
+    select?: JobRequisitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the JobRequisition
+     */
+    omit?: JobRequisitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: JobRequisitionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Candidate
+   */
+
+  export type AggregateCandidate = {
+    _count: CandidateCountAggregateOutputType | null
+    _min: CandidateMinAggregateOutputType | null
+    _max: CandidateMaxAggregateOutputType | null
+  }
+
+  export type CandidateMinAggregateOutputType = {
+    id: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    phone: string | null
+    resumeUrl: string | null
+    status: string | null
+    jobId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateMaxAggregateOutputType = {
+    id: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    phone: string | null
+    resumeUrl: string | null
+    status: string | null
+    jobId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CandidateCountAggregateOutputType = {
+    id: number
+    firstName: number
+    lastName: number
+    email: number
+    phone: number
+    resumeUrl: number
+    status: number
+    jobId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CandidateMinAggregateInputType = {
+    id?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    phone?: true
+    resumeUrl?: true
+    status?: true
+    jobId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateMaxAggregateInputType = {
+    id?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    phone?: true
+    resumeUrl?: true
+    status?: true
+    jobId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CandidateCountAggregateInputType = {
+    id?: true
+    firstName?: true
+    lastName?: true
+    email?: true
+    phone?: true
+    resumeUrl?: true
+    status?: true
+    jobId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CandidateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Candidate to aggregate.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Candidates
+    **/
+    _count?: true | CandidateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CandidateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CandidateMaxAggregateInputType
+  }
+
+  export type GetCandidateAggregateType<T extends CandidateAggregateArgs> = {
+        [P in keyof T & keyof AggregateCandidate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCandidate[P]>
+      : GetScalarType<T[P], AggregateCandidate[P]>
+  }
+
+
+
+
+  export type CandidateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CandidateWhereInput
+    orderBy?: CandidateOrderByWithAggregationInput | CandidateOrderByWithAggregationInput[]
+    by: CandidateScalarFieldEnum[] | CandidateScalarFieldEnum
+    having?: CandidateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CandidateCountAggregateInputType | true
+    _min?: CandidateMinAggregateInputType
+    _max?: CandidateMaxAggregateInputType
+  }
+
+  export type CandidateGroupByOutputType = {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+    phone: string | null
+    resumeUrl: string | null
+    status: string
+    jobId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: CandidateCountAggregateOutputType | null
+    _min: CandidateMinAggregateOutputType | null
+    _max: CandidateMaxAggregateOutputType | null
+  }
+
+  type GetCandidateGroupByPayload<T extends CandidateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CandidateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CandidateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CandidateGroupByOutputType[P]>
+            : GetScalarType<T[P], CandidateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CandidateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    phone?: boolean
+    resumeUrl?: boolean
+    status?: boolean
+    jobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    job?: boolean | JobRequisitionDefaultArgs<ExtArgs>
+    interviews?: boolean | Candidate$interviewsArgs<ExtArgs>
+    offer?: boolean | Candidate$offerArgs<ExtArgs>
+    _count?: boolean | CandidateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["candidate"]>
+
+  export type CandidateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    phone?: boolean
+    resumeUrl?: boolean
+    status?: boolean
+    jobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    job?: boolean | JobRequisitionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["candidate"]>
+
+  export type CandidateSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    phone?: boolean
+    resumeUrl?: boolean
+    status?: boolean
+    jobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    job?: boolean | JobRequisitionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["candidate"]>
+
+  export type CandidateSelectScalar = {
+    id?: boolean
+    firstName?: boolean
+    lastName?: boolean
+    email?: boolean
+    phone?: boolean
+    resumeUrl?: boolean
+    status?: boolean
+    jobId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CandidateOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "phone" | "resumeUrl" | "status" | "jobId" | "createdAt" | "updatedAt", ExtArgs["result"]["candidate"]>
+  export type CandidateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobRequisitionDefaultArgs<ExtArgs>
+    interviews?: boolean | Candidate$interviewsArgs<ExtArgs>
+    offer?: boolean | Candidate$offerArgs<ExtArgs>
+    _count?: boolean | CandidateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type CandidateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobRequisitionDefaultArgs<ExtArgs>
+  }
+  export type CandidateIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    job?: boolean | JobRequisitionDefaultArgs<ExtArgs>
+  }
+
+  export type $CandidatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Candidate"
+    objects: {
+      job: Prisma.$JobRequisitionPayload<ExtArgs>
+      interviews: Prisma.$InterviewPayload<ExtArgs>[]
+      offer: Prisma.$OfferLetterPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      firstName: string
+      lastName: string
+      email: string
+      phone: string | null
+      resumeUrl: string | null
+      status: string
+      jobId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["candidate"]>
+    composites: {}
+  }
+
+  type CandidateGetPayload<S extends boolean | null | undefined | CandidateDefaultArgs> = $Result.GetResult<Prisma.$CandidatePayload, S>
+
+  type CandidateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CandidateFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CandidateCountAggregateInputType | true
+    }
+
+  export interface CandidateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Candidate'], meta: { name: 'Candidate' } }
+    /**
+     * Find zero or one Candidate that matches the filter.
+     * @param {CandidateFindUniqueArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CandidateFindUniqueArgs>(args: SelectSubset<T, CandidateFindUniqueArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Candidate that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CandidateFindUniqueOrThrowArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CandidateFindUniqueOrThrowArgs>(args: SelectSubset<T, CandidateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Candidate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateFindFirstArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CandidateFindFirstArgs>(args?: SelectSubset<T, CandidateFindFirstArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Candidate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateFindFirstOrThrowArgs} args - Arguments to find a Candidate
+     * @example
+     * // Get one Candidate
+     * const candidate = await prisma.candidate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CandidateFindFirstOrThrowArgs>(args?: SelectSubset<T, CandidateFindFirstOrThrowArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Candidates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Candidates
+     * const candidates = await prisma.candidate.findMany()
+     * 
+     * // Get first 10 Candidates
+     * const candidates = await prisma.candidate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const candidateWithIdOnly = await prisma.candidate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CandidateFindManyArgs>(args?: SelectSubset<T, CandidateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Candidate.
+     * @param {CandidateCreateArgs} args - Arguments to create a Candidate.
+     * @example
+     * // Create one Candidate
+     * const Candidate = await prisma.candidate.create({
+     *   data: {
+     *     // ... data to create a Candidate
+     *   }
+     * })
+     * 
+     */
+    create<T extends CandidateCreateArgs>(args: SelectSubset<T, CandidateCreateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Candidates.
+     * @param {CandidateCreateManyArgs} args - Arguments to create many Candidates.
+     * @example
+     * // Create many Candidates
+     * const candidate = await prisma.candidate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CandidateCreateManyArgs>(args?: SelectSubset<T, CandidateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Candidates and returns the data saved in the database.
+     * @param {CandidateCreateManyAndReturnArgs} args - Arguments to create many Candidates.
+     * @example
+     * // Create many Candidates
+     * const candidate = await prisma.candidate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Candidates and only return the `id`
+     * const candidateWithIdOnly = await prisma.candidate.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CandidateCreateManyAndReturnArgs>(args?: SelectSubset<T, CandidateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Candidate.
+     * @param {CandidateDeleteArgs} args - Arguments to delete one Candidate.
+     * @example
+     * // Delete one Candidate
+     * const Candidate = await prisma.candidate.delete({
+     *   where: {
+     *     // ... filter to delete one Candidate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CandidateDeleteArgs>(args: SelectSubset<T, CandidateDeleteArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Candidate.
+     * @param {CandidateUpdateArgs} args - Arguments to update one Candidate.
+     * @example
+     * // Update one Candidate
+     * const candidate = await prisma.candidate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CandidateUpdateArgs>(args: SelectSubset<T, CandidateUpdateArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Candidates.
+     * @param {CandidateDeleteManyArgs} args - Arguments to filter Candidates to delete.
+     * @example
+     * // Delete a few Candidates
+     * const { count } = await prisma.candidate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CandidateDeleteManyArgs>(args?: SelectSubset<T, CandidateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Candidates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Candidates
+     * const candidate = await prisma.candidate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CandidateUpdateManyArgs>(args: SelectSubset<T, CandidateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Candidates and returns the data updated in the database.
+     * @param {CandidateUpdateManyAndReturnArgs} args - Arguments to update many Candidates.
+     * @example
+     * // Update many Candidates
+     * const candidate = await prisma.candidate.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Candidates and only return the `id`
+     * const candidateWithIdOnly = await prisma.candidate.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CandidateUpdateManyAndReturnArgs>(args: SelectSubset<T, CandidateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Candidate.
+     * @param {CandidateUpsertArgs} args - Arguments to update or create a Candidate.
+     * @example
+     * // Update or create a Candidate
+     * const candidate = await prisma.candidate.upsert({
+     *   create: {
+     *     // ... data to create a Candidate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Candidate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CandidateUpsertArgs>(args: SelectSubset<T, CandidateUpsertArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Candidates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateCountArgs} args - Arguments to filter Candidates to count.
+     * @example
+     * // Count the number of Candidates
+     * const count = await prisma.candidate.count({
+     *   where: {
+     *     // ... the filter for the Candidates we want to count
+     *   }
+     * })
+    **/
+    count<T extends CandidateCountArgs>(
+      args?: Subset<T, CandidateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CandidateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Candidate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CandidateAggregateArgs>(args: Subset<T, CandidateAggregateArgs>): Prisma.PrismaPromise<GetCandidateAggregateType<T>>
+
+    /**
+     * Group by Candidate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CandidateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CandidateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CandidateGroupByArgs['orderBy'] }
+        : { orderBy?: CandidateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CandidateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCandidateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Candidate model
+   */
+  readonly fields: CandidateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Candidate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CandidateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    job<T extends JobRequisitionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, JobRequisitionDefaultArgs<ExtArgs>>): Prisma__JobRequisitionClient<$Result.GetResult<Prisma.$JobRequisitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    interviews<T extends Candidate$interviewsArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$interviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    offer<T extends Candidate$offerArgs<ExtArgs> = {}>(args?: Subset<T, Candidate$offerArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Candidate model
+   */
+  interface CandidateFieldRefs {
+    readonly id: FieldRef<"Candidate", 'String'>
+    readonly firstName: FieldRef<"Candidate", 'String'>
+    readonly lastName: FieldRef<"Candidate", 'String'>
+    readonly email: FieldRef<"Candidate", 'String'>
+    readonly phone: FieldRef<"Candidate", 'String'>
+    readonly resumeUrl: FieldRef<"Candidate", 'String'>
+    readonly status: FieldRef<"Candidate", 'String'>
+    readonly jobId: FieldRef<"Candidate", 'String'>
+    readonly createdAt: FieldRef<"Candidate", 'DateTime'>
+    readonly updatedAt: FieldRef<"Candidate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Candidate findUnique
+   */
+  export type CandidateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate findUniqueOrThrow
+   */
+  export type CandidateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate findFirst
+   */
+  export type CandidateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Candidates.
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Candidates.
+     */
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate findFirstOrThrow
+   */
+  export type CandidateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidate to fetch.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Candidates.
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Candidates.
+     */
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate findMany
+   */
+  export type CandidateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter, which Candidates to fetch.
+     */
+    where?: CandidateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Candidates to fetch.
+     */
+    orderBy?: CandidateOrderByWithRelationInput | CandidateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Candidates.
+     */
+    cursor?: CandidateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Candidates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Candidates.
+     */
+    skip?: number
+    distinct?: CandidateScalarFieldEnum | CandidateScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate create
+   */
+  export type CandidateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Candidate.
+     */
+    data: XOR<CandidateCreateInput, CandidateUncheckedCreateInput>
+  }
+
+  /**
+   * Candidate createMany
+   */
+  export type CandidateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Candidates.
+     */
+    data: CandidateCreateManyInput | CandidateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Candidate createManyAndReturn
+   */
+  export type CandidateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * The data used to create many Candidates.
+     */
+    data: CandidateCreateManyInput | CandidateCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Candidate update
+   */
+  export type CandidateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Candidate.
+     */
+    data: XOR<CandidateUpdateInput, CandidateUncheckedUpdateInput>
+    /**
+     * Choose, which Candidate to update.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate updateMany
+   */
+  export type CandidateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Candidates.
+     */
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyInput>
+    /**
+     * Filter which Candidates to update
+     */
+    where?: CandidateWhereInput
+    /**
+     * Limit how many Candidates to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Candidate updateManyAndReturn
+   */
+  export type CandidateUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * The data used to update Candidates.
+     */
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyInput>
+    /**
+     * Filter which Candidates to update
+     */
+    where?: CandidateWhereInput
+    /**
+     * Limit how many Candidates to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Candidate upsert
+   */
+  export type CandidateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Candidate to update in case it exists.
+     */
+    where: CandidateWhereUniqueInput
+    /**
+     * In case the Candidate found by the `where` argument doesn't exist, create a new Candidate with this data.
+     */
+    create: XOR<CandidateCreateInput, CandidateUncheckedCreateInput>
+    /**
+     * In case the Candidate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CandidateUpdateInput, CandidateUncheckedUpdateInput>
+  }
+
+  /**
+   * Candidate delete
+   */
+  export type CandidateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+    /**
+     * Filter which Candidate to delete.
+     */
+    where: CandidateWhereUniqueInput
+  }
+
+  /**
+   * Candidate deleteMany
+   */
+  export type CandidateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Candidates to delete
+     */
+    where?: CandidateWhereInput
+    /**
+     * Limit how many Candidates to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Candidate.interviews
+   */
+  export type Candidate$interviewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    where?: InterviewWhereInput
+    orderBy?: InterviewOrderByWithRelationInput | InterviewOrderByWithRelationInput[]
+    cursor?: InterviewWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InterviewScalarFieldEnum | InterviewScalarFieldEnum[]
+  }
+
+  /**
+   * Candidate.offer
+   */
+  export type Candidate$offerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    where?: OfferLetterWhereInput
+  }
+
+  /**
+   * Candidate without action
+   */
+  export type CandidateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Candidate
+     */
+    select?: CandidateSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Candidate
+     */
+    omit?: CandidateOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CandidateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Interview
+   */
+
+  export type AggregateInterview = {
+    _count: InterviewCountAggregateOutputType | null
+    _avg: InterviewAvgAggregateOutputType | null
+    _sum: InterviewSumAggregateOutputType | null
+    _min: InterviewMinAggregateOutputType | null
+    _max: InterviewMaxAggregateOutputType | null
+  }
+
+  export type InterviewAvgAggregateOutputType = {
+    durationMins: number | null
+    rating: number | null
+  }
+
+  export type InterviewSumAggregateOutputType = {
+    durationMins: number | null
+    rating: number | null
+  }
+
+  export type InterviewMinAggregateOutputType = {
+    id: string | null
+    candidateId: string | null
+    interviewerId: string | null
+    scheduledAt: Date | null
+    durationMins: number | null
+    status: string | null
+    feedback: string | null
+    rating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InterviewMaxAggregateOutputType = {
+    id: string | null
+    candidateId: string | null
+    interviewerId: string | null
+    scheduledAt: Date | null
+    durationMins: number | null
+    status: string | null
+    feedback: string | null
+    rating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InterviewCountAggregateOutputType = {
+    id: number
+    candidateId: number
+    interviewerId: number
+    scheduledAt: number
+    durationMins: number
+    status: number
+    feedback: number
+    rating: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InterviewAvgAggregateInputType = {
+    durationMins?: true
+    rating?: true
+  }
+
+  export type InterviewSumAggregateInputType = {
+    durationMins?: true
+    rating?: true
+  }
+
+  export type InterviewMinAggregateInputType = {
+    id?: true
+    candidateId?: true
+    interviewerId?: true
+    scheduledAt?: true
+    durationMins?: true
+    status?: true
+    feedback?: true
+    rating?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InterviewMaxAggregateInputType = {
+    id?: true
+    candidateId?: true
+    interviewerId?: true
+    scheduledAt?: true
+    durationMins?: true
+    status?: true
+    feedback?: true
+    rating?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InterviewCountAggregateInputType = {
+    id?: true
+    candidateId?: true
+    interviewerId?: true
+    scheduledAt?: true
+    durationMins?: true
+    status?: true
+    feedback?: true
+    rating?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InterviewAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Interview to aggregate.
+     */
+    where?: InterviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interviews to fetch.
+     */
+    orderBy?: InterviewOrderByWithRelationInput | InterviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InterviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Interviews
+    **/
+    _count?: true | InterviewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InterviewAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InterviewSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InterviewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InterviewMaxAggregateInputType
+  }
+
+  export type GetInterviewAggregateType<T extends InterviewAggregateArgs> = {
+        [P in keyof T & keyof AggregateInterview]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInterview[P]>
+      : GetScalarType<T[P], AggregateInterview[P]>
+  }
+
+
+
+
+  export type InterviewGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InterviewWhereInput
+    orderBy?: InterviewOrderByWithAggregationInput | InterviewOrderByWithAggregationInput[]
+    by: InterviewScalarFieldEnum[] | InterviewScalarFieldEnum
+    having?: InterviewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InterviewCountAggregateInputType | true
+    _avg?: InterviewAvgAggregateInputType
+    _sum?: InterviewSumAggregateInputType
+    _min?: InterviewMinAggregateInputType
+    _max?: InterviewMaxAggregateInputType
+  }
+
+  export type InterviewGroupByOutputType = {
+    id: string
+    candidateId: string
+    interviewerId: string
+    scheduledAt: Date
+    durationMins: number
+    status: string
+    feedback: string | null
+    rating: number | null
+    createdAt: Date
+    updatedAt: Date
+    _count: InterviewCountAggregateOutputType | null
+    _avg: InterviewAvgAggregateOutputType | null
+    _sum: InterviewSumAggregateOutputType | null
+    _min: InterviewMinAggregateOutputType | null
+    _max: InterviewMaxAggregateOutputType | null
+  }
+
+  type GetInterviewGroupByPayload<T extends InterviewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InterviewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InterviewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InterviewGroupByOutputType[P]>
+            : GetScalarType<T[P], InterviewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InterviewSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    interviewerId?: boolean
+    scheduledAt?: boolean
+    durationMins?: boolean
+    status?: boolean
+    feedback?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+    interviewer?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["interview"]>
+
+  export type InterviewSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    interviewerId?: boolean
+    scheduledAt?: boolean
+    durationMins?: boolean
+    status?: boolean
+    feedback?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+    interviewer?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["interview"]>
+
+  export type InterviewSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    interviewerId?: boolean
+    scheduledAt?: boolean
+    durationMins?: boolean
+    status?: boolean
+    feedback?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+    interviewer?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["interview"]>
+
+  export type InterviewSelectScalar = {
+    id?: boolean
+    candidateId?: boolean
+    interviewerId?: boolean
+    scheduledAt?: boolean
+    durationMins?: boolean
+    status?: boolean
+    feedback?: boolean
+    rating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InterviewOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "candidateId" | "interviewerId" | "scheduledAt" | "durationMins" | "status" | "feedback" | "rating" | "createdAt" | "updatedAt", ExtArgs["result"]["interview"]>
+  export type InterviewInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+    interviewer?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type InterviewIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+    interviewer?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+  export type InterviewIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+    interviewer?: boolean | EmployeeDefaultArgs<ExtArgs>
+  }
+
+  export type $InterviewPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Interview"
+    objects: {
+      candidate: Prisma.$CandidatePayload<ExtArgs>
+      interviewer: Prisma.$EmployeePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      candidateId: string
+      interviewerId: string
+      scheduledAt: Date
+      durationMins: number
+      status: string
+      feedback: string | null
+      rating: number | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["interview"]>
+    composites: {}
+  }
+
+  type InterviewGetPayload<S extends boolean | null | undefined | InterviewDefaultArgs> = $Result.GetResult<Prisma.$InterviewPayload, S>
+
+  type InterviewCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InterviewFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InterviewCountAggregateInputType | true
+    }
+
+  export interface InterviewDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Interview'], meta: { name: 'Interview' } }
+    /**
+     * Find zero or one Interview that matches the filter.
+     * @param {InterviewFindUniqueArgs} args - Arguments to find a Interview
+     * @example
+     * // Get one Interview
+     * const interview = await prisma.interview.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InterviewFindUniqueArgs>(args: SelectSubset<T, InterviewFindUniqueArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Interview that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InterviewFindUniqueOrThrowArgs} args - Arguments to find a Interview
+     * @example
+     * // Get one Interview
+     * const interview = await prisma.interview.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InterviewFindUniqueOrThrowArgs>(args: SelectSubset<T, InterviewFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Interview that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewFindFirstArgs} args - Arguments to find a Interview
+     * @example
+     * // Get one Interview
+     * const interview = await prisma.interview.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InterviewFindFirstArgs>(args?: SelectSubset<T, InterviewFindFirstArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Interview that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewFindFirstOrThrowArgs} args - Arguments to find a Interview
+     * @example
+     * // Get one Interview
+     * const interview = await prisma.interview.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InterviewFindFirstOrThrowArgs>(args?: SelectSubset<T, InterviewFindFirstOrThrowArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Interviews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Interviews
+     * const interviews = await prisma.interview.findMany()
+     * 
+     * // Get first 10 Interviews
+     * const interviews = await prisma.interview.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const interviewWithIdOnly = await prisma.interview.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InterviewFindManyArgs>(args?: SelectSubset<T, InterviewFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Interview.
+     * @param {InterviewCreateArgs} args - Arguments to create a Interview.
+     * @example
+     * // Create one Interview
+     * const Interview = await prisma.interview.create({
+     *   data: {
+     *     // ... data to create a Interview
+     *   }
+     * })
+     * 
+     */
+    create<T extends InterviewCreateArgs>(args: SelectSubset<T, InterviewCreateArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Interviews.
+     * @param {InterviewCreateManyArgs} args - Arguments to create many Interviews.
+     * @example
+     * // Create many Interviews
+     * const interview = await prisma.interview.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InterviewCreateManyArgs>(args?: SelectSubset<T, InterviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Interviews and returns the data saved in the database.
+     * @param {InterviewCreateManyAndReturnArgs} args - Arguments to create many Interviews.
+     * @example
+     * // Create many Interviews
+     * const interview = await prisma.interview.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Interviews and only return the `id`
+     * const interviewWithIdOnly = await prisma.interview.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InterviewCreateManyAndReturnArgs>(args?: SelectSubset<T, InterviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Interview.
+     * @param {InterviewDeleteArgs} args - Arguments to delete one Interview.
+     * @example
+     * // Delete one Interview
+     * const Interview = await prisma.interview.delete({
+     *   where: {
+     *     // ... filter to delete one Interview
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InterviewDeleteArgs>(args: SelectSubset<T, InterviewDeleteArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Interview.
+     * @param {InterviewUpdateArgs} args - Arguments to update one Interview.
+     * @example
+     * // Update one Interview
+     * const interview = await prisma.interview.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InterviewUpdateArgs>(args: SelectSubset<T, InterviewUpdateArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Interviews.
+     * @param {InterviewDeleteManyArgs} args - Arguments to filter Interviews to delete.
+     * @example
+     * // Delete a few Interviews
+     * const { count } = await prisma.interview.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InterviewDeleteManyArgs>(args?: SelectSubset<T, InterviewDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Interviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Interviews
+     * const interview = await prisma.interview.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InterviewUpdateManyArgs>(args: SelectSubset<T, InterviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Interviews and returns the data updated in the database.
+     * @param {InterviewUpdateManyAndReturnArgs} args - Arguments to update many Interviews.
+     * @example
+     * // Update many Interviews
+     * const interview = await prisma.interview.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Interviews and only return the `id`
+     * const interviewWithIdOnly = await prisma.interview.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InterviewUpdateManyAndReturnArgs>(args: SelectSubset<T, InterviewUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Interview.
+     * @param {InterviewUpsertArgs} args - Arguments to update or create a Interview.
+     * @example
+     * // Update or create a Interview
+     * const interview = await prisma.interview.upsert({
+     *   create: {
+     *     // ... data to create a Interview
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Interview we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InterviewUpsertArgs>(args: SelectSubset<T, InterviewUpsertArgs<ExtArgs>>): Prisma__InterviewClient<$Result.GetResult<Prisma.$InterviewPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Interviews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewCountArgs} args - Arguments to filter Interviews to count.
+     * @example
+     * // Count the number of Interviews
+     * const count = await prisma.interview.count({
+     *   where: {
+     *     // ... the filter for the Interviews we want to count
+     *   }
+     * })
+    **/
+    count<T extends InterviewCountArgs>(
+      args?: Subset<T, InterviewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InterviewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Interview.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InterviewAggregateArgs>(args: Subset<T, InterviewAggregateArgs>): Prisma.PrismaPromise<GetInterviewAggregateType<T>>
+
+    /**
+     * Group by Interview.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InterviewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InterviewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InterviewGroupByArgs['orderBy'] }
+        : { orderBy?: InterviewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InterviewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInterviewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Interview model
+   */
+  readonly fields: InterviewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Interview.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InterviewClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    candidate<T extends CandidateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CandidateDefaultArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    interviewer<T extends EmployeeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EmployeeDefaultArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Interview model
+   */
+  interface InterviewFieldRefs {
+    readonly id: FieldRef<"Interview", 'String'>
+    readonly candidateId: FieldRef<"Interview", 'String'>
+    readonly interviewerId: FieldRef<"Interview", 'String'>
+    readonly scheduledAt: FieldRef<"Interview", 'DateTime'>
+    readonly durationMins: FieldRef<"Interview", 'Int'>
+    readonly status: FieldRef<"Interview", 'String'>
+    readonly feedback: FieldRef<"Interview", 'String'>
+    readonly rating: FieldRef<"Interview", 'Int'>
+    readonly createdAt: FieldRef<"Interview", 'DateTime'>
+    readonly updatedAt: FieldRef<"Interview", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Interview findUnique
+   */
+  export type InterviewFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Interview to fetch.
+     */
+    where: InterviewWhereUniqueInput
+  }
+
+  /**
+   * Interview findUniqueOrThrow
+   */
+  export type InterviewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Interview to fetch.
+     */
+    where: InterviewWhereUniqueInput
+  }
+
+  /**
+   * Interview findFirst
+   */
+  export type InterviewFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Interview to fetch.
+     */
+    where?: InterviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interviews to fetch.
+     */
+    orderBy?: InterviewOrderByWithRelationInput | InterviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Interviews.
+     */
+    cursor?: InterviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Interviews.
+     */
+    distinct?: InterviewScalarFieldEnum | InterviewScalarFieldEnum[]
+  }
+
+  /**
+   * Interview findFirstOrThrow
+   */
+  export type InterviewFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Interview to fetch.
+     */
+    where?: InterviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interviews to fetch.
+     */
+    orderBy?: InterviewOrderByWithRelationInput | InterviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Interviews.
+     */
+    cursor?: InterviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interviews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Interviews.
+     */
+    distinct?: InterviewScalarFieldEnum | InterviewScalarFieldEnum[]
+  }
+
+  /**
+   * Interview findMany
+   */
+  export type InterviewFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * Filter, which Interviews to fetch.
+     */
+    where?: InterviewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Interviews to fetch.
+     */
+    orderBy?: InterviewOrderByWithRelationInput | InterviewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Interviews.
+     */
+    cursor?: InterviewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Interviews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Interviews.
+     */
+    skip?: number
+    distinct?: InterviewScalarFieldEnum | InterviewScalarFieldEnum[]
+  }
+
+  /**
+   * Interview create
+   */
+  export type InterviewCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Interview.
+     */
+    data: XOR<InterviewCreateInput, InterviewUncheckedCreateInput>
+  }
+
+  /**
+   * Interview createMany
+   */
+  export type InterviewCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Interviews.
+     */
+    data: InterviewCreateManyInput | InterviewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Interview createManyAndReturn
+   */
+  export type InterviewCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * The data used to create many Interviews.
+     */
+    data: InterviewCreateManyInput | InterviewCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Interview update
+   */
+  export type InterviewUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Interview.
+     */
+    data: XOR<InterviewUpdateInput, InterviewUncheckedUpdateInput>
+    /**
+     * Choose, which Interview to update.
+     */
+    where: InterviewWhereUniqueInput
+  }
+
+  /**
+   * Interview updateMany
+   */
+  export type InterviewUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Interviews.
+     */
+    data: XOR<InterviewUpdateManyMutationInput, InterviewUncheckedUpdateManyInput>
+    /**
+     * Filter which Interviews to update
+     */
+    where?: InterviewWhereInput
+    /**
+     * Limit how many Interviews to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Interview updateManyAndReturn
+   */
+  export type InterviewUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * The data used to update Interviews.
+     */
+    data: XOR<InterviewUpdateManyMutationInput, InterviewUncheckedUpdateManyInput>
+    /**
+     * Filter which Interviews to update
+     */
+    where?: InterviewWhereInput
+    /**
+     * Limit how many Interviews to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Interview upsert
+   */
+  export type InterviewUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Interview to update in case it exists.
+     */
+    where: InterviewWhereUniqueInput
+    /**
+     * In case the Interview found by the `where` argument doesn't exist, create a new Interview with this data.
+     */
+    create: XOR<InterviewCreateInput, InterviewUncheckedCreateInput>
+    /**
+     * In case the Interview was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InterviewUpdateInput, InterviewUncheckedUpdateInput>
+  }
+
+  /**
+   * Interview delete
+   */
+  export type InterviewDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+    /**
+     * Filter which Interview to delete.
+     */
+    where: InterviewWhereUniqueInput
+  }
+
+  /**
+   * Interview deleteMany
+   */
+  export type InterviewDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Interviews to delete
+     */
+    where?: InterviewWhereInput
+    /**
+     * Limit how many Interviews to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Interview without action
+   */
+  export type InterviewDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Interview
+     */
+    select?: InterviewSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Interview
+     */
+    omit?: InterviewOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InterviewInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model OfferLetter
+   */
+
+  export type AggregateOfferLetter = {
+    _count: OfferLetterCountAggregateOutputType | null
+    _avg: OfferLetterAvgAggregateOutputType | null
+    _sum: OfferLetterSumAggregateOutputType | null
+    _min: OfferLetterMinAggregateOutputType | null
+    _max: OfferLetterMaxAggregateOutputType | null
+  }
+
+  export type OfferLetterAvgAggregateOutputType = {
+    offeredSalary: number | null
+  }
+
+  export type OfferLetterSumAggregateOutputType = {
+    offeredSalary: number | null
+  }
+
+  export type OfferLetterMinAggregateOutputType = {
+    id: string | null
+    candidateId: string | null
+    offeredSalary: number | null
+    designation: string | null
+    department: string | null
+    joiningDate: Date | null
+    status: string | null
+    fileUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OfferLetterMaxAggregateOutputType = {
+    id: string | null
+    candidateId: string | null
+    offeredSalary: number | null
+    designation: string | null
+    department: string | null
+    joiningDate: Date | null
+    status: string | null
+    fileUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type OfferLetterCountAggregateOutputType = {
+    id: number
+    candidateId: number
+    offeredSalary: number
+    designation: number
+    department: number
+    joiningDate: number
+    status: number
+    fileUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type OfferLetterAvgAggregateInputType = {
+    offeredSalary?: true
+  }
+
+  export type OfferLetterSumAggregateInputType = {
+    offeredSalary?: true
+  }
+
+  export type OfferLetterMinAggregateInputType = {
+    id?: true
+    candidateId?: true
+    offeredSalary?: true
+    designation?: true
+    department?: true
+    joiningDate?: true
+    status?: true
+    fileUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OfferLetterMaxAggregateInputType = {
+    id?: true
+    candidateId?: true
+    offeredSalary?: true
+    designation?: true
+    department?: true
+    joiningDate?: true
+    status?: true
+    fileUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type OfferLetterCountAggregateInputType = {
+    id?: true
+    candidateId?: true
+    offeredSalary?: true
+    designation?: true
+    department?: true
+    joiningDate?: true
+    status?: true
+    fileUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type OfferLetterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OfferLetter to aggregate.
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfferLetters to fetch.
+     */
+    orderBy?: OfferLetterOrderByWithRelationInput | OfferLetterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OfferLetterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfferLetters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfferLetters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OfferLetters
+    **/
+    _count?: true | OfferLetterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: OfferLetterAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OfferLetterSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OfferLetterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OfferLetterMaxAggregateInputType
+  }
+
+  export type GetOfferLetterAggregateType<T extends OfferLetterAggregateArgs> = {
+        [P in keyof T & keyof AggregateOfferLetter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOfferLetter[P]>
+      : GetScalarType<T[P], AggregateOfferLetter[P]>
+  }
+
+
+
+
+  export type OfferLetterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OfferLetterWhereInput
+    orderBy?: OfferLetterOrderByWithAggregationInput | OfferLetterOrderByWithAggregationInput[]
+    by: OfferLetterScalarFieldEnum[] | OfferLetterScalarFieldEnum
+    having?: OfferLetterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OfferLetterCountAggregateInputType | true
+    _avg?: OfferLetterAvgAggregateInputType
+    _sum?: OfferLetterSumAggregateInputType
+    _min?: OfferLetterMinAggregateInputType
+    _max?: OfferLetterMaxAggregateInputType
+  }
+
+  export type OfferLetterGroupByOutputType = {
+    id: string
+    candidateId: string
+    offeredSalary: number
+    designation: string
+    department: string
+    joiningDate: Date
+    status: string
+    fileUrl: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: OfferLetterCountAggregateOutputType | null
+    _avg: OfferLetterAvgAggregateOutputType | null
+    _sum: OfferLetterSumAggregateOutputType | null
+    _min: OfferLetterMinAggregateOutputType | null
+    _max: OfferLetterMaxAggregateOutputType | null
+  }
+
+  type GetOfferLetterGroupByPayload<T extends OfferLetterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OfferLetterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OfferLetterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OfferLetterGroupByOutputType[P]>
+            : GetScalarType<T[P], OfferLetterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OfferLetterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    offeredSalary?: boolean
+    designation?: boolean
+    department?: boolean
+    joiningDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["offerLetter"]>
+
+  export type OfferLetterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    offeredSalary?: boolean
+    designation?: boolean
+    department?: boolean
+    joiningDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["offerLetter"]>
+
+  export type OfferLetterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    candidateId?: boolean
+    offeredSalary?: boolean
+    designation?: boolean
+    department?: boolean
+    joiningDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["offerLetter"]>
+
+  export type OfferLetterSelectScalar = {
+    id?: boolean
+    candidateId?: boolean
+    offeredSalary?: boolean
+    designation?: boolean
+    department?: boolean
+    joiningDate?: boolean
+    status?: boolean
+    fileUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type OfferLetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "candidateId" | "offeredSalary" | "designation" | "department" | "joiningDate" | "status" | "fileUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["offerLetter"]>
+  export type OfferLetterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }
+  export type OfferLetterIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }
+  export type OfferLetterIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    candidate?: boolean | CandidateDefaultArgs<ExtArgs>
+  }
+
+  export type $OfferLetterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OfferLetter"
+    objects: {
+      candidate: Prisma.$CandidatePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      candidateId: string
+      offeredSalary: number
+      designation: string
+      department: string
+      joiningDate: Date
+      status: string
+      fileUrl: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["offerLetter"]>
+    composites: {}
+  }
+
+  type OfferLetterGetPayload<S extends boolean | null | undefined | OfferLetterDefaultArgs> = $Result.GetResult<Prisma.$OfferLetterPayload, S>
+
+  type OfferLetterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OfferLetterFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OfferLetterCountAggregateInputType | true
+    }
+
+  export interface OfferLetterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OfferLetter'], meta: { name: 'OfferLetter' } }
+    /**
+     * Find zero or one OfferLetter that matches the filter.
+     * @param {OfferLetterFindUniqueArgs} args - Arguments to find a OfferLetter
+     * @example
+     * // Get one OfferLetter
+     * const offerLetter = await prisma.offerLetter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OfferLetterFindUniqueArgs>(args: SelectSubset<T, OfferLetterFindUniqueArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OfferLetter that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OfferLetterFindUniqueOrThrowArgs} args - Arguments to find a OfferLetter
+     * @example
+     * // Get one OfferLetter
+     * const offerLetter = await prisma.offerLetter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OfferLetterFindUniqueOrThrowArgs>(args: SelectSubset<T, OfferLetterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OfferLetter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterFindFirstArgs} args - Arguments to find a OfferLetter
+     * @example
+     * // Get one OfferLetter
+     * const offerLetter = await prisma.offerLetter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OfferLetterFindFirstArgs>(args?: SelectSubset<T, OfferLetterFindFirstArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OfferLetter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterFindFirstOrThrowArgs} args - Arguments to find a OfferLetter
+     * @example
+     * // Get one OfferLetter
+     * const offerLetter = await prisma.offerLetter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OfferLetterFindFirstOrThrowArgs>(args?: SelectSubset<T, OfferLetterFindFirstOrThrowArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OfferLetters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OfferLetters
+     * const offerLetters = await prisma.offerLetter.findMany()
+     * 
+     * // Get first 10 OfferLetters
+     * const offerLetters = await prisma.offerLetter.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const offerLetterWithIdOnly = await prisma.offerLetter.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OfferLetterFindManyArgs>(args?: SelectSubset<T, OfferLetterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OfferLetter.
+     * @param {OfferLetterCreateArgs} args - Arguments to create a OfferLetter.
+     * @example
+     * // Create one OfferLetter
+     * const OfferLetter = await prisma.offerLetter.create({
+     *   data: {
+     *     // ... data to create a OfferLetter
+     *   }
+     * })
+     * 
+     */
+    create<T extends OfferLetterCreateArgs>(args: SelectSubset<T, OfferLetterCreateArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OfferLetters.
+     * @param {OfferLetterCreateManyArgs} args - Arguments to create many OfferLetters.
+     * @example
+     * // Create many OfferLetters
+     * const offerLetter = await prisma.offerLetter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OfferLetterCreateManyArgs>(args?: SelectSubset<T, OfferLetterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OfferLetters and returns the data saved in the database.
+     * @param {OfferLetterCreateManyAndReturnArgs} args - Arguments to create many OfferLetters.
+     * @example
+     * // Create many OfferLetters
+     * const offerLetter = await prisma.offerLetter.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OfferLetters and only return the `id`
+     * const offerLetterWithIdOnly = await prisma.offerLetter.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OfferLetterCreateManyAndReturnArgs>(args?: SelectSubset<T, OfferLetterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OfferLetter.
+     * @param {OfferLetterDeleteArgs} args - Arguments to delete one OfferLetter.
+     * @example
+     * // Delete one OfferLetter
+     * const OfferLetter = await prisma.offerLetter.delete({
+     *   where: {
+     *     // ... filter to delete one OfferLetter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OfferLetterDeleteArgs>(args: SelectSubset<T, OfferLetterDeleteArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OfferLetter.
+     * @param {OfferLetterUpdateArgs} args - Arguments to update one OfferLetter.
+     * @example
+     * // Update one OfferLetter
+     * const offerLetter = await prisma.offerLetter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OfferLetterUpdateArgs>(args: SelectSubset<T, OfferLetterUpdateArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OfferLetters.
+     * @param {OfferLetterDeleteManyArgs} args - Arguments to filter OfferLetters to delete.
+     * @example
+     * // Delete a few OfferLetters
+     * const { count } = await prisma.offerLetter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OfferLetterDeleteManyArgs>(args?: SelectSubset<T, OfferLetterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OfferLetters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OfferLetters
+     * const offerLetter = await prisma.offerLetter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OfferLetterUpdateManyArgs>(args: SelectSubset<T, OfferLetterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OfferLetters and returns the data updated in the database.
+     * @param {OfferLetterUpdateManyAndReturnArgs} args - Arguments to update many OfferLetters.
+     * @example
+     * // Update many OfferLetters
+     * const offerLetter = await prisma.offerLetter.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OfferLetters and only return the `id`
+     * const offerLetterWithIdOnly = await prisma.offerLetter.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OfferLetterUpdateManyAndReturnArgs>(args: SelectSubset<T, OfferLetterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OfferLetter.
+     * @param {OfferLetterUpsertArgs} args - Arguments to update or create a OfferLetter.
+     * @example
+     * // Update or create a OfferLetter
+     * const offerLetter = await prisma.offerLetter.upsert({
+     *   create: {
+     *     // ... data to create a OfferLetter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OfferLetter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OfferLetterUpsertArgs>(args: SelectSubset<T, OfferLetterUpsertArgs<ExtArgs>>): Prisma__OfferLetterClient<$Result.GetResult<Prisma.$OfferLetterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OfferLetters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterCountArgs} args - Arguments to filter OfferLetters to count.
+     * @example
+     * // Count the number of OfferLetters
+     * const count = await prisma.offerLetter.count({
+     *   where: {
+     *     // ... the filter for the OfferLetters we want to count
+     *   }
+     * })
+    **/
+    count<T extends OfferLetterCountArgs>(
+      args?: Subset<T, OfferLetterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OfferLetterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OfferLetter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OfferLetterAggregateArgs>(args: Subset<T, OfferLetterAggregateArgs>): Prisma.PrismaPromise<GetOfferLetterAggregateType<T>>
+
+    /**
+     * Group by OfferLetter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfferLetterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OfferLetterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OfferLetterGroupByArgs['orderBy'] }
+        : { orderBy?: OfferLetterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OfferLetterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOfferLetterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OfferLetter model
+   */
+  readonly fields: OfferLetterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OfferLetter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OfferLetterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    candidate<T extends CandidateDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CandidateDefaultArgs<ExtArgs>>): Prisma__CandidateClient<$Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OfferLetter model
+   */
+  interface OfferLetterFieldRefs {
+    readonly id: FieldRef<"OfferLetter", 'String'>
+    readonly candidateId: FieldRef<"OfferLetter", 'String'>
+    readonly offeredSalary: FieldRef<"OfferLetter", 'Float'>
+    readonly designation: FieldRef<"OfferLetter", 'String'>
+    readonly department: FieldRef<"OfferLetter", 'String'>
+    readonly joiningDate: FieldRef<"OfferLetter", 'DateTime'>
+    readonly status: FieldRef<"OfferLetter", 'String'>
+    readonly fileUrl: FieldRef<"OfferLetter", 'String'>
+    readonly createdAt: FieldRef<"OfferLetter", 'DateTime'>
+    readonly updatedAt: FieldRef<"OfferLetter", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OfferLetter findUnique
+   */
+  export type OfferLetterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * Filter, which OfferLetter to fetch.
+     */
+    where: OfferLetterWhereUniqueInput
+  }
+
+  /**
+   * OfferLetter findUniqueOrThrow
+   */
+  export type OfferLetterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * Filter, which OfferLetter to fetch.
+     */
+    where: OfferLetterWhereUniqueInput
+  }
+
+  /**
+   * OfferLetter findFirst
+   */
+  export type OfferLetterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * Filter, which OfferLetter to fetch.
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfferLetters to fetch.
+     */
+    orderBy?: OfferLetterOrderByWithRelationInput | OfferLetterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OfferLetters.
+     */
+    cursor?: OfferLetterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfferLetters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfferLetters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OfferLetters.
+     */
+    distinct?: OfferLetterScalarFieldEnum | OfferLetterScalarFieldEnum[]
+  }
+
+  /**
+   * OfferLetter findFirstOrThrow
+   */
+  export type OfferLetterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * Filter, which OfferLetter to fetch.
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfferLetters to fetch.
+     */
+    orderBy?: OfferLetterOrderByWithRelationInput | OfferLetterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OfferLetters.
+     */
+    cursor?: OfferLetterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfferLetters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfferLetters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OfferLetters.
+     */
+    distinct?: OfferLetterScalarFieldEnum | OfferLetterScalarFieldEnum[]
+  }
+
+  /**
+   * OfferLetter findMany
+   */
+  export type OfferLetterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * Filter, which OfferLetters to fetch.
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfferLetters to fetch.
+     */
+    orderBy?: OfferLetterOrderByWithRelationInput | OfferLetterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OfferLetters.
+     */
+    cursor?: OfferLetterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfferLetters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfferLetters.
+     */
+    skip?: number
+    distinct?: OfferLetterScalarFieldEnum | OfferLetterScalarFieldEnum[]
+  }
+
+  /**
+   * OfferLetter create
+   */
+  export type OfferLetterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OfferLetter.
+     */
+    data: XOR<OfferLetterCreateInput, OfferLetterUncheckedCreateInput>
+  }
+
+  /**
+   * OfferLetter createMany
+   */
+  export type OfferLetterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OfferLetters.
+     */
+    data: OfferLetterCreateManyInput | OfferLetterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OfferLetter createManyAndReturn
+   */
+  export type OfferLetterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * The data used to create many OfferLetters.
+     */
+    data: OfferLetterCreateManyInput | OfferLetterCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OfferLetter update
+   */
+  export type OfferLetterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OfferLetter.
+     */
+    data: XOR<OfferLetterUpdateInput, OfferLetterUncheckedUpdateInput>
+    /**
+     * Choose, which OfferLetter to update.
+     */
+    where: OfferLetterWhereUniqueInput
+  }
+
+  /**
+   * OfferLetter updateMany
+   */
+  export type OfferLetterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OfferLetters.
+     */
+    data: XOR<OfferLetterUpdateManyMutationInput, OfferLetterUncheckedUpdateManyInput>
+    /**
+     * Filter which OfferLetters to update
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * Limit how many OfferLetters to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OfferLetter updateManyAndReturn
+   */
+  export type OfferLetterUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * The data used to update OfferLetters.
+     */
+    data: XOR<OfferLetterUpdateManyMutationInput, OfferLetterUncheckedUpdateManyInput>
+    /**
+     * Filter which OfferLetters to update
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * Limit how many OfferLetters to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OfferLetter upsert
+   */
+  export type OfferLetterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OfferLetter to update in case it exists.
+     */
+    where: OfferLetterWhereUniqueInput
+    /**
+     * In case the OfferLetter found by the `where` argument doesn't exist, create a new OfferLetter with this data.
+     */
+    create: XOR<OfferLetterCreateInput, OfferLetterUncheckedCreateInput>
+    /**
+     * In case the OfferLetter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OfferLetterUpdateInput, OfferLetterUncheckedUpdateInput>
+  }
+
+  /**
+   * OfferLetter delete
+   */
+  export type OfferLetterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+    /**
+     * Filter which OfferLetter to delete.
+     */
+    where: OfferLetterWhereUniqueInput
+  }
+
+  /**
+   * OfferLetter deleteMany
+   */
+  export type OfferLetterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OfferLetters to delete
+     */
+    where?: OfferLetterWhereInput
+    /**
+     * Limit how many OfferLetters to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OfferLetter without action
+   */
+  export type OfferLetterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfferLetter
+     */
+    select?: OfferLetterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OfferLetter
+     */
+    omit?: OfferLetterOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfferLetterInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -31251,19 +43863,100 @@ export namespace Prisma {
   export type SalaryRecordScalarFieldEnum = (typeof SalaryRecordScalarFieldEnum)[keyof typeof SalaryRecordScalarFieldEnum]
 
 
-  export const LoanScalarFieldEnum: {
+  export const LoanTypeScalarFieldEnum: {
     id: 'id',
-    employeeId: 'employeeId',
-    amount: 'amount',
-    issueDate: 'issueDate',
-    installmentAmount: 'installmentAmount',
-    remainingBalance: 'remainingBalance',
-    status: 'status',
+    name: 'name',
+    description: 'description',
+    maxAmount: 'maxAmount',
+    interestRate: 'interestRate',
+    maxRepaymentMonths: 'maxRepaymentMonths',
+    requiresProbation: 'requiresProbation',
+    isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
+  export type LoanTypeScalarFieldEnum = (typeof LoanTypeScalarFieldEnum)[keyof typeof LoanTypeScalarFieldEnum]
+
+
+  export const LoanApplicationScalarFieldEnum: {
+    id: 'id',
+    employeeId: 'employeeId',
+    loanTypeId: 'loanTypeId',
+    requestedAmount: 'requestedAmount',
+    repaymentMonths: 'repaymentMonths',
+    reason: 'reason',
+    status: 'status',
+    managerStatus: 'managerStatus',
+    hrStatus: 'hrStatus',
+    financeStatus: 'financeStatus',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LoanApplicationScalarFieldEnum = (typeof LoanApplicationScalarFieldEnum)[keyof typeof LoanApplicationScalarFieldEnum]
+
+
+  export const LoanApprovalScalarFieldEnum: {
+    id: 'id',
+    applicationId: 'applicationId',
+    approverEmail: 'approverEmail',
+    level: 'level',
+    action: 'action',
+    comments: 'comments',
+    createdAt: 'createdAt'
+  };
+
+  export type LoanApprovalScalarFieldEnum = (typeof LoanApprovalScalarFieldEnum)[keyof typeof LoanApprovalScalarFieldEnum]
+
+
+  export const LoanDisbursementScalarFieldEnum: {
+    id: 'id',
+    applicationId: 'applicationId',
+    method: 'method',
+    amount: 'amount',
+    transactionRef: 'transactionRef',
+    disbursedAt: 'disbursedAt'
+  };
+
+  export type LoanDisbursementScalarFieldEnum = (typeof LoanDisbursementScalarFieldEnum)[keyof typeof LoanDisbursementScalarFieldEnum]
+
+
+  export const LoanInstallmentScalarFieldEnum: {
+    id: 'id',
+    applicationId: 'applicationId',
+    month: 'month',
+    year: 'year',
+    amount: 'amount',
+    status: 'status',
+    deductedAt: 'deductedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type LoanInstallmentScalarFieldEnum = (typeof LoanInstallmentScalarFieldEnum)[keyof typeof LoanInstallmentScalarFieldEnum]
+
+
+  export const LoanDocumentScalarFieldEnum: {
+    id: 'id',
+    applicationId: 'applicationId',
+    fileUrl: 'fileUrl',
+    fileName: 'fileName',
+    uploadedAt: 'uploadedAt'
+  };
+
+  export type LoanDocumentScalarFieldEnum = (typeof LoanDocumentScalarFieldEnum)[keyof typeof LoanDocumentScalarFieldEnum]
+
+
+  export const LoanNotificationScalarFieldEnum: {
+    id: 'id',
+    targetEmail: 'targetEmail',
+    title: 'title',
+    message: 'message',
+    isRead: 'isRead',
+    createdAt: 'createdAt'
+  };
+
+  export type LoanNotificationScalarFieldEnum = (typeof LoanNotificationScalarFieldEnum)[keyof typeof LoanNotificationScalarFieldEnum]
 
 
   export const OvertimeScalarFieldEnum: {
@@ -31405,6 +44098,74 @@ export namespace Prisma {
   };
 
   export type ServiceConfigScalarFieldEnum = (typeof ServiceConfigScalarFieldEnum)[keyof typeof ServiceConfigScalarFieldEnum]
+
+
+  export const JobRequisitionScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    department: 'department',
+    location: 'location',
+    employmentType: 'employmentType',
+    positionsCount: 'positionsCount',
+    status: 'status',
+    description: 'description',
+    requirements: 'requirements',
+    minSalary: 'minSalary',
+    maxSalary: 'maxSalary',
+    requestedById: 'requestedById',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type JobRequisitionScalarFieldEnum = (typeof JobRequisitionScalarFieldEnum)[keyof typeof JobRequisitionScalarFieldEnum]
+
+
+  export const CandidateScalarFieldEnum: {
+    id: 'id',
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'email',
+    phone: 'phone',
+    resumeUrl: 'resumeUrl',
+    status: 'status',
+    jobId: 'jobId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
+
+
+  export const InterviewScalarFieldEnum: {
+    id: 'id',
+    candidateId: 'candidateId',
+    interviewerId: 'interviewerId',
+    scheduledAt: 'scheduledAt',
+    durationMins: 'durationMins',
+    status: 'status',
+    feedback: 'feedback',
+    rating: 'rating',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InterviewScalarFieldEnum = (typeof InterviewScalarFieldEnum)[keyof typeof InterviewScalarFieldEnum]
+
+
+  export const OfferLetterScalarFieldEnum: {
+    id: 'id',
+    candidateId: 'candidateId',
+    offeredSalary: 'offeredSalary',
+    designation: 'designation',
+    department: 'department',
+    joiningDate: 'joiningDate',
+    status: 'status',
+    fileUrl: 'fileUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type OfferLetterScalarFieldEnum = (typeof OfferLetterScalarFieldEnum)[keyof typeof OfferLetterScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -31838,10 +44599,12 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     notifications?: NotificationListRelationFilter
-    loans?: LoanListRelationFilter
+    loanApplications?: LoanApplicationListRelationFilter
     overtime?: OvertimeListRelationFilter
     manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     reportees?: EmployeeListRelationFilter
+    requestedJobs?: JobRequisitionListRelationFilter
+    interviews?: InterviewListRelationFilter
   }
 
   export type EmployeeOrderByWithRelationInput = {
@@ -31906,10 +44669,12 @@ export namespace Prisma {
     attachments?: AttachmentOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
-    loans?: LoanOrderByRelationAggregateInput
+    loanApplications?: LoanApplicationOrderByRelationAggregateInput
     overtime?: OvertimeOrderByRelationAggregateInput
     manager?: EmployeeOrderByWithRelationInput
     reportees?: EmployeeOrderByRelationAggregateInput
+    requestedJobs?: JobRequisitionOrderByRelationAggregateInput
+    interviews?: InterviewOrderByRelationAggregateInput
   }
 
   export type EmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -31977,10 +44742,12 @@ export namespace Prisma {
     attachments?: AttachmentListRelationFilter
     auditLogs?: AuditLogListRelationFilter
     notifications?: NotificationListRelationFilter
-    loans?: LoanListRelationFilter
+    loanApplications?: LoanApplicationListRelationFilter
     overtime?: OvertimeListRelationFilter
     manager?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     reportees?: EmployeeListRelationFilter
+    requestedJobs?: JobRequisitionListRelationFilter
+    interviews?: InterviewListRelationFilter
   }, "id" | "userId" | "employeeCode" | "email" | "rollNumber">
 
   export type EmployeeOrderByWithAggregationInput = {
@@ -32886,81 +45653,504 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SalaryRecord"> | Date | string
   }
 
-  export type LoanWhereInput = {
-    AND?: LoanWhereInput | LoanWhereInput[]
-    OR?: LoanWhereInput[]
-    NOT?: LoanWhereInput | LoanWhereInput[]
-    id?: StringFilter<"Loan"> | string
-    employeeId?: StringFilter<"Loan"> | string
-    amount?: FloatFilter<"Loan"> | number
-    issueDate?: DateTimeFilter<"Loan"> | Date | string
-    installmentAmount?: FloatFilter<"Loan"> | number
-    remainingBalance?: FloatFilter<"Loan"> | number
-    status?: StringFilter<"Loan"> | string
-    createdAt?: DateTimeFilter<"Loan"> | Date | string
-    updatedAt?: DateTimeFilter<"Loan"> | Date | string
-    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  export type LoanTypeWhereInput = {
+    AND?: LoanTypeWhereInput | LoanTypeWhereInput[]
+    OR?: LoanTypeWhereInput[]
+    NOT?: LoanTypeWhereInput | LoanTypeWhereInput[]
+    id?: StringFilter<"LoanType"> | string
+    name?: StringFilter<"LoanType"> | string
+    description?: StringNullableFilter<"LoanType"> | string | null
+    maxAmount?: FloatFilter<"LoanType"> | number
+    interestRate?: FloatFilter<"LoanType"> | number
+    maxRepaymentMonths?: IntFilter<"LoanType"> | number
+    requiresProbation?: BoolFilter<"LoanType"> | boolean
+    isActive?: BoolFilter<"LoanType"> | boolean
+    createdAt?: DateTimeFilter<"LoanType"> | Date | string
+    updatedAt?: DateTimeFilter<"LoanType"> | Date | string
+    applications?: LoanApplicationListRelationFilter
   }
 
-  export type LoanOrderByWithRelationInput = {
+  export type LoanTypeOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
+    requiresProbation?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    applications?: LoanApplicationOrderByRelationAggregateInput
+  }
+
+  export type LoanTypeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    name?: string
+    AND?: LoanTypeWhereInput | LoanTypeWhereInput[]
+    OR?: LoanTypeWhereInput[]
+    NOT?: LoanTypeWhereInput | LoanTypeWhereInput[]
+    description?: StringNullableFilter<"LoanType"> | string | null
+    maxAmount?: FloatFilter<"LoanType"> | number
+    interestRate?: FloatFilter<"LoanType"> | number
+    maxRepaymentMonths?: IntFilter<"LoanType"> | number
+    requiresProbation?: BoolFilter<"LoanType"> | boolean
+    isActive?: BoolFilter<"LoanType"> | boolean
+    createdAt?: DateTimeFilter<"LoanType"> | Date | string
+    updatedAt?: DateTimeFilter<"LoanType"> | Date | string
+    applications?: LoanApplicationListRelationFilter
+  }, "id" | "name">
+
+  export type LoanTypeOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
+    requiresProbation?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LoanTypeCountOrderByAggregateInput
+    _avg?: LoanTypeAvgOrderByAggregateInput
+    _max?: LoanTypeMaxOrderByAggregateInput
+    _min?: LoanTypeMinOrderByAggregateInput
+    _sum?: LoanTypeSumOrderByAggregateInput
+  }
+
+  export type LoanTypeScalarWhereWithAggregatesInput = {
+    AND?: LoanTypeScalarWhereWithAggregatesInput | LoanTypeScalarWhereWithAggregatesInput[]
+    OR?: LoanTypeScalarWhereWithAggregatesInput[]
+    NOT?: LoanTypeScalarWhereWithAggregatesInput | LoanTypeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanType"> | string
+    name?: StringWithAggregatesFilter<"LoanType"> | string
+    description?: StringNullableWithAggregatesFilter<"LoanType"> | string | null
+    maxAmount?: FloatWithAggregatesFilter<"LoanType"> | number
+    interestRate?: FloatWithAggregatesFilter<"LoanType"> | number
+    maxRepaymentMonths?: IntWithAggregatesFilter<"LoanType"> | number
+    requiresProbation?: BoolWithAggregatesFilter<"LoanType"> | boolean
+    isActive?: BoolWithAggregatesFilter<"LoanType"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"LoanType"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LoanType"> | Date | string
+  }
+
+  export type LoanApplicationWhereInput = {
+    AND?: LoanApplicationWhereInput | LoanApplicationWhereInput[]
+    OR?: LoanApplicationWhereInput[]
+    NOT?: LoanApplicationWhereInput | LoanApplicationWhereInput[]
+    id?: StringFilter<"LoanApplication"> | string
+    employeeId?: StringFilter<"LoanApplication"> | string
+    loanTypeId?: StringFilter<"LoanApplication"> | string
+    requestedAmount?: FloatFilter<"LoanApplication"> | number
+    repaymentMonths?: IntFilter<"LoanApplication"> | number
+    reason?: StringNullableFilter<"LoanApplication"> | string | null
+    status?: StringFilter<"LoanApplication"> | string
+    managerStatus?: StringFilter<"LoanApplication"> | string
+    hrStatus?: StringFilter<"LoanApplication"> | string
+    financeStatus?: StringFilter<"LoanApplication"> | string
+    createdAt?: DateTimeFilter<"LoanApplication"> | Date | string
+    updatedAt?: DateTimeFilter<"LoanApplication"> | Date | string
+    employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    loanType?: XOR<LoanTypeScalarRelationFilter, LoanTypeWhereInput>
+    approvals?: LoanApprovalListRelationFilter
+    disbursements?: LoanDisbursementListRelationFilter
+    installments?: LoanInstallmentListRelationFilter
+    documents?: LoanDocumentListRelationFilter
+  }
+
+  export type LoanApplicationOrderByWithRelationInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    amount?: SortOrder
-    issueDate?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
+    loanTypeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrderInput | SortOrder
     status?: SortOrder
+    managerStatus?: SortOrder
+    hrStatus?: SortOrder
+    financeStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     employee?: EmployeeOrderByWithRelationInput
+    loanType?: LoanTypeOrderByWithRelationInput
+    approvals?: LoanApprovalOrderByRelationAggregateInput
+    disbursements?: LoanDisbursementOrderByRelationAggregateInput
+    installments?: LoanInstallmentOrderByRelationAggregateInput
+    documents?: LoanDocumentOrderByRelationAggregateInput
   }
 
-  export type LoanWhereUniqueInput = Prisma.AtLeast<{
+  export type LoanApplicationWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: LoanWhereInput | LoanWhereInput[]
-    OR?: LoanWhereInput[]
-    NOT?: LoanWhereInput | LoanWhereInput[]
-    employeeId?: StringFilter<"Loan"> | string
-    amount?: FloatFilter<"Loan"> | number
-    issueDate?: DateTimeFilter<"Loan"> | Date | string
-    installmentAmount?: FloatFilter<"Loan"> | number
-    remainingBalance?: FloatFilter<"Loan"> | number
-    status?: StringFilter<"Loan"> | string
-    createdAt?: DateTimeFilter<"Loan"> | Date | string
-    updatedAt?: DateTimeFilter<"Loan"> | Date | string
+    AND?: LoanApplicationWhereInput | LoanApplicationWhereInput[]
+    OR?: LoanApplicationWhereInput[]
+    NOT?: LoanApplicationWhereInput | LoanApplicationWhereInput[]
+    employeeId?: StringFilter<"LoanApplication"> | string
+    loanTypeId?: StringFilter<"LoanApplication"> | string
+    requestedAmount?: FloatFilter<"LoanApplication"> | number
+    repaymentMonths?: IntFilter<"LoanApplication"> | number
+    reason?: StringNullableFilter<"LoanApplication"> | string | null
+    status?: StringFilter<"LoanApplication"> | string
+    managerStatus?: StringFilter<"LoanApplication"> | string
+    hrStatus?: StringFilter<"LoanApplication"> | string
+    financeStatus?: StringFilter<"LoanApplication"> | string
+    createdAt?: DateTimeFilter<"LoanApplication"> | Date | string
+    updatedAt?: DateTimeFilter<"LoanApplication"> | Date | string
     employee?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    loanType?: XOR<LoanTypeScalarRelationFilter, LoanTypeWhereInput>
+    approvals?: LoanApprovalListRelationFilter
+    disbursements?: LoanDisbursementListRelationFilter
+    installments?: LoanInstallmentListRelationFilter
+    documents?: LoanDocumentListRelationFilter
   }, "id">
 
-  export type LoanOrderByWithAggregationInput = {
+  export type LoanApplicationOrderByWithAggregationInput = {
     id?: SortOrder
     employeeId?: SortOrder
-    amount?: SortOrder
-    issueDate?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
+    loanTypeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrderInput | SortOrder
     status?: SortOrder
+    managerStatus?: SortOrder
+    hrStatus?: SortOrder
+    financeStatus?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: LoanCountOrderByAggregateInput
-    _avg?: LoanAvgOrderByAggregateInput
-    _max?: LoanMaxOrderByAggregateInput
-    _min?: LoanMinOrderByAggregateInput
-    _sum?: LoanSumOrderByAggregateInput
+    _count?: LoanApplicationCountOrderByAggregateInput
+    _avg?: LoanApplicationAvgOrderByAggregateInput
+    _max?: LoanApplicationMaxOrderByAggregateInput
+    _min?: LoanApplicationMinOrderByAggregateInput
+    _sum?: LoanApplicationSumOrderByAggregateInput
   }
 
-  export type LoanScalarWhereWithAggregatesInput = {
-    AND?: LoanScalarWhereWithAggregatesInput | LoanScalarWhereWithAggregatesInput[]
-    OR?: LoanScalarWhereWithAggregatesInput[]
-    NOT?: LoanScalarWhereWithAggregatesInput | LoanScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Loan"> | string
-    employeeId?: StringWithAggregatesFilter<"Loan"> | string
-    amount?: FloatWithAggregatesFilter<"Loan"> | number
-    issueDate?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
-    installmentAmount?: FloatWithAggregatesFilter<"Loan"> | number
-    remainingBalance?: FloatWithAggregatesFilter<"Loan"> | number
-    status?: StringWithAggregatesFilter<"Loan"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Loan"> | Date | string
+  export type LoanApplicationScalarWhereWithAggregatesInput = {
+    AND?: LoanApplicationScalarWhereWithAggregatesInput | LoanApplicationScalarWhereWithAggregatesInput[]
+    OR?: LoanApplicationScalarWhereWithAggregatesInput[]
+    NOT?: LoanApplicationScalarWhereWithAggregatesInput | LoanApplicationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanApplication"> | string
+    employeeId?: StringWithAggregatesFilter<"LoanApplication"> | string
+    loanTypeId?: StringWithAggregatesFilter<"LoanApplication"> | string
+    requestedAmount?: FloatWithAggregatesFilter<"LoanApplication"> | number
+    repaymentMonths?: IntWithAggregatesFilter<"LoanApplication"> | number
+    reason?: StringNullableWithAggregatesFilter<"LoanApplication"> | string | null
+    status?: StringWithAggregatesFilter<"LoanApplication"> | string
+    managerStatus?: StringWithAggregatesFilter<"LoanApplication"> | string
+    hrStatus?: StringWithAggregatesFilter<"LoanApplication"> | string
+    financeStatus?: StringWithAggregatesFilter<"LoanApplication"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"LoanApplication"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LoanApplication"> | Date | string
+  }
+
+  export type LoanApprovalWhereInput = {
+    AND?: LoanApprovalWhereInput | LoanApprovalWhereInput[]
+    OR?: LoanApprovalWhereInput[]
+    NOT?: LoanApprovalWhereInput | LoanApprovalWhereInput[]
+    id?: StringFilter<"LoanApproval"> | string
+    applicationId?: StringFilter<"LoanApproval"> | string
+    approverEmail?: StringFilter<"LoanApproval"> | string
+    level?: StringFilter<"LoanApproval"> | string
+    action?: StringFilter<"LoanApproval"> | string
+    comments?: StringNullableFilter<"LoanApproval"> | string | null
+    createdAt?: DateTimeFilter<"LoanApproval"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }
+
+  export type LoanApprovalOrderByWithRelationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    application?: LoanApplicationOrderByWithRelationInput
+  }
+
+  export type LoanApprovalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoanApprovalWhereInput | LoanApprovalWhereInput[]
+    OR?: LoanApprovalWhereInput[]
+    NOT?: LoanApprovalWhereInput | LoanApprovalWhereInput[]
+    applicationId?: StringFilter<"LoanApproval"> | string
+    approverEmail?: StringFilter<"LoanApproval"> | string
+    level?: StringFilter<"LoanApproval"> | string
+    action?: StringFilter<"LoanApproval"> | string
+    comments?: StringNullableFilter<"LoanApproval"> | string | null
+    createdAt?: DateTimeFilter<"LoanApproval"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }, "id">
+
+  export type LoanApprovalOrderByWithAggregationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LoanApprovalCountOrderByAggregateInput
+    _max?: LoanApprovalMaxOrderByAggregateInput
+    _min?: LoanApprovalMinOrderByAggregateInput
+  }
+
+  export type LoanApprovalScalarWhereWithAggregatesInput = {
+    AND?: LoanApprovalScalarWhereWithAggregatesInput | LoanApprovalScalarWhereWithAggregatesInput[]
+    OR?: LoanApprovalScalarWhereWithAggregatesInput[]
+    NOT?: LoanApprovalScalarWhereWithAggregatesInput | LoanApprovalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanApproval"> | string
+    applicationId?: StringWithAggregatesFilter<"LoanApproval"> | string
+    approverEmail?: StringWithAggregatesFilter<"LoanApproval"> | string
+    level?: StringWithAggregatesFilter<"LoanApproval"> | string
+    action?: StringWithAggregatesFilter<"LoanApproval"> | string
+    comments?: StringNullableWithAggregatesFilter<"LoanApproval"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LoanApproval"> | Date | string
+  }
+
+  export type LoanDisbursementWhereInput = {
+    AND?: LoanDisbursementWhereInput | LoanDisbursementWhereInput[]
+    OR?: LoanDisbursementWhereInput[]
+    NOT?: LoanDisbursementWhereInput | LoanDisbursementWhereInput[]
+    id?: StringFilter<"LoanDisbursement"> | string
+    applicationId?: StringFilter<"LoanDisbursement"> | string
+    method?: StringFilter<"LoanDisbursement"> | string
+    amount?: FloatFilter<"LoanDisbursement"> | number
+    transactionRef?: StringNullableFilter<"LoanDisbursement"> | string | null
+    disbursedAt?: DateTimeFilter<"LoanDisbursement"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }
+
+  export type LoanDisbursementOrderByWithRelationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    method?: SortOrder
+    amount?: SortOrder
+    transactionRef?: SortOrderInput | SortOrder
+    disbursedAt?: SortOrder
+    application?: LoanApplicationOrderByWithRelationInput
+  }
+
+  export type LoanDisbursementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoanDisbursementWhereInput | LoanDisbursementWhereInput[]
+    OR?: LoanDisbursementWhereInput[]
+    NOT?: LoanDisbursementWhereInput | LoanDisbursementWhereInput[]
+    applicationId?: StringFilter<"LoanDisbursement"> | string
+    method?: StringFilter<"LoanDisbursement"> | string
+    amount?: FloatFilter<"LoanDisbursement"> | number
+    transactionRef?: StringNullableFilter<"LoanDisbursement"> | string | null
+    disbursedAt?: DateTimeFilter<"LoanDisbursement"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }, "id">
+
+  export type LoanDisbursementOrderByWithAggregationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    method?: SortOrder
+    amount?: SortOrder
+    transactionRef?: SortOrderInput | SortOrder
+    disbursedAt?: SortOrder
+    _count?: LoanDisbursementCountOrderByAggregateInput
+    _avg?: LoanDisbursementAvgOrderByAggregateInput
+    _max?: LoanDisbursementMaxOrderByAggregateInput
+    _min?: LoanDisbursementMinOrderByAggregateInput
+    _sum?: LoanDisbursementSumOrderByAggregateInput
+  }
+
+  export type LoanDisbursementScalarWhereWithAggregatesInput = {
+    AND?: LoanDisbursementScalarWhereWithAggregatesInput | LoanDisbursementScalarWhereWithAggregatesInput[]
+    OR?: LoanDisbursementScalarWhereWithAggregatesInput[]
+    NOT?: LoanDisbursementScalarWhereWithAggregatesInput | LoanDisbursementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanDisbursement"> | string
+    applicationId?: StringWithAggregatesFilter<"LoanDisbursement"> | string
+    method?: StringWithAggregatesFilter<"LoanDisbursement"> | string
+    amount?: FloatWithAggregatesFilter<"LoanDisbursement"> | number
+    transactionRef?: StringNullableWithAggregatesFilter<"LoanDisbursement"> | string | null
+    disbursedAt?: DateTimeWithAggregatesFilter<"LoanDisbursement"> | Date | string
+  }
+
+  export type LoanInstallmentWhereInput = {
+    AND?: LoanInstallmentWhereInput | LoanInstallmentWhereInput[]
+    OR?: LoanInstallmentWhereInput[]
+    NOT?: LoanInstallmentWhereInput | LoanInstallmentWhereInput[]
+    id?: StringFilter<"LoanInstallment"> | string
+    applicationId?: StringFilter<"LoanInstallment"> | string
+    month?: IntFilter<"LoanInstallment"> | number
+    year?: IntFilter<"LoanInstallment"> | number
+    amount?: FloatFilter<"LoanInstallment"> | number
+    status?: StringFilter<"LoanInstallment"> | string
+    deductedAt?: DateTimeNullableFilter<"LoanInstallment"> | Date | string | null
+    createdAt?: DateTimeFilter<"LoanInstallment"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }
+
+  export type LoanInstallmentOrderByWithRelationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    deductedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    application?: LoanApplicationOrderByWithRelationInput
+  }
+
+  export type LoanInstallmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoanInstallmentWhereInput | LoanInstallmentWhereInput[]
+    OR?: LoanInstallmentWhereInput[]
+    NOT?: LoanInstallmentWhereInput | LoanInstallmentWhereInput[]
+    applicationId?: StringFilter<"LoanInstallment"> | string
+    month?: IntFilter<"LoanInstallment"> | number
+    year?: IntFilter<"LoanInstallment"> | number
+    amount?: FloatFilter<"LoanInstallment"> | number
+    status?: StringFilter<"LoanInstallment"> | string
+    deductedAt?: DateTimeNullableFilter<"LoanInstallment"> | Date | string | null
+    createdAt?: DateTimeFilter<"LoanInstallment"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }, "id">
+
+  export type LoanInstallmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    deductedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LoanInstallmentCountOrderByAggregateInput
+    _avg?: LoanInstallmentAvgOrderByAggregateInput
+    _max?: LoanInstallmentMaxOrderByAggregateInput
+    _min?: LoanInstallmentMinOrderByAggregateInput
+    _sum?: LoanInstallmentSumOrderByAggregateInput
+  }
+
+  export type LoanInstallmentScalarWhereWithAggregatesInput = {
+    AND?: LoanInstallmentScalarWhereWithAggregatesInput | LoanInstallmentScalarWhereWithAggregatesInput[]
+    OR?: LoanInstallmentScalarWhereWithAggregatesInput[]
+    NOT?: LoanInstallmentScalarWhereWithAggregatesInput | LoanInstallmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanInstallment"> | string
+    applicationId?: StringWithAggregatesFilter<"LoanInstallment"> | string
+    month?: IntWithAggregatesFilter<"LoanInstallment"> | number
+    year?: IntWithAggregatesFilter<"LoanInstallment"> | number
+    amount?: FloatWithAggregatesFilter<"LoanInstallment"> | number
+    status?: StringWithAggregatesFilter<"LoanInstallment"> | string
+    deductedAt?: DateTimeNullableWithAggregatesFilter<"LoanInstallment"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LoanInstallment"> | Date | string
+  }
+
+  export type LoanDocumentWhereInput = {
+    AND?: LoanDocumentWhereInput | LoanDocumentWhereInput[]
+    OR?: LoanDocumentWhereInput[]
+    NOT?: LoanDocumentWhereInput | LoanDocumentWhereInput[]
+    id?: StringFilter<"LoanDocument"> | string
+    applicationId?: StringFilter<"LoanDocument"> | string
+    fileUrl?: StringFilter<"LoanDocument"> | string
+    fileName?: StringFilter<"LoanDocument"> | string
+    uploadedAt?: DateTimeFilter<"LoanDocument"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }
+
+  export type LoanDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    uploadedAt?: SortOrder
+    application?: LoanApplicationOrderByWithRelationInput
+  }
+
+  export type LoanDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoanDocumentWhereInput | LoanDocumentWhereInput[]
+    OR?: LoanDocumentWhereInput[]
+    NOT?: LoanDocumentWhereInput | LoanDocumentWhereInput[]
+    applicationId?: StringFilter<"LoanDocument"> | string
+    fileUrl?: StringFilter<"LoanDocument"> | string
+    fileName?: StringFilter<"LoanDocument"> | string
+    uploadedAt?: DateTimeFilter<"LoanDocument"> | Date | string
+    application?: XOR<LoanApplicationScalarRelationFilter, LoanApplicationWhereInput>
+  }, "id">
+
+  export type LoanDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    uploadedAt?: SortOrder
+    _count?: LoanDocumentCountOrderByAggregateInput
+    _max?: LoanDocumentMaxOrderByAggregateInput
+    _min?: LoanDocumentMinOrderByAggregateInput
+  }
+
+  export type LoanDocumentScalarWhereWithAggregatesInput = {
+    AND?: LoanDocumentScalarWhereWithAggregatesInput | LoanDocumentScalarWhereWithAggregatesInput[]
+    OR?: LoanDocumentScalarWhereWithAggregatesInput[]
+    NOT?: LoanDocumentScalarWhereWithAggregatesInput | LoanDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanDocument"> | string
+    applicationId?: StringWithAggregatesFilter<"LoanDocument"> | string
+    fileUrl?: StringWithAggregatesFilter<"LoanDocument"> | string
+    fileName?: StringWithAggregatesFilter<"LoanDocument"> | string
+    uploadedAt?: DateTimeWithAggregatesFilter<"LoanDocument"> | Date | string
+  }
+
+  export type LoanNotificationWhereInput = {
+    AND?: LoanNotificationWhereInput | LoanNotificationWhereInput[]
+    OR?: LoanNotificationWhereInput[]
+    NOT?: LoanNotificationWhereInput | LoanNotificationWhereInput[]
+    id?: StringFilter<"LoanNotification"> | string
+    targetEmail?: StringFilter<"LoanNotification"> | string
+    title?: StringFilter<"LoanNotification"> | string
+    message?: StringFilter<"LoanNotification"> | string
+    isRead?: BoolFilter<"LoanNotification"> | boolean
+    createdAt?: DateTimeFilter<"LoanNotification"> | Date | string
+  }
+
+  export type LoanNotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    targetEmail?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanNotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LoanNotificationWhereInput | LoanNotificationWhereInput[]
+    OR?: LoanNotificationWhereInput[]
+    NOT?: LoanNotificationWhereInput | LoanNotificationWhereInput[]
+    targetEmail?: StringFilter<"LoanNotification"> | string
+    title?: StringFilter<"LoanNotification"> | string
+    message?: StringFilter<"LoanNotification"> | string
+    isRead?: BoolFilter<"LoanNotification"> | boolean
+    createdAt?: DateTimeFilter<"LoanNotification"> | Date | string
+  }, "id">
+
+  export type LoanNotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    targetEmail?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+    _count?: LoanNotificationCountOrderByAggregateInput
+    _max?: LoanNotificationMaxOrderByAggregateInput
+    _min?: LoanNotificationMinOrderByAggregateInput
+  }
+
+  export type LoanNotificationScalarWhereWithAggregatesInput = {
+    AND?: LoanNotificationScalarWhereWithAggregatesInput | LoanNotificationScalarWhereWithAggregatesInput[]
+    OR?: LoanNotificationScalarWhereWithAggregatesInput[]
+    NOT?: LoanNotificationScalarWhereWithAggregatesInput | LoanNotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LoanNotification"> | string
+    targetEmail?: StringWithAggregatesFilter<"LoanNotification"> | string
+    title?: StringWithAggregatesFilter<"LoanNotification"> | string
+    message?: StringWithAggregatesFilter<"LoanNotification"> | string
+    isRead?: BoolWithAggregatesFilter<"LoanNotification"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"LoanNotification"> | Date | string
   }
 
   export type OvertimeWhereInput = {
@@ -33688,6 +46878,364 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ServiceConfig"> | Date | string
   }
 
+  export type JobRequisitionWhereInput = {
+    AND?: JobRequisitionWhereInput | JobRequisitionWhereInput[]
+    OR?: JobRequisitionWhereInput[]
+    NOT?: JobRequisitionWhereInput | JobRequisitionWhereInput[]
+    id?: StringFilter<"JobRequisition"> | string
+    title?: StringFilter<"JobRequisition"> | string
+    department?: StringFilter<"JobRequisition"> | string
+    location?: StringNullableFilter<"JobRequisition"> | string | null
+    employmentType?: StringFilter<"JobRequisition"> | string
+    positionsCount?: IntFilter<"JobRequisition"> | number
+    status?: StringFilter<"JobRequisition"> | string
+    description?: StringNullableFilter<"JobRequisition"> | string | null
+    requirements?: StringNullableFilter<"JobRequisition"> | string | null
+    minSalary?: FloatNullableFilter<"JobRequisition"> | number | null
+    maxSalary?: FloatNullableFilter<"JobRequisition"> | number | null
+    requestedById?: StringFilter<"JobRequisition"> | string
+    createdAt?: DateTimeFilter<"JobRequisition"> | Date | string
+    updatedAt?: DateTimeFilter<"JobRequisition"> | Date | string
+    requestedBy?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    candidates?: CandidateListRelationFilter
+  }
+
+  export type JobRequisitionOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrderInput | SortOrder
+    employmentType?: SortOrder
+    positionsCount?: SortOrder
+    status?: SortOrder
+    description?: SortOrderInput | SortOrder
+    requirements?: SortOrderInput | SortOrder
+    minSalary?: SortOrderInput | SortOrder
+    maxSalary?: SortOrderInput | SortOrder
+    requestedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    requestedBy?: EmployeeOrderByWithRelationInput
+    candidates?: CandidateOrderByRelationAggregateInput
+  }
+
+  export type JobRequisitionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: JobRequisitionWhereInput | JobRequisitionWhereInput[]
+    OR?: JobRequisitionWhereInput[]
+    NOT?: JobRequisitionWhereInput | JobRequisitionWhereInput[]
+    title?: StringFilter<"JobRequisition"> | string
+    department?: StringFilter<"JobRequisition"> | string
+    location?: StringNullableFilter<"JobRequisition"> | string | null
+    employmentType?: StringFilter<"JobRequisition"> | string
+    positionsCount?: IntFilter<"JobRequisition"> | number
+    status?: StringFilter<"JobRequisition"> | string
+    description?: StringNullableFilter<"JobRequisition"> | string | null
+    requirements?: StringNullableFilter<"JobRequisition"> | string | null
+    minSalary?: FloatNullableFilter<"JobRequisition"> | number | null
+    maxSalary?: FloatNullableFilter<"JobRequisition"> | number | null
+    requestedById?: StringFilter<"JobRequisition"> | string
+    createdAt?: DateTimeFilter<"JobRequisition"> | Date | string
+    updatedAt?: DateTimeFilter<"JobRequisition"> | Date | string
+    requestedBy?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+    candidates?: CandidateListRelationFilter
+  }, "id">
+
+  export type JobRequisitionOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrderInput | SortOrder
+    employmentType?: SortOrder
+    positionsCount?: SortOrder
+    status?: SortOrder
+    description?: SortOrderInput | SortOrder
+    requirements?: SortOrderInput | SortOrder
+    minSalary?: SortOrderInput | SortOrder
+    maxSalary?: SortOrderInput | SortOrder
+    requestedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: JobRequisitionCountOrderByAggregateInput
+    _avg?: JobRequisitionAvgOrderByAggregateInput
+    _max?: JobRequisitionMaxOrderByAggregateInput
+    _min?: JobRequisitionMinOrderByAggregateInput
+    _sum?: JobRequisitionSumOrderByAggregateInput
+  }
+
+  export type JobRequisitionScalarWhereWithAggregatesInput = {
+    AND?: JobRequisitionScalarWhereWithAggregatesInput | JobRequisitionScalarWhereWithAggregatesInput[]
+    OR?: JobRequisitionScalarWhereWithAggregatesInput[]
+    NOT?: JobRequisitionScalarWhereWithAggregatesInput | JobRequisitionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"JobRequisition"> | string
+    title?: StringWithAggregatesFilter<"JobRequisition"> | string
+    department?: StringWithAggregatesFilter<"JobRequisition"> | string
+    location?: StringNullableWithAggregatesFilter<"JobRequisition"> | string | null
+    employmentType?: StringWithAggregatesFilter<"JobRequisition"> | string
+    positionsCount?: IntWithAggregatesFilter<"JobRequisition"> | number
+    status?: StringWithAggregatesFilter<"JobRequisition"> | string
+    description?: StringNullableWithAggregatesFilter<"JobRequisition"> | string | null
+    requirements?: StringNullableWithAggregatesFilter<"JobRequisition"> | string | null
+    minSalary?: FloatNullableWithAggregatesFilter<"JobRequisition"> | number | null
+    maxSalary?: FloatNullableWithAggregatesFilter<"JobRequisition"> | number | null
+    requestedById?: StringWithAggregatesFilter<"JobRequisition"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"JobRequisition"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"JobRequisition"> | Date | string
+  }
+
+  export type CandidateWhereInput = {
+    AND?: CandidateWhereInput | CandidateWhereInput[]
+    OR?: CandidateWhereInput[]
+    NOT?: CandidateWhereInput | CandidateWhereInput[]
+    id?: StringFilter<"Candidate"> | string
+    firstName?: StringFilter<"Candidate"> | string
+    lastName?: StringFilter<"Candidate"> | string
+    email?: StringFilter<"Candidate"> | string
+    phone?: StringNullableFilter<"Candidate"> | string | null
+    resumeUrl?: StringNullableFilter<"Candidate"> | string | null
+    status?: StringFilter<"Candidate"> | string
+    jobId?: StringFilter<"Candidate"> | string
+    createdAt?: DateTimeFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+    job?: XOR<JobRequisitionScalarRelationFilter, JobRequisitionWhereInput>
+    interviews?: InterviewListRelationFilter
+    offer?: XOR<OfferLetterNullableScalarRelationFilter, OfferLetterWhereInput> | null
+  }
+
+  export type CandidateOrderByWithRelationInput = {
+    id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    resumeUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    jobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    job?: JobRequisitionOrderByWithRelationInput
+    interviews?: InterviewOrderByRelationAggregateInput
+    offer?: OfferLetterOrderByWithRelationInput
+  }
+
+  export type CandidateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    email?: string
+    AND?: CandidateWhereInput | CandidateWhereInput[]
+    OR?: CandidateWhereInput[]
+    NOT?: CandidateWhereInput | CandidateWhereInput[]
+    firstName?: StringFilter<"Candidate"> | string
+    lastName?: StringFilter<"Candidate"> | string
+    phone?: StringNullableFilter<"Candidate"> | string | null
+    resumeUrl?: StringNullableFilter<"Candidate"> | string | null
+    status?: StringFilter<"Candidate"> | string
+    jobId?: StringFilter<"Candidate"> | string
+    createdAt?: DateTimeFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+    job?: XOR<JobRequisitionScalarRelationFilter, JobRequisitionWhereInput>
+    interviews?: InterviewListRelationFilter
+    offer?: XOR<OfferLetterNullableScalarRelationFilter, OfferLetterWhereInput> | null
+  }, "id" | "email">
+
+  export type CandidateOrderByWithAggregationInput = {
+    id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    resumeUrl?: SortOrderInput | SortOrder
+    status?: SortOrder
+    jobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CandidateCountOrderByAggregateInput
+    _max?: CandidateMaxOrderByAggregateInput
+    _min?: CandidateMinOrderByAggregateInput
+  }
+
+  export type CandidateScalarWhereWithAggregatesInput = {
+    AND?: CandidateScalarWhereWithAggregatesInput | CandidateScalarWhereWithAggregatesInput[]
+    OR?: CandidateScalarWhereWithAggregatesInput[]
+    NOT?: CandidateScalarWhereWithAggregatesInput | CandidateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Candidate"> | string
+    firstName?: StringWithAggregatesFilter<"Candidate"> | string
+    lastName?: StringWithAggregatesFilter<"Candidate"> | string
+    email?: StringWithAggregatesFilter<"Candidate"> | string
+    phone?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    resumeUrl?: StringNullableWithAggregatesFilter<"Candidate"> | string | null
+    status?: StringWithAggregatesFilter<"Candidate"> | string
+    jobId?: StringWithAggregatesFilter<"Candidate"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Candidate"> | Date | string
+  }
+
+  export type InterviewWhereInput = {
+    AND?: InterviewWhereInput | InterviewWhereInput[]
+    OR?: InterviewWhereInput[]
+    NOT?: InterviewWhereInput | InterviewWhereInput[]
+    id?: StringFilter<"Interview"> | string
+    candidateId?: StringFilter<"Interview"> | string
+    interviewerId?: StringFilter<"Interview"> | string
+    scheduledAt?: DateTimeFilter<"Interview"> | Date | string
+    durationMins?: IntFilter<"Interview"> | number
+    status?: StringFilter<"Interview"> | string
+    feedback?: StringNullableFilter<"Interview"> | string | null
+    rating?: IntNullableFilter<"Interview"> | number | null
+    createdAt?: DateTimeFilter<"Interview"> | Date | string
+    updatedAt?: DateTimeFilter<"Interview"> | Date | string
+    candidate?: XOR<CandidateScalarRelationFilter, CandidateWhereInput>
+    interviewer?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }
+
+  export type InterviewOrderByWithRelationInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    interviewerId?: SortOrder
+    scheduledAt?: SortOrder
+    durationMins?: SortOrder
+    status?: SortOrder
+    feedback?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate?: CandidateOrderByWithRelationInput
+    interviewer?: EmployeeOrderByWithRelationInput
+  }
+
+  export type InterviewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InterviewWhereInput | InterviewWhereInput[]
+    OR?: InterviewWhereInput[]
+    NOT?: InterviewWhereInput | InterviewWhereInput[]
+    candidateId?: StringFilter<"Interview"> | string
+    interviewerId?: StringFilter<"Interview"> | string
+    scheduledAt?: DateTimeFilter<"Interview"> | Date | string
+    durationMins?: IntFilter<"Interview"> | number
+    status?: StringFilter<"Interview"> | string
+    feedback?: StringNullableFilter<"Interview"> | string | null
+    rating?: IntNullableFilter<"Interview"> | number | null
+    createdAt?: DateTimeFilter<"Interview"> | Date | string
+    updatedAt?: DateTimeFilter<"Interview"> | Date | string
+    candidate?: XOR<CandidateScalarRelationFilter, CandidateWhereInput>
+    interviewer?: XOR<EmployeeScalarRelationFilter, EmployeeWhereInput>
+  }, "id">
+
+  export type InterviewOrderByWithAggregationInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    interviewerId?: SortOrder
+    scheduledAt?: SortOrder
+    durationMins?: SortOrder
+    status?: SortOrder
+    feedback?: SortOrderInput | SortOrder
+    rating?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InterviewCountOrderByAggregateInput
+    _avg?: InterviewAvgOrderByAggregateInput
+    _max?: InterviewMaxOrderByAggregateInput
+    _min?: InterviewMinOrderByAggregateInput
+    _sum?: InterviewSumOrderByAggregateInput
+  }
+
+  export type InterviewScalarWhereWithAggregatesInput = {
+    AND?: InterviewScalarWhereWithAggregatesInput | InterviewScalarWhereWithAggregatesInput[]
+    OR?: InterviewScalarWhereWithAggregatesInput[]
+    NOT?: InterviewScalarWhereWithAggregatesInput | InterviewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Interview"> | string
+    candidateId?: StringWithAggregatesFilter<"Interview"> | string
+    interviewerId?: StringWithAggregatesFilter<"Interview"> | string
+    scheduledAt?: DateTimeWithAggregatesFilter<"Interview"> | Date | string
+    durationMins?: IntWithAggregatesFilter<"Interview"> | number
+    status?: StringWithAggregatesFilter<"Interview"> | string
+    feedback?: StringNullableWithAggregatesFilter<"Interview"> | string | null
+    rating?: IntNullableWithAggregatesFilter<"Interview"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"Interview"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Interview"> | Date | string
+  }
+
+  export type OfferLetterWhereInput = {
+    AND?: OfferLetterWhereInput | OfferLetterWhereInput[]
+    OR?: OfferLetterWhereInput[]
+    NOT?: OfferLetterWhereInput | OfferLetterWhereInput[]
+    id?: StringFilter<"OfferLetter"> | string
+    candidateId?: StringFilter<"OfferLetter"> | string
+    offeredSalary?: FloatFilter<"OfferLetter"> | number
+    designation?: StringFilter<"OfferLetter"> | string
+    department?: StringFilter<"OfferLetter"> | string
+    joiningDate?: DateTimeFilter<"OfferLetter"> | Date | string
+    status?: StringFilter<"OfferLetter"> | string
+    fileUrl?: StringNullableFilter<"OfferLetter"> | string | null
+    createdAt?: DateTimeFilter<"OfferLetter"> | Date | string
+    updatedAt?: DateTimeFilter<"OfferLetter"> | Date | string
+    candidate?: XOR<CandidateScalarRelationFilter, CandidateWhereInput>
+  }
+
+  export type OfferLetterOrderByWithRelationInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    offeredSalary?: SortOrder
+    designation?: SortOrder
+    department?: SortOrder
+    joiningDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    candidate?: CandidateOrderByWithRelationInput
+  }
+
+  export type OfferLetterWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    candidateId?: string
+    AND?: OfferLetterWhereInput | OfferLetterWhereInput[]
+    OR?: OfferLetterWhereInput[]
+    NOT?: OfferLetterWhereInput | OfferLetterWhereInput[]
+    offeredSalary?: FloatFilter<"OfferLetter"> | number
+    designation?: StringFilter<"OfferLetter"> | string
+    department?: StringFilter<"OfferLetter"> | string
+    joiningDate?: DateTimeFilter<"OfferLetter"> | Date | string
+    status?: StringFilter<"OfferLetter"> | string
+    fileUrl?: StringNullableFilter<"OfferLetter"> | string | null
+    createdAt?: DateTimeFilter<"OfferLetter"> | Date | string
+    updatedAt?: DateTimeFilter<"OfferLetter"> | Date | string
+    candidate?: XOR<CandidateScalarRelationFilter, CandidateWhereInput>
+  }, "id" | "candidateId">
+
+  export type OfferLetterOrderByWithAggregationInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    offeredSalary?: SortOrder
+    designation?: SortOrder
+    department?: SortOrder
+    joiningDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: OfferLetterCountOrderByAggregateInput
+    _avg?: OfferLetterAvgOrderByAggregateInput
+    _max?: OfferLetterMaxOrderByAggregateInput
+    _min?: OfferLetterMinOrderByAggregateInput
+    _sum?: OfferLetterSumOrderByAggregateInput
+  }
+
+  export type OfferLetterScalarWhereWithAggregatesInput = {
+    AND?: OfferLetterScalarWhereWithAggregatesInput | OfferLetterScalarWhereWithAggregatesInput[]
+    OR?: OfferLetterScalarWhereWithAggregatesInput[]
+    NOT?: OfferLetterScalarWhereWithAggregatesInput | OfferLetterScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OfferLetter"> | string
+    candidateId?: StringWithAggregatesFilter<"OfferLetter"> | string
+    offeredSalary?: FloatWithAggregatesFilter<"OfferLetter"> | number
+    designation?: StringWithAggregatesFilter<"OfferLetter"> | string
+    department?: StringWithAggregatesFilter<"OfferLetter"> | string
+    joiningDate?: DateTimeWithAggregatesFilter<"OfferLetter"> | Date | string
+    status?: StringWithAggregatesFilter<"OfferLetter"> | string
+    fileUrl?: StringNullableWithAggregatesFilter<"OfferLetter"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"OfferLetter"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"OfferLetter"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -34017,10 +47565,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateInput = {
@@ -34083,9 +47633,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUpdateInput = {
@@ -34147,10 +47699,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateInput = {
@@ -34213,9 +47767,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeCreateManyInput = {
@@ -35255,87 +48811,543 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LoanCreateInput = {
+  export type LoanTypeCreateInput = {
     id?: string
-    amount: number
-    issueDate: Date | string
-    installmentAmount: number
-    remainingBalance: number
-    status?: string
+    name: string
+    description?: string | null
+    maxAmount: number
+    interestRate?: number
+    maxRepaymentMonths: number
+    requiresProbation?: boolean
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    employee: EmployeeCreateNestedOneWithoutLoansInput
+    applications?: LoanApplicationCreateNestedManyWithoutLoanTypeInput
   }
 
-  export type LoanUncheckedCreateInput = {
+  export type LoanTypeUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    maxAmount: number
+    interestRate?: number
+    maxRepaymentMonths: number
+    requiresProbation?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    applications?: LoanApplicationUncheckedCreateNestedManyWithoutLoanTypeInput
+  }
+
+  export type LoanTypeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxAmount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    maxRepaymentMonths?: IntFieldUpdateOperationsInput | number
+    requiresProbation?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    applications?: LoanApplicationUpdateManyWithoutLoanTypeNestedInput
+  }
+
+  export type LoanTypeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxAmount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    maxRepaymentMonths?: IntFieldUpdateOperationsInput | number
+    requiresProbation?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    applications?: LoanApplicationUncheckedUpdateManyWithoutLoanTypeNestedInput
+  }
+
+  export type LoanTypeCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    maxAmount: number
+    interestRate?: number
+    maxRepaymentMonths: number
+    requiresProbation?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanTypeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxAmount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    maxRepaymentMonths?: IntFieldUpdateOperationsInput | number
+    requiresProbation?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanTypeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxAmount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    maxRepaymentMonths?: IntFieldUpdateOperationsInput | number
+    requiresProbation?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApplicationCreateInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoanApplicationsInput
+    loanType: LoanTypeCreateNestedOneWithoutApplicationsInput
+    approvals?: LoanApprovalCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationUncheckedCreateInput = {
     id?: string
     employeeId: string
-    amount: number
-    issueDate: Date | string
-    installmentAmount: number
-    remainingBalance: number
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
     status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvals?: LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
-  export type LoanUpdateInput = {
+  export type LoanApplicationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    employee?: EmployeeUpdateOneRequiredWithoutLoansNestedInput
+    employee?: EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    loanType?: LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput
+    approvals?: LoanApprovalUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUpdateManyWithoutApplicationNestedInput
   }
 
-  export type LoanUncheckedUpdateInput = {
+  export type LoanApplicationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
-  export type LoanCreateManyInput = {
+  export type LoanApplicationCreateManyInput = {
     id?: string
     employeeId: string
-    amount: number
-    issueDate: Date | string
-    installmentAmount: number
-    remainingBalance: number
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
     status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type LoanUpdateManyMutationInput = {
+  export type LoanApplicationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LoanUncheckedUpdateManyInput = {
+  export type LoanApplicationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeId?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalCreateInput = {
+    id?: string
+    approverEmail: string
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+    application: LoanApplicationCreateNestedOneWithoutApprovalsInput
+  }
+
+  export type LoanApprovalUncheckedCreateInput = {
+    id?: string
+    applicationId: string
+    approverEmail: string
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanApprovalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application?: LoanApplicationUpdateOneRequiredWithoutApprovalsNestedInput
+  }
+
+  export type LoanApprovalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalCreateManyInput = {
+    id?: string
+    applicationId: string
+    approverEmail: string
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanApprovalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDisbursementCreateInput = {
+    id?: string
+    method: string
+    amount: number
+    transactionRef?: string | null
+    disbursedAt?: Date | string
+    application: LoanApplicationCreateNestedOneWithoutDisbursementsInput
+  }
+
+  export type LoanDisbursementUncheckedCreateInput = {
+    id?: string
+    applicationId: string
+    method: string
+    amount: number
+    transactionRef?: string | null
+    disbursedAt?: Date | string
+  }
+
+  export type LoanDisbursementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application?: LoanApplicationUpdateOneRequiredWithoutDisbursementsNestedInput
+  }
+
+  export type LoanDisbursementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDisbursementCreateManyInput = {
+    id?: string
+    applicationId: string
+    method: string
+    amount: number
+    transactionRef?: string | null
+    disbursedAt?: Date | string
+  }
+
+  export type LoanDisbursementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDisbursementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanInstallmentCreateInput = {
+    id?: string
+    month: number
+    year: number
+    amount: number
+    status?: string
+    deductedAt?: Date | string | null
+    createdAt?: Date | string
+    application: LoanApplicationCreateNestedOneWithoutInstallmentsInput
+  }
+
+  export type LoanInstallmentUncheckedCreateInput = {
+    id?: string
+    applicationId: string
+    month: number
+    year: number
+    amount: number
+    status?: string
+    deductedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanInstallmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application?: LoanApplicationUpdateOneRequiredWithoutInstallmentsNestedInput
+  }
+
+  export type LoanInstallmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanInstallmentCreateManyInput = {
+    id?: string
+    applicationId: string
+    month: number
+    year: number
+    amount: number
+    status?: string
+    deductedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanInstallmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanInstallmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDocumentCreateInput = {
+    id?: string
+    fileUrl: string
+    fileName: string
+    uploadedAt?: Date | string
+    application: LoanApplicationCreateNestedOneWithoutDocumentsInput
+  }
+
+  export type LoanDocumentUncheckedCreateInput = {
+    id?: string
+    applicationId: string
+    fileUrl: string
+    fileName: string
+    uploadedAt?: Date | string
+  }
+
+  export type LoanDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    application?: LoanApplicationUpdateOneRequiredWithoutDocumentsNestedInput
+  }
+
+  export type LoanDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDocumentCreateManyInput = {
+    id?: string
+    applicationId: string
+    fileUrl: string
+    fileName: string
+    uploadedAt?: Date | string
+  }
+
+  export type LoanDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    applicationId?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanNotificationCreateInput = {
+    id?: string
+    targetEmail: string
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LoanNotificationUncheckedCreateInput = {
+    id?: string
+    targetEmail: string
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LoanNotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    targetEmail?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanNotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    targetEmail?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanNotificationCreateManyInput = {
+    id?: string
+    targetEmail: string
+    title: string
+    message: string
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type LoanNotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    targetEmail?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanNotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    targetEmail?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OvertimeCreateInput = {
@@ -36142,6 +50154,405 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type JobRequisitionCreateInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requestedBy: EmployeeCreateNestedOneWithoutRequestedJobsInput
+    candidates?: CandidateCreateNestedManyWithoutJobInput
+  }
+
+  export type JobRequisitionUncheckedCreateInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    requestedById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidates?: CandidateUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobRequisitionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedBy?: EmployeeUpdateOneRequiredWithoutRequestedJobsNestedInput
+    candidates?: CandidateUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobRequisitionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    requestedById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidates?: CandidateUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobRequisitionCreateManyInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    requestedById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobRequisitionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobRequisitionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    requestedById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateCreateInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    job: JobRequisitionCreateNestedOneWithoutCandidatesInput
+    interviews?: InterviewCreateNestedManyWithoutCandidateInput
+    offer?: OfferLetterCreateNestedOneWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    jobId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    interviews?: InterviewUncheckedCreateNestedManyWithoutCandidateInput
+    offer?: OfferLetterUncheckedCreateNestedOneWithoutCandidateInput
+  }
+
+  export type CandidateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: JobRequisitionUpdateOneRequiredWithoutCandidatesNestedInput
+    interviews?: InterviewUpdateManyWithoutCandidateNestedInput
+    offer?: OfferLetterUpdateOneWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interviews?: InterviewUncheckedUpdateManyWithoutCandidateNestedInput
+    offer?: OfferLetterUncheckedUpdateOneWithoutCandidateNestedInput
+  }
+
+  export type CandidateCreateManyInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    jobId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewCreateInput = {
+    id?: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidate: CandidateCreateNestedOneWithoutInterviewsInput
+    interviewer: EmployeeCreateNestedOneWithoutInterviewsInput
+  }
+
+  export type InterviewUncheckedCreateInput = {
+    id?: string
+    candidateId: string
+    interviewerId: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterviewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidate?: CandidateUpdateOneRequiredWithoutInterviewsNestedInput
+    interviewer?: EmployeeUpdateOneRequiredWithoutInterviewsNestedInput
+  }
+
+  export type InterviewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    interviewerId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewCreateManyInput = {
+    id?: string
+    candidateId: string
+    interviewerId: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterviewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    interviewerId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfferLetterCreateInput = {
+    id?: string
+    offeredSalary: number
+    designation: string
+    department: string
+    joiningDate: Date | string
+    status?: string
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidate: CandidateCreateNestedOneWithoutOfferInput
+  }
+
+  export type OfferLetterUncheckedCreateInput = {
+    id?: string
+    candidateId: string
+    offeredSalary: number
+    designation: string
+    department: string
+    joiningDate: Date | string
+    status?: string
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OfferLetterUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    offeredSalary?: FloatFieldUpdateOperationsInput | number
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidate?: CandidateUpdateOneRequiredWithoutOfferNestedInput
+  }
+
+  export type OfferLetterUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    offeredSalary?: FloatFieldUpdateOperationsInput | number
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfferLetterCreateManyInput = {
+    id?: string
+    candidateId: string
+    offeredSalary: number
+    designation: string
+    department: string
+    joiningDate: Date | string
+    status?: string
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OfferLetterUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    offeredSalary?: FloatFieldUpdateOperationsInput | number
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfferLetterUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    offeredSalary?: FloatFieldUpdateOperationsInput | number
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -36548,10 +50959,10 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
-  export type LoanListRelationFilter = {
-    every?: LoanWhereInput
-    some?: LoanWhereInput
-    none?: LoanWhereInput
+  export type LoanApplicationListRelationFilter = {
+    every?: LoanApplicationWhereInput
+    some?: LoanApplicationWhereInput
+    none?: LoanApplicationWhereInput
   }
 
   export type OvertimeListRelationFilter = {
@@ -36564,6 +50975,18 @@ export namespace Prisma {
     every?: EmployeeWhereInput
     some?: EmployeeWhereInput
     none?: EmployeeWhereInput
+  }
+
+  export type JobRequisitionListRelationFilter = {
+    every?: JobRequisitionWhereInput
+    some?: JobRequisitionWhereInput
+    none?: JobRequisitionWhereInput
+  }
+
+  export type InterviewListRelationFilter = {
+    every?: InterviewWhereInput
+    some?: InterviewWhereInput
+    none?: InterviewWhereInput
   }
 
   export type LeaveBalanceOrderByRelationAggregateInput = {
@@ -36606,7 +51029,7 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type LoanOrderByRelationAggregateInput = {
+  export type LoanApplicationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -36615,6 +51038,14 @@ export namespace Prisma {
   }
 
   export type EmployeeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JobRequisitionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InterviewOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -37355,52 +51786,321 @@ export namespace Prisma {
     netSalary?: SortOrder
   }
 
-  export type LoanCountOrderByAggregateInput = {
+  export type LoanTypeCountOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
-    amount?: SortOrder
-    issueDate?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
-    status?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
+    requiresProbation?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type LoanAvgOrderByAggregateInput = {
-    amount?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
+  export type LoanTypeAvgOrderByAggregateInput = {
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
   }
 
-  export type LoanMaxOrderByAggregateInput = {
+  export type LoanTypeMaxOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
-    amount?: SortOrder
-    issueDate?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
-    status?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
+    requiresProbation?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type LoanMinOrderByAggregateInput = {
+  export type LoanTypeMinOrderByAggregateInput = {
     id?: SortOrder
-    employeeId?: SortOrder
-    amount?: SortOrder
-    issueDate?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
-    status?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
+    requiresProbation?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type LoanSumOrderByAggregateInput = {
+  export type LoanTypeSumOrderByAggregateInput = {
+    maxAmount?: SortOrder
+    interestRate?: SortOrder
+    maxRepaymentMonths?: SortOrder
+  }
+
+  export type LoanTypeScalarRelationFilter = {
+    is?: LoanTypeWhereInput
+    isNot?: LoanTypeWhereInput
+  }
+
+  export type LoanApprovalListRelationFilter = {
+    every?: LoanApprovalWhereInput
+    some?: LoanApprovalWhereInput
+    none?: LoanApprovalWhereInput
+  }
+
+  export type LoanDisbursementListRelationFilter = {
+    every?: LoanDisbursementWhereInput
+    some?: LoanDisbursementWhereInput
+    none?: LoanDisbursementWhereInput
+  }
+
+  export type LoanInstallmentListRelationFilter = {
+    every?: LoanInstallmentWhereInput
+    some?: LoanInstallmentWhereInput
+    none?: LoanInstallmentWhereInput
+  }
+
+  export type LoanDocumentListRelationFilter = {
+    every?: LoanDocumentWhereInput
+    some?: LoanDocumentWhereInput
+    none?: LoanDocumentWhereInput
+  }
+
+  export type LoanApprovalOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoanDisbursementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoanInstallmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoanDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LoanApplicationCountOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    loanTypeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    managerStatus?: SortOrder
+    hrStatus?: SortOrder
+    financeStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoanApplicationAvgOrderByAggregateInput = {
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+  }
+
+  export type LoanApplicationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    loanTypeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    managerStatus?: SortOrder
+    hrStatus?: SortOrder
+    financeStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoanApplicationMinOrderByAggregateInput = {
+    id?: SortOrder
+    employeeId?: SortOrder
+    loanTypeId?: SortOrder
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+    reason?: SortOrder
+    status?: SortOrder
+    managerStatus?: SortOrder
+    hrStatus?: SortOrder
+    financeStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LoanApplicationSumOrderByAggregateInput = {
+    requestedAmount?: SortOrder
+    repaymentMonths?: SortOrder
+  }
+
+  export type LoanApplicationScalarRelationFilter = {
+    is?: LoanApplicationWhereInput
+    isNot?: LoanApplicationWhereInput
+  }
+
+  export type LoanApprovalCountOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanApprovalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanApprovalMinOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    approverEmail?: SortOrder
+    level?: SortOrder
+    action?: SortOrder
+    comments?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanDisbursementCountOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    method?: SortOrder
     amount?: SortOrder
-    installmentAmount?: SortOrder
-    remainingBalance?: SortOrder
+    transactionRef?: SortOrder
+    disbursedAt?: SortOrder
+  }
+
+  export type LoanDisbursementAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type LoanDisbursementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    method?: SortOrder
+    amount?: SortOrder
+    transactionRef?: SortOrder
+    disbursedAt?: SortOrder
+  }
+
+  export type LoanDisbursementMinOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    method?: SortOrder
+    amount?: SortOrder
+    transactionRef?: SortOrder
+    disbursedAt?: SortOrder
+  }
+
+  export type LoanDisbursementSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type LoanInstallmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    deductedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanInstallmentAvgOrderByAggregateInput = {
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type LoanInstallmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    deductedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanInstallmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    deductedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanInstallmentSumOrderByAggregateInput = {
+    month?: SortOrder
+    year?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type LoanDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    uploadedAt?: SortOrder
+  }
+
+  export type LoanDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    uploadedAt?: SortOrder
+  }
+
+  export type LoanDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    applicationId?: SortOrder
+    fileUrl?: SortOrder
+    fileName?: SortOrder
+    uploadedAt?: SortOrder
+  }
+
+  export type LoanNotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    targetEmail?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanNotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    targetEmail?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LoanNotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    targetEmail?: SortOrder
+    title?: SortOrder
+    message?: SortOrder
+    isRead?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type OvertimeCountOrderByAggregateInput = {
@@ -37837,6 +52537,229 @@ export namespace Prisma {
     _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
+  export type CandidateListRelationFilter = {
+    every?: CandidateWhereInput
+    some?: CandidateWhereInput
+    none?: CandidateWhereInput
+  }
+
+  export type CandidateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type JobRequisitionCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    employmentType?: SortOrder
+    positionsCount?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    requirements?: SortOrder
+    minSalary?: SortOrder
+    maxSalary?: SortOrder
+    requestedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobRequisitionAvgOrderByAggregateInput = {
+    positionsCount?: SortOrder
+    minSalary?: SortOrder
+    maxSalary?: SortOrder
+  }
+
+  export type JobRequisitionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    employmentType?: SortOrder
+    positionsCount?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    requirements?: SortOrder
+    minSalary?: SortOrder
+    maxSalary?: SortOrder
+    requestedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobRequisitionMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    employmentType?: SortOrder
+    positionsCount?: SortOrder
+    status?: SortOrder
+    description?: SortOrder
+    requirements?: SortOrder
+    minSalary?: SortOrder
+    maxSalary?: SortOrder
+    requestedById?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type JobRequisitionSumOrderByAggregateInput = {
+    positionsCount?: SortOrder
+    minSalary?: SortOrder
+    maxSalary?: SortOrder
+  }
+
+  export type JobRequisitionScalarRelationFilter = {
+    is?: JobRequisitionWhereInput
+    isNot?: JobRequisitionWhereInput
+  }
+
+  export type OfferLetterNullableScalarRelationFilter = {
+    is?: OfferLetterWhereInput | null
+    isNot?: OfferLetterWhereInput | null
+  }
+
+  export type CandidateCountOrderByAggregateInput = {
+    id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    resumeUrl?: SortOrder
+    status?: SortOrder
+    jobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    resumeUrl?: SortOrder
+    status?: SortOrder
+    jobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateMinOrderByAggregateInput = {
+    id?: SortOrder
+    firstName?: SortOrder
+    lastName?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    resumeUrl?: SortOrder
+    status?: SortOrder
+    jobId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CandidateScalarRelationFilter = {
+    is?: CandidateWhereInput
+    isNot?: CandidateWhereInput
+  }
+
+  export type InterviewCountOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    interviewerId?: SortOrder
+    scheduledAt?: SortOrder
+    durationMins?: SortOrder
+    status?: SortOrder
+    feedback?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InterviewAvgOrderByAggregateInput = {
+    durationMins?: SortOrder
+    rating?: SortOrder
+  }
+
+  export type InterviewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    interviewerId?: SortOrder
+    scheduledAt?: SortOrder
+    durationMins?: SortOrder
+    status?: SortOrder
+    feedback?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InterviewMinOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    interviewerId?: SortOrder
+    scheduledAt?: SortOrder
+    durationMins?: SortOrder
+    status?: SortOrder
+    feedback?: SortOrder
+    rating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InterviewSumOrderByAggregateInput = {
+    durationMins?: SortOrder
+    rating?: SortOrder
+  }
+
+  export type OfferLetterCountOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    offeredSalary?: SortOrder
+    designation?: SortOrder
+    department?: SortOrder
+    joiningDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OfferLetterAvgOrderByAggregateInput = {
+    offeredSalary?: SortOrder
+  }
+
+  export type OfferLetterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    offeredSalary?: SortOrder
+    designation?: SortOrder
+    department?: SortOrder
+    joiningDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OfferLetterMinOrderByAggregateInput = {
+    id?: SortOrder
+    candidateId?: SortOrder
+    offeredSalary?: SortOrder
+    designation?: SortOrder
+    department?: SortOrder
+    joiningDate?: SortOrder
+    status?: SortOrder
+    fileUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type OfferLetterSumOrderByAggregateInput = {
+    offeredSalary?: SortOrder
+  }
+
   export type EmployeeCreateNestedOneWithoutUserInput = {
     create?: XOR<EmployeeCreateWithoutUserInput, EmployeeUncheckedCreateWithoutUserInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutUserInput
@@ -38184,11 +53107,11 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type LoanCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
-    createMany?: LoanCreateManyEmployeeInputEnvelope
-    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  export type LoanApplicationCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LoanApplicationCreateWithoutEmployeeInput, LoanApplicationUncheckedCreateWithoutEmployeeInput> | LoanApplicationCreateWithoutEmployeeInput[] | LoanApplicationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutEmployeeInput | LoanApplicationCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LoanApplicationCreateManyEmployeeInputEnvelope
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
   }
 
   export type OvertimeCreateNestedManyWithoutEmployeeInput = {
@@ -38209,6 +53132,20 @@ export namespace Prisma {
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
     createMany?: EmployeeCreateManyManagerInputEnvelope
     connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+  }
+
+  export type JobRequisitionCreateNestedManyWithoutRequestedByInput = {
+    create?: XOR<JobRequisitionCreateWithoutRequestedByInput, JobRequisitionUncheckedCreateWithoutRequestedByInput> | JobRequisitionCreateWithoutRequestedByInput[] | JobRequisitionUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: JobRequisitionCreateOrConnectWithoutRequestedByInput | JobRequisitionCreateOrConnectWithoutRequestedByInput[]
+    createMany?: JobRequisitionCreateManyRequestedByInputEnvelope
+    connect?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+  }
+
+  export type InterviewCreateNestedManyWithoutInterviewerInput = {
+    create?: XOR<InterviewCreateWithoutInterviewerInput, InterviewUncheckedCreateWithoutInterviewerInput> | InterviewCreateWithoutInterviewerInput[] | InterviewUncheckedCreateWithoutInterviewerInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutInterviewerInput | InterviewCreateOrConnectWithoutInterviewerInput[]
+    createMany?: InterviewCreateManyInterviewerInputEnvelope
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
   }
 
   export type LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -38294,11 +53231,11 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type LoanUncheckedCreateNestedManyWithoutEmployeeInput = {
-    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
-    createMany?: LoanCreateManyEmployeeInputEnvelope
-    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
+  export type LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput = {
+    create?: XOR<LoanApplicationCreateWithoutEmployeeInput, LoanApplicationUncheckedCreateWithoutEmployeeInput> | LoanApplicationCreateWithoutEmployeeInput[] | LoanApplicationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutEmployeeInput | LoanApplicationCreateOrConnectWithoutEmployeeInput[]
+    createMany?: LoanApplicationCreateManyEmployeeInputEnvelope
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
   }
 
   export type OvertimeUncheckedCreateNestedManyWithoutEmployeeInput = {
@@ -38313,6 +53250,20 @@ export namespace Prisma {
     connectOrCreate?: EmployeeCreateOrConnectWithoutManagerInput | EmployeeCreateOrConnectWithoutManagerInput[]
     createMany?: EmployeeCreateManyManagerInputEnvelope
     connect?: EmployeeWhereUniqueInput | EmployeeWhereUniqueInput[]
+  }
+
+  export type JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput = {
+    create?: XOR<JobRequisitionCreateWithoutRequestedByInput, JobRequisitionUncheckedCreateWithoutRequestedByInput> | JobRequisitionCreateWithoutRequestedByInput[] | JobRequisitionUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: JobRequisitionCreateOrConnectWithoutRequestedByInput | JobRequisitionCreateOrConnectWithoutRequestedByInput[]
+    createMany?: JobRequisitionCreateManyRequestedByInputEnvelope
+    connect?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+  }
+
+  export type InterviewUncheckedCreateNestedManyWithoutInterviewerInput = {
+    create?: XOR<InterviewCreateWithoutInterviewerInput, InterviewUncheckedCreateWithoutInterviewerInput> | InterviewCreateWithoutInterviewerInput[] | InterviewUncheckedCreateWithoutInterviewerInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutInterviewerInput | InterviewCreateOrConnectWithoutInterviewerInput[]
+    createMany?: InterviewCreateManyInterviewerInputEnvelope
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -38517,18 +53468,18 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type LoanUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
-    upsert?: LoanUpsertWithWhereUniqueWithoutEmployeeInput | LoanUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: LoanCreateManyEmployeeInputEnvelope
-    set?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    disconnect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    delete?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    update?: LoanUpdateWithWhereUniqueWithoutEmployeeInput | LoanUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: LoanUpdateManyWithWhereWithoutEmployeeInput | LoanUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  export type LoanApplicationUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutEmployeeInput, LoanApplicationUncheckedCreateWithoutEmployeeInput> | LoanApplicationCreateWithoutEmployeeInput[] | LoanApplicationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutEmployeeInput | LoanApplicationCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LoanApplicationUpsertWithWhereUniqueWithoutEmployeeInput | LoanApplicationUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LoanApplicationCreateManyEmployeeInputEnvelope
+    set?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    disconnect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    delete?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    update?: LoanApplicationUpdateWithWhereUniqueWithoutEmployeeInput | LoanApplicationUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LoanApplicationUpdateManyWithWhereWithoutEmployeeInput | LoanApplicationUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
   }
 
   export type OvertimeUpdateManyWithoutEmployeeNestedInput = {
@@ -38567,6 +53518,34 @@ export namespace Prisma {
     update?: EmployeeUpdateWithWhereUniqueWithoutManagerInput | EmployeeUpdateWithWhereUniqueWithoutManagerInput[]
     updateMany?: EmployeeUpdateManyWithWhereWithoutManagerInput | EmployeeUpdateManyWithWhereWithoutManagerInput[]
     deleteMany?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
+  }
+
+  export type JobRequisitionUpdateManyWithoutRequestedByNestedInput = {
+    create?: XOR<JobRequisitionCreateWithoutRequestedByInput, JobRequisitionUncheckedCreateWithoutRequestedByInput> | JobRequisitionCreateWithoutRequestedByInput[] | JobRequisitionUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: JobRequisitionCreateOrConnectWithoutRequestedByInput | JobRequisitionCreateOrConnectWithoutRequestedByInput[]
+    upsert?: JobRequisitionUpsertWithWhereUniqueWithoutRequestedByInput | JobRequisitionUpsertWithWhereUniqueWithoutRequestedByInput[]
+    createMany?: JobRequisitionCreateManyRequestedByInputEnvelope
+    set?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    disconnect?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    delete?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    connect?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    update?: JobRequisitionUpdateWithWhereUniqueWithoutRequestedByInput | JobRequisitionUpdateWithWhereUniqueWithoutRequestedByInput[]
+    updateMany?: JobRequisitionUpdateManyWithWhereWithoutRequestedByInput | JobRequisitionUpdateManyWithWhereWithoutRequestedByInput[]
+    deleteMany?: JobRequisitionScalarWhereInput | JobRequisitionScalarWhereInput[]
+  }
+
+  export type InterviewUpdateManyWithoutInterviewerNestedInput = {
+    create?: XOR<InterviewCreateWithoutInterviewerInput, InterviewUncheckedCreateWithoutInterviewerInput> | InterviewCreateWithoutInterviewerInput[] | InterviewUncheckedCreateWithoutInterviewerInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutInterviewerInput | InterviewCreateOrConnectWithoutInterviewerInput[]
+    upsert?: InterviewUpsertWithWhereUniqueWithoutInterviewerInput | InterviewUpsertWithWhereUniqueWithoutInterviewerInput[]
+    createMany?: InterviewCreateManyInterviewerInputEnvelope
+    set?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    disconnect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    delete?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    update?: InterviewUpdateWithWhereUniqueWithoutInterviewerInput | InterviewUpdateWithWhereUniqueWithoutInterviewerInput[]
+    updateMany?: InterviewUpdateManyWithWhereWithoutInterviewerInput | InterviewUpdateManyWithWhereWithoutInterviewerInput[]
+    deleteMany?: InterviewScalarWhereInput | InterviewScalarWhereInput[]
   }
 
   export type LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -38733,18 +53712,18 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type LoanUncheckedUpdateManyWithoutEmployeeNestedInput = {
-    create?: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput> | LoanCreateWithoutEmployeeInput[] | LoanUncheckedCreateWithoutEmployeeInput[]
-    connectOrCreate?: LoanCreateOrConnectWithoutEmployeeInput | LoanCreateOrConnectWithoutEmployeeInput[]
-    upsert?: LoanUpsertWithWhereUniqueWithoutEmployeeInput | LoanUpsertWithWhereUniqueWithoutEmployeeInput[]
-    createMany?: LoanCreateManyEmployeeInputEnvelope
-    set?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    disconnect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    delete?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    connect?: LoanWhereUniqueInput | LoanWhereUniqueInput[]
-    update?: LoanUpdateWithWhereUniqueWithoutEmployeeInput | LoanUpdateWithWhereUniqueWithoutEmployeeInput[]
-    updateMany?: LoanUpdateManyWithWhereWithoutEmployeeInput | LoanUpdateManyWithWhereWithoutEmployeeInput[]
-    deleteMany?: LoanScalarWhereInput | LoanScalarWhereInput[]
+  export type LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutEmployeeInput, LoanApplicationUncheckedCreateWithoutEmployeeInput> | LoanApplicationCreateWithoutEmployeeInput[] | LoanApplicationUncheckedCreateWithoutEmployeeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutEmployeeInput | LoanApplicationCreateOrConnectWithoutEmployeeInput[]
+    upsert?: LoanApplicationUpsertWithWhereUniqueWithoutEmployeeInput | LoanApplicationUpsertWithWhereUniqueWithoutEmployeeInput[]
+    createMany?: LoanApplicationCreateManyEmployeeInputEnvelope
+    set?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    disconnect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    delete?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    update?: LoanApplicationUpdateWithWhereUniqueWithoutEmployeeInput | LoanApplicationUpdateWithWhereUniqueWithoutEmployeeInput[]
+    updateMany?: LoanApplicationUpdateManyWithWhereWithoutEmployeeInput | LoanApplicationUpdateManyWithWhereWithoutEmployeeInput[]
+    deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
   }
 
   export type OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput = {
@@ -38773,6 +53752,34 @@ export namespace Prisma {
     update?: EmployeeUpdateWithWhereUniqueWithoutManagerInput | EmployeeUpdateWithWhereUniqueWithoutManagerInput[]
     updateMany?: EmployeeUpdateManyWithWhereWithoutManagerInput | EmployeeUpdateManyWithWhereWithoutManagerInput[]
     deleteMany?: EmployeeScalarWhereInput | EmployeeScalarWhereInput[]
+  }
+
+  export type JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput = {
+    create?: XOR<JobRequisitionCreateWithoutRequestedByInput, JobRequisitionUncheckedCreateWithoutRequestedByInput> | JobRequisitionCreateWithoutRequestedByInput[] | JobRequisitionUncheckedCreateWithoutRequestedByInput[]
+    connectOrCreate?: JobRequisitionCreateOrConnectWithoutRequestedByInput | JobRequisitionCreateOrConnectWithoutRequestedByInput[]
+    upsert?: JobRequisitionUpsertWithWhereUniqueWithoutRequestedByInput | JobRequisitionUpsertWithWhereUniqueWithoutRequestedByInput[]
+    createMany?: JobRequisitionCreateManyRequestedByInputEnvelope
+    set?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    disconnect?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    delete?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    connect?: JobRequisitionWhereUniqueInput | JobRequisitionWhereUniqueInput[]
+    update?: JobRequisitionUpdateWithWhereUniqueWithoutRequestedByInput | JobRequisitionUpdateWithWhereUniqueWithoutRequestedByInput[]
+    updateMany?: JobRequisitionUpdateManyWithWhereWithoutRequestedByInput | JobRequisitionUpdateManyWithWhereWithoutRequestedByInput[]
+    deleteMany?: JobRequisitionScalarWhereInput | JobRequisitionScalarWhereInput[]
+  }
+
+  export type InterviewUncheckedUpdateManyWithoutInterviewerNestedInput = {
+    create?: XOR<InterviewCreateWithoutInterviewerInput, InterviewUncheckedCreateWithoutInterviewerInput> | InterviewCreateWithoutInterviewerInput[] | InterviewUncheckedCreateWithoutInterviewerInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutInterviewerInput | InterviewCreateOrConnectWithoutInterviewerInput[]
+    upsert?: InterviewUpsertWithWhereUniqueWithoutInterviewerInput | InterviewUpsertWithWhereUniqueWithoutInterviewerInput[]
+    createMany?: InterviewCreateManyInterviewerInputEnvelope
+    set?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    disconnect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    delete?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    update?: InterviewUpdateWithWhereUniqueWithoutInterviewerInput | InterviewUpdateWithWhereUniqueWithoutInterviewerInput[]
+    updateMany?: InterviewUpdateManyWithWhereWithoutInterviewerInput | InterviewUpdateManyWithWhereWithoutInterviewerInput[]
+    deleteMany?: InterviewScalarWhereInput | InterviewScalarWhereInput[]
   }
 
   export type EmployeeCreateNestedOneWithoutLeaveBalancesInput = {
@@ -39071,18 +54078,298 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutSalaryRecordsInput, EmployeeUpdateWithoutSalaryRecordsInput>, EmployeeUncheckedUpdateWithoutSalaryRecordsInput>
   }
 
-  export type EmployeeCreateNestedOneWithoutLoansInput = {
-    create?: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutLoansInput
+  export type LoanApplicationCreateNestedManyWithoutLoanTypeInput = {
+    create?: XOR<LoanApplicationCreateWithoutLoanTypeInput, LoanApplicationUncheckedCreateWithoutLoanTypeInput> | LoanApplicationCreateWithoutLoanTypeInput[] | LoanApplicationUncheckedCreateWithoutLoanTypeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutLoanTypeInput | LoanApplicationCreateOrConnectWithoutLoanTypeInput[]
+    createMany?: LoanApplicationCreateManyLoanTypeInputEnvelope
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+  }
+
+  export type LoanApplicationUncheckedCreateNestedManyWithoutLoanTypeInput = {
+    create?: XOR<LoanApplicationCreateWithoutLoanTypeInput, LoanApplicationUncheckedCreateWithoutLoanTypeInput> | LoanApplicationCreateWithoutLoanTypeInput[] | LoanApplicationUncheckedCreateWithoutLoanTypeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutLoanTypeInput | LoanApplicationCreateOrConnectWithoutLoanTypeInput[]
+    createMany?: LoanApplicationCreateManyLoanTypeInputEnvelope
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+  }
+
+  export type LoanApplicationUpdateManyWithoutLoanTypeNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutLoanTypeInput, LoanApplicationUncheckedCreateWithoutLoanTypeInput> | LoanApplicationCreateWithoutLoanTypeInput[] | LoanApplicationUncheckedCreateWithoutLoanTypeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutLoanTypeInput | LoanApplicationCreateOrConnectWithoutLoanTypeInput[]
+    upsert?: LoanApplicationUpsertWithWhereUniqueWithoutLoanTypeInput | LoanApplicationUpsertWithWhereUniqueWithoutLoanTypeInput[]
+    createMany?: LoanApplicationCreateManyLoanTypeInputEnvelope
+    set?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    disconnect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    delete?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    update?: LoanApplicationUpdateWithWhereUniqueWithoutLoanTypeInput | LoanApplicationUpdateWithWhereUniqueWithoutLoanTypeInput[]
+    updateMany?: LoanApplicationUpdateManyWithWhereWithoutLoanTypeInput | LoanApplicationUpdateManyWithWhereWithoutLoanTypeInput[]
+    deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
+  }
+
+  export type LoanApplicationUncheckedUpdateManyWithoutLoanTypeNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutLoanTypeInput, LoanApplicationUncheckedCreateWithoutLoanTypeInput> | LoanApplicationCreateWithoutLoanTypeInput[] | LoanApplicationUncheckedCreateWithoutLoanTypeInput[]
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutLoanTypeInput | LoanApplicationCreateOrConnectWithoutLoanTypeInput[]
+    upsert?: LoanApplicationUpsertWithWhereUniqueWithoutLoanTypeInput | LoanApplicationUpsertWithWhereUniqueWithoutLoanTypeInput[]
+    createMany?: LoanApplicationCreateManyLoanTypeInputEnvelope
+    set?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    disconnect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    delete?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    connect?: LoanApplicationWhereUniqueInput | LoanApplicationWhereUniqueInput[]
+    update?: LoanApplicationUpdateWithWhereUniqueWithoutLoanTypeInput | LoanApplicationUpdateWithWhereUniqueWithoutLoanTypeInput[]
+    updateMany?: LoanApplicationUpdateManyWithWhereWithoutLoanTypeInput | LoanApplicationUpdateManyWithWhereWithoutLoanTypeInput[]
+    deleteMany?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
+  }
+
+  export type EmployeeCreateNestedOneWithoutLoanApplicationsInput = {
+    create?: XOR<EmployeeCreateWithoutLoanApplicationsInput, EmployeeUncheckedCreateWithoutLoanApplicationsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLoanApplicationsInput
     connect?: EmployeeWhereUniqueInput
   }
 
-  export type EmployeeUpdateOneRequiredWithoutLoansNestedInput = {
-    create?: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutLoansInput
-    upsert?: EmployeeUpsertWithoutLoansInput
+  export type LoanTypeCreateNestedOneWithoutApplicationsInput = {
+    create?: XOR<LoanTypeCreateWithoutApplicationsInput, LoanTypeUncheckedCreateWithoutApplicationsInput>
+    connectOrCreate?: LoanTypeCreateOrConnectWithoutApplicationsInput
+    connect?: LoanTypeWhereUniqueInput
+  }
+
+  export type LoanApprovalCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanApprovalCreateWithoutApplicationInput, LoanApprovalUncheckedCreateWithoutApplicationInput> | LoanApprovalCreateWithoutApplicationInput[] | LoanApprovalUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanApprovalCreateOrConnectWithoutApplicationInput | LoanApprovalCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanApprovalCreateManyApplicationInputEnvelope
+    connect?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+  }
+
+  export type LoanDisbursementCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanDisbursementCreateWithoutApplicationInput, LoanDisbursementUncheckedCreateWithoutApplicationInput> | LoanDisbursementCreateWithoutApplicationInput[] | LoanDisbursementUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDisbursementCreateOrConnectWithoutApplicationInput | LoanDisbursementCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanDisbursementCreateManyApplicationInputEnvelope
+    connect?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+  }
+
+  export type LoanInstallmentCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanInstallmentCreateWithoutApplicationInput, LoanInstallmentUncheckedCreateWithoutApplicationInput> | LoanInstallmentCreateWithoutApplicationInput[] | LoanInstallmentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanInstallmentCreateOrConnectWithoutApplicationInput | LoanInstallmentCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanInstallmentCreateManyApplicationInputEnvelope
+    connect?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+  }
+
+  export type LoanDocumentCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanDocumentCreateWithoutApplicationInput, LoanDocumentUncheckedCreateWithoutApplicationInput> | LoanDocumentCreateWithoutApplicationInput[] | LoanDocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDocumentCreateOrConnectWithoutApplicationInput | LoanDocumentCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanDocumentCreateManyApplicationInputEnvelope
+    connect?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+  }
+
+  export type LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanApprovalCreateWithoutApplicationInput, LoanApprovalUncheckedCreateWithoutApplicationInput> | LoanApprovalCreateWithoutApplicationInput[] | LoanApprovalUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanApprovalCreateOrConnectWithoutApplicationInput | LoanApprovalCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanApprovalCreateManyApplicationInputEnvelope
+    connect?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+  }
+
+  export type LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanDisbursementCreateWithoutApplicationInput, LoanDisbursementUncheckedCreateWithoutApplicationInput> | LoanDisbursementCreateWithoutApplicationInput[] | LoanDisbursementUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDisbursementCreateOrConnectWithoutApplicationInput | LoanDisbursementCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanDisbursementCreateManyApplicationInputEnvelope
+    connect?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+  }
+
+  export type LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanInstallmentCreateWithoutApplicationInput, LoanInstallmentUncheckedCreateWithoutApplicationInput> | LoanInstallmentCreateWithoutApplicationInput[] | LoanInstallmentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanInstallmentCreateOrConnectWithoutApplicationInput | LoanInstallmentCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanInstallmentCreateManyApplicationInputEnvelope
+    connect?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+  }
+
+  export type LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput = {
+    create?: XOR<LoanDocumentCreateWithoutApplicationInput, LoanDocumentUncheckedCreateWithoutApplicationInput> | LoanDocumentCreateWithoutApplicationInput[] | LoanDocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDocumentCreateOrConnectWithoutApplicationInput | LoanDocumentCreateOrConnectWithoutApplicationInput[]
+    createMany?: LoanDocumentCreateManyApplicationInputEnvelope
+    connect?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutLoanApplicationsInput, EmployeeUncheckedCreateWithoutLoanApplicationsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutLoanApplicationsInput
+    upsert?: EmployeeUpsertWithoutLoanApplicationsInput
     connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLoansInput, EmployeeUpdateWithoutLoansInput>, EmployeeUncheckedUpdateWithoutLoansInput>
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutLoanApplicationsInput, EmployeeUpdateWithoutLoanApplicationsInput>, EmployeeUncheckedUpdateWithoutLoanApplicationsInput>
+  }
+
+  export type LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput = {
+    create?: XOR<LoanTypeCreateWithoutApplicationsInput, LoanTypeUncheckedCreateWithoutApplicationsInput>
+    connectOrCreate?: LoanTypeCreateOrConnectWithoutApplicationsInput
+    upsert?: LoanTypeUpsertWithoutApplicationsInput
+    connect?: LoanTypeWhereUniqueInput
+    update?: XOR<XOR<LoanTypeUpdateToOneWithWhereWithoutApplicationsInput, LoanTypeUpdateWithoutApplicationsInput>, LoanTypeUncheckedUpdateWithoutApplicationsInput>
+  }
+
+  export type LoanApprovalUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanApprovalCreateWithoutApplicationInput, LoanApprovalUncheckedCreateWithoutApplicationInput> | LoanApprovalCreateWithoutApplicationInput[] | LoanApprovalUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanApprovalCreateOrConnectWithoutApplicationInput | LoanApprovalCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanApprovalUpsertWithWhereUniqueWithoutApplicationInput | LoanApprovalUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanApprovalCreateManyApplicationInputEnvelope
+    set?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    disconnect?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    delete?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    connect?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    update?: LoanApprovalUpdateWithWhereUniqueWithoutApplicationInput | LoanApprovalUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanApprovalUpdateManyWithWhereWithoutApplicationInput | LoanApprovalUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanApprovalScalarWhereInput | LoanApprovalScalarWhereInput[]
+  }
+
+  export type LoanDisbursementUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanDisbursementCreateWithoutApplicationInput, LoanDisbursementUncheckedCreateWithoutApplicationInput> | LoanDisbursementCreateWithoutApplicationInput[] | LoanDisbursementUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDisbursementCreateOrConnectWithoutApplicationInput | LoanDisbursementCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanDisbursementUpsertWithWhereUniqueWithoutApplicationInput | LoanDisbursementUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanDisbursementCreateManyApplicationInputEnvelope
+    set?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    disconnect?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    delete?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    connect?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    update?: LoanDisbursementUpdateWithWhereUniqueWithoutApplicationInput | LoanDisbursementUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanDisbursementUpdateManyWithWhereWithoutApplicationInput | LoanDisbursementUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanDisbursementScalarWhereInput | LoanDisbursementScalarWhereInput[]
+  }
+
+  export type LoanInstallmentUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanInstallmentCreateWithoutApplicationInput, LoanInstallmentUncheckedCreateWithoutApplicationInput> | LoanInstallmentCreateWithoutApplicationInput[] | LoanInstallmentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanInstallmentCreateOrConnectWithoutApplicationInput | LoanInstallmentCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanInstallmentUpsertWithWhereUniqueWithoutApplicationInput | LoanInstallmentUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanInstallmentCreateManyApplicationInputEnvelope
+    set?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    disconnect?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    delete?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    connect?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    update?: LoanInstallmentUpdateWithWhereUniqueWithoutApplicationInput | LoanInstallmentUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanInstallmentUpdateManyWithWhereWithoutApplicationInput | LoanInstallmentUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanInstallmentScalarWhereInput | LoanInstallmentScalarWhereInput[]
+  }
+
+  export type LoanDocumentUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanDocumentCreateWithoutApplicationInput, LoanDocumentUncheckedCreateWithoutApplicationInput> | LoanDocumentCreateWithoutApplicationInput[] | LoanDocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDocumentCreateOrConnectWithoutApplicationInput | LoanDocumentCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanDocumentUpsertWithWhereUniqueWithoutApplicationInput | LoanDocumentUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanDocumentCreateManyApplicationInputEnvelope
+    set?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    disconnect?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    delete?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    connect?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    update?: LoanDocumentUpdateWithWhereUniqueWithoutApplicationInput | LoanDocumentUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanDocumentUpdateManyWithWhereWithoutApplicationInput | LoanDocumentUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanDocumentScalarWhereInput | LoanDocumentScalarWhereInput[]
+  }
+
+  export type LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanApprovalCreateWithoutApplicationInput, LoanApprovalUncheckedCreateWithoutApplicationInput> | LoanApprovalCreateWithoutApplicationInput[] | LoanApprovalUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanApprovalCreateOrConnectWithoutApplicationInput | LoanApprovalCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanApprovalUpsertWithWhereUniqueWithoutApplicationInput | LoanApprovalUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanApprovalCreateManyApplicationInputEnvelope
+    set?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    disconnect?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    delete?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    connect?: LoanApprovalWhereUniqueInput | LoanApprovalWhereUniqueInput[]
+    update?: LoanApprovalUpdateWithWhereUniqueWithoutApplicationInput | LoanApprovalUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanApprovalUpdateManyWithWhereWithoutApplicationInput | LoanApprovalUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanApprovalScalarWhereInput | LoanApprovalScalarWhereInput[]
+  }
+
+  export type LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanDisbursementCreateWithoutApplicationInput, LoanDisbursementUncheckedCreateWithoutApplicationInput> | LoanDisbursementCreateWithoutApplicationInput[] | LoanDisbursementUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDisbursementCreateOrConnectWithoutApplicationInput | LoanDisbursementCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanDisbursementUpsertWithWhereUniqueWithoutApplicationInput | LoanDisbursementUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanDisbursementCreateManyApplicationInputEnvelope
+    set?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    disconnect?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    delete?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    connect?: LoanDisbursementWhereUniqueInput | LoanDisbursementWhereUniqueInput[]
+    update?: LoanDisbursementUpdateWithWhereUniqueWithoutApplicationInput | LoanDisbursementUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanDisbursementUpdateManyWithWhereWithoutApplicationInput | LoanDisbursementUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanDisbursementScalarWhereInput | LoanDisbursementScalarWhereInput[]
+  }
+
+  export type LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanInstallmentCreateWithoutApplicationInput, LoanInstallmentUncheckedCreateWithoutApplicationInput> | LoanInstallmentCreateWithoutApplicationInput[] | LoanInstallmentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanInstallmentCreateOrConnectWithoutApplicationInput | LoanInstallmentCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanInstallmentUpsertWithWhereUniqueWithoutApplicationInput | LoanInstallmentUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanInstallmentCreateManyApplicationInputEnvelope
+    set?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    disconnect?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    delete?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    connect?: LoanInstallmentWhereUniqueInput | LoanInstallmentWhereUniqueInput[]
+    update?: LoanInstallmentUpdateWithWhereUniqueWithoutApplicationInput | LoanInstallmentUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanInstallmentUpdateManyWithWhereWithoutApplicationInput | LoanInstallmentUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanInstallmentScalarWhereInput | LoanInstallmentScalarWhereInput[]
+  }
+
+  export type LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput = {
+    create?: XOR<LoanDocumentCreateWithoutApplicationInput, LoanDocumentUncheckedCreateWithoutApplicationInput> | LoanDocumentCreateWithoutApplicationInput[] | LoanDocumentUncheckedCreateWithoutApplicationInput[]
+    connectOrCreate?: LoanDocumentCreateOrConnectWithoutApplicationInput | LoanDocumentCreateOrConnectWithoutApplicationInput[]
+    upsert?: LoanDocumentUpsertWithWhereUniqueWithoutApplicationInput | LoanDocumentUpsertWithWhereUniqueWithoutApplicationInput[]
+    createMany?: LoanDocumentCreateManyApplicationInputEnvelope
+    set?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    disconnect?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    delete?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    connect?: LoanDocumentWhereUniqueInput | LoanDocumentWhereUniqueInput[]
+    update?: LoanDocumentUpdateWithWhereUniqueWithoutApplicationInput | LoanDocumentUpdateWithWhereUniqueWithoutApplicationInput[]
+    updateMany?: LoanDocumentUpdateManyWithWhereWithoutApplicationInput | LoanDocumentUpdateManyWithWhereWithoutApplicationInput[]
+    deleteMany?: LoanDocumentScalarWhereInput | LoanDocumentScalarWhereInput[]
+  }
+
+  export type LoanApplicationCreateNestedOneWithoutApprovalsInput = {
+    create?: XOR<LoanApplicationCreateWithoutApprovalsInput, LoanApplicationUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutApprovalsInput
+    connect?: LoanApplicationWhereUniqueInput
+  }
+
+  export type LoanApplicationUpdateOneRequiredWithoutApprovalsNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutApprovalsInput, LoanApplicationUncheckedCreateWithoutApprovalsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutApprovalsInput
+    upsert?: LoanApplicationUpsertWithoutApprovalsInput
+    connect?: LoanApplicationWhereUniqueInput
+    update?: XOR<XOR<LoanApplicationUpdateToOneWithWhereWithoutApprovalsInput, LoanApplicationUpdateWithoutApprovalsInput>, LoanApplicationUncheckedUpdateWithoutApprovalsInput>
+  }
+
+  export type LoanApplicationCreateNestedOneWithoutDisbursementsInput = {
+    create?: XOR<LoanApplicationCreateWithoutDisbursementsInput, LoanApplicationUncheckedCreateWithoutDisbursementsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutDisbursementsInput
+    connect?: LoanApplicationWhereUniqueInput
+  }
+
+  export type LoanApplicationUpdateOneRequiredWithoutDisbursementsNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutDisbursementsInput, LoanApplicationUncheckedCreateWithoutDisbursementsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutDisbursementsInput
+    upsert?: LoanApplicationUpsertWithoutDisbursementsInput
+    connect?: LoanApplicationWhereUniqueInput
+    update?: XOR<XOR<LoanApplicationUpdateToOneWithWhereWithoutDisbursementsInput, LoanApplicationUpdateWithoutDisbursementsInput>, LoanApplicationUncheckedUpdateWithoutDisbursementsInput>
+  }
+
+  export type LoanApplicationCreateNestedOneWithoutInstallmentsInput = {
+    create?: XOR<LoanApplicationCreateWithoutInstallmentsInput, LoanApplicationUncheckedCreateWithoutInstallmentsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutInstallmentsInput
+    connect?: LoanApplicationWhereUniqueInput
+  }
+
+  export type LoanApplicationUpdateOneRequiredWithoutInstallmentsNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutInstallmentsInput, LoanApplicationUncheckedCreateWithoutInstallmentsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutInstallmentsInput
+    upsert?: LoanApplicationUpsertWithoutInstallmentsInput
+    connect?: LoanApplicationWhereUniqueInput
+    update?: XOR<XOR<LoanApplicationUpdateToOneWithWhereWithoutInstallmentsInput, LoanApplicationUpdateWithoutInstallmentsInput>, LoanApplicationUncheckedUpdateWithoutInstallmentsInput>
+  }
+
+  export type LoanApplicationCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<LoanApplicationCreateWithoutDocumentsInput, LoanApplicationUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutDocumentsInput
+    connect?: LoanApplicationWhereUniqueInput
+  }
+
+  export type LoanApplicationUpdateOneRequiredWithoutDocumentsNestedInput = {
+    create?: XOR<LoanApplicationCreateWithoutDocumentsInput, LoanApplicationUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: LoanApplicationCreateOrConnectWithoutDocumentsInput
+    upsert?: LoanApplicationUpsertWithoutDocumentsInput
+    connect?: LoanApplicationWhereUniqueInput
+    update?: XOR<XOR<LoanApplicationUpdateToOneWithWhereWithoutDocumentsInput, LoanApplicationUpdateWithoutDocumentsInput>, LoanApplicationUncheckedUpdateWithoutDocumentsInput>
   }
 
   export type EmployeeCreateNestedOneWithoutOvertimeInput = {
@@ -39401,6 +54688,192 @@ export namespace Prisma {
     update?: XOR<XOR<LetterTemplateUpdateToOneWithWhereWithoutLettersInput, LetterTemplateUpdateWithoutLettersInput>, LetterTemplateUncheckedUpdateWithoutLettersInput>
   }
 
+  export type EmployeeCreateNestedOneWithoutRequestedJobsInput = {
+    create?: XOR<EmployeeCreateWithoutRequestedJobsInput, EmployeeUncheckedCreateWithoutRequestedJobsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutRequestedJobsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type CandidateCreateNestedManyWithoutJobInput = {
+    create?: XOR<CandidateCreateWithoutJobInput, CandidateUncheckedCreateWithoutJobInput> | CandidateCreateWithoutJobInput[] | CandidateUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobInput | CandidateCreateOrConnectWithoutJobInput[]
+    createMany?: CandidateCreateManyJobInputEnvelope
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+  }
+
+  export type CandidateUncheckedCreateNestedManyWithoutJobInput = {
+    create?: XOR<CandidateCreateWithoutJobInput, CandidateUncheckedCreateWithoutJobInput> | CandidateCreateWithoutJobInput[] | CandidateUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobInput | CandidateCreateOrConnectWithoutJobInput[]
+    createMany?: CandidateCreateManyJobInputEnvelope
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutRequestedJobsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutRequestedJobsInput, EmployeeUncheckedCreateWithoutRequestedJobsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutRequestedJobsInput
+    upsert?: EmployeeUpsertWithoutRequestedJobsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutRequestedJobsInput, EmployeeUpdateWithoutRequestedJobsInput>, EmployeeUncheckedUpdateWithoutRequestedJobsInput>
+  }
+
+  export type CandidateUpdateManyWithoutJobNestedInput = {
+    create?: XOR<CandidateCreateWithoutJobInput, CandidateUncheckedCreateWithoutJobInput> | CandidateCreateWithoutJobInput[] | CandidateUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobInput | CandidateCreateOrConnectWithoutJobInput[]
+    upsert?: CandidateUpsertWithWhereUniqueWithoutJobInput | CandidateUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: CandidateCreateManyJobInputEnvelope
+    set?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    disconnect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    delete?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    update?: CandidateUpdateWithWhereUniqueWithoutJobInput | CandidateUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: CandidateUpdateManyWithWhereWithoutJobInput | CandidateUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+  }
+
+  export type CandidateUncheckedUpdateManyWithoutJobNestedInput = {
+    create?: XOR<CandidateCreateWithoutJobInput, CandidateUncheckedCreateWithoutJobInput> | CandidateCreateWithoutJobInput[] | CandidateUncheckedCreateWithoutJobInput[]
+    connectOrCreate?: CandidateCreateOrConnectWithoutJobInput | CandidateCreateOrConnectWithoutJobInput[]
+    upsert?: CandidateUpsertWithWhereUniqueWithoutJobInput | CandidateUpsertWithWhereUniqueWithoutJobInput[]
+    createMany?: CandidateCreateManyJobInputEnvelope
+    set?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    disconnect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    delete?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    connect?: CandidateWhereUniqueInput | CandidateWhereUniqueInput[]
+    update?: CandidateUpdateWithWhereUniqueWithoutJobInput | CandidateUpdateWithWhereUniqueWithoutJobInput[]
+    updateMany?: CandidateUpdateManyWithWhereWithoutJobInput | CandidateUpdateManyWithWhereWithoutJobInput[]
+    deleteMany?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+  }
+
+  export type JobRequisitionCreateNestedOneWithoutCandidatesInput = {
+    create?: XOR<JobRequisitionCreateWithoutCandidatesInput, JobRequisitionUncheckedCreateWithoutCandidatesInput>
+    connectOrCreate?: JobRequisitionCreateOrConnectWithoutCandidatesInput
+    connect?: JobRequisitionWhereUniqueInput
+  }
+
+  export type InterviewCreateNestedManyWithoutCandidateInput = {
+    create?: XOR<InterviewCreateWithoutCandidateInput, InterviewUncheckedCreateWithoutCandidateInput> | InterviewCreateWithoutCandidateInput[] | InterviewUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutCandidateInput | InterviewCreateOrConnectWithoutCandidateInput[]
+    createMany?: InterviewCreateManyCandidateInputEnvelope
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+  }
+
+  export type OfferLetterCreateNestedOneWithoutCandidateInput = {
+    create?: XOR<OfferLetterCreateWithoutCandidateInput, OfferLetterUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: OfferLetterCreateOrConnectWithoutCandidateInput
+    connect?: OfferLetterWhereUniqueInput
+  }
+
+  export type InterviewUncheckedCreateNestedManyWithoutCandidateInput = {
+    create?: XOR<InterviewCreateWithoutCandidateInput, InterviewUncheckedCreateWithoutCandidateInput> | InterviewCreateWithoutCandidateInput[] | InterviewUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutCandidateInput | InterviewCreateOrConnectWithoutCandidateInput[]
+    createMany?: InterviewCreateManyCandidateInputEnvelope
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+  }
+
+  export type OfferLetterUncheckedCreateNestedOneWithoutCandidateInput = {
+    create?: XOR<OfferLetterCreateWithoutCandidateInput, OfferLetterUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: OfferLetterCreateOrConnectWithoutCandidateInput
+    connect?: OfferLetterWhereUniqueInput
+  }
+
+  export type JobRequisitionUpdateOneRequiredWithoutCandidatesNestedInput = {
+    create?: XOR<JobRequisitionCreateWithoutCandidatesInput, JobRequisitionUncheckedCreateWithoutCandidatesInput>
+    connectOrCreate?: JobRequisitionCreateOrConnectWithoutCandidatesInput
+    upsert?: JobRequisitionUpsertWithoutCandidatesInput
+    connect?: JobRequisitionWhereUniqueInput
+    update?: XOR<XOR<JobRequisitionUpdateToOneWithWhereWithoutCandidatesInput, JobRequisitionUpdateWithoutCandidatesInput>, JobRequisitionUncheckedUpdateWithoutCandidatesInput>
+  }
+
+  export type InterviewUpdateManyWithoutCandidateNestedInput = {
+    create?: XOR<InterviewCreateWithoutCandidateInput, InterviewUncheckedCreateWithoutCandidateInput> | InterviewCreateWithoutCandidateInput[] | InterviewUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutCandidateInput | InterviewCreateOrConnectWithoutCandidateInput[]
+    upsert?: InterviewUpsertWithWhereUniqueWithoutCandidateInput | InterviewUpsertWithWhereUniqueWithoutCandidateInput[]
+    createMany?: InterviewCreateManyCandidateInputEnvelope
+    set?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    disconnect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    delete?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    update?: InterviewUpdateWithWhereUniqueWithoutCandidateInput | InterviewUpdateWithWhereUniqueWithoutCandidateInput[]
+    updateMany?: InterviewUpdateManyWithWhereWithoutCandidateInput | InterviewUpdateManyWithWhereWithoutCandidateInput[]
+    deleteMany?: InterviewScalarWhereInput | InterviewScalarWhereInput[]
+  }
+
+  export type OfferLetterUpdateOneWithoutCandidateNestedInput = {
+    create?: XOR<OfferLetterCreateWithoutCandidateInput, OfferLetterUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: OfferLetterCreateOrConnectWithoutCandidateInput
+    upsert?: OfferLetterUpsertWithoutCandidateInput
+    disconnect?: OfferLetterWhereInput | boolean
+    delete?: OfferLetterWhereInput | boolean
+    connect?: OfferLetterWhereUniqueInput
+    update?: XOR<XOR<OfferLetterUpdateToOneWithWhereWithoutCandidateInput, OfferLetterUpdateWithoutCandidateInput>, OfferLetterUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type InterviewUncheckedUpdateManyWithoutCandidateNestedInput = {
+    create?: XOR<InterviewCreateWithoutCandidateInput, InterviewUncheckedCreateWithoutCandidateInput> | InterviewCreateWithoutCandidateInput[] | InterviewUncheckedCreateWithoutCandidateInput[]
+    connectOrCreate?: InterviewCreateOrConnectWithoutCandidateInput | InterviewCreateOrConnectWithoutCandidateInput[]
+    upsert?: InterviewUpsertWithWhereUniqueWithoutCandidateInput | InterviewUpsertWithWhereUniqueWithoutCandidateInput[]
+    createMany?: InterviewCreateManyCandidateInputEnvelope
+    set?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    disconnect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    delete?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    connect?: InterviewWhereUniqueInput | InterviewWhereUniqueInput[]
+    update?: InterviewUpdateWithWhereUniqueWithoutCandidateInput | InterviewUpdateWithWhereUniqueWithoutCandidateInput[]
+    updateMany?: InterviewUpdateManyWithWhereWithoutCandidateInput | InterviewUpdateManyWithWhereWithoutCandidateInput[]
+    deleteMany?: InterviewScalarWhereInput | InterviewScalarWhereInput[]
+  }
+
+  export type OfferLetterUncheckedUpdateOneWithoutCandidateNestedInput = {
+    create?: XOR<OfferLetterCreateWithoutCandidateInput, OfferLetterUncheckedCreateWithoutCandidateInput>
+    connectOrCreate?: OfferLetterCreateOrConnectWithoutCandidateInput
+    upsert?: OfferLetterUpsertWithoutCandidateInput
+    disconnect?: OfferLetterWhereInput | boolean
+    delete?: OfferLetterWhereInput | boolean
+    connect?: OfferLetterWhereUniqueInput
+    update?: XOR<XOR<OfferLetterUpdateToOneWithWhereWithoutCandidateInput, OfferLetterUpdateWithoutCandidateInput>, OfferLetterUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type CandidateCreateNestedOneWithoutInterviewsInput = {
+    create?: XOR<CandidateCreateWithoutInterviewsInput, CandidateUncheckedCreateWithoutInterviewsInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutInterviewsInput
+    connect?: CandidateWhereUniqueInput
+  }
+
+  export type EmployeeCreateNestedOneWithoutInterviewsInput = {
+    create?: XOR<EmployeeCreateWithoutInterviewsInput, EmployeeUncheckedCreateWithoutInterviewsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutInterviewsInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type CandidateUpdateOneRequiredWithoutInterviewsNestedInput = {
+    create?: XOR<CandidateCreateWithoutInterviewsInput, CandidateUncheckedCreateWithoutInterviewsInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutInterviewsInput
+    upsert?: CandidateUpsertWithoutInterviewsInput
+    connect?: CandidateWhereUniqueInput
+    update?: XOR<XOR<CandidateUpdateToOneWithWhereWithoutInterviewsInput, CandidateUpdateWithoutInterviewsInput>, CandidateUncheckedUpdateWithoutInterviewsInput>
+  }
+
+  export type EmployeeUpdateOneRequiredWithoutInterviewsNestedInput = {
+    create?: XOR<EmployeeCreateWithoutInterviewsInput, EmployeeUncheckedCreateWithoutInterviewsInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutInterviewsInput
+    upsert?: EmployeeUpsertWithoutInterviewsInput
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutInterviewsInput, EmployeeUpdateWithoutInterviewsInput>, EmployeeUncheckedUpdateWithoutInterviewsInput>
+  }
+
+  export type CandidateCreateNestedOneWithoutOfferInput = {
+    create?: XOR<CandidateCreateWithoutOfferInput, CandidateUncheckedCreateWithoutOfferInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutOfferInput
+    connect?: CandidateWhereUniqueInput
+  }
+
+  export type CandidateUpdateOneRequiredWithoutOfferNestedInput = {
+    create?: XOR<CandidateCreateWithoutOfferInput, CandidateUncheckedCreateWithoutOfferInput>
+    connectOrCreate?: CandidateCreateOrConnectWithoutOfferInput
+    upsert?: CandidateUpsertWithoutOfferInput
+    connect?: CandidateWhereUniqueInput
+    update?: XOR<XOR<CandidateUpdateToOneWithWhereWithoutOfferInput, CandidateUpdateWithoutOfferInput>, CandidateUncheckedUpdateWithoutOfferInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -39715,10 +55188,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutUserInput = {
@@ -39780,9 +55255,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutUserInput = {
@@ -39999,10 +55476,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutUserInput = {
@@ -40064,9 +55543,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type RoleRequestUpsertWithWhereUniqueWithoutUserInput = {
@@ -40846,35 +56327,49 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type LoanCreateWithoutEmployeeInput = {
+  export type LoanApplicationCreateWithoutEmployeeInput = {
     id?: string
-    amount: number
-    issueDate: Date | string
-    installmentAmount: number
-    remainingBalance: number
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
     status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    loanType: LoanTypeCreateNestedOneWithoutApplicationsInput
+    approvals?: LoanApprovalCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentCreateNestedManyWithoutApplicationInput
   }
 
-  export type LoanUncheckedCreateWithoutEmployeeInput = {
+  export type LoanApplicationUncheckedCreateWithoutEmployeeInput = {
     id?: string
-    amount: number
-    issueDate: Date | string
-    installmentAmount: number
-    remainingBalance: number
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
     status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    approvals?: LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput
   }
 
-  export type LoanCreateOrConnectWithoutEmployeeInput = {
-    where: LoanWhereUniqueInput
-    create: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput>
+  export type LoanApplicationCreateOrConnectWithoutEmployeeInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutEmployeeInput, LoanApplicationUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type LoanCreateManyEmployeeInputEnvelope = {
-    data: LoanCreateManyEmployeeInput | LoanCreateManyEmployeeInput[]
+  export type LoanApplicationCreateManyEmployeeInputEnvelope = {
+    data: LoanApplicationCreateManyEmployeeInput | LoanApplicationCreateManyEmployeeInput[]
     skipDuplicates?: boolean
   }
 
@@ -40969,9 +56464,11 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutReporteesInput = {
@@ -41034,8 +56531,10 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutReporteesInput = {
@@ -41102,9 +56601,11 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutManagerInput = {
@@ -41166,9 +56667,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutManagerInput = {
@@ -41178,6 +56681,84 @@ export namespace Prisma {
 
   export type EmployeeCreateManyManagerInputEnvelope = {
     data: EmployeeCreateManyManagerInput | EmployeeCreateManyManagerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type JobRequisitionCreateWithoutRequestedByInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidates?: CandidateCreateNestedManyWithoutJobInput
+  }
+
+  export type JobRequisitionUncheckedCreateWithoutRequestedByInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidates?: CandidateUncheckedCreateNestedManyWithoutJobInput
+  }
+
+  export type JobRequisitionCreateOrConnectWithoutRequestedByInput = {
+    where: JobRequisitionWhereUniqueInput
+    create: XOR<JobRequisitionCreateWithoutRequestedByInput, JobRequisitionUncheckedCreateWithoutRequestedByInput>
+  }
+
+  export type JobRequisitionCreateManyRequestedByInputEnvelope = {
+    data: JobRequisitionCreateManyRequestedByInput | JobRequisitionCreateManyRequestedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InterviewCreateWithoutInterviewerInput = {
+    id?: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    candidate: CandidateCreateNestedOneWithoutInterviewsInput
+  }
+
+  export type InterviewUncheckedCreateWithoutInterviewerInput = {
+    id?: string
+    candidateId: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterviewCreateOrConnectWithoutInterviewerInput = {
+    where: InterviewWhereUniqueInput
+    create: XOR<InterviewCreateWithoutInterviewerInput, InterviewUncheckedCreateWithoutInterviewerInput>
+  }
+
+  export type InterviewCreateManyInterviewerInputEnvelope = {
+    data: InterviewCreateManyInterviewerInput | InterviewCreateManyInterviewerInput[]
     skipDuplicates?: boolean
   }
 
@@ -41647,35 +57228,38 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
-  export type LoanUpsertWithWhereUniqueWithoutEmployeeInput = {
-    where: LoanWhereUniqueInput
-    update: XOR<LoanUpdateWithoutEmployeeInput, LoanUncheckedUpdateWithoutEmployeeInput>
-    create: XOR<LoanCreateWithoutEmployeeInput, LoanUncheckedCreateWithoutEmployeeInput>
+  export type LoanApplicationUpsertWithWhereUniqueWithoutEmployeeInput = {
+    where: LoanApplicationWhereUniqueInput
+    update: XOR<LoanApplicationUpdateWithoutEmployeeInput, LoanApplicationUncheckedUpdateWithoutEmployeeInput>
+    create: XOR<LoanApplicationCreateWithoutEmployeeInput, LoanApplicationUncheckedCreateWithoutEmployeeInput>
   }
 
-  export type LoanUpdateWithWhereUniqueWithoutEmployeeInput = {
-    where: LoanWhereUniqueInput
-    data: XOR<LoanUpdateWithoutEmployeeInput, LoanUncheckedUpdateWithoutEmployeeInput>
+  export type LoanApplicationUpdateWithWhereUniqueWithoutEmployeeInput = {
+    where: LoanApplicationWhereUniqueInput
+    data: XOR<LoanApplicationUpdateWithoutEmployeeInput, LoanApplicationUncheckedUpdateWithoutEmployeeInput>
   }
 
-  export type LoanUpdateManyWithWhereWithoutEmployeeInput = {
-    where: LoanScalarWhereInput
-    data: XOR<LoanUpdateManyMutationInput, LoanUncheckedUpdateManyWithoutEmployeeInput>
+  export type LoanApplicationUpdateManyWithWhereWithoutEmployeeInput = {
+    where: LoanApplicationScalarWhereInput
+    data: XOR<LoanApplicationUpdateManyMutationInput, LoanApplicationUncheckedUpdateManyWithoutEmployeeInput>
   }
 
-  export type LoanScalarWhereInput = {
-    AND?: LoanScalarWhereInput | LoanScalarWhereInput[]
-    OR?: LoanScalarWhereInput[]
-    NOT?: LoanScalarWhereInput | LoanScalarWhereInput[]
-    id?: StringFilter<"Loan"> | string
-    employeeId?: StringFilter<"Loan"> | string
-    amount?: FloatFilter<"Loan"> | number
-    issueDate?: DateTimeFilter<"Loan"> | Date | string
-    installmentAmount?: FloatFilter<"Loan"> | number
-    remainingBalance?: FloatFilter<"Loan"> | number
-    status?: StringFilter<"Loan"> | string
-    createdAt?: DateTimeFilter<"Loan"> | Date | string
-    updatedAt?: DateTimeFilter<"Loan"> | Date | string
+  export type LoanApplicationScalarWhereInput = {
+    AND?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
+    OR?: LoanApplicationScalarWhereInput[]
+    NOT?: LoanApplicationScalarWhereInput | LoanApplicationScalarWhereInput[]
+    id?: StringFilter<"LoanApplication"> | string
+    employeeId?: StringFilter<"LoanApplication"> | string
+    loanTypeId?: StringFilter<"LoanApplication"> | string
+    requestedAmount?: FloatFilter<"LoanApplication"> | number
+    repaymentMonths?: IntFilter<"LoanApplication"> | number
+    reason?: StringNullableFilter<"LoanApplication"> | string | null
+    status?: StringFilter<"LoanApplication"> | string
+    managerStatus?: StringFilter<"LoanApplication"> | string
+    hrStatus?: StringFilter<"LoanApplication"> | string
+    financeStatus?: StringFilter<"LoanApplication"> | string
+    createdAt?: DateTimeFilter<"LoanApplication"> | Date | string
+    updatedAt?: DateTimeFilter<"LoanApplication"> | Date | string
   }
 
   export type OvertimeUpsertWithWhereUniqueWithoutEmployeeInput = {
@@ -41779,9 +57363,11 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutReporteesInput = {
@@ -41844,8 +57430,10 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUpsertWithWhereUniqueWithoutManagerInput = {
@@ -41917,6 +57505,74 @@ export namespace Prisma {
     managerId?: StringNullableFilter<"Employee"> | string | null
   }
 
+  export type JobRequisitionUpsertWithWhereUniqueWithoutRequestedByInput = {
+    where: JobRequisitionWhereUniqueInput
+    update: XOR<JobRequisitionUpdateWithoutRequestedByInput, JobRequisitionUncheckedUpdateWithoutRequestedByInput>
+    create: XOR<JobRequisitionCreateWithoutRequestedByInput, JobRequisitionUncheckedCreateWithoutRequestedByInput>
+  }
+
+  export type JobRequisitionUpdateWithWhereUniqueWithoutRequestedByInput = {
+    where: JobRequisitionWhereUniqueInput
+    data: XOR<JobRequisitionUpdateWithoutRequestedByInput, JobRequisitionUncheckedUpdateWithoutRequestedByInput>
+  }
+
+  export type JobRequisitionUpdateManyWithWhereWithoutRequestedByInput = {
+    where: JobRequisitionScalarWhereInput
+    data: XOR<JobRequisitionUpdateManyMutationInput, JobRequisitionUncheckedUpdateManyWithoutRequestedByInput>
+  }
+
+  export type JobRequisitionScalarWhereInput = {
+    AND?: JobRequisitionScalarWhereInput | JobRequisitionScalarWhereInput[]
+    OR?: JobRequisitionScalarWhereInput[]
+    NOT?: JobRequisitionScalarWhereInput | JobRequisitionScalarWhereInput[]
+    id?: StringFilter<"JobRequisition"> | string
+    title?: StringFilter<"JobRequisition"> | string
+    department?: StringFilter<"JobRequisition"> | string
+    location?: StringNullableFilter<"JobRequisition"> | string | null
+    employmentType?: StringFilter<"JobRequisition"> | string
+    positionsCount?: IntFilter<"JobRequisition"> | number
+    status?: StringFilter<"JobRequisition"> | string
+    description?: StringNullableFilter<"JobRequisition"> | string | null
+    requirements?: StringNullableFilter<"JobRequisition"> | string | null
+    minSalary?: FloatNullableFilter<"JobRequisition"> | number | null
+    maxSalary?: FloatNullableFilter<"JobRequisition"> | number | null
+    requestedById?: StringFilter<"JobRequisition"> | string
+    createdAt?: DateTimeFilter<"JobRequisition"> | Date | string
+    updatedAt?: DateTimeFilter<"JobRequisition"> | Date | string
+  }
+
+  export type InterviewUpsertWithWhereUniqueWithoutInterviewerInput = {
+    where: InterviewWhereUniqueInput
+    update: XOR<InterviewUpdateWithoutInterviewerInput, InterviewUncheckedUpdateWithoutInterviewerInput>
+    create: XOR<InterviewCreateWithoutInterviewerInput, InterviewUncheckedCreateWithoutInterviewerInput>
+  }
+
+  export type InterviewUpdateWithWhereUniqueWithoutInterviewerInput = {
+    where: InterviewWhereUniqueInput
+    data: XOR<InterviewUpdateWithoutInterviewerInput, InterviewUncheckedUpdateWithoutInterviewerInput>
+  }
+
+  export type InterviewUpdateManyWithWhereWithoutInterviewerInput = {
+    where: InterviewScalarWhereInput
+    data: XOR<InterviewUpdateManyMutationInput, InterviewUncheckedUpdateManyWithoutInterviewerInput>
+  }
+
+  export type InterviewScalarWhereInput = {
+    AND?: InterviewScalarWhereInput | InterviewScalarWhereInput[]
+    OR?: InterviewScalarWhereInput[]
+    NOT?: InterviewScalarWhereInput | InterviewScalarWhereInput[]
+    id?: StringFilter<"Interview"> | string
+    candidateId?: StringFilter<"Interview"> | string
+    interviewerId?: StringFilter<"Interview"> | string
+    scheduledAt?: DateTimeFilter<"Interview"> | Date | string
+    durationMins?: IntFilter<"Interview"> | number
+    status?: StringFilter<"Interview"> | string
+    feedback?: StringNullableFilter<"Interview"> | string | null
+    rating?: IntNullableFilter<"Interview"> | number | null
+    createdAt?: DateTimeFilter<"Interview"> | Date | string
+    updatedAt?: DateTimeFilter<"Interview"> | Date | string
+  }
+
   export type EmployeeCreateWithoutLeaveBalancesInput = {
     id?: string
     employeeCode?: string | null
@@ -41975,10 +57631,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveBalancesInput = {
@@ -42040,9 +57698,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveBalancesInput = {
@@ -42119,10 +57779,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveBalancesInput = {
@@ -42184,9 +57846,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeCreateWithoutNotificationsInput = {
@@ -42247,10 +57911,12 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutNotificationsInput = {
@@ -42312,9 +57978,11 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutNotificationsInput = {
@@ -42391,10 +58059,12 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutNotificationsInput = {
@@ -42456,9 +58126,11 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeCreateWithoutAttendanceInput = {
@@ -42519,10 +58191,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttendanceInput = {
@@ -42584,9 +58258,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttendanceInput = {
@@ -42716,10 +58392,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttendanceInput = {
@@ -42781,9 +58459,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type ShiftUpsertWithoutAttendanceInput = {
@@ -42904,10 +58584,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutShiftInput = {
@@ -42969,9 +58651,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutShiftInput = {
@@ -43184,10 +58868,12 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutAuditLogsInput = {
@@ -43249,9 +58935,11 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutAuditLogsInput = {
@@ -43328,10 +59016,12 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAuditLogsInput = {
@@ -43393,9 +59083,11 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeCreateWithoutLeaveRequestsInput = {
@@ -43456,10 +59148,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLeaveRequestsInput = {
@@ -43521,9 +59215,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLeaveRequestsInput = {
@@ -43674,10 +59370,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLeaveRequestsInput = {
@@ -43739,9 +59437,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type UserUpsertWithoutApprovedLeavesManagerInput = {
@@ -43888,10 +59588,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryStructureInput = {
@@ -43953,9 +59655,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryStructureInput = {
@@ -44032,10 +59736,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryStructureInput = {
@@ -44097,9 +59803,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeCreateWithoutSalaryRecordsInput = {
@@ -44160,10 +59868,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutSalaryRecordsInput = {
@@ -44225,9 +59935,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutSalaryRecordsInput = {
@@ -44304,10 +60016,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutSalaryRecordsInput = {
@@ -44369,12 +60083,76 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
-  export type EmployeeCreateWithoutLoansInput = {
+  export type LoanApplicationCreateWithoutLoanTypeInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoanApplicationsInput
+    approvals?: LoanApprovalCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationUncheckedCreateWithoutLoanTypeInput = {
+    id?: string
+    employeeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationCreateOrConnectWithoutLoanTypeInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutLoanTypeInput, LoanApplicationUncheckedCreateWithoutLoanTypeInput>
+  }
+
+  export type LoanApplicationCreateManyLoanTypeInputEnvelope = {
+    data: LoanApplicationCreateManyLoanTypeInput | LoanApplicationCreateManyLoanTypeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoanApplicationUpsertWithWhereUniqueWithoutLoanTypeInput = {
+    where: LoanApplicationWhereUniqueInput
+    update: XOR<LoanApplicationUpdateWithoutLoanTypeInput, LoanApplicationUncheckedUpdateWithoutLoanTypeInput>
+    create: XOR<LoanApplicationCreateWithoutLoanTypeInput, LoanApplicationUncheckedCreateWithoutLoanTypeInput>
+  }
+
+  export type LoanApplicationUpdateWithWhereUniqueWithoutLoanTypeInput = {
+    where: LoanApplicationWhereUniqueInput
+    data: XOR<LoanApplicationUpdateWithoutLoanTypeInput, LoanApplicationUncheckedUpdateWithoutLoanTypeInput>
+  }
+
+  export type LoanApplicationUpdateManyWithWhereWithoutLoanTypeInput = {
+    where: LoanApplicationScalarWhereInput
+    data: XOR<LoanApplicationUpdateManyMutationInput, LoanApplicationUncheckedUpdateManyWithoutLoanTypeInput>
+  }
+
+  export type EmployeeCreateWithoutLoanApplicationsInput = {
     id?: string
     employeeCode?: string | null
     firstName: string
@@ -44436,9 +60214,11 @@ export namespace Prisma {
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
-  export type EmployeeUncheckedCreateWithoutLoansInput = {
+  export type EmployeeUncheckedCreateWithoutLoanApplicationsInput = {
     id?: string
     userId: string
     employeeCode?: string | null
@@ -44500,25 +60280,166 @@ export namespace Prisma {
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
-  export type EmployeeCreateOrConnectWithoutLoansInput = {
+  export type EmployeeCreateOrConnectWithoutLoanApplicationsInput = {
     where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
+    create: XOR<EmployeeCreateWithoutLoanApplicationsInput, EmployeeUncheckedCreateWithoutLoanApplicationsInput>
   }
 
-  export type EmployeeUpsertWithoutLoansInput = {
-    update: XOR<EmployeeUpdateWithoutLoansInput, EmployeeUncheckedUpdateWithoutLoansInput>
-    create: XOR<EmployeeCreateWithoutLoansInput, EmployeeUncheckedCreateWithoutLoansInput>
+  export type LoanTypeCreateWithoutApplicationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    maxAmount: number
+    interestRate?: number
+    maxRepaymentMonths: number
+    requiresProbation?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanTypeUncheckedCreateWithoutApplicationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    maxAmount: number
+    interestRate?: number
+    maxRepaymentMonths: number
+    requiresProbation?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanTypeCreateOrConnectWithoutApplicationsInput = {
+    where: LoanTypeWhereUniqueInput
+    create: XOR<LoanTypeCreateWithoutApplicationsInput, LoanTypeUncheckedCreateWithoutApplicationsInput>
+  }
+
+  export type LoanApprovalCreateWithoutApplicationInput = {
+    id?: string
+    approverEmail: string
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanApprovalUncheckedCreateWithoutApplicationInput = {
+    id?: string
+    approverEmail: string
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanApprovalCreateOrConnectWithoutApplicationInput = {
+    where: LoanApprovalWhereUniqueInput
+    create: XOR<LoanApprovalCreateWithoutApplicationInput, LoanApprovalUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanApprovalCreateManyApplicationInputEnvelope = {
+    data: LoanApprovalCreateManyApplicationInput | LoanApprovalCreateManyApplicationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoanDisbursementCreateWithoutApplicationInput = {
+    id?: string
+    method: string
+    amount: number
+    transactionRef?: string | null
+    disbursedAt?: Date | string
+  }
+
+  export type LoanDisbursementUncheckedCreateWithoutApplicationInput = {
+    id?: string
+    method: string
+    amount: number
+    transactionRef?: string | null
+    disbursedAt?: Date | string
+  }
+
+  export type LoanDisbursementCreateOrConnectWithoutApplicationInput = {
+    where: LoanDisbursementWhereUniqueInput
+    create: XOR<LoanDisbursementCreateWithoutApplicationInput, LoanDisbursementUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanDisbursementCreateManyApplicationInputEnvelope = {
+    data: LoanDisbursementCreateManyApplicationInput | LoanDisbursementCreateManyApplicationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoanInstallmentCreateWithoutApplicationInput = {
+    id?: string
+    month: number
+    year: number
+    amount: number
+    status?: string
+    deductedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanInstallmentUncheckedCreateWithoutApplicationInput = {
+    id?: string
+    month: number
+    year: number
+    amount: number
+    status?: string
+    deductedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanInstallmentCreateOrConnectWithoutApplicationInput = {
+    where: LoanInstallmentWhereUniqueInput
+    create: XOR<LoanInstallmentCreateWithoutApplicationInput, LoanInstallmentUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanInstallmentCreateManyApplicationInputEnvelope = {
+    data: LoanInstallmentCreateManyApplicationInput | LoanInstallmentCreateManyApplicationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LoanDocumentCreateWithoutApplicationInput = {
+    id?: string
+    fileUrl: string
+    fileName: string
+    uploadedAt?: Date | string
+  }
+
+  export type LoanDocumentUncheckedCreateWithoutApplicationInput = {
+    id?: string
+    fileUrl: string
+    fileName: string
+    uploadedAt?: Date | string
+  }
+
+  export type LoanDocumentCreateOrConnectWithoutApplicationInput = {
+    where: LoanDocumentWhereUniqueInput
+    create: XOR<LoanDocumentCreateWithoutApplicationInput, LoanDocumentUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanDocumentCreateManyApplicationInputEnvelope = {
+    data: LoanDocumentCreateManyApplicationInput | LoanDocumentCreateManyApplicationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmployeeUpsertWithoutLoanApplicationsInput = {
+    update: XOR<EmployeeUpdateWithoutLoanApplicationsInput, EmployeeUncheckedUpdateWithoutLoanApplicationsInput>
+    create: XOR<EmployeeCreateWithoutLoanApplicationsInput, EmployeeUncheckedCreateWithoutLoanApplicationsInput>
     where?: EmployeeWhereInput
   }
 
-  export type EmployeeUpdateToOneWithWhereWithoutLoansInput = {
+  export type EmployeeUpdateToOneWithWhereWithoutLoanApplicationsInput = {
     where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutLoansInput, EmployeeUncheckedUpdateWithoutLoansInput>
+    data: XOR<EmployeeUpdateWithoutLoanApplicationsInput, EmployeeUncheckedUpdateWithoutLoanApplicationsInput>
   }
 
-  export type EmployeeUpdateWithoutLoansInput = {
+  export type EmployeeUpdateWithoutLoanApplicationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
     firstName?: StringFieldUpdateOperationsInput | string
@@ -44580,9 +60501,11 @@ export namespace Prisma {
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
-  export type EmployeeUncheckedUpdateWithoutLoansInput = {
+  export type EmployeeUncheckedUpdateWithoutLoanApplicationsInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44644,6 +60567,511 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type LoanTypeUpsertWithoutApplicationsInput = {
+    update: XOR<LoanTypeUpdateWithoutApplicationsInput, LoanTypeUncheckedUpdateWithoutApplicationsInput>
+    create: XOR<LoanTypeCreateWithoutApplicationsInput, LoanTypeUncheckedCreateWithoutApplicationsInput>
+    where?: LoanTypeWhereInput
+  }
+
+  export type LoanTypeUpdateToOneWithWhereWithoutApplicationsInput = {
+    where?: LoanTypeWhereInput
+    data: XOR<LoanTypeUpdateWithoutApplicationsInput, LoanTypeUncheckedUpdateWithoutApplicationsInput>
+  }
+
+  export type LoanTypeUpdateWithoutApplicationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxAmount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    maxRepaymentMonths?: IntFieldUpdateOperationsInput | number
+    requiresProbation?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanTypeUncheckedUpdateWithoutApplicationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    maxAmount?: FloatFieldUpdateOperationsInput | number
+    interestRate?: FloatFieldUpdateOperationsInput | number
+    maxRepaymentMonths?: IntFieldUpdateOperationsInput | number
+    requiresProbation?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalUpsertWithWhereUniqueWithoutApplicationInput = {
+    where: LoanApprovalWhereUniqueInput
+    update: XOR<LoanApprovalUpdateWithoutApplicationInput, LoanApprovalUncheckedUpdateWithoutApplicationInput>
+    create: XOR<LoanApprovalCreateWithoutApplicationInput, LoanApprovalUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanApprovalUpdateWithWhereUniqueWithoutApplicationInput = {
+    where: LoanApprovalWhereUniqueInput
+    data: XOR<LoanApprovalUpdateWithoutApplicationInput, LoanApprovalUncheckedUpdateWithoutApplicationInput>
+  }
+
+  export type LoanApprovalUpdateManyWithWhereWithoutApplicationInput = {
+    where: LoanApprovalScalarWhereInput
+    data: XOR<LoanApprovalUpdateManyMutationInput, LoanApprovalUncheckedUpdateManyWithoutApplicationInput>
+  }
+
+  export type LoanApprovalScalarWhereInput = {
+    AND?: LoanApprovalScalarWhereInput | LoanApprovalScalarWhereInput[]
+    OR?: LoanApprovalScalarWhereInput[]
+    NOT?: LoanApprovalScalarWhereInput | LoanApprovalScalarWhereInput[]
+    id?: StringFilter<"LoanApproval"> | string
+    applicationId?: StringFilter<"LoanApproval"> | string
+    approverEmail?: StringFilter<"LoanApproval"> | string
+    level?: StringFilter<"LoanApproval"> | string
+    action?: StringFilter<"LoanApproval"> | string
+    comments?: StringNullableFilter<"LoanApproval"> | string | null
+    createdAt?: DateTimeFilter<"LoanApproval"> | Date | string
+  }
+
+  export type LoanDisbursementUpsertWithWhereUniqueWithoutApplicationInput = {
+    where: LoanDisbursementWhereUniqueInput
+    update: XOR<LoanDisbursementUpdateWithoutApplicationInput, LoanDisbursementUncheckedUpdateWithoutApplicationInput>
+    create: XOR<LoanDisbursementCreateWithoutApplicationInput, LoanDisbursementUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanDisbursementUpdateWithWhereUniqueWithoutApplicationInput = {
+    where: LoanDisbursementWhereUniqueInput
+    data: XOR<LoanDisbursementUpdateWithoutApplicationInput, LoanDisbursementUncheckedUpdateWithoutApplicationInput>
+  }
+
+  export type LoanDisbursementUpdateManyWithWhereWithoutApplicationInput = {
+    where: LoanDisbursementScalarWhereInput
+    data: XOR<LoanDisbursementUpdateManyMutationInput, LoanDisbursementUncheckedUpdateManyWithoutApplicationInput>
+  }
+
+  export type LoanDisbursementScalarWhereInput = {
+    AND?: LoanDisbursementScalarWhereInput | LoanDisbursementScalarWhereInput[]
+    OR?: LoanDisbursementScalarWhereInput[]
+    NOT?: LoanDisbursementScalarWhereInput | LoanDisbursementScalarWhereInput[]
+    id?: StringFilter<"LoanDisbursement"> | string
+    applicationId?: StringFilter<"LoanDisbursement"> | string
+    method?: StringFilter<"LoanDisbursement"> | string
+    amount?: FloatFilter<"LoanDisbursement"> | number
+    transactionRef?: StringNullableFilter<"LoanDisbursement"> | string | null
+    disbursedAt?: DateTimeFilter<"LoanDisbursement"> | Date | string
+  }
+
+  export type LoanInstallmentUpsertWithWhereUniqueWithoutApplicationInput = {
+    where: LoanInstallmentWhereUniqueInput
+    update: XOR<LoanInstallmentUpdateWithoutApplicationInput, LoanInstallmentUncheckedUpdateWithoutApplicationInput>
+    create: XOR<LoanInstallmentCreateWithoutApplicationInput, LoanInstallmentUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanInstallmentUpdateWithWhereUniqueWithoutApplicationInput = {
+    where: LoanInstallmentWhereUniqueInput
+    data: XOR<LoanInstallmentUpdateWithoutApplicationInput, LoanInstallmentUncheckedUpdateWithoutApplicationInput>
+  }
+
+  export type LoanInstallmentUpdateManyWithWhereWithoutApplicationInput = {
+    where: LoanInstallmentScalarWhereInput
+    data: XOR<LoanInstallmentUpdateManyMutationInput, LoanInstallmentUncheckedUpdateManyWithoutApplicationInput>
+  }
+
+  export type LoanInstallmentScalarWhereInput = {
+    AND?: LoanInstallmentScalarWhereInput | LoanInstallmentScalarWhereInput[]
+    OR?: LoanInstallmentScalarWhereInput[]
+    NOT?: LoanInstallmentScalarWhereInput | LoanInstallmentScalarWhereInput[]
+    id?: StringFilter<"LoanInstallment"> | string
+    applicationId?: StringFilter<"LoanInstallment"> | string
+    month?: IntFilter<"LoanInstallment"> | number
+    year?: IntFilter<"LoanInstallment"> | number
+    amount?: FloatFilter<"LoanInstallment"> | number
+    status?: StringFilter<"LoanInstallment"> | string
+    deductedAt?: DateTimeNullableFilter<"LoanInstallment"> | Date | string | null
+    createdAt?: DateTimeFilter<"LoanInstallment"> | Date | string
+  }
+
+  export type LoanDocumentUpsertWithWhereUniqueWithoutApplicationInput = {
+    where: LoanDocumentWhereUniqueInput
+    update: XOR<LoanDocumentUpdateWithoutApplicationInput, LoanDocumentUncheckedUpdateWithoutApplicationInput>
+    create: XOR<LoanDocumentCreateWithoutApplicationInput, LoanDocumentUncheckedCreateWithoutApplicationInput>
+  }
+
+  export type LoanDocumentUpdateWithWhereUniqueWithoutApplicationInput = {
+    where: LoanDocumentWhereUniqueInput
+    data: XOR<LoanDocumentUpdateWithoutApplicationInput, LoanDocumentUncheckedUpdateWithoutApplicationInput>
+  }
+
+  export type LoanDocumentUpdateManyWithWhereWithoutApplicationInput = {
+    where: LoanDocumentScalarWhereInput
+    data: XOR<LoanDocumentUpdateManyMutationInput, LoanDocumentUncheckedUpdateManyWithoutApplicationInput>
+  }
+
+  export type LoanDocumentScalarWhereInput = {
+    AND?: LoanDocumentScalarWhereInput | LoanDocumentScalarWhereInput[]
+    OR?: LoanDocumentScalarWhereInput[]
+    NOT?: LoanDocumentScalarWhereInput | LoanDocumentScalarWhereInput[]
+    id?: StringFilter<"LoanDocument"> | string
+    applicationId?: StringFilter<"LoanDocument"> | string
+    fileUrl?: StringFilter<"LoanDocument"> | string
+    fileName?: StringFilter<"LoanDocument"> | string
+    uploadedAt?: DateTimeFilter<"LoanDocument"> | Date | string
+  }
+
+  export type LoanApplicationCreateWithoutApprovalsInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoanApplicationsInput
+    loanType: LoanTypeCreateNestedOneWithoutApplicationsInput
+    disbursements?: LoanDisbursementCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationUncheckedCreateWithoutApprovalsInput = {
+    id?: string
+    employeeId: string
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disbursements?: LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationCreateOrConnectWithoutApprovalsInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutApprovalsInput, LoanApplicationUncheckedCreateWithoutApprovalsInput>
+  }
+
+  export type LoanApplicationUpsertWithoutApprovalsInput = {
+    update: XOR<LoanApplicationUpdateWithoutApprovalsInput, LoanApplicationUncheckedUpdateWithoutApprovalsInput>
+    create: XOR<LoanApplicationCreateWithoutApprovalsInput, LoanApplicationUncheckedCreateWithoutApprovalsInput>
+    where?: LoanApplicationWhereInput
+  }
+
+  export type LoanApplicationUpdateToOneWithWhereWithoutApprovalsInput = {
+    where?: LoanApplicationWhereInput
+    data: XOR<LoanApplicationUpdateWithoutApprovalsInput, LoanApplicationUncheckedUpdateWithoutApprovalsInput>
+  }
+
+  export type LoanApplicationUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    loanType?: LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput
+    disbursements?: LoanDisbursementUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateWithoutApprovalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disbursements?: LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationCreateWithoutDisbursementsInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoanApplicationsInput
+    loanType: LoanTypeCreateNestedOneWithoutApplicationsInput
+    approvals?: LoanApprovalCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationUncheckedCreateWithoutDisbursementsInput = {
+    id?: string
+    employeeId: string
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationCreateOrConnectWithoutDisbursementsInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutDisbursementsInput, LoanApplicationUncheckedCreateWithoutDisbursementsInput>
+  }
+
+  export type LoanApplicationUpsertWithoutDisbursementsInput = {
+    update: XOR<LoanApplicationUpdateWithoutDisbursementsInput, LoanApplicationUncheckedUpdateWithoutDisbursementsInput>
+    create: XOR<LoanApplicationCreateWithoutDisbursementsInput, LoanApplicationUncheckedCreateWithoutDisbursementsInput>
+    where?: LoanApplicationWhereInput
+  }
+
+  export type LoanApplicationUpdateToOneWithWhereWithoutDisbursementsInput = {
+    where?: LoanApplicationWhereInput
+    data: XOR<LoanApplicationUpdateWithoutDisbursementsInput, LoanApplicationUncheckedUpdateWithoutDisbursementsInput>
+  }
+
+  export type LoanApplicationUpdateWithoutDisbursementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    loanType?: LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput
+    approvals?: LoanApprovalUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateWithoutDisbursementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationCreateWithoutInstallmentsInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoanApplicationsInput
+    loanType: LoanTypeCreateNestedOneWithoutApplicationsInput
+    approvals?: LoanApprovalCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationUncheckedCreateWithoutInstallmentsInput = {
+    id?: string
+    employeeId: string
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput
+    documents?: LoanDocumentUncheckedCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationCreateOrConnectWithoutInstallmentsInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutInstallmentsInput, LoanApplicationUncheckedCreateWithoutInstallmentsInput>
+  }
+
+  export type LoanApplicationUpsertWithoutInstallmentsInput = {
+    update: XOR<LoanApplicationUpdateWithoutInstallmentsInput, LoanApplicationUncheckedUpdateWithoutInstallmentsInput>
+    create: XOR<LoanApplicationCreateWithoutInstallmentsInput, LoanApplicationUncheckedCreateWithoutInstallmentsInput>
+    where?: LoanApplicationWhereInput
+  }
+
+  export type LoanApplicationUpdateToOneWithWhereWithoutInstallmentsInput = {
+    where?: LoanApplicationWhereInput
+    data: XOR<LoanApplicationUpdateWithoutInstallmentsInput, LoanApplicationUncheckedUpdateWithoutInstallmentsInput>
+  }
+
+  export type LoanApplicationUpdateWithoutInstallmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    loanType?: LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput
+    approvals?: LoanApprovalUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateWithoutInstallmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationCreateWithoutDocumentsInput = {
+    id?: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    employee: EmployeeCreateNestedOneWithoutLoanApplicationsInput
+    loanType: LoanTypeCreateNestedOneWithoutApplicationsInput
+    approvals?: LoanApprovalCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    employeeId: string
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    approvals?: LoanApprovalUncheckedCreateNestedManyWithoutApplicationInput
+    disbursements?: LoanDisbursementUncheckedCreateNestedManyWithoutApplicationInput
+    installments?: LoanInstallmentUncheckedCreateNestedManyWithoutApplicationInput
+  }
+
+  export type LoanApplicationCreateOrConnectWithoutDocumentsInput = {
+    where: LoanApplicationWhereUniqueInput
+    create: XOR<LoanApplicationCreateWithoutDocumentsInput, LoanApplicationUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type LoanApplicationUpsertWithoutDocumentsInput = {
+    update: XOR<LoanApplicationUpdateWithoutDocumentsInput, LoanApplicationUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<LoanApplicationCreateWithoutDocumentsInput, LoanApplicationUncheckedCreateWithoutDocumentsInput>
+    where?: LoanApplicationWhereInput
+  }
+
+  export type LoanApplicationUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: LoanApplicationWhereInput
+    data: XOR<LoanApplicationUpdateWithoutDocumentsInput, LoanApplicationUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type LoanApplicationUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    loanType?: LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput
+    approvals?: LoanApprovalUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
   export type EmployeeCreateWithoutOvertimeInput = {
@@ -44705,9 +61133,11 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutOvertimeInput = {
@@ -44770,8 +61200,10 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutOvertimeInput = {
@@ -44849,9 +61281,11 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutOvertimeInput = {
@@ -44914,8 +61348,10 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type StaffRequestCreateWithoutServiceTypeInput = {
@@ -45030,10 +61466,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutStaffRequestsInput = {
@@ -45095,9 +61533,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutStaffRequestsInput = {
@@ -45239,10 +61679,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutStaffRequestsInput = {
@@ -45304,9 +61746,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type StaffServiceTypeUpsertWithoutStaffRequestsInput = {
@@ -45480,10 +61924,12 @@ export namespace Prisma {
     letters?: LetterCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutAttachmentsInput = {
@@ -45545,9 +61991,11 @@ export namespace Prisma {
     letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutAttachmentsInput = {
@@ -45698,10 +62146,12 @@ export namespace Prisma {
     letters?: LetterUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutAttachmentsInput = {
@@ -45763,9 +62213,11 @@ export namespace Prisma {
     letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeCreateWithoutVisaRequestsInput = {
@@ -45826,10 +62278,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutVisaRequestsInput = {
@@ -45891,9 +62345,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutVisaRequestsInput = {
@@ -46006,10 +62462,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutVisaRequestsInput = {
@@ -46071,9 +62529,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type AttachmentUpsertWithWhereUniqueWithoutVisaRequestInput = {
@@ -46150,10 +62610,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLetterRecordsInput = {
@@ -46215,9 +62677,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLetterRecordsInput = {
@@ -46294,10 +62758,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLetterRecordsInput = {
@@ -46359,9 +62825,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type LetterCreateWithoutTemplateInput = {
@@ -46478,10 +62946,12 @@ export namespace Prisma {
     attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationCreateNestedManyWithoutEmployeeInput
-    loans?: LoanCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
     manager?: EmployeeCreateNestedOneWithoutReporteesInput
     reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeUncheckedCreateWithoutLettersInput = {
@@ -46543,9 +63013,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
-    loans?: LoanUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
     overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
     reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
   }
 
   export type EmployeeCreateOrConnectWithoutLettersInput = {
@@ -46649,10 +63121,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutLettersInput = {
@@ -46714,9 +63188,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type LetterTemplateUpsertWithoutLettersInput = {
@@ -46750,6 +63226,978 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmployeeCreateWithoutRequestedJobsInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    interviews?: InterviewCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutRequestedJobsInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    managerId?: string | null
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    interviews?: InterviewUncheckedCreateNestedManyWithoutInterviewerInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutRequestedJobsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutRequestedJobsInput, EmployeeUncheckedCreateWithoutRequestedJobsInput>
+  }
+
+  export type CandidateCreateWithoutJobInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    interviews?: InterviewCreateNestedManyWithoutCandidateInput
+    offer?: OfferLetterCreateNestedOneWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateWithoutJobInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    interviews?: InterviewUncheckedCreateNestedManyWithoutCandidateInput
+    offer?: OfferLetterUncheckedCreateNestedOneWithoutCandidateInput
+  }
+
+  export type CandidateCreateOrConnectWithoutJobInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutJobInput, CandidateUncheckedCreateWithoutJobInput>
+  }
+
+  export type CandidateCreateManyJobInputEnvelope = {
+    data: CandidateCreateManyJobInput | CandidateCreateManyJobInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EmployeeUpsertWithoutRequestedJobsInput = {
+    update: XOR<EmployeeUpdateWithoutRequestedJobsInput, EmployeeUncheckedUpdateWithoutRequestedJobsInput>
+    create: XOR<EmployeeCreateWithoutRequestedJobsInput, EmployeeUncheckedCreateWithoutRequestedJobsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutRequestedJobsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutRequestedJobsInput, EmployeeUncheckedUpdateWithoutRequestedJobsInput>
+  }
+
+  export type EmployeeUpdateWithoutRequestedJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutRequestedJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
+  }
+
+  export type CandidateUpsertWithWhereUniqueWithoutJobInput = {
+    where: CandidateWhereUniqueInput
+    update: XOR<CandidateUpdateWithoutJobInput, CandidateUncheckedUpdateWithoutJobInput>
+    create: XOR<CandidateCreateWithoutJobInput, CandidateUncheckedCreateWithoutJobInput>
+  }
+
+  export type CandidateUpdateWithWhereUniqueWithoutJobInput = {
+    where: CandidateWhereUniqueInput
+    data: XOR<CandidateUpdateWithoutJobInput, CandidateUncheckedUpdateWithoutJobInput>
+  }
+
+  export type CandidateUpdateManyWithWhereWithoutJobInput = {
+    where: CandidateScalarWhereInput
+    data: XOR<CandidateUpdateManyMutationInput, CandidateUncheckedUpdateManyWithoutJobInput>
+  }
+
+  export type CandidateScalarWhereInput = {
+    AND?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+    OR?: CandidateScalarWhereInput[]
+    NOT?: CandidateScalarWhereInput | CandidateScalarWhereInput[]
+    id?: StringFilter<"Candidate"> | string
+    firstName?: StringFilter<"Candidate"> | string
+    lastName?: StringFilter<"Candidate"> | string
+    email?: StringFilter<"Candidate"> | string
+    phone?: StringNullableFilter<"Candidate"> | string | null
+    resumeUrl?: StringNullableFilter<"Candidate"> | string | null
+    status?: StringFilter<"Candidate"> | string
+    jobId?: StringFilter<"Candidate"> | string
+    createdAt?: DateTimeFilter<"Candidate"> | Date | string
+    updatedAt?: DateTimeFilter<"Candidate"> | Date | string
+  }
+
+  export type JobRequisitionCreateWithoutCandidatesInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requestedBy: EmployeeCreateNestedOneWithoutRequestedJobsInput
+  }
+
+  export type JobRequisitionUncheckedCreateWithoutCandidatesInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    requestedById: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobRequisitionCreateOrConnectWithoutCandidatesInput = {
+    where: JobRequisitionWhereUniqueInput
+    create: XOR<JobRequisitionCreateWithoutCandidatesInput, JobRequisitionUncheckedCreateWithoutCandidatesInput>
+  }
+
+  export type InterviewCreateWithoutCandidateInput = {
+    id?: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    interviewer: EmployeeCreateNestedOneWithoutInterviewsInput
+  }
+
+  export type InterviewUncheckedCreateWithoutCandidateInput = {
+    id?: string
+    interviewerId: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterviewCreateOrConnectWithoutCandidateInput = {
+    where: InterviewWhereUniqueInput
+    create: XOR<InterviewCreateWithoutCandidateInput, InterviewUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type InterviewCreateManyCandidateInputEnvelope = {
+    data: InterviewCreateManyCandidateInput | InterviewCreateManyCandidateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OfferLetterCreateWithoutCandidateInput = {
+    id?: string
+    offeredSalary: number
+    designation: string
+    department: string
+    joiningDate: Date | string
+    status?: string
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OfferLetterUncheckedCreateWithoutCandidateInput = {
+    id?: string
+    offeredSalary: number
+    designation: string
+    department: string
+    joiningDate: Date | string
+    status?: string
+    fileUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OfferLetterCreateOrConnectWithoutCandidateInput = {
+    where: OfferLetterWhereUniqueInput
+    create: XOR<OfferLetterCreateWithoutCandidateInput, OfferLetterUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type JobRequisitionUpsertWithoutCandidatesInput = {
+    update: XOR<JobRequisitionUpdateWithoutCandidatesInput, JobRequisitionUncheckedUpdateWithoutCandidatesInput>
+    create: XOR<JobRequisitionCreateWithoutCandidatesInput, JobRequisitionUncheckedCreateWithoutCandidatesInput>
+    where?: JobRequisitionWhereInput
+  }
+
+  export type JobRequisitionUpdateToOneWithWhereWithoutCandidatesInput = {
+    where?: JobRequisitionWhereInput
+    data: XOR<JobRequisitionUpdateWithoutCandidatesInput, JobRequisitionUncheckedUpdateWithoutCandidatesInput>
+  }
+
+  export type JobRequisitionUpdateWithoutCandidatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedBy?: EmployeeUpdateOneRequiredWithoutRequestedJobsNestedInput
+  }
+
+  export type JobRequisitionUncheckedUpdateWithoutCandidatesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    requestedById?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewUpsertWithWhereUniqueWithoutCandidateInput = {
+    where: InterviewWhereUniqueInput
+    update: XOR<InterviewUpdateWithoutCandidateInput, InterviewUncheckedUpdateWithoutCandidateInput>
+    create: XOR<InterviewCreateWithoutCandidateInput, InterviewUncheckedCreateWithoutCandidateInput>
+  }
+
+  export type InterviewUpdateWithWhereUniqueWithoutCandidateInput = {
+    where: InterviewWhereUniqueInput
+    data: XOR<InterviewUpdateWithoutCandidateInput, InterviewUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type InterviewUpdateManyWithWhereWithoutCandidateInput = {
+    where: InterviewScalarWhereInput
+    data: XOR<InterviewUpdateManyMutationInput, InterviewUncheckedUpdateManyWithoutCandidateInput>
+  }
+
+  export type OfferLetterUpsertWithoutCandidateInput = {
+    update: XOR<OfferLetterUpdateWithoutCandidateInput, OfferLetterUncheckedUpdateWithoutCandidateInput>
+    create: XOR<OfferLetterCreateWithoutCandidateInput, OfferLetterUncheckedCreateWithoutCandidateInput>
+    where?: OfferLetterWhereInput
+  }
+
+  export type OfferLetterUpdateToOneWithWhereWithoutCandidateInput = {
+    where?: OfferLetterWhereInput
+    data: XOR<OfferLetterUpdateWithoutCandidateInput, OfferLetterUncheckedUpdateWithoutCandidateInput>
+  }
+
+  export type OfferLetterUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    offeredSalary?: FloatFieldUpdateOperationsInput | number
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfferLetterUncheckedUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    offeredSalary?: FloatFieldUpdateOperationsInput | number
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateCreateWithoutInterviewsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    job: JobRequisitionCreateNestedOneWithoutCandidatesInput
+    offer?: OfferLetterCreateNestedOneWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateWithoutInterviewsInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    jobId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    offer?: OfferLetterUncheckedCreateNestedOneWithoutCandidateInput
+  }
+
+  export type CandidateCreateOrConnectWithoutInterviewsInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutInterviewsInput, CandidateUncheckedCreateWithoutInterviewsInput>
+  }
+
+  export type EmployeeCreateWithoutInterviewsInput = {
+    id?: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutEmployeeInput
+    shift?: ShiftCreateNestedOneWithoutEmployeesInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestCreateNestedManyWithoutEmployeeInput
+    letters?: LetterCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeCreateNestedManyWithoutEmployeeInput
+    manager?: EmployeeCreateNestedOneWithoutReporteesInput
+    reportees?: EmployeeCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutInterviewsInput = {
+    id?: string
+    userId: string
+    employeeCode?: string | null
+    firstName: string
+    lastName: string
+    email: string
+    rollNumber: string
+    photo?: string | null
+    phone?: string | null
+    gender?: string | null
+    dateOfBirth?: Date | string | null
+    nationality?: string | null
+    maritalStatus?: string | null
+    designation: string
+    department: string
+    joiningDate: Date | string
+    employmentType?: string
+    workLocation?: string | null
+    probationDays?: number
+    currentStatus?: string
+    isActive?: boolean
+    address?: string | null
+    permanentAddress?: string | null
+    emergencyContact?: string | null
+    emergencyPhone?: string | null
+    governmentId?: string | null
+    bankName?: string | null
+    accountNumber?: string | null
+    iban?: string | null
+    ifscCode?: string | null
+    basicSalary?: number | null
+    housingAllowance?: number | null
+    transportAllowance?: number | null
+    otherAllowance?: number | null
+    passportNumber?: string | null
+    passportExpiry?: Date | string | null
+    emiratesId?: string | null
+    emiratesIdExpiry?: Date | string | null
+    visaNumber?: string | null
+    visaExpiry?: Date | string | null
+    visaType?: string | null
+    medicalInsuranceExpiry?: Date | string | null
+    iloeInsuranceExpiry?: Date | string | null
+    shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    managerId?: string | null
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    leaveBalances?: LeaveBalanceUncheckedCreateNestedManyWithoutEmployeeInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutEmployeeInput
+    salaryRecords?: SalaryRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    letterRecords?: LetterRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    staffRequests?: StaffRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    visaRequests?: VisaRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    letters?: LetterUncheckedCreateNestedManyWithoutEmployeeInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutEmployeeInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutEmployeeInput
+    loanApplications?: LoanApplicationUncheckedCreateNestedManyWithoutEmployeeInput
+    overtime?: OvertimeUncheckedCreateNestedManyWithoutEmployeeInput
+    reportees?: EmployeeUncheckedCreateNestedManyWithoutManagerInput
+    requestedJobs?: JobRequisitionUncheckedCreateNestedManyWithoutRequestedByInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutInterviewsInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutInterviewsInput, EmployeeUncheckedCreateWithoutInterviewsInput>
+  }
+
+  export type CandidateUpsertWithoutInterviewsInput = {
+    update: XOR<CandidateUpdateWithoutInterviewsInput, CandidateUncheckedUpdateWithoutInterviewsInput>
+    create: XOR<CandidateCreateWithoutInterviewsInput, CandidateUncheckedCreateWithoutInterviewsInput>
+    where?: CandidateWhereInput
+  }
+
+  export type CandidateUpdateToOneWithWhereWithoutInterviewsInput = {
+    where?: CandidateWhereInput
+    data: XOR<CandidateUpdateWithoutInterviewsInput, CandidateUncheckedUpdateWithoutInterviewsInput>
+  }
+
+  export type CandidateUpdateWithoutInterviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: JobRequisitionUpdateOneRequiredWithoutCandidatesNestedInput
+    offer?: OfferLetterUpdateOneWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutInterviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    offer?: OfferLetterUncheckedUpdateOneWithoutCandidateNestedInput
+  }
+
+  export type EmployeeUpsertWithoutInterviewsInput = {
+    update: XOR<EmployeeUpdateWithoutInterviewsInput, EmployeeUncheckedUpdateWithoutInterviewsInput>
+    create: XOR<EmployeeCreateWithoutInterviewsInput, EmployeeUncheckedCreateWithoutInterviewsInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutInterviewsInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutInterviewsInput, EmployeeUncheckedUpdateWithoutInterviewsInput>
+  }
+
+  export type EmployeeUpdateWithoutInterviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmployeeNestedInput
+    shift?: ShiftUpdateOneWithoutEmployeesNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
+    manager?: EmployeeUpdateOneWithoutReporteesNestedInput
+    reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutInterviewsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    employeeCode?: NullableStringFieldUpdateOperationsInput | string | null
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    rollNumber?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    nationality?: NullableStringFieldUpdateOperationsInput | string | null
+    maritalStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    designation?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    joiningDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    employmentType?: StringFieldUpdateOperationsInput | string
+    workLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    probationDays?: IntFieldUpdateOperationsInput | number
+    currentStatus?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    permanentAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyContact?: NullableStringFieldUpdateOperationsInput | string | null
+    emergencyPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    governmentId?: NullableStringFieldUpdateOperationsInput | string | null
+    bankName?: NullableStringFieldUpdateOperationsInput | string | null
+    accountNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    iban?: NullableStringFieldUpdateOperationsInput | string | null
+    ifscCode?: NullableStringFieldUpdateOperationsInput | string | null
+    basicSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    housingAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    transportAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    otherAllowance?: NullableFloatFieldUpdateOperationsInput | number | null
+    passportNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    passportExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    emiratesId?: NullableStringFieldUpdateOperationsInput | string | null
+    emiratesIdExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    visaExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    visaType?: NullableStringFieldUpdateOperationsInput | string | null
+    medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    leaveBalances?: LeaveBalanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutEmployeeNestedInput
+    salaryRecords?: SalaryRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    letterRecords?: LetterRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    staffRequests?: StaffRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    visaRequests?: VisaRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    letters?: LetterUncheckedUpdateManyWithoutEmployeeNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
+    overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
+    reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+  }
+
+  export type CandidateCreateWithoutOfferInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    job: JobRequisitionCreateNestedOneWithoutCandidatesInput
+    interviews?: InterviewCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateUncheckedCreateWithoutOfferInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    jobId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    interviews?: InterviewUncheckedCreateNestedManyWithoutCandidateInput
+  }
+
+  export type CandidateCreateOrConnectWithoutOfferInput = {
+    where: CandidateWhereUniqueInput
+    create: XOR<CandidateCreateWithoutOfferInput, CandidateUncheckedCreateWithoutOfferInput>
+  }
+
+  export type CandidateUpsertWithoutOfferInput = {
+    update: XOR<CandidateUpdateWithoutOfferInput, CandidateUncheckedUpdateWithoutOfferInput>
+    create: XOR<CandidateCreateWithoutOfferInput, CandidateUncheckedCreateWithoutOfferInput>
+    where?: CandidateWhereInput
+  }
+
+  export type CandidateUpdateToOneWithWhereWithoutOfferInput = {
+    where?: CandidateWhereInput
+    data: XOR<CandidateUpdateWithoutOfferInput, CandidateUncheckedUpdateWithoutOfferInput>
+  }
+
+  export type CandidateUpdateWithoutOfferInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    job?: JobRequisitionUpdateOneRequiredWithoutCandidatesNestedInput
+    interviews?: InterviewUpdateManyWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutOfferInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    jobId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interviews?: InterviewUncheckedUpdateManyWithoutCandidateNestedInput
   }
 
   export type RoleRequestCreateManyUserInput = {
@@ -47095,13 +64543,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
-  export type LoanCreateManyEmployeeInput = {
+  export type LoanApplicationCreateManyEmployeeInput = {
     id?: string
-    amount: number
-    issueDate: Date | string
-    installmentAmount: number
-    remainingBalance: number
+    loanTypeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
     status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -47162,6 +64613,34 @@ export namespace Prisma {
     medicalInsuranceExpiry?: Date | string | null
     iloeInsuranceExpiry?: Date | string | null
     shiftId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type JobRequisitionCreateManyRequestedByInput = {
+    id?: string
+    title: string
+    department: string
+    location?: string | null
+    employmentType?: string
+    positionsCount?: number
+    status?: string
+    description?: string | null
+    requirements?: string | null
+    minSalary?: number | null
+    maxSalary?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterviewCreateManyInterviewerInput = {
+    id?: string
+    candidateId: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -47601,35 +65080,52 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LoanUpdateWithoutEmployeeInput = {
+  export type LoanApplicationUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    loanType?: LoanTypeUpdateOneRequiredWithoutApplicationsNestedInput
+    approvals?: LoanApprovalUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUpdateManyWithoutApplicationNestedInput
   }
 
-  export type LoanUncheckedUpdateWithoutEmployeeInput = {
+  export type LoanApplicationUncheckedUpdateWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput
   }
 
-  export type LoanUncheckedUpdateManyWithoutEmployeeInput = {
+  export type LoanApplicationUncheckedUpdateManyWithoutEmployeeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    amount?: FloatFieldUpdateOperationsInput | number
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    installmentAmount?: FloatFieldUpdateOperationsInput | number
-    remainingBalance?: FloatFieldUpdateOperationsInput | number
+    loanTypeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -47726,9 +65222,11 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutManagerInput = {
@@ -47790,9 +65288,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutManagerInput = {
@@ -47840,6 +65340,92 @@ export namespace Prisma {
     medicalInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     iloeInsuranceExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shiftId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type JobRequisitionUpdateWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidates?: CandidateUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobRequisitionUncheckedUpdateWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidates?: CandidateUncheckedUpdateManyWithoutJobNestedInput
+  }
+
+  export type JobRequisitionUncheckedUpdateManyWithoutRequestedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    employmentType?: StringFieldUpdateOperationsInput | string
+    positionsCount?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
+    minSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxSalary?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewUpdateWithoutInterviewerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    candidate?: CandidateUpdateOneRequiredWithoutInterviewsNestedInput
+  }
+
+  export type InterviewUncheckedUpdateWithoutInterviewerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewUncheckedUpdateManyWithoutInterviewerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    candidateId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -48000,10 +65586,12 @@ export namespace Prisma {
     attachments?: AttachmentUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUpdateManyWithoutEmployeeNestedInput
     manager?: EmployeeUpdateOneWithoutReporteesNestedInput
     reportees?: EmployeeUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateWithoutShiftInput = {
@@ -48065,9 +65653,11 @@ export namespace Prisma {
     attachments?: AttachmentUncheckedUpdateManyWithoutEmployeeNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutEmployeeNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutEmployeeNestedInput
-    loans?: LoanUncheckedUpdateManyWithoutEmployeeNestedInput
+    loanApplications?: LoanApplicationUncheckedUpdateManyWithoutEmployeeNestedInput
     overtime?: OvertimeUncheckedUpdateManyWithoutEmployeeNestedInput
     reportees?: EmployeeUncheckedUpdateManyWithoutManagerNestedInput
+    requestedJobs?: JobRequisitionUncheckedUpdateManyWithoutRequestedByNestedInput
+    interviews?: InterviewUncheckedUpdateManyWithoutInterviewerNestedInput
   }
 
   export type EmployeeUncheckedUpdateManyWithoutShiftInput = {
@@ -48158,6 +65748,206 @@ export namespace Prisma {
     overtimeMinutes?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApplicationCreateManyLoanTypeInput = {
+    id?: string
+    employeeId: string
+    requestedAmount: number
+    repaymentMonths: number
+    reason?: string | null
+    status?: string
+    managerStatus?: string
+    hrStatus?: string
+    financeStatus?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LoanApplicationUpdateWithoutLoanTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    employee?: EmployeeUpdateOneRequiredWithoutLoanApplicationsNestedInput
+    approvals?: LoanApprovalUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateWithoutLoanTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    approvals?: LoanApprovalUncheckedUpdateManyWithoutApplicationNestedInput
+    disbursements?: LoanDisbursementUncheckedUpdateManyWithoutApplicationNestedInput
+    installments?: LoanInstallmentUncheckedUpdateManyWithoutApplicationNestedInput
+    documents?: LoanDocumentUncheckedUpdateManyWithoutApplicationNestedInput
+  }
+
+  export type LoanApplicationUncheckedUpdateManyWithoutLoanTypeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    employeeId?: StringFieldUpdateOperationsInput | string
+    requestedAmount?: FloatFieldUpdateOperationsInput | number
+    repaymentMonths?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    managerStatus?: StringFieldUpdateOperationsInput | string
+    hrStatus?: StringFieldUpdateOperationsInput | string
+    financeStatus?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalCreateManyApplicationInput = {
+    id?: string
+    approverEmail: string
+    level: string
+    action: string
+    comments?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanDisbursementCreateManyApplicationInput = {
+    id?: string
+    method: string
+    amount: number
+    transactionRef?: string | null
+    disbursedAt?: Date | string
+  }
+
+  export type LoanInstallmentCreateManyApplicationInput = {
+    id?: string
+    month: number
+    year: number
+    amount: number
+    status?: string
+    deductedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type LoanDocumentCreateManyApplicationInput = {
+    id?: string
+    fileUrl: string
+    fileName: string
+    uploadedAt?: Date | string
+  }
+
+  export type LoanApprovalUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalUncheckedUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanApprovalUncheckedUpdateManyWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    approverEmail?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    comments?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDisbursementUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDisbursementUncheckedUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDisbursementUncheckedUpdateManyWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    method?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    transactionRef?: NullableStringFieldUpdateOperationsInput | string | null
+    disbursedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanInstallmentUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanInstallmentUncheckedUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanInstallmentUncheckedUpdateManyWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: IntFieldUpdateOperationsInput | number
+    year?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    deductedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDocumentUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDocumentUncheckedUpdateWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LoanDocumentUncheckedUpdateManyWithoutApplicationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StaffRequestCreateManyServiceTypeInput = {
@@ -48374,6 +66164,106 @@ export namespace Prisma {
     comments?: NullableStringFieldUpdateOperationsInput | string | null
     approvedBy?: NullableStringFieldUpdateOperationsInput | string | null
     approvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CandidateCreateManyJobInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string | null
+    resumeUrl?: string | null
+    status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CandidateUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interviews?: InterviewUpdateManyWithoutCandidateNestedInput
+    offer?: OfferLetterUpdateOneWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interviews?: InterviewUncheckedUpdateManyWithoutCandidateNestedInput
+    offer?: OfferLetterUncheckedUpdateOneWithoutCandidateNestedInput
+  }
+
+  export type CandidateUncheckedUpdateManyWithoutJobInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    resumeUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewCreateManyCandidateInput = {
+    id?: string
+    interviewerId: string
+    scheduledAt: Date | string
+    durationMins?: number
+    status?: string
+    feedback?: string | null
+    rating?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InterviewUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    interviewer?: EmployeeUpdateOneRequiredWithoutInterviewsNestedInput
+  }
+
+  export type InterviewUncheckedUpdateWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    interviewerId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InterviewUncheckedUpdateManyWithoutCandidateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    interviewerId?: StringFieldUpdateOperationsInput | string
+    scheduledAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    durationMins?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
