@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Bell, Search, Settings, Command, Clock, Globe } from "lucide-react";
+import { Bell, Search, Settings, Clock, Globe, LogOut, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 interface HeaderProps {
@@ -65,24 +66,58 @@ export function Header({ user }: HeaderProps) {
                             <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-rose-500 ring-4 ring-white dark:ring-slate-950 animate-pulse" />
                         </Button>
                     </Link>
-                    <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
-                        <Settings className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                    </Button>
+                    <Link href="/settings">
+                        <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
+                            <Settings className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                        </Button>
+                    </Link>
                 </div>
 
-                <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 group cursor-pointer">
-                    <div className="flex flex-col items-end">
-                        <span className="text-sm font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">{user?.name || "User"}</span>
-                        <div className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{user?.role || "STAFF"}</span>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 group cursor-pointer outline-none">
+                            <div className="flex flex-col items-end">
+                                <span className="text-sm font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">{user?.name || "User"}</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{user?.role || "STAFF"}</span>
+                                </div>
+                            </div>
+                            <Avatar className="h-11 w-11 rounded-2xl border-2 border-white dark:border-slate-800 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                {user?.image && <AvatarImage src={user.image} />}
+                                <AvatarFallback className="bg-indigo-600 text-white font-black">{userInitials}</AvatarFallback>
+                            </Avatar>
                         </div>
-                    </div>
-                    <Avatar className="h-11 w-11 rounded-2xl border-2 border-white dark:border-slate-800 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        {user?.image && <AvatarImage src={user.image} />}
-                        <AvatarFallback className="bg-indigo-600 text-white font-black">{userInitials}</AvatarFallback>
-                    </Avatar>
-                </div>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className="w-64 p-2 rounded-2xl bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl">
+                        <div className="p-3 mb-2 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800/50 pb-4">
+                            <Avatar className="h-12 w-12 rounded-xl">
+                                {user?.image && <AvatarImage src={user.image} />}
+                                <AvatarFallback className="bg-indigo-600 text-white font-black">{userInitials}</AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col">
+                                <span className="text-sm font-black text-slate-900 dark:text-white leading-tight truncate w-32">{user?.name || "User"}</span>
+                                <span className="text-[10px] font-bold text-slate-500 truncate w-32">{user?.email || "No email"}</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <Link href="/settings">
+                                <Button variant="ghost" className="w-full justify-start text-xs font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-300 dark:hover:text-indigo-400 dark:hover:bg-indigo-900/20 rounded-xl h-10">
+                                    <User className="mr-2 h-4 w-4" />
+                                    Profile Settings
+                                </Button>
+                            </Link>
+                            <Button 
+                                variant="ghost" 
+                                onClick={() => signOut({ callbackUrl: '/login' })}
+                                className="w-full justify-start text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-900/20 rounded-xl h-10"
+                            >
+                                <LogOut className="mr-2 h-4 w-4" />
+                                Sign out
+                            </Button>
+                        </div>
+                    </PopoverContent>
+                </Popover>
             </div>
         </header>
     );

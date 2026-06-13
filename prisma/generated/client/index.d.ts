@@ -14233,10 +14233,12 @@ export namespace Prisma {
 
   export type ShiftAvgAggregateOutputType = {
     lateThreshold: number | null
+    monthlyLateThresholdHours: number | null
   }
 
   export type ShiftSumAggregateOutputType = {
     lateThreshold: number | null
+    monthlyLateThresholdHours: number | null
   }
 
   export type ShiftMinAggregateOutputType = {
@@ -14245,6 +14247,7 @@ export namespace Prisma {
     startTime: string | null
     endTime: string | null
     lateThreshold: number | null
+    monthlyLateThresholdHours: number | null
     weeklyOffs: string | null
   }
 
@@ -14254,6 +14257,7 @@ export namespace Prisma {
     startTime: string | null
     endTime: string | null
     lateThreshold: number | null
+    monthlyLateThresholdHours: number | null
     weeklyOffs: string | null
   }
 
@@ -14263,6 +14267,7 @@ export namespace Prisma {
     startTime: number
     endTime: number
     lateThreshold: number
+    monthlyLateThresholdHours: number
     weeklyOffs: number
     _all: number
   }
@@ -14270,10 +14275,12 @@ export namespace Prisma {
 
   export type ShiftAvgAggregateInputType = {
     lateThreshold?: true
+    monthlyLateThresholdHours?: true
   }
 
   export type ShiftSumAggregateInputType = {
     lateThreshold?: true
+    monthlyLateThresholdHours?: true
   }
 
   export type ShiftMinAggregateInputType = {
@@ -14282,6 +14289,7 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     lateThreshold?: true
+    monthlyLateThresholdHours?: true
     weeklyOffs?: true
   }
 
@@ -14291,6 +14299,7 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     lateThreshold?: true
+    monthlyLateThresholdHours?: true
     weeklyOffs?: true
   }
 
@@ -14300,6 +14309,7 @@ export namespace Prisma {
     startTime?: true
     endTime?: true
     lateThreshold?: true
+    monthlyLateThresholdHours?: true
     weeklyOffs?: true
     _all?: true
   }
@@ -14396,6 +14406,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold: number
+    monthlyLateThresholdHours: number
     weeklyOffs: string
     _count: ShiftCountAggregateOutputType | null
     _avg: ShiftAvgAggregateOutputType | null
@@ -14424,6 +14435,7 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     lateThreshold?: boolean
+    monthlyLateThresholdHours?: boolean
     weeklyOffs?: boolean
     employees?: boolean | Shift$employeesArgs<ExtArgs>
     attendance?: boolean | Shift$attendanceArgs<ExtArgs>
@@ -14436,6 +14448,7 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     lateThreshold?: boolean
+    monthlyLateThresholdHours?: boolean
     weeklyOffs?: boolean
   }, ExtArgs["result"]["shift"]>
 
@@ -14445,6 +14458,7 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     lateThreshold?: boolean
+    monthlyLateThresholdHours?: boolean
     weeklyOffs?: boolean
   }, ExtArgs["result"]["shift"]>
 
@@ -14454,10 +14468,11 @@ export namespace Prisma {
     startTime?: boolean
     endTime?: boolean
     lateThreshold?: boolean
+    monthlyLateThresholdHours?: boolean
     weeklyOffs?: boolean
   }
 
-  export type ShiftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "startTime" | "endTime" | "lateThreshold" | "weeklyOffs", ExtArgs["result"]["shift"]>
+  export type ShiftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "startTime" | "endTime" | "lateThreshold" | "monthlyLateThresholdHours" | "weeklyOffs", ExtArgs["result"]["shift"]>
   export type ShiftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     employees?: boolean | Shift$employeesArgs<ExtArgs>
     attendance?: boolean | Shift$attendanceArgs<ExtArgs>
@@ -14478,6 +14493,7 @@ export namespace Prisma {
       startTime: string
       endTime: string
       lateThreshold: number
+      monthlyLateThresholdHours: number
       weeklyOffs: string
     }, ExtArgs["result"]["shift"]>
     composites: {}
@@ -14909,6 +14925,7 @@ export namespace Prisma {
     readonly startTime: FieldRef<"Shift", 'String'>
     readonly endTime: FieldRef<"Shift", 'String'>
     readonly lateThreshold: FieldRef<"Shift", 'Int'>
+    readonly monthlyLateThresholdHours: FieldRef<"Shift", 'Int'>
     readonly weeklyOffs: FieldRef<"Shift", 'String'>
   }
     
@@ -51440,6 +51457,7 @@ export namespace Prisma {
     startTime: 'startTime',
     endTime: 'endTime',
     lateThreshold: 'lateThreshold',
+    monthlyLateThresholdHours: 'monthlyLateThresholdHours',
     weeklyOffs: 'weeklyOffs'
   };
 
@@ -52876,6 +52894,7 @@ export namespace Prisma {
     startTime?: StringFilter<"Shift"> | string
     endTime?: StringFilter<"Shift"> | string
     lateThreshold?: IntFilter<"Shift"> | number
+    monthlyLateThresholdHours?: IntFilter<"Shift"> | number
     weeklyOffs?: StringFilter<"Shift"> | string
     employees?: EmployeeListRelationFilter
     attendance?: AttendanceListRelationFilter
@@ -52887,6 +52906,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
     weeklyOffs?: SortOrder
     employees?: EmployeeOrderByRelationAggregateInput
     attendance?: AttendanceOrderByRelationAggregateInput
@@ -52901,6 +52921,7 @@ export namespace Prisma {
     startTime?: StringFilter<"Shift"> | string
     endTime?: StringFilter<"Shift"> | string
     lateThreshold?: IntFilter<"Shift"> | number
+    monthlyLateThresholdHours?: IntFilter<"Shift"> | number
     weeklyOffs?: StringFilter<"Shift"> | string
     employees?: EmployeeListRelationFilter
     attendance?: AttendanceListRelationFilter
@@ -52912,6 +52933,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
     weeklyOffs?: SortOrder
     _count?: ShiftCountOrderByAggregateInput
     _avg?: ShiftAvgOrderByAggregateInput
@@ -52929,6 +52951,7 @@ export namespace Prisma {
     startTime?: StringWithAggregatesFilter<"Shift"> | string
     endTime?: StringWithAggregatesFilter<"Shift"> | string
     lateThreshold?: IntWithAggregatesFilter<"Shift"> | number
+    monthlyLateThresholdHours?: IntWithAggregatesFilter<"Shift"> | number
     weeklyOffs?: StringWithAggregatesFilter<"Shift"> | string
   }
 
@@ -56423,6 +56446,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
     employees?: EmployeeCreateNestedManyWithoutShiftInput
     attendance?: AttendanceCreateNestedManyWithoutShiftInput
@@ -56434,6 +56458,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
     employees?: EmployeeUncheckedCreateNestedManyWithoutShiftInput
     attendance?: AttendanceUncheckedCreateNestedManyWithoutShiftInput
@@ -56445,6 +56470,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
     employees?: EmployeeUpdateManyWithoutShiftNestedInput
     attendance?: AttendanceUpdateManyWithoutShiftNestedInput
@@ -56456,6 +56482,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
     employees?: EmployeeUncheckedUpdateManyWithoutShiftNestedInput
     attendance?: AttendanceUncheckedUpdateManyWithoutShiftNestedInput
@@ -56467,6 +56494,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
   }
 
@@ -56476,6 +56504,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
   }
 
@@ -56485,6 +56514,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
   }
 
@@ -60164,11 +60194,13 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
     weeklyOffs?: SortOrder
   }
 
   export type ShiftAvgOrderByAggregateInput = {
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
   }
 
   export type ShiftMaxOrderByAggregateInput = {
@@ -60177,6 +60209,7 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
     weeklyOffs?: SortOrder
   }
 
@@ -60186,11 +60219,13 @@ export namespace Prisma {
     startTime?: SortOrder
     endTime?: SortOrder
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
     weeklyOffs?: SortOrder
   }
 
   export type ShiftSumOrderByAggregateInput = {
     lateThreshold?: SortOrder
+    monthlyLateThresholdHours?: SortOrder
   }
 
   export type AttendanceNullableScalarRelationFilter = {
@@ -65417,6 +65452,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
     attendance?: AttendanceCreateNestedManyWithoutShiftInput
   }
@@ -65427,6 +65463,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
     attendance?: AttendanceUncheckedCreateNestedManyWithoutShiftInput
   }
@@ -66490,6 +66527,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
     attendance?: AttendanceUpdateManyWithoutShiftNestedInput
   }
@@ -66500,6 +66538,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
     attendance?: AttendanceUncheckedUpdateManyWithoutShiftNestedInput
   }
@@ -68072,6 +68111,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
     employees?: EmployeeCreateNestedManyWithoutShiftInput
   }
@@ -68082,6 +68122,7 @@ export namespace Prisma {
     startTime: string
     endTime: string
     lateThreshold?: number
+    monthlyLateThresholdHours?: number
     weeklyOffs: string
     employees?: EmployeeUncheckedCreateNestedManyWithoutShiftInput
   }
@@ -68285,6 +68326,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
     employees?: EmployeeUpdateManyWithoutShiftNestedInput
   }
@@ -68295,6 +68337,7 @@ export namespace Prisma {
     startTime?: StringFieldUpdateOperationsInput | string
     endTime?: StringFieldUpdateOperationsInput | string
     lateThreshold?: IntFieldUpdateOperationsInput | number
+    monthlyLateThresholdHours?: IntFieldUpdateOperationsInput | number
     weeklyOffs?: StringFieldUpdateOperationsInput | string
     employees?: EmployeeUncheckedUpdateManyWithoutShiftNestedInput
   }

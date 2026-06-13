@@ -21,7 +21,7 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
         setSettings((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: "logo" | "signature") => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: "logo" | "signature" | "letterhead") => {
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -35,7 +35,7 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
         reader.onloadend = () => {
             if (typeof reader.result === "string") {
                 setSettings((prev) => ({ ...prev, [field]: reader.result as string }));
-                toast.success(`${field === "logo" ? "Logo" : "Signature"} loaded successfully!`);
+                toast.success(`${field.charAt(0).toUpperCase() + field.slice(1)} loaded successfully!`);
             }
         };
         reader.readAsDataURL(file);
@@ -136,51 +136,77 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                        {/* Logo Upload */}
-                        <div className="p-4 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col items-center justify-center text-center">
-                            <FileImage className="h-6 w-6 text-slate-400 mb-2" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Company Logo</span>
-                            {settings.logo ? (
-                                <div className="relative mb-2 w-16 h-16 rounded border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center bg-white">
-                                    <img src={settings.logo} alt="Logo Preview" className="max-w-full max-h-full object-contain" />
-                                    <button
-                                        type="button"
-                                        onClick={() => setSettings(prev => ({ ...prev, logo: "" }))}
-                                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 text-[8px] w-4 h-4 flex items-center justify-center font-bold"
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            ) : (
-                                <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
-                                    Upload
-                                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "logo")} className="hidden" />
-                                </label>
-                            )}
+                    <div className="grid grid-cols-1 gap-4">
+                        <div className="grid grid-cols-2 gap-4">
+                            {/* Logo Upload */}
+                            <div className="p-4 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col items-center justify-center text-center">
+                                <FileImage className="h-6 w-6 text-slate-400 mb-2" />
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Company Logo</span>
+                                {settings.logo ? (
+                                    <div className="relative mb-2 w-16 h-16 rounded border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center bg-white">
+                                        <img src={settings.logo} alt="Logo Preview" className="max-w-full max-h-full object-contain" />
+                                        <button
+                                            type="button"
+                                            onClick={() => setSettings(prev => ({ ...prev, logo: "" }))}
+                                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 text-[8px] w-4 h-4 flex items-center justify-center font-bold"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
+                                        Upload
+                                        <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "logo")} className="hidden" />
+                                    </label>
+                                )}
+                            </div>
+
+                            {/* Signature Upload */}
+                            <div className="p-4 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col items-center justify-center text-center">
+                                <Signature className="h-6 w-6 text-slate-400 mb-2" />
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">HR Signature</span>
+                                {settings.signature ? (
+                                    <div className="relative mb-2 w-16 h-16 rounded border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center bg-white">
+                                        <img src={settings.signature} alt="Signature Preview" className="max-w-full max-h-full object-contain" />
+                                        <button
+                                            type="button"
+                                            onClick={() => setSettings(prev => ({ ...prev, signature: "" }))}
+                                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 text-[8px] w-4 h-4 flex items-center justify-center font-bold"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
+                                        Upload
+                                        <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "signature")} className="hidden" />
+                                    </label>
+                                )}
+                            </div>
                         </div>
 
-                        {/* Signature Upload */}
+                        {/* Letterhead Upload */}
                         <div className="p-4 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30 flex flex-col items-center justify-center text-center">
-                            <Signature className="h-6 w-6 text-slate-400 mb-2" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">HR Signature</span>
-                            {settings.signature ? (
-                                <div className="relative mb-2 w-16 h-16 rounded border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center bg-white">
-                                    <img src={settings.signature} alt="Signature Preview" className="max-w-full max-h-full object-contain" />
+                            <FileImage className="h-6 w-6 text-slate-400 mb-2" />
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Letterhead Template</span>
+                            {settings.letterhead ? (
+                                <div className="relative mb-2 w-full h-24 rounded border border-slate-100 dark:border-slate-800 overflow-hidden flex items-center justify-center bg-white">
+                                    <img src={settings.letterhead} alt="Letterhead Preview" className="max-w-full max-h-full object-contain" />
                                     <button
                                         type="button"
-                                        onClick={() => setSettings(prev => ({ ...prev, signature: "" }))}
-                                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 text-[8px] w-4 h-4 flex items-center justify-center font-bold"
+                                        onClick={() => setSettings(prev => ({ ...prev, letterhead: "" }))}
+                                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 text-[10px] w-5 h-5 flex items-center justify-center font-bold z-10"
                                     >
                                         ×
                                     </button>
                                 </div>
                             ) : (
                                 <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
-                                    Upload
-                                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "signature")} className="hidden" />
+                                    Upload Letterhead
+                                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "letterhead")} className="hidden" />
                                 </label>
                             )}
+                            <p className="text-[9px] text-slate-400 mt-2 max-w-[250px]">A4 ratio image (210x297) under 500KB. Will be used as background for generated letters.</p>
                         </div>
                     </div>
                 </div>

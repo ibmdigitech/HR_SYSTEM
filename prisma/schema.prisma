@@ -178,14 +178,15 @@ model Attendance {
 }
 
 model Shift {
-  id            String       @id @default(cuid())
-  name          String
-  startTime     String
-  endTime       String
-  lateThreshold Int          @default(15)
-  weeklyOffs    String
-  employees     Employee[]
-  attendance    Attendance[]
+  id                        String       @id @default(cuid())
+  name                      String
+  startTime                 String
+  endTime                   String
+  lateThreshold             Int          @default(15)
+  monthlyLateThresholdHours Int          @default(4)
+  weeklyOffs                String
+  employees                 Employee[]
+  attendance                Attendance[]
 }
 
 model BiometricLog {

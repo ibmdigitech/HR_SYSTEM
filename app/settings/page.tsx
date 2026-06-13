@@ -9,7 +9,7 @@ import {
     User, Mail, Phone, MapPin, Calendar, Building2,
     CreditCard, ShieldCheck, Bell, Lock, LogOut,
     UserCircle, Activity, Zap, Sparkles, ChevronRight,
-    ArrowRight, Globe
+    ArrowRight, Globe, FileText
 } from "lucide-react";
 import { signOut } from "@/auth";
 import { cn } from "@/lib/utils";
@@ -176,6 +176,24 @@ export default async function SettingsPage() {
                             </CardHeader>
                             <CardContent className="p-8">
                                 <CompanySettingsForm initialSettings={companySettings} />
+                                <div className="flex flex-col gap-2">
+                                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Time & Attendance</h4>
+                                    <a href="/settings/shifts">
+                                        <Button variant="outline" className="w-full justify-between mt-2 rounded-xl h-12 border-emerald-200 text-emerald-700 bg-emerald-50/50 hover:bg-emerald-100 hover:text-emerald-800 transition-all font-bold group">
+                                            <span className="flex items-center gap-2"><Calendar className="h-4 w-4" /> Shift & Roster Manager</span>
+                                            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                        </Button>
+                                    </a>
+                                </div>
+                                <div className="flex flex-col gap-2 mt-4">
+                                    <h4 className="text-xs font-black uppercase tracking-widest text-slate-400">Document Management</h4>
+                                    <a href="/dashboard/settings/templates">
+                                        <Button variant="outline" className="w-full justify-between mt-2 rounded-xl h-12 border-indigo-200 text-indigo-700 bg-indigo-50/50 hover:bg-indigo-100 hover:text-indigo-800 transition-all font-bold group">
+                                            <span className="flex items-center gap-2"><FileText className="h-4 w-4" /> Letter Templates Manager</span>
+                                            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                        </Button>
+                                    </a>
+                                </div>
                             </CardContent>
                         </Card>
                     )}

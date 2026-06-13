@@ -249,6 +249,7 @@ exports.Prisma.ShiftScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   lateThreshold: 'lateThreshold',
+  monthlyLateThresholdHours: 'monthlyLateThresholdHours',
   weeklyOffs: 'weeklyOffs'
 };
 

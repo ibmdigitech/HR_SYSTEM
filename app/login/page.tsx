@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, Suspense } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -51,7 +51,7 @@ function MicrosoftIcon() {
     );
 }
 
-export default function LoginPage() {
+function LoginForm() {
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
     const [isPending, startTransition] = useTransition();
     const [oauthLoading, setOauthLoading] = useState<'google' | 'microsoft' | null>(null);
@@ -100,7 +100,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
+        <div className="min-h-[calc(100vh-3rem)] -mx-6 -mt-6 -mb-6 flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
             {/* Background decorative blobs */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-600 rounded-full opacity-10 blur-3xl" />
@@ -214,5 +214,17 @@ export default function LoginPage() {
                 </CardContent>
             </Card>
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-[calc(100vh-3rem)] -mx-6 -mt-6 -mb-6 flex items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900">
+                <Loader2 className="h-8 w-8 animate-spin text-white" />
+            </div>
+        }>
+            <LoginForm />
+        </Suspense>
     );
 }
