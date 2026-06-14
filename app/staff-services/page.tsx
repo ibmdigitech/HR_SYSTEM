@@ -104,9 +104,14 @@ export default async function StaffServicesPage() {
                                 Book Leave
                             </Button>
                         </Link>
+                        <Link href="/payroll/loans/my-loans">
+                            <Button className="h-12 px-6 rounded-xl bg-white/10 text-white hover:bg-white/20 font-bold text-sm border border-white/20 backdrop-blur-sm transition-transform hover:scale-105 active:scale-95">
+                                My Loans
+                            </Button>
+                        </Link>
                         <Link href="/requests">
                             <Button className="h-12 px-6 rounded-xl bg-white/10 text-white hover:bg-white/20 font-bold text-sm border border-white/20 backdrop-blur-sm transition-transform hover:scale-105 active:scale-95">
-                                Apply for Certificate / Loan
+                                Apply for Certificate
                             </Button>
                         </Link>
                     </div>

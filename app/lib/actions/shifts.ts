@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { revalidatePath } from "next/cache";
 
 export interface ShiftData {
     name: string;
@@ -22,9 +23,9 @@ export async function getShifts() {
                 }
             }
         });
-        return { success: true, data: shifts };
+        return { success: true, data: shifts ?? [] };
     } catch (error: any) {
-        return { success: false, error: error.message };
+        return { success: false, error: error.message, data: [] };
     }
 }
 
@@ -81,5 +82,114 @@ export async function deleteShift(id: string) {
         return { success: true };
     } catch (error: any) {
         return { success: false, error: error.message };
+    }
+}
+
+// ─── SHIFT ASSIGNMENT ACTIONS ───────────────────────────────────────────────────
+
+export async function assignShift(employeeId: string, shiftId: string | null) {
+    const session = await auth();
+    if (!session?.user?.email) return { success: false, message: "Not authenticated" };
+
+    const userRole = (session.user as any)?.role;
+    if (!["ADMIN", "HR", "MANAGER"].includes(userRole)) {
+        return { success: false, message: "Unauthorized" };
+    }
+
+    try {
+        // If manager, verify the employee is a direct report
+        if (userRole === "MANAGER") {
+            const currentUser = await prisma.user.findUnique({
+                where: { email: session.user.email },
+                include: { employee: true }
+            });
+            if (!currentUser?.employee) return { success: false, message: "Profile not found" };
+
+            const employee = await prisma.employee.findUnique({ where: { id: employeeId } });
+            if (!employee || employee.managerId !== currentUser.employee.id) {
+                return { success: false, message: "You can only manage shifts for your direct reports." };
+            }
+        }
+
+        await prisma.employee.update({
+            where: { id: employeeId },
+            data: { shiftId: shiftId || null }
+        });
+
+        revalidatePath("/attendance");
+        revalidatePath("/attendance/shifts");
+        return { success: true, message: "Shift assigned successfully" };
+    } catch (error: any) {
+        return { success: false, message: error.message };
+    }
+}
+
+export async function bulkAssignShift(employeeIds: string[], shiftId: string) {
+    const session = await auth();
+    if (!session?.user?.email) return { success: false, message: "Not authenticated" };
+
+    const userRole = (session.user as any)?.role;
+    if (!["ADMIN", "HR"].includes(userRole)) {
+        return { success: false, message: "Only HR/Admin can perform bulk assignments" };
+    }
+
+    try {
+        await prisma.employee.updateMany({
+            where: { id: { in: employeeIds } },
+            data: { shiftId }
+        });
+
+        revalidatePath("/attendance");
+        revalidatePath("/attendance/shifts");
+        return { success: true, message: `${employeeIds.length} employee(s) assigned successfully` };
+    } catch (error: any) {
+        return { success: false, message: error.message };
+    }
+}
+
+export async function getShiftRoster() {
+    const session = await auth();
+    if (!session?.user?.email) return { success: false, data: { shifts: [], unassigned: [] } };
+
+    const userRole = (session.user as any)?.role;
+
+    try {
+        const currentUser = await prisma.user.findUnique({
+            where: { email: session.user.email },
+            include: { employee: true }
+        });
+
+        const shifts = await prisma.shift.findMany({
+            include: {
+                employees: {
+                    where: { isActive: true },
+                    include: { manager: true },
+                    orderBy: { firstName: 'asc' }
+                },
+                _count: { select: { employees: true } }
+            },
+            orderBy: { name: 'asc' }
+        });
+
+        let unassigned = await prisma.employee.findMany({
+            where: { isActive: true, shiftId: null },
+            orderBy: { firstName: 'asc' }
+        });
+
+        // Manager: filter to only their direct reports
+        if (userRole === "MANAGER" && currentUser?.employee) {
+            const managerId = currentUser.employee.id;
+            const filteredShifts = shifts.map(s => ({
+                ...s,
+                employees: s.employees.filter(e => e.managerId === managerId),
+                _count: { employees: s.employees.filter(e => e.managerId === managerId).length }
+            }));
+            unassigned = unassigned.filter(e => e.managerId === managerId);
+            return { success: true, data: { shifts: filteredShifts, unassigned } };
+        }
+
+        return { success: true, data: { shifts, unassigned } };
+    } catch (error: any) {
+        return { success: false, data: { shifts: [], unassigned: [] }, message: error.message };
     }
 }

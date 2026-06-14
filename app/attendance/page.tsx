@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Calendar as CalendarIcon, Clock, Filter, UserCheck, Users, MapPin, Cpu } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, Filter, UserCheck, Users, MapPin, Cpu, CalendarClock } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { redirect } from "next/navigation";
 import { CheckInButton } from "@/components/attendance/CheckInButton";
@@ -39,6 +39,7 @@ export default async function AttendancePage({
 
     const allActiveEmployees = await prisma.employee.findMany({
         where: { isActive: true },
+        include: { shift: true },
         orderBy: { firstName: 'asc' }
     });
 
@@ -49,7 +50,7 @@ export default async function AttendancePage({
                 lt: tomorrow
             }
         },
-        include: { employee: true }
+        include: { employee: { include: { shift: true } } }
     });
 
     const presentToday = todayRecords.filter(r => r.status === "PRESENT" || r.status === "LATE").length;
@@ -82,20 +83,21 @@ export default async function AttendancePage({
                 checkIn: record?.checkIn || null,
                 checkOut: record?.checkOut || null,
                 status: record?.status || "NO_RECORD",
-                lateMinutes: record?.lateMinutes || 0
+                lateMinutes: record?.lateMinutes || 0,
+                shift: emp.shift || null
             };
         });
     } else {
         if (userRole === "ADMIN" || userRole === "HR" || userRole === "MANAGER") {
             displayRecords = await prisma.attendance.findMany({
-                include: { employee: true },
+                include: { employee: { include: { shift: true } } },
                 orderBy: { date: 'desc' },
                 ...(showAll ? {} : { take: 20 })
             });
         } else if (user.employee) {
             displayRecords = await prisma.attendance.findMany({
                 where: { employeeId: user.employee.id },
-                include: { employee: true },
+                include: { employee: { include: { shift: true } } },
                 orderBy: { date: 'desc' },
                 ...(showAll ? {} : { take: 10 })
             });
@@ -116,6 +118,12 @@ export default async function AttendancePage({
                     </p>
                 </div>
                 <div className="relative z-10 flex flex-col sm:flex-row gap-3 flex-wrap">
+                    <Link href="/attendance/shifts">
+                        <Button variant="secondary" className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
+                            <CalendarClock className="h-4 w-4" />
+                            Shift Roster
+                        </Button>
+                    </Link>
                     {(userRole === "ADMIN" || userRole === "HR") && (
                         <Link href="/attendance/machine-integration">
                             <Button variant="secondary" className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
@@ -226,6 +234,7 @@ export default async function AttendancePage({
                                 <TableHeader>
                                     <TableRow className="border-slate-100 dark:border-slate-800/60 hover:bg-transparent">
                                         <TableHead className="font-bold py-4">Employee</TableHead>
+                                        <TableHead className="font-bold py-4">Shift</TableHead>
                                         <TableHead className="font-bold py-4">Date</TableHead>
                                         <TableHead className="font-bold py-4">Check-In</TableHead>
                                         <TableHead className="font-bold py-4">Check-Out</TableHead>
@@ -244,6 +253,16 @@ export default async function AttendancePage({
                                                         {record.employee.firstName} {record.employee.lastName}
                                                     </div>
                                                 </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                {(record.shift || record.employee?.shift) ? (
+                                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 rounded-lg text-[10px] font-bold">
+                                                        <Clock className="h-2.5 w-2.5" />
+                                                        {(record.shift || record.employee?.shift)?.name}
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-[10px] text-slate-400 italic">—</span>
+                                                )}
                                             </TableCell>
                                             <TableCell className="font-medium text-slate-600 dark:text-slate-400">
                                                 {new Date(record.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -273,7 +292,7 @@ export default async function AttendancePage({
                                     ))}
                                     {displayRecords.length === 0 && (
                                         <TableRow>
-                                            <TableCell colSpan={5} className="text-center py-20 text-slate-400 italic font-medium">
+                                            <TableCell colSpan={6} className="text-center py-20 text-slate-400 italic font-medium">
                                                 No attendance records found.
                                             </TableCell>
                                         </TableRow>

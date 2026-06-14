@@ -31,7 +31,7 @@ export default function ShiftsPage() {
     const loadShifts = async () => {
         setLoading(true);
         const res = await getShifts();
-        if (res.success) {
+        if (res.success && res.data) {
             setShifts(res.data);
             if (res.data.length > 0 && !selectedShift) {
                 selectShift(res.data[0]);

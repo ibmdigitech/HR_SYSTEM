@@ -63,7 +63,7 @@ export default async function ApplyLoanPage() {
                         </div>
                     )}
 
-                    <form action={applyForLoan} className="space-y-8">
+                    <form action={async (formData: FormData) => { "use server"; await applyForLoan(formData); }} className="space-y-8">
                         <div className="grid gap-6 md:grid-cols-2">
                             {/* Read-only Employee Info */}
                             <div className="space-y-2">
