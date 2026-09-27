@@ -1,165 +1,316 @@
-'use server';
+"use server";
 
-import { auth } from "@/auth";
-import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+/**
+ * Recruitment server actions (P1).
+ *
+ * These previously wrote the OLD schema directly (`Candidate.jobId`,
+ * `Interview.interviewerId`, a free-text `Candidate.status`) with only an
+ * inline role check. They are now thin wrappers over
+ * `lib/workflow/recruitment.ts`, which owns authorization, the state machines,
+ * transactions and audit logging.
+ *
+ * A `"use server"` file may only export async functions, so these delegate
+ * rather than re-export.
+ */
 
-export async function createJobRequisition(prevState: any, formData: FormData) {
-    const session = await auth();
-    if (!session?.user?.email) return { message: "Not authenticated", success: false };
+import {
+    createRequisition,
+    transitionRequisition,
+    applyToJob,
+    recordScreening,
+    scheduleInterview as scheduleInterviewCore,
+    submitInterviewFeedback,
+    createOffer,
+    transitionOffer,
+    markHired,
+} from "@/lib/workflow/recruitment";
+import { requireUser } from "@/lib/auth/guards";
+import { getSessionUser } from "@/lib/auth/guards";
 
-    const title = formData.get("title") as string;
-    const department = formData.get("department") as string;
-    const location = formData.get("location") as string;
-    const description = formData.get("description") as string;
-    const requirements = formData.get("requirements") as string;
+export type ActionResult = { success: boolean; message: string; id?: string };
 
-    if (!title || !department)
-        return { message: "Missing required fields", success: false };
+/* ---------------------------------------------------------------- */
+/* §3 — Job requisition                                              */
+/* ---------------------------------------------------------------- */
 
+export async function createJobRequisition(
+    _prevState: unknown,
+    formData: FormData
+): Promise<ActionResult> {
+    const user = await requireUser();
+
+    const num = (key: string): number | undefined => {
+        const raw = formData.get(key);
+        if (typeof raw !== "string" || raw.trim() === "") return undefined;
+        const parsed = Number(raw);
+        return Number.isFinite(parsed) ? parsed : undefined;
+    };
+    const str = (key: string): string | undefined => {
+        const raw = formData.get(key);
+        return typeof raw === "string" && raw.trim() !== "" ? raw.trim() : undefined;
+    };
+
+    const targetJoiningDate = str("targetJoiningDate");
+    const consentGiven = formData.get("consentGiven") === "on" || formData.get("consentGiven") === "true";
+
+    return createRequisition({
+        title: str("title") ?? "",
+        department: str("department") ?? "",
+        location: str("location"),
+        employmentType: str("employmentType") ?? "FULL_TIME",
+        positionsCount: num("positionsCount") ?? 1,
+        positionType: str("positionType") ?? "NEW_POSITION",
+        reason: str("reason"),
+        requiredSkills: str("requiredSkills"),
+        minSalary: num("minSalary"),
+        maxSalary: num("maxSalary"),
+        priority: str("priority") ?? "MEDIUM",
+        targetJoiningDate: targetJoiningDate ? new Date(targetJoiningDate) : undefined,
+        // `applyToJob` requires explicit consent; a requisition does not.
+        actor: { id: user.id, email: user.email, role: user.role, employeeId: user.employeeId },
+        consentGiven,
+    } as Parameters<typeof createRequisition>[0] & { consentGiven: boolean });
+}
+
+export async function moveRequisition(requisitionId: string, to: string, note?: string): Promise<ActionResult> {
+    return transitionRequisition({ requisitionId, to, note });
+}
+
+/* ---------------------------------------------------------------- */
+/* §5/§6 — Candidate application                                     */
+/* ---------------------------------------------------------------- */
+
+export async function submitCandidateApplication(
+    _prevState: unknown,
+    formData: FormData
+): Promise<ActionResult> {
+    const user = await requireUser();
+    const str = (key: string): string | undefined => {
+        const raw = formData.get(key);
+        return typeof raw === "string" && raw.trim() !== "" ? raw.trim() : undefined;
+    };
+    const num = (key: string): number | undefined => {
+        const raw = formData.get(key);
+        if (typeof raw !== "string" || raw.trim() === "") return undefined;
+        const parsed = Number(raw);
+        return Number.isFinite(parsed) ? parsed : undefined;
+    };
+
+    return applyToJob({
+        jobRequisitionId: str("jobId") ?? str("jobRequisitionId") ?? "",
+        firstName: str("firstName") ?? "",
+        lastName: str("lastName") ?? "",
+        email: str("email") ?? "",
+        phone: str("phone"),
+        nationality: str("nationality"),
+        currentLocation: str("currentLocation"),
+        resumeUrl: str("resumeUrl"),
+        skills: str("skills"),
+        currentEmployer: str("currentEmployer"),
+        currentPosition: str("currentPosition"),
+        expectedSalary: num("expectedSalary"),
+        noticePeriodDays: num("noticePeriodDays"),
+        source: str("source") ?? "DIRECT",
+        // Consent is mandatory and is not inferred from a missing checkbox.
+        consentGiven: formData.get("consentGiven") === "on" || formData.get("consentGiven") === "true",
+        actor: { id: user.id, email: user.email, role: user.role, employeeId: user.employeeId },
+    });
+}
+
+/* ---------------------------------------------------------------- */
+/* §7 — Screening                                                    */
+/* ---------------------------------------------------------------- */
+
+export async function screenApplication(_prevState: unknown, formData: FormData): Promise<ActionResult> {
+    const str = (key: string): string | undefined => {
+        const raw = formData.get(key);
+        return typeof raw === "string" && raw.trim() !== "" ? raw.trim() : undefined;
+    };
+    const ratingRaw = str("rating");
+    const rating = ratingRaw ? Number(ratingRaw) : undefined;
+
+    return recordScreening({
+        applicationId: str("applicationId") ?? "",
+        to: str("to") ?? "",
+        relevantExperience: str("relevantExperience"),
+        skillsMatch: str("skillsMatch"),
+        salaryMatch: str("salaryMatch"),
+        noticePeriodMatch: str("noticePeriodMatch"),
+        locationMatch: str("locationMatch"),
+        visaStatus: str("visaStatus"),
+        availability: str("availability"),
+        comments: str("comments"),
+        recommendation: str("recommendation"),
+        rating: rating != null && Number.isFinite(rating) ? rating : undefined,
+    });
+}
+
+/* ---------------------------------------------------------------- */
+/* §9/§10/§11 — Interviews                                          */
+/* ---------------------------------------------------------------- */
+
+export async function scheduleInterview(_prevState: unknown, formData: FormData): Promise<ActionResult> {
+    const str = (key: string): string | undefined => {
+        const raw = formData.get(key);
+        return typeof raw === "string" && raw.trim() !== "" ? raw.trim() : undefined;
+    };
+    const num = (key: string): number | undefined => {
+        const raw = formData.get(key);
+        if (typeof raw !== "string" || raw.trim() === "") return undefined;
+        const parsed = Number(raw);
+        return Number.isFinite(parsed) ? parsed : undefined;
+    };
+
+    // A multi-select posts repeated keys under one name.
+    const interviewers = formData.getAll("interviewerIds").filter((v): v is string => typeof v === "string");
+
+    const startAt = str("startAt");
+    const endAt = str("endAt");
+    if (!startAt || !endAt) {
+        return { success: false, message: "Start and end time are required." };
+    }
+
+    return scheduleInterviewCore({
+        candidateId: str("candidateId") ?? "",
+        applicationId: str("applicationId"),
+        interviewType: str("interviewType") ?? "HR",
+        round: num("round") ?? 1,
+        mode: str("mode") ?? "ONSITE",
+        location: str("location"),
+        meetingLink: str("meetingLink"),
+        startAt: new Date(startAt),
+        endAt: new Date(endAt),
+        coordinatorId: str("coordinatorId"),
+        interviewerIds: interviewers,
+    });
+}
+
+export async function submitFeedback(_prevState: unknown, formData: FormData): Promise<ActionResult> {
+    const str = (key: string): string | undefined => {
+        const raw = formData.get(key);
+        return typeof raw === "string" && raw.trim() !== "" ? raw.trim() : undefined;
+    };
+    const score = (key: string): number | undefined => {
+        const raw = str(key);
+        if (!raw) return undefined;
+        const parsed = Number(raw);
+        return Number.isFinite(parsed) ? parsed : undefined;
+    };
+
+    return submitInterviewFeedback({
+        interviewId: str("interviewId") ?? "",
+        participantId: str("participantId") ?? "",
+        scores: {
+            technicalSkills: score("technicalSkills"),
+            communication: score("communication"),
+            problemSolving: score("problemSolving"),
+            domainKnowledge: score("domainKnowledge"),
+            teamFit: score("teamFit"),
+            leadership: score("leadership"),
+            overall: score("overall"),
+        },
+        strengths: str("strengths"),
+        concerns: str("concerns"),
+        comments: str("comments"),
+        recommendation: str("recommendation"),
+    });
+}
+
+/* ---------------------------------------------------------------- */
+/* §14 — Offers                                                     */
+/* ---------------------------------------------------------------- */
+
+export async function createOfferRecord(_prevState: unknown, formData: FormData): Promise<ActionResult> {
+    const str = (key: string): string | undefined => {
+        const raw = formData.get(key);
+        return typeof raw === "string" && raw.trim() !== "" ? raw.trim() : undefined;
+    };
+    const salary = Number(str("offeredSalary"));
+
+    return createOffer({
+        applicationId: str("applicationId") ?? "",
+        candidateId: str("candidateId") ?? "",
+        offeredSalary: salary,
+        designation: str("designation") ?? "",
+        department: str("department") ?? "",
+        joiningDate: new Date(str("joiningDate") ?? Date.now()),
+        allowances: Number(str("allowances") ?? 0) || 0,
+        benefits: str("benefits"),
+        probationPeriodMonths: Number(str("probationPeriodMonths") ?? 0) || undefined,
+        offerExpiry: str("offerExpiry") ? new Date(str("offerExpiry")!) : undefined,
+        contractType: str("contractType"),
+    });
+}
+
+export async function moveOffer(offerId: string, to: string, acceptanceMethod?: string): Promise<ActionResult> {
+    return transitionOffer({ offerId, to, acceptanceMethod });
+}
+
+/**
+ * §15 — issues the offer letter through the EXISTING letters engine. No second
+ * PDF renderer is created; this writes a `Letter` row that the current
+ * `generateLetterPDF` already renders.
+ */
+export async function issueOfferLetterAction(offerId: string): Promise<ActionResult> {
+    const { issueOfferLetter } = await import("@/lib/workflow/offer-letter");
+    const result = await issueOfferLetter(offerId);
+    return { success: result.success, message: result.message, id: result.letterId };
+}
+
+/* ---------------------------------------------------------------- */
+/* §19 — Candidate to employee                                      */
+/* ---------------------------------------------------------------- */
+
+/**
+ * P1 §19: the Employee record is created at the JOINING stage, not here.
+ * This marks the application hired and points at the joining workflow. Creating
+ * an Employee merely because someone applied is explicitly prohibited.
+ */
+export async function convertCandidateToEmployee(candidateId: string): Promise<ActionResult> {
+    const user = await requireUser();
+    // Resolve the most recent application for this candidate.
+    const application = await (await import("@/lib/prisma")).default.application.findFirst({
+        where: { candidateId },
+        orderBy: { appliedAt: "desc" },
+        select: { id: true },
+    });
+    if (!application) {
+        return { success: false, message: "No application found for this candidate." };
+    }
+    void user;
+    return markHired(application.id);
+}
+
+/**
+ * §19 — completes a joining. This is the ONLY path that turns a candidate into
+ * an Employee, and it runs as a single transaction. An Employee is never
+ * created merely because someone applied.
+ */
+export async function completeJoiningAction(applicationId: string, joiningDate?: string): Promise<ActionResult> {
     try {
-        const user = await prisma.user.findUnique({
-            where: { email: session.user.email },
-            include: { employee: true },
+        const user = await requireUser();
+        const { completeJoining } = await import("@/lib/workflow/joining");
+        const result = await completeJoining({
+            applicationId,
+            joiningDate,
+            actor: { id: user.id, email: user.email, role: user.role, employeeId: user.employeeId },
         });
-
-        if (!user?.employee) return { message: "Employee profile not found.", success: false };
-
-        const job = await prisma.jobRequisition.create({
-            data: {
-                title,
-                department,
-                location,
-                description,
-                requirements,
-                requestedById: user.employee.id,
-                status: "OPEN"
-            },
-        });
-
-        revalidatePath("/recruitment");
-        return { message: "Job Requisition created successfully!", success: true };
-    } catch (e) {
-        console.error(e);
-        return { message: "Database Error", success: false };
+        return {
+            success: result.success,
+            message: result.success && result.employeeCode
+                ? `${result.message} (${result.employeeCode})`
+                : result.message,
+            id: result.employeeId,
+        };
+    } catch (error) {
+        console.error("[COMPLETE_JOINING_ACTION_FAILED]", error);
+        return { success: false, message: "Joining failed. Nothing was changed." };
     }
 }
 
-export async function submitCandidateApplication(prevState: any, formData: FormData) {
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
-    const email = formData.get("email") as string;
-    const phone = formData.get("phone") as string;
-    const jobId = formData.get("jobId") as string;
-
-    if (!firstName || !lastName || !email || !jobId)
-        return { message: "Missing required fields", success: false };
-
-    try {
-        const candidate = await prisma.candidate.create({
-            data: {
-                firstName,
-                lastName,
-                email,
-                phone,
-                jobId,
-                status: "APPLIED"
-            },
-        });
-
-        revalidatePath("/recruitment");
-        return { message: "Application submitted successfully!", success: true };
-    } catch (e) {
-        console.error(e);
-        return { message: "Database Error", success: false };
-    }
-}
-
-export async function scheduleInterview(prevState: any, formData: FormData) {
-    const session = await auth();
-    if (!session?.user?.email) return { message: "Not authenticated", success: false };
-
-    const candidateId = formData.get("candidateId") as string;
-    const interviewerId = formData.get("interviewerId") as string;
-    const scheduledAt = formData.get("scheduledAt") as string;
-
-    if (!candidateId || !interviewerId || !scheduledAt)
-        return { message: "Missing required fields", success: false };
-
-    try {
-        const interview = await prisma.interview.create({
-            data: {
-                candidateId,
-                interviewerId,
-                scheduledAt: new Date(scheduledAt),
-                status: "SCHEDULED"
-            },
-        });
-
-        await prisma.candidate.update({
-            where: { id: candidateId },
-            data: { status: "INTERVIEW" }
-        });
-
-        revalidatePath("/recruitment");
-        return { message: "Interview scheduled successfully!", success: true };
-    } catch (e) {
-        console.error(e);
-        return { message: "Database Error", success: false };
-    }
-}
-
-export async function convertCandidateToEmployee(candidateId: string) {
-    const session = await auth();
-    if (!session?.user?.email) return { message: "Not authenticated", success: false };
-
-    try {
-        const user = await prisma.user.findUnique({ where: { email: session.user.email } });
-        if (!user || (user.role !== "HR" && user.role !== "ADMIN"))
-            return { message: "Unauthorized: HR role required", success: false };
-
-        const candidate = await prisma.candidate.findUnique({
-            where: { id: candidateId },
-            include: { job: true }
-        });
-
-        if (!candidate) return { message: "Candidate not found", success: false };
-
-        // 1. Create a dummy user for the employee to login
-        const newUser = await prisma.user.create({
-            data: {
-                email: candidate.email,
-                name: `${candidate.firstName} ${candidate.lastName}`,
-                role: "STAFF"
-            }
-        });
-
-        // 2. Create the Employee record
-        const newEmployee = await prisma.employee.create({
-            data: {
-                userId: newUser.id,
-                firstName: candidate.firstName,
-                lastName: candidate.lastName,
-                email: candidate.email,
-                phone: candidate.phone,
-                designation: candidate.job.title,
-                department: candidate.job.department,
-                joiningDate: new Date(),
-                rollNumber: `TEMP-${Date.now()}` // Will be updated to auto-increment later
-            }
-        });
-
-        // 3. Update candidate status
-        await prisma.candidate.update({
-            where: { id: candidateId },
-            data: { status: "HIRED" }
-        });
-
-        revalidatePath("/employees");
-        revalidatePath("/recruitment");
-        return { message: "Candidate successfully onboarded as Employee!", success: true };
-    } catch (e) {
-        console.error(e);
-        return { message: "Database Error", success: false };
-    }
+/** Read-only helper for the recruitment screens. */
+export async function getRecruitmentSummary() {
+    const session = await getSessionUser();
+    if (!session.ok) return { success: false as const, message: "Not authenticated" };
+    return { success: true as const, role: session.user.role };
 }

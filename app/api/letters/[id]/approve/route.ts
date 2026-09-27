@@ -8,7 +8,7 @@ export async function POST(
 ) {
     const { id } = await params;
     const session = await auth();
-    if (!session || !["ADMIN", "HR"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR"].includes((session.user as { role: string }).role)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

@@ -97,7 +97,7 @@ export async function processLoanApproval(applicationId: string, level: "MANAGER
             }
         });
 
-        const updateData: any = {};
+        const updateData: Record<string, unknown> = {};
         
         if (level === "MANAGER") {
             updateData.managerStatus = action;

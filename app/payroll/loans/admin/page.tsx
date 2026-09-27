@@ -2,9 +2,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { format } from "date-fns";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { LoanApprovalActions } from "@/components/payroll/LoanApprovalActions";
+import { Card, CardContent } from "@/components/ui/card";import { LoanApprovalActions } from "@/components/payroll/LoanApprovalActions";
 import {
     Banknote,
     Users,
@@ -13,7 +11,7 @@ import {
     XCircle,
     Shield,
     FileText,
-    TrendingUp
+    
 } from "lucide-react";
 import Link from "next/link";
 
@@ -181,7 +179,7 @@ export default async function LoansAdminDashboard() {
                                             {/* Reason */}
                                             {app.reason && (
                                                 <div className="p-3 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-100 dark:border-amber-900/30">
-                                                    <p className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-1">Applicant's Reason</p>
+                                                    <p className="text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-1">Applicant&#39;s Reason</p>
                                                     <p className="text-sm text-slate-700 dark:text-slate-300 italic">&ldquo;{app.reason}&rdquo;</p>
                                                 </div>
                                             )}

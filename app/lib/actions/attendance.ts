@@ -62,9 +62,9 @@ export async function checkIn() {
         revalidatePath("/attendance");
         revalidatePath("/dashboard");
         return { success: true, message: "Checked in successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[CHECK_IN_ERROR]", error);
-        return { success: false, message: error.message };
+        return { success: false, message: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
@@ -116,9 +116,9 @@ export async function checkOut() {
         revalidatePath("/attendance");
         revalidatePath("/dashboard");
         return { success: true, message: "Checked out successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[CHECK_OUT_ERROR]", error);
-        return { success: false, message: error.message };
+        return { success: false, message: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 

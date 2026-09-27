@@ -5,14 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, AlertTriangle, CheckCircle, Search, Clock, ShieldAlert, ArrowUpRight } from "lucide-react";
+import { AlertTriangle, CheckCircle, Search, Clock, ShieldAlert, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 export default async function VisaCompliancePage() {
     const session = await auth();
     if (!session?.user) redirect("/login");
 
-    const userRole = (session.user as any).role;
+    const userRole = (session.user as { role: string }).role;
     if (!["ADMIN", "HR", "MANAGER"].includes(userRole)) {
         redirect("/staff-services");
     }
@@ -25,6 +25,12 @@ export default async function VisaCompliancePage() {
     const today = new Date();
     const thirtyDays = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
     const ninetyDays = new Date(today.getTime() + 90 * 24 * 60 * 60 * 1000);
+
+    // `passportExpiry` is `Date | null`. `new Date(null)` produces a bogus
+    // 1970 date rather than failing, so the null case is handled explicitly
+    // instead of being coerced.
+    const formatExpiry = (value: Date | null | undefined): string =>
+        value ? new Date(value).toLocaleDateString() : "—";
 
     const getDocumentStatus = (expiryDate: Date | null | undefined) => {
         if (!expiryDate) return { label: "N/A", color: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400" };
@@ -155,7 +161,7 @@ export default async function VisaCompliancePage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {employees.map((record: any) => {
+                                {employees.map((record) => {
                                     const passStat = getDocumentStatus(record.passportExpiry);
                                     const eidStat = getDocumentStatus(record.emiratesIdExpiry);
                                     const visaStat = getDocumentStatus(record.visaExpiry);
@@ -185,7 +191,7 @@ export default async function VisaCompliancePage() {
                                                     <div className="space-y-1">
                                                         <div className="font-bold text-xs text-slate-700 dark:text-slate-300">{record.passportNumber}</div>
                                                         <div className="flex items-center gap-1.5">
-                                                            <span className="text-[10px] text-slate-500 font-medium">Exp: {new Date(record.passportExpiry).toLocaleDateString()}</span>
+                                                            <span className="text-[10px] text-slate-500 font-medium">Exp: {formatExpiry(record.passportExpiry)}</span>
                                                             <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${passStat.color}`}>{passStat.label}</Badge>
                                                         </div>
                                                     </div>
@@ -200,7 +206,7 @@ export default async function VisaCompliancePage() {
                                                     <div className="space-y-1">
                                                         <div className="font-bold text-xs text-slate-700 dark:text-slate-300">{record.emiratesId}</div>
                                                         <div className="flex items-center gap-1.5">
-                                                            <span className="text-[10px] text-slate-500 font-medium">Exp: {new Date(record.emiratesIdExpiry).toLocaleDateString()}</span>
+                                                            <span className="text-[10px] text-slate-500 font-medium">Exp: {formatExpiry(record.emiratesIdExpiry)}</span>
                                                             <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${eidStat.color}`}>{eidStat.label}</Badge>
                                                         </div>
                                                     </div>
@@ -215,7 +221,7 @@ export default async function VisaCompliancePage() {
                                                     <div className="space-y-1">
                                                         <div className="font-bold text-xs text-slate-700 dark:text-slate-300">{record.visaNumber} <span className="text-[10px] opacity-75 font-medium">({record.visaType || "Employment"})</span></div>
                                                         <div className="flex items-center gap-1.5">
-                                                            <span className="text-[10px] text-slate-500 font-medium">Exp: {new Date(record.visaExpiry).toLocaleDateString()}</span>
+                                                            <span className="text-[10px] text-slate-500 font-medium">Exp: {formatExpiry(record.visaExpiry)}</span>
                                                             <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${visaStat.color}`}>{visaStat.label}</Badge>
                                                         </div>
                                                     </div>

@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 
 export async function createLoan(formData: FormData) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR", "FINANCE"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR", "FINANCE"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -59,7 +59,7 @@ export async function createLoan(formData: FormData) {
 
         revalidatePath("/payroll/loans");
         return { success: true, message: "Loan created successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[CREATE_LOAN_ERROR]", error);
         return { success: false, message: "Failed to create loan" };
     }
@@ -67,7 +67,7 @@ export async function createLoan(formData: FormData) {
 
 export async function cancelLoan(loanId: string) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR", "FINANCE"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR", "FINANCE"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -79,7 +79,7 @@ export async function cancelLoan(loanId: string) {
 
         revalidatePath("/payroll/loans");
         return { success: true, message: "Loan cancelled successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) {
         return { success: false, message: "Failed to cancel loan" };
     }
 }

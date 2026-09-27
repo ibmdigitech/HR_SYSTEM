@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
+import { authorizePermission } from '@/lib/auth/guards';
+import { PERMISSIONS, hasPermission } from '@/lib/auth/permissions';
+import { logSecurityEvent, SECURITY_ACTION } from '@/lib/auth/audit';
 
 export async function GET(req: Request) {
     const session = await auth();
@@ -29,24 +32,67 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-    const session = await auth();
-    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Centralized guard. The previous check was `if (!session)`, so ANY
+    // authenticated user — including STAFF — could generate a letter for ANY
+    // employee by passing an arbitrary employeeId.
+    const auth = await authorizePermission(PERMISSIONS.LETTER_GENERATE);
+    if (!auth.ok) {
+        return NextResponse.json({ error: auth.error }, { status: auth.status });
+    }
+    const actor = auth.user;
 
     try {
         const body = await req.json();
         const { templateId, employeeId, customFields } = body;
 
+        // A non-privileged caller may only generate their own letter. Previously
+        // the client sent `employeeId: undefined` for STAFF, which made
+        // `prisma.employee.findUnique({ where: { id: undefined } })` throw and
+        // every non-admin attempt failed with "Failed to generate letter".
+        let targetEmployeeId: string | null = typeof employeeId === 'string' && employeeId ? employeeId : null;
+
+        if (!targetEmployeeId) {
+            if (!actor.employeeId) {
+                return NextResponse.json(
+                    { error: 'No employee profile is linked to your account. Contact HR.' },
+                    { status: 400 }
+                );
+            }
+            targetEmployeeId = actor.employeeId;
+        } else if (targetEmployeeId !== actor.employeeId) {
+            // IDOR guard: scope-limited roles may not request another employee.
+            // `letter.generate` is granted to STAFF, so it cannot be used as the
+            // discriminator; the template-management capability is the right test.
+            const broad = hasPermission(actor.role, PERMISSIONS.LETTER_TEMPLATE_MANAGE);
+            if (!broad) {
+                await logSecurityEvent({
+                    action: SECURITY_ACTION.ACCESS_DENIED,
+                    actorEmail: actor.email,
+                    actorRole: actor.role,
+                    target: `letter:employee:${targetEmployeeId}`,
+                    outcome: 'DENIED',
+                    requestPath: '/api/letters',
+                    requestMethod: 'POST',
+                    detail: { reason: 'cross-employee letter generation' },
+                });
+                return NextResponse.json({ error: 'You may only generate letters for yourself.' }, { status: 403 });
+            }
+        }
+
         // Fetch required data
         const [template, employee] = await Promise.all([
             prisma.letterTemplate.findUnique({ where: { id: templateId } }),
-            prisma.employee.findUnique({ 
-                where: { id: employeeId },
+            prisma.employee.findUnique({
+                where: { id: targetEmployeeId },
                 include: { salaryStructure: true }
             })
         ]);
 
-        if (!template || !employee) {
-            return NextResponse.json({ error: 'Template or Employee not found' }, { status: 404 });
+        if (!template) {
+            return NextResponse.json({ error: 'Template not found' }, { status: 404 });
+        }
+        if (!employee) {
+            return NextResponse.json({ error: 'Employee not found' }, { status: 404 });
         }
 
         // Generate Ref Number
@@ -88,13 +134,26 @@ export async function POST(req: Request) {
 
         const letter = await prisma.letter.create({
             data: {
-                employeeId,
+                employeeId: targetEmployeeId,
                 templateId,
                 referenceNumber: refNumber,
                 content_en,
                 content_ar,
-                status: (session.user as any).role === 'ADMIN' ? 'GENERATED' : 'PENDING',
+                // HR and above generate immediately; everyone else goes to
+                // review. Derived from the resolved role, not the raw session.
+                status: ['ADMIN', 'HR', 'SUPER_ADMIN'].includes(actor.role) ? 'GENERATED' : 'PENDING',
             }
+        });
+
+        await logSecurityEvent({
+            action: SECURITY_ACTION.ACCESS_DENIED,
+            actorEmail: actor.email,
+            actorRole: actor.role,
+            target: `letter:${letter.id}`,
+            outcome: 'SUCCESS',
+            requestPath: '/api/letters',
+            requestMethod: 'POST',
+            detail: { templateId, employeeId: targetEmployeeId, referenceNumber: refNumber },
         });
 
         return NextResponse.json(letter);

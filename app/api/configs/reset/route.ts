@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { auth } from '@/auth';
+import { authorizePermission } from '@/lib/auth/guards';
+import { PERMISSIONS } from '@/lib/auth/permissions';
+import { logSecurityEvent, SECURITY_ACTION } from '@/lib/auth/audit';
 
 const DEFAULT_CONFIGS = [
     // Payroll
@@ -34,9 +36,17 @@ const DEFAULT_CONFIGS = [
 ];
 
 export async function POST() {
-    const session = await auth();
-    if (!session || (session.user as any).role !== 'ADMIN') {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Centralized guard: 401 without a session, 403 without the capability.
+    const auth = await authorizePermission(PERMISSIONS.SERVICE_CONFIG_MANAGE);
+    if (!auth.ok) {
+        await logSecurityEvent({
+            action: SECURITY_ACTION.ACCESS_DENIED,
+            outcome: 'DENIED',
+            requestPath: '/api/configs/reset',
+            requestMethod: 'POST',
+            detail: { status: auth.status },
+        });
+        return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
     try {
@@ -47,8 +57,17 @@ export async function POST() {
                 create: config,
             });
         }
+        await logSecurityEvent({
+            action: SECURITY_ACTION.ACCESS_DENIED,
+            actorEmail: auth.user.email,
+            actorRole: auth.user.role,
+            target: 'serviceConfig:catalogue',
+            outcome: 'SUCCESS',
+            detail: { change: 'resetToDefaults', count: DEFAULT_CONFIGS.length },
+        });
         return NextResponse.json({ message: 'Configurations reset to default' });
     } catch (error) {
+        console.error('[CONFIGS_RESET]', error);
         return NextResponse.json({ error: 'Failed to reset configurations' }, { status: 500 });
     }
 }

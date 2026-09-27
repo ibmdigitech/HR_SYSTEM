@@ -1,7 +1,4 @@
-"use server";
-
-import prisma from "@/lib/prisma";
-import { getConfig, setConfig } from "@/lib/config-service";
+"use server";import { getConfig, setConfig } from "@/lib/config-service";
 import { auth } from "@/auth";
 
 export interface CompanySettings {
@@ -39,7 +36,7 @@ export async function getCompanySettings(): Promise<CompanySettings> {
 
 export async function updateCompanySettings(data: Partial<CompanySettings>) {
     const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
+    if (!session || ((session.user as { role?: string })?.role !== "ADMIN" && (session.user as { role?: string })?.role !== "HR")) {
         throw new Error("Unauthorized to modify company settings.");
     }
 

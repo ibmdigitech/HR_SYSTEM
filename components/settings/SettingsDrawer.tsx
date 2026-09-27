@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel,  } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 
@@ -17,7 +17,7 @@ interface SettingsDrawerProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function SettingsDrawer({ open, onOpenChange }: SettingsDrawerProps) {
+export function SettingsDrawer({ onOpenChange }: SettingsDrawerProps) {
   return (
     <div className="fixed right-0 top-0 z-50 flex h-full w-56 max-w-[500px] overflow-hidden border-l border-slate-200 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-lg">
       <div className="flex h-full w-full flex-col overflow-hidden">
@@ -58,7 +58,7 @@ export function SettingsDrawer({ open, onOpenChange }: SettingsDrawerProps) {
                 <FormField>
                   <FormLabel>Company Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Antigravity Enterprise" />
+                    <Input placeholder="IBM Digitech Enterprise" />
                   </FormControl>
                 </FormField>
                 
@@ -157,7 +157,7 @@ export function SettingsDrawer({ open, onOpenChange }: SettingsDrawerProps) {
                 <FormField>
                   <FormLabel>Company Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Antigravity Enterprise LLC" />
+                    <Input placeholder="IBM Digitech Enterprise LLC" />
                   </FormControl>
                 </FormField>
                 

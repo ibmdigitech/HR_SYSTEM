@@ -7,7 +7,7 @@ import { getConfig } from "@/lib/config-service";
 
 export async function upsertSalaryStructure(formData: FormData) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -45,15 +45,15 @@ export async function upsertSalaryStructure(formData: FormData) {
 
         revalidatePath("/payroll/structure");
         return { success: true, message: "Salary structure saved successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[UPSERT_SALARY_STRUCTURE_ERROR]", error);
-        return { success: false, message: `Error: ${error.message}` };
+        return { success: false, message: `Error: ${(error instanceof Error ? error.message : "Unknown error")}` };
     }
 }
 
 export async function generatePayroll(month: number, year: number) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -209,15 +209,15 @@ export async function generatePayroll(month: number, year: number) {
 
         revalidatePath("/payroll");
         return { success: true, message: `Payroll generated and notifications dispatched for ${records.length} employees` };
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[GENERATE_PAYROLL_ERROR]", error);
-        return { success: false, message: `Error: ${error.message}` };
+        return { success: false, message: `Error: ${(error instanceof Error ? error.message : "Unknown error")}` };
     }
 }
 
 export async function updatePayrollStatus(recordId: string, status: string) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -274,7 +274,7 @@ export async function updatePayrollStatus(recordId: string, status: string) {
         revalidatePath("/payroll");
         revalidatePath("/payroll/payslips");
         return { success: true, message: `Payroll status updated to ${status}` };
-    } catch (error: any) {
+    } catch (error: unknown) {
         return { success: false, message: "Failed to update payroll status" };
     }
 }

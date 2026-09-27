@@ -1,7 +1,8 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { AlertTriangle } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle,  } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,14 +23,26 @@ import {
     ChevronRight,
     ArrowRight
 } from "lucide-react";
-import { submitStaffRequest } from "@/app/lib/actions/staff-requests";
+import { submitStaffRequestForm } from "@/app/lib/actions/staff-requests";
 import { Badge } from "@/components/ui/badge";
 import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/lib/utils";
 
-export default async function StaffRequestsPage() {
+export default async function StaffRequestsPage({
+    searchParams,
+}: {
+    // Awaited for Next.js 15+ async request APIs.
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
     const session = await auth();
     if (!session?.user) redirect("/login");
+
+    // A failed form-action submission redirects here with the reason, so the
+    // user is never left guessing. Previously the void-returning action
+    // swallowed the failure entirely.
+    const params = await searchParams;
+    const requestError =
+        typeof params.requestError === "string" ? params.requestError : null;
 
     const services = await prisma.serviceCategory.findMany({
         where: { isActive: true },
@@ -44,6 +57,23 @@ export default async function StaffRequestsPage() {
     if (!user?.employee) {
         return (
             <div className="p-8 max-w-4xl mx-auto">
+                {/* A failed form submission redirects here with the reason. */}
+                {requestError && (
+                    <div
+                        role="alert"
+                        className="mb-6 flex items-start gap-3 rounded-2xl border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/40 p-4"
+                    >
+                        <AlertTriangle className="h-5 w-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                        <div>
+                            <p className="text-sm font-black text-rose-900 dark:text-rose-200">
+                                The request was not submitted
+                            </p>
+                            <p className="text-sm text-rose-700 dark:text-rose-300/90 mt-0.5">
+                                {requestError}
+                            </p>
+                        </div>
+                    </div>
+                )}
                 <Card className="border-0 shadow-2xl bg-rose-50/50 dark:bg-rose-950/20 backdrop-blur-xl rounded-[2.5rem] overflow-hidden">
                     <div className="p-12 text-center">
                         <div className="h-20 w-20 rounded-full bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center mx-auto mb-6">
@@ -107,7 +137,7 @@ export default async function StaffRequestsPage() {
                                     <div className="border-b border-slate-100 dark:border-slate-800/60 bg-white/40 dark:bg-slate-950/40 px-8">
                                         <ScrollArea className="w-full">
                                             <TabsList className="h-20 bg-transparent gap-8 w-full justify-start rounded-none p-0">
-                                                {services.map((service: any) => (
+                                                {services.map((service) => (
                                                     <TabsTrigger
                                                         key={service.id}
                                                         value={service.id}
@@ -120,9 +150,9 @@ export default async function StaffRequestsPage() {
                                         </ScrollArea>
                                     </div>
 
-                                    {services.map((service: any) => (
+                                    {services.map((service) => (
                                         <TabsContent key={service.id} value={service.id} className="p-10 mt-0 focus-visible:outline-none">
-                                            <form action={submitStaffRequest} className="space-y-10">
+                                            <form action={submitStaffRequestForm} className="space-y-10">
                                                 <input type="hidden" name="categoryId" value={service.id} />
 
                                                 <div className="grid md:grid-cols-2 gap-8">
@@ -224,7 +254,7 @@ export default async function StaffRequestsPage() {
                                         <p className="text-xs font-black text-slate-300 uppercase tracking-widest">No Activity Recorded</p>
                                     </div>
                                 ) : (
-                                    (user.employee.serviceRequests as any[]).map((req: any) => (
+                                    (user.employee.serviceRequests as any[]).map((req) => (
                                         <div key={req.id} className="group relative pl-8 pb-8 last:pb-0">
                                             {/* Timeline Line */}
                                             <div className="absolute left-[7px] top-0 bottom-0 w-[2px] bg-slate-100 dark:bg-slate-800 group-last:bottom-auto group-last:h-4" />

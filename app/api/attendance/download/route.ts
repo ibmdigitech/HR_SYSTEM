@@ -124,10 +124,10 @@ export async function GET(request: NextRequest) {
         "Content-Disposition": `attachment; filename="${filename}"`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[ATTENDANCE_DOWNLOAD_ERROR]", error);
     return NextResponse.json(
-      { error: error.message || "Failed to generate attendance report" },
+      { error: (error instanceof Error ? error.message : "Unknown error") || "Failed to generate attendance report" },
       { status: 500 }
     );
   }

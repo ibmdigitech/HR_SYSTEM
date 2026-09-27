@@ -1,116 +1,53 @@
 "use server";
 
-import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
-import { revalidatePath } from "next/cache";
+/**
+ * General request actions — server-action wrappers.
+ *
+ * The implementation lives in `lib/workflow/service-requests.ts`, shared with
+ * `staff-requests.ts` so the two entry points cannot diverge.
+ *
+ * This file previously held the original `submitStaffRequest`, which read
+ * `formData.get("categoryId")` while the form posted `name="typeId"`. That
+ * mismatch is the reported "Missing required fields" error: the value was
+ * always null, so no request was ever created.
+ *
+ * Wrappers rather than re-exports because a `"use server"` file may only
+ * export async functions — `export { x } from "..."` passes `tsc` but fails
+ * the production build.
+ */
 
-export async function submitStaffRequest(prevState: any, formData: FormData) {
-    const session = await auth();
-    if (!session?.user?.email) return { success: false, message: "Not authenticated" };
+import {
+    submitStaffRequest as submitCore,
+    handleRequestAction as handleCore,
+    getAvailableRequestActions as availableCore,
+    type RequestActionResult,
+} from "@/lib/workflow/service-requests";
 
-    const categoryId = formData.get("categoryId") as string;
-    const details = formData.get("details") as string;
-    const amountVal = formData.get("amount") as string;
-    const startDateVal = formData.get("startDate") as string;
-    const endDateVal = formData.get("endDate") as string;
-
-    if (!categoryId || !details) {
-        return { success: false, message: "Missing required fields" };
-    }
-
-    try {
-        const user = await prisma.user.findUnique({
-            where: { email: session.user.email },
-            include: { employee: true }
-        });
-
-        if (!user?.employee) {
-            return { success: false, message: "Employee profile not found" };
-        }
-
-        const amount = amountVal ? parseFloat(amountVal) : null;
-        const startDate = startDateVal ? new Date(startDateVal) : null;
-        const endDate = endDateVal ? new Date(endDateVal) : null;
-
-        await prisma.serviceRequest.create({
-            data: {
-                employeeId: user.employee.id,
-                categoryId,
-                details,
-                amount,
-                startDate,
-                endDate,
-                status: "PENDING"
-            }
-        });
-
-        // Audit Log
-        await prisma.auditLog.create({
-            data: {
-                employeeId: user.employee.id,
-                action: "REQUEST_SUBMIT",
-                details: `Submitted a request of category ID: ${categoryId}`,
-                changedBy: session.user.email
-            }
-        });
-
-        revalidatePath("/requests");
-        revalidatePath("/staff-services");
-        return { success: true, message: "Your request has been submitted successfully!" };
-    } catch (e: any) {
-        console.error("[SUBMIT_REQUEST_ERROR]", e);
-        return { success: false, message: e.message || "Failed to submit request" };
-    }
+export async function submitStaffRequest(
+    prevState: unknown,
+    formData: FormData
+): Promise<RequestActionResult> {
+    return submitCore(prevState, formData);
 }
 
-export async function handleRequestAction(requestId: string, action: "APPROVED" | "REJECTED" | "COMPLETED", hrNote?: string) {
-    const session = await auth();
-    if (!session?.user?.email) return { success: false, message: "Not authenticated" };
+export async function handleRequestAction(
+    requestId: string,
+    action: "APPROVED" | "REJECTED" | "COMPLETED",
+    hrNote?: string
+): Promise<RequestActionResult> {
+    return handleCore(requestId, action, hrNote);
+}
 
-    const userRole = (session.user as any).role;
-    if (!["ADMIN", "HR"].includes(userRole)) {
-        return { success: false, message: "Unauthorized action" };
-    }
+export async function getAvailableRequestActions(requestId: string): Promise<string[]> {
+    return availableCore(requestId);
+}
 
-    try {
-        const req = await prisma.serviceRequest.update({
-            where: { id: requestId },
-            data: {
-                status: action,
-                hrNote: hrNote || null
-            },
-            include: {
-                employee: true,
-                category: true
-            }
-        });
-
-        // Notify the employee
-        await prisma.notification.create({
-            data: {
-                employeeId: req.employeeId,
-                title: `Request ${action === "APPROVED" ? "Approved ✅" : action === "REJECTED" ? "Rejected ❌" : "Completed 🎉"}`,
-                message: `Your request for "${req.category.name}" has been ${action.toLowerCase()}${hrNote ? `. Note: ${hrNote}` : ""}.`,
-                type: action === "APPROVED" || action === "COMPLETED" ? "SUCCESS" : "WARNING",
-                link: "/requests"
-            }
-        });
-
-        // Audit Log
-        await prisma.auditLog.create({
-            data: {
-                employeeId: req.employeeId,
-                action: `REQUEST_${action}`,
-                details: `Request for ${req.category.name} was ${action.toLowerCase()}`,
-                changedBy: session.user.email
-            }
-        });
-
-        revalidatePath("/requests");
-        revalidatePath("/staff-services");
-        return { success: true, message: `Request successfully ${action.toLowerCase()}` };
-    } catch (e: any) {
-        console.error("[REQUEST_ACTION_ERROR]", e);
-        return { success: false, message: e.message || "Failed to update request" };
-    }
+/**
+ * Form-action variant for server components (`<form action={...}>` requires
+ * `(formData) => void`). Delegates to the same core and surfaces failure via
+ * redirect, so an error is never silently swallowed.
+ */
+export async function submitStaffRequestForm(formData: FormData): Promise<void> {
+    const { submitStaffRequestForm: formCore } = await import("@/lib/workflow/service-requests");
+    return formCore(formData);
 }

@@ -1,9 +1,10 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle,  } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { RequisitionStatusControl } from "./RequisitionStatusControl";
 import { Briefcase, Users, Calendar, PlusCircle, CheckCircle, Clock } from "lucide-react";
 
 export default async function RecruitmentPage() {
@@ -19,13 +20,27 @@ export default async function RecruitmentPage() {
         redirect("/dashboard");
     }
 
+    // P1: `JobRequisition.candidates` and `Candidate.job` no longer exist — a
+    // candidate is a person and a job is a role, joined by Application. The
+    // pipeline count and the job shown against a candidate both come from
+    // Application now.
     const jobs = await prisma.jobRequisition.findMany({
-        include: { requestedBy: true, _count: { select: { candidates: true } } },
+        include: { requestedBy: true, _count: { select: { applications: true } } },
         orderBy: { createdAt: 'desc' }
     });
 
     const candidates = await prisma.candidate.findMany({
-        include: { job: true },
+        include: {
+            applications: {
+                select: {
+                    id: true,
+                    status: true,
+                    appliedAt: true,
+                    jobRequisition: { select: { title: true, requisitionCode: true } },
+                },
+                orderBy: { appliedAt: 'desc' },
+            },
+        },
         orderBy: { createdAt: 'desc' }
     });
 
@@ -101,19 +116,43 @@ export default async function RecruitmentPage() {
                             {jobs.map(job => (
                                 <Card key={job.id} className="rounded-2xl border-slate-100 shadow-sm hover:shadow-md transition-all">
                                     <CardContent className="p-6">
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <h3 className="text-lg font-black">{job.title}</h3>
-                                                <p className="text-sm font-medium text-slate-500">{job.department} • {job.location}</p>
+                                        <div className="flex justify-between items-start gap-3">
+                                            <div className="min-w-0">
+                                                <h3 className="text-lg font-black truncate">{job.title}</h3>
+                                                <p className="text-sm font-medium text-slate-500 truncate">
+                                                    {job.department}
+                                                    {job.location ? ` • ${job.location}` : ""}
+                                                </p>
+                                                {job.requisitionCode && (
+                                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1">
+                                                        {job.requisitionCode}
+                                                    </p>
+                                                )}
                                             </div>
-                                            <Badge className={job.status === "OPEN" ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-700"}>
-                                                {job.status}
-                                            </Badge>
+                                            {/* P1 §3: the requisition must be
+                                                APPROVED before it can receive
+                                                applications, so the current
+                                                stage and the available moves
+                                                are shown inline. */}
+                                            <RequisitionStatusControl
+                                                requisitionId={job.id}
+                                                status={job.status}
+                                            />
                                         </div>
+
+                                        {/* Make the reason for a non-active
+                                            requisition explicit rather than
+                                            leaving the user guessing. */}
+                                        {job.status !== "APPROVED" && (
+                                            <p className="mt-3 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+                                                Not accepting applications — a requisition must be APPROVED
+                                                before candidates can apply.
+                                            </p>
+                                        )}
                                         <div className="mt-4 flex gap-4 text-sm font-medium text-slate-600">
                                             <span className="flex items-center gap-1">
                                                 <Users className="h-4 w-4" />
-                                                {job._count.candidates} Candidates
+                                                {job._count.applications} Candidate(s)
                                             </span>
                                             <span className="flex items-center gap-1">
                                                 <Clock className="h-4 w-4" />
@@ -146,9 +185,14 @@ export default async function RecruitmentPage() {
                                     <div className="flex justify-between items-start">
                                         <div>
                                             <p className="font-bold text-sm">{candidate.firstName} {candidate.lastName}</p>
-                                            <p className="text-xs text-slate-500">for {candidate.job.title}</p>
+                                            <p className="text-xs text-slate-500">{candidate.applications[0]?.jobRequisition.title ?? 'No application yet'}</p>
                                         </div>
-                                        <Badge variant="outline" className="text-[10px]">{candidate.status}</Badge>
+                                        {/* Status lives on the Application, not the
+                                            Candidate: one person can be in several
+                                            pipelines at different stages. */}
+                                        <Badge variant="outline" className="text-[10px]">
+                                            {candidate.applications[0]?.status ?? 'NOT APPLIED'}
+                                        </Badge>
                                     </div>
                                     <div className="flex justify-end gap-2 mt-2">
                                         <Button size="sm" variant="outline" className="h-7 text-xs">View Profile</Button>

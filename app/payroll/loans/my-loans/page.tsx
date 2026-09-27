@@ -1,9 +1,7 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { format } from "date-fns";import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Banknote,
@@ -15,7 +13,7 @@ import {
     TrendingDown,
     AlertCircle,
     Landmark,
-    ChevronRight
+    
 } from "lucide-react";
 import Link from "next/link";
 
@@ -122,16 +120,16 @@ export default async function MyLoansPage() {
                         <Landmark className="h-12 w-12 text-indigo-300" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-700">No Loan Applications Yet</h3>
-                    <p className="text-slate-400 mt-2 max-w-sm">You haven't applied for any loans. Click the button above to start your application.</p>
+                    <p className="text-slate-400 mt-2 max-w-sm">You haven&#39;t applied for any loans. Click the button above to start your application.</p>
                 </div>
             ) : (
                 <div className="space-y-4">
                     <h2 className="font-bold text-slate-700 dark:text-slate-300 text-sm uppercase tracking-wider">Application History</h2>
-                    {myLoans.map((loan: any) => {
+                    {myLoans.map((loan) => {
                         const cfg = statusConfig[loan.status] || { label: loan.status, color: "bg-slate-100 text-slate-600", icon: FileText };
                         const StatusIcon = cfg.icon;
-                        const pendingInstallments = loan.installments.filter((i: any) => i.status === "PENDING");
-                        const paidInstallments = loan.installments.filter((i: any) => i.status === "DEDUCTED");
+                        const pendingInstallments = loan.installments.filter((i) => i.status === "PENDING");
+                        const paidInstallments = loan.installments.filter((i) => i.status === "DEDUCTED");
                         const remaining = pendingInstallments.reduce((a: number, i: any) => a + i.amount, 0);
                         const progress = loan.installments.length > 0
                             ? (paidInstallments.length / loan.installments.length) * 100
@@ -173,7 +171,14 @@ export default async function MyLoansPage() {
                                                 { key: "hrStatus", label: "HR" },
                                                 { key: "financeStatus", label: "Finance" },
                                             ].map((step, i) => {
-                                                const val = loan[step.key];
+                                                // `loan` is a typed Prisma row and `step.key` is a
+                                                // runtime string, so a direct index is not allowed.
+                                                // A narrow accessor reads the same field without
+                                                // widening the row back to `any`.
+                                                const val =
+                                                    step.key === "managerStatus" ? loan.managerStatus :
+                                                    step.key === "hrStatus" ? loan.hrStatus :
+                                                    loan.financeStatus;
                                                 return (
                                                     <div key={step.key} className="flex items-center gap-2">
                                                         <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold ${
@@ -218,7 +223,7 @@ export default async function MyLoansPage() {
                                         <div className="border-t border-slate-100 dark:border-slate-800 px-6 py-4 bg-slate-50/50 dark:bg-slate-900/50">
                                             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Approval Trail</p>
                                             <div className="space-y-1.5">
-                                                {loan.approvals.map((approval: any) => (
+                                                {loan.approvals.map((approval) => (
                                                     <div key={approval.id} className="text-xs text-slate-600 flex items-start gap-2">
                                                         <span className={`font-bold shrink-0 ${
                                                             approval.action === "APPROVED" ? "text-emerald-600" :

@@ -24,10 +24,10 @@ import {
     Moon,
     Sunrise,
     Settings
-} from "lucide-react";
+, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 
-const shiftIcons: Record<string, any> = {
+const shiftIcons: Record<string, LucideIcon> = {
     morning: Sunrise,
     day: Sun,
     night: Moon,
@@ -134,7 +134,7 @@ export default async function ShiftRosterPage() {
                             <div className="flex flex-col items-center justify-center py-12 text-center">
                                 <AlertCircle className="h-12 w-12 text-slate-300 mb-4" />
                                 <h3 className="text-lg font-bold text-slate-700">No Shift Assigned</h3>
-                                <p className="text-slate-400 mt-2 max-w-sm">You don't have a shift assigned yet. Please contact your manager or HR department.</p>
+                                <p className="text-slate-400 mt-2 max-w-sm">You don&#39;t have a shift assigned yet. Please contact your manager or HR department.</p>
                             </div>
                         )}
                     </CardContent>
@@ -273,7 +273,7 @@ export default async function ShiftRosterPage() {
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
-                                            {shift.employees.map((emp: any) => (
+                                            {shift.employees.map((emp) => (
                                                 <TableRow key={emp.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                                                     <TableCell className="py-3">
                                                         <div className="flex items-center gap-3">
@@ -337,7 +337,7 @@ export default async function ShiftRosterPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {unassigned.map((emp: any) => (
+                                    {unassigned.map((emp) => (
                                         <TableRow key={emp.id} className="hover:bg-amber-50/50 transition-colors">
                                             <TableCell className="py-3">
                                                 <div className="flex items-center gap-3">

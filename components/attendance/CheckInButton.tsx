@@ -17,8 +17,22 @@ export function CheckInButton() {
         setLoading(false);
     };
 
+    // The initial status fetch runs in the effect, but the "in flight" flag is
+    // set from a ref rather than synchronously in the effect body: a
+    // synchronous setState there causes a cascading render before paint, and it
+    // would also fire twice under StrictMode's double-invoked effects.
     useEffect(() => {
-        fetchStatus();
+        let cancelled = false;
+
+        (async () => {
+            const res = await getTodayStatus();
+            if (cancelled) return;
+            if (res.success) setStatus(res.data);
+        })();
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     const handleAction = async () => {

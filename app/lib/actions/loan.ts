@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function requestLoan(prevState: any, formData: FormData) {
+export async function requestLoan(prevState: unknown, formData: FormData) {
     const session = await auth();
     if (!session?.user?.email) return { message: "Not authenticated", success: false };
 
@@ -78,7 +78,7 @@ export async function approveLoan(loanId: string, role: "MANAGER" | "HR" | "FINA
         const loan = await prisma.loanApplication.findUnique({ where: { id: loanId } });
         if (!loan) return { message: "Loan not found", success: false };
 
-        const updateData: any = {};
+        const updateData: Record<string, unknown> = {};
         
         if (role === "MANAGER") {
             updateData.managerStatus = action === "APPROVE" ? "APPROVED" : "REJECTED";

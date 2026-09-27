@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { resolvePermissions, PERMISSIONS } from "@/lib/auth/permissions";
 import { signOut } from "next-auth/react";
 import {
     LayoutDashboard,
@@ -22,24 +23,40 @@ import {
     Activity,
     CheckCircle2,
     ArrowRightLeft,
-    Bell
+    Bell,
+    UserPlus,
+    CalendarClock,
+    FileSignature
 } from "lucide-react";
 
+/**
+ * Navigation is filtered by the same permission model the server enforces
+ * (lib/auth/permissions.ts), not by ad-hoc role strings.
+ *
+ * IMPORTANT: this is a usability affordance only. Hiding a link is NOT access
+ * control — every page, server action and API route authorizes independently on
+ * the server. A user who edits the HTML still gets refused.
+ */
 const sidebarItems = [
     { title: "Dashboard",         href: "/dashboard",                icon: LayoutDashboard, exact: true },
-    { title: "Employees",         href: "/employees",                icon: Users },
-    { title: "Attendance",        href: "/attendance",               icon: Calendar },
-    { title: "Leaves",            href: "/leaves",                   icon: Briefcase },
-    { title: "Approvals",         href: "/dashboard/approvals",      icon: CheckCircle2 },
-    { title: "Payroll",           href: "/payroll",                  icon: CreditCard },
-    { title: "Visa & Compliance", href: "/visa",                     icon: FileUp },
-    { title: "Letters",           href: "/letters",                  icon: FileText },
-    { title: "Staff Services",    href: "/staff-services",           icon: HeartHandshake },
-    { title: "Requests Flow",     href: "/requests",                 icon: ArrowRightLeft },
-    { title: "Notifications",     href: "/notifications",            icon: Bell },
-    { title: "Service Config",    href: "/dashboard/admin/services", icon: Settings2 },
-    { title: "Settings",          href: "/settings",                 icon: Settings },
-];
+    { title: "Employees",         href: "/employees",                icon: Users,             permission: PERMISSIONS.EMPLOYEES_VIEW },
+    { title: "Attendance",        href: "/attendance",               icon: Calendar,          permission: PERMISSIONS.ATTENDANCE_VIEW },
+    { title: "Leaves",            href: "/leaves",                   icon: Briefcase,         permission: PERMISSIONS.LEAVE_VIEW },
+    { title: "Approvals",         href: "/dashboard/approvals",      icon: CheckCircle2,      permission: PERMISSIONS.LEAVE_APPROVE },
+    { title: "Payroll",           href: "/payroll",                  icon: CreditCard,        permission: PERMISSIONS.PAYROLL_VIEW },
+    { title: "Visa & Compliance", href: "/visa",                     icon: FileUp,            permission: PERMISSIONS.VISA_VIEW },
+    { title: "Letters",           href: "/letters",                  icon: FileText,          permission: PERMISSIONS.LETTER_VIEW },
+    { title: "Staff Services",    href: "/staff-services",           icon: HeartHandshake,    permission: PERMISSIONS.SERVICE_VIEW },
+    { title: "Recruitment",       href: "/recruitment",               icon: UserPlus,          permission: PERMISSIONS.RECRUITMENT_VIEW },
+    { title: "Interviews",        href: "/recruitment/interviews",    icon: CalendarClock,     permission: PERMISSIONS.RECRUITMENT_VIEW },
+    { title: "Offers",            href: "/recruitment/offers",        icon: FileSignature,     permission: PERMISSIONS.RECRUITMENT_OFFER },
+    { title: "Requests Flow",     href: "/requests",                 icon: ArrowRightLeft,    permission: PERMISSIONS.REQUEST_VIEW },
+    { title: "Notifications",     href: "/notifications",            icon: Bell,              permission: PERMISSIONS.NOTIFICATION_VIEW },
+    { title: "Service Config",    href: "/dashboard/admin/services", icon: Settings2,          permission: PERMISSIONS.SERVICE_CONFIG_MANAGE },
+    { title: "Settings",          href: "/settings",                 icon: Settings,          permission: PERMISSIONS.SETTINGS_VIEW },
+] as const;
+
+const ADMIN_HREFS = ["/dashboard/admin/services", "/settings"] as const;
 
 interface SidebarProps {
     user?: {
@@ -52,25 +69,20 @@ interface SidebarProps {
 
 export function Sidebar({ user }: SidebarProps) {
     const pathname = usePathname();
+    const { permissions } = resolvePermissions(user?.role);
 
-    const filteredCoreItems = sidebarItems.filter(item => {
-        if (["/dashboard/admin/services", "/settings"].includes(item.href)) return false;
-        
-        if (item.href === "/dashboard/approvals") {
-            return user?.role === "ADMIN" || user?.role === "HR" || user?.role === "MANAGER";
-        }
-        return true;
-    });
+    const isVisible = (item: (typeof sidebarItems)[number]) => {
+        const required = "permission" in item ? item.permission : null;
+        return required ? permissions.has(required) : true;
+    };
 
-    const filteredAdminItems = sidebarItems.filter(item => {
-        if (["/dashboard/admin/services", "/settings"].includes(item.href)) {
-            if (item.href === "/dashboard/admin/services") {
-                return user?.role === "ADMIN";
-            }
-            return true;
-        }
-        return false;
-    });
+    const filteredCoreItems = sidebarItems.filter(
+        (item) => !ADMIN_HREFS.includes(item.href as (typeof ADMIN_HREFS)[number]) && isVisible(item)
+    );
+
+    const filteredAdminItems = sidebarItems.filter(
+        (item) => ADMIN_HREFS.includes(item.href as (typeof ADMIN_HREFS)[number]) && isVisible(item)
+    );
 
     return (
         <div className="hidden lg:flex flex-col h-screen w-72 border-r border-slate-200/50 bg-slate-900 dark:bg-slate-950 shadow-2xl relative overflow-hidden">
@@ -85,7 +97,7 @@ export function Sidebar({ user }: SidebarProps) {
                         <Building2 className="h-6 w-6 text-white" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-lg font-black tracking-tight text-white uppercase leading-none">Antigravity</span>
+                        <span className="text-lg font-black tracking-tight text-white uppercase leading-none">IBM Digitech</span>
                         <span className="text-[10px] font-black tracking-[0.3em] text-indigo-400 uppercase mt-1">Enterprise HRMS</span>
                     </div>
                 </div>
@@ -97,7 +109,7 @@ export function Sidebar({ user }: SidebarProps) {
                         <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Core Platform</p>
                         <nav className="space-y-1.5">
                             {filteredCoreItems.map((item) => {
-                                const isActive = (item as any).exact
+                                const isActive = (item as { exact?: string }).exact
                                     ? pathname === item.href
                                     : pathname === item.href || pathname.startsWith(item.href + "/");
                                 return (
@@ -126,7 +138,7 @@ export function Sidebar({ user }: SidebarProps) {
                         <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Administration</p>
                         <nav className="space-y-1.5">
                             {filteredAdminItems.map((item) => {
-                                const isActive = (item as any).exact
+                                const isActive = (item as { exact?: string }).exact
                                     ? pathname === item.href
                                     : pathname === item.href || pathname.startsWith(item.href + "/");
                                 return (

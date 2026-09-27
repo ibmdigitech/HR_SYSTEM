@@ -1,11 +1,14 @@
 import prisma from "@/lib/prisma";
 import EmployeeList from "./employee-list";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { requirePagePermission } from "@/lib/auth/page-guard";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 
 export default async function EmployeesPage() {
-    const session = await auth();
-    if (!session?.user) redirect("/login");
+    // The employee master record is HR/ADMIN data. This page previously checked
+    // only that a session existed, so any authenticated STAFF account could read
+    // the full employee directory — including government IDs, bank details and
+    // salary components. Requires an explicit capability now.
+    await requirePagePermission(PERMISSIONS.EMPLOYEES_VIEW);
 
     const employees = await prisma.employee.findMany({
         orderBy: { firstName: 'asc' }

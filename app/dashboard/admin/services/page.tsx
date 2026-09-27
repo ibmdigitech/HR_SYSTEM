@@ -1,6 +1,6 @@
 import ConfigPageClient from "./ConfigPageClient";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { requirePageRole } from "@/lib/auth/page-guard";
+import { ROLES } from "@/lib/auth/roles";
 
 export const metadata = {
     title: "Service Configuration | HR System",
@@ -8,12 +8,9 @@ export const metadata = {
 };
 
 export default async function ServiceConfigPage() {
-    const session = await auth();
-    
-    // Security check: Only Admin can access
-    if (!session || (session.user as any).role !== 'ADMIN') {
-        redirect("/dashboard");
-    }
+    // Centralized guard: system-wide business-rule configuration is restricted
+    // to ADMIN and above, and a denied access is audit-logged.
+    await requirePageRole(ROLES.ADMIN, ROLES.SUPER_ADMIN);
 
     return (
         <div className="container mx-auto py-8">

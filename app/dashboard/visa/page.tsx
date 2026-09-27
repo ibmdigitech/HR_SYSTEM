@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-    AlertCircle,
     Globe,
     FileDigit as Passport,
     ShieldCheck,
@@ -13,7 +12,7 @@ import {
     ChevronRight,
     Bell,
     Download
-} from "lucide-react";
+, type LucideIcon } from "lucide-react";
 import { VisaForm } from "@/components/visa/VisaForm";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
@@ -38,7 +37,7 @@ export default async function VisaRequestPage() {
 
     const getDoc = (category: string) => attachments.find(a => a.category === category);
 
-    const renderDocCard = (category: string, title: string, icon: any, colorName: "emerald" | "blue" | "amber" | "slate" | "rose") => {
+    const renderDocCard = (category: string, title: string, icon: LucideIcon, colorName: "emerald" | "blue" | "amber" | "slate" | "rose") => {
         const doc = getDoc(category);
         const Icon = icon;
         

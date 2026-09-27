@@ -3,12 +3,33 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
+/**
+ * P0-2: this previously read `MONGODB_URI`, a leftover from a MongoDB era. That
+ * variable is not defined in this project, so the value silently fell back to
+ * an empty string. It now reads the PostgreSQL `DATABASE_URL` that
+ * `prisma/schema.prisma` actually declares, and fails loudly when it is absent
+ * rather than defaulting to something meaningless.
+ */
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+    throw new Error(
+        "DATABASE_URL is not set. Copy .env.example to .env and set it before running prisma commands."
+    );
+}
+
+if (/^mongodb(\+srv)?:\/\//i.test(databaseUrl)) {
+    throw new Error(
+        "DATABASE_URL points at MongoDB, but prisma/schema.prisma declares the postgresql provider."
+    );
+}
+
 export default defineConfig({
-  schema: "prisma/schema.prisma",
-  migrations: {
-    path: "prisma/migrations",
-  },
-  datasource: {
-    url: process.env["MONGODB_URI"] || "",
-  },
+    schema: "prisma/schema.prisma",
+    migrations: {
+        path: "prisma/migrations",
+    },
+    datasource: {
+        url: databaseUrl,
+    },
 });

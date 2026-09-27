@@ -1,9 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
-
-export interface LetterTemplateData {
+import { requireAnyPermission,  } from "@/lib/auth/guards";
+import { PERMISSIONS } from "@/lib/auth/permissions";export interface LetterTemplateData {
     name: string;
     type: string;
     content_en: string;
@@ -17,8 +16,8 @@ export async function getLetterTemplates() {
             orderBy: { name: 'asc' },
         });
         return { success: true, data: templates };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
@@ -29,16 +28,13 @@ export async function getLetterTemplateById(id: string) {
         });
         if (!template) throw new Error("Template not found");
         return { success: true, data: template };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
 export async function createLetterTemplate(data: LetterTemplateData) {
-    const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
-        throw new Error("Unauthorized");
-    }
+    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
 
     try {
         const template = await prisma.letterTemplate.create({
@@ -51,16 +47,13 @@ export async function createLetterTemplate(data: LetterTemplateData) {
             },
         });
         return { success: true, data: template };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
 export async function updateLetterTemplate(id: string, data: Partial<LetterTemplateData>) {
-    const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
-        throw new Error("Unauthorized");
-    }
+    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
 
     try {
         const template = await prisma.letterTemplate.update({
@@ -70,23 +63,20 @@ export async function updateLetterTemplate(id: string, data: Partial<LetterTempl
             },
         });
         return { success: true, data: template };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
 export async function deleteLetterTemplate(id: string) {
-    const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
-        throw new Error("Unauthorized");
-    }
+    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
 
     try {
         await prisma.letterTemplate.delete({
             where: { id },
         });
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }

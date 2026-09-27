@@ -48,7 +48,7 @@ export type LetterRecord = {
 };
 
 // In-memory storage
-let employees: Employee[] = [
+const employees: Employee[] = [
     {
         id: 'emp-1',
         rollNumber: 'EMP-001',
@@ -73,7 +73,7 @@ let employees: Employee[] = [
     }
 ];
 
-let salaryStructures: SalaryStructure[] = [
+const salaryStructures: SalaryStructure[] = [
     {
         id: 'ss-1',
         employeeId: 'emp-1',
@@ -94,8 +94,8 @@ let salaryStructures: SalaryStructure[] = [
     }
 ];
 
-let payrollRecords: PayrollRecord[] = [];
-let letterRecords: LetterRecord[] = [];
+const payrollRecords: PayrollRecord[] = [];
+const letterRecords: LetterRecord[] = [];
 
 // Service functions
 export const mockDb = {

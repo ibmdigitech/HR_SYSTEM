@@ -95,7 +95,7 @@ function LeaveTable({ leaves, showEmployee }: { leaves: any[]; showEmployee: boo
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {leaves.map((leave: any) => (
+                    {leaves.map((leave) => (
                         <TableRow
                             key={leave.id}
                             className="border-slate-100 dark:border-slate-800/60 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-all duration-200"

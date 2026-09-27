@@ -1,9 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Bell, Check, ExternalLink, Info, CheckCircle, AlertTriangle, Inbox } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";import { Check, ExternalLink, Info, CheckCircle, AlertTriangle, Inbox } from "lucide-react";
 import { markNotificationRead, markAllRead } from "@/app/lib/actions/notifications";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -124,7 +122,7 @@ export default function NotificationsClient({ notifications }: { notifications: 
                     <div className="p-24 text-center bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-3xl">
                         <Inbox className="h-16 w-16 mx-auto mb-6 text-slate-200 dark:text-slate-800" />
                         <h3 className="text-lg font-black text-slate-800 dark:text-white uppercase tracking-tight">Inbox is Empty</h3>
-                        <p className="text-slate-400 font-medium max-w-xs mx-auto mt-2">All caught up! You don't have any notifications at the moment.</p>
+                        <p className="text-slate-400 font-medium max-w-xs mx-auto mt-2">All caught up! You don&#39;t have any notifications at the moment.</p>
                     </div>
                 )}
             </div>

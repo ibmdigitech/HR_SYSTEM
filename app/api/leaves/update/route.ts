@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   const { id, status } = await req.json()
 
-  let data: any = {}
+  const data: Record<string, unknown> = {}
 
   if (user?.role === "MANAGER") {
     data.managerStatus = status

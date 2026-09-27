@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { 
     User, Briefcase, Building2, Calendar, MapPin, Mail, Phone, ShieldCheck, 
     CreditCard, CalendarDays, Percent, Clock, FileCheck, FileText, ArrowRightLeft,
-    Wallet, TrendingUp, ChevronRight
+    Wallet, TrendingUp, 
 } from "lucide-react";
 import Link from "next/link";
 
@@ -67,11 +67,11 @@ export default async function StaffServicesPage() {
 
     const emp = user.employee;
     const stats = {
-        totalLeaves: emp.leaveBalances.reduce((acc: any, b: any) => acc + b.totalDays, 0),
-        usedLeaves: emp.leaveBalances.reduce((acc: any, b: any) => acc + b.usedDays, 0),
-        presenceCount: emp.attendance.filter((a: any) => a.status === "PRESENT" || a.status === "LATE").length,
+        totalLeaves: emp.leaveBalances.reduce((acc, b) => acc + b.totalDays, 0),
+        usedLeaves: emp.leaveBalances.reduce((acc, b) => acc + b.usedDays, 0),
+        presenceCount: emp.attendance.filter((a) => a.status === "PRESENT" || a.status === "LATE").length,
         presencePct: emp.attendance.length > 0 
-            ? Math.round((emp.attendance.filter((a: any) => a.status === "PRESENT" || a.status === "LATE").length / emp.attendance.length) * 100)
+            ? Math.round((emp.attendance.filter((a) => a.status === "PRESENT" || a.status === "LATE").length / emp.attendance.length) * 100)
             : 100
     };
 
@@ -155,7 +155,7 @@ export default async function StaffServicesPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-black text-slate-800 dark:text-white">
-                            {emp.attendance.filter((a: any) => a.status === "LATE").length} Time(s)
+                            {emp.attendance.filter((a) => a.status === "LATE").length} Time(s)
                         </div>
                         <p className="text-xs font-medium text-slate-500 mt-1">Pending verification</p>
                     </CardContent>
@@ -237,7 +237,7 @@ export default async function StaffServicesPage() {
                                 <CardTitle className="text-lg font-bold">Recent Requests</CardTitle>
                             </CardHeader>
                             <CardContent className="p-4 space-y-4">
-                                {emp.serviceRequests.map((r: any) => (
+                                {emp.serviceRequests.map((r) => (
                                     <div key={r.id} className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100/50 dark:border-slate-800/50">
                                         <div>
                                             <div className="font-bold text-xs text-slate-800 dark:text-slate-200">{r.category.name}</div>
@@ -267,7 +267,7 @@ export default async function StaffServicesPage() {
                         </CardHeader>
                         <CardContent className="p-6">
                             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                {emp.leaveBalances.map((bal: any) => {
+                                {emp.leaveBalances.map((bal) => {
                                     const rem = Math.max(0, bal.totalDays - bal.usedDays);
                                     const pct = bal.totalDays > 0 ? Math.min(100, Math.round((bal.usedDays / bal.totalDays) * 100)) : 0;
                                     return (
@@ -316,7 +316,7 @@ export default async function StaffServicesPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {emp.attendance.map((record: any) => (
+                                    {emp.attendance.map((record) => (
                                         <TableRow key={record.id} className="border-slate-100 dark:border-slate-800 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors">
                                             <TableCell className="font-bold text-slate-800 dark:text-slate-200">
                                                 {new Date(record.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
@@ -423,7 +423,7 @@ export default async function StaffServicesPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {emp.salaryRecords.map((rec: any) => {
+                                        {emp.salaryRecords.map((rec) => {
                                             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                                             const period = `${monthNames[rec.month - 1]} ${rec.year}`;
                                             const allowances = rec.housingAllowance + rec.transportAllowance + rec.medicalAllowance + rec.otherAllowances;

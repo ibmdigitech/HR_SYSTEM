@@ -1,4 +1,4 @@
-# 🚀 ANTIGRAVITY ENTERPRISE HRMS
+# 🚀 IBM DIGITECH ENTERPRISE HRMS
 ### The Ultimate Modern HR & Operations Management System
 
 A state-of-the-art, **Premium Glassmorphic** HRMS built with **Next.js 16**, **TypeScript**, **Prisma**, and **Tailwind CSS**. Designed for enterprise-grade performance, aesthetic excellence, and UAE compliance.
@@ -83,4 +83,4 @@ npm run dev
 - **Enterprise Grade**: PM2 Cluster Mode and automated deployment scripts (`deploy.sh`) for high-availability hosting.
 
 ---
-*© 2026 Antigravity Systems | Enterprise HRMS | UAE*
+*© 2026 IBM Digitech | Enterprise HRMS | UAE*

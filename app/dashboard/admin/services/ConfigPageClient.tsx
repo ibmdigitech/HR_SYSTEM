@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle,  } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,7 +21,7 @@ interface ConfigItem {
     description: string | null;
     type: string;
     value: string;
-    options: any;
+    options?: unknown;
     isActive: boolean;
 }
 
@@ -129,24 +129,59 @@ export default function ConfigPageClient() {
                         disabled={isSaving}
                     />
                 );
-            case 'select':
-                const options = Array.isArray(config.options) ? config.options : [];
+            case 'select': {
+                // `payroll_cycle` shipped with `options = NULL`, so the dropdown
+                // rendered empty and the setting could not be changed at all.
+                // When no options are configured, fall back to the current value
+                // so the control still shows and can be corrected, and say so
+                // rather than presenting a dead control.
+                const configured = Array.isArray(config.options) ? (config.options as unknown[]).filter((o) => typeof o === 'string') as string[] : [];
+                const options = configured.length > 0
+                    ? configured
+                    : config.value
+                        ? [config.value]
+                        : [];
+                const unconfigured = configured.length === 0;
+
+                if (unconfigured) {
+                    return (
+                        <div className="space-y-1.5">
+                            <Input
+                                value={config.value}
+                                onChange={(e) => handleUpdate(config, e.target.value)}
+                                disabled={isSaving}
+                                placeholder="e.g. Monthly"
+                                className="max-w-[220px] h-9 bg-slate-50 dark:bg-slate-900"
+                            />
+                            <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400">
+                                No options configured — enter a value directly.
+                            </p>
+                        </div>
+                    );
+                }
+
                 return (
-                    <Select 
-                        value={config.value} 
-                        onValueChange={(val) => handleUpdate(config, val)}
-                        disabled={isSaving}
-                    >
-                        <SelectTrigger className="max-w-[200px] h-9">
-                            <SelectValue placeholder="Select option" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {options.map((opt: string) => (
-                                <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <div className="space-y-1.5">
+                        <Select
+                            value={config.value || undefined}
+                            onValueChange={(val) => handleUpdate(config, val)}
+                            disabled={isSaving}
+                        >
+                            <SelectTrigger className="max-w-[220px] h-9">
+                                <SelectValue placeholder="Select option" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {options.map((opt) => (
+                                    <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <p className="text-[10px] text-slate-400">
+                            {options.length} option{options.length === 1 ? "" : "s"}
+                        </p>
+                    </div>
                 );
+            }
             case 'json':
                 return (
                     <div className="space-y-2">
@@ -232,15 +267,19 @@ export default function ConfigPageClient() {
             </div>
 
             {/* Main Tabs Container */}
-            <Tabs defaultValue="payroll" className="w-full space-y-8">
-                <div className="bg-slate-100/50 dark:bg-slate-900/50 p-2 rounded-3xl w-fit border border-slate-200/50 dark:border-slate-800/50">
-                    <TabsList className="bg-transparent h-auto p-0 gap-2">
+            <Tabs defaultValue="payroll" className="w-full min-w-0 space-y-8">
+                {/* `w-fit` made the strip exactly as wide as 7 padded tabs, so it
+                    ran off the right edge with no way to reach the later tabs.
+                    Full width plus horizontal scroll keeps every module
+                    reachable on any viewport. */}
+                <div className="w-full min-w-0 overflow-x-auto rounded-3xl bg-slate-100/50 dark:bg-slate-900/50 p-2 border border-slate-200/50 dark:border-slate-800/50 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <TabsList className="bg-transparent h-auto p-0 gap-2 w-max min-w-full justify-start">
                         {MODULES.map(m => (
-                            <TabsTrigger 
-                                key={m.id} 
+                            <TabsTrigger
+                                key={m.id}
                                 value={m.id}
                                 className={cn(
-                                    "px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300",
+                                    "px-4 sm:px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap shrink-0",
                                     "data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:text-indigo-600 data-[state=active]:shadow-xl data-[state=active]:shadow-indigo-500/10",
                                     "data-[state=inactive]:text-slate-500 hover:text-indigo-600"
                                 )}

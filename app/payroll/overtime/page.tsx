@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { requirePageAnyPermission } from "@/lib/auth/page-guard";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { format } from "date-fns";
 import { NewOvertimeForm } from "@/components/payroll/NewOvertimeForm";
 import { Badge } from "@/components/ui/badge";
@@ -15,10 +15,10 @@ import {
 import { Clock, AlertCircle, CheckCircle2 } from "lucide-react";
 
 export default async function OvertimePage() {
-    const session = await auth();
-    if (!session || !["ADMIN", "HR", "MANAGER"].includes((session.user as any).role)) {
-        redirect("/");
-    }
+    // Overtime affects payroll, so it requires a payroll capability rather than
+    // an inline role list. MANAGER does not hold payroll capabilities, so a
+    // manager is now correctly excluded (previously the inline list allowed them).
+    await requirePageAnyPermission([PERMISSIONS.PAYROLL_VIEW, PERMISSIONS.PAYROLL_OVERTIME_MANAGE]);
 
     const overtimes = await prisma.overtime.findMany({
         include: { employee: true },

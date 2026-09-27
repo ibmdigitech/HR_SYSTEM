@@ -14,15 +14,15 @@ export async function GET() {
             orderBy: { name: 'asc' }
         });
         return NextResponse.json(templates);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[API_TEMPLATES_GET_ERROR]", error);
-        return NextResponse.json({ error: error.message || 'Failed to fetch templates' }, { status: 500 });
+        return NextResponse.json({ error: (error instanceof Error ? error.message : "Unknown error") || 'Failed to fetch templates' }, { status: 500 });
     }
 }
 
 export async function POST(req: Request) {
     const session = await auth();
-    if (!session || (session.user as any).role !== 'ADMIN') {
+    if (!session || (session.user as { role: string }).role !== 'ADMIN') {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

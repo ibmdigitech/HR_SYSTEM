@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import type { SalaryRecord, Employee } from "@/prisma/generated/client";
+
+/**
+ * The row shape the export query actually returns: a SalaryRecord joined to
+ * its Employee. Typed so the CSV, Excel and WPS generators below cannot drift
+ * from the query that feeds them.
+ */
+type SALARY_EXPORT_ROW = SalaryRecord & { employee: Employee };
 
 export async function GET(request: NextRequest) {
     try {
@@ -70,7 +78,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-function generateCSV(records: any[], monthName: string, year: number) {
+function generateCSV(records: SALARY_EXPORT_ROW[], monthName: string, year: number) {
     const headers = [
         "Employee Code",
         "Employee Name",
@@ -144,7 +152,7 @@ function generateCSV(records: any[], monthName: string, year: number) {
     });
 }
 
-function generateExcel(records: any[], monthName: string, year: number) {
+function generateExcel(records: SALARY_EXPORT_ROW[], monthName: string, year: number) {
     const headers = [
         "Employee Code",
         "Employee Name",
@@ -212,7 +220,7 @@ function generateExcel(records: any[], monthName: string, year: number) {
 }
 
 function generateWPS(
-    records: any[],
+    records: SALARY_EXPORT_ROW[],
     monthName: string,
     year: number,
     month: number

@@ -24,19 +24,40 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { FileText, Plus, DollarSign, Calendar, FileQuestion, ArrowRightLeft, HelpCircle, Check, X, Eye } from "lucide-react";
+import { Plus, DollarSign, Calendar, FileQuestion, ArrowRightLeft, HelpCircle, Check, X,  } from "lucide-react";
 import { submitStaffRequest, handleRequestAction } from "@/app/lib/actions/requests";
 import { DatePicker } from "@/components/ui/date-picker";
 import { toast } from "sonner";
+import type { ServiceRequest, ServiceCategory, Employee } from "@/prisma/generated/client";
+
+/**
+ * A service request row exactly as the page sends it.
+ *
+ * The relation is `category` (ServiceRequest -> ServiceCategory). Reading
+ * `serviceType` was undefined on every row and threw at runtime as soon as the
+ * table had content. Typing this makes the compiler catch such a mismatch.
+ */
+type RequestRow = ServiceRequest & {
+    employee: Employee;
+    category: ServiceCategory | null;
+};
 
 export default function RequestClient({
     requests,
     serviceTypes,
     isStaffOnly,
-    role
+
 }: {
-    requests: any[];
-    serviceTypes: any[];
+    /**
+     * Typed from the actual Prisma payload the page sends
+     * (`include: { employee: true, category: true }`).
+     *
+     * These were `any[]`, which is why the `category` / `serviceType` mismatch
+     * below was invisible to the compiler and only surfaced as a runtime crash
+     * once a request existed. Typing them makes that class of bug a build error.
+     */
+    requests: RequestRow[];
+    serviceTypes: ServiceCategory[];
     isStaffOnly: boolean;
     role: string;
 }) {
@@ -46,20 +67,63 @@ export default function RequestClient({
     const [activeRequest, setActiveRequest] = useState<any>(null);
     const [hrAction, setHrAction] = useState<"APPROVED" | "REJECTED" | "COMPLETED">("APPROVED");
     const [hrNote, setHrNote] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    // Server-returned field errors, so the user sees which field is wrong
+    // instead of only a generic toast.
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
     const selectedType = serviceTypes.find(t => t.id === selectedTypeId);
 
+    // `startDate` and `endDate` are both nullable on ServiceRequest.
+    // `new Date(null)` yields a bogus 1970 date rather than failing, so the
+    // null case is handled explicitly.
+    const formatDate = (value: Date | string | null | undefined): string => {
+        if (!value) return "—";
+        const d = new Date(value);
+        return isNaN(d.getTime()) ? "—" : d.toLocaleDateString();
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const result = await submitStaffRequest(null, formData);
+        if (submitting) return;
 
-        if (result.success) {
-            toast.success(result.message);
-            setOpen(false);
-            window.location.reload();
-        } else {
-            toast.error(result.message);
+        // A service type must be chosen before submitting; Radix Select is not
+        // a native control, so the browser cannot enforce `required` for us.
+        if (!selectedTypeId) {
+            setFieldErrors({ categoryId: "Select a service type" });
+            toast.error("Please select a service type.");
+            return;
+        }
+
+        setSubmitting(true);
+        setFieldErrors({});
+
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
+        try {
+            const result = await submitStaffRequest(null, formData);
+
+            if (result.success) {
+                toast.success(result.message);
+                setOpen(false);
+                setSelectedTypeId("");
+                setFieldErrors({});
+                window.location.reload();
+            } else {
+                if (result.fieldErrors && Object.keys(result.fieldErrors).length > 0) {
+                    setFieldErrors(result.fieldErrors);
+                    const first = Object.keys(result.fieldErrors)[0];
+                    const el = form.querySelector<HTMLElement>(`[name="${first}"]`);
+                    el?.focus();
+                    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+                toast.error(result.message);
+            }
+        } catch {
+            toast.error("Could not submit the request. Please try again.");
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -139,7 +203,18 @@ export default function RequestClient({
                                 <div className="space-y-4">
                                     <div className="space-y-2">
                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Service Type</Label>
-                                        <Select name="typeId" required onValueChange={setSelectedTypeId}>
+                                        {/* Field name is `categoryId`, matching
+                                            ServiceRequest.categoryId. It was
+                                            previously `typeId`, which the
+                                            action never read — so submission
+                                            always failed with "Missing required
+                                            fields". */}
+                                        <Select
+                                            name="categoryId"
+                                            required
+                                            value={selectedTypeId}
+                                            onValueChange={setSelectedTypeId}
+                                        >
                                             <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
                                                 <SelectValue placeholder="Select Request Type" />
                                             </SelectTrigger>
@@ -149,6 +224,11 @@ export default function RequestClient({
                                                 ))}
                                             </SelectContent>
                                         </Select>
+                                        {fieldErrors.categoryId && (
+                                            <p role="alert" className="text-xs font-bold text-rose-600 dark:text-rose-400">
+                                                {fieldErrors.categoryId}
+                                            </p>
+                                        )}
                                         {selectedType?.description && (
                                             <p className="text-[10px] text-slate-500 font-medium mt-1 bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800">{selectedType.description}</p>
                                         )}
@@ -180,13 +260,48 @@ export default function RequestClient({
 
                                     <div className="space-y-2">
                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Purpose / Details</Label>
-                                        <Textarea name="details" required rows={3} placeholder="Please explain the reason for this request..." className="rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-medium" />
+                                        <Textarea
+                                            name="details"
+                                            required
+                                            maxLength={2000}
+                                            aria-invalid={fieldErrors.details ? "true" : undefined}
+                                            aria-describedby={fieldErrors.details ? "details-error" : undefined}
+                                            rows={3}
+                                            placeholder="Please explain the reason for this request..."
+                                            className="rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-medium"
+                                        />
+                                        {fieldErrors.details && (
+                                            <p id="details-error" role="alert" className="text-xs font-bold text-rose-600 dark:text-rose-400">
+                                                {fieldErrors.details}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Optional supporting document. The action
+                                        validates its size server-side. */}
+                                    <div className="space-y-2">
+                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">
+                                            Attachment (optional)
+                                        </Label>
+                                        <input
+                                            type="file"
+                                            name="attachment"
+                                            className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-xl file:border-0 file:bg-slate-100 file:px-4 file:py-2.5 file:text-xs file:font-bold file:text-slate-700 hover:file:bg-slate-200 dark:file:bg-slate-900 dark:file:text-slate-200"
+                                        />
+                                        <p className="text-[10px] text-slate-400">PDF or image, up to 5MB.</p>
                                     </div>
                                 </div>
 
                                 <DialogFooter>
                                     <Button type="button" variant="ghost" onClick={() => setOpen(false)} className="rounded-xl font-bold uppercase text-[10px]">Cancel</Button>
-                                    <Button type="submit" className="h-12 px-8 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase text-xs tracking-wider shadow-lg shadow-indigo-600/20">Submit Request</Button>
+                                    <Button
+                                        type="submit"
+                                        disabled={submitting}
+                                        aria-busy={submitting}
+                                        className="h-12 px-8 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black uppercase text-xs tracking-wider shadow-lg shadow-indigo-600/20"
+                                    >
+                                        {submitting ? "Submitting…" : "Submit Request"}
+                                    </Button>
                                 </DialogFooter>
                             </form>
                         </DialogContent>
@@ -221,7 +336,7 @@ export default function RequestClient({
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {requests.map((record: any) => (
+                                {requests.map((record) => (
                                     <TableRow key={record.id} className="border-slate-100 dark:border-slate-800/60 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors">
                                         <TableCell className="py-4">
                                             <div className="flex items-center gap-3">
@@ -240,7 +355,15 @@ export default function RequestClient({
                                         </TableCell>
 
                                         <TableCell className="font-bold text-slate-800 dark:text-slate-200">
-                                            {record.serviceType.name}
+                                            {/* The server includes `category`
+                                                (the ServiceRequest relation), not
+                                                `serviceType`. Reading `serviceType.name`
+                                                was undefined for every row and threw
+                                                "Cannot read properties of undefined
+                                                (reading 'name')" as soon as the list was
+                                                non-empty. Optional chaining keeps a
+                                                missing relation from blanking the table. */}
+                                            {record.category?.name ?? "Unknown service"}
                                         </TableCell>
 
                                         <TableCell className="max-w-xs text-xs font-medium text-slate-600 dark:text-slate-400 truncate">
@@ -262,9 +385,9 @@ export default function RequestClient({
                                                     </div>
                                                 )}
                                                 {record.startDate && (
-                                                    <div className="text-[10px] text-slate-500 font-medium">
-                                                        {new Date(record.startDate).toLocaleDateString()} - {new Date(record.endDate).toLocaleDateString()}
-                                                    </div>
+                                                <div className="text-[10px] text-slate-500 font-medium">
+                                                    {formatDate(record.startDate)} - {formatDate(record.endDate)}
+                                                </div>
                                                 )}
                                                 {record.amount === null && !record.startDate && (
                                                     <span className="text-slate-400 italic">--</span>

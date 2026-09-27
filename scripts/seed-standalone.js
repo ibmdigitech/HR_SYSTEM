@@ -28,9 +28,12 @@ async function main() {
                 }
             });
         } else {
+            // Password is deliberately NOT reset on an existing account.
+            // Re-running the seed must never silently revert a password the
+            // user has since changed (P1.1 / SEC-027).
             admin = await prisma.user.update({
                 where: { email: 'admin@company.com' },
-                data: { password: password }
+                data: { name: 'Admin User' }
             });
         }
 
@@ -63,9 +66,12 @@ async function main() {
                 }
             });
         } else {
+            // Password is deliberately NOT reset on an existing account.
+            // Re-running the seed must never silently revert a password the
+            // user has since changed (P1.1 / SEC-027).
             manager = await prisma.user.update({
                 where: { email: 'manager@company.com' },
-                data: { password: password }
+                data: {}
             });
         }
 
@@ -98,9 +104,12 @@ async function main() {
                 }
             });
         } else {
+            // Password is deliberately NOT reset on an existing account.
+            // Re-running the seed must never silently revert a password the
+            // user has since changed (P1.1 / SEC-027).
             staff = await prisma.user.update({
                 where: { email: 'staff@company.com' },
-                data: { password: password }
+                data: {}
             });
         }
 
@@ -166,11 +175,32 @@ async function main() {
         ];
 
         for (const type of serviceTypes) {
-            const existingType = await prisma.staffServiceType.findUnique({
-                where: { name: type.name }
+            // Model is `ServiceCategory` in prisma/schema.prisma (ERROR-006).
+            // The previous `prisma.staffServiceType.findUnique(...)` referenced
+            // a model that does not exist, so seeding threw a TypeError here and
+            // never reached the ServiceConfig block below.
+            const existingType = await prisma.serviceCategory.findUnique({
+                where: { name: type.name },
             });
             if (!existingType) {
-                await prisma.staffServiceType.create({ data: type });
+                await prisma.serviceCategory.create({
+                    data: {
+                        name: type.name,
+                        description: type.description,
+                        requiresAmount: type.requiresAmount,
+                        requiresDates: type.requiresDates,
+                    },
+                });
+            } else {
+                // Idempotent: keep the descriptive fields in sync on re-run.
+                await prisma.serviceCategory.update({
+                    where: { name: type.name },
+                    data: {
+                        description: type.description,
+                        requiresAmount: type.requiresAmount,
+                        requiresDates: type.requiresDates,
+                    },
+                });
             }
         }
 

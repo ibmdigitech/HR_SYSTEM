@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     FileUp,
     CheckCircle2,
@@ -96,9 +94,9 @@ export function VisaForm() {
             } else {
                 toast.error(result.message);
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             setLoading(false);
-            toast.error(`Failed to submit: ${error.message || 'Unknown error'}`);
+            toast.error(`Failed to submit: ${(error instanceof Error ? error.message : "Unknown error") || 'Unknown error'}`);
         }
     };
 

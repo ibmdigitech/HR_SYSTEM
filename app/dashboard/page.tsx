@@ -1,7 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, DollarSign, Activity, Calendar, ShieldAlert, UserCheck, Clock, TrendingUp, Plus, CheckCircle2, AlertCircle, ArrowUpRight, Zap, Briefcase, Bell } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Users, DollarSign, Activity, Calendar, ShieldAlert, UserCheck, Clock, TrendingUp, Plus, CheckCircle2, AlertCircle, ArrowUpRight, Zap, Briefcase,  } from "lucide-react";import { Button } from "@/components/ui/button";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -381,7 +379,7 @@ function cn(...classes: (string | boolean | undefined)[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-function XCircle(props: any) {
+function XCircle(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             {...props}

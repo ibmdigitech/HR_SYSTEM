@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition, Suspense } from 'react';
-import { signIn } from 'next-auth/react';
+import { useState, useTransition, Suspense, useEffect } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -58,6 +58,40 @@ function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+
+    // PAGE-002 (P0-21): an already-authenticated visitor must never see the
+    // login form alongside the authenticated app chrome (header + sidebar),
+    // which is the contradictory state users reported.
+    //
+    // `proxy.ts` already redirects authenticated users away from /login, but a
+    // client-side navigation, a prefetch, or a cached RSC payload can still
+    // render this page. The page must not depend on the edge alone.
+    const { status: sessionStatus } = useSession();
+
+    useEffect(() => {
+        if (sessionStatus === 'authenticated') {
+            router.replace(callbackUrl);
+        }
+    }, [sessionStatus, callbackUrl, router]);
+
+    // Do not flash the sign-in form while the session is still being resolved.
+    if (sessionStatus === 'loading') {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+                <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+                <span className="sr-only">Checking your session</span>
+            </div>
+        );
+    }
+
+    if (sessionStatus === 'authenticated') {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+                <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+                <span className="sr-only">Redirecting to your dashboard</span>
+            </div>
+        );
+    }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

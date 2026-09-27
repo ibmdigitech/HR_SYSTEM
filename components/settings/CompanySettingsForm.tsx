@@ -52,9 +52,9 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
             } else {
                 toast.error("Failed to update company profile.");
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error(error);
-            toast.error(error.message || "An error occurred.");
+            toast.error((error instanceof Error ? error.message : "Unknown error") || "An error occurred.");
         } finally {
             setIsSubmitting(false);
         }

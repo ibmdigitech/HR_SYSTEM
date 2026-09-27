@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 
 export async function createOvertime(formData: FormData) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR", "MANAGER"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR", "MANAGER"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -44,7 +44,7 @@ export async function createOvertime(formData: FormData) {
 
         revalidatePath("/payroll/overtime");
         return { success: true, message: "Overtime logged successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("[CREATE_OVERTIME_ERROR]", error);
         return { success: false, message: "Failed to log overtime" };
     }

@@ -22,11 +22,26 @@ export function Header({ user }: HeaderProps) {
     const [time, setTime] = useState<Date | null>(null);
     const [mounted, setMounted] = useState(false);
 
+    // `mounted` guards the clock against a hydration mismatch: the server has
+    // no meaningful "now", so it renders the placeholder and the client
+    // renders the real time.
+    //
+    // The effect performs NO synchronous state update. Setting state directly in
+    // the effect body triggers a cascading render before paint, which React
+    // flags (react-hooks/set-state-in-effect); the first tick is therefore
+    // deferred, and only the interval updates thereafter.
     useEffect(() => {
-        setMounted(true);
-        setTime(new Date());
-        const timer = setInterval(() => setTime(new Date()), 1000);
-        return () => clearInterval(timer);
+        const startTimer = window.setTimeout(() => {
+            setMounted(true);
+            setTime(new Date());
+        }, 0);
+
+        const timer = window.setInterval(() => setTime(new Date()), 1000);
+
+        return () => {
+            window.clearTimeout(startTimer);
+            window.clearInterval(timer);
+        };
     }, []);
 
     const userInitials = user?.name

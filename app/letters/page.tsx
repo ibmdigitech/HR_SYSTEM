@@ -11,7 +11,7 @@ export default async function LettersPage() {
     const session = await auth();
     if (!session) redirect("/login");
 
-    const userRole = (session.user as any).role || "STAFF";
+    const userRole = (session.user as { role: string }).role || "STAFF";
 
     return (
         <div className="container mx-auto py-10">

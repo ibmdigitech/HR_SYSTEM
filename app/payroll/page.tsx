@@ -5,23 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Download, DollarSign, CreditCard, History, Plus, Building, UserCheck, TrendingUp, Receipt, ChevronRight, Clock, AlertTriangle, Users } from "lucide-react";
+import { DollarSign, CreditCard, History, Plus, Building, UserCheck, TrendingUp, Receipt, ChevronRight, Clock, AlertTriangle, Users } from "lucide-react";
 import { redirect } from "next/navigation";
+import { requirePagePermission } from "@/lib/auth/page-guard";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
 import { PayrollStatusDropdown } from "@/components/payroll/PayrollStatusDropdown";
 import { PayrollCharts } from "@/components/payroll/PayrollCharts";
 import { PayrollExportButtons } from "@/components/payroll/PayrollExportButtons";
 
 export default async function PayrollPage() {
+    // Payroll aggregates salary data for every employee. This page previously
+    // checked only that a session existed, so a STAFF account could read the
+    // organisation-wide payroll. Requires an explicit payroll capability now.
+    await requirePagePermission(PERMISSIONS.PAYROLL_VIEW);
+
     const session = await auth();
-    if (!session?.user?.email) redirect("/login");
 
     const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
+        where: { email: session!.user!.email! },
         include: { employee: true }
     });
 
-    if (!user) redirect("/login");
+    if (!user) redirect("/dashboard");
 
     const userRole = user.role;
     const now = new Date();
@@ -249,7 +255,7 @@ export default async function PayrollPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {salaryRecords.map((record: any) => (
+                                    {salaryRecords.map((record) => (
                                         <TableRow key={record.id} className="border-slate-100 dark:border-slate-800/60 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors">
                                             <TableCell className="py-4">
                                                 <div className="flex items-center gap-3">

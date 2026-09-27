@@ -1,9 +1,20 @@
 import jsPDF from "jspdf";
 
+/**
+ * The single PDF engine for every letter in the system.
+ *
+ * P1 §15: offers must NOT get a second renderer. This function is reused for
+ * offer letters, which is why it accepts a letter whose subject is a
+ * CANDIDATE rather than an employee — an offer is issued before the person is
+ * ever onboarded (§19).
+ *
+ * `employee` is therefore optional; `candidate` is the fallback subject.
+ */
 export const generateLetterPDF = async (letter: any) => {
     const doc = new jsPDF('p', 'mm', 'a4');
-    const { referenceNumber, employee, template, content_en, content_ar } = letter;
-    const name = `${employee.firstName} ${employee.lastName}`;
+    const { referenceNumber, employee, candidate, template, content_en, content_ar } = letter;
+    const subject = employee ?? candidate;
+    const name = subject ? `${subject.firstName} ${subject.lastName}` : "—";
 
     // Helper for horizontal line
     const line = (y: number) => {

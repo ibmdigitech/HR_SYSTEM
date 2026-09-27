@@ -1,9 +1,7 @@
 import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import { format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { requirePageAnyPermission } from "@/lib/auth/page-guard";
+import { PERMISSIONS } from "@/lib/auth/permissions";
+import { format } from "date-fns";import { Button } from "@/components/ui/button";
 import {
     Table,
     TableBody,
@@ -12,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Landmark, AlertCircle, Clock, CheckCircle2, XCircle, Banknote, TrendingUp, Users, Plus } from "lucide-react";
+import { Landmark, AlertCircle, Clock, CheckCircle2, XCircle, Banknote, TrendingUp, Users,  } from "lucide-react";
 import Link from "next/link";
 
 const statusConfig: Record<string, { label: string; color: string }> = {
@@ -29,22 +27,21 @@ const statusConfig: Record<string, { label: string; color: string }> = {
 };
 
 export default async function LoansPage() {
-    const session = await auth();
-    if (!session || !["ADMIN", "HR", "FINANCE"].includes((session.user as any).role)) {
-        redirect("/");
-    }
+    // Loan administration requires a loan capability rather than an inline role
+    // list. FINANCE holds loan.manage, so the finance department keeps access.
+    await requirePageAnyPermission([PERMISSIONS.LOAN_MANAGE, PERMISSIONS.LOAN_APPROVE]);
 
     const loans = await prisma.loanApplication.findMany({
         include: { employee: true, loanType: true, installments: true },
         orderBy: { createdAt: 'desc' }
     });
 
-    const disbursedLoans = loans.filter((l: any) => l.status === "DISBURSED");
-    const totalDisbursed = disbursedLoans.reduce((acc: number, l: any) => acc + l.requestedAmount, 0);
-    const pendingCount = loans.filter((l: any) => ["SUBMITTED", "PENDING_MANAGER", "PENDING_HR", "PENDING_FINANCE"].includes(l.status)).length;
-    const totalInstallmentsDue = loans.reduce((acc: number, l: any) => {
-        const pendingInstallments = l.installments.filter((i: any) => i.status === "PENDING");
-        return acc + pendingInstallments.reduce((a: number, i: any) => a + i.amount, 0);
+    const disbursedLoans = loans.filter((l) => l.status === "DISBURSED");
+    const totalDisbursed = disbursedLoans.reduce((acc, l) => acc + l.requestedAmount, 0);
+    const pendingCount = loans.filter((l) => ["SUBMITTED", "PENDING_MANAGER", "PENDING_HR", "PENDING_FINANCE"].includes(l.status)).length;
+    const totalInstallmentsDue = loans.reduce((acc, l) => {
+        const pendingInstallments = l.installments.filter((i) => i.status === "PENDING");
+        return acc + pendingInstallments.reduce((a, i) => a + i.amount, 0);
     }, 0);
 
     return (
@@ -133,7 +130,7 @@ export default async function LoansPage() {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            loans.map((loan: any) => {
+                            loans.map((loan) => {
                                 const cfg = statusConfig[loan.status] || { label: loan.status, color: "bg-slate-100 text-slate-600" };
                                 return (
                                     <TableRow key={loan.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
@@ -166,7 +163,12 @@ export default async function LoansPage() {
                                             <div className="flex items-center justify-center gap-1.5">
                                                 {["managerStatus", "hrStatus", "financeStatus"].map((key, i) => {
                                                     const labels = ["M", "HR", "F"];
-                                                    const val = loan[key];
+                                                    // Narrow accessor instead of indexing a typed row
+                                                    // with a runtime string.
+                                                    const val =
+                                                        key === "managerStatus" ? loan.managerStatus :
+                                                        key === "hrStatus" ? loan.hrStatus :
+                                                            loan.financeStatus;
                                                     return (
                                                         <span
                                                             key={key}

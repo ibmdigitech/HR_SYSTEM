@@ -15,8 +15,8 @@ export async function markNotificationRead(id: string) {
         });
         revalidatePath("/notifications");
         return { success: true };
-    } catch (e: any) {
-        return { success: false, message: e.message };
+    } catch (e: unknown) {
+        return { success: false, message: (e instanceof Error ? e.message : "Unknown error") };
     }
 }
 
@@ -37,7 +37,7 @@ export async function markAllRead() {
         }
         revalidatePath("/notifications");
         return { success: true };
-    } catch (e: any) {
-        return { success: false, message: e.message };
+    } catch (e: unknown) {
+        return { success: false, message: (e instanceof Error ? e.message : "Unknown error") };
     }
 }

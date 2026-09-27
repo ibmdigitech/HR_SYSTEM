@@ -1,6 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { requireAnyPermission,  } from "@/lib/auth/guards";
+import { PERMISSIONS } from "@/lib/auth/permissions";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
@@ -24,16 +26,13 @@ export async function getShifts() {
             }
         });
         return { success: true, data: shifts ?? [] };
-    } catch (error: any) {
-        return { success: false, error: error.message, data: [] };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error"), data: [] };
     }
 }
 
 export async function createShift(data: ShiftData) {
-    const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
-        throw new Error("Unauthorized");
-    }
+    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
 
     try {
         const shift = await prisma.shift.create({
@@ -47,16 +46,13 @@ export async function createShift(data: ShiftData) {
             },
         });
         return { success: true, data: shift };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
 export async function updateShift(id: string, data: Partial<ShiftData>) {
-    const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
-        throw new Error("Unauthorized");
-    }
+    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
 
     try {
         const shift = await prisma.shift.update({
@@ -64,24 +60,21 @@ export async function updateShift(id: string, data: Partial<ShiftData>) {
             data,
         });
         return { success: true, data: shift };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
 export async function deleteShift(id: string) {
-    const session = await auth();
-    if (!session || ((session.user as any)?.role !== "ADMIN" && (session.user as any)?.role !== "HR")) {
-        throw new Error("Unauthorized");
-    }
+    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
 
     try {
         await prisma.shift.delete({
             where: { id },
         });
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
@@ -91,7 +84,7 @@ export async function assignShift(employeeId: string, shiftId: string | null) {
     const session = await auth();
     if (!session?.user?.email) return { success: false, message: "Not authenticated" };
 
-    const userRole = (session.user as any)?.role;
+    const userRole = (session.user as { role?: string })?.role ?? "";
     if (!["ADMIN", "HR", "MANAGER"].includes(userRole)) {
         return { success: false, message: "Unauthorized" };
     }
@@ -119,8 +112,8 @@ export async function assignShift(employeeId: string, shiftId: string | null) {
         revalidatePath("/attendance");
         revalidatePath("/attendance/shifts");
         return { success: true, message: "Shift assigned successfully" };
-    } catch (error: any) {
-        return { success: false, message: error.message };
+    } catch (error: unknown) {
+        return { success: false, message: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
@@ -128,7 +121,7 @@ export async function bulkAssignShift(employeeIds: string[], shiftId: string) {
     const session = await auth();
     if (!session?.user?.email) return { success: false, message: "Not authenticated" };
 
-    const userRole = (session.user as any)?.role;
+    const userRole = (session.user as { role?: string })?.role ?? "";
     if (!["ADMIN", "HR"].includes(userRole)) {
         return { success: false, message: "Only HR/Admin can perform bulk assignments" };
     }
@@ -142,8 +135,8 @@ export async function bulkAssignShift(employeeIds: string[], shiftId: string) {
         revalidatePath("/attendance");
         revalidatePath("/attendance/shifts");
         return { success: true, message: `${employeeIds.length} employee(s) assigned successfully` };
-    } catch (error: any) {
-        return { success: false, message: error.message };
+    } catch (error: unknown) {
+        return { success: false, message: (error instanceof Error ? error.message : "Unknown error") };
     }
 }
 
@@ -151,7 +144,7 @@ export async function getShiftRoster() {
     const session = await auth();
     if (!session?.user?.email) return { success: false, data: { shifts: [], unassigned: [] } };
 
-    const userRole = (session.user as any)?.role;
+    const userRole = (session.user as { role?: string })?.role ?? "";
 
     try {
         const currentUser = await prisma.user.findUnique({
@@ -189,7 +182,7 @@ export async function getShiftRoster() {
         }
 
         return { success: true, data: { shifts, unassigned } };
-    } catch (error: any) {
-        return { success: false, data: { shifts: [], unassigned: [] }, message: error.message };
+    } catch (error: unknown) {
+        return { success: false, data: { shifts: [], unassigned: [] }, message: (error instanceof Error ? error.message : "Unknown error") };
     }
 }

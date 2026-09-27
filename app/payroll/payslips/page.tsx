@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Download, FileText, DollarSign, AlertCircle, ArrowLeft } from "lucide-react";
+import { FileText, DollarSign, AlertCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 import { DownloadPDFButton } from "@/components/payroll/DownloadPDFButton";
@@ -143,7 +143,7 @@ export default async function PayslipPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {salaryRecords.map((record: any) => {
+                                {salaryRecords.map((record) => {
                                     const totalAllowances = (record.transportAllowance || 0) + (record.medicalAllowance || 0) + (record.otherAllowances || 0) + (record.bonus || 0);
                                     const totalDeductions = (record.latePenalty || 0) + (record.leaveDeduction || 0) + (record.loanDeduction || 0) + (record.otherDeductions || 0);
                                     

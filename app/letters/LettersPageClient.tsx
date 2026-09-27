@@ -30,9 +30,7 @@ import {
     Send,
     ChevronRight,
     Loader2
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
+} from "lucide-react";import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
 
 interface Template {
     id: string;
@@ -113,8 +111,8 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
     };
 
     const handleGenerate = async () => {
-        if (!selectedTemplate || (isAdmin && !selectedEmployeeId)) {
-            toast.error("Please select a template and employee");
+        if (!selectedTemplate) {
+            toast.error("Please select a template");
             return;
         }
 
@@ -125,19 +123,35 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     templateId: selectedTemplate.id,
-                    employeeId: isAdmin ? selectedEmployeeId : undefined, // Backend should handle current user if undefined
-                    customFields: { 'request.purpose': purpose }
+                    // Only send an employeeId when the user actually chose one.
+                    // The API resolves the caller's own employee otherwise.
+                    ...(selectedEmployeeId ? { employeeId: selectedEmployeeId } : {}),
+                    customFields: purpose ? { 'request.purpose': purpose } : {}
                 })
             });
 
-            if (!res.ok) throw new Error();
-            
-            toast.success("Letter request submitted successfully");
+            const payload = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                // Surface the server's reason instead of a blanket failure.
+                toast.error(payload?.error || `Request failed (${res.status})`);
+                return;
+            }
+
+            toast.success(
+                payload?.status === 'PENDING'
+                    ? "Letter submitted and pending approval"
+                    : "Letter generated successfully"
+            );
             setSelectedTemplate(null);
             setPurpose("");
-            fetchData();
+            setSelectedEmployeeId("");
+            // Show the new letter immediately rather than re-fetching behind a
+            // spinner the user cannot see.
+            await fetchData();
         } catch (error) {
-            toast.error("Failed to generate letter");
+            console.error('Letter generation failed', error);
+            toast.error("Could not reach the letter service. Check your connection and retry.");
         } finally {
             setGenerating(false);
         }

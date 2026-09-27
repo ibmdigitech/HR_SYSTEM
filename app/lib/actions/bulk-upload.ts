@@ -3,11 +3,25 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
-import bcrypt from "bcryptjs";
+import { issueActivationToken } from "@/lib/workflow/credentials";
 
+/**
+ * Bulk employee upload.
+ *
+ * SECURITY (P1.1 / SEC-027): this path previously created every imported
+ * account with a bcrypt hash of the shared default `password123` — the exact
+ * defect the single-employee path was fixed for, still present here. Accounts
+ * are now created with a NULL password plus a one-time activation token, so a
+ * bulk import can no longer mint predictable credentials.
+ *
+ * Token issuance happens AFTER the transaction commits, per employee, so a
+ * token failure cannot roll back an imported employee. The plaintext token is
+ * never logged; the caller receives counts and is directed to the employee
+ * record to issue links.
+ */
 export async function uploadMasterFile(formData: FormData) {
     const session = await auth();
-    if (!session || !["ADMIN", "HR"].includes((session.user as any).role)) {
+    if (!session || !["ADMIN", "HR"].includes((session.user as { role: string }).role)) {
         return { success: false, message: "Unauthorized" };
     }
 
@@ -28,14 +42,18 @@ export async function uploadMasterFile(formData: FormData) {
         errors: [] as string[]
     };
 
-    const hashedPassword = await bcrypt.hash("password123", 10);
+    // No default password: each imported account is activated by a one-time
+    // token instead.
+    const activatedUserIds: string[] = [];
 
     for (let i = 0; i < dataRows.length; i++) {
         const values = dataRows[i].split(",").map(v => v.trim());
-        const row: any = {};
+        // Values come straight from splitting the CSV, so every entry is a
+        // string. Typed accordingly rather than as `any`.
+        const row: Record<string, string> = {};
 
         headers.forEach((header, index) => {
-            row[header] = values[index];
+            row[header] = values[index] ?? "";
         });
 
         // Basic validation
@@ -57,7 +75,9 @@ export async function uploadMasterFile(formData: FormData) {
                 const user = await tx.user.create({
                     data: {
                         email: row.email,
-                        password: hashedPassword,
+                        // No usable password until the employee activates their
+                        // account with a one-time token.
+                        password: null,
                         name: `${row.firstname} ${row.lastname}`,
                         role: "STAFF"
                     }
@@ -76,18 +96,40 @@ export async function uploadMasterFile(formData: FormData) {
                         isActive: true
                     }
                 });
+
+                activatedUserIds.push(user.id);
             });
             results.success++;
-        } catch (error: any) {
+        } catch (error: unknown) {
             results.failed++;
-            results.errors.push(`Row ${i + 2}: ${error.message}`);
+            results.errors.push(`Row ${i + 2}: ${(error instanceof Error ? error.message : "Unknown error")}`);
+        }
+    }
+
+    // Activation links are issued after the import commits. A failure here
+    // leaves a valid employee who can still be activated manually; it must
+    // never undo an imported record.
+    let activationFailed = 0;
+    for (const userId of activatedUserIds) {
+        try {
+            await issueActivationToken({
+                userId,
+                createdBy: "bulk-upload",
+                purpose: "FIRST_LOGIN",
+            });
+        } catch (tokenError) {
+            activationFailed++;
+            console.error("[BULK_UPLOAD_ACTIVATION_FAILED]", tokenError);
         }
     }
 
     revalidatePath("/employees");
     return {
         success: results.failed === 0,
-        message: `Processed ${dataRows.length} rows. Success: ${results.success}, Failed: ${results.failed}`,
+        message: `Processed ${dataRows.length} rows. Success: ${results.success}, Failed: ${results.failed}` +
+            (activationFailed > 0
+                ? `. ${activationFailed} activation link(s) need reissuing from the employee record.`
+                : ". Activation links issued for every imported account."),
         errors: results.errors
     };
 }

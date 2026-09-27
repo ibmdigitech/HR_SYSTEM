@@ -210,7 +210,7 @@ export default async function AttendancePage({
                                     <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200/50 dark:border-slate-800/50">
                                         <Link href={`/attendance?view=today&all=${showAll}`}>
                                             <Button variant={view === "today" ? "secondary" : "ghost"} size="sm" className="font-bold rounded-lg text-xs uppercase px-3 py-1.5 h-8">
-                                                Today's Status
+                                                Today&#39;s Status
                                             </Button>
                                         </Link>
                                         <Link href={`/attendance?view=history&all=${showAll}`}>
@@ -242,7 +242,7 @@ export default async function AttendancePage({
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {displayRecords.map((record: any) => (
+                                    {displayRecords.map((record) => (
                                         <TableRow key={record.id} className="border-slate-100 dark:border-slate-800/60 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors">
                                             <TableCell className="py-4">
                                                 <div className="flex items-center gap-3">

@@ -1,10 +1,9 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { requirePageAnyPermission } from "@/lib/auth/page-guard";
+import { PERMISSIONS } from "@/lib/auth/permissions";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";import { Button } from "@/components/ui/button";
 import {
     User, Mail, Phone, MapPin, Calendar, Building2,
     CreditCard, ShieldCheck, Bell, Lock, LogOut,
@@ -17,11 +16,15 @@ import { getCompanySettings } from "@/app/lib/actions/company-settings";
 import { CompanySettingsForm } from "@/components/settings/CompanySettingsForm";
 
 export default async function SettingsPage() {
+    // Settings exposes company-wide configuration and session controls. This
+    // page previously checked only that a session existed, so any authenticated
+    // account could read it. Requires an explicit settings capability now.
+    await requirePageAnyPermission([PERMISSIONS.SETTINGS_VIEW, PERMISSIONS.SETTINGS_MANAGE]);
+
     const session = await auth();
-    if (!session?.user?.email) redirect("/login");
 
     const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
+        where: { email: session!.user!.email! },
         include: {
             employee: {
                 include: { shift: true }
@@ -29,7 +32,7 @@ export default async function SettingsPage() {
         }
     });
 
-    if (!user) redirect("/login");
+    if (!user) redirect("/dashboard");
 
     const companySettings = await getCompanySettings();
     const isPowerUser = user.role === "ADMIN" || user.role === "HR";

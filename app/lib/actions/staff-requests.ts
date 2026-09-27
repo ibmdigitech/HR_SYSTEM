@@ -1,148 +1,69 @@
 "use server";
 
-import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { auth } from "@/auth";
-
 /**
- * HR Action: Create or Update a Service Type (Tab)
+ * Service request actions — server-action wrappers.
+ *
+ * A `"use server"` file may only export async functions, so these are thin
+ * wrappers rather than re-exports. An earlier attempt used
+ * `export { x } from "..."` here, which passes `tsc` but FAILS the production
+ * build with "Only async functions are allowed to be exported in a 'use server'
+ * file" — a reminder that the build is the real gate, not the type checker.
+ *
+ * The implementation lives in `lib/workflow/service-requests.ts` and is shared
+ * with `requests.ts`, so the two entry points cannot drift.
+ *
+ * `staff-requests.ts` previously held a SECOND `submitStaffRequest` with a
+ * different signature that no page called. Two same-named exports with
+ * different contracts is how the "Missing required fields" bug happened: the
+ * form imported from here while a near-identical unused function sat beside it,
+ * both reading field names the form did not post.
  */
-export async function upsertServiceType(formData: FormData) {
-    const session = await auth();
-    if (!session || !session.user || !["ADMIN", "HR"].includes((session.user as any).role)) {
-        return { success: false, message: "Unauthorized" };
-    }
 
-    const id = formData.get("id") as string;
-    const name = formData.get("name") as string;
-    const icon = formData.get("icon") as string;
-    const description = formData.get("description") as string;
-    const requiresAmount = formData.get("requiresAmount") === "true";
-    const requiresDates = formData.get("requiresDates") === "true";
+import {
+    submitStaffRequest as submitCore,
+    submitStaffRequestForm as submitFormCore,
+    handleRequestAction as handleCore,
+    getAvailableRequestActions as availableCore,
+    type RequestActionResult,
+} from "@/lib/workflow/service-requests";
 
-    try {
-        if (id) {
-            await prisma.serviceCategory.update({
-                where: { id },
-                data: { name, icon, description, requiresAmount, requiresDates }
-            });
-        } else {
-            await prisma.serviceCategory.create({
-                data: { name, icon, description, requiresAmount, requiresDates }
-            });
-        }
-        revalidatePath("/dashboard/admin/services");
-        revalidatePath("/dashboard/requests");
-        return { success: true, message: "Service type saved successfully" };
-    } catch (error) {
-        return { success: false, message: "Failed to save service type" };
-    }
+export async function submitStaffRequest(
+    prevState: unknown,
+    formData: FormData
+): Promise<RequestActionResult> {
+    return submitCore(prevState, formData);
 }
 
 /**
- * Staff Action: Submit a Request
+ * Form-action variant for server components: `<form action={...}>` requires
+ * `(formData) => void`. Delegates to the same core and surfaces failure via
+ * redirect so an error is never silently swallowed.
  */
-// Staff Action: Submit a Request (form action must return void)
-export async function submitStaffRequest(formData: FormData): Promise<void> {
-    const session = await auth();
-    if (!session || !session.user) {
-        console.log("Not authenticated");
-        return;
-    }
-
-    const user = await prisma.user.findUnique({
-        where: { email: session.user.email! },
-        include: { employee: true }
-    });
-
-    if (!user || !user.employee) {
-        console.log("Employee profile not found");
-        return;
-    }
-
-    const typeId = formData.get("typeId") as string;
-    const details = formData.get("details") as string;
-    const amount = formData.get("amount") ? parseFloat(formData.get("amount") as string) : null;
-    const startDate = formData.get("startDate") ? new Date(formData.get("startDate") as string) : null;
-    const endDate = formData.get("endDate") ? new Date(formData.get("endDate") as string) : null;
-
-    try {
-        const staffRequest = await prisma.serviceRequest.create({
-            data: {
-                employeeId: user.employee.id,
-                categoryId: typeId,
-                details,
-                amount,
-                startDate,
-                endDate,
-                status: "PENDING",
-            },
-        });
-
-        // Handle attachments
-        const file = formData.get("attachment") as File;
-        if (file && file.size > 0) {
-            await prisma.attachment.create({
-                data: {
-                    serviceRequestId: staffRequest.id,
-                    fileName: file.name,
-                    fileUrl: `/uploads/staff_${Date.now()}_${file.name}`,
-                    fileType: file.type,
-                    category: "STAFF_REQUEST_ATTACHMENT",
-                },
-            });
-        }
-        revalidatePath("/dashboard/requests");
-        console.log("Request submitted successfully");
-    } catch (error) {
-        console.error("Failed to submit request", error);
-    }
+export async function submitStaffRequestForm(formData: FormData): Promise<void> {
+    return submitFormCore(formData);
 }
 
-    // Duplicate old submitStaffRequest implementation removed
+export async function handleRequestAction(
+    requestId: string,
+    action: "APPROVED" | "REJECTED" | "COMPLETED",
+    hrNote?: string
+): Promise<RequestActionResult> {
+    return handleCore(requestId, action, hrNote);
+}
 
-/**
- * HR Action: Delete a Service Type
- */
-export async function deleteServiceType(id: string) {
-    const session = await auth();
-    if (!session || !session.user || !["ADMIN", "HR"].includes((session.user as any).role)) {
-        return { success: false, message: "Unauthorized" };
-    }
-
-    try {
-        await prisma.serviceCategory.delete({ where: { id } });
-        revalidatePath("/dashboard/admin/services");
-        revalidatePath("/dashboard/requests");
-        return { success: true, message: "Service type deleted" };
-    } catch (error) {
-        return { success: false, message: "Failed to delete service type" };
-    }
+export async function getAvailableRequestActions(requestId: string): Promise<string[]> {
+    return availableCore(requestId);
 }
 
 /**
- * HR/Manager Action: Approve or Reject a Staff Request
+ * Deprecated alias for `handleRequestAction`, retained because
+ * `app/dashboard/approvals/page.tsx` imports this name. It is the SAME
+ * function, not a second implementation, so the two cannot drift.
  */
-export async function approveStaffRequest(requestId: string, status: "APPROVED" | "REJECTED") {
-    const session = await auth();
-    if (!session || !session.user) {
-        return { success: false, message: "Unauthorized" };
-    }
-
-    try {
-        const user = await prisma.user.findUnique({ where: { email: session.user.email! } });
-        if (!user || !["ADMIN", "HR", "MANAGER"].includes(user.role)) {
-            return { success: false, message: "Unauthorized: Required role not found" };
-        }
-
-        await prisma.serviceRequest.update({
-            where: { id: requestId },
-            data: { status }
-        });
-        revalidatePath("/dashboard/approvals");
-        revalidatePath("/dashboard/requests");
-        return { success: true, message: `Request ${status.toLowerCase()}` };
-    } catch (error) {
-        return { success: false, message: "Failed to update request" };
-    }
+export async function approveStaffRequest(
+    requestId: string,
+    action: "APPROVED" | "REJECTED" | "COMPLETED",
+    hrNote?: string
+): Promise<RequestActionResult> {
+    return handleCore(requestId, action, hrNote);
 }
