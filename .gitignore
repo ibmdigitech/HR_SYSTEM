@@ -31,7 +31,21 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
+# `.env*` also matches `.env.example`, which MUST be committed as a
+# placeholder template. The negation below re-includes only that file; every
+# real `.env`, `.env.local`, `.env.production` etc. stays ignored.
 .env*
+!.env.example
+
+# Prisma query-engine temp copies. When the dev server is killed while holding
+# the engine DLL, Prisma leaves a 21MB `.tmpNNNNN` duplicate behind. These are
+# pure build artefacts and must never be committed.
+prisma/generated/client/*.tmp*
+prisma/generated/client/**/*.tmp*
+
+# Runtime logs
+firebase-debug.log
+*.log
 
 # vercel
 .vercel

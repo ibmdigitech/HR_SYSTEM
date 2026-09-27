@@ -157,6 +157,312 @@ exports.Prisma.RoleRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  purpose: 'purpose',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  usedByIp: 'usedByIp',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserSecurityFlagScalarFieldEnum = {
+  userId: 'userId',
+  mustChangePassword: 'mustChangePassword',
+  mustChangeReason: 'mustChangeReason',
+  accountDisabled: 'accountDisabled',
+  disabledReason: 'disabledReason',
+  disabledAt: 'disabledAt',
+  passwordChangedAt: 'passwordChangedAt',
+  failedLoginAttempts: 'failedLoginAttempts',
+  lockedUntil: 'lockedUntil',
+  lastLoginAt: 'lastLoginAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OnboardingChecklistItemScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  category: 'category',
+  label: 'label',
+  required: 'required',
+  status: 'status',
+  documentRef: 'documentRef',
+  verifiedBy: 'verifiedBy',
+  verifiedAt: 'verifiedAt',
+  notes: 'notes',
+  dueAt: 'dueAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OffboardingRequestScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  status: 'status',
+  lastWorkingDay: 'lastWorkingDay',
+  noticePeriodEnd: 'noticePeriodEnd',
+  reason: 'reason',
+  exitNotes: 'exitNotes',
+  initiatedBy: 'initiatedBy',
+  approvedBy: 'approvedBy',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OffboardingChecklistItemScalarFieldEnum = {
+  id: 'id',
+  offboardingId: 'offboardingId',
+  label: 'label',
+  category: 'category',
+  status: 'status',
+  required: 'required',
+  completedBy: 'completedBy',
+  completedAt: 'completedAt',
+  notes: 'notes',
+  dueAt: 'dueAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.JoiningRecordScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  applicationId: 'applicationId',
+  employeeId: 'employeeId',
+  offerId: 'offerId',
+  joiningDate: 'joiningDate',
+  status: 'status',
+  department: 'department',
+  designation: 'designation',
+  employeeCode: 'employeeCode',
+  probationEndDate: 'probationEndDate',
+  actualJoinedAt: 'actualJoinedAt',
+  joinedBy: 'joinedBy',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProbationReviewScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  status: 'status',
+  managerId: 'managerId',
+  reviewDate: 'reviewDate',
+  performanceRating: 'performanceRating',
+  attendanceRating: 'attendanceRating',
+  conductRating: 'conductRating',
+  technicalRating: 'technicalRating',
+  communicationRating: 'communicationRating',
+  teamworkRating: 'teamworkRating',
+  overallRecommendation: 'overallRecommendation',
+  comments: 'comments',
+  hrApprovedBy: 'hrApprovedBy',
+  hrApprovedAt: 'hrApprovedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssetScalarFieldEnum = {
+  id: 'id',
+  assetTag: 'assetTag',
+  name: 'name',
+  category: 'category',
+  serialNumber: 'serialNumber',
+  description: 'description',
+  condition: 'condition',
+  status: 'status',
+  purchaseDate: 'purchaseDate',
+  value: 'value',
+  currency: 'currency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssetAssignmentScalarFieldEnum = {
+  id: 'id',
+  assetId: 'assetId',
+  employeeId: 'employeeId',
+  assignedAt: 'assignedAt',
+  assignedBy: 'assignedBy',
+  returnedAt: 'returnedAt',
+  returnedTo: 'returnedTo',
+  condition: 'condition',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FinalSettlementScalarFieldEnum = {
+  id: 'id',
+  offboardingId: 'offboardingId',
+  status: 'status',
+  pendingSalaryDays: 'pendingSalaryDays',
+  pendingSalaryAmount: 'pendingSalaryAmount',
+  leaveEncashmentDays: 'leaveEncashmentDays',
+  leaveEncashmentAmount: 'leaveEncashmentAmount',
+  loanDeductions: 'loanDeductions',
+  advanceDeductions: 'advanceDeductions',
+  otherDeductions: 'otherDeductions',
+  otherAdditions: 'otherAdditions',
+  gratuityAmount: 'gratuityAmount',
+  finalAmount: 'finalAmount',
+  calculationNotes: 'calculationNotes',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  paidAt: 'paidAt',
+  paidReference: 'paidReference',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeaveAccrualPolicyScalarFieldEnum = {
+  id: 'id',
+  leaveType: 'leaveType',
+  annualEntitlement: 'annualEntitlement',
+  accrualFrequency: 'accrualFrequency',
+  accrualAmount: 'accrualAmount',
+  carryForward: 'carryForward',
+  maximumBalance: 'maximumBalance',
+  hrReviewThresholdDays: 'hrReviewThresholdDays',
+  requiresHrReview: 'requiresHrReview',
+  effectiveFrom: 'effectiveFrom',
+  effectiveTo: 'effectiveTo',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeaveAccrualRunScalarFieldEnum = {
+  id: 'id',
+  policyId: 'policyId',
+  employeeId: 'employeeId',
+  period: 'period',
+  daysCredited: 'daysCredited',
+  daysCarried: 'daysCarried',
+  balanceAfter: 'balanceAfter',
+  status: 'status',
+  skipReason: 'skipReason',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AttendanceDeviceScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  deviceIdentifier: 'deviceIdentifier',
+  location: 'location',
+  status: 'status',
+  apiKeyHash: 'apiKeyHash',
+  keyPrefix: 'keyPrefix',
+  lastSyncAt: 'lastSyncAt',
+  lastSyncRecords: 'lastSyncRecords',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  revokedAt: 'revokedAt'
+};
+
+exports.Prisma.AttendanceSyncLogScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  fileName: 'fileName',
+  totalRows: 'totalRows',
+  imported: 'imported',
+  duplicates: 'duplicates',
+  rejected: 'rejected',
+  unknownEmployees: 'unknownEmployees',
+  durationMs: 'durationMs',
+  errorSummary: 'errorSummary',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DocumentExpiryReminderScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  documentType: 'documentType',
+  documentId: 'documentId',
+  thresholdDays: 'thresholdDays',
+  expiryDate: 'expiryDate',
+  recipientRole: 'recipientRole',
+  sentAt: 'sentAt',
+  deliveryId: 'deliveryId'
+};
+
+exports.Prisma.DocumentRenewalScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  documentType: 'documentType',
+  currentExpiry: 'currentExpiry',
+  status: 'status',
+  newExpiry: 'newExpiry',
+  notes: 'notes',
+  reviewedBy: 'reviewedBy',
+  reviewedAt: 'reviewedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PayrollRunScalarFieldEnum = {
+  id: 'id',
+  month: 'month',
+  year: 'year',
+  status: 'status',
+  employeeCount: 'employeeCount',
+  totalNet: 'totalNet',
+  totalDeductions: 'totalDeductions',
+  lockedAt: 'lockedAt',
+  lockedBy: 'lockedBy',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  paidAt: 'paidAt',
+  paidReference: 'paidReference',
+  failureCount: 'failureCount',
+  notes: 'notes',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationDeliveryScalarFieldEnum = {
+  id: 'id',
+  notificationId: 'notificationId',
+  channel: 'channel',
+  recipient: 'recipient',
+  templateKey: 'templateKey',
+  status: 'status',
+  attempts: 'attempts',
+  maxAttempts: 'maxAttempts',
+  lastError: 'lastError',
+  externalId: 'externalId',
+  nextRetryAt: 'nextRetryAt',
+  sentAt: 'sentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SecurityAuditLogScalarFieldEnum = {
+  id: 'id',
+  action: 'action',
+  actorEmail: 'actorEmail',
+  actorRole: 'actorRole',
+  target: 'target',
+  outcome: 'outcome',
+  detail: 'detail',
+  requestPath: 'requestPath',
+  requestMethod: 'requestMethod',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.EmployeeScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -202,6 +508,9 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   medicalInsuranceExpiry: 'medicalInsuranceExpiry',
   iloeInsuranceExpiry: 'iloeInsuranceExpiry',
   shiftId: 'shiftId',
+  lifecycle: 'lifecycle',
+  sourceRequisitionId: 'sourceRequisitionId',
+  sourceCandidateId: 'sourceCandidateId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   managerId: 'managerId'
@@ -260,7 +569,8 @@ exports.Prisma.BiometricLogScalarFieldEnum = {
   employeeId: 'employeeId',
   timestamp: 'timestamp',
   type: 'type',
-  rawLog: 'rawLog'
+  rawLog: 'rawLog',
+  punchHash: 'punchHash'
 };
 
 exports.Prisma.AuditLogScalarFieldEnum = {
@@ -284,7 +594,15 @@ exports.Prisma.LeaveRequestScalarFieldEnum = {
   hrStatus: 'hrStatus',
   hrId: 'hrId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status',
+  dayPart: 'dayPart',
+  deductedDays: 'deductedDays',
+  balanceId: 'balanceId',
+  decidedAt: 'decidedAt',
+  decisionNote: 'decisionNote',
+  cancelledById: 'cancelledById',
+  cancelledAt: 'cancelledAt'
 };
 
 exports.Prisma.SalaryStructureScalarFieldEnum = {
@@ -526,7 +844,18 @@ exports.Prisma.LetterRecordScalarFieldEnum = {
   type: 'type',
   recipientName: 'recipientName',
   details: 'details',
-  generatedAt: 'generatedAt'
+  generatedAt: 'generatedAt',
+  documentKey: 'documentKey',
+  version: 'version',
+  status: 'status',
+  requiresApproval: 'requiresApproval',
+  requestedById: 'requestedById',
+  approvedById: 'approvedById',
+  approvedAt: 'approvedAt',
+  rejectedReason: 'rejectedReason',
+  voidedAt: 'voidedAt',
+  voidReason: 'voidReason',
+  supersededById: 'supersededById'
 };
 
 exports.Prisma.LetterRequestScalarFieldEnum = {
@@ -563,6 +892,7 @@ exports.Prisma.LetterTemplateScalarFieldEnum = {
 exports.Prisma.LetterScalarFieldEnum = {
   id: 'id',
   employeeId: 'employeeId',
+  candidateId: 'candidateId',
   templateId: 'templateId',
   referenceNumber: 'referenceNumber',
   letterRequestId: 'letterRequestId',
@@ -573,6 +903,7 @@ exports.Prisma.LetterScalarFieldEnum = {
   comments: 'comments',
   approvedBy: 'approvedBy',
   approvedAt: 'approvedAt',
+  jobRequisitionId: 'jobRequisitionId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -593,16 +924,32 @@ exports.Prisma.ServiceConfigScalarFieldEnum = {
 
 exports.Prisma.JobRequisitionScalarFieldEnum = {
   id: 'id',
+  requisitionCode: 'requisitionCode',
   title: 'title',
   department: 'department',
+  branch: 'branch',
   location: 'location',
   employmentType: 'employmentType',
   positionsCount: 'positionsCount',
-  status: 'status',
-  description: 'description',
-  requirements: 'requirements',
+  positionType: 'positionType',
+  replacementEmployeeId: 'replacementEmployeeId',
+  reason: 'reason',
+  requiredSkills: 'requiredSkills',
+  requiredExperience: 'requiredExperience',
+  requiredEducation: 'requiredEducation',
+  budget: 'budget',
   minSalary: 'minSalary',
   maxSalary: 'maxSalary',
+  priority: 'priority',
+  targetJoiningDate: 'targetJoiningDate',
+  status: 'status',
+  managerApprovedById: 'managerApprovedById',
+  managerApprovedAt: 'managerApprovedAt',
+  hrApprovedById: 'hrApprovedById',
+  hrApprovedAt: 'hrApprovedAt',
+  financeApprovedById: 'financeApprovedById',
+  financeApprovedAt: 'financeApprovedAt',
+  approvedAt: 'approvedAt',
   requestedById: 'requestedById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -610,26 +957,104 @@ exports.Prisma.JobRequisitionScalarFieldEnum = {
 
 exports.Prisma.CandidateScalarFieldEnum = {
   id: 'id',
+  candidateCode: 'candidateCode',
   firstName: 'firstName',
   lastName: 'lastName',
   email: 'email',
   phone: 'phone',
+  nationality: 'nationality',
+  currentLocation: 'currentLocation',
   resumeUrl: 'resumeUrl',
-  status: 'status',
-  jobId: 'jobId',
+  skills: 'skills',
+  currentEmployer: 'currentEmployer',
+  currentPosition: 'currentPosition',
+  expectedSalary: 'expectedSalary',
+  noticePeriodDays: 'noticePeriodDays',
+  availableFrom: 'availableFrom',
+  source: 'source',
+  tags: 'tags',
+  notes: 'notes',
+  consentGiven: 'consentGiven',
+  consentAt: 'consentAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ApplicationScalarFieldEnum = {
+  id: 'id',
+  candidateId: 'candidateId',
+  jobRequisitionId: 'jobRequisitionId',
+  status: 'status',
+  screeningStatus: 'screeningStatus',
+  screeningNotes: 'screeningNotes',
+  screeningRecommendation: 'screeningRecommendation',
+  screenedBy: 'screenedBy',
+  screenedAt: 'screenedAt',
+  rating: 'rating',
+  appliedAt: 'appliedAt',
+  lastTransitionAt: 'lastTransitionAt',
+  decidedAt: 'decidedAt'
 };
 
 exports.Prisma.InterviewScalarFieldEnum = {
   id: 'id',
   candidateId: 'candidateId',
-  interviewerId: 'interviewerId',
+  applicationId: 'applicationId',
+  interviewType: 'interviewType',
+  round: 'round',
+  mode: 'mode',
+  location: 'location',
+  meetingLink: 'meetingLink',
   scheduledAt: 'scheduledAt',
-  durationMins: 'durationMins',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  coordinatorId: 'coordinatorId',
   status: 'status',
-  feedback: 'feedback',
-  rating: 'rating',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InterviewParticipantScalarFieldEnum = {
+  id: 'id',
+  interviewId: 'interviewId',
+  interviewerId: 'interviewerId',
+  interviewerName: 'interviewerName',
+  isLead: 'isLead',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.InterviewFeedbackScalarFieldEnum = {
+  id: 'id',
+  interviewId: 'interviewId',
+  participantId: 'participantId',
+  technicalSkills: 'technicalSkills',
+  communication: 'communication',
+  problemSolving: 'problemSolving',
+  domainKnowledge: 'domainKnowledge',
+  teamFit: 'teamFit',
+  leadership: 'leadership',
+  overall: 'overall',
+  strengths: 'strengths',
+  concerns: 'concerns',
+  comments: 'comments',
+  recommendation: 'recommendation',
+  submittedAt: 'submittedAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AssessmentScalarFieldEnum = {
+  id: 'id',
+  applicationId: 'applicationId',
+  assessmentType: 'assessmentType',
+  assignedAt: 'assignedAt',
+  dueAt: 'dueAt',
+  completedAt: 'completedAt',
+  maxScore: 'maxScore',
+  score: 'score',
+  result: 'result',
+  evaluatorId: 'evaluatorId',
+  attachmentUrl: 'attachmentUrl',
+  comments: 'comments',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -637,12 +1062,27 @@ exports.Prisma.InterviewScalarFieldEnum = {
 exports.Prisma.OfferLetterScalarFieldEnum = {
   id: 'id',
   candidateId: 'candidateId',
+  applicationId: 'applicationId',
   offeredSalary: 'offeredSalary',
   designation: 'designation',
   department: 'department',
   joiningDate: 'joiningDate',
   status: 'status',
+  version: 'version',
+  allowances: 'allowances',
+  benefits: 'benefits',
+  probationPeriodMonths: 'probationPeriodMonths',
+  offerExpiry: 'offerExpiry',
+  contractType: 'contractType',
+  offeredById: 'offeredById',
+  approvedById: 'approvedById',
+  approvedAt: 'approvedAt',
+  acceptedAt: 'acceptedAt',
+  declinedAt: 'declinedAt',
+  acceptanceMethod: 'acceptanceMethod',
   fileUrl: 'fileUrl',
+  supersededById: 'supersededById',
+  letterRecordId: 'letterRecordId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -678,6 +1118,25 @@ exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   RoleRequest: 'RoleRequest',
+  PasswordResetToken: 'PasswordResetToken',
+  UserSecurityFlag: 'UserSecurityFlag',
+  OnboardingChecklistItem: 'OnboardingChecklistItem',
+  OffboardingRequest: 'OffboardingRequest',
+  OffboardingChecklistItem: 'OffboardingChecklistItem',
+  JoiningRecord: 'JoiningRecord',
+  ProbationReview: 'ProbationReview',
+  Asset: 'Asset',
+  AssetAssignment: 'AssetAssignment',
+  FinalSettlement: 'FinalSettlement',
+  LeaveAccrualPolicy: 'LeaveAccrualPolicy',
+  LeaveAccrualRun: 'LeaveAccrualRun',
+  AttendanceDevice: 'AttendanceDevice',
+  AttendanceSyncLog: 'AttendanceSyncLog',
+  DocumentExpiryReminder: 'DocumentExpiryReminder',
+  DocumentRenewal: 'DocumentRenewal',
+  PayrollRun: 'PayrollRun',
+  NotificationDelivery: 'NotificationDelivery',
+  SecurityAuditLog: 'SecurityAuditLog',
   Employee: 'Employee',
   LeaveBalance: 'LeaveBalance',
   Notification: 'Notification',
@@ -712,7 +1171,11 @@ exports.Prisma.ModelName = {
   ServiceConfig: 'ServiceConfig',
   JobRequisition: 'JobRequisition',
   Candidate: 'Candidate',
+  Application: 'Application',
   Interview: 'Interview',
+  InterviewParticipant: 'InterviewParticipant',
+  InterviewFeedback: 'InterviewFeedback',
+  Assessment: 'Assessment',
   OfferLetter: 'OfferLetter'
 };
 
