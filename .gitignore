@@ -40,8 +40,11 @@ yarn-error.log*
 # Prisma query-engine temp copies. When the dev server is killed while holding
 # the engine DLL, Prisma leaves a 21MB `.tmpNNNNN` duplicate behind. These are
 # pure build artefacts and must never be committed.
-prisma/generated/client/*.tmp*
-prisma/generated/client/**/*.tmp*
+#
+# Matched at ANY depth: the legacy hr-system/ tree carries its own generated
+# client, and a root-anchored rule silently missed it.
+**/prisma/generated/client/*.tmp*
+**/prisma/generated/client/**/*.tmp*
 
 # Runtime logs
 firebase-debug.log
