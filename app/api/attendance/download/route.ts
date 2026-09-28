@@ -110,10 +110,15 @@ export async function GET(request: NextRequest) {
       return val;
     };
 
+    // `department` is nullable for a provisional (PRE_JOINING) employee, and a
+    // null in a CSV cell reads as an empty field. The escape helper types the
+    // value as string, so the null is normalised to "" before it is passed.
     const csvContent =
       headers.map(escapeCell).join(",") +
       "\n" +
-      rows.map((row) => row.map(escapeCell).join(",")).join("\n");
+      rows
+        .map((row) => row.map((cell) => escapeCell(cell ?? "")).join(","))
+        .join("\n");
 
     const monthName = new Date(year, month - 1).toLocaleString("en", { month: "long" });
     const filename = `Attendance_${monthName}_${year}.csv`;

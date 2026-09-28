@@ -508,8 +508,14 @@ model SecurityAuditLog {
 // ─── EMPLOYEE MASTER TABLE (Central Entity) ───────────────────────────────────
 model Employee {
   id                     String           @id @default(cuid())
-  userId                 String           @unique
-  user                   User             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  /// P1 GAP-01: nullable so an employee can be created before their login is
+  /// provisioned or their visa is processed. A CHECK constraint
+  /// (Employee_active_requires_employment_data) requires the full set once
+  /// lifecycle is ACTIVE/CONFIRMED/PROBATION. Prisma cannot express CHECK
+  /// constraints, so that guarantee lives in SQL only — see
+  /// docs/audit/GAP01_MIGRATION_REVIEW.md
+  userId                 String?          @unique
+  user                   User?            @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   employeeCode           String?          @unique // Auto-generated: EMP-001
   firstName              String
   lastName               String
@@ -521,9 +527,9 @@ model Employee {
   dateOfBirth            DateTime?
   nationality            String?
   maritalStatus          String?
-  designation            String
-  department             String
-  joiningDate            DateTime
+  designation            String?
+  department             String?
+  joiningDate            DateTime?
   employmentType         String           @default("FULL_TIME")
   workLocation           String?
   probationDays          Int              @default(90)
@@ -569,7 +575,7 @@ model Employee {
   /// probation, notice period or exit, so the stage is a separate field:
   /// PRE_JOINING | ACTIVE | PROBATION | CONFIRMED | ON_LEAVE |
   /// NOTICE_PERIOD | RESIGNED | TERMINATED | EXITED
-  lifecycle        String?      @default("PRE_JOINING")
+  lifecycle        String        @default("PRE_JOINING")
   /// Provenance. Retained so a recruitment hire stays traceable to the
   /// requisition, application and offer it came from.
   sourceRequisitionId String?

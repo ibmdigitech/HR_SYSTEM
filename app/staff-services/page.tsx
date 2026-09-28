@@ -209,7 +209,12 @@ export default async function StaffServicesPage() {
                                     </div>
                                     <div className="space-y-1">
                                         <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Joined Company</span>
-                                        <div className="font-bold text-slate-800 dark:text-slate-200">{new Date(emp.joiningDate).toLocaleDateString()}</div>
+                                        {/* joiningDate is nullable for a provisional employee.
+                        new Date(null) returns 1 Jan 1970 rather than
+                        throwing, so an unguarded render shows false tenure. */}
+                    <div className="font-bold text-slate-800 dark:text-slate-200">
+                        {emp.joiningDate ? new Date(emp.joiningDate).toLocaleDateString() : "Not yet joined"}
+                    </div>
                                     </div>
                                     <div className="space-y-1">
                                         <span className="text-[10px] uppercase font-black tracking-wider text-slate-400">Official Email</span>

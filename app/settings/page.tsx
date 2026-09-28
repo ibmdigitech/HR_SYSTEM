@@ -147,7 +147,7 @@ export default async function SettingsPage() {
                                         { label: "Department", value: emp.department },
                                         { label: "Employee ID", value: emp.rollNumber },
                                         { label: "Work Model", value: emp.employmentType.replace('_', ' ') },
-                                        { label: "Tenure Start", value: new Date(emp.joiningDate).toLocaleDateString("en-GB", { month: 'short', year: 'numeric' }) },
+                                        { label: "Tenure Start", value: emp.joiningDate ? new Date(emp.joiningDate).toLocaleDateString("en-GB", { month: 'short', year: 'numeric' }) : "Not yet joined" },
                                         { label: "Base Office", value: emp.workLocation || "Headquarters" },
                                     ].map(({ label, value }) => (
                                         <div key={label} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 hover:bg-white transition-colors">

@@ -2,7 +2,13 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";import { Prisma } from "../../../prisma/generated/client";
-import { employeeSchema, fieldErrors, type EmployeeInput } from "@/app/lib/validation";
+import {
+    employeeSchema,
+    employeeSchemaProvisional,
+    fieldErrors as toFieldErrors,
+    outstandingProvisionalFields,
+    type EmployeeInput,
+} from "@/app/lib/validation";
 import { requirePermission } from "@/lib/auth/guards";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { logSecurityEvent, SECURITY_ACTION } from "@/lib/auth/audit";
@@ -81,16 +87,25 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
     // `id` is routing information, not employee data.
     delete raw.id;
 
-    const parsed = employeeSchema.safeParse(raw);
+    // `provision=1` saves a staged record: only identity plus a roll number are
+    // required, and the employee is marked PRE_JOINING so an incomplete hire is
+    // never mistaken for an active one. The full schema is still applied when
+    // `provision` is absent, so a normal entry is unchanged.
+    const isProvisional = formData.get("provision") === "1";
+    const schema = isProvisional ? employeeSchemaProvisional : employeeSchema;
+
+    const parsed = schema.safeParse(raw);
     if (!parsed.success) {
-        const errors = fieldErrors(parsed.error);
+        const errors = toFieldErrors(parsed.error);
         return {
             success: false,
-            message: "Please correct the highlighted fields.",
+            message: isProvisional
+                ? "A provisional record still needs a name, email and roll number."
+                : "Please correct the highlighted fields.",
             fieldErrors: errors,
         };
     }
-    const validated: EmployeeInput = parsed.data;
+    const validated = parsed.data as EmployeeInput;
 
     // Explicit allow-list. The validated schema is the single source of truth
     // for what is written, so an unexpected FormData key can never reach Prisma.
@@ -275,6 +290,11 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
         // — it is never stored, emailed or logged.
         let activation: { token: string; expiresAt: Date } | null = null;
         let activationError: string | null = null;
+        // A provisional record reports exactly what is still missing, so HR can
+        // see the remaining work rather than guess.
+        const outstanding = isProvisional
+            ? outstandingProvisionalFields(data as unknown as Record<string, unknown>)
+            : [];
         try {
             const issued = await issueActivationToken({
                 userId: employee.userId ?? "",
@@ -312,7 +332,11 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
 
         return {
             success: true,
-            message: `Employee ${data.firstName} ${data.lastName} (${employeeCode}) created! Attendance, Leave, Payroll & Visa profiles auto-provisioned.`,
+            message: isProvisional
+                ? `${data.firstName} ${data.lastName} (${employeeCode}) saved as PROVISIONAL. Outstanding: ${outstanding
+                      .map((f) => f.label)
+                      .join(", ")}. Edit the record to complete it.`
+                : `Employee ${data.firstName} ${data.lastName} (${employeeCode}) created! Attendance, Leave, Payroll & Visa profiles auto-provisioned.`,
             // P1.1: the activation token is returned once and never stored.
             // The UI shows it as a one-time link for the new employee.
             ...(activation

@@ -7,6 +7,12 @@ import { Bell, Search, Settings, Clock, Globe, LogOut, User } from "lucide-react
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { signOut } from "next-auth/react";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { sidebarItems, ADMIN_HREFS } from "@/components/layout/Sidebar";
+import { resolvePermissions } from "@/lib/auth/permissions";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { Menu, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 interface HeaderProps {
@@ -48,9 +54,97 @@ export function Header({ user }: HeaderProps) {
         ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
         : "U";
 
+    const pathname = usePathname();
+    const { permissions } = resolvePermissions(user?.role);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const isVisible = (item: (typeof sidebarItems)[number]) => {
+        const required = "permission" in item ? item.permission : null;
+        return required ? permissions.has(required) : true;
+    };
+
+    const filteredCoreItems = sidebarItems.filter(
+        (item) => !ADMIN_HREFS.includes(item.href as any) && isVisible(item)
+    );
+
+    const filteredAdminItems = sidebarItems.filter(
+        (item) => ADMIN_HREFS.includes(item.href as any) && isVisible(item)
+    );
+
     return (
-        <header className="flex h-20 items-center justify-between border-b border-slate-200/50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl px-8 relative z-50">
-            <div className="flex items-center gap-6 flex-1">
+      <header className="flex h-20 shrink-0 items-center justify-between gap-4 border-b border-slate-200/50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl px-4 md:px-8 relative z-50">
+      <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-6">
+                {/* Mobile Menu Trigger */}
+                <Dialog open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="lg:hidden h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50">
+                            <Menu className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="w-[85vw] max-w-[320px] h-screen max-h-screen p-0 m-0 border-0 rounded-none sm:rounded-none absolute left-0 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left z-50 flex flex-col bg-slate-900 dark:bg-slate-950">
+                        <DialogTitle className="sr-only">Navigation Menu</DialogTitle>
+                        <div className="flex-1 overflow-y-auto p-4 scrollbar-hide mt-10">
+                            <div className="space-y-6">
+                                <div>
+                                    <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Core Platform</p>
+                                    <nav className="space-y-1.5">
+                                        {filteredCoreItems.map((item) => {
+                                            const isActive = (item as { exact?: string }).exact
+                                                ? pathname === item.href
+                                                : pathname === item.href || pathname.startsWith(item.href + "/");
+                                            return (
+                                                <Link
+                                                    key={item.href}
+                                                    href={item.href}
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    className={cn(
+                                                        "group flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-bold transition-all duration-300",
+                                                        isActive
+                                                            ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
+                                                            : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                                                    )}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <item.icon className={cn("h-5 w-5", isActive ? "text-white" : "text-slate-500")} />
+                                                        {item.title}
+                                                    </div>
+                                                </Link>
+                                            );
+                                        })}
+                                    </nav>
+                                </div>
+                                <div>
+                                    <p className="px-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-4">Administration</p>
+                                    <nav className="space-y-1.5">
+                                        {filteredAdminItems.map((item) => {
+                                            const isActive = (item as { exact?: string }).exact
+                                                ? pathname === item.href
+                                                : pathname === item.href || pathname.startsWith(item.href + "/");
+                                            return (
+                                                <Link
+                                                    key={item.href}
+                                                    href={item.href}
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    className={cn(
+                                                        "group flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-bold transition-all duration-300",
+                                                        isActive
+                                                            ? "bg-indigo-600 text-white shadow-xl shadow-indigo-600/20"
+                                                            : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
+                                                    )}
+                                                >
+                                                    <div className="flex items-center gap-3">
+                                                        <item.icon className={cn("h-5 w-5", isActive ? "text-white" : "text-slate-500")} />
+                                                        {item.title}
+                                                    </div>
+                                                </Link>
+                                            );
+                                        })}
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
                 <div className="relative w-full max-w-md group hidden md:block">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
                     <Input 

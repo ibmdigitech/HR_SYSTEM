@@ -250,7 +250,14 @@ export async function runAttendanceImport(params: {
         if (emp.rollNumber) byIdentifier.set(emp.rollNumber.toLowerCase(), emp);
     }
 
-    const scope = writableEmployeeScope(actor, employees);
+    // `department` is nullable for a provisional employee. A provisional
+    // employee belongs to no department, so it must not match a department-scoped
+    // importer — mapping null to a sentinel keeps it out of every real
+    // department rather than letting it match "".
+    const scope = writableEmployeeScope(
+        actor,
+        employees.map((e) => ({ id: e.id, department: e.department ?? "\u0000unassigned" }))
+    );
 
     type Group = { employee: (typeof employees)[number]; date: Date; punches: ParsedPunchRecord[] };
     const grouped = new Map<string, Group>();

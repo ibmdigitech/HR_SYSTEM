@@ -21,11 +21,15 @@ export default async function ApplyLoanPage() {
 
     if (!user?.employee) redirect("/dashboard");
 
-    // Check for probation and overdue loans (Basic implementation)
-    const today = new Date();
-    const joinDate = user.employee.joiningDate;
-    const monthsSinceJoin = (today.getFullYear() - joinDate.getFullYear()) * 12 + (today.getMonth() - joinDate.getMonth());
-    const isOnProbation = monthsSinceJoin < 6;
+  // Check for probation and overdue loans (Basic implementation)
+  const today = new Date();
+  // `joiningDate` is nullable for a provisional (PRE_JOINING) employee. Reading
+  // .getFullYear() off null throws and 500s the page, so fall back to today and
+  // treat the employee as NOT on probation — there is no tenure to measure yet.
+  const joinDate = user.employee.joiningDate ?? today;
+  const hasTenure = user.employee.joiningDate !== null;
+  const monthsSinceJoin = (today.getFullYear() - joinDate.getFullYear()) * 12 + (today.getMonth() - joinDate.getMonth());
+  const isOnProbation = !hasTenure || monthsSinceJoin < 6;
 
     const loanTypes = await prisma.loanType.findMany({
         where: { isActive: true }
@@ -53,7 +57,21 @@ export default async function ApplyLoanPage() {
                 </div>
 
                 <CardContent className="p-8 md:p-10">
-                    {isOnProbation && (
+                    {!hasTenure && (
+                        <div className="mb-8 p-4 bg-slate-100 rounded-2xl border border-slate-200 flex gap-3 text-slate-700">
+                            <ShieldAlert className="h-5 w-5 shrink-0" />
+                            <div>
+                                <h4 className="font-bold">Profile incomplete</h4>
+                                <p className="text-sm mt-1">
+                                    Your joining date has not been recorded yet, so your tenure and
+                                    probation status cannot be determined. Loan types requiring
+                                    probation clearance are unavailable until HR completes your
+                                    record.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                    {hasTenure && isOnProbation && (
                         <div className="mb-8 p-4 bg-amber-50 rounded-2xl border border-amber-200 flex gap-3 text-amber-800">
                             <ShieldAlert className="h-5 w-5 shrink-0" />
                             <div>

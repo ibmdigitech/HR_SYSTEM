@@ -104,7 +104,13 @@ export async function POST(req: Request) {
             'employee.name': `${employee.firstName} ${employee.lastName}`,
             'employee.emiratesId': employee.governmentId || 'N/A',
             'employee.designation': employee.designation,
-            'employee.joiningDate': new Date(employee.joiningDate).toLocaleDateString(),
+            // `joiningDate` is nullable for a provisional (PRE_JOINING) employee.
+        // `new Date(null)` does NOT throw — it returns 1 Jan 1970 — so an
+        // unguarded join date would print "employed since 01/01/1970" in a
+        // signed salary certificate. Guard explicitly.
+        'employee.joiningDate': employee.joiningDate
+            ? new Date(employee.joiningDate).toLocaleDateString()
+            : '— pending —',
             'salary.basic': employee.salaryStructure?.basic.toString() || '0',
             'salary.allowances': (
                 (employee.salaryStructure?.housingAllowance || 0) + 

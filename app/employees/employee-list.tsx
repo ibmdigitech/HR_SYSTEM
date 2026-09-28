@@ -37,7 +37,9 @@ import {
     ChevronRight,
     Loader2,
     KeyRound,
-    ClipboardCheck
+    ClipboardCheck,
+    CheckCircle2,
+    Sparkles
 } from "lucide-react";
 import {
     Dialog,
@@ -65,7 +67,15 @@ import { DateField } from "@/components/ui/date-field";
 import { cn } from "@/lib/utils";
 import { FieldError } from "@/components/common/FieldError";
 import { FormField } from "@/components/common/FormField";
+import { FormProgress } from "./FormProgress";
+import { PageHero } from "@/components/common/PageHero";
 import OnboardingPanel from "./onboarding-panel";
+import {
+    employeeSchema,
+    employeeSchemaProvisional,
+    fieldErrors as toFieldErrors,
+    outstandingProvisionalFields,
+} from "@/app/lib/validation";
 import { toast } from "sonner";
 
 export default function EmployeeList({ initialEmployees,  }: { initialEmployees: any[], managers: any[] }) {
@@ -158,6 +168,19 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // P1: section progress. `activeTab` is controlled so the progress pills can
+    // act as jump targets, and `progressFormData` is refreshed on every change
+    // so completion is derived from the real field values.
+    const [activeTab, setActiveTab] = useState("personal");
+    const [progressFormData, setProgressFormData] = useState<FormData | null>(null);
+    // Staged entry: allow saving with identity only, completing later.
+    const [saveAsProvisional, setSaveAsProvisional] = useState(false);
+
+    const refreshProgress = (form: HTMLFormElement | null) => {
+        if (form) setProgressFormData(new FormData(form));
+    };
+    const [showSuccess, setShowSuccess] = useState(false);
+
     /**
      * P1.1: the one-time activation link for a newly created account.
      *
@@ -173,30 +196,31 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
 
     // Client-side pre-check mirroring the required-field rules. This only
     // short-circuits obvious mistakes; the server still validates everything.
+    /**
+     * Client-side mirror of the server rule.
+     *
+     * It MUST use the same schema the server will use, or a provisional save is
+     * blocked here and never reaches the action — which is what happened when
+     * this always applied the full schema.
+     */
     const runClientCheck = (data: FormData): Record<string, string> => {
-        const errors: Record<string, string> = {};
-        const str = (k: string) => (data.get(k) as string | null)?.trim() ?? "";
-
-        if (!str("firstName")) errors.firstName = "First name is required";
-        if (!str("lastName")) errors.lastName = "Last name is required";
-        if (!str("rollNumber")) errors.rollNumber = "Roll number is required";
-        if (!str("designation")) errors.designation = "Designation is required";
-        if (!str("department")) errors.department = "Department is required";
-        if (!str("joiningDate")) errors.joiningDate = "Joining date is required";
-
-        const email = str("email");
-        if (!email) errors.email = "Email is required";
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) errors.email = "Enter a valid email address";
-
-        const phone = str("phone");
-        if (phone && !/^(?:\+?971|0)?5\d{8}$/.test(phone)) {
-            errors.phone = "Enter a valid UAE mobile number (e.g. 0501234567)";
+        const raw: Record<string, unknown> = {};
+        for (const [key, value] of data.entries()) {
+            if (typeof value === "string") raw[key] = value;
+        }
+        delete raw.id;
+        // A DatePicker renders a hidden input whose value may be an empty
+        // string; the schemas treat "" as absent, so normalise here too.
+        for (const [k, v] of Object.entries(raw)) {
+            if (v === "") delete raw[k];
         }
 
-        const iban = str("iban").replace(/\s+/g, "");
-        if (iban && !/^[A-Z0-9]{15,34}$/i.test(iban)) errors.iban = "Enter a valid IBAN";
-
-        return errors;
+        const schema = data.get("provision") === "1" ? employeeSchemaProvisional : employeeSchema;
+        const parsed = schema.safeParse(raw);
+        if (!parsed.success) {
+            return toFieldErrors(parsed.error);
+        }
+        return {};
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -226,9 +250,8 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
             const result = await upsertEmployee(formData);
 
             if (result.success) {
-                toast.success(result.message);
-                setOpen(false);
                 setFieldErrors({});
+                setShowSuccess(true);
 
                 // P1.1: the activation link is returned ONCE and is not
                 // recoverable afterwards. Show it before reloading, otherwise
@@ -243,7 +266,13 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                     toast.error(result.activationError, { duration: 12000 });
                 }
 
-                window.location.reload();
+                // Show success overlay briefly, then close & reload
+                setTimeout(() => {
+                    setShowSuccess(false);
+                    setOpen(false);
+                    toast.success(result.message);
+                    window.location.reload();
+                }, 1800);
             } else {
                 // Surface server field errors inline; keep every entered value.
                 if (result.fieldErrors && Object.keys(result.fieldErrors).length > 0) {
@@ -377,37 +406,53 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                 </div>
             )}
 
-            {/* Premium Header */}
-            <div className="relative group overflow-hidden bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 p-8 md:p-12 rounded-[2.5rem] shadow-2xl transition-all duration-500">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
-                
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-indigo-200 text-xs font-bold uppercase tracking-widest mb-6">
-                            <Users className="h-3 w-3 fill-indigo-400" />
-                            Workforce Management
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-                            Employee<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">Master Directory</span>
-                        </h1>
-                        <p className="text-slate-300 text-base font-medium max-w-xl leading-relaxed">
-                            A centralized hub for the complete employee lifecycle. Manage records, documentation, and operational data with enterprise-grade precision.
-                        </p>
-                    </div>
+            {/* Compact shared hero. The previous banner used p-8 md:p-12 with a
+                text-6xl heading and fixed 500px blur orbs, which pushed the
+                table below the fold on a laptop and contributed to the original
+                horizontal overflow. */}
+            <PageHero
+                eyebrow="Workforce Management"
+                eyebrowIcon={Users}
+                title="Employee"
+                accent="Master Directory"
+                description="A centralized hub for the complete employee lifecycle. Manage records, documentation, and operational data with enterprise-grade precision."
+                actions={
+                    <>
+                        <Button
+                            onClick={() => setOpen(true)}
+                            className="h-11 px-6 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-sm shadow-lg border-0 gap-2"
+                        >
+                            <Plus className="h-4 w-4" />
+                            Add New Record
+                        </Button>
+                        <Button
+                            variant="outline"
+                            onClick={() => document.getElementById("master-file-upload")?.click()}
+                            className="h-11 px-6 rounded-xl bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white/10 font-bold text-sm gap-2"
+                        >
+                            <Upload className="h-4 w-4" />
+                            Import CSV
+                        </Button>
+                    </>
+                }
+            />
 
-                    <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-                        <Dialog open={open} onOpenChange={(val) => {
-                            setOpen(val);
-                            if (!val) setSelectedEmployee(null);
-                        }}>
-                            <DialogTrigger asChild>
-                                <Button className="h-14 px-8 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-base shadow-xl border-0 transition-transform hover:scale-105 active:scale-95 gap-2">
-                                    <Plus className="h-5 w-5" />
-                                    Add New Record
-                                </Button>
-                            </DialogTrigger>
+            <input
+                id="master-file-upload"
+                type="file"
+                className="hidden"
+                accept=".csv"
+                onChange={handleBulkUpload}
+            />
+
+            <Dialog open={open} onOpenChange={(val) => {
+                setOpen(val);
+                if (!val) {
+                    setSelectedEmployee(null);
+                    setSaveAsProvisional(false);
+                    setActiveTab("personal");
+                }
+            }}>
 
                             {/* P0-22: `max-w-4xl` (896px) overflowed every phone.
                                 Full-screen below 480px, 95vw up to `sm`, then
@@ -421,14 +466,45 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                             way to reach the remaining fields. 88dvh leaves room
                             for the header, tab bar and footer. */}
                         <DialogContent className="max-w-[100vw] sm:max-w-[95vw] md:max-w-5xl h-[100dvh] sm:h-[88dvh] p-0 overflow-hidden rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
-                                <form key={selectedEmployee?.id || 'new'} onSubmit={handleSubmit} className="flex flex-col h-full bg-white dark:bg-slate-950">
-                                    <DialogHeader className="p-8 pb-4 bg-slate-50/50 dark:bg-slate-900/50">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <div className="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-600/20">
-                                                <UserCircle className="h-6 w-6 text-white" />
+                                {/* ── Success Overlay ── */}
+                                {showSuccess && (
+                                    <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm animate-in fade-in duration-300">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-emerald-400/20 rounded-full blur-2xl animate-pulse" />
+                                            <div className="relative h-24 w-24 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-2xl shadow-emerald-500/30 animate-in zoom-in duration-500">
+                                                <CheckCircle2 className="h-12 w-12 text-white" />
                                             </div>
-                                            <div>
-                                                <DialogTitle className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                                        </div>
+                                        <div className="mt-8 text-center space-y-2">
+                                            <div className="flex items-center justify-center gap-2">
+                                                <Sparkles className="h-5 w-5 text-emerald-500 animate-pulse" />
+                                                <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                                                    {selectedEmployee ? 'Profile Updated' : 'Entry Created'}
+                                                </h3>
+                                                <Sparkles className="h-5 w-5 text-emerald-500 animate-pulse" />
+                                            </div>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                                                Record has been saved to the master directory.
+                                            </p>
+                                        </div>
+                                        <div className="mt-6 h-1 w-48 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                                            <div className="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full animate-[progress_1.8s_ease-in-out]" style={{ width: '100%' }} />
+                                        </div>
+                                    </div>
+                                )}
+                                <form
+                                    key={selectedEmployee?.id || 'new'}
+                                    onSubmit={handleSubmit}
+                                    onChange={(ev) => refreshProgress(ev.currentTarget as HTMLFormElement)}
+                                    className="flex min-h-0 flex-1 flex-col overflow-hidden bg-white dark:bg-slate-950"
+                                >
+                                    <DialogHeader className="shrink-0 p-4 sm:p-5 pb-3 bg-slate-50/50 dark:bg-slate-900/50">
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-9 w-9 shrink-0 rounded-xl bg-indigo-600 flex items-center justify-center shadow-md shadow-indigo-600/20">
+                                                <UserCircle className="h-5 w-5 text-white" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <DialogTitle className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight truncate">
                                                     {selectedEmployee ? 'Update Profile' : 'New Master Entry'}
                                                 </DialogTitle>
                                                 <DialogDescription className="font-bold text-[10px] uppercase tracking-widest text-slate-400">
@@ -440,20 +516,28 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
 
                                     <input type="hidden" name="id" value={selectedEmployee?.id || ""} />
 
-                                    <Tabs defaultValue="personal" className="flex-1 flex flex-col overflow-hidden">
-                                        <div className="px-8 mt-4">
-                                            {/* P0-22: 4 tab labels overflowed below 640px.
-                                                Horizontally scrollable, and the triggers stop
-                                                flexing so each keeps its full label. */}
-                                            <div className="relative -mx-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                                                <TabsList className="w-max min-w-full justify-start bg-slate-100/50 dark:bg-slate-900/50 p-1.5 h-14 rounded-2xl border border-slate-200 dark:border-slate-800">
-                                                <TabsTrigger value="personal" className="flex-1 min-w-[7rem] rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-lg font-bold text-xs uppercase tracking-widest">Personal</TabsTrigger>
-                                                <TabsTrigger value="employment" className="flex-1 min-w-[8rem] rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-lg font-bold text-xs uppercase tracking-widest">Employment</TabsTrigger>
-                                                <TabsTrigger value="finance" className="flex-1 min-w-[7rem] rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-lg font-bold text-xs uppercase tracking-widest">Finance</TabsTrigger>
-                                                <TabsTrigger value="docs" className="flex-1 min-w-[9rem] rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-slate-800 data-[state=active]:shadow-lg font-bold text-xs uppercase tracking-widest">Verification</TabsTrigger>
-                                            </TabsList>
-                                            </div>
-                                        </div>
+                                    {/* Section progress. Recomputed on every change from the
+                                        live form, so it cannot drift from the fields. */}
+                                    <div className="shrink-0 px-4 sm:px-6 pt-3">
+                                        <FormProgress
+                                            activeTab={activeTab}
+                                            onTabChange={setActiveTab}
+                                            formData={progressFormData}
+                                        />
+                                    </div>
+
+                                    {/* The progress pills ARE the navigation, so the old
+                                        tab strip below was a duplicate control
+                                        wasting ~70px of the dialog. Removed.
+                                        `min-h-0` is required at every level of a
+                                        flex column before a scroll child can shrink;
+                                        without it the form grew past the dialog and
+                                        fields below the fold were unreachable. */}
+                                    <Tabs
+                                        value={activeTab}
+                                        onValueChange={setActiveTab}
+                                        className="flex min-h-0 flex-1 flex-col overflow-hidden"
+                                    >
 
                                         {/* P0-22: `max-h-[500px]` clipped the last field on a
                                             phone. `min-h-0` is required for a flex child to
@@ -461,68 +545,162 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         {/* Fills the remaining height of the dialog and
                                             scrolls. The 500px cap is gone — it was the
                                             reason fields below the fold were unreachable. */}
-                                        <ScrollArea className="flex-1 min-h-0 px-6 sm:px-8 py-6">
+                                        <ScrollArea className="min-h-0 flex-1 px-4 sm:px-6 py-5">
                                             <ScrollBar className="w-2.5 bg-slate-200/60 dark:bg-slate-700/60" />
                                             <TabsContent value="personal" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
-                                                    <FormField
-                                                        name="firstName"
-                                                        label="First Name"
-                                                        required
-                                                        autoComplete="given-name"
-                                                        maxLength={80}
-                                                        defaultValue={selectedEmployee?.firstName}
-                                                        error={fieldErrors.firstName}
-                                                    />
-                                                    <FormField
-                                                        name="lastName"
-                                                        label="Last Name"
-                                                        required
-                                                        autoComplete="family-name"
-                                                        maxLength={80}
-                                                        defaultValue={selectedEmployee?.lastName}
-                                                        error={fieldErrors.lastName}
-                                                    />
-                                                    <FormField
-                                                        name="email"
-                                                        label="Personal Email"
-                                                        type="email"
-                                                        inputMode="email"
-                                                        autoComplete="email"
-                                                        required
-                                                        defaultValue={selectedEmployee?.email}
-                                                        error={fieldErrors.email}
-                                                    />
-                                                    <FormField
-                                                        name="phone"
-                                                        label="Mobile Number"
-                                                        type="tel"
-                                                        inputMode="tel"
-                                                        autoComplete="tel"
-                                                        placeholder="0501234567"
-                                                        defaultValue={selectedEmployee?.phone}
-                                                        error={fieldErrors.phone}
-                                                    />
+                                                {/* Section: Identity */}
+                                                <div>
+                                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-4 flex items-center gap-2">
+                                                        <UserCircle className="h-3.5 w-3.5" />
+                                                        Identity
+                                                    </h4>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                                                        <FormField
+                                                            name="firstName"
+                                                            label="First Name"
+                                                            required
+                                                            autoComplete="given-name"
+                                                            maxLength={80}
+                                                            defaultValue={selectedEmployee?.firstName}
+                                                            error={fieldErrors.firstName}
+                                                        />
+                                                        <FormField
+                                                            name="lastName"
+                                                            label="Last Name"
+                                                            required
+                                                            autoComplete="family-name"
+                                                            maxLength={80}
+                                                            defaultValue={selectedEmployee?.lastName}
+                                                            error={fieldErrors.lastName}
+                                                        />
+                                                        <div className="space-y-3">
+                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Gender</Label>
+                                                            <Select name="gender" defaultValue={selectedEmployee?.gender || ""}>
+                                                                <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
+                                                                    <SelectValue placeholder="Select" />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="Male">Male</SelectItem>
+                                                                    <SelectItem value="Female">Female</SelectItem>
+                                                                    <SelectItem value="Other">Other</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <DateField
+                                                            name="dateOfBirth"
+                                                            label="Date of Birth"
+                                                            defaultValue={selectedEmployee?.dateOfBirth}
+                                                            maxDate={new Date()}
+                                                            hint="Cannot be in the future"
+                                                        />
+                                                        <FormField
+                                                            name="nationality"
+                                                            label="Nationality"
+                                                            defaultValue={selectedEmployee?.nationality}
+                                                        />
+                                                        <div className="space-y-3">
+                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Marital Status</Label>
+                                                            <Select name="maritalStatus" defaultValue={selectedEmployee?.maritalStatus || ""}>
+                                                                <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
+                                                                    <SelectValue placeholder="Select" />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="Single">Single</SelectItem>
+                                                                    <SelectItem value="Married">Married</SelectItem>
+                                                                    <SelectItem value="Divorced">Divorced</SelectItem>
+                                                                    <SelectItem value="Widowed">Widowed</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Divider */}
+                                                <div className="border-t border-slate-100 dark:border-slate-800" />
+
+                                                {/* Section: Contact */}
+                                                <div>
+                                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-4 flex items-center gap-2">
+                                                        <Phone className="h-3.5 w-3.5" />
+                                                        Contact Information
+                                                    </h4>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                                                        <FormField
+                                                            name="email"
+                                                            label="Personal Email"
+                                                            type="email"
+                                                            inputMode="email"
+                                                            autoComplete="email"
+                                                            required
+                                                            defaultValue={selectedEmployee?.email}
+                                                            error={fieldErrors.email}
+                                                        />
+                                                        <FormField
+                                                            name="phone"
+                                                            label="Mobile Number"
+                                                            type="tel"
+                                                            inputMode="tel"
+                                                            autoComplete="tel"
+                                                            placeholder="0501234567"
+                                                            defaultValue={selectedEmployee?.phone}
+                                                            error={fieldErrors.phone}
+                                                        />
+                                                        <div className="sm:col-span-2 space-y-3">
+                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Current Address</Label>
+                                                            <Input name="address" defaultValue={selectedEmployee?.address} placeholder="Building, Street, City" className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Divider */}
+                                                <div className="border-t border-slate-100 dark:border-slate-800" />
+
+                                                {/* Section: Emergency */}
+                                                <div>
+                                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-4 flex items-center gap-2">
+                                                        <ShieldCheck className="h-3.5 w-3.5" />
+                                                        Emergency Contact
+                                                    </h4>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+                                                        <FormField
+                                                            name="emergencyContact"
+                                                            label="Contact Name"
+                                                            defaultValue={selectedEmployee?.emergencyContact}
+                                                        />
+                                                        <FormField
+                                                            name="emergencyPhone"
+                                                            label="Contact Phone"
+                                                            type="tel"
+                                                            inputMode="tel"
+                                                            defaultValue={selectedEmployee?.emergencyPhone}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </TabsContent>
 
                                             <TabsContent value="employment" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
                                                 <div className="grid grid-cols-2 gap-6">
-                                                    <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Roll Number</Label>
-                                                        <Input name="rollNumber" id="emp-rollNumber" aria-invalid={fieldErrors.rollNumber ? "true" : undefined} aria-describedby={fieldErrors.rollNumber ? "emp-rollNumber-error" : undefined} defaultValue={selectedEmployee?.rollNumber} required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
-<FieldError id="emp-rollNumber" error={fieldErrors.rollNumber} />
-                                                    </div>
-                                                    <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Designation</Label>
-                                                        <Input name="designation" id="emp-designation" aria-invalid={fieldErrors.designation ? "true" : undefined} aria-describedby={fieldErrors.designation ? "emp-designation-error" : undefined} defaultValue={selectedEmployee?.designation} required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
-<FieldError id="emp-designation" error={fieldErrors.designation} />
-                                                    </div>
-                                                    <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Department</Label>
-                                                        <Input name="department" id="emp-department" aria-invalid={fieldErrors.department ? "true" : undefined} aria-describedby={fieldErrors.department ? "emp-department-error" : undefined} defaultValue={selectedEmployee?.department} required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
-<FieldError id="emp-department" error={fieldErrors.department} />
-                                                    </div>
+                                                    <FormField
+                                                        name="rollNumber"
+                                                        label="Roll Number"
+                                                        required
+                                                        defaultValue={selectedEmployee?.rollNumber}
+                                                        error={fieldErrors.rollNumber}
+                                                    />
+                                                    <FormField
+                                                        name="designation"
+                                                        label="Designation"
+                                                        required
+                                                        defaultValue={selectedEmployee?.designation}
+                                                        error={fieldErrors.designation}
+                                                    />
+                                                    <FormField
+                                                        name="department"
+                                                        label="Department"
+                                                        required
+                                                        defaultValue={selectedEmployee?.department}
+                                                        error={fieldErrors.department}
+                                                    />
                                                     <DateField
                                                         name="joiningDate"
                                                         label="Joining Date"
@@ -570,10 +748,10 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                             </TabsContent>
 
                                             <TabsContent value="docs" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
-                                                <div className="grid grid-cols-2 gap-6">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Nationality</Label>
-                                                        <Input name="nationality" defaultValue={selectedEmployee?.nationality} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Government ID</Label>
+                                                        <Input name="governmentId" defaultValue={selectedEmployee?.governmentId} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Current Status</Label>
@@ -656,10 +834,29 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         </ScrollArea>
                                     </Tabs>
 
-                                    <DialogFooter className="p-8 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                                    <DialogFooter className="shrink-0 p-4 sm:p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                                         <Button type="button" variant="ghost" onClick={() => setOpen(false)} className="rounded-xl font-bold uppercase text-[10px] tracking-widest">Cancel</Button>
-                                        {/* P0-16: disabled while saving, with a spinner, so a
-                                            double-tap cannot create two employees. */}
+
+                                        {/* Staged entry. The real HR sequence is often
+                                            "offer signed, employee created, visa and
+                                            bank details arrive weeks later", so the full
+                                            set cannot be required up front. */}
+                                        {saveAsProvisional && !selectedEmployee && (
+                                            <input type="hidden" name="provision" value="1" />
+                                        )}
+                                        {!selectedEmployee && (
+                                            <label className="flex items-center gap-2 mr-1 cursor-pointer select-none">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={saveAsProvisional}
+                                                    onChange={(ev) => setSaveAsProvisional(ev.target.checked)}
+                                                    className="h-4 w-4 rounded accent-indigo-600"
+                                                />
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                                    Save as provisional
+                                                </span>
+                                            </label>
+                                        )}
                                         <Button
                                             type="submit"
                                             disabled={isSubmitting}
@@ -671,33 +868,18 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                                                     Saving…
                                                 </>
+                                            ) : saveAsProvisional && !selectedEmployee ? (
+                                                'Save Provisional'
+                                            ) : selectedEmployee ? (
+                                                'Commit Changes'
                                             ) : (
-                                                selectedEmployee ? 'Commit Changes' : 'Finalize Entry'
+                                                'Finalize Entry'
                                             )}
                                         </Button>
                                     </DialogFooter>
                                 </form>
                             </DialogContent>
                         </Dialog>
-
-                        <input
-                            id="master-file-upload"
-                            type="file"
-                            className="hidden"
-                            accept=".csv"
-                            onChange={handleBulkUpload}
-                        />
-                        <Button
-                            variant="outline"
-                            className="h-14 px-8 rounded-2xl bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white/10 font-bold text-base transition-transform hover:scale-105 active:scale-95 gap-2"
-                            onClick={() => document.getElementById('master-file-upload')?.click()}
-                        >
-                            <Upload className="h-5 w-5" />
-                            Import CSV
-                        </Button>
-                    </div>
-                </div>
-            </div>
 
             {/* Quick Filter Bar */}
             <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden">
@@ -817,92 +999,129 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                 </ul>
 
                 {/* ── TABLET/DESKTOP: full table ──────────────────────── */}
-                <div className="hidden md:block overflow-x-auto">
-                    <Table className="min-w-[800px]">
-                        <TableHeader className="bg-slate-50/50 dark:bg-slate-900/50">
-                        <TableRow className="border-0">
-                            <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Profile</TableHead>
-                            <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Identification</TableHead>
-                            <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Position</TableHead>
-                            <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Compliance</TableHead>
-                            <TableHead className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Status</TableHead>
-                            <TableHead className="px-8 py-6 text-right text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Control</TableHead>
+                {/* Desktop table. The scroll container is `w-full min-w-0`, not
+                    `overflow-x-auto` alone: an auto-width flex/grid child will
+                    grow to fit the table instead of scrolling inside it. */}
+                <div className="hidden md:block w-full min-w-0 overflow-x-auto overscroll-x-contain">
+                    <Table className="w-full min-w-[720px] table-fixed">
+                        <colgroup>
+                            <col className="w-[64px]" />
+                            <col className="w-[24%]" />
+                            <col className="w-[22%]" />
+                            <col className="w-[18%]" />
+                            <col className="w-[13%]" />
+                            <col className="w-[104px]" />
+                        </colgroup>
+                        <TableHeader className="bg-slate-50/80 dark:bg-slate-900/60 sticky top-0 z-10 backdrop-blur">
+                        <TableRow className="border-0 hover:bg-transparent">
+                            <TableHead className="h-12 pl-6 pr-2 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Profile</TableHead>
+                            <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Employee</TableHead>
+                            <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Position</TableHead>
+                            <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Compliance</TableHead>
+                            <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Status</TableHead>
+                            <TableHead className="h-12 pr-6 pl-2 text-right text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {filteredEmployees.map((employee) => (
-                            <TableRow key={employee.id} className="group border-b border-slate-50 dark:border-slate-900 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/10 transition-colors">
-                                <TableCell className="px-8 py-6">
-                                    <Avatar className="h-14 w-14 border-4 border-white dark:border-slate-800 shadow-xl group-hover:scale-110 transition-transform duration-300">
+                            <TableRow key={employee.id} className="group border-b border-slate-100 dark:border-slate-800/70 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/20 transition-colors">
+                                <TableCell className="py-4 pl-6 pr-2">
+                                    <Avatar className="h-11 w-11 border-2 border-white dark:border-slate-800 shadow-md group-hover:scale-105 transition-transform">
                                         <AvatarImage src={employee.photo} />
-                                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white font-black text-lg">
+                                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white font-black text-sm">
                                             {employee.firstName[0]}{employee.lastName[0]}
                                         </AvatarFallback>
                                     </Avatar>
                                 </TableCell>
-                                <TableCell className="px-8 py-6">
-                                    <div className="flex flex-col">
-                                        <span className="text-base font-black text-slate-900 dark:text-white tracking-tight">{employee.firstName} {employee.lastName}</span>
-                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 px-2 py-0.5 rounded-md bg-slate-50 dark:bg-slate-900 w-fit">{employee.rollNumber}</span>
+                                <TableCell className="py-4 px-4">
+                                    <div className="flex min-w-0 flex-col gap-1">
+                                        <span className="truncate text-sm font-black text-slate-900 dark:text-white tracking-tight">
+                                            {employee.firstName} {employee.lastName}
+                                        </span>
+                                        <span className="truncate font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                                            {employee.rollNumber}
+                                        </span>
                                     </div>
                                 </TableCell>
-                                <TableCell className="px-8 py-6">
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex items-center gap-2 text-sm font-black text-slate-700 dark:text-slate-300">
-                                            <div className="p-1.5 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
-                                                <Briefcase className="h-3.5 w-3.5 text-indigo-600" />
-                                            </div>
+                                <TableCell className="py-4 px-4">
+                                    <div className="flex min-w-0 flex-col gap-1">
+                                        <span className="truncate text-sm font-bold text-slate-700 dark:text-slate-200">
                                             {employee.designation}
-                                        </div>
-                                        <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                            <Building2 className="h-3 w-3" />
+                                        </span>
+                                        <span className="truncate text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                             {employee.department}
-                                        </div>
+                                        </span>
                                     </div>
                                 </TableCell>
-                                <TableCell className="px-8 py-6">
-                                    <div className="flex flex-col gap-2 text-[10px] font-black uppercase text-slate-500 tracking-tighter">
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                                            Joined {new Date(employee.joiningDate).toLocaleDateString([], { month: 'short', year: 'numeric', day: 'numeric' })}
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
-                                            {employee.employmentType.replace('_', ' ')}
-                                        </div>
+                                <TableCell className="py-4 px-4">
+                                    <div className="flex min-w-0 flex-col gap-1 text-[10px] font-black uppercase tracking-wider text-slate-500">
+                                        <span className="flex items-center gap-1.5 truncate">
+                                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                                            Joined{" "}
+                                            {new Date(employee.joiningDate).toLocaleDateString("en-GB", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric",
+                                            })}
+                                        </span>
+                                        <span className="flex items-center gap-1.5 truncate">
+                                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                                            {String(employee.employmentType).replace(/_/g, " ")}
+                                        </span>
                                     </div>
                                 </TableCell>
-                                <TableCell className="px-8 py-6">
-                                    <Badge className={cn(
-                                        "rounded-xl px-4 py-1 text-[10px] font-black uppercase tracking-[0.1em] border-0 shadow-lg shadow-current/10",
-                                        employee.currentStatus === 'ACTIVE' ? "bg-emerald-500 text-white" :
-                                            employee.currentStatus === 'RESIGNED' ? "bg-amber-500 text-white" :
-                                                "bg-rose-500 text-white"
-                                    )}>
-                                        {employee.currentStatus}
-                                    </Badge>
+                                <TableCell className="py-4 px-4">
+                                    <div className="flex min-w-0 flex-col gap-1.5">
+                                        <Badge
+                                            className={cn(
+                                                "w-fit rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border-0",
+                                                outstandingProvisionalFields(employee as never).length > 0
+                                                    ? "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
+                                                    : "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+                                            )}
+                                        >
+                                            {outstandingProvisionalFields(employee as never).length > 0
+                                                ? `Provisional · ${outstandingProvisionalFields(employee as never).length} outstanding`
+                                                : employee.currentStatus}
+                                        </Badge>
+                                        {outstandingProvisionalFields(employee as never).length > 0 && (
+                                            <span
+                                                className="truncate text-[10px] font-bold text-amber-600 dark:text-amber-400"
+                                                title={outstandingProvisionalFields(employee as never)
+                                                    .map((f) => f.label)
+                                                    .join(", ")}
+                                            >
+                                                Missing:{" "}
+                                                {outstandingProvisionalFields(employee as never)
+                                                    .map((f) => f.label)
+                                                    .join(", ")}
+                                            </span>
+                                        )}
+                                    </div>
                                 </TableCell>
-                                <TableCell className="px-8 py-6 text-right">
-                                    <div className="flex items-center justify-end gap-2">
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-10 w-10 rounded-xl bg-white dark:bg-slate-900 shadow-md hover:bg-indigo-600 hover:text-white transition-all hover:scale-110"
+                                <TableCell className="py-4 pr-6 pl-2 text-right">
+                                    <div className="flex items-center justify-end gap-1.5">
+                                        <button
+                                            type="button"
+                                            aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
+                                            title="Edit employee"
                                             onClick={() => {
                                                 setSelectedEmployee(employee);
                                                 setOpen(true);
                                             }}
+                                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-indigo-600 hover:text-white transition-colors"
                                         >
-                                            <UserCircle className="h-5 w-5" />
-                                        </Button>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-10 w-10 rounded-xl bg-white dark:bg-slate-900 shadow-md hover:bg-rose-600 hover:text-white transition-all hover:scale-110"
+                                            <UserCircle className="h-4 w-4" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
+                                            title="Delete employee"
                                             onClick={() => handleDelete(employee.id)}
+                                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-rose-600 hover:bg-rose-600 hover:text-white transition-colors"
                                         >
-                                            <Trash2 className="h-5 w-5" />
-                                        </Button>
+                                            <Trash2 className="h-4 w-4" />
+                                        </button>
                                     </div>
                                 </TableCell>
                             </TableRow>

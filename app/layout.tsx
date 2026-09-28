@@ -59,15 +59,22 @@ export default async function RootLayout({
             The application had none, so the login page's session check threw
             at runtime while still passing `tsc`. */}
         <Providers>
-          <div className="flex h-screen overflow-hidden">
-            {isLoggedIn && <Sidebar user={userWithPhoto} />}
-            <div className="flex flex-1 flex-col overflow-hidden">
-              {isLoggedIn && <Header user={userWithPhoto} />}
-              <main className="flex-1 overflow-y-auto p-6">
-                {children}
-              </main>
+            <div className="flex h-screen overflow-hidden">
+              {isLoggedIn && <Sidebar user={userWithPhoto} />}
+              {/* min-w-0 on the content column AND on <main>.
+                  A flex item defaults to min-width:auto, which means it refuses
+                  to shrink below its content's intrinsic width. Without this,
+                  a wide table (min-w-[800px]) forced the whole content column
+                  past the viewport and the page scrolled sideways, clipping
+                  the first and last table columns. min-w-0 lets the inner
+                  overflow-x-auto actually engage. */}
+              <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+                {isLoggedIn && <Header user={userWithPhoto} />}
+                <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-6">
+                  {children}
+                </main>
+              </div>
             </div>
-          </div>
         </Providers>
         <Toaster position="top-right" richColors closeButton />
       </body>

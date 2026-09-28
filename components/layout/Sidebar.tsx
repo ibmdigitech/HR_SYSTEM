@@ -37,7 +37,7 @@ import {
  * control — every page, server action and API route authorizes independently on
  * the server. A user who edits the HTML still gets refused.
  */
-const sidebarItems = [
+export const sidebarItems = [
     { title: "Dashboard",         href: "/dashboard",                icon: LayoutDashboard, exact: true },
     { title: "Employees",         href: "/employees",                icon: Users,             permission: PERMISSIONS.EMPLOYEES_VIEW },
     { title: "Attendance",        href: "/attendance",               icon: Calendar,          permission: PERMISSIONS.ATTENDANCE_VIEW },
@@ -56,7 +56,7 @@ const sidebarItems = [
     { title: "Settings",          href: "/settings",                 icon: Settings,          permission: PERMISSIONS.SETTINGS_VIEW },
 ] as const;
 
-const ADMIN_HREFS = ["/dashboard/admin/services", "/settings"] as const;
+export const ADMIN_HREFS = ["/dashboard/admin/services", "/settings"] as const;
 
 interface SidebarProps {
     user?: {
