@@ -1,0 +1,90 @@
+# Docker Compose — HR system
+#
+# DATA PERSISTENCE IS THE POINT OF THIS FILE
+# ------------------------------------------
+# A Postgres container started with a plain `docker run` and no `-v` flag stores
+# its cluster in an *anonymous* volume created implicitly by the `postgres`
+# image. That volume is not attached to any compose project, is not referenced
+# by name in any file, and is destroyed by `docker compose down -v` or
+# `docker system prune --volumes`. This project hit exactly that risk: the
+# container named `hr-postgres` (created by `___RUN_APP_CLICK_ME.bat`) is
+# running against an anonymous volume. The `pgdata` volume declared below is the
+# durable, discoverable, backed-up one.
+#
+# `name:` IS LOAD-BEARING — DO NOT CHANGE IT
+# -------------------------------------------
+# Compose derives a project name from the directory name when `name:` is absent.
+# This repo is checked out as `HR_SYSTEM-git-check`, so the project would become
+# `hr_system-git-check`; compose would then look for a volume named
+# `hr_system-git-check_pgdata`, find none, create an EMPTY one, and silently
+# start the application against a database with no employees in it. The
+# existing cluster — and the live volume `hr_system-main_pgdata` — belongs to
+# project `hr_system-main`. Pinning the name makes `docker compose up` adopt
+# that project and that volume instead of forking a new, empty one.
+#
+# BEFORE YOUR FIRST `docker compose up`
+# ------------------------------------
+# `POSTGRES_PASSWORD` and `AUTH_SECRET` are required and are NOT committed here.
+# Set them in `.env` first (see `docs/audit/OPS_RUNBOOK.md`). Compose reads
+# `.env` from this directory automatically.
+
+name: hr_system-main
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: hr_system_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-hr_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-hr_system}
+      # The official image already defaults to this path, but stating it keeps
+      # the volume mount and the data directory obviously the same location.
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      # Host 5432 -> container 5432. This is the compose stack. The separate
+      # `hr-postgres` container used by `npm run dev` occupies host 5433.
+      - "5432:5432"
+    volumes:
+      # THE NAMED VOLUME. This single line is the difference between a database
+      # that survives `docker rm` and one that does not.
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-hr_admin} -d ${POSTGRES_DB:-hr_system}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hr_system-main-app
+    container_name: hr_system_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        # Wait for `pg_isready`, not just for the container to exist. Starting
+        # against a Postgres that is still in recovery produces a burst of
+        # connection errors in the app log and a false "system down" during
+        # every deploy.
+        condition: service_healthy
+    environment:
+      # Host `db` is the compose service name; it resolves on the compose
+      # network only. `localhost` here would point at the app container itself.
+      # Keep POSTGRES_PASSWORD URL-safe (hex or base64url, no @ : / ? #) or this
+      # connection string will be malformed.
+      DATABASE_URL: postgresql://${POSTGRES_USER:-hr_admin}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}@db:5432/${POSTGRES_DB:-hr_system}?schema=public
+      DIRECT_URL: postgresql://${POSTGRES_USER:-hr_admin}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set in .env}@db:5432/${POSTGRES_DB:-hr_system}?schema=public
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      AUTH_SECRET: ${AUTH_SECRET:?AUTH_SECRET must be set in .env}
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+
+volumes:
+  # Resolves to the Docker volume `hr_system-main_pgdata`.
+  pgdata:
+    driver: local

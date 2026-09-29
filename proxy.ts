@@ -36,6 +36,22 @@ import { authConfig } from "./auth.config";
 const PUBLIC_PATHS = new Set(["/", "/login"]);
 
 /**
+ * Public AND never redirected.
+ *
+ * An uptime monitor is not a browser and holds no session, but an operator
+ * debugging an incident IS logged in and will open the health URL in a browser
+ * tab. Routing health through the ordinary public-path branch would redirect
+ * that operator to /dashboard and hand them HTML instead of JSON — so the
+ * health check would look "down" to a human at exactly the moment they are
+ * diagnosing why it is down.
+ *
+ * This is safe to leave unauthenticated because the handler returns only
+ * liveness: no business data, no record counts, no identifiers, and no
+ * connection details. Those are logged server-side, never returned.
+ */
+const NEVER_REDIRECT_PATHS = new Set(["/api/health"]);
+
+/**
  * `/activate/[token]` is public by design: the single-use token in the URL is
  * the credential. A brand-new account has never signed in, so requiring a
  * session here would make first-time password setup impossible. The page
@@ -52,6 +68,12 @@ export default auth((req) => {
     const { pathname } = req.nextUrl;
     // `req.auth` is the verified session, decrypted by NextAuth at the edge.
     const session = req.auth;
+
+    if (NEVER_REDIRECT_PATHS.has(pathname)) {
+        // Always JSON, to an anonymous monitor and to a signed-in operator
+        // alike. Reached before the public-path redirect below on purpose.
+        return NextResponse.next();
+    }
 
     if (isPublicPath(pathname)) {
         // Preserves the previous behaviour: an authenticated visitor on a

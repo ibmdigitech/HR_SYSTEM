@@ -102,6 +102,21 @@ export const authConfig = {
             // signed in — to set its first password.
             const isActivationRoute = pathname.startsWith("/activate/");
 
+            /**
+             * The liveness probe. An uptime monitor holds no session, so this
+             * would otherwise receive a 401 forever and report a healthy service
+             * as down. It returns `true` even for a signed-in operator, because
+             * falling through to the public-route branch below would redirect
+             * them to /dashboard and hand them HTML instead of JSON — the check
+             * would look broken precisely when someone is diagnosing an outage.
+             *
+             * Safe to leave unauthenticated: the handler reports only liveness,
+             * never business data, identifiers or connection details.
+             */
+            if (pathname === "/api/health") {
+                return true;
+            }
+
             const isPublicRoute = pathname === "/login" || pathname === "/" || isActivationRoute;
 
             // Public route: send an authenticated visitor onward.

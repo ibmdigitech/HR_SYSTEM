@@ -27,6 +27,9 @@ export const SECURITY_ACTION = {
     SESSION_TERMINATED: "SESSION_TERMINATED",
     ACCESS_DENIED: "ACCESS_DENIED",
     AUTH_FAILURE: "AUTH_FAILURE",
+    LETTER_GENERATED: "LETTER_GENERATED",
+    LETTER_APPROVED: "LETTER_APPROVED",
+    LETTER_REJECTED: "LETTER_REJECTED",
 } as const;
 
 export type SecurityAction = (typeof SECURITY_ACTION)[keyof typeof SECURITY_ACTION];
@@ -62,11 +65,54 @@ function normaliseKey(key: string): string {
 
 export const MAX_VALUE_LENGTH = 500;
 
+/**
+ * Key-based redaction is not sufficient on its own.
+ *
+ * `SENSITIVE_KEYS` only fires when a secret arrives under a recognisable KEY
+ * (`password`, `token`, ...). It does nothing for a secret embedded in the
+ * *text* of a value — and that is exactly how driver errors present. Prisma and
+ * `pg` routinely put the full connection string in `error.message`:
+ *
+ *     "Can't reach database server at postgresql://hr_app:s3cr3t@db:5433/hr"
+ *
+ * Passing that through `redact()` unchanged writes the database password into
+ * `SecurityAuditLog` and into stdout, where a log shipper will fan it out to
+ * anyone with dashboard access. Key redaction cannot catch it, so every string
+ * value is additionally scrubbed for credential-shaped patterns.
+ */
+
+/** `postgresql://user:secret@host:5433/db` -> `postgresql://***@host:5433/db` */
+const CREDENTIALS_IN_URL = /([a-z][a-z0-9+.-]*:\/\/)[^/\s@]*@/gi;
+
+/** `password=secret`, `PGPASSWORD=secret`, `pwd: secret` */
+const CREDENTIALS_IN_KV = /\b(password|pgpassword|pwd|passwd|secret|token|api[_-]?key)\b\s*[=:]\s*("?)[^\s",;)]+\2/gi;
+
+/** `Bearer eyJhbGci...` / `Basic dXNlcjpwYXNz` */
+const AUTH_SCHEME = /\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]{8,}/g;
+
+/**
+ * Removes credential-shaped substrings from free text.
+ *
+ * Deliberately pattern-based rather than a "looks secret" heuristic: a heuristic
+ * that redacts aggressively would destroy the diagnostic value of the log,
+ * which is the only reason the log exists. These three shapes are the ones
+ * that actually appear in driver and framework errors.
+ */
+export function scrubCredentials(text: string): string {
+    return text
+        .replace(CREDENTIALS_IN_URL, "$1***@")
+        .replace(CREDENTIALS_IN_KV, "$1=$2***$2")
+        .replace(AUTH_SCHEME, "$1 ***");
+}
+
 /** Strips secrets and truncates long values so nothing sensitive is persisted. */
 export function redact(input: unknown, depth = 0): unknown {
     if (input === null || input === undefined) return input;
     if (typeof input === "string") {
-        return input.length > MAX_VALUE_LENGTH ? `${input.slice(0, MAX_VALUE_LENGTH)}...[truncated]` : input;
+        // Scrub BEFORE truncating: slicing first can cut a connection string in
+        // half and leave the host half looking like a harmless value.
+        const scrubbed = scrubCredentials(input);
+        return scrubbed.length > MAX_VALUE_LENGTH ? `${scrubbed.slice(0, MAX_VALUE_LENGTH)}...[truncated]` : scrubbed;
     }
     if (typeof input === "number" || typeof input === "boolean") return input;
     if (depth > 4) return "[deep]";

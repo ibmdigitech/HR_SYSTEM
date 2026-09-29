@@ -46,6 +46,18 @@ yarn-error.log*
 **/prisma/generated/client/*.tmp*
 **/prisma/generated/client/**/*.tmp*
 
+# The generated Prisma client itself. prisma/schema.prisma declares
+# `output = "./generated/client"`, and the launcher runs `npx prisma generate`
+# on every start, so every run rewrites the tree: the regenerated output and
+# CRLF/LF churn both show up as modifications. It is a build artefact, not
+# source - the same intent as commit 97ea9e2, "chore: untrack legacy
+# hr-system generated client", which fixed only the legacy half.
+#
+# Trailing slash so the whole directory is ignored, including files the
+# generator adds in future versions. Matched at ANY depth: the root app and
+# the legacy hr-system/ tree each emit their own client under the same path.
+**/prisma/generated/
+
 # Runtime logs
 firebase-debug.log
 *.log
