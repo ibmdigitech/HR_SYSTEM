@@ -1,8 +1,9 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { requireAnyPermission,  } from "@/lib/auth/guards";
-import { PERMISSIONS } from "@/lib/auth/permissions";export interface LetterTemplateData {
+import { requireAnyPermission } from "@/lib/auth/guards";
+import { PERMISSIONS } from "@/lib/auth/permissions";
+export interface LetterTemplateData {
     name: string;
     type: string;
     content_en: string;
@@ -11,6 +12,8 @@ import { PERMISSIONS } from "@/lib/auth/permissions";export interface LetterTem
 }
 
 export async function getLetterTemplates() {
+    await requireAnyPermission([PERMISSIONS.LETTER_TEMPLATE_MANAGE]);
+
     try {
         const templates = await prisma.letterTemplate.findMany({
             orderBy: { name: 'asc' },
@@ -22,6 +25,8 @@ export async function getLetterTemplates() {
 }
 
 export async function getLetterTemplateById(id: string) {
+    await requireAnyPermission([PERMISSIONS.LETTER_TEMPLATE_MANAGE]);
+
     try {
         const template = await prisma.letterTemplate.findUnique({
             where: { id },
@@ -34,7 +39,7 @@ export async function getLetterTemplateById(id: string) {
 }
 
 export async function createLetterTemplate(data: LetterTemplateData) {
-    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
+    await requireAnyPermission([PERMISSIONS.LETTER_TEMPLATE_MANAGE]);
 
     try {
         const template = await prisma.letterTemplate.create({
@@ -53,7 +58,7 @@ export async function createLetterTemplate(data: LetterTemplateData) {
 }
 
 export async function updateLetterTemplate(id: string, data: Partial<LetterTemplateData>) {
-    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
+    await requireAnyPermission([PERMISSIONS.LETTER_TEMPLATE_MANAGE]);
 
     try {
         const template = await prisma.letterTemplate.update({
@@ -69,7 +74,7 @@ export async function updateLetterTemplate(id: string, data: Partial<LetterTempl
 }
 
 export async function deleteLetterTemplate(id: string) {
-    await requireAnyPermission([PERMISSIONS.ATTENDANCE_SHIFT_MANAGE]);
+    await requireAnyPermission([PERMISSIONS.LETTER_TEMPLATE_MANAGE]);
 
     try {
         await prisma.letterTemplate.delete({

@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { auth } from '@/auth';
+import { authorizePermission } from '@/lib/auth/guards';
+import { PERMISSIONS } from '@/lib/auth/permissions';
 
 export async function GET() {
-    const session = await auth();
-    if (!session) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await authorizePermission(PERMISSIONS.LETTER_TEMPLATE_MANAGE);
+    if (!authResult.ok) {
+        return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
 
     try {
@@ -21,9 +22,9 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    const session = await auth();
-    if (!session || (session.user as { role: string }).role !== 'ADMIN') {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await authorizePermission(PERMISSIONS.LETTER_TEMPLATE_MANAGE);
+    if (!authResult.ok) {
+        return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }
 
     try {
