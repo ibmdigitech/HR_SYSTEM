@@ -297,7 +297,12 @@ export async function applyToJob(params: {
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // The subject is a candidate, not an employee — see the note
+                    // on `model AuditLog` in prisma/schema.prisma. This row used
+                    // to carry the sentinel "SYSTEM", which no Employee matches,
+                    // so the foreign key refused it and the whole application
+                    // rolled back.
+                    employeeId: null,
                     action: "APPLICATION_RECEIVED",
                     details: `${candidate.firstName} ${candidate.lastName} applied for "${job.title}"`,
                     changedBy: user.email,
@@ -397,7 +402,9 @@ export async function recordScreening(params: {
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // The subject is a candidate, not an employee — see the note
+                    // on `model AuditLog` in prisma/schema.prisma.
+                    employeeId: null,
                     action: `APPLICATION_${params.to}`,
                     details: `${application.candidate.firstName} ${application.candidate.lastName}: ` +
                         `${application.status} → ${params.to}` +
@@ -515,7 +522,10 @@ export async function scheduleInterview(params: {
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // The subject is the candidate being interviewed, not an
+                    // employee — see the note on `model AuditLog` in
+                    // prisma/schema.prisma. The panel is named in `details`.
+                    employeeId: null,
                     action: "INTERVIEW_SCHEDULED",
                     details: `${params.interviewType} round ${params.round} with ` +
                         names.map((n) => `${n.firstName} ${n.lastName}`).join(", "),
@@ -585,38 +595,58 @@ export async function submitInterviewFeedback(params: {
             return { success: false, message: `Recommendation must be one of ${VALID.join(", ")}.` };
         }
 
-        // The unique key is participantId, so a second submission UPDATES this
-        // interviewer's own feedback and cannot touch another interviewer's.
-        const saved = await prisma.interviewFeedback.upsert({
-            where: { participantId: params.participantId },
-            update: {
-                ...params.scores,
-                strengths: params.strengths ?? null,
-                concerns: params.concerns ?? null,
-                comments: params.comments ?? null,
-                recommendation: params.recommendation ?? null,
-                updatedAt: new Date(),
-            },
-            create: {
-                interviewId: params.interviewId,
-                participantId: params.participantId,
-                ...params.scores,
-                strengths: params.strengths ?? null,
-                concerns: params.concerns ?? null,
-                comments: params.comments ?? null,
-                recommendation: params.recommendation ?? null,
-            },
-            select: { id: true },
-        });
+        // The feedback row and its audit entry are written in ONE transaction.
+        // They used to be two independent writes, which meant a failure in the
+        // second one surfaced to the interviewer as "Could not save the
+        // feedback." for a submission that had in fact already committed — the
+        // feedback was on the panel but the panel member was told it was not.
+        // Everything else in this file already treats the audit entry as part of
+        // the change, not as a side effect of it.
+        const saved = await prisma.$transaction(async (tx) => {
+            // The unique key is participantId, so a second submission UPDATES
+            // this interviewer's own feedback and cannot touch another
+            // interviewer's.
+            const row = await tx.interviewFeedback.upsert({
+                where: { participantId: params.participantId },
+                update: {
+                    ...params.scores,
+                    strengths: params.strengths ?? null,
+                    concerns: params.concerns ?? null,
+                    comments: params.comments ?? null,
+                    recommendation: params.recommendation ?? null,
+                    updatedAt: new Date(),
+                },
+                create: {
+                    interviewId: params.interviewId,
+                    participantId: params.participantId,
+                    ...params.scores,
+                    strengths: params.strengths ?? null,
+                    concerns: params.concerns ?? null,
+                    comments: params.comments ?? null,
+                    recommendation: params.recommendation ?? null,
+                },
+                select: { id: true },
+            });
 
-        await prisma.auditLog.create({
-            data: {
-                employeeId: "SYSTEM",
-                action: "INTERVIEW_FEEDBACK_SUBMITTED",
-                details: `Feedback recorded by ${participant.interviewerName}` +
-                    (params.recommendation ? ` — ${params.recommendation}` : ""),
-                changedBy: user.email,
-            },
+            // `AuditLog.employeeId` is a real foreign key to `Employee`, so it
+            // has to name a row that exists. It is the INTERVIEWER, not a
+            // "SYSTEM" sentinel: the audit trail is read per employee
+            // (`@@index([employeeId, createdAt])`) and this entry exists to say
+            // "this interviewer's feedback was recorded", which is precisely
+            // the person whose employee id the panel row already carries. Using
+            // the actor here instead would file a panel member's feedback under
+            // whoever happened to press the button.
+            await tx.auditLog.create({
+                data: {
+                    employeeId: participant.interviewerId,
+                    action: "INTERVIEW_FEEDBACK_SUBMITTED",
+                    details: `Feedback recorded by ${participant.interviewerName}` +
+                        (params.recommendation ? ` — ${params.recommendation}` : ""),
+                    changedBy: user.email,
+                },
+            });
+
+            return row;
         });
 
         return { success: true, message: "Feedback recorded.", id: saved.id };
@@ -655,6 +685,20 @@ export async function createOffer(params: {
         });
         if (!application) return { success: false, message: "Application not found." };
 
+        // The candidate is DERIVED from the application, not taken from the
+        // request. `candidateId` arrived as a form field, so honouring it would
+        // let a mismatched payload file an offer against application A in the
+        // name of candidate B — and because `OfferLetter` is versioned per
+        // candidate, it would also compute the version number from the wrong
+        // person. The application is the only trustworthy link here.
+        if (params.candidateId && params.candidateId !== application.candidateId) {
+            return {
+                success: false,
+                message: "The candidate does not match the selected application. Reload and try again.",
+            };
+        }
+        const candidateId = application.candidateId;
+
         // A candidate cannot jump from APPLIED straight to an offer.
         try {
             assertTransition("APPLICATION", APPLICATION_TRANSITIONS, application.status, APPLICATION_STATUS.OFFERED, {
@@ -673,7 +717,7 @@ export async function createOffer(params: {
 
         // Next version, so a revised offer never overwrites the previous one.
         const latest = await prisma.offerLetter.findFirst({
-            where: { candidateId: params.candidateId },
+            where: { candidateId },
             orderBy: { version: "desc" },
             select: { id: true, version: true },
         });
@@ -682,7 +726,7 @@ export async function createOffer(params: {
         const offer = await prisma.$transaction(async (tx) => {
             const created = await tx.offerLetter.create({
                 data: {
-                    candidateId: params.candidateId,
+                    candidateId,
                     applicationId: params.applicationId,
                     offeredSalary: params.offeredSalary,
                     allowances: params.allowances ?? 0,
@@ -714,9 +758,14 @@ export async function createOffer(params: {
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // The subject is a candidate, not an employee — see the note
+                    // on `model AuditLog` in prisma/schema.prisma. Filing this
+                    // under the acting recruiter would be the same mistake the
+                    // interview-feedback fix corrected: it would put a hiring
+                    // event in that person's per-employee trail.
+                    employeeId: null,
                     action: "OFFER_CREATED",
-                    details: `Offer v${version} for ${params.designation} @ ${params.offeredSalary}`,
+                    details: `Offer v${version} for candidate ${candidateId}: ${params.designation} @ ${params.offeredSalary}`,
                     changedBy: user.email,
                 },
             });
@@ -788,7 +837,9 @@ export async function transitionOffer(params: {
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // The subject is a candidate, not an employee — see the note
+                    // on `model AuditLog` in prisma/schema.prisma.
+                    employeeId: null,
                     action: `OFFER_${params.to}`,
                     details: `Offer v${offer.version} ${offer.status} → ${params.to}`,
                     changedBy: user.email,
@@ -843,18 +894,27 @@ export async function markHired(applicationId: string): Promise<WorkflowResult> 
             throw error;
         }
 
-        await prisma.application.update({
-            where: { id: applicationId },
-            data: { status: APPLICATION_STATUS.HIRED, decidedAt: new Date(), lastTransitionAt: new Date() },
-        });
+        // Status and audit trail move together. They were two separate awaited
+        // calls, so an audit failure left the application marked HIRED on disk
+        // while the caller was told the whole thing failed — the false negative
+        // the interview-feedback fix removed from the feedback path.
+        await prisma.$transaction(async (tx) => {
+            await tx.application.update({
+                where: { id: applicationId },
+                data: { status: APPLICATION_STATUS.HIRED, decidedAt: new Date(), lastTransitionAt: new Date() },
+            });
 
-        await prisma.auditLog.create({
-            data: {
-                employeeId: "SYSTEM",
-                action: "APPLICATION_HIRED",
-                details: "Candidate marked as hired. Employee record is created at joining (§19).",
-                changedBy: user.email,
-            },
+            await tx.auditLog.create({
+                data: {
+                    // The subject is a candidate, not an employee — which is
+                    // exactly what the next line says, and §19 is why. See the
+                    // note on `model AuditLog` in prisma/schema.prisma.
+                    employeeId: null,
+                    action: "APPLICATION_HIRED",
+                    details: "Candidate marked as hired. Employee record is created at joining (§19).",
+                    changedBy: user.email,
+                },
+            });
         });
 
         return {

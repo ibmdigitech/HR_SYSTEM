@@ -55,7 +55,7 @@ export function NewOvertimeForm({ employees }: { employees: any[] }) {
                     <PlusCircle className="mr-2 h-4 w-4" /> Log Overtime
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] p-4 sm:p-6">
                 <DialogHeader>
                     <DialogTitle>Log Employee Overtime</DialogTitle>
                 </DialogHeader>

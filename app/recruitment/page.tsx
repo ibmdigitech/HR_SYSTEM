@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle,  } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -53,9 +54,14 @@ export default async function RecruitmentPage() {
                     <p className="text-slate-500 font-medium mt-1">Manage job requisitions, candidate pipeline, and interviews.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button className="bg-indigo-600 hover:bg-indigo-700 font-bold gap-2 rounded-xl">
-                        <PlusCircle className="h-4 w-4" />
-                        New Job Requisition
+                    {/* Was a bare <Button>: no handler, no link, no dialog —
+                        clicking it did nothing. `asChild` hands the button
+                        styling to the Link so the control is now real. */}
+                    <Button asChild className="bg-indigo-600 hover:bg-indigo-700 font-bold gap-2 rounded-xl">
+                        <Link href="/recruitment/requisitions/new">
+                            <PlusCircle className="h-4 w-4" />
+                            New Job Requisition
+                        </Link>
                     </Button>
                 </div>
             </div>

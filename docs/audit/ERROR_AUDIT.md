@@ -28,7 +28,7 @@
 **Root Cause**: AUTH_SECRET in .env was placeholder `"secret-key-generated-by-launcher"`
 **Status**: FIXED in dev (new secret generated)
 **Pages Affected**: All authenticated pages
-**Fix Applied**: Generated secure secret `Anp5sJVLkTUyjI5kVSh//n+abbPRtXAYYl+2s//IX60=`
+**Fix Applied**: Generated a secure secret (value redacted — it was committed here in plaintext; see `docs/audit/SECRETS_ROTATION.md` and rotate before any shared deployment)
 
 ### ERROR-002: Hydration Mismatch - Sidebar
 **Location**: `/dashboard` and authenticated pages

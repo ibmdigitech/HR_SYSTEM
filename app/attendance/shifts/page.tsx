@@ -174,26 +174,26 @@ export default async function ShiftRosterPage() {
         <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
-                        <div className="p-2.5 bg-teal-600 rounded-xl shadow-lg shadow-teal-600/20">
+                <div className="min-w-0">
+                    <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+                        <div className="p-2.5 bg-teal-600 rounded-xl shadow-lg shadow-teal-600/20 shrink-0">
                             <CalendarClock className="h-6 w-6 text-white" />
                         </div>
                         Shift Roster
                     </h1>
-                    <p className="text-slate-500 mt-1 ml-14">
+                    <p className="text-slate-500 mt-1 sm:ml-14">
                         {isManager ? "Manage shift assignments for your team" : "View and manage all employee shift assignments"}
                     </p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <Link href="/attendance">
-                        <Button variant="outline" className="rounded-xl font-bold text-sm">
+                <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <Link href="/attendance" className="flex-1 md:flex-none">
+                        <Button variant="outline" className="w-full md:w-auto rounded-xl font-bold text-sm">
                             <ChevronLeft className="h-4 w-4 mr-1" /> Attendance
                         </Button>
                     </Link>
                     {isAdmin && (
-                        <Link href="/settings/shifts">
-                            <Button variant="outline" className="rounded-xl font-bold text-sm border-indigo-200 text-indigo-700 hover:bg-indigo-50">
+                        <Link href="/settings/shifts" className="flex-1 md:flex-none">
+                            <Button variant="outline" className="w-full md:w-auto rounded-xl font-bold text-sm border-indigo-200 text-indigo-700 hover:bg-indigo-50">
                                 <Settings className="h-4 w-4 mr-1" /> Manage Shifts
                             </Button>
                         </Link>
@@ -239,23 +239,23 @@ export default async function ShiftRosterPage() {
                     const Icon = getShiftIcon(shift.name);
                     return (
                         <Card key={shift.id} className="rounded-2xl border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-                            <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl">
-                                            <Icon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-                                        </div>
-                                        <div>
-                                            <CardTitle className="text-base font-black">{shift.name}</CardTitle>
-                                            <p className="text-xs text-slate-500 font-medium mt-0.5">
-                                                {shift.startTime} – {shift.endTime} · Grace: {shift.lateThreshold}min · Off: {weeklyOffLabels[shift.weeklyOffs] || shift.weeklyOffs}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <Badge className="bg-indigo-100 text-indigo-700 border-0 font-bold">
-                                        {shift.employees.length} employee{shift.employees.length !== 1 ? "s" : ""}
-                                    </Badge>
-                                </div>
+                            <CardHeader className="bg-slate-50/50 dark:bg-slate-900/50 px-4 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+                                <div className="flex items-center justify-between gap-3">
+                                    <div className="flex items-center gap-3 min-w-0">
+                                         <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl shrink-0">
+                                             <Icon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                                         </div>
+                                         <div className="min-w-0">
+                                             <CardTitle className="text-base font-black">{shift.name}</CardTitle>
+                                             <p className="text-xs text-slate-500 font-medium mt-0.5">
+                                                 {shift.startTime} – {shift.endTime} · Grace: {shift.lateThreshold}min · Off: {weeklyOffLabels[shift.weeklyOffs] || shift.weeklyOffs}
+                                             </p>
+                                         </div>
+                                     </div>
+                                     <Badge className="bg-indigo-100 text-indigo-700 border-0 font-bold shrink-0">
+                                         {shift.employees.length} employee{shift.employees.length !== 1 ? "s" : ""}
+                                     </Badge>
+                                 </div>
                             </CardHeader>
                             <CardContent className="p-0">
                                 {shift.employees.length === 0 ? (
@@ -263,6 +263,41 @@ export default async function ShiftRosterPage() {
                                         No {isManager ? "team members" : "employees"} assigned to this shift
                                     </div>
                                 ) : (
+                                    <>
+                                        {/* MOBILE: card list, same fields as the table. */}
+                                        <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                                            {shift.employees.map((emp) => (
+                                                <li key={emp.id} className="p-4 flex flex-col gap-2.5">
+                                                    <div className="flex items-center gap-3 min-w-0">
+                                                        <div className="h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-xs font-black">
+                                                            {emp.firstName[0]}{emp.lastName[0]}
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <p className="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">{emp.firstName} {emp.lastName}</p>
+                                                            <p className="text-[10px] text-slate-400">{emp.employeeCode || emp.id.substring(0, 6)}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[11px] pl-11">
+                                                        <span className="text-slate-600 dark:text-slate-400">{emp.department}</span>
+                                                        <span className="text-slate-400">·</span>
+                                                        <span className="text-slate-600 dark:text-slate-400">{emp.designation}</span>
+                                                    </div>
+                                                    {canEdit && (
+                                                        <div className="pl-11">
+                                                            <ShiftAssignmentDropdown
+                                                                employeeId={emp.id}
+                                                                employeeName={`${emp.firstName} ${emp.lastName}`}
+                                                                currentShiftId={emp.shiftId}
+                                                                shifts={allShiftsFlat}
+                                                                canEdit={true}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        <div className="hidden md:block overflow-x-auto">
                                     <Table>
                                         <TableHeader>
                                             <TableRow className="hover:bg-transparent">
@@ -303,6 +338,8 @@ export default async function ShiftRosterPage() {
                                             ))}
                                         </TableBody>
                                     </Table>
+                                        </div>
+                                    </>
                                 )}
                             </CardContent>
                         </Card>
@@ -312,22 +349,56 @@ export default async function ShiftRosterPage() {
                 {/* Unassigned Employees */}
                 {unassigned.length > 0 && (
                     <Card className="rounded-2xl border-amber-200 dark:border-amber-800/30 shadow-sm overflow-hidden">
-                        <CardHeader className="bg-amber-50/50 dark:bg-amber-950/20 px-6 py-4 border-b border-amber-100 dark:border-amber-800/30">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
+                        <CardHeader className="bg-amber-50/50 dark:bg-amber-950/20 px-4 sm:px-6 py-4 border-b border-amber-100 dark:border-amber-800/30">
+                            <div className="flex items-center justify-between gap-3">
+                                <div className="flex items-center gap-3 min-w-0">
+                                    <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl shrink-0">
                                         <AlertCircle className="h-5 w-5 text-amber-600" />
                                     </div>
-                                    <div>
+                                    <div className="min-w-0">
                                         <CardTitle className="text-base font-black text-amber-800 dark:text-amber-300">Unassigned Employees</CardTitle>
                                         <p className="text-xs text-amber-600 font-medium mt-0.5">These {isManager ? "team members" : "employees"} have no shift assigned yet</p>
                                     </div>
                                 </div>
-                                <Badge className="bg-amber-100 text-amber-700 border-0 font-bold">{unassigned.length}</Badge>
+                                <Badge className="bg-amber-100 text-amber-700 border-0 font-bold shrink-0">{unassigned.length}</Badge>
                             </div>
                         </CardHeader>
                         <CardContent className="p-0">
-                            <Table>
+                            {/* MOBILE: card list, same fields as the table. */}
+                            <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                                {unassigned.map((emp) => (
+                                    <li key={emp.id} className="p-4 flex flex-col gap-2.5">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="h-8 w-8 shrink-0 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 text-xs font-black">
+                                                {emp.firstName[0]}{emp.lastName[0]}
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="font-bold text-sm text-slate-900 dark:text-slate-100 truncate">{emp.firstName} {emp.lastName}</p>
+                                                <p className="text-[10px] text-slate-400">{emp.employeeCode || emp.id.substring(0, 6)}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[11px] pl-11">
+                                            <span className="text-slate-600">{emp.department}</span>
+                                            <span className="text-slate-400">·</span>
+                                            <span className="text-slate-600">{emp.designation}</span>
+                                        </div>
+                                        {canEdit && (
+                                            <div className="pl-11">
+                                                <ShiftAssignmentDropdown
+                                                    employeeId={emp.id}
+                                                    employeeName={`${emp.firstName} ${emp.lastName}`}
+                                                    currentShiftId={null}
+                                                    shifts={allShiftsFlat}
+                                                    canEdit={true}
+                                                />
+                                            </div>
+                                        )}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="hidden md:block overflow-x-auto">
+                                <Table>
                                 <TableHeader>
                                     <TableRow className="hover:bg-transparent">
                                         <TableHead className="font-bold text-xs uppercase tracking-wider py-3">Employee</TableHead>
@@ -367,6 +438,7 @@ export default async function ShiftRosterPage() {
                                     ))}
                                 </TableBody>
                             </Table>
+                            </div>
                         </CardContent>
                     </Card>
                 )}

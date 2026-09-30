@@ -61,21 +61,21 @@ export default async function VisaCompliancePage() {
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
             {/* Header section */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-rose-900 via-rose-950 to-slate-900 p-8 md:p-12 rounded-[2.5rem] shadow-2xl transition-all">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
+            <div className="relative overflow-hidden bg-gradient-to-br from-rose-900 via-rose-950 to-slate-900 p-5 sm:p-6 md:p-12 rounded-[2.5rem] shadow-2xl transition-all">
+                <div className="absolute top-0 right-0 w-64 h-64 sm:w-[500px] sm:h-[500px] bg-rose-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-56 h-56 sm:w-[400px] sm:h-[400px] bg-orange-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
                 
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-rose-200 text-xs font-bold uppercase tracking-widest mb-6">
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 sm:gap-8">
+                    <div className="min-w-0">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-rose-200 text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
                             <ShieldAlert className="h-3 w-3 text-rose-400" />
                             Document & Visa Audit
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
+                        <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-white mb-3 sm:mb-4 leading-tight">
                             Compliance<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-orange-400">Control Center</span>
                         </h1>
-                        <p className="text-slate-300 text-base font-medium max-w-xl leading-relaxed">
+                        <p className="text-slate-300 text-sm sm:text-base font-medium max-w-xl leading-relaxed">
                             Monitor Passport, Emirates ID, and Visa expiries. Flag expired files and critical compliance risks before they disrupt operations.
                         </p>
                     </div>
@@ -139,7 +139,7 @@ export default async function VisaCompliancePage() {
 
             {/* Compliance Table Card */}
             <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-sm rounded-2xl overflow-hidden">
-                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5">
+                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-4 py-4 sm:px-6 sm:py-5">
                     <div>
                         <CardTitle className="text-xl font-bold">Workforce Document Directory</CardTitle>
                         <CardDescription className="font-medium text-slate-500">
@@ -148,7 +148,89 @@ export default async function VisaCompliancePage() {
                     </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                    <div className="overflow-x-auto">
+                    {/* MOBILE: card list, same four document columns as the table.
+                        The empty case mirrors the table's `colSpan` row. */}
+                    {employees.length === 0 ? (
+                        <p className="md:hidden text-center py-20 px-4 text-slate-400 italic font-medium">
+                            No active employees found in system database.
+                        </p>
+                    ) : (
+                    <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800/60">
+                        {employees.map((record) => (
+                            <li key={record.id} className="p-4 flex flex-col gap-2.5">
+                                <div className="flex items-center gap-3 min-w-0">
+                                    <div className="h-9 w-9 shrink-0 rounded-full bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center text-rose-700 dark:text-rose-400 font-bold text-xs">
+                                        {record.firstName[0]}{record.lastName[0]}
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="font-bold text-slate-900 dark:text-white truncate">
+                                            {record.firstName} {record.lastName}
+                                        </p>
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                                            {record.employeeCode || "No Code"}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Same four document columns as the table below. */}
+                                <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 pl-12 text-[11px]">
+                                    <dt className="text-slate-400 font-bold">Passport</dt>
+                                    <dd className="flex flex-wrap items-center gap-1.5 min-w-0">
+                                        {record.passportNumber ? (
+                                            <>
+                                                <span className="font-bold text-slate-700 dark:text-slate-300">{record.passportNumber}</span>
+                                                <span className="text-slate-500">Exp: {formatExpiry(record.passportExpiry)}</span>
+                                                <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${getDocumentStatus(record.passportExpiry).color}`}>{getDocumentStatus(record.passportExpiry).label}</Badge>
+                                            </>
+                                        ) : (
+                                            <span className="text-slate-400 italic">Not Provided</span>
+                                        )}
+                                    </dd>
+
+                                    <dt className="text-slate-400 font-bold">Emirates ID</dt>
+                                    <dd className="flex flex-wrap items-center gap-1.5 min-w-0">
+                                        {record.emiratesId ? (
+                                            <>
+                                                <span className="font-bold text-slate-700 dark:text-slate-300">{record.emiratesId}</span>
+                                                <span className="text-slate-500">Exp: {formatExpiry(record.emiratesIdExpiry)}</span>
+                                                <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${getDocumentStatus(record.emiratesIdExpiry).color}`}>{getDocumentStatus(record.emiratesIdExpiry).label}</Badge>
+                                            </>
+                                        ) : (
+                                            <span className="text-slate-400 italic">Not Provided</span>
+                                        )}
+                                    </dd>
+
+                                    <dt className="text-slate-400 font-bold">Visa</dt>
+                                    <dd className="flex flex-wrap items-center gap-1.5 min-w-0">
+                                        {record.visaNumber ? (
+                                            <>
+                                                <span className="font-bold text-slate-700 dark:text-slate-300">{record.visaNumber} <span className="text-[10px] opacity-75 font-medium">({record.visaType || "Employment"})</span></span>
+                                                <span className="text-slate-500">Exp: {formatExpiry(record.visaExpiry)}</span>
+                                                <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${getDocumentStatus(record.visaExpiry).color}`}>{getDocumentStatus(record.visaExpiry).label}</Badge>
+                                            </>
+                                        ) : (
+                                            <span className="text-slate-400 italic">Not Provided</span>
+                                        )}
+                                    </dd>
+
+                                    <dt className="text-slate-400 font-bold">Medical</dt>
+                                    <dd className="flex flex-wrap items-center gap-1.5 min-w-0">
+                                        {record.medicalInsuranceExpiry ? (
+                                            <>
+                                                <span className="text-slate-500">Exp: {new Date(record.medicalInsuranceExpiry).toLocaleDateString()}</span>
+                                                <Badge className={`px-2 py-0.5 text-[8px] font-black uppercase rounded-md border-0 ${getDocumentStatus(record.medicalInsuranceExpiry).color}`}>{getDocumentStatus(record.medicalInsuranceExpiry).label}</Badge>
+                                            </>
+                                        ) : (
+                                            <span className="text-slate-400 italic">Not Provided</span>
+                                        )}
+                                    </dd>
+                                </dl>
+                            </li>
+                        ))}
+                    </ul>
+                    )}
+
+                    <div className="hidden md:block overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow className="border-slate-100 dark:border-slate-800/60 hover:bg-transparent">

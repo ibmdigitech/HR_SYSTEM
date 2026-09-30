@@ -66,7 +66,7 @@ export function CheckInButton() {
             className={status ? "bg-amber-500 hover:bg-amber-600 gap-2" : "bg-emerald-600 hover:bg-emerald-700 gap-2"}
         >
             {status ? <LogOut className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
-            {status ? "Check Out" : "Check In"}
+            {status ? "PUNCH OUT NOW" : "PUNCH IN NOW"}
         </Button>
     );
 }

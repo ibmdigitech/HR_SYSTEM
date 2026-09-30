@@ -55,7 +55,7 @@ export function NewLoanForm({ employees }: { employees: any[] }) {
                     <PlusCircle className="mr-2 h-4 w-4" /> Issue Loan
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] p-4 sm:p-6">
                 <DialogHeader>
                     <DialogTitle>Issue New Loan</DialogTitle>
                 </DialogHeader>

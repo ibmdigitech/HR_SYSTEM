@@ -107,12 +107,12 @@ export default async function AttendancePage({
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
             {/* Header Area */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-emerald-900 to-teal-950 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-emerald-900 to-teal-950 p-5 sm:p-6 md:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-teal-500/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
-                
-                <div className="relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2">Attendance Hub</h1>
+
+                <div className="relative z-10 min-w-0">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-2">Attendance Hub</h1>
                     <p className="text-emerald-100 text-sm md:text-base font-medium max-w-xl">
                         Monitor daily presence, track shift compliance, and manage workforce availability in real-time.
                     </p>
@@ -140,7 +140,7 @@ export default async function AttendancePage({
             </div>
 
             {/* Quick Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-4">
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-4">
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Active</CardTitle>
@@ -197,7 +197,7 @@ export default async function AttendancePage({
             <div className="grid gap-6 lg:grid-cols-3">
                 {/* Main Table Area */}
                 <Card className="lg:col-span-2 bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-sm rounded-2xl overflow-hidden">
-                    <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5">
+                    <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-4 py-4 sm:px-6 sm:py-5">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div>
                                 <CardTitle className="text-xl font-bold">Presence Log</CardTitle>
@@ -229,7 +229,64 @@ export default async function AttendancePage({
                         </div>
                     </CardHeader>
                     <CardContent className="p-0">
-                        <div className="overflow-x-auto">
+                        {/* MOBILE: card list. Six timestamp/status columns cannot
+                            be read at 375px; the card keeps every field. The
+                            empty case mirrors the table's `colSpan` row. */}
+                        {displayRecords.length === 0 ? (
+                            <p className="md:hidden text-center py-20 px-4 text-slate-400 italic font-medium">
+                                No attendance records found.
+                            </p>
+                        ) : (
+                        <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800/60">
+                            {displayRecords.map((record) => (
+                                <li key={record.id} className="p-4 flex flex-col gap-2.5">
+                                    <div className="flex items-start gap-3">
+                                        <div className="h-9 w-9 shrink-0 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-700 dark:text-emerald-400 font-bold text-xs">
+                                            {record.employee.firstName[0]}{record.employee.lastName[0]}
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="font-bold text-slate-900 dark:text-white truncate">
+                                                {record.employee.firstName} {record.employee.lastName}
+                                            </p>
+                                            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                                {new Date(record.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                                            </p>
+                                        </div>
+                                        <Badge
+                                            className={`shrink-0 font-bold px-3 py-1 rounded-full border-0 ${
+                                                record.status === "PRESENT"
+                                                    ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                                                    : record.status === "LATE"
+                                                        ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                                                        : record.status === "LEAVE"
+                                                            ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                            : "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400"
+                                            }`}
+                                        >
+                                            {record.status === "NO_RECORD" ? "ABSENT" : record.status}
+                                        </Badge>
+                                    </div>
+
+                                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pl-12 text-[11px]">
+                                        <span className="font-bold text-slate-900 dark:text-white">
+                                            In&nbsp;{record.checkIn ? new Date(record.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--"}
+                                        </span>
+                                        <span className="font-bold text-slate-900 dark:text-white">
+                                            Out&nbsp;{record.checkOut ? new Date(record.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "--"}
+                                        </span>
+                                        {(record.shift || record.employee?.shift) ? (
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-400 rounded-lg text-[10px] font-bold">
+                                                <Clock className="h-2.5 w-2.5" />
+                                                {(record.shift || record.employee?.shift)?.name}
+                                            </span>
+                                        ) : null}
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        )}
+
+                        <div className="hidden md:block overflow-x-auto">
                             <Table>
                                 <TableHeader>
                                     <TableRow className="border-slate-100 dark:border-slate-800/60 hover:bg-transparent">

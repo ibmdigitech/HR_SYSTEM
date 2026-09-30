@@ -141,7 +141,17 @@ export async function issueOfferLetter(offerId: string): Promise<{
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // NULL, not a sentinel and not the candidate's id: the
+                    // subject of this event is a candidate who has not joined,
+                    // and §19 creates the Employee at the joining stage. The
+                    // rationale for a nullable `AuditLog.employeeId` — and the
+                    // two rejected alternatives — is on `model AuditLog` in
+                    // prisma/schema.prisma. Passing "SYSTEM" here violated the
+                    // foreign key, and because this write is inside the same
+                    // `$transaction` as the Letter and the offer link, that
+                    // single row rolled the whole letter back and HR could
+                    // never issue an offer letter at all.
+                    employeeId: null,
                     action: "OFFER_LETTER_ISSUED",
                     details: `Offer v${offer.version} letter ${created.referenceNumber} for ${candidateName}`,
                     changedBy: user.email,

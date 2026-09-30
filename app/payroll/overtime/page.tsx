@@ -37,19 +37,19 @@ export default async function OvertimePage() {
     }).reduce((acc, o) => acc + o.hours, 0);
 
     return (
-        <div className="p-8 space-y-8">
-            <div className="flex justify-between items-center bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
-                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+        <div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 bg-white dark:bg-slate-900 p-4 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div className="min-w-0">
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg shrink-0">
                             <Clock className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
                         </div>
                         Overtime Management
                     </h1>
                     <p className="text-slate-500 mt-2">Log and track employee overtime hours and calculate pay.</p>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="text-right mr-4">
+                <div className="flex items-center gap-4 justify-between sm:justify-end">
+                    <div className="text-right sm:mr-4">
                         <p className="text-sm font-medium text-slate-500">Total Hours (This Month)</p>
                         <p className="text-2xl font-bold text-indigo-600">{totalOvertimeThisMonth} hrs</p>
                     </div>
@@ -57,7 +57,56 @@ export default async function OvertimePage() {
                 </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+            {/* MOBILE: card list, same six fields as the table below. */}
+            <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                {overtimes.length === 0 ? (
+                    <li className="p-12 text-center text-slate-500">
+                        <AlertCircle className="mx-auto h-8 w-8 mb-3 text-slate-400" />
+                        No overtime records found
+                    </li>
+                ) : (
+                    overtimes.map((record) => (
+                        <li key={record.id} className="p-4 flex flex-col gap-2.5">
+                            <div className="flex items-start justify-between gap-3">
+                                <div className="min-w-0">
+                                    <p className="font-medium text-slate-900 dark:text-slate-100 truncate">
+                                        {record.employee.firstName} {record.employee.lastName}
+                                    </p>
+                                    <p className="text-[11px] text-slate-500">
+                                        {record.employee.employeeCode || record.employee.id.substring(0, 6)}
+                                    </p>
+                                </div>
+                                <span className="shrink-0 text-sm font-medium text-indigo-600">
+                                    AED {record.totalPay.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px]">
+                                <span className="text-slate-500">
+                                    {format(new Date(record.date), "MMM dd, yyyy")}
+                                </span>
+                                <span className="font-medium text-slate-900">
+                                    {record.hours} hrs @ {record.ratePerHour.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                </span>
+                            </div>
+
+                            <div>
+                                <Badge className={`px-3 py-1 rounded-full border-0 ${
+                                    record.status === 'APPROVED' ? 'bg-blue-100 text-blue-700 hover:bg-blue-100' :
+                                        record.status === 'PAID' ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-100' :
+                                            record.status === 'REJECTED' ? 'bg-rose-100 text-rose-700 hover:bg-rose-100' :
+                                                'bg-amber-100 text-amber-700 hover:bg-amber-100'
+                                }`}>
+                                    {record.status === 'PAID' && <CheckCircle2 className="w-3 h-3 mr-1" />}
+                                    {record.status}
+                                </Badge>
+                            </div>
+                        </li>
+                    ))
+                )}
+            </ul>
+
+            <div className="hidden md:block bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
                 <Table>
                     <TableHeader className="bg-slate-50/50 dark:bg-slate-800/50">
                         <TableRow>

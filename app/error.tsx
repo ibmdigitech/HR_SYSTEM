@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, RefreshCw, Home, ShieldAlert } from "lucide-react";
+import { reportClientError } from "@/lib/observability/client-report";
 
 /**
  * Route-segment error boundary (P0-17 / P0-19).
@@ -26,13 +27,16 @@ export default function AppError({
     reset: () => void;
 }) {
     useEffect(() => {
-        // Server-side only. The message may contain sensitive detail, so it is
-        // logged and never rendered.
-        console.error("[route-error]", {
-            message: (error instanceof Error ? error.message : "Unknown error"),
-            digest: error.digest,
-            stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
-        });
+        // Structured, one JSON object per line, with a correlation id and a
+        // Prisma-aware classification instead of a devtools object blob.
+        // The message may contain sensitive detail, so it is logged and never
+        // rendered.
+        //
+        // `reportClientError` is the allow-listed client reporter, NOT
+        // `reportError`: the latter reaches `@/lib/auth/audit` for `redact()`,
+        // which imports `@/lib/prisma`, and that would put the Prisma client
+        // in a browser bundle. See lib/observability/client-report.ts.
+        reportClientError(error, { digest: error.digest });
     }, [error]);
 
     const isDev = process.env.NODE_ENV === "development";

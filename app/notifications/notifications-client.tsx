@@ -46,18 +46,18 @@ export default function NotificationsClient({ notifications }: { notifications: 
     return (
         <div className="space-y-8 w-full max-w-3xl mx-auto">
             {/* Header Area */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-br from-slate-900 to-indigo-950 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden text-white">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 bg-gradient-to-br from-slate-900 to-indigo-950 p-5 sm:p-6 md:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden text-white">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-                <div className="relative z-10">
-                    <h1 className="text-3xl font-black tracking-tight mb-2">Notification Center</h1>
+                <div className="relative z-10 min-w-0">
+                    <h1 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">Notification Center</h1>
                     <p className="text-indigo-200 text-sm font-medium">
                         You have {unreadCount} unread message(s) in your dashboard queue.
                     </p>
                 </div>
                 {unreadCount > 0 && (
-                    <Button 
+                    <Button
                         onClick={handleAllRead}
-                        className="relative z-10 gap-2 rounded-xl font-bold bg-white text-indigo-950 hover:bg-slate-100 border-0"
+                        className="relative z-10 gap-2 w-full sm:w-auto rounded-xl font-bold bg-white text-indigo-950 hover:bg-slate-100 border-0"
                     >
                         <Check className="h-4 w-4" />
                         Mark All Read
@@ -77,28 +77,31 @@ export default function NotificationsClient({ notifications }: { notifications: 
                                 : "bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 shadow-sm"
                         }`}
                     >
-                        <CardContent className="p-5 flex gap-4 items-start">
+                        <CardContent className="p-4 sm:p-5 flex gap-3 sm:gap-4 items-start">
                             {/* Unread indicator dot */}
                             {!notif.isRead && (
                                 <span className="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-indigo-600 dark:bg-indigo-400"></span>
                             )}
 
                             {/* Icon block */}
-                            <div className={`p-3 rounded-xl ${
-                                !notif.isRead 
-                                    ? "bg-indigo-100/50 dark:bg-indigo-900/30" 
+                            <div className={`p-3 rounded-xl shrink-0 ${
+                                !notif.isRead
+                                    ? "bg-indigo-100/50 dark:bg-indigo-900/30"
                                     : "bg-slate-50 dark:bg-slate-900"
                             }`}>
                                 {getIcon(notif.type)}
                             </div>
 
-                            {/* Text content */}
-                            <div className="flex-1 space-y-1">
-                                <div className="flex justify-between items-center">
-                                    <h3 className={`text-sm tracking-tight ${!notif.isRead ? "font-black text-indigo-950 dark:text-indigo-200" : "font-bold text-slate-800 dark:text-slate-200"}`}>
+                            {/* Text content. `min-w-0` is required here: a flex
+                                item defaults to min-width:auto, so a long
+                                unbroken title refuses to shrink and pushes the
+                                timestamp past the card edge. */}
+                            <div className="flex-1 min-w-0 space-y-1">
+                                <div className="flex flex-wrap justify-between items-center gap-x-2 gap-y-0.5">
+                                    <h3 className={`text-sm tracking-tight break-words ${!notif.isRead ? "font-black text-indigo-950 dark:text-indigo-200" : "font-bold text-slate-800 dark:text-slate-200"}`}>
                                         {notif.title}
                                     </h3>
-                                    <span className="text-[10px] text-slate-400 font-bold">
+                                    <span className="shrink-0 text-[10px] text-slate-400 font-bold">
                                         {new Date(notif.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                     </span>
                                 </div>
@@ -119,7 +122,7 @@ export default function NotificationsClient({ notifications }: { notifications: 
                 ))}
 
                 {notifications.length === 0 && (
-                    <div className="p-24 text-center bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-3xl">
+                    <div className="p-12 sm:p-24 text-center bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-3xl">
                         <Inbox className="h-16 w-16 mx-auto mb-6 text-slate-200 dark:text-slate-800" />
                         <h3 className="text-lg font-black text-slate-800 dark:text-white uppercase tracking-tight">Inbox is Empty</h3>
                         <p className="text-slate-400 font-medium max-w-xs mx-auto mt-2">All caught up! You don&#39;t have any notifications at the moment.</p>

@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Bell, Search, Settings, Clock, Globe, LogOut, User } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Bell, Settings, Clock, Globe, LogOut, User } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { signOut } from "next-auth/react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { sidebarItems, ADMIN_HREFS } from "@/components/layout/Sidebar";
+import { CommandSearch } from "@/components/layout/CommandSearch";
 import { resolvePermissions } from "@/lib/auth/permissions";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -81,7 +81,29 @@ export function Header({ user }: HeaderProps) {
                             <Menu className="h-5 w-5 text-slate-600 dark:text-slate-400" />
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="w-[85vw] max-w-[320px] h-screen max-h-screen p-0 m-0 border-0 rounded-none sm:rounded-none absolute left-0 data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left z-50 flex flex-col bg-slate-900 dark:bg-slate-950">
+                    {/* Edge-anchored drawer, so it must fully OVERRIDE the
+                        shared base's centring — not just its `left`.
+                        `cn` runs tailwind-merge, so `left-0` beat
+                        `left-[50%]` but NOTHING beat the base's companion
+                        `translate-x-[-50%] translate-y-[-50%]`. The panel
+                        inherited a half-width left shift (off-screen) and a
+                        vertical re-centre that clipped a full-height panel at
+                        both ends. `translate-x-0 translate-y-0` is the actual
+                        fix and is mandatory if the base keeps centring.
+                        `inset-y-0` + `h-[100dvh]` drop `top-[50%]` and pin the
+                        panel to the viewport; `overflow-y-hidden` stops the
+                        base's `overflow-y-auto` double-barring the panel that
+                        already scrolls via its `flex-1 overflow-y-auto` child,
+                        and `flex` drops the base's `grid`. */}
+                    <DialogContent
+                        className="fixed inset-y-0 left-0 translate-x-0 translate-y-0 z-50 flex flex-col w-[85vw] max-w-[320px] h-[100dvh] max-h-[100dvh] overflow-y-hidden p-0 m-0 border-0 rounded-none sm:rounded-none data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left bg-slate-900 dark:bg-slate-950"
+                        /* This panel is dark BY ITS OWN CLASS, whatever the app
+                           theme is. With the app in light mode a theme-derived
+                           close icon is dark slate on a slate-900 panel and
+                           vanishes. The panel colour is the caller's decision,
+                           so the caller supplies the icon colour too. */
+                        closeButtonClassName="text-slate-300 hover:text-white hover:bg-white/10 focus-visible:ring-white/70"
+                    >
                         <DialogTitle className="sr-only">Navigation Menu</DialogTitle>
                         <div className="flex-1 overflow-y-auto p-4 scrollbar-hide mt-10">
                             <div className="space-y-6">
@@ -145,13 +167,7 @@ export function Header({ user }: HeaderProps) {
                         </div>
                     </DialogContent>
                 </Dialog>
-                <div className="relative w-full max-w-md group hidden md:block">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
-                    <Input 
-                        placeholder="Quick search (⌘ + K)" 
-                        className="pl-12 h-11 bg-slate-100/50 dark:bg-slate-900/50 border-0 rounded-2xl font-medium focus-visible:ring-2 focus-visible:ring-indigo-500 transition-all"
-                    />
-                </div>
+                {mounted && <CommandSearch />}
 
                 <div className="hidden xl:flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800">
                     <div className="flex items-center gap-2">
@@ -184,15 +200,20 @@ export function Header({ user }: HeaderProps) {
 
                 <Popover>
                     <PopoverTrigger asChild>
+                        {/* `min-w-0` on the name column and `truncate` on the name
+                            itself: a flex item defaults to min-width:auto, so a
+                            long user name refuses to shrink and pushes the
+                            avatar past the viewport edge below `lg`. `shrink-0`
+                            on the avatar keeps it at a stable tap target. */}
                         <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 group cursor-pointer outline-none">
-                            <div className="flex flex-col items-end">
-                                <span className="text-sm font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">{user?.name || "User"}</span>
+                            <div className="flex min-w-0 flex-col items-end">
+                                <span className="max-w-[10rem] truncate text-sm font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">{user?.name || "User"}</span>
                                 <div className="flex items-center gap-2">
-                                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
                                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{user?.role || "STAFF"}</span>
                                 </div>
                             </div>
-                            <Avatar className="h-11 w-11 rounded-2xl border-2 border-white dark:border-slate-800 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            <Avatar className="h-11 w-11 shrink-0 rounded-2xl border-2 border-white dark:border-slate-800 shadow-lg group-hover:scale-110 transition-transform duration-300">
                                 {user?.image && <AvatarImage src={user.image} />}
                                 <AvatarFallback className="bg-indigo-600 text-white font-black">{userInitials}</AvatarFallback>
                             </Avatar>

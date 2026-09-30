@@ -116,38 +116,38 @@ export default async function DashboardPage() {
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
             {/* Hero Section */}
-            <div className="relative group overflow-hidden bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 p-8 md:p-12 rounded-[2.5rem] shadow-2xl transition-all duration-500">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/20 transition-all duration-700"></div>
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2 group-hover:bg-violet-500/20 transition-all duration-700"></div>
-                
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-indigo-200 text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="relative group overflow-hidden bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 p-5 sm:p-6 md:p-8 lg:p-12 rounded-[2.5rem] shadow-2xl transition-all duration-500">
+                <div className="absolute top-0 right-0 w-64 h-64 sm:w-[500px] sm:h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/20 transition-all duration-700"></div>
+                <div className="absolute bottom-0 left-0 w-56 h-56 sm:w-[400px] sm:h-[400px] bg-violet-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2 group-hover:bg-violet-500/20 transition-all duration-700"></div>
+
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 sm:gap-8">
+                    <div className="min-w-0">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-indigo-200 text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
                             <Zap className="h-3 w-3 fill-indigo-400" />
                             System Overview
                         </div>
-                        <h1 className="text-5xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-3 sm:mb-4 leading-tight">
                             Welcome back,<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
                                 {user.name?.split(' ')[0] || 'User'}
                             </span>
                         </h1>
-                        <p className="text-slate-300 text-lg font-medium max-w-xl leading-relaxed">
+                        <p className="text-slate-300 text-sm sm:text-base md:text-lg font-medium max-w-xl leading-relaxed">
                             Your workspace is updated with the latest workforce metrics and real-time operational insights.
                         </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full md:w-auto">
                         {userRole === "STAFF" ? (
                             <>
-                                <Link href="/leaves">
-                                    <Button className="h-14 px-8 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-base shadow-xl border-0 transition-transform hover:scale-105 active:scale-95 gap-2">
+                                <Link href="/leaves" className="w-full sm:w-auto">
+                                    <Button className="w-full sm:w-auto h-12 sm:h-14 px-5 sm:px-8 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-sm sm:text-base shadow-xl border-0 transition-transform hover:scale-105 active:scale-95 gap-2">
                                         <Plus className="h-5 w-5" />
                                         Request Leave
                                     </Button>
                                 </Link>
-                                <Link href="/requests">
-                                    <Button variant="outline" className="h-14 px-8 rounded-2xl bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white/10 font-bold text-base transition-transform hover:scale-105 active:scale-95 gap-2">
+                                <Link href="/requests" className="w-full sm:w-auto">
+                                    <Button variant="outline" className="w-full sm:w-auto h-12 sm:h-14 px-5 sm:px-8 rounded-2xl bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white/10 font-bold text-sm sm:text-base transition-transform hover:scale-105 active:scale-95 gap-2">
                                         <ShieldAlert className="h-5 w-5" />
                                         Operation Requests
                                     </Button>
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
                             </>
                         ) : (
                             <Link href="/requests" className="w-full sm:w-auto">
-                                <Button className="h-14 px-10 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white hover:shadow-indigo-500/40 font-black text-base shadow-2xl border-0 transition-all hover:scale-105 active:scale-95 gap-2 group">
+                                <Button className="w-full sm:w-auto h-12 sm:h-14 px-5 sm:px-10 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white hover:shadow-indigo-500/40 font-black text-sm sm:text-base shadow-2xl border-0 transition-all hover:scale-105 active:scale-95 gap-2 group">
                                     <CheckCircle2 className="h-5 w-5 group-hover:animate-bounce" />
                                     Manage Requests
                                     <Badge className="ml-2 bg-white/20 text-white border-0">{pendingLeavesCount}</Badge>
@@ -245,13 +245,13 @@ export default async function DashboardPage() {
                 <div className="lg:col-span-4 space-y-8">
                     {/* Attendance Trend Chart */}
                     <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
-                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-8 py-6 border-b border-slate-100 dark:border-slate-800/60">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-100 dark:border-slate-800/60">
                             <div>
                                 <CardTitle className="text-lg font-bold">Attendance Velocity</CardTitle>
                                 <CardDescription className="text-xs text-slate-500 font-bold uppercase tracking-wider">Present headcount over latest 7 days</CardDescription>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-8">
+                        <CardContent className="p-4 sm:p-6">
                             <div className="flex items-end justify-between h-48 pt-4 border-b border-slate-100 dark:border-slate-800">
                                 {attendanceTrend.map((t, idx) => {
                                     const maxVal = Math.max(...attendanceTrend.map(d => d.count), 1);
@@ -273,13 +273,13 @@ export default async function DashboardPage() {
 
                     {/* Headcount distribution by department */}
                     <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
-                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-8 py-6 border-b border-slate-100 dark:border-slate-800/60">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-100 dark:border-slate-800/60">
                             <div>
                                 <CardTitle className="text-lg font-bold">Workforce Segmentation</CardTitle>
                                 <CardDescription className="text-xs text-slate-500 font-bold uppercase tracking-wider">Departmental distribution hierarchy</CardDescription>
                             </div>
                         </CardHeader>
-                        <CardContent className="p-8 space-y-6">
+                        <CardContent className="p-4 sm:p-6 space-y-6">
                             {departmentHeadcounts.map((dept, idx) => {
                                 const maxStaff = Math.max(...departmentHeadcounts.map(d => d.count), 1);
                                 const progressPct = Math.round((dept.count / maxStaff) * 100);
@@ -310,10 +310,10 @@ export default async function DashboardPage() {
                     {/* Quick Access Actions */}
                     {userRole !== "STAFF" && (
                         <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
-                            <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5 border-b border-slate-100 dark:border-slate-800/60">
+                            <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 dark:border-slate-800/60">
                                 <CardTitle className="text-base font-bold">HR Management Shortcuts</CardTitle>
                             </CardHeader>
-                            <CardContent className="p-6 space-y-4">
+                            <CardContent className="p-4 sm:p-6 space-y-4">
                                 <Link href="/employees" className="block">
                                     <Button variant="outline" className="w-full justify-between h-12 rounded-xl text-xs font-bold border-slate-200 dark:border-slate-800 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 dark:hover:text-indigo-400">
                                         Onboard New Employee
@@ -344,9 +344,9 @@ export default async function DashboardPage() {
 
                     {/* Audit Logs events */}
                     <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
-                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5 border-b border-slate-100 dark:border-slate-800/60">
-                            <CardTitle className="text-base font-bold">Compliance Logs</CardTitle>
-                        </CardHeader>
+                            <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 dark:border-slate-800/60">
+                                <CardTitle className="text-base font-bold">Compliance Logs</CardTitle>
+                            </CardHeader>
                         <CardContent className="p-0">
                             <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
                                 {recentAuditLogs.map((log) => (

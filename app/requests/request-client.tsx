@@ -165,17 +165,17 @@ export default function RequestClient({
     return (
         <div className="space-y-8">
             {/* Header Section */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 p-8 md:p-12 rounded-[2.5rem] shadow-2xl transition-all">
+            <div className="relative overflow-hidden bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 p-5 sm:p-6 md:p-12 rounded-[2.5rem] shadow-2xl transition-all">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
                 
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-indigo-200 text-xs font-bold uppercase tracking-widest mb-6">
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 sm:gap-8">
+                    <div className="min-w-0">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-indigo-200 text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
                             <ArrowRightLeft className="h-3 w-3 text-indigo-400" />
                             Operations Request Flow
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4 leading-tight">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-3 sm:mb-4 leading-tight">
                             Service Requests
                         </h1>
                         <p className="text-slate-300 text-base font-medium max-w-xl leading-relaxed">
@@ -193,7 +193,13 @@ export default function RequestClient({
                                 Submit Request
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-md rounded-[2.5rem] border-0 shadow-2xl bg-white dark:bg-slate-950 p-8">
+                        {/* `top-[50%]` centring means a dialog taller than the
+                            viewport is clipped off BOTH edges with no way to
+                            reach it. The form is long enough to exceed a 375x667
+                            screen, so cap the height at the dynamic viewport and
+                            scroll the body. `p-5 sm:p-8` keeps the 32px desktop
+                            padding off a phone. */}
+                        <DialogContent className="max-w-[calc(100%_-_2rem)] sm:max-w-md max-h-[calc(100dvh_-_2rem)] overflow-y-auto rounded-[1.5rem] sm:rounded-[2.5rem] border-0 shadow-2xl bg-white dark:bg-slate-950 p-5 sm:p-8">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <DialogHeader>
                                     <DialogTitle className="text-2xl font-black uppercase tracking-tight text-slate-900 dark:text-white">New Request Form</DialogTitle>
@@ -246,7 +252,7 @@ export default function RequestClient({
                                     )}
 
                                     {selectedType?.requiresDates && (
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div className="space-y-2">
                                                 <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Start Date</Label>
                                                 <DatePicker name="startDate" required className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
@@ -311,7 +317,7 @@ export default function RequestClient({
 
             {/* Requests Ledger */}
             <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-sm rounded-2xl overflow-hidden">
-                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5">
+                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-4 py-4 sm:px-6 sm:py-5">
                     <div>
                         <CardTitle className="text-xl font-bold">Request Archive & Flow</CardTitle>
                         <CardDescription className="font-medium text-slate-500">
@@ -323,7 +329,93 @@ export default function RequestClient({
                     </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                    <div className="overflow-x-auto">
+                    {/* MOBILE: card list, same six fields as the table below.
+                        The empty case mirrors the table's `colSpan` row. */}
+                    {requests.length === 0 ? (
+                        <p className="md:hidden text-center py-20 px-4 text-slate-400 italic font-medium">
+                            No requests found.
+                        </p>
+                    ) : (
+                    <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800/60">
+                        {requests.map((record) => (
+                            <li key={record.id} className="p-4 flex flex-col gap-2.5">
+                                <div className="flex items-start gap-3">
+                                    <div className="h-9 w-9 shrink-0 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-700 dark:text-slate-400 font-bold text-xs">
+                                        {record.employee.firstName[0]}{record.employee.lastName[0]}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="font-bold text-slate-900 dark:text-white truncate">
+                                            {record.employee.firstName} {record.employee.lastName}
+                                        </p>
+                                        <p className="text-[9px] text-slate-400 font-bold tracking-tight">
+                                            {record.employee.employeeCode || record.employee.rollNumber}
+                                        </p>
+                                    </div>
+                                    {getStatusBadge(record.status)}
+                                </div>
+
+                                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                                    {record.category?.name ?? "Unknown service"}
+                                </p>
+                                <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 line-clamp-3">
+                                    {record.details}
+                                </p>
+                                {record.hrNote && (
+                                    <p className="text-[10px] italic text-indigo-600 font-bold bg-indigo-50/50 dark:bg-indigo-950/20 px-2 py-1 rounded border border-indigo-100/50 dark:border-indigo-900/50 w-fit max-w-full break-words">
+                                        HR: {record.hrNote}
+                                    </p>
+                                )}
+
+                                <div className="flex flex-wrap items-center gap-2 pl-12">
+                                    {record.amount !== null && record.amount !== undefined && (
+                                        <span className="text-xs font-black text-slate-800 dark:text-slate-200">
+                                            AED {record.amount.toLocaleString()}
+                                        </span>
+                                    )}
+                                    {record.startDate && (
+                                        <span className="text-[10px] text-slate-500 font-medium">
+                                            {formatDate(record.startDate)} - {formatDate(record.endDate)}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <div className="pl-12">
+                                    {!isStaffOnly && record.status === "PENDING" ? (
+                                        <div className="flex items-center gap-1.5">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all"
+                                                onClick={() => triggerAction(record, "APPROVED")}
+                                            >
+                                                <Check className="h-4 w-4" />
+                                            </Button>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 rounded-lg bg-rose-50 dark:bg-rose-950/30 text-rose-600 hover:bg-rose-600 hover:text-white transition-all"
+                                                onClick={() => triggerAction(record, "REJECTED")}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    ) : !isStaffOnly && record.status === "APPROVED" ? (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="font-bold border-indigo-200 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all rounded-lg text-xs"
+                                            onClick={() => triggerAction(record, "COMPLETED")}
+                                        >
+                                            Fulfill Request
+                                        </Button>
+                                    ) : null}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    )}
+
+                    <div className="hidden md:block overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow className="border-slate-100 dark:border-slate-800/60 hover:bg-transparent">
@@ -449,7 +541,7 @@ export default function RequestClient({
 
             {/* Dialog for HR processing note */}
             <Dialog open={hrNoteOpen} onOpenChange={setHrNoteOpen}>
-                <DialogContent className="max-w-sm rounded-[2rem] border-0 shadow-2xl bg-white dark:bg-slate-950 p-6">
+                <DialogContent className="max-w-[calc(100%_-_2rem)] sm:max-w-sm max-h-[calc(100dvh_-_2rem)] overflow-y-auto rounded-[1.5rem] sm:rounded-[2rem] border-0 shadow-2xl bg-white dark:bg-slate-950 p-5 sm:p-6">
                     <DialogHeader>
                         <DialogTitle className="text-lg font-black uppercase tracking-tight text-slate-900 dark:text-white">
                             Process Request: {hrAction}

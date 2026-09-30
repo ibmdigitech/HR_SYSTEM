@@ -9,6 +9,8 @@ import { approveLeaveManager, approveLeaveHR } from "@/app/lib/actions/leave";
 import { approveStaffRequest } from "@/app/lib/actions/staff-requests";
 import { updateVisaStatus } from "@/app/lib/actions/visa";
 import { redirect } from "next/navigation";
+import { hasPermission, hasAnyPermission, PERMISSIONS } from "@/lib/auth/permissions";
+import { buildLeaveQueueWhere } from "@/lib/approvals/leave-queue";
 
 export default async function ApprovalsPage() {
     const session = await auth();
@@ -41,24 +43,20 @@ export default async function ApprovalsPage() {
     }
 
     // ── Fetch Leave Requests ──
+    // The where-clause lives in lib/approvals/leave-queue.ts as a pure function
+    // so the rule governing *whose work an approver sees* is unit-tested
+    // rather than buried in JSX. See that file for why the legacy
+    // `managerStatus`/`hrStatus` columns must not be used here.
     let pendingLeaves: any[] = [];
-    if (userRole === "MANAGER" && user.employee) {
-        // Managers only see requests from their direct reports
+    const canApproveLeave = hasPermission(userRole, PERMISSIONS.LEAVE_APPROVE);
+    const leaveQueueWhere = buildLeaveQueueWhere({
+        role: userRole,
+        approverEmployeeId: user.employee?.id ?? null,
+    });
+
+    if (leaveQueueWhere) {
         pendingLeaves = await prisma.leaveRequest.findMany({
-            where: {
-                managerStatus: "PENDING",
-                employee: { managerId: user.employee.id }
-            },
-            include: { employee: true },
-            orderBy: { createdAt: 'desc' }
-        });
-    } else if (userRole === "HR" || userRole === "ADMIN") {
-        // HR sees requests approved by Manager but pending HR
-        pendingLeaves = await prisma.leaveRequest.findMany({
-            where: {
-                managerStatus: "APPROVED",
-                hrStatus: "PENDING"
-            },
+            where: leaveQueueWhere,
             include: { employee: true },
             orderBy: { createdAt: 'desc' }
         });
@@ -66,7 +64,7 @@ export default async function ApprovalsPage() {
 
     // ── Fetch Staff Requests ──
     let pendingStaffRequests: any[] = [];
-    if (userRole === "HR" || userRole === "ADMIN" || userRole === "MANAGER") {
+    if (hasAnyPermission(userRole, [PERMISSIONS.SERVICE_APPROVE, PERMISSIONS.REQUEST_APPROVE])) {
         pendingStaffRequests = await prisma.serviceRequest.findMany({
             where: { status: "PENDING" },
             include: { employee: true, category: true },
@@ -76,7 +74,7 @@ export default async function ApprovalsPage() {
 
     // ── Fetch Visa Requests ──
     let pendingVisaRequests: any[] = [];
-    if (userRole === "HR" || userRole === "ADMIN") {
+    if (hasPermission(userRole, PERMISSIONS.VISA_VIEW)) {
         pendingVisaRequests = await prisma.visaRequest.findMany({
             where: { status: "PENDING" },
             include: { employee: true, attachments: true },

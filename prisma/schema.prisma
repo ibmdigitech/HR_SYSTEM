@@ -33,6 +33,15 @@ model User {
   // --- P1 workflow relations ---
   passwordResetTokens   PasswordResetToken[]
   securityFlag          UserSecurityFlag?
+
+  // --- Exit lifecycle relations (see the Exit* models at the end of this file)
+  // Every one of these is a *named* relation because a single User appears in
+  // four different roles on an exit case, and Prisma cannot infer four
+  // relations to the same model on one side.
+  exitCasesInitiated    ExitCase[]        @relation("ExitCaseInitiatedBy")
+  exitCasesDecided      ExitCase[]        @relation("ExitCaseDecidedBy")
+  exitInterviews        ExitInterview[]   @relation("ExitInterviewConductedBy")
+  rehireAssessments     RehireRecord[]    @relation("RehireAssessedBy")
 }
 
 model Account {
@@ -607,6 +616,14 @@ model Employee {
   /// can have many interviewers. This now points at the join.
   interviewPanel  InterviewParticipant[]
 
+  // --- Exit lifecycle (brief: resignation / termination / end of contract) ---
+  /// One case per exit. A second live case is refused by the action, not by a
+  /// unique constraint, so the error can name the case that is already open.
+  exitCases      ExitCase[]
+  /// Prior-employer rehire assessments. Points at the employee who LEFT, not
+  /// at the one who came back.
+  rehireRecords  RehireRecord[]
+
   // --- Indexes (P0-13) ---
   // Filters: active-employee dropdowns (attendance, shifts, payroll) and department scope.
   @@index([isActive])
@@ -714,10 +731,65 @@ model BiometricLog {
   @@index([deviceId, timestamp])
 }
 
+/// Per-employee audit trail. `employeeId` is NULLABLE, and that is deliberate.
+///
+/// WHY NULLABLE — AND WHY NOT A SENTINEL, AND WHY NOT THE ACTOR
+/// -----------------------------------------------------------
+/// This model is scoped to an employee, which made it unusable for events that
+/// are not about one: an application received, an interview scheduled, an offer
+/// created, an offer letter issued. Those call sites passed
+/// `employeeId: "SYSTEM"` — a value with no matching `Employee` row — and
+/// Postgres refused every one of them with
+/// `P2003 / AuditLog_employeeId_fkey`. Because the writes sit inside
+/// `prisma.$transaction`, the entire feature rolled back rather than merely
+/// losing its audit row: an offer could not be created, so no offer letter
+/// could ever be issued.
+///
+/// Three ways out were considered.
+///
+/// (a) The CANDIDATE's id. REJECTED. `Candidate.id` and `Employee.id` are both
+///     `@default(cuid())` — the SAME id namespace, with nothing in the value to
+///     distinguish a person who applied from a person who was hired. A row filed
+///     under a candidate id resolves through the `employee` relation to a real
+///     and DIFFERENT person the moment the two generators collide, and until
+///     then it sits in that person's per-employee trail doing nothing. A
+///     plausible wrong answer is worse than an honest empty one.
+///
+/// (b) The ACTING employee's id (`user.employeeId`). REJECTED. It silently
+///     redefines this column from "the employee this happened TO" into "the
+///     employee who pressed the button", but only on some rows — `employeeId`
+///     means "subject" everywhere else (leave, payroll, exit, onboarding,
+///     attendance), and the sibling fix in `submitInterviewFeedback` rejected
+///     precisely this substitution in favour of the subject
+///     (`participant.interviewerId`). It is not reliably available either:
+///     `SessionUser.employeeId` is `string | null`, because staged employee
+///     entry (GAP-01) permits a User with no Employee row. So (b) would only
+///     trade a guaranteed failure for a data-dependent one.
+///
+/// (c) NULL, with the column nullable. CHOSEN. The subject of an offer event is
+///     a candidate who has not joined, and §19 is explicit that the Employee
+///     record is created at the joining stage. There is no employee to point
+///     at; inventing one is what produced this bug. Nothing is lost: `changedBy`
+///     is NOT NULL on every row and still records the actor, and `details`
+///     names the subject. Checked before choosing: the only reader of this table
+///     in the application is `app/dashboard/page.tsx`, which takes the newest
+///     rows unfiltered and renders `action`/`details`/`createdAt`; nothing
+///     filters by `employeeId` or includes the `employee` relation, and
+///     `lib/observability/retention.ts` prunes `SecurityAuditLog`, not this
+///     table. `@@index([employeeId, createdAt])` still works — Postgres indexes
+///     NULLs — and a per-employee read simply never matches these rows, which
+///     is the correct answer for an event that was never about that employee.
+///
+/// This RELAXES no integrity. A non-null `employeeId` is still a hard foreign
+/// key to `Employee` and still cannot name a person who does not exist. NULL is
+/// the only new value it accepts, and it carries exactly one meaning: "this
+/// event is not about an employee".
 model AuditLog {
-  id         String   @id @default(cuid())
-  employeeId String
-  employee   Employee @relation(fields: [employeeId], references: [id])
+  id String @id @default(cuid())
+  /// NULL when the event's subject is not (yet) an Employee — a candidate, a
+  /// device, a system-level change. See the note above.
+  employeeId String?
+  employee   Employee? @relation(fields: [employeeId], references: [id])
   action     String
   details    String?
   changedBy  String
@@ -1451,4 +1523,124 @@ model OfferLetter {
   @@unique([candidateId, version])
   @@index([status])
   @@index([applicationId])
+}
+
+// ─── EXIT LIFECYCLE (resignation / termination / end of contract) ───────────
+//
+// One exit case per departure, plus the two records that exist only because the
+// departure happened: the exit interview and the rehire eligibility decision.
+//
+// ON DELETE, chosen deliberately (checklist item 6.5 — records being
+// destroyed):
+//
+//   * Nothing is CASCADEd from Employee. Deleting an employee must be REFUSED
+//     while an exit case or a rehire assessment exists, not silently take the
+//     evidence with it. This is the opposite of `OnboardingChecklistItem`, which
+//     cascades: an onboarding checklist is provisioning state, an exit case is a
+//     record someone can be held to.
+//   * The User actor relations are Restrict, not SetNull. SetNull would quietly
+//     erase who approved a termination the moment that administrator's account
+//     was removed. The fields are nullable because a case legitimately exists
+//     before anyone has decided it, and nullability is what expresses "not
+//     decided yet" without a fake value.
+//   * The two child tables DO cascade from ExitCase, matching
+//     `OffboardingChecklistItem.offboarding`. An exit interview is a component
+//     of its case and has no independent owner or meaning, so removing the case
+//     removes the component. The case itself is the record that is protected.
+
+/// The departure itself. `status` is a state-machine value, not a free label;
+/// the legal moves live in `lib/workflow/exit/state-machine.ts`.
+model ExitCase {
+  id           String   @id @default(cuid())
+  employeeId   String
+  /// Restrict, not Cascade — see the note above. An employee with an exit on
+  /// record cannot be deleted; the record outlives any attempt to remove it.
+  employee     Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  /// RESIGNATION | TERMINATION | END_OF_CONTRACT
+  type         String
+  /// REQUESTED, PENDING_APPROVAL, APPROVED, REJECTED, WITHDRAWN, NOTICE_PERIOD,
+  /// INTERVIEW_PENDING, INTERVIEW_COMPLETED, CLEARANCE_PENDING,
+  /// SETTLEMENT_PENDING, COMPLETED, CANCELLED
+  status       String   @default("REQUESTED")
+  /// The employee's stated reason, or HR's stated reason for a termination.
+  reason       String?
+  /// Recorded by the action, not defaulted, so a back-dated request is visible
+  /// as back-dated instead of looking like it was raised today.
+  requestedAt  DateTime @default(now())
+  /// Contractual end date. Distinct from `lastWorkingDate`: the last day worked
+  /// can be shortened by notice, the effective date cannot.
+  effectiveDate     DateTime?
+  lastWorkingDate   DateTime?
+  /// INPUT, NOT A POLICY. Statutory and contractual notice periods differ by
+  /// jurisdiction, contract and length of service, so no value is computed
+  /// here. Null means "not yet agreed"; the caller must supply it or configure
+  /// `EXIT_POLICY.noticePeriodDays` in lib/workflow/exit/state-machine.ts, which
+  /// ships unset.
+  noticePeriodDays  Int?
+  initiatedById      String?
+  initiatedBy        User?    @relation("ExitCaseInitiatedBy", fields: [initiatedById], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  decidedById        String?
+  decidedBy          User?    @relation("ExitCaseDecidedBy", fields: [decidedById], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  decidedAt          DateTime?
+  /// Why a case was approved, rejected or withdrawn. Kept separate from
+  /// `reason`, which describes the departure rather than the decision.
+  decisionNote       String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  interview  ExitInterview?
+  rehire     RehireRecord?
+
+  @@index([employeeId])
+  @@index([status])
+  @@index([status, type])
+}
+
+/// The exit interview. `rating` is a raw 1–5 answer supplied by the
+/// interviewer; nothing derives from it here, and no default is imposed.
+model ExitInterview {
+  id           String   @id @default(cuid())
+  /// One interview per case. The unique constraint is the database-level
+  /// double-submit guard; the action additionally re-validates the case status
+  /// inside the transaction before writing.
+  exitCaseId   String   @unique
+  exitCase     ExitCase @relation(fields: [exitCaseId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  conductedById String
+  conductedBy  User     @relation("ExitInterviewConductedBy", fields: [conductedById], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  conductedAt  DateTime @default(now())
+  /// 1–5, or null when the interview happened but was not scored. Stored as
+  /// given: a stored rating is a claim about what the leaver said.
+  rating       Int?
+  /// NULLABLE ON PURPOSE. Null means the question was not put or was declined.
+  /// Defaulting it to false would manufacture a negative answer that HR then
+  /// filters rehire candidates on.
+  wouldRejoin  Boolean?
+  comments     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// Whether this former employee may be rehired. Points at the PRIOR employee,
+/// so the record survives the person returning under a new Employee row.
+model RehireRecord {
+  id           String   @id @default(cuid())
+  /// The employee who left. Restrict — the assessment is evidence about this
+  /// person and must not vanish with them.
+  employeeId   String
+  employee     Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  /// One eligibility decision per exit. Re-assessment overwrites the row
+  /// deliberately (the newest decision is the current one) and every
+  /// overwriting write also appends an AuditLog row, so the earlier answer
+  /// remains recoverable.
+  exitCaseId   String   @unique
+  exitCase     ExitCase @relation(fields: [exitCaseId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  eligible     Boolean
+  assessedAt   DateTime @default(now())
+  assessedById String
+  assessedBy   User     @relation("RehireAssessedBy", fields: [assessedById], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([employeeId, eligible])
 }

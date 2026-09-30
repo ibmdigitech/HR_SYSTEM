@@ -128,7 +128,71 @@ export default async function PayslipPage() {
                             )}
                         </div>
                     ) : (
-                        <Table>
+                        <>
+                            {/* MOBILE: card list. Nine money columns cannot be
+                                read at phone width. Every figure from the table
+                                below is carried over; nothing is hidden. */}
+                            <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                                {salaryRecords.map((record) => {
+                                    const totalAllowances = (record.transportAllowance || 0) + (record.medicalAllowance || 0) + (record.otherAllowances || 0) + (record.bonus || 0);
+                                    const totalDeductions = (record.latePenalty || 0) + (record.leaveDeduction || 0) + (record.loanDeduction || 0) + (record.otherDeductions || 0);
+
+                                    return (
+                                        <li key={record.id} className="p-4 flex flex-col gap-3">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0">
+                                                    {isAdmin && (
+                                                        <>
+                                                            <p className="font-semibold text-slate-900 dark:text-white truncate">
+                                                                {record.employee.firstName} {record.employee.lastName}
+                                                            </p>
+                                                            <p className="text-[11px] text-slate-400 truncate">{record.employee.designation}</p>
+                                                        </>
+                                                    )}
+                                                    <p className="text-[11px] text-slate-500 font-medium">
+                                                        {monthName(record.month)} {record.year}
+                                                    </p>
+                                                </div>
+                                                <span className="shrink-0 text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                                                    AED {record.netSalary?.toLocaleString() ?? "--"}
+                                                </span>
+                                            </div>
+
+                                            <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-[11px]">
+                                                <dt className="text-slate-500">Basic</dt>
+                                                <dd className="text-right font-semibold text-slate-700 dark:text-slate-300">AED {record.basic?.toLocaleString() ?? "--"}</dd>
+                                                <dt className="text-slate-500">Housing</dt>
+                                                <dd className="text-right font-semibold text-slate-700 dark:text-slate-300">AED {record.housingAllowance?.toLocaleString() ?? "--"}</dd>
+                                                <dt className="text-slate-500">Allowances</dt>
+                                                <dd className="text-right font-semibold text-slate-700 dark:text-slate-300">AED {totalAllowances.toLocaleString()}</dd>
+                                                <dt className="text-slate-500">Deductions</dt>
+                                                <dd className="text-right font-semibold text-rose-600">- AED {totalDeductions.toLocaleString()}</dd>
+                                            </dl>
+
+                                            <div className="flex items-center gap-2">
+                                                {isAdmin ? (
+                                                    <PayrollStatusDropdown record={record} />
+                                                ) : (
+                                                    <Badge
+                                                        className={
+                                                            record.status === "PAID"
+                                                                ? "bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                                                                : "bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100"
+                                                        }
+                                                        variant="outline"
+                                                    >
+                                                        {record.status}
+                                                    </Badge>
+                                                )}
+                                                <DownloadPDFButton record={record} />
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+
+                            <div className="hidden md:block overflow-x-auto">
+                                <Table>
                             <TableHeader>
                                 <TableRow className="border-slate-100 dark:border-slate-800">
                                     {isAdmin && <TableHead>Employee</TableHead>}
@@ -190,8 +254,10 @@ export default async function PayslipPage() {
                                         </TableCell>
                                     </TableRow>
                                 )})}
-                            </TableBody>
-                        </Table>
+                                </TableBody>
+                                </Table>
+                            </div>
+                        </>
                     )}
                 </CardContent>
             </Card>

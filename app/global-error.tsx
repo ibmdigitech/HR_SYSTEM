@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { reportClientError } from "@/lib/observability/client-report";
 
 /**
  * Root error boundary (P0-19).
@@ -20,11 +21,15 @@ export default function GlobalError({
     error: Error & { digest?: string };
     reset: () => void;
 }) {
-    // `console.error` is the only reporting available at this level; Next.js also
-    // logs the error server-side.
-    if (typeof console !== "undefined") {
-        console.error("[global-error]", { message: (error instanceof Error ? error.message : "Unknown error"), digest: error.digest });
-    }
+    // Called during render rather than from an effect on purpose: this is the
+    // boundary for failures in the ROOT LAYOUT, and an effect may never run if
+    // the provider tree is too broken to mount.
+    //
+    // The allow-listed client reporter is used rather than `reportError`,
+    // which reaches the Prisma client via `lib/auth/audit` and cannot be
+    // bundled for a browser. See lib/observability/client-report.ts. It is
+    // internally guarded, so it is safe even if `console` is unavailable.
+    reportClientError(error, { digest: error.digest });
 
     return (
         <html lang="en">

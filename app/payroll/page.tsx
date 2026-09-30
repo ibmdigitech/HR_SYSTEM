@@ -91,18 +91,18 @@ export default async function PayrollPage() {
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
             {/* Header Area */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-slate-900 to-indigo-950 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-slate-900 to-indigo-950 p-5 sm:p-6 md:p-8 rounded-[2rem] shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
-                
-                <div className="relative z-10">
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2">Payroll Center</h1>
+
+                <div className="relative z-10 min-w-0">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-2">Payroll Center</h1>
                     <p className="text-indigo-200 text-sm md:text-base font-medium max-w-xl">
                         Manage enterprise salary distributions, track bulk processing, and monitor overall financial compliance.
                     </p>
                 </div>
                 {(userRole === "ADMIN" || userRole === "HR") && (
-                    <div className="relative z-10 grid grid-cols-2 gap-3">
+                    <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto">
                         <Link href="/payroll/structure">
                             <Button variant="secondary" className="gap-2 w-full rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
                                 <Building className="h-4 w-4" />
@@ -218,7 +218,7 @@ export default async function PayrollPage() {
 
             {/* Main Table */}
             <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] rounded-2xl overflow-hidden">
-                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5 flex flex-row items-center justify-between">
+                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                         <CardTitle className="text-xl font-bold">Recent Distributions</CardTitle>
                         <CardDescription className="font-medium text-slate-500">Comprehensive overview of recent payroll batches.</CardDescription>
@@ -242,8 +242,56 @@ export default async function PayrollPage() {
                             )}
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <Table>
+                        <>
+                            {/* MOBILE: card list, same six fields as the table
+                                below, so nothing is hidden or dropped. */}
+                            <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800/60">
+                                {salaryRecords.map((record) => (
+                                    <li key={record.id} className="p-4 flex flex-col gap-2.5">
+                                        <div className="flex items-start gap-3">
+                                            <div className="h-10 w-10 shrink-0 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold text-xs">
+                                                {record.employee.firstName[0]}{record.employee.lastName[0]}
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="font-bold text-slate-900 dark:text-white truncate">
+                                                    {record.employee.firstName} {record.employee.lastName}
+                                                </p>
+                                                <p className="text-[11px] text-slate-500 truncate">
+                                                    {record.employee.designation} &bull; {monthName(record.month)} {record.year}
+                                                </p>
+                                            </div>
+                                            <span className="shrink-0 text-sm font-black text-slate-900 dark:text-white">
+                                                AED {record.netSalary?.toLocaleString()}
+                                            </span>
+                                        </div>
+
+                                        <div className="flex flex-wrap items-center gap-2 pl-[52px]">
+                                            <Badge variant="outline" className="font-semibold bg-slate-50 dark:bg-slate-900 text-[10px]">
+                                                {record.paymentMethod?.replace('_', ' ') || "BANK TRANSFER"}
+                                            </Badge>
+                                            {(userRole === "ADMIN" || userRole === "HR") ? (
+                                                <PayrollStatusDropdown record={record} />
+                                            ) : (
+                                                <Badge
+                                                    className={`font-bold px-3 py-1 rounded-full border-0 ${
+                                                        record.status === "PAID"
+                                                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                                                            : record.status === "PENDING"
+                                                                ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                                                                : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                                    }`}
+                                                >
+                                                    {record.status}
+                                                </Badge>
+                                            )}
+                                            <DownloadPDFButton record={record} />
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className="hidden md:block overflow-x-auto">
+                                <Table>
                                 <TableHeader className="bg-transparent">
                                     <TableRow className="border-slate-100 dark:border-slate-800/60 hover:bg-transparent">
                                         <TableHead className="py-4 font-bold text-slate-500">Employee Details</TableHead>
@@ -306,8 +354,9 @@ export default async function PayrollPage() {
                                         </TableRow>
                                     ))}
                                 </TableBody>
-                            </Table>
-                        </div>
+                                </Table>
+                            </div>
+                        </>
                     )}
                 </CardContent>
             </Card>

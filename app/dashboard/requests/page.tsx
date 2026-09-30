@@ -92,7 +92,7 @@ export default async function StaffRequestsPage({
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
             {/* Premium Header */}
-            <div className="relative group overflow-hidden bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 p-8 md:p-12 rounded-[2.5rem] shadow-2xl transition-all duration-500">
+            <div className="relative group overflow-hidden bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-900 p-5 sm:p-6 md:p-12 rounded-[2.5rem] shadow-2xl transition-all duration-500">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
                 
@@ -101,7 +101,7 @@ export default async function StaffRequestsPage({
                         <HeartHandshake className="h-3 w-3 fill-indigo-400" />
                         Staff Services Hub
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-white mb-3 sm:mb-4 leading-tight">
                         Self-Service<br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">Request Center</span>
                     </h1>
@@ -115,7 +115,7 @@ export default async function StaffRequestsPage({
                 {/* Request Form Area */}
                 <div className="lg:col-span-8 space-y-8">
                     <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 shadow-2xl rounded-[3rem] overflow-hidden">
-                        <div className="p-8 border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/30 dark:bg-slate-900/30 flex items-center justify-between">
+                        <div className="p-4 sm:p-8 border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/30 dark:bg-slate-900/30 flex items-center justify-between gap-3">
                             <div>
                                 <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">Initiate New Request</h3>
                                 <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Select a category to begin</p>
@@ -134,7 +134,7 @@ export default async function StaffRequestsPage({
                                 </div>
                             ) : (
                                 <Tabs defaultValue={services[0].id} className="w-full">
-                                    <div className="border-b border-slate-100 dark:border-slate-800/60 bg-white/40 dark:bg-slate-950/40 px-8">
+                                    <div className="border-b border-slate-100 dark:border-slate-800/60 bg-white/40 dark:bg-slate-950/40 px-3 sm:px-8">
                                         <ScrollArea className="w-full">
                                             <TabsList className="h-20 bg-transparent gap-8 w-full justify-start rounded-none p-0">
                                                 {services.map((service) => (
@@ -151,11 +151,11 @@ export default async function StaffRequestsPage({
                                     </div>
 
                                     {services.map((service) => (
-                                        <TabsContent key={service.id} value={service.id} className="p-10 mt-0 focus-visible:outline-none">
-                                            <form action={submitStaffRequestForm} className="space-y-10">
+                                        <TabsContent key={service.id} value={service.id} className="p-4 sm:p-6 md:p-10 mt-0 focus-visible:outline-none">
+                                            <form action={submitStaffRequestForm} className="space-y-6 sm:space-y-8 md:space-y-10">
                                                 <input type="hidden" name="categoryId" value={service.id} />
 
-                                                <div className="grid md:grid-cols-2 gap-8">
+                                                <div className="grid md:grid-cols-2 gap-4 sm:gap-8">
                                                     <div className="md:col-span-2 space-y-4">
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Request Summary & Rationale</Label>
                                                         <Input
@@ -203,7 +203,7 @@ export default async function StaffRequestsPage({
                                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1 flex items-center gap-2">
                                                             <FileUp className="h-3 w-3 text-indigo-500" /> Supporting Evidence
                                                         </Label>
-                                                        <div className="relative group border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl p-10 bg-slate-50/50 dark:bg-slate-900/50 text-center transition-all hover:border-indigo-400 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/10">
+                                                        <div className="relative group border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 bg-slate-50/50 dark:bg-slate-900/50 text-center transition-all hover:border-indigo-400 hover:bg-indigo-50/30 dark:hover:bg-indigo-900/10">
                                                             <Input
                                                                 type="file"
                                                                 name="attachment"
@@ -221,7 +221,7 @@ export default async function StaffRequestsPage({
                                                 </div>
 
                                                 <div className="flex justify-end">
-                                                    <Button type="submit" className="h-14 px-12 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase text-xs tracking-[0.2em] shadow-xl shadow-indigo-600/20 transition-all hover:scale-105 active:scale-95 flex items-center gap-3">
+                                                    <Button type="submit" className="h-12 sm:h-14 px-6 sm:px-12 w-full sm:w-auto rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase text-xs tracking-[0.2em] shadow-xl shadow-indigo-600/20 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3">
                                                         Dispatch {service.name} Request
                                                         <ArrowRight className="h-4 w-4" />
                                                     </Button>
@@ -238,7 +238,7 @@ export default async function StaffRequestsPage({
                 {/* History Area */}
                 <div className="lg:col-span-4 space-y-8">
                     <div className="bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl border border-slate-100 dark:border-slate-800/60 shadow-2xl rounded-[3rem] overflow-hidden flex flex-col h-full">
-                        <div className="p-8 border-b border-slate-50 dark:border-slate-900 bg-slate-50/50 dark:bg-slate-900/50">
+                        <div className="p-4 sm:p-8 border-b border-slate-50 dark:border-slate-900 bg-slate-50/50 dark:bg-slate-900/50">
                             <h3 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-3">
                                 <History className="h-6 w-6 text-indigo-600" />
                                 Audit Log
@@ -247,7 +247,7 @@ export default async function StaffRequestsPage({
                         </div>
 
                         <ScrollArea className="flex-1 max-h-[700px]">
-                            <div className="p-8 space-y-6">
+                            <div className="p-4 sm:p-8 space-y-6">
                                 {user.employee.serviceRequests.length === 0 ? (
                                     <div className="py-24 text-center">
                                         <Activity className="h-12 w-12 mx-auto mb-4 text-slate-100" />

@@ -88,7 +88,14 @@ export async function registerDevice(params: {
 
             await tx.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // An attendance device is not an employee, and it is not
+                    // owned by one either — it is a shared kiosk/terminal that
+                    // many employees punch in on. There is no employee to
+                    // attribute this to, so the column is NULL rather than a
+                    // sentinel; see the note on `model AuditLog` in
+                    // prisma/schema.prisma. The device is named in `details`
+                    // and the actor is in `changedBy`.
+                    employeeId: null,
                     action: "ATTENDANCE_DEVICE_REGISTERED",
                     details: `Device "${created.name}" (${created.deviceIdentifier}) registered`,
                     changedBy: params.actor.email,
@@ -197,7 +204,10 @@ export async function setDeviceStatus(params: {
             }),
             prisma.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    // Same reasoning as ATTENDANCE_DEVICE_REGISTERED: a device
+                    // is not an employee. See `model AuditLog` in
+                    // prisma/schema.prisma.
+                    employeeId: null,
                     action: `ATTENDANCE_DEVICE_${params.status}`,
                     details: `Device "${device.name}" changed ${device.status} → ${params.status}`,
                     changedBy: params.actor.email,

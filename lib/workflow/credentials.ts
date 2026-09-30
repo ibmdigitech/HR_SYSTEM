@@ -232,6 +232,19 @@ export async function revokeAccess(params: {
     actorEmail: string;
 }): Promise<{ success: boolean; message: string }> {
     try {
+        // The subject of this event is a USER, not an employee. A user usually
+        // has an Employee row and sometimes does not — staged employee entry
+        // (GAP-01) creates the login first — so the id is resolved rather than
+        // assumed, and left NULL when there is genuinely no employee to name.
+        // The old "SYSTEM" sentinel matched no Employee and violated the
+        // foreign key, rolling the whole revocation back. See the note on
+        // `model AuditLog` in prisma/schema.prisma for why the ACTOR's employee
+        // was rejected as the substitute.
+        const subject = await prisma.user.findUnique({
+            where: { id: params.userId },
+            select: { employee: { select: { id: true } } },
+        });
+
         await prisma.$transaction([
             prisma.userSecurityFlag.upsert({
                 where: { userId: params.userId },
@@ -258,7 +271,7 @@ export async function revokeAccess(params: {
             }),
             prisma.auditLog.create({
                 data: {
-                    employeeId: "SYSTEM",
+                    employeeId: subject?.employee?.id ?? null,
                     action: "ACCESS_REVOKED",
                     details: `Access revoked for user ${params.userId}: ${params.reason}`,
                     changedBy: params.actorEmail,

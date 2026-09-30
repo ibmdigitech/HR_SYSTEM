@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
     Table,
     TableBody,
@@ -10,7 +11,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Card,  } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,6 +69,7 @@ import { FieldError } from "@/components/common/FieldError";
 import { FormField } from "@/components/common/FormField";
 import { FormProgress } from "./FormProgress";
 import { PageHero } from "@/components/common/PageHero";
+import { EmployeeAvatar } from "./employee-avatar";
 import OnboardingPanel from "./onboarding-panel";
 import {
     employeeSchema,
@@ -348,11 +349,18 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
         : "";
 
     return (
-        <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
+        /* `app/employees/page.tsx` already supplies `p-8 max-w-7xl mx-auto`
+           around this component. The root used to add a SECOND `p-4 md:p-8`
+           on top of it, so on a 375px phone the list started with
+           12 (layout main) + 32 (page) + 16 (here) = 60px of horizontal
+           padding on EACH side — 120px of a 375px screen, or a third of it,
+           gone before a single employee name. The padding is dropped here and
+           the vertical rhythm is carried by `space-y` alone. */
+        <div className="w-full max-w-7xl space-y-6 md:space-y-8">
             {/* Onboarding checklist — continues the hire after the record exists.
                 Definite height so the scroll area has a resolvable context. */}
             <Dialog open={onboardingId !== null} onOpenChange={(o) => { if (!o) setOnboardingId(null); }}>
-                <DialogContent className="max-w-[100vw] sm:max-w-[95vw] md:max-w-3xl h-[100dvh] sm:h-[85dvh] p-0 overflow-hidden rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
+                <DialogContent className="w-full max-w-[100vw] sm:max-w-[95vw] md:max-w-3xl h-[100dvh] sm:h-[85dvh] max-h-none overflow-hidden overflow-y-hidden p-0 rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
                     {onboardingId && (
                         <OnboardingPanel employeeId={onboardingId} onClose={() => setOnboardingId(null)} />
                     )}
@@ -465,7 +473,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                             a fixed 500px cap and the form was clipped with no
                             way to reach the remaining fields. 88dvh leaves room
                             for the header, tab bar and footer. */}
-                        <DialogContent className="max-w-[100vw] sm:max-w-[95vw] md:max-w-5xl h-[100dvh] sm:h-[88dvh] p-0 overflow-hidden rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
+                        <DialogContent className="w-full max-w-[100vw] sm:max-w-[95vw] md:max-w-5xl h-[100dvh] sm:h-[88dvh] max-h-none overflow-hidden overflow-y-hidden p-0 rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
                                 {/* ── Success Overlay ── */}
                                 {showSuccess && (
                                     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm animate-in fade-in duration-300">
@@ -882,33 +890,48 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                         </Dialog>
 
             {/* Quick Filter Bar */}
-            <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden">
-                <div className="flex flex-col md:flex-row items-center gap-4 p-6">
-                    <div className="relative flex-1 group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+            {/* `rounded-2xl` + a real border instead of the previous
+                `rounded-[2rem]` glass slab: the list no longer sits inside a
+                giant rounded container, so a heavily rounded control group
+                above it read as the top of one. Padding is `p-3` on a phone
+                rather than `p-6` — at 375px the usable width inside `p-6`
+                dropped to ~239px, which is below the width of the
+                "Status: RESIGNED" label. */}
+            <Card className="rounded-2xl border-slate-200/80 bg-white p-3 shadow-sm dark:border-slate-800 dark:bg-slate-900/60 sm:p-4">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+                    <div className="group relative min-w-0 flex-1">
+                        <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 transition-colors duration-200 group-focus-within:text-indigo-500" />
                         <Input
                             placeholder="Search by name, email, or employee ID..."
-                            className="pl-12 h-14 w-full bg-slate-50 dark:bg-slate-950/50 border-0 rounded-2xl font-medium focus-visible:ring-2 focus-visible:ring-indigo-500 shadow-inner"
+                            aria-label="Search employees by name, email, or employee ID"
+                            className="h-12 w-full rounded-xl border-0 bg-slate-50 pl-12 pr-4 font-medium shadow-inner focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-slate-950/50 sm:h-14"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                        <Button 
-                            variant="outline" 
+                    {/* One column on a phone: the "Status: RESIGNED" label is
+                        ~200px wide and two of those plus a gap do not fit
+                        beside each other at 375px. `min-w-0` on the wrapper is
+                        belt-and-braces against a grid track refusing to shrink
+                        below its content. */}
+                    <div className="grid min-w-0 shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-center">
+                        <Button
+                            variant="outline"
                             onClick={() => setFilterStatus(prev => prev === "ALL" ? "ACTIVE" : prev === "ACTIVE" ? "RESIGNED" : "ALL")}
-                            className="h-14 px-6 rounded-2xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-black text-xs uppercase tracking-widest gap-2"
+                            className="h-12 w-full min-w-0 rounded-xl border-slate-200 bg-white font-black text-xs uppercase tracking-widest lg:h-14 lg:w-auto dark:border-slate-800 dark:bg-slate-900"
                         >
-                            <Filter className="h-4 w-4" />
-                            Status: {filterStatus}
+                            <Filter className="h-4 w-4 shrink-0" />
+                            <span className="truncate">Status: {filterStatus}</span>
                         </Button>
-                        <Button 
-                            variant="outline" 
+                        <Button
+                            variant="outline"
                             onClick={exportToCSV}
-                            className="h-14 px-6 rounded-2xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-black text-xs uppercase tracking-widest gap-2"
+                            className="h-12 w-full min-w-0 rounded-xl border-slate-200 bg-white font-black text-xs uppercase tracking-widest lg:h-14 lg:w-auto dark:border-slate-800 dark:bg-slate-900"
                         >
-                            <Download className="h-4 w-4" />
-                            Export
+                            <Download className="h-4 w-4 shrink-0" />
+                            <span className="truncate">Export</span>
                         </Button>
+                    </div>
                 </div>
             </Card>
 
@@ -918,98 +941,158 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                 columns: the content truncates and the action buttons collide.
                 The two layouts are rendered from the same filtered set, so
                 search, filter and empty state behave identically. */}
-            <div className="bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl rounded-[3rem] border border-slate-100 dark:border-slate-800/60 shadow-2xl overflow-hidden">
+            {/* NO SINGLE WRAPPER AROUND THE WHOLE LIST. The previous
+                `bg-white/80 backdrop-blur-2xl rounded-[3rem] shadow-2xl`
+                container wrapped the ENTIRE directory, so the list read as one
+                enormous empty card floating on the page — the reported "not
+                required outer layer". The list now sits directly on the page
+                background and the grouping happens per row instead: one card
+                per employee on mobile, one card around the table on desktop.
+                `min-w-0` keeps this a safe flex/grid child so a wide descendant
+                cannot push the page sideways. */}
+            <div className="w-full min-w-0">
 
-                {/* ── MOBILE: card list ─────────────────────────────────── */}
-                <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-900">
+                {/* ── MOBILE: one card per employee ─────────────────────── */}
+                <ul className="flex flex-col gap-3 md:hidden">
                     {filteredEmployees.map((employee) => (
-                        <li key={employee.id} className="p-4 flex flex-col gap-3">
-                            <div className="flex items-start gap-3">
-                                <Avatar className="h-12 w-12 shrink-0 border-2 border-white dark:border-slate-800 shadow-lg">
-                                    <AvatarImage src={employee.photo} alt="" />
-                                    <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white font-black">
-                                        {employee.firstName?.[0]}{employee.lastName?.[0]}
-                                    </AvatarFallback>
-                                </Avatar>
+                        <li key={employee.id} className="min-w-0">
+                            <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-md focus-within:border-indigo-300 dark:border-slate-800 dark:bg-slate-900/60 dark:focus-within:border-indigo-500">
+                                {/* `min-w-0` on the flex child is what makes the
+                                    name truncate instead of widening the card:
+                                    a flex item defaults to min-width:auto, i.e.
+                                    the width of its longest word. */}
+                                <div className="flex min-w-0 items-center gap-3">
+                                    {/* The SAME component the table uses — one
+                                        avatar implementation, one palette, two
+                                        views. */}
+                                    <EmployeeAvatar
+                                        employee={employee}
+                                        className="h-11 w-11"
+                                        fallbackClassName="text-sm"
+                                    />
 
-                                <div className="min-w-0 flex-1">
-                                    <p className="text-sm font-black text-slate-900 dark:text-white truncate">
-                                        {employee.firstName} {employee.lastName}
-                                    </p>
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                                        {employee.designation}
-                                    </p>
-                                    <span className="inline-block mt-1 text-[10px] font-bold text-slate-500 uppercase tracking-widest px-1.5 py-0.5 rounded bg-slate-50 dark:bg-slate-900">
+                                    <div className="min-w-0 flex-1">
+                                        <Link
+                                            href={`/employees/${employee.id}`}
+                                            className="block truncate text-sm font-black text-slate-900 transition-colors duration-200 hover:text-indigo-600 dark:text-white"
+                                        >
+                                            {employee.firstName} {employee.lastName}
+                                        </Link>
+                                        <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
+                                            {employee.designation}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* WRAP, do not scroll. The list is inside
+                                    `<main className="overflow-x-hidden">`, so a
+                                    chip row that did not wrap would be clipped,
+                                    not scrollable. `max-w-full` + `min-w-0` +
+                                    `truncate` cap every chip at the card's inner
+                                    width, so one long department name cannot
+                                    widen the card past the viewport. */}
+                                <div className="mt-3 flex min-w-0 flex-wrap items-center gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
+                                    <span className="max-w-full truncate rounded-lg bg-slate-100 px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:bg-slate-800 dark:text-slate-300">
                                         {employee.rollNumber}
                                     </span>
+                                    <span className="flex max-w-full min-w-0 items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                                        <Building2 className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">{employee.department}</span>
+                                    </span>
+                                    <span className="flex max-w-full min-w-0 items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                                        <Calendar className="h-3 w-3 shrink-0" aria-hidden="true" />
+                                        <span className="truncate">
+                                            {new Date(employee.joiningDate).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+                                        </span>
+                                    </span>
+                                    <Badge className={cn(
+                                        "shrink-0 rounded-lg px-2 py-1 text-[9px] font-black uppercase tracking-wider border-0",
+                                        employee.currentStatus === 'ACTIVE' ? "bg-emerald-500 text-white" :
+                                            employee.currentStatus === 'RESIGNED' ? "bg-amber-500 text-white" :
+                                                "bg-rose-500 text-white"
+                                    )}>
+                                        {employee.currentStatus}
+                                    </Badge>
+                                    {/* The table already surfaces the staged-entry
+                                        state; carrying it over means the phone is
+                                        not the view where a half-completed hire
+                                        looks finished. */}
+                                    {outstandingProvisionalFields(employee as never).length > 0 && (
+                                        <span className="max-w-full truncate rounded-lg bg-amber-100 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
+                                            Provisional · {outstandingProvisionalFields(employee as never).length}
+                                        </span>
+                                    )}
                                 </div>
 
-                                <Badge className={cn(
-                                    "shrink-0 rounded-lg px-2 py-0.5 text-[9px] font-black uppercase tracking-wider border-0",
-                                    employee.currentStatus === 'ACTIVE' ? "bg-emerald-500 text-white" :
-                                        employee.currentStatus === 'RESIGNED' ? "bg-amber-500 text-white" :
-                                            "bg-rose-500 text-white"
-                                )}>
-                                    {employee.currentStatus}
-                                </Badge>
-                            </div>
+                                <div className="mt-3 flex min-w-0 items-center gap-2">
+                                    {/* A second, larger route to the record: the
+                                        name is the primary link, but a bare
+                                        truncated name next to three icon
+                                        buttons is a small target. */}
+                                    <Link
+                                        href={`/employees/${employee.id}`}
+                                        className="flex min-w-0 flex-1 items-center gap-1 text-[11px] font-black uppercase tracking-widest text-indigo-600 transition-colors duration-200 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+                                    >
+                                        <span className="truncate">Profile</span>
+                                        <ChevronRight className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                                    </Link>
 
-                            <div className="flex items-center justify-between gap-2 pl-[60px]">
-                                <div className="min-w-0 text-[11px] text-slate-500 space-y-0.5">
-                                    <p className="truncate flex items-center gap-1.5">
-                                        <Building2 className="h-3 w-3 shrink-0" />
-                                        {employee.department}
-                                    </p>
-                                    <p className="truncate">
-                                        Joined {new Date(employee.joiningDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-                                    </p>
+                                    {/* 44px targets: meets the minimum touch size. */}
+                                    <div className="flex shrink-0 items-center gap-1.5">
+                                        <button
+                                            type="button"
+                                            onClick={() => setOnboardingId(employee.id)}
+                                            aria-label={`Onboarding checklist for ${employee.firstName} ${employee.lastName}`}
+                                            title="Onboarding checklist"
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-indigo-600 transition-colors duration-200 hover:bg-indigo-600 hover:text-white dark:bg-slate-800 dark:text-indigo-400"
+                                        >
+                                            <ClipboardCheck className="h-5 w-5" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => { setSelectedEmployee(employee); setOpen(true); }}
+                                            aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
+                                            title="Edit employee"
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-colors duration-200 hover:bg-indigo-600 hover:text-white dark:bg-slate-800 dark:text-slate-300"
+                                        >
+                                            <UserCircle className="h-5 w-5" />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(employee.id)}
+                                            aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
+                                            title="Delete employee"
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-rose-600 transition-colors duration-200 hover:bg-rose-600 hover:text-white dark:bg-slate-800"
+                                        >
+                                            <Trash2 className="h-5 w-5" />
+                                        </button>
+                                    </div>
                                 </div>
-
-                                {/* 44px targets: meets the minimum touch size. */}
-                                <div className="flex items-center gap-2 shrink-0">
-                                    <button
-                                        type="button"
-                                        onClick={() => setOnboardingId(employee.id)}
-                                        aria-label={`Onboarding checklist for ${employee.firstName} ${employee.lastName}`}
-                                        title="Onboarding checklist"
-                                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white transition-colors"
-                                    >
-                                        <ClipboardCheck className="h-5 w-5" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => { setSelectedEmployee(employee); setOpen(true); }}
-                                        aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
-                                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-indigo-600 hover:text-white transition-colors"
-                                    >
-                                        <UserCircle className="h-5 w-5" />
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleDelete(employee.id)}
-                                        aria-label={`Delete ${employee.firstName} ${employee.lastName}`}
-                                        className="h-11 w-11 inline-flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-900 text-rose-600 hover:bg-rose-600 hover:text-white transition-colors"
-                                    >
-                                        <Trash2 className="h-5 w-5" />
-                                    </button>
-                                </div>
-                            </div>
+                            </article>
                         </li>
                     ))}
                 </ul>
 
                 {/* ── TABLET/DESKTOP: full table ──────────────────────── */}
-                {/* Desktop table. The scroll container is `w-full min-w-0`, not
-                    `overflow-x-auto` alone: an auto-width flex/grid child will
-                    grow to fit the table instead of scrolling inside it. */}
-                <div className="hidden md:block w-full min-w-0 overflow-x-auto overscroll-x-contain">
-                    <Table className="w-full min-w-[720px] table-fixed">
+                {/* The table keeps its OWN card. That is inner grouping, not
+                    the removed outer layer: one surface around one component,
+                    rather than a surface around the entire page's list.
+                    `w-full min-w-0` is what keeps it a shrinkable block —
+                    without it the table's own min-width would widen the page
+                    instead of scrolling inside `Table`'s `overflow-auto`
+                    wrapper (components/ui/table.tsx:9). */}
+                <div className="hidden w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:block dark:border-slate-800 dark:bg-slate-900/60">
+                    <Table className="w-full min-w-[640px] table-fixed">
                         <colgroup>
-                            <col className="w-[64px]" />
+                            {/* 60px avatar + pl-6 (24) + pr-2 (8) = 76, so the
+                                cell no longer overflows its own track. */}
+                            <col className="w-[76px]" />
                             <col className="w-[24%]" />
                             <col className="w-[22%]" />
                             <col className="w-[18%]" />
                             <col className="w-[13%]" />
+                            {/* Two 36px buttons + a 6px gap + pl-2 (8) +
+                                pr-4 (16) = 102. */}
                             <col className="w-[104px]" />
                         </colgroup>
                         <TableHeader className="bg-slate-50/80 dark:bg-slate-900/60 sticky top-0 z-10 backdrop-blur">
@@ -1019,25 +1102,31 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                             <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Position</TableHead>
                             <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Compliance</TableHead>
                             <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Status</TableHead>
-                            <TableHead className="h-12 pr-6 pl-2 text-right text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Actions</TableHead>
+                            <TableHead className="h-12 pr-4 pl-2 text-right text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {filteredEmployees.map((employee) => (
                             <TableRow key={employee.id} className="group border-b border-slate-100 dark:border-slate-800/70 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/20 transition-colors">
                                 <TableCell className="py-4 pl-6 pr-2">
-                                    <Avatar className="h-11 w-11 border-2 border-white dark:border-slate-800 shadow-md group-hover:scale-105 transition-transform">
-                                        <AvatarImage src={employee.photo} />
-                                        <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white font-black text-sm">
-                                            {employee.firstName[0]}{employee.lastName[0]}
-                                        </AvatarFallback>
-                                    </Avatar>
+                                    {/* The same `EmployeeAvatar` the card list
+                                        renders, so a person cannot be one
+                                        colour on a phone and another on a
+                                        laptop. */}
+                                    <EmployeeAvatar
+                                        employee={employee}
+                                        className="h-11 w-11 transition-transform duration-200 group-hover:scale-105"
+                                        fallbackClassName="text-sm"
+                                    />
                                 </TableCell>
                                 <TableCell className="py-4 px-4">
                                     <div className="flex min-w-0 flex-col gap-1">
-                                        <span className="truncate text-sm font-black text-slate-900 dark:text-white tracking-tight">
+                                        <Link
+                                            href={`/employees/${employee.id}`}
+                                            className="truncate text-sm font-black text-slate-900 hover:text-indigo-600 dark:text-white"
+                                        >
                                             {employee.firstName} {employee.lastName}
-                                        </span>
+                                        </Link>
                                         <span className="truncate font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                             {employee.rollNumber}
                                         </span>
@@ -1074,7 +1163,17 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                     <div className="flex min-w-0 flex-col gap-1.5">
                                         <Badge
                                             className={cn(
-                                                "w-fit rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border-0",
+                                                /* `max-w-full truncate` on the
+                                                   badge: "Provisional · 3
+                                                   outstanding" is ~170px at
+                                                   text-[10px] and the status
+                                                   column is ~85px. Without a
+                                                   cap, `table-fixed` lets it
+                                                   spill over the actions
+                                                   column. The full list stays
+                                                   on the line below and in its
+                                                   `title`. */
+                                                "w-fit max-w-full truncate rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border-0",
                                                 outstandingProvisionalFields(employee as never).length > 0
                                                     ? "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
                                                     : "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
@@ -1099,7 +1198,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         )}
                                     </div>
                                 </TableCell>
-                                <TableCell className="py-4 pr-6 pl-2 text-right">
+                                <TableCell className="py-4 pr-4 pl-2 text-right">
                                     <div className="flex items-center justify-end gap-1.5">
                                         <button
                                             type="button"
@@ -1129,8 +1228,13 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                     </TableBody>
                 </Table>
                 </div>
+                {/* The empty state sits OUTSIDE both views, exactly as before:
+                    removing the outer wrapper is not a reason to drop it, and
+                    it previously disappeared once during a card-view change.
+                    It carries its own dashed surface now that the list no
+                    longer supplies one. */}
                 {filteredEmployees.length === 0 && (
-                    <div className="p-12 md:p-24 text-center">
+                    <div className="rounded-2xl border border-dashed border-slate-300 bg-white/60 p-12 text-center dark:border-slate-700 dark:bg-slate-900/40 md:p-24">
                         <Users className="h-16 w-16 mx-auto mb-6 text-slate-200" />
                         <h3 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-tight">No records found</h3>
                         <p className="text-slate-400 font-medium max-w-xs mx-auto mt-2 text-sm">We couldn&#39;t find any employees matching your current search parameters.</p>

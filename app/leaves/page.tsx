@@ -81,8 +81,52 @@ function LeaveTable({ leaves, showEmployee }: { leaves: any[]; showEmployee: boo
         Math.ceil((new Date(end).getTime() - new Date(start).getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
     return (
-        <div className="overflow-x-auto">
-            <Table>
+        <>
+            {/* MOBILE: card list. The table below carries up to 7 columns and a
+                two-stage approval status; at phone width it is an unreadable
+                sideways scroll. Both views render the same `leaves` array, so no
+                column and no data is dropped. */}
+            <ul className="md:hidden divide-y divide-slate-100 dark:divide-slate-800/60">
+                {leaves.map((leave) => (
+                    <li key={leave.id} className="p-4 flex flex-col gap-3 bg-white dark:bg-slate-950">
+                        <div className="flex items-start gap-3">
+                            {showEmployee && (
+                                <div className="h-9 w-9 shrink-0 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold text-xs">
+                                    {leave.employee.firstName[0]}{leave.employee.lastName[0]}
+                                </div>
+                            )}
+                            <div className="min-w-0 flex-1">
+                                {showEmployee && (
+                                    <p className="font-bold text-slate-900 dark:text-white truncate">
+                                        {leave.employee.firstName} {leave.employee.lastName}
+                                    </p>
+                                )}
+                                <p className="text-[11px] text-slate-500 font-medium">
+                                    {new Date(leave.startDate).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                                    <span className="mx-1 opacity-40">&rarr;</span>
+                                    {new Date(leave.endDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                                </p>
+                            </div>
+                            <LeaveTypeBadge type={leave.type} />
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Days</span>
+                            <span className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 font-black text-slate-900 dark:text-white text-xs">
+                                {diffDays(leave.startDate, leave.endDate)}
+                            </span>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 ml-1">Manager</span>
+                            <StatusBadge status={leave.managerStatus} />
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 ml-1">HR</span>
+                            <StatusBadge status={leave.hrStatus} />
+                        </div>
+                    </li>
+                ))}
+            </ul>
+
+            {/* DESKTOP: table */}
+            <div className="hidden md:block overflow-x-auto">
+                <Table>
                 <TableHeader className="bg-slate-50/50 dark:bg-slate-900/20">
                     <TableRow className="border-slate-100 dark:border-slate-800/60 hover:bg-transparent">
                         {showEmployee && <TableHead className="font-bold py-4 pl-6">Employee</TableHead>}
@@ -142,8 +186,9 @@ function LeaveTable({ leaves, showEmployee }: { leaves: any[]; showEmployee: boo
                         </TableRow>
                     ))}
                 </TableBody>
-            </Table>
-        </div>
+                </Table>
+            </div>
+        </>
     );
 }
 
@@ -205,18 +250,18 @@ export default async function LeavesPage() {
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
 
             {/* ── Header ──────────────────────────────────────────────────── */}
-            <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-violet-900 via-indigo-900 to-indigo-950 p-8 rounded-[2rem] shadow-2xl overflow-hidden">
+            <div className="relative flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-gradient-to-r from-violet-900 via-indigo-900 to-indigo-950 p-5 sm:p-6 md:p-8 rounded-[2rem] shadow-2xl overflow-hidden">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none" />
                 {/* floating emoji bubbles */}
                 <div className="absolute right-32 top-4 text-3xl opacity-20 select-none">✈️</div>
                 <div className="absolute right-16 bottom-4 text-2xl opacity-20 select-none">🌴</div>
 
-                <div className="relative z-10">
+                <div className="relative z-10 min-w-0">
                     <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-violet-200 text-xs font-bold uppercase tracking-widest mb-3">
                         <Calendar className="h-3.5 w-3.5" /> Leave Management
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-2">Leave Center</h1>
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-2">Leave Center</h1>
                     <p className="text-violet-200 text-sm md:text-base font-medium max-w-xl">
                         {isAdmin
                             ? "Manage all employee leave requests and balances."
@@ -227,8 +272,8 @@ export default async function LeavesPage() {
                 </div>
 
                 {(userRole === "STAFF" || isAdmin) && (
-                    <Link href="/leaves/apply" className="relative z-10 shrink-0">
-                        <Button className="gap-2 rounded-xl font-bold bg-white text-violet-900 hover:bg-violet-50 shadow-xl border-0 h-12 px-6">
+                    <Link href="/leaves/apply" className="relative z-10 shrink-0 w-full sm:w-auto">
+                        <Button className="gap-2 w-full sm:w-auto rounded-xl font-bold bg-white text-violet-900 hover:bg-violet-50 shadow-xl border-0 h-12 px-6">
                             <Plus className="h-5 w-5" />
                             Apply for Leave
                         </Button>
@@ -237,56 +282,56 @@ export default async function LeavesPage() {
             </div>
 
             {/* ── Stats Grid ─────────────────────────────────────────────── */}
-            <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+            <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-4">
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-5 px-5">
-                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total Filed</CardTitle>
-                        <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-3 sm:pt-5 sm:px-5">
+                        <CardTitle className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">Total Filed</CardTitle>
+                        <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg shrink-0">
                             <Calendar className="h-4 w-4 text-slate-600 dark:text-slate-400" />
                         </div>
                     </CardHeader>
-                    <CardContent className="px-5 pb-5">
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{allLeaves.length}</div>
-                        <p className="text-xs font-medium text-slate-500 mt-1">Request history</p>
+                    <CardContent className="px-3 pb-4 sm:px-5 sm:pb-5">
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white">{allLeaves.length}</div>
+                        <p className="text-[10px] sm:text-xs font-medium text-slate-500 mt-1">Request history</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-l-4 border-l-amber-500 border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-5 px-5">
-                        <CardTitle className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Pending</CardTitle>
-                        <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-3 sm:pt-5 sm:px-5">
+                        <CardTitle className="text-[10px] sm:text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Pending</CardTitle>
+                        <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg shrink-0">
                             <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                         </div>
                     </CardHeader>
-                    <CardContent className="px-5 pb-5">
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{pending.length}</div>
-                        <p className="text-xs font-medium text-amber-600 mt-1">Awaiting decision</p>
+                    <CardContent className="px-3 pb-4 sm:px-5 sm:pb-5">
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white">{pending.length}</div>
+                        <p className="text-[10px] sm:text-xs font-medium text-amber-600 mt-1">Awaiting decision</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-l-4 border-l-emerald-500 border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-5 px-5">
-                        <CardTitle className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Approved</CardTitle>
-                        <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-3 sm:pt-5 sm:px-5">
+                        <CardTitle className="text-[10px] sm:text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Approved</CardTitle>
+                        <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg shrink-0">
                             <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                         </div>
                     </CardHeader>
-                    <CardContent className="px-5 pb-5">
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{approved.length}</div>
-                        <p className="text-xs font-medium text-emerald-600 mt-1">{totalApprovedDays} total days off</p>
+                    <CardContent className="px-3 pb-4 sm:px-5 sm:pb-5">
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white">{approved.length}</div>
+                        <p className="text-[10px] sm:text-xs font-medium text-emerald-600 mt-1">{totalApprovedDays} total days off</p>
                     </CardContent>
                 </Card>
 
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-l-4 border-l-rose-500 border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-5 px-5">
-                        <CardTitle className="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">Sick Days</CardTitle>
-                        <div className="p-2 bg-rose-100 dark:bg-rose-900/30 rounded-lg">
+                    <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-3 sm:pt-5 sm:px-5">
+                        <CardTitle className="text-[10px] sm:text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">Sick Days</CardTitle>
+                        <div className="p-2 bg-rose-100 dark:bg-rose-900/30 rounded-lg shrink-0">
                             <HeartPulse className="h-4 w-4 text-rose-600 dark:text-rose-400" />
                         </div>
                     </CardHeader>
-                    <CardContent className="px-5 pb-5">
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{sickDays}</div>
-                        <p className="text-xs font-medium text-rose-600 mt-1">Approved sick leaves</p>
+                    <CardContent className="px-3 pb-4 sm:px-5 sm:pb-5">
+                        <div className="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white">{sickDays}</div>
+                        <p className="text-[10px] sm:text-xs font-medium text-rose-600 mt-1">Approved sick leaves</p>
                     </CardContent>
                 </Card>
             </div>
@@ -309,7 +354,7 @@ export default async function LeavesPage() {
 
             {/* ── Main Table Card ─────────────────────────────────────────── */}
             <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-3xl overflow-hidden">
-                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-6">
+                <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-4 py-4 sm:px-6 sm:py-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
                             <CardTitle className="text-xl font-black text-slate-800 dark:text-white">Request History</CardTitle>
@@ -321,18 +366,18 @@ export default async function LeavesPage() {
                 </CardHeader>
                 <CardContent className="p-0">
                     <Tabs defaultValue="all" className="w-full">
-                        <div className="px-6 py-4 bg-slate-50/30 dark:bg-slate-900/10 border-b border-slate-100 dark:border-slate-800/60 overflow-x-auto">
+                        <div className="px-4 sm:px-6 py-4 bg-slate-50/30 dark:bg-slate-900/10 border-b border-slate-100 dark:border-slate-800/60 overflow-x-auto">
                             <TabsList className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-1 h-11 rounded-2xl shadow-sm inline-flex gap-1">
-                                <TabsTrigger value="all" className="rounded-xl px-5 font-bold text-xs data-[state=active]:bg-violet-600 data-[state=active]:text-white transition-all">
+                                <TabsTrigger value="all" className="rounded-xl px-3 sm:px-5 font-bold text-xs data-[state=active]:bg-violet-600 data-[state=active]:text-white transition-all">
                                     All <Badge variant="secondary" className="ml-1.5 bg-slate-100 dark:bg-slate-800 text-[10px]">{allLeaves.length}</Badge>
                                 </TabsTrigger>
-                                <TabsTrigger value="pending" className="rounded-xl px-5 font-bold text-xs data-[state=active]:bg-amber-500 data-[state=active]:text-white transition-all">
+                                <TabsTrigger value="pending" className="rounded-xl px-3 sm:px-5 font-bold text-xs data-[state=active]:bg-amber-500 data-[state=active]:text-white transition-all">
                                     Pending <Badge variant="secondary" className="ml-1.5 bg-slate-100 dark:bg-slate-800 text-[10px]">{pending.length}</Badge>
                                 </TabsTrigger>
-                                <TabsTrigger value="approved" className="rounded-xl px-5 font-bold text-xs data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all">
+                                <TabsTrigger value="approved" className="rounded-xl px-3 sm:px-5 font-bold text-xs data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all">
                                     Approved <Badge variant="secondary" className="ml-1.5 bg-slate-100 dark:bg-slate-800 text-[10px]">{approved.length}</Badge>
                                 </TabsTrigger>
-                                <TabsTrigger value="rejected" className="rounded-xl px-5 font-bold text-xs data-[state=active]:bg-rose-600 data-[state=active]:text-white transition-all">
+                                <TabsTrigger value="rejected" className="rounded-xl px-3 sm:px-5 font-bold text-xs data-[state=active]:bg-rose-600 data-[state=active]:text-white transition-all">
                                     Rejected <Badge variant="secondary" className="ml-1.5 bg-slate-100 dark:bg-slate-800 text-[10px]">{rejected.length}</Badge>
                                 </TabsTrigger>
                             </TabsList>
@@ -347,13 +392,13 @@ export default async function LeavesPage() {
 
             {/* ── Quick action for approvals ──────────────────────────────── */}
             {(isAdmin || userRole === "MANAGER") && pending.length > 0 && (
-                <div className="group relative flex items-center gap-6 p-6 rounded-[2rem] bg-gradient-to-r from-indigo-600 to-violet-700 text-white shadow-2xl overflow-hidden transition-all hover:scale-[1.01]">
+                <div className="group relative flex flex-wrap items-center gap-4 p-4 sm:p-6 rounded-[2rem] bg-gradient-to-r from-indigo-600 to-violet-700 text-white shadow-2xl overflow-hidden transition-all hover:scale-[1.01]">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-                    <div className="h-14 w-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 shadow-inner">
-                        <AlertCircle className="h-8 w-8 text-white" />
+                    <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 shadow-inner">
+                        <AlertCircle className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                     </div>
-                    <div className="flex-1">
-                        <h4 className="text-xl font-black">Action Required</h4>
+                    <div className="flex-1 min-w-[12rem]">
+                        <h4 className="text-lg sm:text-xl font-black">Action Required</h4>
                         <p className="text-indigo-100 font-medium text-sm">
                             You have{" "}
                             <span className="text-white font-black underline decoration-2 underline-offset-4">
@@ -362,8 +407,8 @@ export default async function LeavesPage() {
                             waiting for your review. Keep the workflow moving!
                         </p>
                     </div>
-                    <Link href="/dashboard/approvals">
-                        <Button className="bg-white text-indigo-600 hover:bg-indigo-50 font-black rounded-xl px-8 h-12 shadow-xl border-0 shrink-0">
+                    <Link href="/dashboard/approvals" className="w-full sm:w-auto">
+                        <Button className="w-full sm:w-auto bg-white text-indigo-600 hover:bg-indigo-50 font-black rounded-xl px-6 sm:px-8 h-12 shadow-xl border-0 shrink-0">
                             Approve Now
                         </Button>
                     </Link>

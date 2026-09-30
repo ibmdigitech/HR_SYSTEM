@@ -1,0 +1,29 @@
+-- AuditLog.employeeId becomes nullable.
+--
+-- The column is a foreign key to Employee, and a number of call sites passed
+-- the sentinel "SYSTEM" for events whose subject is not an employee at all
+-- (an application, an interview, an offer, a candidate offer letter, an
+-- attendance device). No Employee row has that id, so Postgres rejected each of
+-- them with `P2003 / AuditLog_employeeId_fkey` and, because the writes sit
+-- inside `prisma.$transaction`, rolled the whole feature back — which is why
+-- an offer could never be created and an offer letter could never be issued.
+--
+-- The full rationale, including the two rejected alternatives (the candidate's
+-- id, and the acting employee's id), is documented on `model AuditLog` in
+-- prisma/schema.prisma. In short: the subject of an offer event is a candidate
+-- who has not joined (§19 creates the Employee at the joining stage), and
+-- `changedBy` still records who acted, so NULL loses no information.
+--
+-- This does NOT weaken the constraint. The foreign key constraint
+-- `AuditLog_employeeId_fkey` is retained in full and is deliberately NOT
+-- touched here; a non-null employeeId still cannot name an employee that does
+-- not exist. NULL is the only newly permitted value, and it means exactly one
+-- thing: this event is not about an employee.
+--
+-- `@@index([employeeId, createdAt])` is also left alone. Postgres indexes NULLs
+-- in a btree, so the per-employee trail keeps working unchanged; the only
+-- difference is that these rows never match a per-employee lookup, which is the
+-- correct answer for an event that was never about that employee.
+
+-- AlterTable
+ALTER TABLE "AuditLog" ALTER COLUMN "employeeId" DROP NOT NULL;

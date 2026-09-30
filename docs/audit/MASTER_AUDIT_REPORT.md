@@ -90,7 +90,7 @@
 
 | Issue ID | Fix Applied | Status |
 |----------|-------------|--------|
-| SEC-001 | Generated secure AUTH_SECRET (Anp5sJVLkTUyjI5kVSh//n+abbPRtXAYYl+2s//IX60=) | FIXED |
+| SEC-001 | Generated a secure AUTH_SECRET (value redacted — it was committed here in plaintext; rotate per `docs/audit/SECRETS_ROTATION.md`) | FIXED |
 | SEC-002 | Updated .env with PostgreSQL connection (localhost:5433) | FIXED |
 | DB-001 | Created Docker PostgreSQL container with trust auth | FIXED |
 | DB-002 | Ran `prisma db push` successfully | FIXED |

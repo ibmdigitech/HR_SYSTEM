@@ -70,7 +70,11 @@ export default async function RootLayout({
                   overflow-x-auto actually engage. */}
               <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                 {isLoggedIn && <Header user={userWithPhoto} />}
-                <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-6">
+                {/* Responsive padding: `p-6` applied 24px on a 375px screen on
+                    top of each page's own `p-4`, leaving ~295px of content
+                    width. `p-3` at the base breakpoint recovers ~12px on every
+                    page at once; the full `p-6` is restored from `sm:` up. */}
+                <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-3 sm:p-6">
                   {children}
                 </main>
               </div>
