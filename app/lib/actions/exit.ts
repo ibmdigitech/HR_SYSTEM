@@ -18,11 +18,25 @@
  *     `lib/workflow/leave.ts:190`.
  *  3. THE `{ success, message }` SHAPE the existing actions return.
  *
- * NOT WIRED HERE, DELIBERATELY: `prepareSettlement` / `advanceSettlement` from
- * `lib/workflow/offboarding.ts` and `revokeAccess()` from
- * `lib/workflow/credentials.ts`. This task establishes the case; the next task
- * hooks settlement into SETTLEMENT_PENDING and revokes access on COMPLETED. See
- * the report for the exact call sites.
+ *  4. SETTLEMENT AND ACCESS REVOCATION (added with the exit UI) —
+ *     `prepareExitSettlement` and `advanceExitSettlement` delegate to
+ *     `lib/workflow/offboarding.ts`, which needed an `OffboardingRequest`.
+ *     `completeExitCase` performs SETTLEMENT_PENDING → COMPLETED and revokes
+ *     the leaver's access in the SAME transaction as the guarded status write.
+ *
+ * LINKING A CASE TO AN OFFBOARDING REQUEST — THE CHOICE MADE HERE
+ * `prepareSettlement({ offboardingId })` keys on an `OffboardingRequest`, and
+ * `FinalSettlement` has a foreign key to exactly that table. There is no
+ * `ExitCase.offboardingId` column, and adding one would mean editing
+ * `prisma/schema.prisma` and re-running the Prisma client generator.
+ *
+ * Instead, an exit case is RESOLVED to its offboarding request by employee:
+ * `findLiveOffboarding(employeeId)` takes the newest request that is neither
+ * COMPLETED nor CANCELLED. That is safe rather than merely convenient, because
+ * `initiateOffboarding` already refuses a second live offboarding for the same
+ * employee, so "the live offboarding for this employee" is 1:1 in practice and
+ * the resolution is unambiguous. When no live request exists the action refuses
+ * and says so, rather than creating one behind the operator's back.
  *
  * Because this file carries a file-level "use server" directive it may only
  * export async functions. Constants such as `EXIT_STATUS` are imported directly
@@ -39,6 +53,11 @@ import {
 } from "@/lib/auth/guards";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { notifyInApp } from "@/lib/workflow/notifications";
+import { prepareSettlement, advanceSettlement } from "@/lib/workflow/offboarding";
+import {
+    OFFBOARDING_STATUS,
+    SETTLEMENT_STATUS,
+} from "@/lib/workflow/state-machine";
 import {
     EXIT_STATUS,
     EXIT_TYPE,
@@ -50,6 +69,11 @@ import {
     InvalidTransitionError,
     type ExitType,
 } from "@/lib/workflow/exit/state-machine";
+import {
+    employeeStatusForExitType,
+    settlementMayBePrepared,
+} from "@/app/exits/status-view";
+import { resolveTerminalLifecycleStage } from "@/app/exits/lifecycle-target";
 
 export interface ExitActionResult {
     success: boolean;
@@ -70,9 +94,11 @@ const LIVE_STATES: readonly string[] = [
     EXIT_STATUS.SETTLEMENT_PENDING,
 ];
 
-function revalidateExitViews() {
+function revalidateExitViews(exitCaseId?: string) {
     revalidatePath("/dashboard/approvals");
     revalidatePath("/employees");
+    revalidatePath("/exits");
+    if (exitCaseId) revalidatePath(`/exits/${exitCaseId}`);
 }
 
 function notFound(): ExitActionResult {
@@ -592,5 +618,400 @@ export async function recordRehireEligibility(input: {
         };
     } catch (error) {
         return toResult(error, "RECORD_REHIRE_ELIGIBILITY_FAILED");
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. SETTLEMENT                                                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Every figure the settlement engine accepts is an INPUT. There is no
+ * end-of-service gratuity calculator anywhere in this codebase and none is
+ * added here: `lib/workflow/offboarding.ts` takes `gratuityAmount` as a number
+ * a person typed, because the statutory rule is jurisdiction-, contract- and
+ * length-of-service-specific and getting it confidently wrong is worse than
+ * having no automation at all.
+ */
+export interface ExitSettlementInputs {
+    pendingSalaryDays?: number;
+    pendingSalaryAmount?: number;
+    leaveEncashmentDays?: number;
+    leaveEncashmentAmount?: number;
+    loanDeductions?: number;
+    advanceDeductions?: number;
+    otherDeductions?: number;
+    otherAdditions?: number;
+    /** Typed by a human from their own calculation. Never derived. */
+    gratuityAmount?: number;
+    calculationNotes?: string;
+}
+
+/**
+ * The newest offboarding request for an employee that is still open.
+ *
+ * COMPLETED is excluded on purpose: a closed offboarding has already had its
+ * settlement finalised by that workflow, and reusing it would overwrite a
+ * record someone has already been paid against. CANCELLED is excluded for the
+ * obvious reason.
+ */
+async function findLiveOffboarding(employeeId: string) {
+    return prisma.offboardingRequest.findFirst({
+        where: {
+            employeeId,
+            status: {
+                notIn: [OFFBOARDING_STATUS.COMPLETED, OFFBOARDING_STATUS.CANCELLED],
+            },
+        },
+        orderBy: { createdAt: "desc" },
+        select: {
+            id: true,
+            status: true,
+            settlement: { select: { id: true, status: true, finalAmount: true } },
+        },
+    });
+}
+
+/**
+ * Prepares the final settlement for an exit case.
+ *
+ * Two independent gates must both pass, and neither is this file's invention:
+ *   1. `EXIT_TRANSITIONS` — the CASE must be at CLEARANCE_PENDING or
+ *      SETTLEMENT_PENDING (`settlementMayBePrepared`).
+ *   2. `prepareSettlement`'s own check — the linked OFFBOARDING must be at
+ *      CLEARANCE or SETTLEMENT_PENDING.
+ *
+ * A case can satisfy (1) while the offboarding behind it does not satisfy (2),
+ * which is why the refusal names both rather than saying "not allowed".
+ *
+ * Permission: EXIT_SETTLEMENT first, as the exit domain's own capability.
+ * `prepareSettlement` then applies its own `PAYROLL_VIEW` guard, which HR does
+ * not hold. That composition is deliberate and left visible — the exit UI only
+ * offers the control to callers holding both, so an HR user is told why the
+ * button is absent rather than clicking into a refusal.
+ */
+export async function prepareExitSettlement(input: {
+    exitCaseId: string;
+    inputs: ExitSettlementInputs;
+}): Promise<ExitActionResult> {
+    try {
+        const user = await requirePermission(PERMISSIONS.EXIT_SETTLEMENT);
+
+        const exitCase = await prisma.exitCase.findUnique({
+            where: { id: input.exitCaseId },
+            select: { id: true, employeeId: true, status: true },
+        });
+        if (!exitCase) return notFound();
+
+        if (!settlementMayBePrepared(exitCase.status)) {
+            return {
+                success: false,
+                message: `A settlement can only be prepared during clearance or settlement. This case is at ${exitCase.status}.`,
+            };
+        }
+
+        const offboarding = await findLiveOffboarding(exitCase.employeeId);
+        if (!offboarding) {
+            return {
+                success: false,
+                message:
+                    "This employee has no open offboarding request, and settlement is recorded " +
+                    "against an offboarding request rather than against the exit case. Open the " +
+                    "offboarding first; nothing was changed.",
+            };
+        }
+
+        const result = await prepareSettlement({
+            offboardingId: offboarding.id,
+            inputs: input.inputs,
+            actor: { id: user.id, email: user.email, role: user.role },
+        });
+
+        if (result.success) revalidateExitViews(exitCase.id);
+        return {
+            success: result.success,
+            message: result.message,
+            exitCaseId: exitCase.id,
+            status: offboarding.status,
+        };
+    } catch (error) {
+        return toResult(error, "PREPARE_EXIT_SETTLEMENT_FAILED");
+    }
+}
+
+/** The settlement stages the UI may drive. `CALCULATED` is produced by prepare. */
+const DRIVABLE_SETTLEMENT_STAGES: readonly string[] = [
+    SETTLEMENT_STATUS.UNDER_REVIEW,
+    SETTLEMENT_STATUS.APPROVED,
+    SETTLEMENT_STATUS.PAID,
+];
+
+/**
+ * Moves the linked FinalSettlement through its own state machine.
+ *
+ * `SETTLEMENT_TRANSITIONS` in `lib/workflow/state-machine.ts` is authoritative;
+ * this action only narrows the accepted input to the three stages an operator
+ * reaches for, so an arbitrary string from the browser never reaches
+ * `assertSettlementTransition`. `advanceSettlement` additionally requires
+ * PAYROLL_SETTLE (FINANCE/ADMIN) on top of the EXIT_SETTLEMENT guard applied
+ * here, and its own transition check still refuses anything illegal.
+ */
+export async function advanceExitSettlement(input: {
+    exitCaseId: string;
+    to: string;
+    reference?: string;
+}): Promise<ExitActionResult> {
+    try {
+        const user = await requirePermission(PERMISSIONS.EXIT_SETTLEMENT);
+
+        if (!DRIVABLE_SETTLEMENT_STAGES.includes(input.to)) {
+            return {
+                success: false,
+                message: `Settlement can only be advanced to ${DRIVABLE_SETTLEMENT_STAGES.join(", ")}. Nothing was changed.`,
+            };
+        }
+
+        const exitCase = await prisma.exitCase.findUnique({
+            where: { id: input.exitCaseId },
+            select: { id: true, employeeId: true, status: true },
+        });
+        if (!exitCase) return notFound();
+
+        const offboarding = await findLiveOffboarding(exitCase.employeeId);
+        if (!offboarding?.settlement) {
+            return {
+                success: false,
+                message: "No settlement has been prepared for this employee yet.",
+            };
+        }
+
+        const result = await advanceSettlement({
+            offboardingId: offboarding.id,
+            to: input.to,
+            reference: input.reference,
+            actor: { id: user.id, email: user.email, role: user.role },
+        });
+
+        if (result.success) revalidateExitViews(exitCase.id);
+        return {
+            success: result.success,
+            message: result.message,
+            exitCaseId: exitCase.id,
+            status: result.status,
+        };
+    } catch (error) {
+        return toResult(error, "ADVANCE_EXIT_SETTLEMENT_FAILED");
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* 7. COMPLETION AND ACCESS REVOCATION                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Closes the exit: SETTLEMENT_PENDING → COMPLETED, employment ended, access
+ * revoked.
+ *
+ * WHY THE REVOCATION IS REPRODUCED INSTEAD OF CALLING `revokeAccess`
+ * `revokeAccess()` in `lib/workflow/credentials.ts` runs its four writes through
+ * the module-level `prisma` client and its own `prisma.$transaction([...])`.
+ * Called from inside an interactive transaction it would therefore acquire a
+ * SECOND connection and COMMIT IMMEDIATELY — it would not roll back with the
+ * caller's transaction. That is the failure `offboarding.ts:224-239` has, and it
+ * is unrecoverable: an account disabled for a status change that never happened,
+ * with the status unchanged and nothing in the app able to undo it.
+ *
+ * So the same four writes are issued here on the transaction client `tx`, in
+ * the same order, with the same values, immediately after the guarded
+ * `updateMany` has matched exactly one row. Either the case is COMPLETED and
+ * the access is gone, or neither happened.
+ *
+ * `tests/exit-ui-settlement.test.ts` pins the parity with `revokeAccess` and the
+ * on-transaction-client property, so a future edit to either side that breaks
+ * the correspondence fails a test rather than silently locking someone out.
+ * The clean follow-up is a `revokeAccessIn(tx, …)` exported from
+ * `credentials.ts`, which would delete this duplication entirely.
+ */
+export async function completeExitCase(input: {
+    exitCaseId: string;
+    /**
+     * Required when no FinalSettlement exists. Makes a human state that nothing
+     * is owed rather than letting a case close silently with no money moved.
+     */
+    acknowledgeNoSettlement?: boolean;
+}): Promise<ExitActionResult> {
+    try {
+        const user = await requirePermission(PERMISSIONS.EXIT_COMPLETE);
+
+        const exitCase = await prisma.exitCase.findUnique({
+            where: { id: input.exitCaseId },
+            select: {
+                id: true,
+                employeeId: true,
+                type: true,
+                status: true,
+                lastWorkingDate: true,
+                employee: { select: { id: true, userId: true, lifecycle: true } },
+            },
+        });
+        if (!exitCase) return notFound();
+
+        if (user.employeeId && exitCase.employeeId === user.employeeId) {
+            return { success: false, message: "You cannot complete your own exit case." };
+        }
+
+        const refused = assertMove(exitCase.status, EXIT_STATUS.COMPLETED, {
+            id: user.id,
+            role: user.role,
+        });
+        if (refused) return refused;
+
+        // --- Settlement gate. If a settlement exists it must actually be paid:
+        // completing an exit with money outstanding is the mistake this prevents.
+        const offboarding = await findLiveOffboarding(exitCase.employeeId);
+        const settlement = offboarding?.settlement ?? null;
+        if (settlement && settlement.status !== SETTLEMENT_STATUS.PAID) {
+            return {
+                success: false,
+                message: `The final settlement is ${settlement.status}, not PAID. Settle and pay it before completing the exit; nothing was changed.`,
+            };
+        }
+        if (!settlement && input.acknowledgeNoSettlement !== true) {
+            return {
+                success: false,
+                message:
+                    "No final settlement has been prepared for this employee. Confirm that " +
+                    "nothing is owed before completing the exit; nothing was changed.",
+            };
+        }
+
+        // --- Lifecycle target, taken from LIFECYCLE_TRANSITIONS rather than
+        // assumed. `EXITED` is unreachable from an employed stage and `RESIGNED`
+        // is unreachable as a target at all, so this may legitimately answer
+        // null — which is reported, never worked around.
+        const lifecycleTarget = resolveTerminalLifecycleStage(
+            exitCase.employee?.lifecycle ?? null,
+            user.role
+        );
+        if (!lifecycleTarget) {
+            return {
+                success: false,
+                message:
+                    `Employee lifecycle is "${exitCase.employee?.lifecycle ?? "unset"}" and the ` +
+                    "lifecycle state machine has no terminal stage reachable from there. " +
+                    "HR must correct the lifecycle stage before this exit can be completed; " +
+                    "nothing was changed.",
+            };
+        }
+
+        const employeeStatus = employeeStatusForExitType(exitCase.type);
+        const revokeForUserId = exitCase.employee?.userId ?? null;
+        const revokedAt = new Date();
+
+        await prisma.$transaction(async (tx) => {
+            // --- Guarded state update, FIRST. `where` pins the status read above,
+            // so a concurrent completion matches zero rows and throws before any
+            // revocation statement is issued. This is the whole reason the
+            // revocation lives below this line rather than above it.
+            const updated = await tx.exitCase.updateMany({
+                where: { id: exitCase.id, status: exitCase.status },
+                // `decidedAt`/`decisionNote` are deliberately NOT touched: they
+                // record the approve-or-reject decision, and overwriting them
+                // here would erase who approved the case.
+                data: { status: EXIT_STATUS.COMPLETED },
+            });
+            if (updated.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+
+            await tx.employee.update({
+                where: { id: exitCase.employeeId },
+                data: {
+                    currentStatus: employeeStatus,
+                    lifecycle: lifecycleTarget,
+                    // The three columns must agree: `isActive` still true with
+                    // `lifecycle: EXITED` keeps a departed employee in the
+                    // payroll run, attendance and leave accrual.
+                    isActive: false,
+                },
+            });
+
+            if (revokeForUserId) {
+                // --- Mirrors revokeAccess(), on `tx`. See the note above.
+                await tx.userSecurityFlag.upsert({
+                    where: { userId: revokeForUserId },
+                    update: {
+                        accountDisabled: true,
+                        disabledReason: `Exit case ${exitCase.id} completed (${exitCase.type})`,
+                        disabledAt: revokedAt,
+                        mustChangePassword: false,
+                    },
+                    create: {
+                        userId: revokeForUserId,
+                        accountDisabled: true,
+                        disabledReason: `Exit case ${exitCase.id} completed (${exitCase.type})`,
+                        disabledAt: revokedAt,
+                    },
+                });
+                // Nulling the password is what actually prevents sign-in.
+                await tx.user.update({
+                    where: { id: revokeForUserId },
+                    data: { password: null },
+                });
+                await tx.passwordResetToken.updateMany({
+                    where: { userId: revokeForUserId, usedAt: null },
+                    data: { usedAt: revokedAt },
+                });
+                await tx.auditLog.create({
+                    data: {
+                        employeeId: exitCase.employeeId,
+                        action: "ACCESS_REVOKED",
+                        details:
+                            `Access revoked for user ${revokeForUserId}: exit case ` +
+                            `${exitCase.id} completed (${exitCase.type})`,
+                        changedBy: user.email,
+                    },
+                });
+            }
+
+            await tx.auditLog.create({
+                data: {
+                    employeeId: exitCase.employeeId,
+                    action: "EXIT_COMPLETED",
+                    details:
+                        `Exit case ${exitCase.id} (${exitCase.type}) ${exitCase.status} → ` +
+                        `${EXIT_STATUS.COMPLETED}. Employee currentStatus ${employeeStatus}, ` +
+                        `lifecycle ${lifecycleTarget}, access ` +
+                        `${revokeForUserId ? "revoked" : "not revoked (no linked user account)"}` +
+                        (settlement
+                            ? `, settlement ${settlement.status} (${settlement.finalAmount})`
+                            : ", no settlement was prepared (acknowledged)"),
+                    changedBy: user.email,
+                },
+            });
+        });
+
+        revalidateExitViews(exitCase.id);
+
+        // Only after the commit. A notification inside the transaction would be
+        // rolled back with it, or deadlock against the transaction's lock.
+        await notifyInApp({
+            employeeId: exitCase.employeeId,
+            title: "Exit process completed",
+            message:
+                `Your ${exitCase.type.toLowerCase().replace(/_/g, " ")} has been processed. ` +
+                `Employment status: ${employeeStatus}.`,
+            type: "WARNING",
+            link: "/dashboard",
+        });
+
+        return {
+            success: true,
+            message: revokeForUserId
+                ? `Exit completed. Access revoked and employment status set to ${employeeStatus}.`
+                : `Exit completed. Employment status set to ${employeeStatus}. No login account was linked, so there was nothing to revoke.`,
+            exitCaseId: exitCase.id,
+            status: EXIT_STATUS.COMPLETED,
+        };
+    } catch (error) {
+        return toResult(error, "COMPLETE_EXIT_CASE_FAILED");
     }
 }

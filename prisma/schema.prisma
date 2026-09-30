@@ -585,6 +585,28 @@ model Employee {
   /// PRE_JOINING | ACTIVE | PROBATION | CONFIRMED | ON_LEAVE |
   /// NOTICE_PERIOD | RESIGNED | TERMINATED | EXITED
   lifecycle        String        @default("PRE_JOINING")
+  /// Retention tombstone (RET-001). NULL for every live employee.
+  ///
+  /// WHY THIS COLUMN EXISTS — UAE employment law requires the employer to
+  /// retain an employee's records for five years after the employment
+  /// relationship ends, so `deleteEmployee` must never issue a `DELETE`. It
+  /// archives instead: one guarded write sets `deletedAt` AND `isActive = false`
+  /// together, so the row stops appearing in operational reads without its
+  /// payroll history, letters, leave records or audit trail being destroyed.
+  ///
+  /// NOT THE SAME AXIS AS `lifecycle` / `currentStatus`. Those two record what
+  /// HAPPENED to the employment relationship (ACTIVE, RESIGNED, TERMINATED) and
+  /// archive deliberately does not touch them: archiving is a data-custody
+  /// decision, an exit is an HR fact, and conflating them would make an
+  /// archived-but-active record indistinguishable from a terminated one.
+  /// `isActive` is what operational queries read, so archive sets it as well.
+  ///
+  /// `@@index([deletedAt])` because every listing now filters on it, and a
+  /// nullable-column index is what keeps `WHERE "deletedAt" IS NULL` from
+  /// degrading into a sequential scan as the table grows. Postgres indexes
+  /// NULLs, so the same index serves both "live rows only" and "archived rows
+  /// only" reads without a partial index.
+  deletedAt             DateTime?
   /// Provenance. Retained so a recruitment hire stays traceable to the
   /// requisition, application and offer it came from.
   sourceRequisitionId String?
@@ -629,6 +651,14 @@ model Employee {
   @@index([isActive])
   @@index([department, isActive])
   @@index([currentStatus])
+  // RET-001: `WHERE "deletedAt" IS NULL` on every operational listing, and
+  // `IS NOT NULL` on the archived-records view. Nullable-column B-tree, so one
+  // index serves both directions.
+  @@index([deletedAt])
+  // The archived view is always ordered newest-archive-first and always
+  // department-scoped for a MANAGER, so the composite index matches the only
+  // query that reads it.
+  @@index([department, deletedAt])
 }
 
 // ─── LEAVE BALANCE (Auto-created on employee onboarding) ─────────────────────

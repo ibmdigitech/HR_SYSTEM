@@ -29,6 +29,7 @@ import {
     type EmployeeStateRow,
     type UserRoleRow,
 } from "@/lib/workflow/lifecycle-consistency";
+import { archiveGuard, archiveWrite, restoreWrite } from "@/lib/employees/retention";
 
 afterAll(async () => {
     await prisma.$disconnect();
@@ -36,6 +37,19 @@ afterAll(async () => {
 
 const source = (relativePath: string) =>
     readFileSync(new URL(relativePath, import.meta.url), "utf8");
+
+/**
+ * Removes block and line comments before a source-level assertion runs.
+ *
+ * Needed because this module documents its own former defect in prose, and a
+ * mention of `prisma.employee.delete(` inside a doc comment is not a call.
+ * Without this, "count the hard deletes" counts the documentation too.
+ */
+function stripComments(code: string): string {
+    return code
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/(^|[^:])\/\/.*$/gm, "$1");
+}
 
 function employee(overrides: Partial<EmployeeStateRow> = {}): EmployeeStateRow {
     return {
@@ -334,14 +348,65 @@ describe("the write paths that create divergence", () => {
         }
     });
 
-    it("deleteEmployee is still a hard delete, so blocker 6.5 is still open", () => {
-        // If soft delete is implemented, THIS test must be the thing that
-        // breaks, so the retention claim is never made by accident.
-        const code = source("../app/lib/actions/employees.ts");
-        const start = code.indexOf("export async function deleteEmployee");
-        const body = code.slice(start, code.indexOf("\n}", start));
-        expect(body).toContain("prisma.employee.delete(");
-        expect(body).not.toMatch(/update\(|deletedAt|isActive:\s*false|archivedAt/);
+    it("no longer hard-deletes: the only DELETE is inside purgeEmployee, behind its gates", () => {
+        // This test USED to assert the opposite — that `deleteEmployee` was still
+        // a hard delete — as a deliberate pin so blocker 6.5 could not be claimed
+        // by accident. Retention has now been implemented, so the pin has done
+        // its job and is inverted into something stronger: rather than pinning
+        // the defect, it pins the INVARIANT. A hard delete may exist in this
+        // module, but exactly one, and only behind the purge gates.
+        //
+        // Comments are stripped first. This module documents the old defect in
+        // prose, and counting a mention inside a comment as a live DELETE made
+        // this assertion count 3 instead of 1.
+        const code = stripComments(source("../app/lib/actions/employees.ts"));
+
+        expect(code.match(/prisma\.employee\.delete\(/g) ?? []).toHaveLength(1);
+
+        // The legacy alias must delegate to the archive, not delete.
+        const alias = stripComments(
+            code.slice(code.indexOf("export async function deleteEmployee"))
+        );
+        expect(alias).toContain("archiveEmployee");
+        expect(alias).not.toContain("prisma.employee.delete(");
+
+        // Guard ordering inside the purge: authorisation, then retention
+        // eligibility, and only then the DELETE. Reordering so the delete comes
+        // first fails here.
+        //
+        // The body is delimited by the next top-level `export`, not by the
+        // first `\n}`: this function's parameter is a multi-line object literal,
+        // and any line that happens to start with `}` at column 0 inside it
+        // truncates the slice before the guards are reached.
+        const purgeStart = code.indexOf("export async function purgeEmployee");
+        const purgeEnd = code.indexOf("\nexport ", purgeStart + 1);
+        const purgeBody = code.slice(purgeStart, purgeEnd === -1 ? undefined : purgeEnd);
+
+        const iSuperAdmin = purgeBody.indexOf("requireSuperAdmin");
+        const iEligibility = purgeBody.indexOf("purgeEligibility");
+        const iDelete = purgeBody.indexOf("prisma.employee.delete(");
+        expect(iSuperAdmin, "purge must require SUPER_ADMIN").toBeGreaterThan(-1);
+        expect(iEligibility, "purge must check retention eligibility").toBeGreaterThan(iSuperAdmin);
+        expect(iDelete, "the delete must come last").toBeGreaterThan(iEligibility);
+    });
+
+    it("archives with a guarded write, not a delete (behavioural, not source-shaped)", () => {
+        // The archive rule is expressed as pure exported helpers, so assert what
+        // they RETURN rather than how the call site is written. That survives a
+        // refactor of the calling code and cannot be satisfied by a comment.
+        // `archiveGuard` guards on `deletedAt: null`, which is what makes a
+        // second archive a no-op instead of an error or a second tombstone.
+        expect(archiveGuard("emp-1")).toEqual({ id: "emp-1", deletedAt: null });
+
+        // `deletedAt` and `isActive` are set in ONE object, so there is never a
+        // window in which a row is archived but still flagged active.
+        expect(archiveWrite(new Date("2026-01-01T00:00:00.000Z"))).toEqual({
+            deletedAt: new Date("2026-01-01T00:00:00.000Z"),
+            isActive: false,
+        });
+
+        // Restore is the mirror image, guarded the same way.
+        expect(restoreWrite()).toEqual({ deletedAt: null, isActive: true });
     });
 });
 
