@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/layout/Sidebar";
+import { Sidebar } from "@/components/layout/SidebarOptimized";
 import { Header } from "@/components/layout/Header";
 import { Toaster } from "sonner";
 import { Providers } from "@/components/common/Providers";

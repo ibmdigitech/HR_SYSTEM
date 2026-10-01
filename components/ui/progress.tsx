@@ -1,22 +1,35 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
     value?: number;
     variant?: "linear" | "circular";
+    indicatorClassName?: string;
     size?: number;
     strokeWidth?: number;
     showValue?: boolean;
+    children?: React.ReactNode;
 }
 
 const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
-    ({ className, value = 0, variant = "linear", size = 64, strokeWidth = 4, showValue = true, ...props }, ref) => {
+    ({ className, indicatorClassName, value = 0, variant = "linear", size = 64, strokeWidth = 4, showValue = true, children, ...props }, ref) => {
         const clampedValue = Math.min(100, Math.max(0, value));
+        const [animated, setAnimated] = React.useState(false);
 
-        if (variant === "circular") {
+        React.useEffect(() => {
+            const frame = requestAnimationFrame(() => setAnimated(true));
+            return () => cancelAnimationFrame(frame);
+        }, []);
+
+if (variant === "circular") {
             const radius = (size - strokeWidth) / 2;
             const circumference = 2 * Math.PI * radius;
-            const offset = circumference - (clampedValue / 100) * circumference;
+            const offset = circumference - ((animated ? clampedValue : 0) / 100) * circumference;
+
+            // Extract color class from className for the progress circle
+            const progressColorClass = className?.includes("text-") ? className : "text-indigo-600 dark:text-indigo-500";
 
             return (
                 <div
@@ -40,7 +53,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
                             cy={size / 2}
                         />
                         <circle
-                            className="text-indigo-600 dark:text-indigo-500 transition-all duration-500"
+                            className={cn(progressColorClass, "transition-[stroke-dashoffset] duration-1000 ease-out motion-reduce:transition-none")}
                             strokeWidth={strokeWidth}
                             strokeDasharray={circumference}
                             strokeDashoffset={offset}
@@ -53,8 +66,10 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
                         />
                     </svg>
                     {showValue && (
-                        <span className="absolute text-center">
-                            <span className="text-lg font-black text-slate-800 dark:text-slate-200">{clampedValue}%</span>
+                        <span className="absolute inset-0 flex items-center justify-center text-center">
+                            {children ?? (
+                                <span className="text-lg font-black text-slate-800 dark:text-slate-200">{clampedValue}%</span>
+                            )}
                         </span>
                     )}
                 </div>
@@ -75,8 +90,8 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
                 aria-valuemax={100}
             >
                 <div
-                    className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300"
-                    style={{ width: `${clampedValue}%` }}
+                    className={cn("h-full bg-indigo-600 dark:bg-indigo-500 transition-[width] duration-1000 ease-out motion-reduce:transition-none", indicatorClassName)}
+                    style={{ width: `${animated ? clampedValue : 0}%` }}
                 />
             </div>
         );

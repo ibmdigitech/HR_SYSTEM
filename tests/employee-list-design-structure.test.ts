@@ -19,7 +19,7 @@
  *
  * It is NOT a proof that the page is pixel-correct on a phone. Class-string
  * reasoning is not the same as seeing it render. Real verification of the
- * 375px / 414px / 768px layouts still needs a real browser.
+ * 375px / 414px / 1024px / 1280px layouts still needs a real browser.
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
@@ -59,8 +59,8 @@ const CODE = stripComments(SOURCE);
 /* ------------------------------------------------------------------ */
 
 const listStart = CODE.indexOf('<div className="w-full min-w-0">');
-const mobileMarker = CODE.indexOf("md:hidden", listStart);
-const tableMarker = CODE.indexOf("md:block", listStart);
+const mobileMarker = CODE.indexOf("xl:hidden", listStart);
+const tableMarker = CODE.indexOf("xl:block", listStart);
 const emptyStart = CODE.indexOf("filteredEmployees.length === 0", tableMarker);
 const searchStart = CODE.indexOf('aria-label="Search employees by name');
 
@@ -75,12 +75,12 @@ mustIndex(tableMarker, "the desktop view breakpoint");
 mustIndex(emptyStart, "the empty state");
 mustIndex(searchStart, "the search field");
 
-/** Mobile: from the `<ul>` that carries `md:hidden` up to the table. */
+/** Mobile: from the `<ul>` that carries `xl:hidden` up to the table. */
 const MOBILE_VIEW = CODE.slice(
     CODE.lastIndexOf("<ul", mobileMarker),
     tableMarker
 );
-/** Desktop: from the card that carries `md:block` up to the empty state. */
+/** Desktop: from the card that carries `xl:block` up to the empty state. */
 const TABLE_VIEW = CODE.slice(CODE.lastIndexOf("<div", tableMarker), emptyStart);
 /** Everything from the list container on: no dialog markup, no filter bar. */
 const LIST_REGION = CODE.slice(listStart);
@@ -149,7 +149,7 @@ describe("employee directory — the reported outer layer", () => {
         // The brief: the giant wrapper goes, inner grouping stays.
         expect(MOBILE_VIEW).toMatch(/<article className="[^"]*rounded-2xl/);
         expect(MOBILE_VIEW).toMatch(/<article className="[^"]*border/);
-        const card = /<div className="([^"]*md:block[^"]*)">/.exec(TABLE_VIEW);
+        const card = /<div className="([^"]*xl:block[^"]*)">/.exec(TABLE_VIEW);
         expect(card, "the table card is gone").not.toBeNull();
         expect((card as RegExpExecArray)[1]).toMatch(/rounded-2xl/);
         expect((card as RegExpExecArray)[1]).toMatch(/border/);
@@ -230,7 +230,7 @@ describe("employee directory — no field is dropped from either view", () => {
             "Profile",
             "Employee",
             "Position",
-            "Compliance",
+            "Employment",
             "Status",
             "Actions",
         ]) {
@@ -284,7 +284,7 @@ describe("employee directory — the link to the detail page", () => {
         expect(DETAIL_LINKS.length).toBeGreaterThanOrEqual(3);
         for (const [, className] of DETAIL_LINKS) {
             expect(className, "a detail link is hidden behind a viewport class").not.toMatch(
-                /(^|\s)(hidden|md:hidden|lg:hidden|sm:hidden)(\s|$)/
+                /(^|\s)(hidden|sm:hidden|md:hidden|lg:hidden|xl:hidden)(\s|$)/
             );
         }
     });
@@ -347,7 +347,7 @@ describe("employee directory — the empty state", () => {
         // A previous agent lost the "no employees" message while adding the
         // card view, by nesting it inside one of the two views. Proved by
         // ABSENCE from both slices plus structural closure: neither the
-        // `md:hidden` card list nor the `md:block` table renders it, and each
+        // `xl:hidden` card list nor the `xl:block` table renders it, and each
         // view's markup is fully closed before the empty state begins.
         expect(MOBILE_VIEW).not.toContain("No records found");
         expect(TABLE_VIEW).not.toContain("No records found");
@@ -414,7 +414,7 @@ describe("employee directory — nothing can widen past the viewport", () => {
     it("the card view's text containers truncate rather than push", () => {
         expect(MOBILE_VIEW).toMatch(/<li key=\{employee\.id\} className="min-w-0">/);
         expect(MOBILE_VIEW).toMatch(/<div className="min-w-0 flex-1">/);
-        expect(MOBILE_VIEW).toMatch(/<ul className="[^"]*md:hidden[^"]*">/);
+        expect(MOBILE_VIEW).toMatch(/<ul className="[^"]*xl:hidden[^"]*">/);
         // The action row: the icon cluster is `shrink-0`, the link beside it
         // is `flex-1 min-w-0`, so the two cannot collide.
         expect(MOBILE_VIEW).toMatch(/<div className="mt-3 flex min-w-0 items-center gap-2">/);
@@ -425,7 +425,7 @@ describe("employee directory — nothing can widen past the viewport", () => {
         // components/ui/table.tsx wraps every <Table> in `overflow-auto`, so
         // the desktop view is safe at any width. The card around it must be
         // `w-full min-w-0` or the table's min-width would widen the page.
-        const card = /<div className="([^"]*md:block[^"]*)">/.exec(TABLE_VIEW);
+        const card = /<div className="([^"]*xl:block[^"]*)">/.exec(TABLE_VIEW);
         expect(card, "the table card is gone").not.toBeNull();
         expect((card as RegExpExecArray)[1]).toContain("w-full");
         expect((card as RegExpExecArray)[1]).toContain("min-w-0");

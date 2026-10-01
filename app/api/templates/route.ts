@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { authorizePermission } from '@/lib/auth/guards';
+import { authorizePermission, authorizeAnyPermission } from '@/lib/auth/guards';
 import { PERMISSIONS } from '@/lib/auth/permissions';
 
 export async function GET() {
-    const authResult = await authorizePermission(PERMISSIONS.LETTER_TEMPLATE_MANAGE);
+    const authResult = await authorizeAnyPermission([PERMISSIONS.LETTER_VIEW, PERMISSIONS.LETTER_TEMPLATE_MANAGE]);
     if (!authResult.ok) {
         return NextResponse.json({ error: authResult.error }, { status: authResult.status });
     }

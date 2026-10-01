@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, DollarSign, Activity, Calendar, ShieldAlert, UserCheck, Clock, TrendingUp, Plus, CheckCircle2, AlertCircle, ArrowUpRight, Zap, Briefcase,  } from "lucide-react";import { Button } from "@/components/ui/button";
+import { Users, DollarSign, Activity, Calendar, ShieldAlert, UserCheck, Clock, TrendingUp, Plus, CheckCircle2, AlertCircle, ArrowUpRight, Zap, Briefcase,  } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import prisma from "@/lib/prisma";
 
 export default async function DashboardPage() {
@@ -39,7 +41,8 @@ export default async function DashboardPage() {
         payrollAgg,
         recentAuditLogs,
         recentAttendance,
-        deptGroup
+        deptGroup,
+        allEmployees
     ] = await Promise.all([
         prisma.employee.count({ where: { isActive: true } }),
         prisma.attendance.findMany({ where: { date: { gte: today, lt: tomorrow } } }),
@@ -56,7 +59,20 @@ export default async function DashboardPage() {
         prisma.salaryRecord.aggregate({ _sum: { netSalary: true }, where: { month: currentMonth, year: currentYear } }),
         prisma.auditLog.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
         prisma.attendance.findMany({ where: { date: { gte: sevenDaysAgo } } }),
-        prisma.employee.groupBy({ by: ["department"], _count: { id: true }, where: { isActive: true } })
+        prisma.employee.groupBy({ by: ["department"], _count: { id: true }, where: { isActive: true } }),
+        prisma.employee.findMany({
+            where: { isActive: true },
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                photo: true,
+                designation: true,
+                department: true,
+                managerId: true,
+            },
+            orderBy: [{ department: "asc" }, { firstName: "asc" }],
+        })
     ]);
 
     // Handle Pending Leaves Count which depends on userRole sequentially
@@ -77,6 +93,7 @@ export default async function DashboardPage() {
     const lateTodayCount = todayRecords.filter(r => r.status === "LATE" || r.lateMinutes > 0).length;
     const leavesTodayCount = todayRecords.filter(r => r.status === "LEAVE").length;
     const absentTodayCount = Math.max(0, totalEmployees - presentTodayCount - leavesTodayCount);
+    const attendanceRate = totalEmployees > 0 ? Math.min(100, Math.round((presentTodayCount / totalEmployees) * 100)) : 0;
 
     const monthlyNetSalarySpent = payrollAgg._sum.netSalary || 0;
 
@@ -113,41 +130,39 @@ export default async function DashboardPage() {
         count: g._count.id
     }));
 
-    return (
-        <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
-            {/* Hero Section */}
-            <div className="relative group overflow-hidden bg-gradient-to-br from-indigo-900 via-slate-900 to-indigo-950 p-5 sm:p-6 md:p-8 lg:p-12 rounded-[2.5rem] shadow-2xl transition-all duration-500">
-                <div className="absolute top-0 right-0 w-64 h-64 sm:w-[500px] sm:h-[500px] bg-indigo-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/20 transition-all duration-700"></div>
-                <div className="absolute bottom-0 left-0 w-56 h-56 sm:w-[400px] sm:h-[400px] bg-violet-500/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2 group-hover:bg-violet-500/20 transition-all duration-700"></div>
+    const companyTree = buildCompanyTree(allEmployees);
 
-                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 sm:gap-8">
+    return (
+        <div className="mx-auto w-full max-w-7xl space-y-7 p-4 md:p-8">
+            {/* Hero Section */}
+            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6 shadow-lg shadow-indigo-950/10 sm:p-8">
+                <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-28 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl" />
+                <div aria-hidden="true" className="pointer-events-none absolute -bottom-36 left-1/3 h-64 w-64 rounded-full bg-violet-500/15 blur-3xl" />
+                <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                     <div className="min-w-0">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-indigo-200 text-xs font-bold uppercase tracking-widest mb-4 sm:mb-6">
-                            <Zap className="h-3 w-3 fill-indigo-400" />
-                            System Overview
+                        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold text-indigo-100">
+                            <Zap className="h-3.5 w-3.5 text-indigo-300" />
+                            Workforce overview
                         </div>
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-3 sm:mb-4 leading-tight">
-                            Welcome back,<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">
-                                {user.name?.split(' ')[0] || 'User'}
-                            </span>
+                        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                            Welcome back, <span className="text-indigo-200">{user.name?.split(' ')[0] || "User"}</span>
                         </h1>
-                        <p className="text-slate-300 text-sm sm:text-base md:text-lg font-medium max-w-xl leading-relaxed">
-                            Your workspace is updated with the latest workforce metrics and real-time operational insights.
+                        <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+                            Here is the latest overview of your people and daily operations.
                         </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full md:w-auto">
+                    <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
                         {userRole === "STAFF" ? (
                             <>
                                 <Link href="/leaves" className="w-full sm:w-auto">
-                                    <Button className="w-full sm:w-auto h-12 sm:h-14 px-5 sm:px-8 rounded-2xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-sm sm:text-base shadow-xl border-0 transition-transform hover:scale-105 active:scale-95 gap-2">
+                                        <Button className="h-12 w-full gap-2 rounded-xl border-0 bg-white px-5 text-sm font-bold text-indigo-950 shadow-sm transition-colors hover:bg-indigo-50 sm:w-auto sm:px-6 sm:text-base">
                                         <Plus className="h-5 w-5" />
                                         Request Leave
                                     </Button>
                                 </Link>
                                 <Link href="/requests" className="w-full sm:w-auto">
-                                    <Button variant="outline" className="w-full sm:w-auto h-12 sm:h-14 px-5 sm:px-8 rounded-2xl bg-white/5 backdrop-blur-md border-white/20 text-white hover:bg-white/10 font-bold text-sm sm:text-base transition-transform hover:scale-105 active:scale-95 gap-2">
+                                    <Button variant="outline" className="h-12 w-full gap-2 rounded-xl border-white/20 bg-white/5 px-5 text-sm font-semibold text-white transition-colors hover:bg-white/10 hover:text-white sm:w-auto sm:px-6 sm:text-base">
                                         <ShieldAlert className="h-5 w-5" />
                                         Operation Requests
                                     </Button>
@@ -155,8 +170,8 @@ export default async function DashboardPage() {
                             </>
                         ) : (
                             <Link href="/requests" className="w-full sm:w-auto">
-                                <Button className="w-full sm:w-auto h-12 sm:h-14 px-5 sm:px-10 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 text-white hover:shadow-indigo-500/40 font-black text-sm sm:text-base shadow-2xl border-0 transition-all hover:scale-105 active:scale-95 gap-2 group">
-                                    <CheckCircle2 className="h-5 w-5 group-hover:animate-bounce" />
+                                <Button className="h-12 w-full gap-2 rounded-xl border-0 bg-indigo-500 px-5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-indigo-400 sm:w-auto sm:px-6 sm:text-base">
+                                    <CheckCircle2 className="h-5 w-5" />
                                     Manage Requests
                                     <Badge className="ml-2 bg-white/20 text-white border-0">{pendingLeavesCount}</Badge>
                                 </Button>
@@ -164,87 +179,84 @@ export default async function DashboardPage() {
                         )}
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Quick Stats Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-indigo-500/10 transition-all duration-300">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                <Card className="group overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Workforce</CardTitle>
+                        <CardTitle className="text-sm font-semibold text-slate-600 dark:text-slate-300">Active employees</CardTitle>
                         <div className="p-2.5 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <Users className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">{totalEmployees}</div>
-                        <div className="flex items-center gap-1 mt-2 text-emerald-600 font-bold text-xs">
-                            <TrendingUp className="h-3 w-3" />
-                            <span>Active Sponsorships</span>
-                        </div>
+                        <div className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">{totalEmployees}</div>
+                        <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">Current workforce</p>
                     </CardContent>
                 </Card>
 
-                <Card className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-emerald-500/10 transition-all duration-300">
+                <Card className="group overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Attendance Today</CardTitle>
+                        <CardTitle className="text-sm font-semibold text-slate-600 dark:text-slate-300">Attendance today</CardTitle>
                         <div className="p-2.5 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <UserCheck className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-slate-900 dark:text-white tracking-tighter">
+                        <div className="text-3xl font-bold tracking-tight text-slate-950 dark:text-white">
                             {presentTodayCount} <span className="text-sm font-medium text-slate-400">/ {totalEmployees}</span>
                         </div>
-                        <div className="flex items-center gap-2 mt-2 text-xs font-medium text-slate-500">
-                            <span className="text-amber-600 font-bold">{lateTodayCount} Late</span> &bull;
-                            <span className="text-rose-600 font-bold">{absentTodayCount} Absent</span>
+                        <Progress value={attendanceRate} aria-label="Attendance rate" className="mt-3 h-1.5 rounded-full bg-slate-100 dark:bg-slate-800" indicatorClassName="rounded-full bg-emerald-500" />
+                        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-slate-500">
+                            <span>{attendanceRate}% present</span>
+                            <span className="text-amber-700 dark:text-amber-400">{lateTodayCount} late</span>
+                            <span className="text-rose-700 dark:text-rose-400">{absentTodayCount} absent</span>
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="group relative bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-amber-500/10 transition-all duration-300">
+                <Card className="group overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-slate-500 uppercase tracking-widest">Payroll Net Spend</CardTitle>
+                        <CardTitle className="text-sm font-semibold text-slate-600 dark:text-slate-300">Payroll net spend</CardTitle>
                         <div className="p-2.5 bg-teal-50 dark:bg-teal-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <DollarSign className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                        <div className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white sm:text-3xl">
                             AED {monthlyNetSalarySpent.toLocaleString([], { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                         </div>
-                        <div className="flex items-center gap-1 mt-2 text-slate-500 font-bold text-xs">
-                            <span>Current Month net payout</span>
+                        <div className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                            <span>Net payout this month</span>
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className={cn(
-                    "group relative shadow-xl rounded-[2rem] overflow-hidden border-0 transition-all duration-300",
-                    expiringVisasCount > 0 ? "bg-gradient-to-br from-rose-600 to-red-700 text-white" : "bg-gradient-to-br from-indigo-600 to-violet-700 text-white"
+                    "group relative overflow-hidden rounded-2xl border shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
+                    expiringVisasCount > 0 ? "border-rose-200 bg-rose-50 text-rose-950 dark:border-rose-900 dark:bg-rose-950/40 dark:text-white" : "border-slate-200 bg-white text-slate-950 dark:border-slate-800 dark:bg-slate-900 dark:text-white"
                 )}>
-                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-bold text-white/70 uppercase tracking-widest">Compliance Warnings</CardTitle>
-                        <div className="p-2.5 bg-white/20 backdrop-blur-md rounded-xl">
-                            <ShieldAlert className="h-5 w-5 text-white" />
+                        <CardTitle className="text-sm font-semibold text-slate-600 dark:text-slate-300">Compliance due soon</CardTitle>
+                        <div className={cn("rounded-xl p-2.5", expiringVisasCount > 0 ? "bg-rose-100 dark:bg-rose-900/50" : "bg-indigo-50 dark:bg-indigo-950/50")}>
+                            <ShieldAlert className={cn("h-5 w-5", expiringVisasCount > 0 ? "text-rose-700 dark:text-rose-300" : "text-indigo-600 dark:text-indigo-300")} />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-4xl font-black text-white tracking-tighter">{expiringVisasCount} File(s)</div>
-                        <div className="flex items-center gap-1 mt-2 text-white/80 font-bold text-xs">
-                            <ArrowUpRight className="h-3 w-3" />
-                            <span>Document expiries (&lt;30d)</span>
+                        <div className="text-3xl font-bold tracking-tight">{expiringVisasCount}</div>
+                        <div className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                            <span>Documents expiring within 30 days</span>
                         </div>
                     </CardContent>
                 </Card>
             </div>
 
-            <div className="grid gap-8 lg:grid-cols-7">
+            <div className="grid items-start gap-6 xl:grid-cols-7">
                 {/* Visual Charts Block */}
-                <div className="lg:col-span-4 space-y-8">
+                <div className="space-y-6 xl:col-span-4">
                     {/* Attendance Trend Chart */}
-                    <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                    <Card className="overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
                         <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-100 dark:border-slate-800/60">
                             <div>
                                 <CardTitle className="text-lg font-bold">Attendance Velocity</CardTitle>
@@ -272,7 +284,7 @@ export default async function DashboardPage() {
                     </Card>
 
                     {/* Headcount distribution by department */}
-                    <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                    <Card className="overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
                         <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-100 dark:border-slate-800/60">
                             <div>
                                 <CardTitle className="text-lg font-bold">Workforce Segmentation</CardTitle>
@@ -289,12 +301,7 @@ export default async function DashboardPage() {
                                             <span className="uppercase tracking-wider">{dept.department}</span>
                                             <span>{dept.count} Employee(s)</span>
                                         </div>
-                                        <div className="h-2.5 w-full rounded-full bg-slate-100 dark:bg-slate-850 overflow-hidden shadow-inner">
-                                            <div 
-                                                className="h-full bg-gradient-to-r from-violet-500 to-indigo-600 transition-all duration-1000"
-                                                style={{ width: `${progressPct}%` }}
-                                            />
-                                        </div>
+                                        <Progress value={progressPct} aria-label={`${dept.department} workforce share`} className="h-2.5 rounded-full bg-slate-100 shadow-inner dark:bg-slate-850" indicatorClassName="bg-gradient-to-r from-violet-500 to-indigo-600" />
                                     </div>
                                 );
                             })}
@@ -303,13 +310,31 @@ export default async function DashboardPage() {
                             )}
                         </CardContent>
                     </Card>
+
+                    <Card className="overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
+                        <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-100 dark:border-slate-800/60">
+                            <div>
+                                <CardTitle className="text-lg font-bold">Company hierarchy</CardTitle>
+                                <CardDescription className="text-xs text-slate-500 font-bold uppercase tracking-wider">Top to bottom reporting structure</CardDescription>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="p-4 sm:p-6">
+                            <div className="space-y-4">
+                                {companyTree.length > 0 ? companyTree.map((root) => (
+                                    <HierarchyNode key={root.id} employee={root} />
+                                )) : (
+                                    <p className="text-sm text-slate-500 dark:text-slate-400">No hierarchy data available yet.</p>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Sidebar Operations Block */}
-                <div className="lg:col-span-3 space-y-8">
+                <div className="space-y-6 xl:col-span-3">
                     {/* Quick Access Actions */}
                     {userRole !== "STAFF" && (
-                        <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                        <Card className="overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
                             <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 dark:border-slate-800/60">
                                 <CardTitle className="text-base font-bold">HR Management Shortcuts</CardTitle>
                             </CardHeader>
@@ -343,7 +368,7 @@ export default async function DashboardPage() {
                     )}
 
                     {/* Audit Logs events */}
-                    <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800/60 shadow-xl rounded-[2.5rem] overflow-hidden">
+                    <Card className="overflow-hidden rounded-2xl border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
                             <CardHeader className="bg-slate-50/50 dark:bg-slate-900/20 px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 dark:border-slate-800/60">
                                 <CardTitle className="text-base font-bold">Compliance Logs</CardTitle>
                             </CardHeader>
@@ -371,6 +396,74 @@ export default async function DashboardPage() {
                     </Card>
                 </div>
             </div>
+        </div>
+    );
+}
+
+type CompanyEmployeeNode = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    photo: string | null;
+    designation: string | null;
+    department: string | null;
+    managerId: string | null;
+    reportees: CompanyEmployeeNode[];
+};
+
+function buildCompanyTree(employees: Array<Omit<CompanyEmployeeNode, 'reportees'>>): CompanyEmployeeNode[] {
+    const byId = new Map(employees.map((employee) => [employee.id, { ...employee, reportees: [] as CompanyEmployeeNode[] }]));
+
+    for (const employee of employees) {
+        const node = byId.get(employee.id);
+        if (!node) continue;
+
+        if (employee.managerId && byId.has(employee.managerId)) {
+            const manager = byId.get(employee.managerId);
+            if (manager) {
+                manager.reportees.push(node);
+            }
+        }
+    }
+
+    return employees
+        .filter((employee) => !employee.managerId || !byId.has(employee.managerId))
+        .map((employee) => byId.get(employee.id)!)
+        .sort((a, b) => a.firstName.localeCompare(b.firstName));
+}
+
+function HierarchyNode({ employee }: { employee: CompanyEmployeeNode }) {
+    const initials = `${employee.firstName?.[0] ?? ""}${employee.lastName?.[0] ?? ""}`.toUpperCase();
+
+    return (
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/60 p-3 sm:p-4">
+            <div className="flex items-center gap-3">
+                <Link href={`/employees/${employee.id}`} className="shrink-0">
+                    {employee.photo ? (
+                        <img src={employee.photo} alt={`${employee.firstName} ${employee.lastName}`} className="h-11 w-11 rounded-full object-cover ring-2 ring-indigo-200 dark:ring-indigo-900" />
+                    ) : (
+                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-black text-white">
+                            {initials || "HR"}
+                        </div>
+                    )}
+                </Link>
+                <div className="min-w-0 flex-1">
+                    <Link href={`/employees/${employee.id}`} className="block truncate text-sm font-black text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400">
+                        {employee.firstName} {employee.lastName}
+                    </Link>
+                    <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                        {employee.designation && <span>{employee.designation}</span>}
+                        {employee.department && <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300">{employee.department}</span>}
+                    </div>
+                </div>
+            </div>
+            {employee.reportees.length > 0 && (
+                <div className="ml-6 mt-4 border-l-2 border-indigo-200 dark:border-indigo-900 pl-4 space-y-3">
+                    {employee.reportees.map((reportee) => (
+                        <HierarchyNode key={reportee.id} employee={reportee} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

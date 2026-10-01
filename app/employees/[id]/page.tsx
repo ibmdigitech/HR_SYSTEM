@@ -22,9 +22,9 @@ import { scopeEmployeeWhere } from "@/lib/auth/scope";
 import { logSecurityEvent, SECURITY_ACTION } from "@/lib/auth/audit";
 import { classifyEmployeeState } from "@/lib/workflow/lifecycle-consistency";
 import { PageHero } from "@/components/common/PageHero";
+import { EmployeeAvatar } from "../employee-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PROFILE_SELECT, FULL_SELECT } from "./employee-select";
 import { LIFECYCLE_STAGE, UNKNOWN_STAGE } from "./lifecycle-stage";
 
@@ -305,13 +305,11 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
                     </div>
 
                     <div className="flex shrink-0 items-center gap-3 sm:flex-col sm:items-end">
-                        <Avatar className="h-16 w-16 border-2 border-white shadow-md dark:border-slate-800">
-                            <AvatarImage src={employee.photo ?? undefined} alt="" />
-                            <AvatarFallback className="bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-lg font-black text-white">
-                                {employee.firstName[0]}
-                                {employee.lastName[0]}
-                            </AvatarFallback>
-                        </Avatar>
+                        <EmployeeAvatar
+                            employee={employee}
+                            className="h-16 w-16 sm:h-20 sm:w-20"
+                            fallbackClassName="text-base sm:text-lg"
+                        />
                         {employee.employeeCode && (
                             <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                 {employee.employeeCode}

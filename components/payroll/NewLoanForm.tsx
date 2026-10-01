@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
     Dialog,
     DialogContent,
@@ -83,7 +85,7 @@ export function NewLoanForm({ employees }: { employees: any[] }) {
 
                     <div className="space-y-2">
                         <Label htmlFor="issueDate">Issue Date</Label>
-                        <Input type="date" id="issueDate" name="issueDate" required defaultValue={new Date().toISOString().split('T')[0]} />
+                        <DatePicker id="issueDate" name="issueDate" required aria-label="Loan issue date" defaultValue={format(new Date(), "yyyy-MM-dd")} />
                     </div>
 
                     <div className="space-y-2">

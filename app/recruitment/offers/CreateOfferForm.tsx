@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { FilePlus2, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import {
     Select,
@@ -195,11 +197,11 @@ export function CreateOfferForm({
                             >
                                 Joining date
                             </Label>
-                            <Input
+                            <DatePicker
                                 id="offer-join"
-                                type="date"
                                 value={joiningDate}
-                                onChange={(e) => setJoiningDate(e.target.value)}
+                                onChange={(date) => setJoiningDate(date ? format(date, "yyyy-MM-dd") : "")}
+                                aria-label="Joining date"
                                 aria-invalid={errors.joiningDate ? "true" : undefined}
                                 className="h-11"
                             />
@@ -217,11 +219,11 @@ export function CreateOfferForm({
                             >
                                 Offer expires
                             </Label>
-                            <Input
+                            <DatePicker
                                 id="offer-exp"
-                                type="date"
                                 value={offerExpiry}
-                                onChange={(e) => setOfferExpiry(e.target.value)}
+                                onChange={(date) => setOfferExpiry(date ? format(date, "yyyy-MM-dd") : "")}
+                                aria-label="Offer expiry date"
                                 aria-invalid={errors.offerExpiry ? "true" : undefined}
                                 className="h-11"
                             />

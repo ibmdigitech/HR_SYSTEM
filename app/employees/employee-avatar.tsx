@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { normalizeEmployeePhotoValue } from "@/app/lib/photo";
 import { cn } from "@/lib/utils";
 
 /**
@@ -96,14 +97,16 @@ export function EmployeeAvatar({
     className?: string;
     fallbackClassName?: string;
 }) {
+    const avatarSrc = normalizeEmployeePhotoValue(employee.photo) ?? undefined;
+
     return (
         <Avatar
             className={cn(
-                "h-11 w-11 border-2 border-white shadow-md dark:border-slate-800",
+                "h-11 w-11 overflow-hidden border-2 border-white shadow-md dark:border-slate-800",
                 className
             )}
         >
-            <AvatarImage src={employee.photo ?? undefined} alt="" />
+            <AvatarImage src={avatarSrc} alt="" className="object-cover" />
             <AvatarFallback
                 className={cn(
                     employeeAvatarPalette(employee),

@@ -146,40 +146,33 @@ export function LeaveBalanceCard({
         </Badge>
       </div>
 
-      {/* Progress Bar with Count Inside */}
-      <div className="relative">
-        <div 
-          className={`h-6 rounded-full overflow-hidden ${trackColor} relative`}
-          style={{ minWidth: '100%' }}
+      {/* Circular Progress with Count Inside */}
+      <div className="flex justify-center">
+        <Progress
+          value={usedPercentage}
+          variant="circular"
+          size={80}
+          strokeWidth={6}
+          showValue
+          className="text-indigo-600 dark:text-indigo-500"
         >
-          <div
-            className={`h-full ${progressColor} transition-all duration-500 flex items-center justify-center`}
-            style={{ width: `${usedPercentage}%` }}
-          >
-            <span className="text-[10px] font-black text-white drop-shadow-sm whitespace-nowrap px-1">
-              {usedDays} / {totalDays} Used ({usedPercentage}%)
-            </span>
-          </div>
-          
-          {/* Remaining portion indicator */}
-          {usedPercentage < 100 && (
-            <div
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-600 dark:text-slate-400 whitespace-nowrap"
-              style={{ right: `${Math.max(0, 100 - usedPercentage - 2)}%` }}
-            >
-              {remainingDays} Left
+          <div className="text-center">
+            <div className="text-lg font-black text-slate-800 dark:text-slate-200">
+              {usedDays} / {totalDays}
             </div>
-          )}
-        </div>
-        
-        {/* Progress labels */}
-        <div className="flex justify-between text-[9px] text-slate-400 font-bold uppercase mt-1">
-          <span>Used: {usedDays} Days</span>
-          <span>{usedPercentage}% Used</span>
-          <span className={usedPercentage >= 90 ? 'text-rose-500' : ''}>
-            {remainingDays} Remaining
-          </span>
-        </div>
+            <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400">
+              Used
+            </div>
+          </div>
+        </Progress>
+      </div>
+      
+      {/* Progress labels */}
+      <div className="flex justify-between text-[9px] text-slate-400 font-bold uppercase mt-2">
+        <span>{usedPercentage}% Used</span>
+        <span className={usedPercentage >= 90 ? 'text-rose-500' : ''}>
+          {remainingDays} Remaining
+        </span>
       </div>
 
       {/* Sick Leave UAE Law Breakdown */}
@@ -313,15 +306,16 @@ export function LeaveSummaryCard({ balances }: { balances: LeaveBalanceData[] })
         </div>
       </div>
 
-      <div className="relative h-3 bg-white/20 rounded-full overflow-hidden">
-        <div
-          className="h-full bg-white transition-all duration-500 flex items-center justify-center"
-          style={{ width: `${overallPercentage}%` }}
-        >
-          <span className="text-xs font-black text-indigo-900 whitespace-nowrap px-2">
-            {totalUsed} / {totalEntitlement} Used ({overallPercentage}%)
-          </span>
-        </div>
+      <div className="relative">
+        <Progress
+          value={overallPercentage}
+          aria-label="Overall leave usage"
+          className="h-3 rounded-full bg-white/20"
+          indicatorClassName="bg-white"
+        />
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-[10px] font-black text-indigo-900 sm:text-xs">
+          {totalUsed} / {totalEntitlement} Used ({overallPercentage}%)
+        </span>
       </div>
 
       <div className="flex justify-between text-sm text-indigo-100">

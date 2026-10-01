@@ -42,6 +42,7 @@ import { twMerge } from "tailwind-merge";
 const ROOT = process.cwd();
 const DIALOG = join(ROOT, "components", "ui", "dialog.tsx");
 const HEADER = join(ROOT, "components", "layout", "Header.tsx");
+const NAVIGATION = join(ROOT, "components", "layout", "NavigationLinks.tsx");
 
 function read(file: string): string {
     return readFileSync(file, "utf8");
@@ -198,13 +199,12 @@ describe("mobile drawer — scroll ownership and dismissal", () => {
     });
 
     it("every drawer link closes the drawer on tap", () => {
-        const source = read(HEADER);
-        const drawer = source.slice(source.indexOf("max-w-[320px]"), source.indexOf("</DialogContent>"));
-        const links = (drawer.match(/<Link\b/g) || []).length;
-        const closers = (drawer.match(/onClick=\{\(\) => setMobileMenuOpen\(false\)\}/g) || []).length;
+        const header = read(HEADER);
+        const navigation = read(NAVIGATION);
+        const drawer = header.slice(header.indexOf("max-w-[320px]"), header.indexOf("</DialogContent>"));
 
-        expect(links).toBeGreaterThan(0);
-        expect(closers, "a drawer link can navigate without closing the drawer").toBe(links);
+        expect(drawer).toMatch(/<NavigationLinks\b[^>]*onNavigate=\{\(\) => setMobileMenuOpen\(false\)\}/);
+        expect(navigation).toMatch(/<Link\b[^>]*onClick=\{onNavigate\}/);
     });
 
     it("the overlay covers the whole viewport", () => {

@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -183,11 +185,11 @@ export function VisaForm() {
                                             </div>
                                             <div className="space-y-1.5 text-left">
                                                 <Label className="text-[10px] uppercase font-bold text-slate-500">Expiry Date</Label>
-                                                <Input
-                                                    type="date"
+                                                <DatePicker
                                                     value={docData[cat.id]?.expiry || ""}
-                                                    onChange={(e) => handleDocDataChange(cat.id, 'expiry', e.target.value)}
-                                                    className="h-8 text-xs bg-white dark:bg-slate-950"
+                                                    onChange={(date) => handleDocDataChange(cat.id, 'expiry', date ? format(date, "yyyy-MM-dd") : "")}
+                                                    aria-label={`${cat.label} expiry date`}
+                                                    className="h-9 text-xs bg-white dark:bg-slate-950"
                                                 />
                                             </div>
                                         </div>

@@ -206,6 +206,15 @@ TIMEOUT /T 3 /NOBREAK >NUL
 GOTO WAIT_DB
 
 :DB_READY
+ECHO [SETUP] Checking that PostgreSQL is reachable before the app starts...
+call npm run check:db
+IF NOT ERRORLEVEL 0 (
+    ECHO [ERROR] PostgreSQL is not reachable from the configured connection string.
+    ECHO         Start the database container or fix DATABASE_URL / DIRECT_URL in .env.
+    PAUSE
+    EXIT /B 1
+)
+
 ECHO [SETUP] Syncing the database schema...
 call npx prisma generate
 IF NOT ERRORLEVEL 0 (

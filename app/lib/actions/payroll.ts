@@ -66,6 +66,7 @@ export async function generatePayroll(month: number, year: number) {
 
         // Fetch dynamic configs
         const defaultLatePenalty = await getConfig('payroll', 'late_penalty_amount') || 50;
+        const overtimeRate = await getConfig('payroll', 'overtime_rate_per_hour') || 1.5;
 
         const startOfMonth = new Date(year, month - 1, 1);
         const endOfMonth = new Date(year, month, 0, 23, 59, 59, 999);

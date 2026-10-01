@@ -227,13 +227,25 @@ async function main() {
             { module: 'leave', key: 'carry_forward_enabled', label: 'Carry Forward', type: 'boolean', value: 'true' },
 
             // Visa
-            { module: 'visa', key: 'passport_expiry_alert_days', label: 'Passport Expiry Alert (Days)', type: 'number', value: '30' },
-            { module: 'visa', key: 'visa_expiry_alert_days', label: 'Visa Expiry Alert (Days)', type: 'number', value: '30' },
+            { module: 'visa', key: 'expiry_reminder_days', label: 'Expiry Reminder Days', type: 'text', value: '90,60,30,14,7' },
             { module: 'visa', key: 'auto_flag_expired', label: 'Auto Flag Expired', type: 'boolean', value: 'true' },
+
+            // Letters
+            { module: 'letters', key: 'approval_required_types', label: 'Approval Required Types', type: 'text', value: 'OFFER,APPOINTMENT,RELIEVING,NOC,SALARY_CERTIFICATE' },
 
             // Notifications
             { module: 'notifications', key: 'email_notifications_enabled', label: 'Email Notifications', type: 'boolean', value: 'true' },
             { module: 'notifications', key: 'admin_alerts_enabled', label: 'Admin Alerts', type: 'boolean', value: 'true' },
+
+            // Company (used by letter generation)
+            { module: 'COMPANY', key: 'name', label: 'Company Name', type: 'text', value: 'IBMDigiTech LLC' },
+            { module: 'COMPANY', key: 'logo', label: 'Company Logo', type: 'text', value: '' },
+            { module: 'COMPANY', key: 'address', label: 'Company Address', type: 'text', value: 'Dubai, UAE' },
+            { module: 'COMPANY', key: 'phone', label: 'Company Phone', type: 'text', value: '+971 4 123 4567' },
+            { module: 'COMPANY', key: 'email', label: 'Company Email', type: 'text', value: 'hr@ibmdigitech.com' },
+            { module: 'COMPANY', key: 'website', label: 'Company Website', type: 'text', value: 'https://ibmdigitech.com' },
+            { module: 'COMPANY', key: 'signature', label: 'Signature', type: 'text', value: '' },
+            { module: 'COMPANY', key: 'letterhead', label: 'Letterhead', type: 'text', value: '' },
         ];
 
         for (const config of serviceConfigs) {

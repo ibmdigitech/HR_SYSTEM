@@ -128,8 +128,8 @@ const nextConfig: NextConfig = {
     // Merged from the previously-active next.config.js (P0-11).
     experimental: {
         serverActions: {
-            // Default is 1mb. Employee document and CSV uploads need more.
-            bodySizeLimit: "2mb",
+            // Leave room for the bounded 5 MB resignation letter plus multipart overhead.
+            bodySizeLimit: "6mb",
         },
     },
 

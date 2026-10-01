@@ -1,6 +1,8 @@
 # 🚀 IBM DIGITECH ENTERPRISE HRMS
 ### The Ultimate Modern HR & Operations Management System
 
+> Deployment target: the repository root is the active production app. The legacy copy previously kept under `hr-system/` has been archived to `archive/legacy-hr-system` and is no longer part of the deployment path.
+
 A state-of-the-art, **Premium Glassmorphic** HRMS built with **Next.js 16**, **TypeScript**, **Prisma**, and **Tailwind CSS**. Designed for enterprise-grade performance, aesthetic excellence, and UAE compliance.
 
 ---

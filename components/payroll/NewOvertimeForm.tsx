@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
     Dialog,
     DialogContent,
@@ -78,7 +80,7 @@ export function NewOvertimeForm({ employees }: { employees: any[] }) {
 
                     <div className="space-y-2">
                         <Label htmlFor="date">Date</Label>
-                        <Input type="date" id="date" name="date" required defaultValue={new Date().toISOString().split('T')[0]} />
+                        <DatePicker id="date" name="date" required aria-label="Overtime date" defaultValue={format(new Date(), "yyyy-MM-dd")} />
                     </div>
 
                     <div className="space-y-2">

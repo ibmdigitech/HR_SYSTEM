@@ -5,29 +5,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { resolvePermissions, PERMISSIONS } from "@/lib/auth/permissions";
 import { signOut } from "next-auth/react";
-import {
-    LayoutDashboard,
-    Users,
-    Calendar,
-    CreditCard,
-    Settings,
-    LogOut,
-    FileText,
-    Building2,
-    Briefcase,
-    FileUp,
-    Settings2,
-    HeartHandshake,
-    Sparkles,
-    ChevronRight,
-    Activity,
-    CheckCircle2,
-    ArrowRightLeft,
-    Bell,
-    UserPlus,
-    CalendarClock,
-    FileSignature
-} from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { LayoutDashboard, Users, Calendar, CreditCard, Settings, LogOut, FileText, Building2, Briefcase, FileUp, Settings2, HeartHandshake, ChevronRight, Activity, CheckCircle2, ArrowRightLeft, Bell, UserPlus, CalendarClock, FileSignature, Target, UserRoundX } from "lucide-react";
 
 /**
  * Navigation is filtered by the same permission model the server enforces
@@ -40,12 +19,14 @@ import {
 export const sidebarItems = [
     { title: "Dashboard",         href: "/dashboard",                icon: LayoutDashboard, exact: true },
     { title: "Employees",         href: "/employees",                icon: Users,             permission: PERMISSIONS.EMPLOYEES_VIEW },
+    { title: "Resignation & Exit",href: "/exits",                    icon: UserRoundX,        permission: PERMISSIONS.RESIGNATION_CREATE },
     { title: "Attendance",        href: "/attendance",               icon: Calendar,          permission: PERMISSIONS.ATTENDANCE_VIEW },
     { title: "Leaves",            href: "/leaves",                   icon: Briefcase,         permission: PERMISSIONS.LEAVE_VIEW },
     { title: "Approvals",         href: "/dashboard/approvals",      icon: CheckCircle2,      permission: PERMISSIONS.LEAVE_APPROVE },
     { title: "Payroll",           href: "/payroll",                  icon: CreditCard,        permission: PERMISSIONS.PAYROLL_VIEW },
     { title: "Visa & Compliance", href: "/visa",                     icon: FileUp,            permission: PERMISSIONS.VISA_VIEW },
     { title: "Letters",           href: "/letters",                  icon: FileText,          permission: PERMISSIONS.LETTER_VIEW },
+    { title: "Performance",       href: "/performance",              icon: Target,            permission: PERMISSIONS.PERFORMANCE_VIEW },
     { title: "Staff Services",    href: "/staff-services",           icon: HeartHandshake,    permission: PERMISSIONS.SERVICE_VIEW },
     { title: "Recruitment",       href: "/recruitment",               icon: UserPlus,          permission: PERMISSIONS.RECRUITMENT_VIEW },
     { title: "Interviews",        href: "/recruitment/interviews",    icon: CalendarClock,     permission: PERMISSIONS.RECRUITMENT_VIEW },
@@ -167,16 +148,14 @@ export function Sidebar({ user }: SidebarProps) {
 
             <div className="p-6 space-y-4 relative z-10 border-t border-slate-800/50">
                 <div className="p-4 rounded-2xl bg-slate-800/50 border border-slate-700/50">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="relative">
-                            <Activity className="h-4 w-4 text-emerald-400" />
-                            <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <div className="flex items-center gap-2.5 mb-2">
+                        <div className="relative flex items-center justify-center">
+                            <Activity className="h-3.5 w-3.5 text-emerald-400" />
+                            <span className="absolute -top-1 -right-1 h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         </div>
                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">System Live</span>
                     </div>
-                    <div className="h-1.5 w-full bg-slate-700 rounded-full overflow-hidden">
-                        <div className="h-full w-[94%] bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
-                    </div>
+                    <Progress value={99.9} aria-label="System stability index" className="h-1.5 w-full rounded-full bg-slate-700" indicatorClassName="rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                     <div className="flex justify-between mt-2">
                         <span className="text-[9px] font-bold text-slate-500">Stability Index</span>
                         <span className="text-[9px] font-black text-emerald-400">99.9%</span>
@@ -185,9 +164,9 @@ export function Sidebar({ user }: SidebarProps) {
 
                 <button 
                     onClick={() => signOut({ callbackUrl: "/login" })}
-                    className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-black text-rose-400 hover:bg-rose-500/10 transition-all group cursor-pointer"
+                    className="flex w-full items-center gap-2.5 rounded-2xl px-4 py-3 text-sm font-black text-rose-400 hover:bg-rose-500/10 transition-all group cursor-pointer"
                 >
-                    <LogOut className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    <LogOut className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     Terminate Session
                 </button>
             </div>

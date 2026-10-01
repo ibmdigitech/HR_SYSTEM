@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
+import { AnimatedLeaveProgress } from "@/components/leave/AnimatedLeaveProgress";
 import { 
     User, Briefcase, Building2, Calendar, MapPin, Mail, Phone, ShieldCheck, 
     CreditCard, CalendarDays, Percent, Clock, FileCheck, FileText, ArrowRightLeft,
@@ -284,11 +284,15 @@ export default async function StaffServicesPage() {
                                                 </div>
                                                 <Badge className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border-0 text-[10px] font-black">{rem} / {bal.totalDays} Left</Badge>
                                             </div>
-                                            <div className="space-y-1">
-                                                <Progress value={pct} className="h-2 bg-slate-200 dark:bg-slate-800" />
-                                                <div className="flex justify-between text-[9px] text-slate-400 font-bold uppercase">
-                                                    <span>Used: {bal.usedDays} Days</span>
-                                                    <span>{pct}% Used</span>
+                                            <div className="flex items-center gap-5 pt-1">
+                                                <AnimatedLeaveProgress
+                                                    usedPercentage={pct}
+                                                    remainingDays={rem}
+                                                    totalDays={bal.totalDays}
+                                                />
+                                                <div className="min-w-0 space-y-1">
+                                                    <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{bal.usedDays} of {bal.totalDays} days used</p>
+                                                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{pct}% of your allocation used</p>
                                                 </div>
                                             </div>
                                         </div>

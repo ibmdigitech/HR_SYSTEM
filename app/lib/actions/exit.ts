@@ -82,6 +82,8 @@ export interface ExitActionResult {
     status?: string;
 }
 
+type ResignationLetter = { data: Uint8Array; name: string; contentType: string };
+
 /** States in which a case is still open. A second live case is refused. */
 const LIVE_STATES: readonly string[] = [
     EXIT_STATUS.REQUESTED,
@@ -192,23 +194,84 @@ export async function initiateExitCase(input: {
     noticePeriodDays?: number;
     decisionNote?: string;
 }): Promise<ExitActionResult> {
-    try {
-        const user = await requireAnyPermission([
-            PERMISSIONS.RESIGNATION_CREATE,
-            PERMISSIONS.TERMINATION_CREATE,
-            PERMISSIONS.EMPLOYEES_EDIT,
-        ]);
+    return createExitCase(input);
+}
 
+/** FormData adapter used by the employee-facing request page. */
+export async function submitExitCaseForm(formData: FormData): Promise<ExitActionResult> {
+    const letter = formData.get("resignationLetter");
+    let attachment: ResignationLetter | undefined;
+    if (letter && typeof letter !== "string" && letter.size > 0) {
+        const allowedTypes = new Set([
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ]);
+        if (letter.size > 5 * 1024 * 1024) {
+            return { success: false, message: "The resignation letter must be 5 MB or smaller." };
+        }
+        if (!allowedTypes.has(letter.type)) {
+            return { success: false, message: "Attach the resignation letter as a PDF or Word document." };
+        }
+        attachment = {
+            data: new Uint8Array(await letter.arrayBuffer()),
+            name: letter.name.split(/[\\/]/).pop()?.slice(0, 180) || "resignation-letter",
+            contentType: letter.type,
+        };
+    }
+
+    const noticePeriodDays = Number(formData.get("noticePeriodDays"));
+    if (!Number.isInteger(noticePeriodDays)) {
+        return { success: false, message: "Enter the agreed notice period in whole days." };
+    }
+    return createExitCase({
+        employeeId: String(formData.get("employeeId") ?? ""),
+        type: String(formData.get("type") ?? "RESIGNATION"),
+        reason: String(formData.get("reason") ?? "").trim(),
+        effectiveDate: String(formData.get("effectiveDate") ?? "") || undefined,
+        lastWorkingDate: String(formData.get("lastWorkingDate") ?? "") || undefined,
+        noticePeriodDays,
+    }, attachment);
+}
+
+async function createExitCase(input: {
+    employeeId: string;
+    type: string;
+    reason?: string;
+    effectiveDate?: string;
+    lastWorkingDate?: string;
+    noticePeriodDays?: number;
+    decisionNote?: string;
+}, attachment?: ResignationLetter): Promise<ExitActionResult> {
+    try {
         if (!EXIT_TYPES.includes(input.type as ExitType)) {
             return { success: false, message: `Unknown exit type: ${input.type}` };
         }
         const type = input.type as ExitType;
+        const isResignation = type === EXIT_TYPE.RESIGNATION;
+        if (attachment && !isResignation) {
+            return { success: false, message: "A letter attachment is only accepted for resignation requests." };
+        }
+        const reason = input.reason?.trim();
+        if (!reason || reason.length > 2000) {
+            return { success: false, message: "Enter a reason of 1 to 2,000 characters." };
+        }
+        const user = await requirePermission(
+            isResignation ? PERMISSIONS.RESIGNATION_CREATE : PERMISSIONS.TERMINATION_CREATE
+        );
+        const mayCreateForOthers = ["HR", "ADMIN", "SUPER_ADMIN"].includes(user.role);
+        if (!isResignation && !mayCreateForOthers) {
+            return { success: false, message: "Only HR or an administrator can start a termination or contract-end case." };
+        }
 
         const employee = await prisma.employee.findUnique({
             where: { id: input.employeeId },
             select: { id: true, firstName: true, lastName: true, isActive: true },
         });
         if (!employee) return { success: false, message: "Employee not found." };
+        if (!mayCreateForOthers && employee.id !== user.employeeId) {
+            return { success: false, message: "You can only submit a resignation request for yourself." };
+        }
         if (!employee.isActive) {
             return {
                 success: false,
@@ -261,7 +324,12 @@ export async function initiateExitCase(input: {
                     employeeId: employee.id,
                     type,
                     status: EXIT_STATUS.REQUESTED,
-                    reason: input.reason ?? null,
+                    reason,
+                    ...(attachment ? {
+                        resignationLetterData: Buffer.from(attachment.data),
+                        resignationLetterName: attachment.name,
+                        resignationLetterType: attachment.contentType,
+                    } : {}),
                     decisionNote: input.decisionNote ?? null,
                     effectiveDate: effectiveDate ?? null,
                     lastWorkingDate: lastWorkingDate ?? null,
@@ -312,6 +380,56 @@ export async function initiateExitCase(input: {
             };
         }
         return toResult(error, "INITIATE_EXIT_FAILED");
+    }
+}
+
+/** Move a newly submitted case into the approver queue. */
+export async function routeExitCaseForApproval(exitCaseId: string): Promise<ExitActionResult> {
+    try {
+        const user = await requireAnyPermission([
+            PERMISSIONS.RESIGNATION_APPROVE,
+            PERMISSIONS.TERMINATION_APPROVE,
+        ]);
+        const exitCase = await prisma.exitCase.findUnique({
+            where: { id: exitCaseId },
+            select: { id: true, employeeId: true, type: true, status: true },
+        });
+        if (!exitCase) return notFound();
+        if (user.employeeId && user.employeeId === exitCase.employeeId) {
+            return { success: false, message: "You cannot route your own exit case." };
+        }
+
+        const refused = assertMove(exitCase.status, EXIT_STATUS.PENDING_APPROVAL, {
+            id: user.id,
+            role: user.role,
+        });
+        if (refused) return refused;
+
+        await prisma.$transaction(async (tx) => {
+            const changed = await tx.exitCase.updateMany({
+                where: { id: exitCase.id, status: exitCase.status },
+                data: { status: EXIT_STATUS.PENDING_APPROVAL },
+            });
+            if (changed.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+            await tx.auditLog.create({
+                data: {
+                    employeeId: exitCase.employeeId,
+                    action: "EXIT_ROUTED_FOR_APPROVAL",
+                    details: `Exit case ${exitCase.id} (${exitCase.type}) routed for approval.`,
+                    changedBy: user.email,
+                },
+            });
+        });
+
+        revalidateExitViews(exitCase.id);
+        return {
+            success: true,
+            message: "Exit case sent to the approval queue.",
+            exitCaseId: exitCase.id,
+            status: EXIT_STATUS.PENDING_APPROVAL,
+        };
+    } catch (error) {
+        return toResult(error, "ROUTE_EXIT_CASE_FAILED");
     }
 }
 

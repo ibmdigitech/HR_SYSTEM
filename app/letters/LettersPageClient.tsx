@@ -30,7 +30,12 @@ import {
     Send,
     ChevronRight,
     Loader2
-} from "lucide-react";import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
+} from "lucide-react";
+import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
+import {
+    getLetterEmployeeDisplayName,
+    getLetterEmployeeInitials,
+} from "@/app/lib/letters-safe";
 
 interface Template {
     id: string;
@@ -362,14 +367,16 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                                                 </div>
                                                 {getStatusBadge(letter.status)}
                                             </div>
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="h-6 w-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-black">
-                                                        {letter.employee.firstName[0]}
+                                            <div className="flex items-center justify-between gap-3">
+                                                <div className="flex min-w-0 items-center gap-2">
+                                                    <div className="h-6 w-6 shrink-0 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-black">
+                                                        {getLetterEmployeeInitials(letter.employee)}
                                                     </div>
-                                                    <span className="text-[10px] font-bold text-slate-500">{letter.employee.firstName} {letter.employee.lastName}</span>
+                                                    <span className="min-w-0 truncate text-[10px] font-bold text-slate-500">
+                                                        {getLetterEmployeeDisplayName(letter.employee)}
+                                                    </span>
                                                 </div>
-                                                <span className="text-[9px] font-medium text-slate-300">
+                                                <span className="shrink-0 text-[9px] font-medium text-slate-300">
                                                     {new Date(letter.createdAt).toLocaleDateString()}
                                                 </span>
                                             </div>

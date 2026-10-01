@@ -28,6 +28,7 @@ export function CheckInButton() {
             const res = await getTodayStatus();
             if (cancelled) return;
             if (res.success) setStatus(res.data);
+            setLoading(false);
         })();
 
         return () => {

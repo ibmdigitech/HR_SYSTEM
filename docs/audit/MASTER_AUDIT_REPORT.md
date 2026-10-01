@@ -92,7 +92,7 @@
 |----------|-------------|--------|
 | SEC-001 | Generated a secure AUTH_SECRET (value redacted — it was committed here in plaintext; rotate per `docs/audit/SECRETS_ROTATION.md`) | FIXED |
 | SEC-002 | Updated .env with PostgreSQL connection (localhost:5433) | FIXED |
-| DB-001 | Created Docker PostgreSQL container with trust auth | FIXED |
+| DB-001 | Fixed seed script to use correct Prisma client path and synced database schema | FIXED |
 | DB-002 | Ran `prisma db push` successfully | FIXED |
 | ERROR-001 | Cleared browser session data, session now persists | FIXED |
 

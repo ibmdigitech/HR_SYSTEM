@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Circle, AlertCircle } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 /**
@@ -98,19 +99,12 @@ export function FormProgress({
         <div className="space-y-3" aria-label="Form completion">
             {/* Overall bar */}
             <div className="flex items-center gap-3">
-                <div
-                    className="h-2 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
-                    role="progressbar"
-                    aria-valuenow={shownPercent}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
+                <Progress
+                    value={shownPercent}
                     aria-label="Form completion"
-                >
-                    <div
-                        className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-500 transition-[width] duration-500 ease-out"
-                        style={{ width: `${shownPercent}%` }}
-                    />
-                </div>
+                    className="h-2 flex-1 rounded-full bg-slate-200 dark:bg-slate-800"
+                    indicatorClassName="rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-500"
+                />
                 <span className="shrink-0 text-[11px] font-black tabular-nums text-slate-500 dark:text-slate-400">
                     {done}/{sections.length} · {shownPercent}%
                 </span>

@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { format } from "date-fns";import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import {
     Banknote,
@@ -204,12 +205,7 @@ export default async function MyLoansPage() {
                                                     <span>Repayment Progress</span>
                                                     <span className="text-indigo-600">{paidInstallments.length}/{loan.installments.length} paid</span>
                                                 </div>
-                                                <div className="h-2 bg-indigo-100 rounded-full overflow-hidden">
-                                                    <div
-                                                        className="h-full bg-indigo-600 rounded-full transition-all duration-500"
-                                                        style={{ width: `${progress}%` }}
-                                                    />
-                                                </div>
+                                                <Progress value={progress} aria-label="Loan repayment progress" className="h-2 rounded-full bg-indigo-100" indicatorClassName="rounded-full bg-indigo-600" />
                                                 <div className="flex justify-between mt-2 text-xs text-slate-500">
                                                     <span>Outstanding: <span className="font-bold text-slate-700">AED {remaining.toLocaleString(undefined, { maximumFractionDigits: 0 })}</span></span>
                                                     <span>{Math.round(progress)}% complete</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
     Table,
@@ -77,7 +77,22 @@ import {
     fieldErrors as toFieldErrors,
     outstandingProvisionalFields,
 } from "@/app/lib/validation";
+import { normalizeEmployeePhotoValue } from "@/app/lib/photo";
 import { toast } from "sonner";
+const EMPLOYEE_STATUS_PRESENTATION: Record<string, { label: string; className: string }> = {
+    ACTIVE: { label: "Active", className: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300" },
+    ON_LEAVE: { label: "On leave", className: "bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300" },
+    RESIGNED: { label: "Resigned", className: "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300" },
+    TERMINATED: { label: "Terminated", className: "bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300" },
+};
+
+function employeeStatusPresentation(status: string | null | undefined) {
+    const normalized = (status ?? "").trim().toUpperCase();
+    return EMPLOYEE_STATUS_PRESENTATION[normalized] ?? {
+        label: normalized ? normalized.toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase()) : "Unknown",
+        className: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+    };
+}
 
 export default function EmployeeList({ initialEmployees,  }: { initialEmployees: any[], managers: any[] }) {
     const [employees, setEmployees] = useState(initialEmployees);
@@ -174,8 +189,50 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
     // so completion is derived from the real field values.
     const [activeTab, setActiveTab] = useState("personal");
     const [progressFormData, setProgressFormData] = useState<FormData | null>(null);
+    const [photoDraft, setPhotoDraft] = useState("");
+    const photoPreview = normalizeEmployeePhotoValue(photoDraft) ?? "";
     // Staged entry: allow saving with identity only, completing later.
     const [saveAsProvisional, setSaveAsProvisional] = useState(false);
+
+    useEffect(() => {
+        setPhotoDraft(normalizeEmployeePhotoValue(selectedEmployee?.photo) ?? "");
+    }, [selectedEmployee?.photo, open]);
+
+    const fieldToTab: Record<string, string> = {
+        firstName: "personal",
+        lastName: "personal",
+        photo: "personal",
+        gender: "personal",
+        dateOfBirth: "personal",
+        nationality: "personal",
+        maritalStatus: "personal",
+        email: "personal",
+        phone: "personal",
+        address: "personal",
+        emergencyContact: "personal",
+        emergencyPhone: "personal",
+        rollNumber: "employment",
+        designation: "employment",
+        department: "employment",
+        joiningDate: "employment",
+        basicSalary: "finance",
+        housingAllowance: "finance",
+        transportAllowance: "finance",
+        otherAllowance: "finance",
+        bankName: "finance",
+        accountNumber: "finance",
+        iban: "finance",
+        governmentId: "docs",
+        currentStatus: "docs",
+        passportNumber: "docs",
+        passportExpiry: "docs",
+        emiratesId: "docs",
+        emiratesIdExpiry: "docs",
+        visaNumber: "docs",
+        visaExpiry: "docs",
+        medicalInsuranceExpiry: "docs",
+        iloeInsuranceExpiry: "docs",
+    };
 
     const refreshProgress = (form: HTMLFormElement | null) => {
         if (form) setProgressFormData(new FormData(form));
@@ -235,9 +292,14 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
         const clientErrors = runClientCheck(formData);
         if (Object.keys(clientErrors).length > 0) {
             setFieldErrors(clientErrors);
+            // Switch to the tab containing the first error field.
+            const firstKey = Object.keys(clientErrors)[0];
+            const errorTab = fieldToTab[firstKey];
+            if (errorTab && errorTab !== activeTab) {
+                setActiveTab(errorTab);
+            }
             toast.error("Please correct the highlighted fields.");
             // Move focus to the first invalid control.
-            const firstKey = Object.keys(clientErrors)[0];
             const el = form.querySelector<HTMLElement>(`[name="${firstKey}"]`);
             el?.focus();
             el?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -279,6 +341,10 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                 if (result.fieldErrors && Object.keys(result.fieldErrors).length > 0) {
                     setFieldErrors(result.fieldErrors);
                     const firstKey = Object.keys(result.fieldErrors)[0];
+                    const errorTab = fieldToTab[firstKey];
+                    if (errorTab && errorTab !== activeTab) {
+                        setActiveTab(errorTab);
+                    }
                     const el = form.querySelector<HTMLElement>(`[name="${firstKey}"]`);
                     el?.focus();
                     el?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -581,6 +647,41 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                             defaultValue={selectedEmployee?.lastName}
                                                             error={fieldErrors.lastName}
                                                         />
+                                                        <div className="sm:col-span-2 space-y-3">
+                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Profile photo</Label>
+                                                            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                                                                <div className="relative h-20 w-20 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+                                                                    {photoPreview ? (
+                                                                        <img
+                                                                            src={photoPreview}
+                                                                            alt="Employee preview"
+                                                                            className="h-full w-full object-cover"
+                                                                        />
+                                                                    ) : (
+                                                                        <EmployeeAvatar
+                                                                            employee={selectedEmployee ?? { firstName: "N", lastName: "A" }}
+                                                                            className="h-full w-full rounded-none border-0 shadow-none"
+                                                                            fallbackClassName="text-xl font-black"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                                <div className="flex-1 space-y-2">
+                                                                    <Input
+                                                                        name="photo"
+                                                                        type="url"
+                                                                        inputMode="url"
+                                                                        value={photoDraft}
+                                                                        onChange={(event) => setPhotoDraft(event.target.value)}
+                                                                        placeholder="https://example.com/photo.jpg or /images/profile.png"
+                                                                        className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold"
+                                                                    />
+                                                                    <p className="flex items-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                                                                        <Upload className="h-3.5 w-3.5 shrink-0" />
+                                                                        Optional. Use a public image URL or an app-relative path.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div className="space-y-3">
                                                             <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Gender</Label>
                                                             <Select name="gender" defaultValue={selectedEmployee?.gender || ""}>
@@ -909,11 +1010,6 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    {/* One column on a phone: the "Status: RESIGNED" label is
-                        ~200px wide and two of those plus a gap do not fit
-                        beside each other at 375px. `min-w-0` on the wrapper is
-                        belt-and-braces against a grid track refusing to shrink
-                        below its content. */}
                     <div className="grid min-w-0 shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-center">
                         <Button
                             variant="outline"
@@ -921,7 +1017,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                             className="h-12 w-full min-w-0 rounded-xl border-slate-200 bg-white font-black text-xs uppercase tracking-widest lg:h-14 lg:w-auto dark:border-slate-800 dark:bg-slate-900"
                         >
                             <Filter className="h-4 w-4 shrink-0" />
-                            <span className="truncate">Status: {filterStatus}</span>
+                            <span className="truncate normal-case tracking-normal">Status: {filterStatus === "ALL" ? "All" : employeeStatusPresentation(filterStatus).label}</span>
                         </Button>
                         <Button
                             variant="outline"
@@ -935,8 +1031,24 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                 </div>
             </Card>
 
+            <div className="hidden md:flex md:items-center md:justify-between md:gap-3 md:rounded-2xl md:border md:border-slate-200 md:bg-white md:p-3 md:shadow-sm dark:md:border-slate-800 dark:md:bg-slate-900/60">
+                <div className="flex items-center gap-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-2.5 py-1.5 dark:bg-slate-800">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                        Active {employees.filter((employee) => employee.currentStatus === "ACTIVE").length}
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-2.5 py-1.5 normal-case tracking-normal dark:bg-slate-800">
+                        <span className="h-2 w-2 rounded-full bg-amber-500" />
+                        Showing {filteredEmployees.length}
+                    </span>
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
+                    Workforce overview
+                </span>
+            </div>
+
             {/* Employee Table / Cards (P0-22) */}
-            {/* Below 768px a card list is used instead of the table. A 6-column
+            {/* Below 1280px a card list is used instead of the table to preserve readable employee details beside the sidebar. A 6-column
                 table with a min-width cannot be made usable by shrinking
                 columns: the content truncates and the action buttons collide.
                 The two layouts are rendered from the same filtered set, so
@@ -953,7 +1065,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
             <div className="w-full min-w-0">
 
                 {/* ── MOBILE: one card per employee ─────────────────────── */}
-                <ul className="flex flex-col gap-3 md:hidden">
+                <ul className="flex flex-col gap-3 xl:hidden">
                     {filteredEmployees.map((employee) => (
                         <li key={employee.id} className="min-w-0">
                             <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-md focus-within:border-indigo-300 dark:border-slate-800 dark:bg-slate-900/60 dark:focus-within:border-indigo-500">
@@ -1006,20 +1118,18 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         </span>
                                     </span>
                                     <Badge className={cn(
-                                        "shrink-0 rounded-lg px-2 py-1 text-[9px] font-black uppercase tracking-wider border-0",
-                                        employee.currentStatus === 'ACTIVE' ? "bg-emerald-500 text-white" :
-                                            employee.currentStatus === 'RESIGNED' ? "bg-amber-500 text-white" :
-                                                "bg-rose-500 text-white"
+                                        "shrink-0 rounded-lg border-0 px-2.5 py-1 text-xs font-semibold",
+                                        employeeStatusPresentation(employee.currentStatus).className
                                     )}>
-                                        {employee.currentStatus}
+                                        {employeeStatusPresentation(employee.currentStatus).label}
                                     </Badge>
                                     {/* The table already surfaces the staged-entry
                                         state; carrying it over means the phone is
                                         not the view where a half-completed hire
                                         looks finished. */}
                                     {outstandingProvisionalFields(employee as never).length > 0 && (
-                                        <span className="max-w-full truncate rounded-lg bg-amber-100 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
-                                            Provisional · {outstandingProvisionalFields(employee as never).length}
+                                        <span className="max-w-full truncate rounded-lg bg-amber-100 px-2 py-1 text-[10px] font-semibold normal-case tracking-normal text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
+                                            Incomplete · {outstandingProvisionalFields(employee as never).length} missing
                                         </span>
                                     )}
                                 </div>
@@ -1081,55 +1191,60 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                     without it the table's own min-width would widen the page
                     instead of scrolling inside `Table`'s `overflow-auto`
                     wrapper (components/ui/table.tsx:9). */}
-                <div className="hidden w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm md:block dark:border-slate-800 dark:bg-slate-900/60">
+                <div className="hidden w-full min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm xl:block dark:border-slate-800 dark:bg-slate-900/60">
                     <Table className="w-full min-w-[640px] table-fixed">
                         <colgroup>
-                            {/* 60px avatar + pl-6 (24) + pr-2 (8) = 76, so the
-                                cell no longer overflows its own track. */}
                             <col className="w-[76px]" />
                             <col className="w-[24%]" />
                             <col className="w-[22%]" />
                             <col className="w-[18%]" />
                             <col className="w-[13%]" />
-                            {/* Two 36px buttons + a 6px gap + pl-2 (8) +
-                                pr-4 (16) = 102. */}
                             <col className="w-[104px]" />
                         </colgroup>
-                        <TableHeader className="bg-slate-50/80 dark:bg-slate-900/60 sticky top-0 z-10 backdrop-blur">
+                        <TableHeader className="bg-slate-50/90 dark:bg-slate-900/70 sticky top-0 z-10 backdrop-blur-sm">
                         <TableRow className="border-0 hover:bg-transparent">
                             <TableHead className="h-12 pl-6 pr-2 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Profile</TableHead>
                             <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Employee</TableHead>
                             <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Position</TableHead>
-                            <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Compliance</TableHead>
+                            <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Employment</TableHead>
                             <TableHead className="h-12 px-4 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Status</TableHead>
                             <TableHead className="h-12 pr-4 pl-2 text-right text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {filteredEmployees.map((employee) => (
-                            <TableRow key={employee.id} className="group border-b border-slate-100 dark:border-slate-800/70 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/20 transition-colors">
+                            <TableRow key={employee.id} className="group border-b border-slate-100 dark:border-slate-800/70 transition-colors hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20">
                                 <TableCell className="py-4 pl-6 pr-2">
-                                    {/* The same `EmployeeAvatar` the card list
-                                        renders, so a person cannot be one
-                                        colour on a phone and another on a
-                                        laptop. */}
-                                    <EmployeeAvatar
-                                        employee={employee}
-                                        className="h-11 w-11 transition-transform duration-200 group-hover:scale-105"
-                                        fallbackClassName="text-sm"
-                                    />
+                                    <Link
+                                        href={`/employees/${employee.id}`}
+                                        aria-label={`View profile for ${employee.firstName} ${employee.lastName}`}
+                                        title={`View profile for ${employee.firstName} ${employee.lastName}`}
+                                        className="inline-flex rounded-full outline-none transition-transform duration-200 hover:scale-105 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                                    >
+                                        <EmployeeAvatar
+                                            employee={employee}
+                                            className="h-11 w-11"
+                                            fallbackClassName="text-sm"
+                                        />
+                                    </Link>
                                 </TableCell>
                                 <TableCell className="py-4 px-4">
                                     <div className="flex min-w-0 flex-col gap-1">
                                         <Link
                                             href={`/employees/${employee.id}`}
-                                            className="truncate text-sm font-black text-slate-900 hover:text-indigo-600 dark:text-white"
+                                            className="truncate text-sm font-black text-slate-900 transition-colors duration-200 hover:text-indigo-600 dark:text-white"
                                         >
                                             {employee.firstName} {employee.lastName}
                                         </Link>
                                         <span className="truncate font-mono text-[10px] font-bold uppercase tracking-wider text-slate-400">
                                             {employee.rollNumber}
                                         </span>
+                                        <Link
+                                            href={`/employees/${employee.id}`}
+                                            className="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400"
+                                        >
+                                            View profile
+                                        </Link>
                                     </div>
                                 </TableCell>
                                 <TableCell className="py-4 px-4">
@@ -1143,10 +1258,9 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                     </div>
                                 </TableCell>
                                 <TableCell className="py-4 px-4">
-                                    <div className="flex min-w-0 flex-col gap-1 text-[10px] font-black uppercase tracking-wider text-slate-500">
+                                    <div className="flex min-w-0 flex-col gap-1 text-[10px] font-semibold tracking-normal text-slate-500">
                                         <span className="flex items-center gap-1.5 truncate">
                                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
-                                            Joined{" "}
                                             {new Date(employee.joiningDate).toLocaleDateString("en-GB", {
                                                 day: "2-digit",
                                                 month: "short",
@@ -1155,7 +1269,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         </span>
                                         <span className="flex items-center gap-1.5 truncate">
                                             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                                            {String(employee.employmentType).replace(/_/g, " ")}
+                                            {String(employee.employmentType).replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase())}
                                         </span>
                                     </div>
                                 </TableCell>
@@ -1163,25 +1277,15 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                     <div className="flex min-w-0 flex-col gap-1.5">
                                         <Badge
                                             className={cn(
-                                                /* `max-w-full truncate` on the
-                                                   badge: "Provisional · 3
-                                                   outstanding" is ~170px at
-                                                   text-[10px] and the status
-                                                   column is ~85px. Without a
-                                                   cap, `table-fixed` lets it
-                                                   spill over the actions
-                                                   column. The full list stays
-                                                   on the line below and in its
-                                                   `title`. */
-                                                "w-fit max-w-full truncate rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border-0",
+                                                "w-fit max-w-full truncate rounded-lg px-2.5 py-1 text-xs font-semibold normal-case tracking-normal border-0",
                                                 outstandingProvisionalFields(employee as never).length > 0
                                                     ? "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
-                                                    : "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+                                                    : employeeStatusPresentation(employee.currentStatus).className
                                             )}
                                         >
                                             {outstandingProvisionalFields(employee as never).length > 0
-                                                ? `Provisional · ${outstandingProvisionalFields(employee as never).length} outstanding`
-                                                : employee.currentStatus}
+                                                ? `Incomplete`
+                                                : employeeStatusPresentation(employee.currentStatus).label}
                                         </Badge>
                                         {outstandingProvisionalFields(employee as never).length > 0 && (
                                             <span
@@ -1190,10 +1294,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                     .map((f) => f.label)
                                                     .join(", ")}
                                             >
-                                                Missing:{" "}
-                                                {outstandingProvisionalFields(employee as never)
-                                                    .map((f) => f.label)
-                                                    .join(", ")}
+                                                Details required
                                             </span>
                                         )}
                                     </div>

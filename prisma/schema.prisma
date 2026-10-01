@@ -42,6 +42,11 @@ model User {
   exitCasesDecided      ExitCase[]        @relation("ExitCaseDecidedBy")
   exitInterviews        ExitInterview[]   @relation("ExitInterviewConductedBy")
   rehireAssessments     RehireRecord[]    @relation("RehireAssessedBy")
+
+  // --- Performance relations ---
+  performanceCyclesCreated PerformanceCycle[] @relation("PerformanceCycleCreatedBy")
+  performanceReviewsApproved PerformanceReview[] @relation("ReviewApprovedBy")
+  performanceReviewsAcknowledged PerformanceReview[] @relation("ReviewAcknowledgedBy")
 }
 
 model Account {
@@ -645,6 +650,8 @@ model Employee {
   /// Prior-employer rehire assessments. Points at the employee who LEFT, not
   /// at the one who came back.
   rehireRecords  RehireRecord[]
+  performanceReviewsAsSubject PerformanceReview[] @relation("PerformanceSubject")
+  performanceReviewsAsManager PerformanceReview[] @relation("PerformanceManager")
 
   // --- Indexes (P0-13) ---
   // Filters: active-employee dropdowns (attendance, shifts, payroll) and department scope.
@@ -1594,6 +1601,11 @@ model ExitCase {
   status       String   @default("REQUESTED")
   /// The employee's stated reason, or HR's stated reason for a termination.
   reason       String?
+  /// Private resignation letter bytes. Downloads are served through an
+  /// authenticated route; this is intentionally not a public uploads URL.
+  resignationLetterData Bytes?
+  resignationLetterName String?
+  resignationLetterType String?
   /// Recorded by the action, not defaulted, so a back-dated request is visible
   /// as back-dated instead of looking like it was raised today.
   requestedAt  DateTime @default(now())
@@ -1674,3 +1686,171 @@ model RehireRecord {
 
   @@index([employeeId, eligible])
 }
+
+// ─── PERFORMANCE REVIEW (P2) ────────────────────────────────────────────────────
+//
+// Performance review cycle and reviews. Built on the same patterns as
+// recruitment-machine.ts: explicit state machines, role-based transitions,
+// permission-checked workflow functions, and audit logging.
+
+/// Performance review cycle — YEARLY, HALF_YEARLY, QUARTERLY
+model PerformanceCycle {
+  id             String       @id @default(cuid())
+  name           String       // e.g. "2026 H1", "2026 Q3"
+  type           String       // YEARLY | HALF_YEARLY | QUARTERLY
+  startDate      DateTime
+  endDate        DateTime
+  /// PLANNING → ACTIVE → CLOSED → ARCHIVED
+  status         String       @default("PLANNING")
+  /// Whether self-assessment is enabled for this cycle
+  selfAssessmentEnabled Boolean @default(true)
+  /// Whether manager review is enabled
+  managerReviewEnabled Boolean @default(true)
+  /// Whether calibration is enabled
+  calibrationEnabled Boolean @default(true)
+  createdById    String
+  createdBy      User         @relation("PerformanceCycleCreatedBy", fields: [createdById], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  reviews        PerformanceReview[]
+  questions      PerformanceQuestion[]
+
+  @@unique([type, startDate, endDate])
+  @@index([status])
+  @@index([startDate, endDate])
+}
+
+/// Performance review for an employee within a cycle
+model PerformanceReview {
+  id                 String       @id @default(cuid())
+  cycleId            String
+  cycle              PerformanceCycle @relation(fields: [cycleId], references: [id])
+  employeeId         String
+  subject            Employee     @relation("PerformanceSubject", fields: [employeeId], references: [id], onDelete: Cascade)
+  managerId          String?
+  manager            Employee?    @relation("PerformanceManager", fields: [managerId], references: [id], onDelete: SetNull)
+  /// DRAFT → SELF_ASSESSMENT → MANAGER_REVIEW → CALIBRATION → APPROVED → ACKNOWLEDGED
+  status             String       @default("DRAFT")
+  overallRating      Float?       // 1-5 scale
+  overallComment     String?
+  selfAssessmentAt   DateTime?
+  managerReviewAt    DateTime?
+  calibrationAt      DateTime?
+  approvedAt         DateTime?
+  approvedById       String?
+  approvedBy         User?        @relation("ReviewApprovedBy", fields: [approvedById], references: [id])
+  acknowledgedAt     DateTime?
+  acknowledgedById   String?
+  acknowledgedBy     User?        @relation("ReviewAcknowledgedBy", fields: [acknowledgedById], references: [id])
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  goals              PerformanceGoal[]
+  answers            PerformanceAnswer[]
+
+  @@unique([cycleId, employeeId])
+  @@index([cycleId, status])
+  @@index([employeeId])
+  @@index([managerId])
+}
+
+/// Performance goal within a review
+model PerformanceGoal {
+  id           String            @id @default(cuid())
+  reviewId     String
+  review       PerformanceReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  weight       Float             @default(1)  // Weight for overall rating calculation
+  target       String            // Expected outcome
+  actual       String?           // Actual outcome
+  rating       Float?            // 1-5 scale, rated by manager
+  comment      String?
+  order        Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([reviewId])
+}
+
+/// Configurable questions per cycle (competency, behavioral, etc.)
+model PerformanceQuestion {
+  id           String             @id @default(cuid())
+  cycleId      String
+  cycle        PerformanceCycle   @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  text         String
+  /// KPI | COMPETENCY | BEHAVIORAL | GOAL | OPEN_ENDED
+  type         String             @default("COMPETENCY")
+  /// EMPLOYEE | MANAGER | BOTH
+  audience     String             @default("BOTH")
+  weight       Float              @default(1)
+  order        Int                @default(0)
+  isRequired   Boolean            @default(true)
+  options      Json?              // For rating scale options
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  answers      PerformanceAnswer[]
+
+  @@index([cycleId, order])
+}
+
+/// Employee/manager answers to questions
+model PerformanceAnswer {
+  id             String              @id @default(cuid())
+  reviewId       String
+  review         PerformanceReview   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  questionId     String
+  question       PerformanceQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  /// EMPLOYEE | MANAGER
+  answeredBy     String
+  answer         String?
+  rating         Float?              // 1-5 scale
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  @@unique([reviewId, questionId, answeredBy])
+  @@index([reviewId])
+  @@index([questionId])
+}
+
+/// Predefined calibration scenarios for consistent ratings
+model ReviewScenario {
+  id          String   @id @default(cuid())
+  name        String   // e.g. "Exceeds Expectations", "Meets Expectations", "Needs Improvement"
+  description String
+  rating      Float    // Reference rating 1-5
+  behaviors   Json?    // Key behaviors for this scenario
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive, order])
+}
+
+// ─── COMPANY DOCUMENTS & POLICIES ─────────────────────────────────────────────
+/// Central repository for company policies, handbooks, procedures, and
+/// official documents. Distinct from employee-specific attachments.
+model CompanyDocument {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   // POLICY | HANDBOOK | PROCEDURE | FORM | OTHER
+  category    String   // HR | FINANCE | IT | LEGAL | GENERAL
+  description String?
+  fileUrl     String
+  fileName    String
+  fileType    String
+  version     String   @default("1.0")
+  effectiveFrom DateTime?
+  effectiveTo   DateTime?
+  isActive    Boolean  @default(true)
+  publishedBy String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, isActive])
+  @@index([type])
+}
+

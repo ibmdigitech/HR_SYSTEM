@@ -82,6 +82,18 @@ export const employeeSchema = z
     workLocation: optionalText(120),
     currentStatus: z.enum(['ACTIVE', 'ON_LEAVE', 'RESIGNED', 'TERMINATED']).default('ACTIVE'),
     managerId: z.preprocess((v) => (v === 'none' ? null : emptyToUndefined(v)), z.string().optional().nullable()),
+    photo: z.preprocess(
+      emptyToUndefined,
+      z
+        .string()
+        .trim()
+        .max(2048, 'Image URL is too long')
+        .refine(
+          (value) => !value || /^https?:\/\//.test(value) || value.startsWith('/') || value.startsWith('data:') || value.startsWith('blob:'),
+          'Use a valid image URL or app-relative path'
+        )
+        .optional()
+    ),
 
     // ── Contact ─────────────────────────────────────────────────────────
     phone: z.preprocess(
@@ -199,6 +211,18 @@ export const employeeSchemaProvisional = z
     ),
     employmentType: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'PROBATION', 'INTERN']).default('FULL_TIME'),
     currentStatus: z.enum(['ACTIVE', 'ON_LEAVE', 'RESIGNED', 'TERMINATED']).default('ACTIVE'),
+    photo: z.preprocess(
+      emptyToUndefined,
+      z
+        .string()
+        .trim()
+        .max(2048, 'Image URL is too long')
+        .refine(
+          (value) => !value || /^https?:\/\//.test(value) || value.startsWith('/') || value.startsWith('data:') || value.startsWith('blob:'),
+          'Use a valid image URL or app-relative path'
+        )
+        .optional()
+    ),
     workLocation: optionalText(120),
     phone: z.preprocess(
       emptyToUndefined,

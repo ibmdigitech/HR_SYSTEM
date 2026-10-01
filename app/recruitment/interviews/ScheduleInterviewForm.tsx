@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { CalendarPlus, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import {
     Select,
@@ -33,6 +35,15 @@ const MODES = ["ONSITE", "ONLINE"] as const;
 function toLocalInput(date: Date): string {
     const offset = date.getTimezoneOffset() * 60_000;
     return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+}
+
+function withDateTimeDate(current: string, date?: Date): string {
+    if (!date) return "";
+    return `${format(date, "yyyy-MM-dd")}T${current.slice(11, 16) || "09:00"}`;
+}
+
+function withDateTimeTime(current: string, time: string): string {
+    return current ? `${current.slice(0, 10)}T${time}` : current;
 }
 
 export function ScheduleInterviewForm({
@@ -219,13 +230,25 @@ export function ScheduleInterviewForm({
                             >
                                 Starts
                             </Label>
-                            <Input
-                                id="int-start"
-                                type="datetime-local"
-                                value={startAt}
-                                onChange={(e) => setStartAt(e.target.value)}
-                                className="h-11"
-                            />
+                            <div className="grid grid-cols-[minmax(0,1fr)_8rem] gap-2">
+                                <DatePicker
+                                    id="int-start-date"
+                                    required
+                                    value={startAt.slice(0, 10)}
+                                    onChange={(date) => setStartAt((current) => withDateTimeDate(current, date))}
+                                    aria-label="Interview start date"
+                                    className="h-11"
+                                />
+                                <Input
+                                    id="int-start-time"
+                                    type="time"
+                                    required
+                                    value={startAt.slice(11, 16)}
+                                    onChange={(e) => setStartAt((current) => withDateTimeTime(current, e.target.value))}
+                                    className="h-11"
+                                    aria-label="Interview start time"
+                                />
+                            </div>
                         </div>
 
                         <div className="space-y-1.5">
@@ -235,13 +258,25 @@ export function ScheduleInterviewForm({
                             >
                                 Ends
                             </Label>
-                            <Input
-                                id="int-end"
-                                type="datetime-local"
-                                value={endAt}
-                                onChange={(e) => setEndAt(e.target.value)}
-                                className="h-11"
-                            />
+                            <div className="grid grid-cols-[minmax(0,1fr)_8rem] gap-2">
+                                <DatePicker
+                                    id="int-end-date"
+                                    required
+                                    value={endAt.slice(0, 10)}
+                                    onChange={(date) => setEndAt((current) => withDateTimeDate(current, date))}
+                                    aria-label="Interview end date"
+                                    className="h-11"
+                                />
+                                <Input
+                                    id="int-end-time"
+                                    type="time"
+                                    required
+                                    value={endAt.slice(11, 16)}
+                                    onChange={(e) => setEndAt((current) => withDateTimeTime(current, e.target.value))}
+                                    className="h-11"
+                                    aria-label="Interview end time"
+                                />
+                            </div>
                         </div>
 
                         {mode === "ONSITE" ? (

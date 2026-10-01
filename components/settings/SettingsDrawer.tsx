@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel,  } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -49,6 +50,7 @@ export function SettingsDrawer({ onOpenChange }: SettingsDrawerProps) {
               <TabsTrigger value="roles">Roles</TabsTrigger>
               <TabsTrigger value="security">Security</TabsTrigger>
               <TabsTrigger value="backup">Backup</TabsTrigger>
+              <TabsTrigger value="logs">Logs</TabsTrigger>
               <TabsTrigger value="integrations">Integrations</TabsTrigger>
             </TabsList>
 
@@ -425,12 +427,19 @@ export function SettingsDrawer({ onOpenChange }: SettingsDrawerProps) {
             
             <TabsContent value="backup">
               <div className="p-6">
-                <h3 className="font-semibold mb-4">Backup & Restore Settings</h3>
-                <p className="text-slate-500">Backup and restore configuration options would appear here.</p>
-                <div className="flex justify-end gap-3 mt-8">
-                  <Button variant="outline">Reset</Button>
-                  <Button>Save Changes</Button>
-                </div>
+                <h3 className="font-semibold mb-2">Automatic database backup</h3>
+                <p className="text-sm text-slate-500">Install the nightly 02:00 backup on the Windows host running PostgreSQL and Docker. Backups are saved to <code>backups/</code>; the latest 14 are retained.</p>
+                <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-950 p-4 text-xs text-slate-100">{`powershell -ExecutionPolicy Bypass -File .\\scripts\\register-backup-task.ps1`}</pre>
+                <p className="mt-3 text-xs text-amber-700">Run once on the database host. Keep an off-host copy of the backup folder for disaster recovery.</p>
+                <Link href="/system/logs" className="mt-5 inline-flex text-sm font-semibold text-indigo-600 hover:underline" onClick={() => onOpenChange(false)}>View system logs →</Link>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="logs">
+              <div className="p-6">
+                <h3 className="font-semibold mb-2">System logs</h3>
+                <p className="text-sm text-slate-500">Review security events, access outcomes, and employee record activity.</p>
+                <Link href="/system/logs" className="mt-4 inline-flex text-sm font-semibold text-indigo-600 hover:underline" onClick={() => onOpenChange(false)}>Open log viewer →</Link>
               </div>
             </TabsContent>
             

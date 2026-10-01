@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
+import { format } from "date-fns";
 import Link from "next/link";
 import { CheckCircle2, Loader2, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -373,12 +375,12 @@ export function NewRequisitionForm({ employees }: { employees: Replacements[] })
                     </Field>
 
                     <Field id="req-target" label="Target joining date" error={errors.targetJoiningDate}>
-                        <Input
+                        <DatePicker
                             id="req-target"
                             name="targetJoiningDate"
-                            type="date"
                             value={values.targetJoiningDate}
-                            onChange={(e) => set("targetJoiningDate", e.target.value)}
+                            onChange={(date) => set("targetJoiningDate", date ? format(date, "yyyy-MM-dd") : "")}
+                            aria-label="Target joining date"
                             aria-invalid={errors.targetJoiningDate ? "true" : undefined}
                             className={FIELD}
                         />

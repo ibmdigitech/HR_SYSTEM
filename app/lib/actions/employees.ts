@@ -1,7 +1,8 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";import { Prisma } from "../../../prisma/generated/client";
+import { revalidatePath } from "next/cache";
+import { Prisma } from "../../../prisma/generated/client";
 import {
     employeeSchema,
     employeeSchemaProvisional,
@@ -131,6 +132,7 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
         lastName:               validated.lastName,
         email:                  validated.email,
         rollNumber:             validated.rollNumber,
+        photo:                  validated.photo ?? null,
         designation:            validated.designation,
         department:             validated.department,
         joiningDate:            validated.joiningDate,
