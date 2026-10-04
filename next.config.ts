@@ -128,8 +128,12 @@ const nextConfig: NextConfig = {
     // Merged from the previously-active next.config.js (P0-11).
     experimental: {
         serverActions: {
-            // Leave room for the bounded 5 MB resignation letter plus multipart overhead.
-            bodySizeLimit: "6mb",
+            // Room for the bounded 5 MB resignation letter, multipart overhead,
+            // AND the 10 MB ceiling the employee and travel upload APIs enforce.
+            // A ticket or boarding pass is sent as a raw multipart part rather
+            // than a base64 field, so 10 MB of file needs ~10 MB of body, not
+            // the ~13 MB its base64 form would.
+            bodySizeLimit: "11mb",
         },
     },
 

@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
-import { calculateSickLeaveBreakdown } from "@/components/leave/LeaveBalanceCard";
+// Plain modules only. `AnimatedLeaveProgress` and `LeaveBalanceCard` are both
+// "use client", and a route handler runs on the server — importing a callable
+// from one builds a client reference that throws when invoked.
+import { calculateSickLeaveBreakdown, describeLeaveBar } from "@/components/leave/leave-bar-math";
 
 export async function GET() {
   try {
@@ -29,16 +32,19 @@ export async function GET() {
 
     const currentYear = new Date().getFullYear();
     const balances = user.employee.leaveBalances.map((bal) => {
-      const remainingDays = Math.max(0, bal.totalDays - bal.usedDays);
-      const usedPercentage = bal.totalDays > 0 ? Math.min(100, Math.round((bal.usedDays / bal.totalDays) * 100)) : 0;
+      // Shared with the Staff Services ring so both surfaces report an overdrawn
+      // or unallocated balance identically, instead of clamping it to a healthy 0.
+      const bar = describeLeaveBar(bal.totalDays, bal.usedDays);
 
       const baseBalance = {
         leaveType: bal.leaveType,
-        totalDays: bal.totalDays,
-        usedDays: bal.usedDays,
+        totalDays: bar.entitled,
+        usedDays: bar.used,
         year: bal.year,
-        remainingDays,
-        usedPercentage,
+        remainingDays: bar.remaining,
+        usedPercentage: bar.usedPercentage,
+        hasEntitlement: bar.hasEntitlement,
+        isOverdrawn: bar.isOverdrawn,
       };
 
       // Add UAE Labour Law sick leave breakdown
@@ -56,8 +62,7 @@ export async function GET() {
     // Calculate summary
     const totalEntitlement = balances.reduce((sum, b) => sum + b.totalDays, 0);
     const totalUsed = balances.reduce((sum, b) => sum + b.usedDays, 0);
-    const totalRemaining = Math.max(0, totalEntitlement - totalUsed);
-    const overallPercentage = totalEntitlement > 0 ? Math.round((totalUsed / totalEntitlement) * 100) : 0;
+    const summaryBar = describeLeaveBar(totalEntitlement, totalUsed);
 
     return NextResponse.json({
       employee: {
@@ -72,8 +77,9 @@ export async function GET() {
       summary: {
         totalEntitlement,
         totalUsed,
-        totalRemaining,
-        overallPercentage,
+        totalRemaining: summaryBar.remaining,
+        overallPercentage: summaryBar.usedPercentage,
+        isOverdrawn: summaryBar.isOverdrawn,
         currentYear,
       },
       uaeLabourLaw: {

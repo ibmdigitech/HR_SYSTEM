@@ -352,6 +352,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
                         <Field label="Email" value={employee.email} />
                         <Field label="Mobile" value={employee.phone} />
                         <Field label="Gender" value={employee.gender} />
+                        <Field label="Blood group" value={employee.bloodGroup} />
                         <Field label="Marital status" value={employee.maritalStatus} />
                         <div className="sm:col-span-2">
                             <Field label="Current address" value={employee.address} />

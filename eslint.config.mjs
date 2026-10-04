@@ -24,6 +24,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "node_modules/**",
+
+    // Archived copies are evidence and reference material, not current app code.
+    "archive/**",
+    "legacy-hr-system/**",
 
     // Generated code — never edit to satisfy lint.
     "prisma/generated/**",

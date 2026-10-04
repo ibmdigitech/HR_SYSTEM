@@ -10,23 +10,32 @@
  *
  * The only CHECK constraint on the table, `Employee_active_requires_employment_data`,
  * is about COMPLETENESS (an ACTIVE row must carry job data). It says nothing about
- * the three columns agreeing with each other, and nothing in the codebase writes
- * more than one of them at a time. So the disagreement is not theoretical:
+ * the three columns agreeing with each other, and nothing in the database makes
+ * them agree. So the disagreement is not theoretical:
  *
- *   - `saveEmployee` writes `currentStatus` and never `lifecycle`/`isActive`
- *     (app/lib/actions/employees.ts:123, allow-list 113-153).
+ *   - `saveEmployee` writes all three, but `lifecycle` is derived from
+ *     `currentStatus` because the entry form cannot express PROBATION or
+ *     CONFIRMED (`lifecycleOnSave`, lib/employees/lifecycle-stage.ts). A save
+ *     therefore cannot tell the recruitment machine that a probationer was
+ *     confirmed — but it also cannot silently drop the stage.
  *   - The employee edit dialog exposes that `currentStatus` select
- *     (app/employees/employee-list.tsx:758-767), so the divergence is one
- *     HR click away.
- *   - `initiateOffboarding` writes `currentStatus = "ON_LEAVE"` (offboarding.ts:144)
- *     and `advanceOffboarding(→COMPLETED)` writes `currentStatus = "OFFBOARDED"`
- *     (offboarding.ts:256). Neither touches `lifecycle` or `isActive`.
+ *     (app/employees/employee-list.tsx), so the divergence is one HR click away.
+ *   - The paths that END employment all write the three columns together: the
+ *     live exit (app/lib/actions/exit.ts:1231-1241), the retention archive
+ *     (lib/employees/retention.ts:359) and the offboarding workflow
+ *     (lib/workflow/offboarding.ts). Nothing enforces that, so this module is
+ *     what notices when a write path forgets.
  *
  * `isActive` is the field with teeth: it selects the payroll run
- * (app/lib/actions/payroll.ts:65), attendance (app/attendance/page.tsx:41),
- * leave accrual (lib/workflow/accrual.ts:63) and compliance scans
- * (lib/workflow/compliance.ts:133). A departed employee who is still `isActive`
- * is still being paid.
+ * (app/lib/actions/payroll.ts:65), attendance, leave accrual and compliance
+ * scans. A departed employee who is still `isActive` is still being paid.
+ * EVERY path that ends employment clears it in the same write that moves the
+ * status — the live exit (app/lib/actions/exit.ts:1239) and the retention
+ * archive (lib/employees/retention.ts:361) both do — so a row reported here as
+ * `TERMINAL_STATUS_STILL_ACTIVE` or `TERMINATED_LIFECYCLE_STILL_ACTIVE` is a row
+ * some write path left behind, never a legitimate one. That is the whole reason
+ * these two rules are worth the read: they cannot fire on the exit path, so
+ * firing means a bug.
  *
  * This module is READ-ONLY by construction: it issues `findMany`/`SELECT`
  * against `pg_constraint` and nothing else. There is no repair path here on
@@ -54,7 +63,7 @@ export const KNOWN_LIFECYCLE_VALUES: readonly string[] = Object.values(L);
  * Mirrors `app/lib/validation.ts:83` and `:201` — the Zod enum, NOT the
  * database column, because the column is unconstrained.
  */
-export const ENTRY_FORM_STATUS_VALUES: readonly string[] = ["ACTIVE", "ON_LEAVE", "RESIGNED", "TERMINATED"];
+export const ENTRY_FORM_STATUS_VALUES: readonly string[] = ["PRE_JOINING", "ACTIVE", "ON_LEAVE", "RESIGNED", "TERMINATED", "OFFBOARDED"];
 
 /** Terminal `lifecycle` stages: employment has ended, unambiguously. */
 export const TERMINAL_LIFECYCLE_STAGES: readonly string[] = [L.RESIGNED, L.TERMINATED, L.EXITED];
@@ -236,7 +245,7 @@ export function classifyEmployeeState(row: EmployeeStateRow): Divergence[] {
                 row,
                 "EMPLOYED_LIFECYCLE_STATUS_TERMINAL",
                 "critical",
-                `lifecycle=${row.lifecycle} but currentStatus=${row.currentStatus}. The edit dialog writes currentStatus without touching lifecycle (app/lib/actions/employees.ts:123).`
+                `lifecycle=${row.lifecycle} but currentStatus=${row.currentStatus}. A full save derives lifecycle from currentStatus, preserving only PROBATION/CONFIRMED (lib/employees/lifecycle-stage.ts), so this pair means the stage was moved by the lifecycle machine or by a write older than that rule.`
             )
         );
     }
@@ -247,12 +256,16 @@ export function classifyEmployeeState(row: EmployeeStateRow): Divergence[] {
                 row,
                 "TERMINAL_STATUS_STILL_ACTIVE",
                 "critical",
-                `currentStatus=${row.currentStatus} but isActive=true. No application path ever sets isActive=false for an employee.`
+                `currentStatus=${row.currentStatus} but isActive=true. The live exit (app/lib/actions/exit.ts:1239) and the retention archive (lib/employees/retention.ts:361) both clear isActive in the same write that moves the status, so this row was left behind by a path that moved only the status. This is a departed employee still being paid.`
             )
         );
     }
 
-    const leaveFromLifecycle = row.lifecycle === L.ON_LEAVE;
+    // NOTICE_PERIOD is a legitimate partner of currentStatus="ON_LEAVE": that is
+    // exactly the pair `initiateOffboarding` writes (lib/workflow/offboarding.ts)
+    // and LIFECYCLE_TRANSITIONS permits from every employed stage. Treating it as
+    // a mismatch would report a row the application now writes on purpose.
+    const leaveFromLifecycle = row.lifecycle === L.ON_LEAVE || row.lifecycle === L.NOTICE_PERIOD;
     const leaveFromStatus = row.currentStatus === "ON_LEAVE";
     if (leaveFromLifecycle !== leaveFromStatus) {
         out.push(
@@ -260,7 +273,7 @@ export function classifyEmployeeState(row: EmployeeStateRow): Divergence[] {
                 row,
                 "ON_LEAVE_STAGE_MISMATCH",
                 "warning",
-                `lifecycle=${row.lifecycle} but currentStatus=${row.currentStatus}. Offboarding writes currentStatus="ON_LEAVE" without advancing the stage (lib/workflow/offboarding.ts:144).`
+                `lifecycle=${row.lifecycle} but currentStatus=${row.currentStatus}. lifecycle=ON_LEAVE belongs with currentStatus="ON_LEAVE"; NOTICE_PERIOD pairs with it too, which is what the offboarding workflow writes (lib/workflow/offboarding.ts).`
             )
         );
     }

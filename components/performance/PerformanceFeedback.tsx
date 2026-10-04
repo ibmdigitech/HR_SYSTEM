@@ -5,13 +5,11 @@ import { Star } from "lucide-react";
 import { toast } from "sonner";
 import { submitPerformanceAnswer, updatePerformanceGoal } from "@/app/lib/actions/performance";
 
-export const PERFORMANCE_RATING_LABELS: Record<number, string> = {
-    1: "Average",
-    2: "Good",
-    3: "Very good",
-    4: "Excellent",
-    5: "Exceeds expectations",
-};
+// Defined in a plain module so the server-rendered review detail page can read
+// the same map; see ./rating-labels for why it cannot live in this file.
+import { PERFORMANCE_RATING_LABELS } from "./rating-labels";
+
+export { PERFORMANCE_RATING_LABELS };
 
 function RatingStars({ value, onChange }: { value: number; onChange: (value: number) => void }) {
     return (

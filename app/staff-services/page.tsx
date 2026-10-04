@@ -6,7 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// `describeLeaveBar` is imported from the plain module, not from
+// `AnimatedLeaveProgress`: that file is "use client", and a server component may
+// import from a client module but may not call into one.
 import { AnimatedLeaveProgress } from "@/components/leave/AnimatedLeaveProgress";
+import { describeLeaveBar } from "@/components/leave/leave-bar-math";
 import { 
     User, Briefcase, Building2, Calendar, MapPin, Mail, Phone, ShieldCheck, 
     CreditCard, CalendarDays, Percent, Clock, FileCheck, FileText, ArrowRightLeft,
@@ -75,7 +79,9 @@ export default async function StaffServicesPage() {
             : 100
     };
 
-    const remainingLeaves = Math.max(0, stats.totalLeaves - stats.usedLeaves);
+    // Deliberately not clamped with Math.max(0, ...): an aggregate below zero is a
+    // real overdrawn state that has to stay visible instead of reading as "0 left".
+    const remainingLeaves = stats.totalLeaves - stats.usedLeaves;
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
@@ -128,8 +134,20 @@ export default async function StaffServicesPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{remainingLeaves} Days</div>
-                        <p className="text-xs font-medium text-slate-500 mt-1">Of {stats.totalLeaves} total allocated</p>
+                        <div
+                            className={`text-3xl font-black ${
+                                remainingLeaves < 0 ? "text-rose-600 dark:text-rose-400" : "text-slate-800 dark:text-white"
+                            }`}
+                        >
+                            {stats.totalLeaves === 0
+                                ? "No allocation"
+                                : `${remainingLeaves} ${remainingLeaves === 1 || remainingLeaves === -1 ? "Day" : "Days"}`}
+                        </div>
+                        <p className="text-xs font-medium text-slate-500 mt-1">
+                            {stats.totalLeaves === 0
+                                ? "Entitlement is written by the leave accrual run"
+                                : `${stats.usedLeaves} used of ${stats.totalLeaves} allocated`}
+                        </p>
                     </CardContent>
                 </Card>
 
@@ -269,12 +287,15 @@ export default async function StaffServicesPage() {
                     <Card className="bg-white dark:bg-slate-950 border-slate-100 dark:border-slate-800 shadow-sm rounded-2xl overflow-hidden">
                         <CardHeader className="border-b border-slate-100 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/20 px-6 py-5">
                             <CardTitle className="text-lg font-bold">My Allocation & Leaves Balance</CardTitle>
+                            <CardDescription className="text-xs text-slate-500 font-medium">
+                                Read straight from your leave balance records. Days are only deducted once a leave request is approved.
+                            </CardDescription>
                         </CardHeader>
                         <CardContent className="p-6">
                             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                                 {emp.leaveBalances.map((bal) => {
-                                    const rem = Math.max(0, bal.totalDays - bal.usedDays);
-                                    const pct = bal.totalDays > 0 ? Math.min(100, Math.round((bal.usedDays / bal.totalDays) * 100)) : 0;
+                                    const bar = describeLeaveBar(bal.totalDays, bal.usedDays);
+                                    const overdraw = Math.abs(bar.remaining);
                                     return (
                                         <div key={bal.id} className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100/50 dark:border-slate-800/50 space-y-4">
                                             <div className="flex justify-between items-start">
@@ -282,24 +303,58 @@ export default async function StaffServicesPage() {
                                                     <h4 className="font-black text-sm text-slate-800 dark:text-slate-200 uppercase tracking-tight">{bal.leaveType}</h4>
                                                     <span className="text-[10px] text-slate-400 font-bold">Year {bal.year}</span>
                                                 </div>
-                                                <Badge className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border-0 text-[10px] font-black">{rem} / {bal.totalDays} Left</Badge>
+                                                {bar.isOverdrawn ? (
+                                                    <Badge className="bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 border-0 text-[10px] font-black">
+                                                        {overdraw} over cap
+                                                    </Badge>
+                                                ) : bar.hasEntitlement ? (
+                                                    <Badge className="bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border-0 text-[10px] font-black">{bar.remaining} / {bal.totalDays} Left</Badge>
+                                                ) : (
+                                                    <Badge className="bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 border-0 text-[10px] font-black">Not allocated</Badge>
+                                                )}
                                             </div>
                                             <div className="flex items-center gap-5 pt-1">
                                                 <AnimatedLeaveProgress
-                                                    usedPercentage={pct}
-                                                    remainingDays={rem}
                                                     totalDays={bal.totalDays}
+                                                    usedDays={bal.usedDays}
+                                                    leaveType={bal.leaveType}
                                                 />
                                                 <div className="min-w-0 space-y-1">
-                                                    <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{bal.usedDays} of {bal.totalDays} days used</p>
-                                                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{pct}% of your allocation used</p>
+                                                    {bar.isOverdrawn ? (
+                                                        <>
+                                                            <p className="text-sm font-bold text-rose-600 dark:text-rose-400">{bal.usedDays} of {bal.totalDays} days used</p>
+                                                            <p className="text-xs font-medium text-rose-500">
+                                                                Overdrawn by {overdraw} day{overdraw === 1 ? "" : "s"}
+                                                            </p>
+                                                        </>
+                                                    ) : bar.hasEntitlement ? (
+                                                        <>
+                                                            <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{bal.usedDays} of {bal.totalDays} days used</p>
+                                                            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{bar.usedPercentage}% of your allocation used</p>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                                                                {bal.usedDays} day{bal.usedDays === 1 ? "" : "s"} taken
+                                                            </p>
+                                                            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                                                                No entitlement is provisioned for this type
+                                                            </p>
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
                                     );
                                 })}
                                 {emp.leaveBalances.length === 0 && (
-                                    <p className="text-center text-xs text-slate-400 italic py-10 col-span-3">No leave allocations found. Contact HR.</p>
+                                    <div className="col-span-3 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 p-8 text-center space-y-2">
+                                        <p className="text-sm font-bold text-slate-600 dark:text-slate-300">No leave balances have been provisioned for you</p>
+                                        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                                            Entitlement is written by the leave accrual run from the active leave policies, not by this page.
+                                            Until that has run for your account there is nothing to show — contact HR to have it run.
+                                        </p>
+                                    </div>
                                 )}
                             </div>
                         </CardContent>

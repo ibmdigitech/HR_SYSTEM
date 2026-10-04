@@ -14,7 +14,7 @@ import { requirePermission, requireSuperAdmin } from "@/lib/auth/guards";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { logSecurityEvent, SECURITY_ACTION } from "@/lib/auth/audit";
 import { issueActivationToken } from "@/lib/workflow/credentials";
-import { ensureChecklist, notifyManagerOfNewHire } from "@/lib/workflow/onboarding";
+import { ensureChecklist, notifyManagerOfNewHire, recordDocumentReceived } from "@/lib/workflow/onboarding";
 import {
     NOT_ARCHIVED,
     RetentionPolicyError,
@@ -25,6 +25,7 @@ import {
     purgeEligibility,
     restoreWrite,
 } from "@/lib/employees/retention";
+import { isTerminalEmploymentState, lifecycleOnSave } from "@/lib/employees/lifecycle-stage";
 
 /** Shared result shape so the client can render field-level or form-level errors. */
 export type EmployeeActionResult = {
@@ -72,6 +73,23 @@ async function generateEmployeeCode(): Promise<string> {
     return `EMP-${String(next).padStart(3, "0")}`;
 }
 
+/**
+ * The lifecycle stage the employee is in RIGHT NOW.
+ *
+ * Read before the save because `lifecycleOnSave` can only preserve a stage it
+ * is handed: the incoming `currentStatus` has no PROBATION/CONFIRMED member, so
+ * without this read every full save reset a probationary or confirmed employee
+ * to "ACTIVE". A row that does not exist yet reads as null, which makes the
+ * derivation identical to the previous behaviour for new records.
+ */
+async function readExistingLifecycle(id: string): Promise<string | null> {
+    const existing = await prisma.employee.findUnique({
+        where: { id },
+        select: { lifecycle: true },
+    });
+    return existing?.lifecycle ?? null;
+}
+
 export async function upsertEmployee(formData: FormData): Promise<EmployeeActionResult> {
     // Centralized guard (P0-4): the role is re-read from the database, so a
     // token issued before a demotion is no longer authoritative.
@@ -95,6 +113,18 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
     const id = formData.get("id") as string | null;
     const isNew = !id || id === "";
 
+    // Extract document drafts from formData (data URLs)
+    const docDrafts: Record<string, string> = {};
+    const docFields = [
+        "passportDocDraft", "emiratesDocDraft", "visaDocDraft", "addressDocDraft",
+        "ibanDocDraft", "medicalDocDraft", "iloeDocDraft", "labourDocDraft", "residenceDocDraft",
+        "contractDocDraft",
+    ];
+    for (const field of docFields) {
+        const val = formData.get(field) as string | null;
+        if (val && val.startsWith("data:")) docDrafts[field] = val;
+    }
+
     // ── Validation (P0-10) ────────────────────────────────────────────────
     // AUTHORITATIVE server-side check. A crafted request that bypasses the
     // client is rejected here before anything reaches the database.
@@ -105,45 +135,80 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
     // `id` is routing information, not employee data.
     delete raw.id;
 
-    // `provision=1` saves a staged record: only identity plus a roll number are
-    // required, and the employee is marked PRE_JOINING so an incomplete hire is
-    // never mistaken for an active one. The full schema is still applied when
-    // `provision` is absent, so a normal entry is unchanged.
-    const isProvisional = formData.get("provision") === "1";
-    const schema = isProvisional ? employeeSchemaProvisional : employeeSchema;
+    // Partial saves require only identity fields. A new record is staged as
+    // PRE_JOINING/inactive; an existing record keeps its current employment
+    // state while HR saves section-by-section.
+    const isPartialSave = formData.get("provision") === "1" || formData.get("partial") === "1";
+    const isProvisional = isNew && isPartialSave;
+    const schema = isPartialSave ? employeeSchemaProvisional : employeeSchema;
 
     const parsed = schema.safeParse(raw);
     if (!parsed.success) {
         const errors = toFieldErrors(parsed.error);
         return {
             success: false,
-            message: isProvisional
-                ? "A provisional record still needs a name, email and roll number."
+            message: isPartialSave
+                ? "A partial employee record needs a first name, last name, and valid email address."
                 : "Please correct the highlighted fields.",
             fieldErrors: errors,
         };
     }
     const validated = parsed.data as EmployeeInput;
+    const generatedEmployeeCode = isNew ? await generateEmployeeCode() : null;
+    const rollNumber = validated.rollNumber || (isProvisional && generatedEmployeeCode
+        ? `PENDING-${generatedEmployeeCode}`
+        : validated.rollNumber);
+    const currentStatus = isProvisional ? "PRE_JOINING" : validated.currentStatus;
+
+    // The three state axes are derived together, never one at a time. `lifecycle`
+    // is the only one that cannot be re-derived from the form: see
+    // `lifecycleOnSave` for why PROBATION/CONFIRMED must survive a full save.
+    const existingLifecycle = isNew ? null : await readExistingLifecycle(id);
+
+    // Uploaded profile photos are stored as a bounded data URL. Check both the
+    // declared media type and the file signature before persisting it.
+    if (validated.photo?.startsWith("data:")) {
+        const match = /^data:image\/(png|jpeg);base64,([A-Za-z0-9+/]+={0,2})$/i.exec(validated.photo);
+        if (!match) {
+            return { success: false, message: "Profile photo must be a PNG or JPEG image.", fieldErrors: { photo: "Choose a valid PNG or JPEG image." } };
+        }
+        const bytes = Buffer.from(match[2], "base64");
+        const isPng = match[1].toLowerCase() === "png";
+        const validSignature = isPng
+            ? bytes.length >= 8 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+            : bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+        if (bytes.length > 450 * 1024 || !validSignature) {
+            return { success: false, message: "Profile photo is invalid or exceeds 450 KB.", fieldErrors: { photo: "Choose a valid PNG or JPEG image up to 450 KB." } };
+        }
+    }
 
     // Explicit allow-list. The validated schema is the single source of truth
     // for what is written, so an unexpected FormData key can never reach Prisma.
-    const data = {
+    // For partial saves on existing records, only update fields that were provided.
+    const baseData = {
         firstName:              validated.firstName,
         lastName:               validated.lastName,
         email:                  validated.email,
-        rollNumber:             validated.rollNumber,
+        rollNumber,
         photo:                  validated.photo ?? null,
+    };
+
+    const fullData = {
+        ...baseData,
         designation:            validated.designation,
         department:             validated.department,
         joiningDate:            validated.joiningDate,
         employmentType:         validated.employmentType,
         workLocation:           validated.workLocation ?? null,
-        currentStatus:          validated.currentStatus,
+        currentStatus,
+        isActive:                !isProvisional && (currentStatus === "ACTIVE" || currentStatus === "ON_LEAVE"),
+        lifecycle:               lifecycleOnSave(existingLifecycle, currentStatus),
         managerId:              validated.managerId ?? null,
         probationDays:          validated.probationDays,
         dateOfBirth:            validated.dateOfBirth ?? null,
         phone:                  validated.phone ?? null,
         gender:                 validated.gender ?? null,
+        bloodGroup:             validated.bloodGroup ?? null,
         maritalStatus:          validated.maritalStatus ?? null,
         nationality:            validated.nationality ?? null,
         governmentId:           validated.governmentId ?? null,
@@ -168,7 +233,25 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
         visaType:               validated.visaType ?? null,
         medicalInsuranceExpiry: validated.medicalInsuranceExpiry ?? null,
         iloeInsuranceExpiry:    validated.iloeInsuranceExpiry ?? null,
+        labourCardNumber:       validated.labourCardNumber ?? null,
+        labourCardExpiry:       validated.labourCardExpiry ?? null,
+        residencePermitNumber:  validated.residencePermitNumber ?? null,
+        residencePermitExpiry:  validated.residencePermitExpiry ?? null,
     };
+
+    // For partial save on existing record: only update fields that were actually submitted in FormData
+    const data = isPartialSave && !isNew
+        ? Object.fromEntries(
+              Object.entries(fullData).filter(([k]) => {
+                  // If it's in the form data, update it.
+                  if (raw.hasOwnProperty(k)) return true;
+                  // If currentStatus was submitted, we must also update the derived fields.
+                  if ((k === "isActive" || k === "lifecycle") && raw.hasOwnProperty("currentStatus")) return true;
+                  // rollNumber might be auto-generated, so we update it if the form didn't have it but we generated it? No, if it's partial save on existing record, rollNumber is only updated if submitted.
+                  return false;
+              })
+          )
+        : fullData;
 
     // ── Duplicate detection (P0-15) ───────────────────────────────────────
     // This pre-check exists to produce a USEFUL error message, NOT to enforce
@@ -178,8 +261,8 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
     // below. Never remove the database constraint in favour of this check.
     const conflicting = await prisma.employee.findFirst({
         where: {
-            ...(isNew ? {} : { id }),
-            OR: [{ email: validated.email }, { rollNumber: validated.rollNumber }],
+            ...(isNew ? {} : { NOT: { id } }),
+            OR: [{ email: validated.email }, ...(rollNumber ? [{ rollNumber }] : [])],
         },
         select: { id: true, email: true, rollNumber: true },
     });
@@ -199,7 +282,10 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
     try {
         if (!isNew) {
             // ─── UPDATE ────────────────────────────────────────────────────
-            await prisma.employee.update({ where: { id }, data });
+            await prisma.employee.update({ where: { id }, data: data as any });
+
+            // Create/update document attachments for the existing employee
+            await createEmployeeAttachments(prisma, id, docDrafts, fullData);
 
             await prisma.auditLog.create({
                 data: {
@@ -218,7 +304,7 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
         // Wrapped in a transaction (P0-25, P1.1): previously a failure
         // part-way through left a User with no Employee, or an Employee with no
         // leave balances.
-        const employeeCode = await generateEmployeeCode();
+        const employeeCode = generatedEmployeeCode ?? await generateEmployeeCode();
         const currentYear = new Date().getFullYear();
 
         const employee = await prisma.$transaction(async (tx) => {
@@ -230,32 +316,35 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
             // the audit flagged.
             const user = await tx.user.create({
                 data: {
-                    email: data.email,
+                    email: fullData.email,
                     password: null,
                     role: "STAFF",
-                    name: `${data.firstName} ${data.lastName}`,
+                    name: `${fullData.firstName} ${fullData.lastName}`,
                 },
             });
 
             // 2. Create Employee master record
             const created = await tx.employee.create({
-                data: { ...data, userId: user.id, employeeCode },
+                data: { ...(data as any), userId: user.id, employeeCode },
             });
+
+            // Create document attachments for the new employee
+            await createEmployeeAttachments(tx, created.id, docDrafts, fullData);
 
             // 3. Auto-create SalaryStructure
             await tx.salaryStructure.create({
                 data: {
                     employeeId:        created.id,
-                    basic:             data.basicSalary        || 0,
-                    housingAllowance:  data.housingAllowance   || 0,
-                    transportAllowance:data.transportAllowance || 0,
+                    basic:             fullData.basicSalary        || 0,
+                    housingAllowance:  fullData.housingAllowance   || 0,
+                    transportAllowance:fullData.transportAllowance || 0,
                     medicalAllowance:  0,
-                    otherAllowances:   data.otherAllowance     || 0,
-                    ctc:               (data.basicSalary || 0) + (data.housingAllowance || 0) +
-                                       (data.transportAllowance || 0) + (data.otherAllowance || 0),
+                    otherAllowances:   fullData.otherAllowance     || 0,
+                    ctc:               (fullData.basicSalary || 0) + (fullData.housingAllowance || 0) +
+                                       (fullData.transportAllowance || 0) + (fullData.otherAllowance || 0),
                     paymentMethod:     "BANK_TRANSFER",
-                    bankName:          data.bankName || null,
-                    iban:              data.iban || null,
+                    bankName:          fullData.bankName || null,
+                    iban:              fullData.iban || null,
                 },
             });
 
@@ -398,6 +487,41 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
             };
         }
 
+        // P2003 = Foreign key constraint violation (e.g., invalid managerId, userId)
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
+            const field = (error.meta?.field_name as string) ?? "relation";
+            await logSecurityEvent({
+                action: SECURITY_ACTION.ACCESS_DENIED,
+                actorEmail,
+                actorRole,
+                outcome: "ERROR",
+                requestMethod: "SERVER_ACTION",
+                detail: { target: "upsertEmployee", reason: "foreign key violation", field, message: error.message },
+            });
+            return {
+                success: false,
+                message: `Invalid reference: ${field} does not exist.`,
+                fieldErrors: { [field]: "Invalid reference" },
+            };
+        }
+
+        // P2014 = Required relation would be violated (e.g., cascading delete issue)
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2014") {
+            await logSecurityEvent({
+                action: SECURITY_ACTION.ACCESS_DENIED,
+                actorEmail,
+                actorRole,
+                outcome: "ERROR",
+                requestMethod: "SERVER_ACTION",
+                detail: { target: "upsertEmployee", reason: "relation violation", message: error.message },
+            });
+            return {
+                success: false,
+                message: "This change would violate a required relation. Check related records.",
+                fieldErrors: { _form: "Relation violation" },
+            };
+        }
+
         console.error("[UPSERT_EMPLOYEE_ERROR]", error);
         await logSecurityEvent({
             action: SECURITY_ACTION.ACCESS_DENIED,
@@ -407,7 +531,7 @@ export async function upsertEmployee(formData: FormData): Promise<EmployeeAction
             requestMethod: "SERVER_ACTION",
             detail: {
                 target: "upsertEmployee",
-                message: error instanceof Error ? (error instanceof Error ? error.message : "Unknown error") : "unknown",
+                message: error instanceof Error ? error.message : "unknown",
             },
         });
 
@@ -672,17 +796,17 @@ async function recordArchiveEvent(params: {
  *
  * Mirrors `archiveEmployee` exactly: same permission, same guarded-write shape
  * (`deletedAt: { not: null }` so it is idempotent for the same concurrency
- * reason), same single write setting both columns, same two audit trails.
+ * reason), same single write clearing both columns, same two audit trails.
  *
- * Restoring sets `isActive: true`. It restores the value archive changed, so
- * "restore" cannot degrade into "make invisible again".
- *
- * CAVEAT FOR A HUMAN: if the employee was archived AFTER a terminal exit, this
- * sets `isActive: true` on a RESIGNED/TERMINATED row and re-creates exactly the
- * divergence `classifyEmployeeState` reports as critical
- * (`TERMINAL_STATUS_STILL_ACTIVE`). That is visible rather than silent — the
- * consistency reporter catches it — but if you would rather restore refuse in
- * that case, say so and it becomes a conditional guard.
+ * `isActive` is NOT unconditionally reinstated. Archive set it to false, so for
+ * an ordinary row restoring that value is the whole point — without it "restore"
+ * would be a rename for "make invisible". But a row archived AFTER a terminal
+ * exit (currentStatus RESIGNED/TERMINATED/OFFBOARDED, lifecycle
+ * RESIGNED/TERMINATED/EXITED) was archived as a departure, not as a filing
+ * error: reactivating it would put a departed employee back into dashboard and
+ * visa headcount, payroll, attendance and leave accrual. That row is restored
+ * WITHOUT `isActive`, and the returned message says so, because a restore that
+ * silently did something other than what was asked for is its own defect.
  */
 export async function restoreEmployee(id: string): Promise<EmployeeActionResult> {
     let actorEmail = "unknown";
@@ -711,7 +835,17 @@ export async function restoreEmployee(id: string): Promise<EmployeeActionResult>
 
     const target = await prisma.employee.findUnique({
         where: { id },
-        select: { id: true, employeeCode: true, firstName: true, lastName: true, deletedAt: true },
+        // `currentStatus` and `lifecycle` are read, not just displayed: they are
+        // the input to the reactivation decision below.
+        select: {
+            id: true,
+            employeeCode: true,
+            firstName: true,
+            lastName: true,
+            deletedAt: true,
+            currentStatus: true,
+            lifecycle: true,
+        },
     });
 
     if (!target) {
@@ -726,11 +860,16 @@ export async function restoreEmployee(id: string): Promise<EmployeeActionResult>
         };
     }
 
+    // A row that says employment has ended on EITHER axis is not reactivated.
+    // Both axes are consulted because the defect being prevented is a write that
+    // moves one of them and leaves the other.
+    const reactivate = !isTerminalEmploymentState(target);
+
     let restored: number;
     try {
         const result = await prisma.employee.updateMany({
             where: { id, deletedAt: { not: null } },
-            data: restoreWrite(),
+            data: restoreWrite(reactivate),
         });
         restored = result.count;
     } catch (error) {
@@ -753,14 +892,22 @@ export async function restoreEmployee(id: string): Promise<EmployeeActionResult>
         label: employeeLabel(target),
         archivedAt: now,
         action: "EMPLOYEE_RESTORED",
-        detail: { previouslyArchivedAt: target.deletedAt ? target.deletedAt.toISOString() : null },
+        detail: {
+            previouslyArchivedAt: target.deletedAt ? target.deletedAt.toISOString() : null,
+            reactivated: reactivate,
+        },
     });
 
     revalidateEmployeeSurfaces();
 
     return {
         success: true,
-        message: `${employeeLabel(target)} restored and is visible in the employee directory again.`,
+        message: reactivate
+            ? `${employeeLabel(target)} restored and is visible in the employee directory again.`
+            : `${employeeLabel(target)} was restored from the archive but NOT reactivated: this employee has already left ` +
+              `(currentStatus ${target.currentStatus}, lifecycle ${target.lifecycle}). The record is visible again and still ` +
+              `inactive, so they remain out of headcount, payroll and attendance. To bring them back into employment, ` +
+              `record a rehire — do not rely on restore.`,
         code: "RESTORED",
     };
 }
@@ -1105,5 +1252,103 @@ export async function getActiveEmployees() {
         return { success: true, data: employees };
     } catch {
         return { success: false, data: [] };
+    }
+}
+
+/**
+ * Creates or updates Attachment records for employee document uploads.
+ * Uses upsert (delete + create) to replace existing documents of the same category.
+ */
+async function createEmployeeAttachments(
+    tx: any,
+    employeeId: string,
+    docDrafts: Record<string, string>,
+    fullData: Record<string, any>
+): Promise<void> {
+    /**
+     * One row per upload. `numberField`/`expiryField` name the EMPLOYEE columns
+     * that hold the identifying number and the expiry for that document, so the
+     * attachment carries the real value rather than the name of the field — the
+     * previous version stored the literal string "passportNumber" in docNumber.
+     * `numberField: null` means the document type has no number (the insurance
+     * certificates), and `expiryField: null` means it has no expiry.
+     */
+    const CATEGORY_SPEC: Record<string, {
+        category: string;
+        numberField: string | null;
+        expiryField: string | null;
+        /** Matching OnboardingChecklistItem category, or null if not a checklist requirement. */
+        checklistCategory?: string;
+        label?: string;
+        required?: boolean;
+    }> = {
+        passportDocDraft:    { category: "PASSPORT",          numberField: "passportNumber",        expiryField: "passportExpiry",        checklistCategory: "PASSPORT",           label: "Passport copy collected",                  required: true },
+        emiratesDocDraft:    { category: "EMIRATES_ID",       numberField: "emiratesId",            expiryField: "emiratesIdExpiry",     checklistCategory: "EMIRATES_ID",        label: "Emirates ID collected",                   required: true },
+        visaDocDraft:        { category: "VISA",              numberField: "visaNumber",            expiryField: "visaExpiry",           checklistCategory: "VISA",               label: "Residence visa / work permit collected",  required: true },
+        addressDocDraft:     { category: "ADDRESS_PROOF",     numberField: null,                     expiryField: null },
+        ibanDocDraft:        { category: "BANK_IBAN",         numberField: "iban",                  expiryField: null,                 checklistCategory: "BANK",              label: "Bank / IBAN details confirmed",          required: true },
+        medicalDocDraft:     { category: "MEDICAL_INSURANCE", numberField: null,                     expiryField: "medicalInsuranceExpiry", checklistCategory: "MEDICAL_INSURANCE", label: "Medical insurance card collected",      required: true },
+        iloeDocDraft:        { category: "ILOE_INSURANCE",    numberField: null,                     expiryField: "iloeInsuranceExpiry", checklistCategory: "ILOE_INSURANCE",    label: "ILOE insurance card collected",         required: false },
+        labourDocDraft:      { category: "LABOUR_CARD",       numberField: "labourCardNumber",      expiryField: "labourCardExpiry" },
+        residenceDocDraft:   { category: "RESIDENCE_PERMIT",  numberField: "residencePermitNumber", expiryField: "residencePermitExpiry" },
+        contractDocDraft:     { category: "EMPLOYMENT_CONTRACT", numberField: null,                expiryField: null,                checklistCategory: "EMPLOYMENT_CONTRACT", label: "Signed employment contract", required: true },
+    };
+
+    for (const [draftKey, spec] of Object.entries(CATEGORY_SPEC)) {
+        const fileData = docDrafts[draftKey];
+        if (!fileData) continue;
+
+        const match = /^data:([\w.+-]+\/[\w.+-]+);base64,([A-Za-z0-9+/]+={0,2})$/.exec(fileData);
+        if (!match) continue;
+
+        const mimeType = match[1];
+        const fileExt = mimeType === "image/png" ? ".png"
+            : mimeType === "image/jpeg" ? ".jpg"
+            : mimeType === "application/pdf" ? ".pdf"
+            : mimeType === "application/msword" ? ".doc"
+            : mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ? ".docx"
+            : ".bin";
+
+        const fileName = `${spec.category.toLowerCase()}_${employeeId}${fileExt}`;
+
+        // Replace, rather than accumulate: re-uploading a passport supersedes
+        // the previous scan instead of leaving two and making the current one
+        // ambiguous.
+        await tx.attachment.deleteMany({ where: { employeeId, category: spec.category } });
+
+        await tx.attachment.create({
+            data: {
+                employeeId,
+                fileName,
+                fileUrl: fileData,
+                fileType: mimeType,
+                category: spec.category,
+                docNumber: spec.numberField ? (fullData[spec.numberField] ?? null) : null,
+                docExpiry: spec.expiryField ? (fullData[spec.expiryField] ?? null) : null,
+            },
+        });
+
+        /**
+         * RECORD RECEIPT, NOT VERIFICATION.
+         *
+         * A file arriving proves only that a file arrived. Marking the
+         * checklist item COMPLETED here would let an unopened scan satisfy a
+         * document requirement, which is precisely what the `verifiedBy` /
+         * `verifiedAt` columns exist to prevent. This leaves the item
+         * IN_PROGRESS so a human still has to inspect it.
+         *
+         * Only document categories that have a checklist counterpart are linked;
+         * an address proof or a bank statement is supporting evidence for a
+         * change request, not an onboarding requirement in its own right.
+         */
+        if (spec.checklistCategory) {
+            await recordDocumentReceived({
+                employeeId,
+                category: spec.checklistCategory,
+                documentRef: fileName,
+                label: spec.label,
+                required: spec.required,
+            });
+        }
     }
 }

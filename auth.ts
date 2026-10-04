@@ -275,6 +275,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 // than casting to `any`.
                 const role = (user as { role?: unknown }).role;
                 token.role = typeof role === 'string' && role.length > 0 ? role : 'STAFF';
+                const image = (user as { image?: unknown }).image;
+                token.image = typeof image === 'string' && image.length > 0 ? image : undefined;
             }
             // On OAuth sign-in, fetch the role from the DB
             if (account && account.provider !== 'credentials') {
@@ -284,6 +286,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 if (dbUser) {
                     token.role = dbUser.role;
                     token.id = dbUser.id;
+                    token.image = dbUser.image ?? undefined;
                 }
             }
             return token;

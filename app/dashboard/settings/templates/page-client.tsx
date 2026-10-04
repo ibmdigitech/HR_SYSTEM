@@ -11,6 +11,7 @@ import { Plus, Save, Trash2, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { LetterTemplate } from "@/prisma/generated/client";
+import Link from "next/link";
 
 /** A letter template as rendered by this editor. */
 type TemplateRow = Pick<
@@ -150,6 +151,7 @@ export function TemplatesPage () {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Template Builder</h1>
                     <p className="text-slate-500 dark:text-slate-400">Manage standard letter templates and variables.</p>
+                    <p className="mt-2 text-sm text-slate-500">Company logo, letterhead, and authorized signature are applied to generated PDFs from <Link href="/settings" className="font-semibold text-indigo-600 underline">Company Settings</Link>.</p>
                 </div>
                 <div className="flex gap-2">
                     {templates.length === 0 && (

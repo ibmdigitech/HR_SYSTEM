@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { createCompanyDocument } from "@/app/lib/actions/company-documents";
-import { FileText, ArrowLeft, Upload } from "lucide-react";
+import { FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function NewCompanyDocumentPage() {
@@ -28,7 +28,7 @@ export default function NewCompanyDocumentPage() {
             } else {
                 toast.error(res.error || "Failed to upload document");
             }
-        } catch (e) {
+        } catch {
             toast.error("An unexpected error occurred");
         } finally {
             setLoading(false);
@@ -55,7 +55,7 @@ export default function NewCompanyDocumentPage() {
                         <FileText className="h-5 w-5 text-slate-600" />
                         Document Details
                     </CardTitle>
-                    <CardDescription>Enter the metadata and file location for this document</CardDescription>
+                            <CardDescription>Enter the metadata and upload the PDF document</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form action={handleSubmit} className="space-y-6">
@@ -103,19 +103,9 @@ export default function NewCompanyDocumentPage() {
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="fileUrl">File URL</Label>
-                            <Input id="fileUrl" name="fileUrl" placeholder="https://example.com/documents/policy.pdf" required />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="fileName">File Name</Label>
-                                <Input id="fileName" name="fileName" placeholder="policy.pdf" required />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="fileType">File Type</Label>
-                                <Input id="fileType" name="fileType" placeholder="application/pdf" required />
-                            </div>
+                            <Label htmlFor="documentFile">Upload PDF *</Label>
+                            <Input id="documentFile" name="documentFile" type="file" accept="application/pdf,.pdf" required />
+                            <p className="text-xs text-slate-500">PDF only, maximum 5 MB.</p>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">

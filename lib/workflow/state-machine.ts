@@ -443,3 +443,83 @@ export const CHECKLIST_TRANSITIONS: TransitionMap = {
     [CHECKLIST_STATUS.COMPLETED]: {},
     [CHECKLIST_STATUS.WAIVED]: {},
 };
+
+/* ------------------------------------------------------------------ */
+/* BUSINESS TRAVEL REQUEST                                             */
+/* ------------------------------------------------------------------ */
+
+export const TRAVEL_REQUEST_STATUS = {
+    REQUESTED: "REQUESTED",
+    PENDING_APPROVAL: "PENDING_APPROVAL",
+    APPROVED: "APPROVED",
+    REJECTED: "REJECTED",
+    COMPLETED: "COMPLETED",
+    CANCELLED: "CANCELLED",
+} as const;
+
+export type TravelRequestStatus = (typeof TRAVEL_REQUEST_STATUS)[keyof typeof TRAVEL_REQUEST_STATUS];
+
+/**
+ * Blocker on the decision transitions, for MAKER-CHECKER reasons.
+ *
+ * An approver who is also the traveller can approve their own trip by pressing
+ * one button, which is the same hole `EmployeeChangeRequest` is built to avoid.
+ * The travel request's `requestedBy` is an email and the actor is an email, so
+ * the comparison is by email rather than by employee id: HR may file a request
+ * on an employee's behalf, and that request is still the employee's trip.
+ */
+function notSelfDecision(context: TransitionContext): string | null {
+    const requester = context.data?.requestedBy;
+    if (typeof requester === "string" && requester.length > 0 && requester === context.data?.actorEmail) {
+        return "The requester cannot decide their own travel request.";
+    }
+    return null;
+}
+
+/**
+ * Company-purpose travel outside the country.
+ *
+ * The request may be raised by the traveller (STAFF) or by HR on their behalf,
+ * but only a role holding the travel approval permission may decide it, and
+ * never the requester themselves.
+ *
+ * COMPLETED is the transition that consumes an entitlement ticket, so it is
+ * deliberately a separate, later step from APPROVED: a trip being agreed is not
+ * a ticket issued. `lib/workflow/business-travel.ts` increments the window's
+ * usage counter inside the same transaction that moves the row to COMPLETED.
+ */
+export const TRAVEL_REQUEST_TRANSITIONS: TransitionMap = {
+    [TRAVEL_REQUEST_STATUS.REQUESTED]: {
+        [TRAVEL_REQUEST_STATUS.PENDING_APPROVAL]: { actors: ["STAFF", "MANAGER", "HR", "ADMIN", "SUPER_ADMIN"] },
+        [TRAVEL_REQUEST_STATUS.APPROVED]: {
+            actors: ["MANAGER", "HR", "ADMIN", "SUPER_ADMIN"],
+            guard: notSelfDecision,
+        },
+        [TRAVEL_REQUEST_STATUS.REJECTED]: {
+            actors: ["MANAGER", "HR", "ADMIN", "SUPER_ADMIN"],
+            guard: notSelfDecision,
+        },
+        [TRAVEL_REQUEST_STATUS.CANCELLED]: { actors: ["STAFF", "MANAGER", "HR", "ADMIN", "SUPER_ADMIN"] },
+    },
+    [TRAVEL_REQUEST_STATUS.PENDING_APPROVAL]: {
+        [TRAVEL_REQUEST_STATUS.APPROVED]: {
+            actors: ["MANAGER", "HR", "ADMIN", "SUPER_ADMIN"],
+            guard: notSelfDecision,
+        },
+        [TRAVEL_REQUEST_STATUS.REJECTED]: {
+            actors: ["MANAGER", "HR", "ADMIN", "SUPER_ADMIN"],
+            guard: notSelfDecision,
+        },
+        [TRAVEL_REQUEST_STATUS.CANCELLED]: { actors: ["STAFF", "MANAGER", "HR", "ADMIN", "SUPER_ADMIN"] },
+    },
+    [TRAVEL_REQUEST_STATUS.APPROVED]: {
+        // HR records the ticket as issued, which is an administrative fact
+        // rather than a judgement, so the requester may mark their own trip
+        // completed once an approver has agreed it.
+        [TRAVEL_REQUEST_STATUS.COMPLETED]: { actors: ["HR", "ADMIN", "SUPER_ADMIN"] },
+        [TRAVEL_REQUEST_STATUS.CANCELLED]: { actors: ["STAFF", "MANAGER", "HR", "ADMIN", "SUPER_ADMIN"] },
+    },
+    [TRAVEL_REQUEST_STATUS.REJECTED]: {},
+    [TRAVEL_REQUEST_STATUS.COMPLETED]: {},
+    [TRAVEL_REQUEST_STATUS.CANCELLED]: {},
+};

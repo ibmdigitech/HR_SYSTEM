@@ -1,0 +1,129 @@
+﻿{
+    "drill":  "restore-drill",
+    "passed":  true,
+    "dump":  "C:\\Users\\lenovo\\Desktop\\PROMPTS\\ibrahimck\\web_designe\\HR_SYSTEM-git-check\\backups\\hr_system-20261004-073806.sql",
+    "dumpBytes":  3695565,
+    "source":  "hr-postgres/hr_system",
+    "scratch":  "hrms-restore-drill",
+    "durationSec":  9,
+    "tables":  [
+                   {
+                       "table":  "Employee",
+                       "mode":  "EXACT",
+                       "source":  4,
+                       "restored":  4,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "User",
+                       "mode":  "EXACT",
+                       "source":  4,
+                       "restored":  4,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "AuditLog",
+                       "mode":  "MONO",
+                       "source":  92,
+                       "restored":  91,
+                       "status":  "MONOTONIC",
+                       "note":  "append-only; 1 row(s) written after the dump"
+                   },
+                   {
+                       "table":  "SecurityAuditLog",
+                       "mode":  "MONO",
+                       "source":  244,
+                       "restored":  243,
+                       "status":  "MONOTONIC",
+                       "note":  "append-only; 1 row(s) written after the dump"
+                   },
+                   {
+                       "table":  "LeaveRequest",
+                       "mode":  "EXACT",
+                       "source":  3,
+                       "restored":  3,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "LeaveBalance",
+                       "mode":  "EXACT",
+                       "source":  40,
+                       "restored":  40,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "Attendance",
+                       "mode":  "EXACT",
+                       "source":  48,
+                       "restored":  48,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "SalaryRecord",
+                       "mode":  "EXACT",
+                       "source":  4,
+                       "restored":  4,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "PayrollRun",
+                       "mode":  "EXACT",
+                       "source":  0,
+                       "restored":  0,
+                       "status":  "MATCH",
+                       "note":  ""
+                   },
+                   {
+                       "table":  "Letter",
+                       "mode":  "EXACT",
+                       "source":  5,
+                       "restored":  5,
+                       "status":  "MATCH",
+                       "note":  ""
+                   }
+               ],
+    "appChecks":  [
+                      {
+                          "name":  "public schema table count",
+                          "value":  76,
+                          "ok":  true
+                      },
+                      {
+                          "name":  "Employee.labourCardNumber",
+                          "value":  true,
+                          "ok":  true
+                      },
+                      {
+                          "name":  "Employee.labourCardExpiry",
+                          "value":  true,
+                          "ok":  true
+                      },
+                      {
+                          "name":  "Employee.residencePermitNumber",
+                          "value":  true,
+                          "ok":  true
+                      },
+                      {
+                          "name":  "Employee.residencePermitExpiry",
+                          "value":  true,
+                          "ok":  true
+                      },
+                      {
+                          "name":  "Employee.airTicketEntitlementPerYear",
+                          "value":  true,
+                          "ok":  true
+                      }
+                  ],
+    "mismatches":  0,
+    "bothAbsent":  0,
+    "appFailures":  [
+
+                    ],
+    "completedAt":  "2026-10-04T07:56:41"
+}

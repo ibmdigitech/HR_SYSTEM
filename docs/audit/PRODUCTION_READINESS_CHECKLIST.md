@@ -4,6 +4,15 @@
 **Purpose**: one consolidated gate. Every item is a real finding with a pass/fail
 criterion, not a best practice.
 
+> **Superseded snapshot (2026-10-02).** This checklist records repository state
+> observed on 2026-09-28 and is retained as historical evidence. Do not use its
+> blocker count or individual statuses as the current release decision: the
+> source now contains later fixes and workflows that this snapshot predates.
+> The selected target is an internal single-company release; hosting is still
+> undecided. See `SAAS_PRODUCTION_READINESS.md` for the refreshed scope and
+> current deployment gates, and re-verify every checklist item against source
+> before reopening it.
+
 **How to read this**
 
 | Status | Meaning |

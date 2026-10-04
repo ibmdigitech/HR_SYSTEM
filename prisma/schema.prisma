@@ -538,6 +538,7 @@ model Employee {
   photo                  String?
   phone                  String?
   gender                 String?
+  bloodGroup             String?
   dateOfBirth            DateTime?
   nationality            String?
   maritalStatus          String?
@@ -571,6 +572,66 @@ model Employee {
   visaType               String?
   medicalInsuranceExpiry DateTime?
   iloeInsuranceExpiry    DateTime?
+  labourCardNumber       String?
+  labourCardExpiry       DateTime?
+  residencePermitNumber  String?
+  residencePermitExpiry  DateTime?
+
+  // --- Business travel / air ticket entitlement (UAE) ---
+  /// Date the current residence visa was issued or last renewed.
+  ///
+  /// WHY THIS COLUMN EXISTS: the row previously stored only `visaExpiry`, but
+  /// the air ticket entitlement is anchored to the visa RENEWAL date, not the
+  /// calendar year. Without the issue date the anchor cannot be derived, so it
+  /// is persisted here rather than being inferred once and thrown away. The
+  /// compliance feature keeps both dates together; see app/visa.
+  visaIssueDate          DateTime?
+
+  /// Number of return air tickets the employee may consume per entitlement
+  /// year. 0 (the default) means no entitlement.
+  ///
+  /// THIS IS NOT `SalaryStructure.travelAllowance`, which is a MONTHLY cash
+  /// amount paid with payroll. Repurposing that column would silently change a
+  /// salary component into a flight allowance, so the entitlement is counted in
+  /// whole tickets on its own integer column.
+  airTicketEntitlementPerYear Int @default(0)
+  /// ECONOMY | PREMIUM_ECONOMY | BUSINESS — the cabin the entitlement buys.
+  /// NULL means no class has been agreed; HR must choose one before an
+  /// entitlement is usable.
+  airTicketTravelClass   String?
+  /// Day the entitlement year resets. Linked to visa renewal: a visa issued on
+  /// the 15th resets the entitlement on the 15th, so the window runs 15 Sep to
+  /// 14 Sep rather than 1 Jan to 31 Dec.
+  ///
+  /// NULL means "not yet linked to a visa" and the window falls back to the
+  /// calendar year; `lib/workflow/business-travel.ts` reports that state rather
+  /// than hiding it.
+  airTicketAnchorDate    DateTime?
+
+  /// Monetary cap on company-funded travel, in AED, per entitlement window.
+  ///
+  /// THE TICKET COUNT IS NOT A MONEY CAP. `airTicketEntitlementPerYear` answers
+  /// "how many flights", which says nothing about what a fare may cost: two
+  /// economy tickets to the same city can differ fourfold between seasons. This
+  /// column is the amount the company has actually committed for the window, and
+  /// `grantTravelAmount` refuses a grant above what is left of it unless an
+  /// approver records an override.
+  ///
+  /// DECIMAL, NOT FLOAT, DESPITE THE PAYROLL COLUMNS. `SalaryStructure`'s
+  /// component columns are `Float`, and this deliberately does not copy them:
+  /// binary floating point cannot represent 0.1, so a budget summed across a
+  /// window drifts by fractions of a fils and the operator is told a cap that
+  /// does not match the ledger. Money is exact here and rounded only for display.
+  ///
+  /// It shares `airTicketAnchorDate`'s window on purpose. The ticket count and
+  /// the money reset together, so a window can never carry a fresh allowance
+  /// against a spent budget.
+  ///
+  /// NULL means no monetary cap has been agreed. That is NOT unlimited: HR has
+  /// simply not set one, and every grant is then over budget by definition, so
+  /// approving one is a recorded override.
+  annualTravelBudget      Decimal?
+
   shiftId                String?
   shift                  Shift?           @relation(fields: [shiftId], references: [id])
   leaveRequests          LeaveRequest[]
@@ -619,6 +680,8 @@ model Employee {
   documentRenewals       DocumentRenewal[]
   leaveBalances          LeaveBalance[]
   attendance             Attendance[]
+  travelRequests         BusinessTravelRequest[]
+  airTicketEntitlements  AirTicketEntitlement[]
   salaryStructure        SalaryStructure?
   salaryRecords          SalaryRecord[]
   letterRecords          LetterRecord[]
@@ -639,6 +702,7 @@ model Employee {
   manager                Employee?        @relation("ManagerToStaff", fields: [managerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   reportees              Employee[]       @relation("ManagerToStaff")
   requestedJobs          JobRequisition[] @relation("RequestedJobs")
+  changeRequests         EmployeeChangeRequest[]
   /// P1: the interviewer relation moved to `InterviewParticipant` so a panel
   /// can have many interviewers. This now points at the join.
   interviewPanel  InterviewParticipant[]
@@ -1350,6 +1414,9 @@ model Candidate {
   nationality     String?
   currentLocation String?
   resumeUrl       String?
+  /// Private uploaded PDF resume; served only to users with recruitment access.
+  resumeData      Bytes?
+  resumeFileName  String?
   /// Comma-separated skills; a dedicated join table is a later refinement.
   skills          String?
   currentEmployer String?
@@ -1842,6 +1909,8 @@ model CompanyDocument {
   fileUrl     String
   fileName    String
   fileType    String
+  /// Private uploaded PDF; served through an authenticated route.
+  fileData    Bytes?
   version     String   @default("1.0")
   effectiveFrom DateTime?
   effectiveTo   DateTime?
@@ -1854,3 +1923,234 @@ model CompanyDocument {
   @@index([type])
 }
 
+// ─── EMPLOYEE DATA CHANGE REQUESTS (Maker-Checker) ───────────────────────────
+model EmployeeChangeRequest {
+  id             String    @id @default(cuid())
+  employeeId     String
+  employee       Employee  @relation(fields: [employeeId], references: [id])
+  status         String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  requestedBy    String
+  approvedBy     String?
+  approvedAt     DateTime?
+  rejectionReason String?
+  
+  /// A JSON object containing the proposed changes, e.g. { "passportNumber": "A123", "address": "Dubai" }
+  changes        Json
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  
+  documents      ChangeRequestDocument[]
+
+  @@index([employeeId, status])
+  @@index([status])
+}
+
+model ChangeRequestDocument {
+  id               String                @id @default(cuid())
+  requestId        String
+  request          EmployeeChangeRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  documentType     String                // VISA, PASSPORT, EMIRATES_ID, ADDRESS_PROOF
+  documentUrl      String
+  createdAt        DateTime              @default(now())
+}
+
+// ─── BUSINESS TRAVEL & AIR TICKET ENTITLEMENT (UAE) ───────────────────────────
+/// One company-purpose trip outside the country, requested rather than booked
+/// ad hoc.
+///
+/// The visa columns are SNAPSHOTS, not foreign keys: the employee row is the
+/// live visa record and is corrected by the compliance feature, but a travel
+/// case must show the visa context the trip was approved under even after the
+/// visa has been renewed. Linking to `DocumentRenewal` would couple the travel
+/// workflow to the compliance workflow's row ids; the snapshot is enough to
+/// answer "was this trip inside the visa window?", which is the actual question.
+model BusinessTravelRequest {
+  id                 String   @id @default(cuid())
+  employeeId         String
+  employee           Employee @relation(fields: [employeeId], references: [id])
+  purpose            String
+  destinationCountry String
+  destinationCity    String?
+  departureDate      DateTime
+  returnDate         DateTime?
+  /// Budget or quoted fare. AED is implicit: the company operates in the UAE
+  /// and there is no multi-currency settlement, so a second currency column
+  /// would be an unused field to keep consistent.
+  estimatedCost      Float    @default(0)
+  /// What HR agreed to pay, set by `grantTravelAmount`.
+  ///
+  /// SEPARATE FROM `estimatedCost` ON PURPOSE, AND SEPARATE AGAIN IN TYPE. The
+  /// estimate is the TRAVELLER'S QUOTE and is typed `Float` because it is a
+  /// free-text number from a form. The approved amount is a COMPANY COMMITMENT,
+  /// compared against a budget and summed across a window, so it is `Decimal`
+  /// and a `Float` variant of the same column would be a rounding dispute
+  /// waiting to happen. HR grants the amount after reviewing the quote, and the
+  /// two are allowed to disagree: `budgetVariance` records by how much.
+  approvedAmount     Decimal?
+  /// approvedAmount - estimatedCost, stored rather than derived at render time.
+  ///
+  /// A negative variance means the company is paying LESS than the traveller
+  /// quoted, which is a conversation worth having before the trip rather than a
+  /// footnote on the request. Persisting it keeps the figure on the row that
+  /// decided it, so an audit does not have to re-derive it from a quote that HR
+  /// may later have corrected.
+  budgetVariance     Decimal?
+  /// Who set `approvedAmount` and when. An amount with no author cannot be
+  /// audited, and "who agreed to this spend" is the first question asked of any
+  /// travel budget.
+  amountGrantedBy    String?
+  amountGrantedAt    DateTime?
+  /// ECONOMY | PREMIUM_ECONOMY | BUSINESS — what was asked for, which may be
+  /// above the employee's entitled class and is refused on approval if so.
+  travelClass        String   @default("ECONOMY")
+  /// COMPANY | EMPLOYEE — who pays. A trip the employee asked for personally is
+  /// not a company obligation, so this is recorded rather than assumed.
+  ticketCostBorneBy  String   @default("COMPANY")
+  status             String   @default("REQUESTED") // REQUESTED, PENDING_APPROVAL, APPROVED, REJECTED, COMPLETED, CANCELLED
+
+  /// Visa context at the moment the request was raised.
+  visaNumberSnapshot String?
+  visaExpirySnapshot DateTime?
+  visaIssueSnapshot  DateTime?
+
+  /// The entitlement window this request draws a ticket from, resolved once at
+  /// creation from `Employee.airTicketAnchorDate`. Stored so that completing
+  /// the request months later still increments the window it was granted under,
+  /// rather than whichever window happens to be open on the day it is flown.
+  entitlementId        String?
+  entitlement          AirTicketEntitlement? @relation(fields: [entitlementId], references: [id])
+  entitlementWindowKey String?
+  entitlementWindowStart DateTime?
+  entitlementWindowEnd   DateTime?
+
+  requestedBy  String
+  reviewedBy   String?
+  reviewedAt   DateTime?
+  decisionNote String?
+  completedAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  /// Ticket and boarding pass filed against THIS trip. Cascaded with the request,
+  /// because a document whose journey has been deleted is meaningless.
+  documents TravelDocument[]
+
+  // --- Indexes ---
+  // The register lists an employee's history newest-first.
+  @@index([employeeId, createdAt])
+  // Approval queues filter on status; the visa page joins travel to expiry.
+  @@index([status])
+  @@index([status, departureDate])
+  @@index([entitlementId])
+}
+
+/// Per-employee ledger for ONE entitlement window.
+///
+/// The "1 or 2 tickets per year" cap is answered by `usedTickets` on this row,
+/// and the row is keyed by (employee, window) so a question about a past window
+/// stays answerable after the window has rolled over.
+///
+/// The key is the window's START DATE, not a year number, because the window is
+/// anchored to the visa date: an anchor of 15 Sep 2026 gives windows keyed
+/// "2026-09-15" and "2027-09-15", neither of which is the calendar year.
+model AirTicketEntitlement {
+  id             String   @id @default(cuid())
+  employeeId     String
+  employee       Employee @relation(fields: [employeeId], references: [id])
+  /// `yyyy-MM-dd` of `windowStart`. Stable, sortable, and independent of the
+  /// label an operator happens to type.
+  windowKey      String
+  windowStart    DateTime
+  /// INCLUSIVE last day of the window. For a 15 Sep anchor that is 14 Sep of
+  /// the following year, not 15 Sep — see lib/workflow/business-travel.ts.
+  windowEnd      DateTime
+  /// Entitlement as it stood when this window opened. Denormalised so a later
+  /// change to the employee's contract cannot retroactively rewrite history.
+  entitledTickets Int     @default(0)
+  /// Tickets actually consumed. Incremented exactly once per request, inside the
+  /// same transaction that moves the request to COMPLETED, with a
+  /// compare-and-swap predicate so a double click cannot consume two tickets.
+  usedTickets     Int     @default(0)
+  /// The anchor date this window was derived from, recorded so an audit can
+  /// reproduce the boundary years later even if the visa is later corrected.
+  anchorSnapshot  DateTime?
+  anchorSource    String? // EXPLICIT | VISA_ISSUE_DATE | CALENDAR_YEAR_FALLBACK
+  /// Requests that draw a ticket from this window. A window can back several
+  /// requests (a 2-ticket employee), so this is one-to-many, not one-to-one.
+  consumingRequests BusinessTravelRequest[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  /// One ledger row per employee per window. The uniqueness is what makes the
+  /// cap a database fact rather than a read-then-write race.
+  @@unique([employeeId, windowKey])
+  @@index([employeeId, windowStart])
+}
+
+/// Supporting documents for ONE business travel request.
+///
+/// WHY THIS IS NOT THE SHARED `Attachment` MODEL
+/// `Attachment` hangs off an Employee and describes a document of record —
+/// passport, visa, contract — which persists independently of any one request.
+/// A ticket and a boarding pass belong to a specific journey: they are
+/// meaningless once that request is archived, and the same employee flying next
+/// month gets a different pair. Filing them as Employee attachments would make
+/// "the employee's current ticket" ambiguous the moment they travel twice.
+///
+/// The lifecycle differs too, and that is the point of storing them here:
+///   - TICKET is proof of booking, so it is expected once the request is
+///     APPROVED and before departure.
+///   - BOARDING_PASS is proof the employee actually flew, so it is expected by
+///     COMPLETED.
+/// `lib/workflow/business-travel.ts` enforces those, so a trip cannot be marked
+/// complete with nothing to show for it.
+///
+/// `@@unique([requestId, kind])` makes re-upload an upsert. A corrected boarding
+/// pass replaces the wrong one instead of leaving two and making it ambiguous
+/// which is authoritative.
+model TravelDocument {
+  id        String                @id @default(cuid())
+  requestId String
+  request   BusinessTravelRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  /// TICKET | BOARDING_PASS — see TRAVEL_DOCUMENT_KINDS in the workflow module.
+  kind      String
+
+  fileName  String
+  /// A `data:` URL holding the bytes, as `Attachment.fileUrl` does. A boarding
+  /// pass is a private document, so it is deliberately NOT written to
+  /// `public/uploads`, where anything served from it is readable by anyone who
+  /// guesses the filename.
+  fileUrl   String
+  fileType  String
+  fileBytes Int?
+
+  /// Booking reference / PNR. Separate from the file because it is the one
+  /// field an approver reads without opening a PDF.
+  reference String?
+
+  uploadedBy String
+  uploadedAt DateTime @default(now())
+
+  /// Who checked the scan against the journey, and when.
+  ///
+  /// AN UPLOAD IS NOT A VERIFICATION. These columns are written only by
+  /// `verifyTravelDocument`, which a human calls after looking at the file — the
+  /// same rule `OnboardingChecklistItem.verifiedBy` follows. An approver must
+  /// be able to say which of the two tickets on a trip was the forgery, and a
+  /// single `uploadedBy` column cannot answer it.
+  ///
+  /// `verifiedAt IS NOT NULL` is the ONLY accepted proof, because it is the
+  /// state written together with the approver's email and an audit row.
+  ///
+  /// The upsert on `@@unique([requestId, kind])` CLEARS both on re-upload: a new
+  /// scan is a new claim, and leaving the old sign-off behind would let a
+  /// replaced document inherit the verification of the one it replaced. That is
+  /// the trap `recordDocumentReceived` documents for employee documents.
+  verifiedBy String?
+  verifiedAt DateTime?
+
+  @@unique([requestId, kind])
+  @@index([kind])
+}

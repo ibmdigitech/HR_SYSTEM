@@ -13,7 +13,14 @@
  *          └─ IN_REVIEW → NOTICE_PERIOD → CLEARANCE
  *               └─ assets returned, checklist cleared
  *                    └─ SETTLEMENT_PENDING → FinalSettlement
- *                         └─ COMPLETED → access revoked, status OFFBOARDED
+ *                         └─ COMPLETED → access revoked, status OFFBOARDED,
+ *                                     lifecycle EXITED, isActive false
+ *
+ * Every step that changes the employee's employment state writes
+ * `currentStatus`, `lifecycle` and `isActive` together, in one `data`. They are
+ * three columns of one fact, and the live exit path (app/lib/actions/exit.ts)
+ * already sets them as a unit; writing one of the three alone is what used to
+ * leave a departed employee in the payroll run.
  *
  * The final settlement is deliberately NOT a UAE end-of-service calculator.
  * The statutory rules are not defined anywhere in this codebase, so inventing
@@ -42,9 +49,9 @@ import {
  * Default exit checklist. Drives the UI only — HR may add or waive items per
  * request. A created item is never treated as a completed one.
  */
-const DEFAULT_EXIT_CHECKLIST: { label: string; category: string; required: boolean }[] = [
+export const DEFAULT_EXIT_CHECKLIST: { label: string; category: string; required: boolean }[] = [
     { label: "Exit interview conducted", category: "HR", required: true },
-    { label: "Resignation letter received", category: "HR", required: true },
+    { label: "Exit documentation recorded", category: "HR", required: true },
     { label: "Company ID card returned", category: "ASSET", required: true },
     { label: "Laptop and peripherals returned", category: "ASSET", required: true },
     { label: "Vehicle (if allocated) returned", category: "ASSET", required: false },
@@ -52,8 +59,8 @@ const DEFAULT_EXIT_CHECKLIST: { label: string; category: string; required: boole
     { label: "Loan balance confirmed", category: "FINANCE", required: true },
     { label: "Leave balance encashment confirmed", category: "FINANCE", required: true },
     { label: "Outstanding expenses cleared", category: "FINANCE", required: false },
-    { label: "System access revoked", category: "IT", required: true },
-    { label: "Email and application accounts disabled", category: "IT", required: true },
+    { label: "System account identified for revocation at exit completion", category: "IT", required: true },
+    { label: "External email/application access handoff confirmed", category: "IT", required: true },
     { label: "Knowledge transfer completed", category: "MANAGER", required: false },
 ];
 
@@ -141,7 +148,17 @@ export async function initiateOffboarding(params: {
 
             await tx.employee.update({
                 where: { id: params.employeeId },
-                data: { currentStatus: "ON_LEAVE" },
+                // `lifecycle` moves with `currentStatus`, because
+                // LIFECYCLE_TRANSITIONS already permits every employed stage ->
+                // NOTICE_PERIOD and the stage was otherwise unreachable. Without
+                // it the employee read as ordinary long-term leave in every
+                // surface that consults the stage. `isActive` is deliberately
+                // NOT written here: the person is still employed, and still
+                // being paid, until the exit completes below.
+                data: {
+                    currentStatus: "ON_LEAVE",
+                    lifecycle: "NOTICE_PERIOD",
+                },
             });
 
             await tx.auditLog.create({
@@ -253,7 +270,17 @@ export async function advanceOffboarding(params: {
             if (params.to === OFFBOARDING_STATUS.COMPLETED) {
                 await tx.employee.update({
                     where: { id: request.employeeId },
-                    data: { currentStatus: "OFFBOARDED" },
+                    // Mirrors the live exit path (app/lib/actions/exit.ts:1231-1241):
+                    // all three columns in ONE `data`. Writing `currentStatus`
+                    // alone left the employee `isActive: true` with
+                    // `lifecycle: NOTICE_PERIOD`, so a completed offboarding
+                    // kept counting them in dashboard and visa headcount, the
+                    // payroll run, attendance and leave accrual.
+                    data: {
+                        currentStatus: "OFFBOARDED",
+                        lifecycle: "EXITED",
+                        isActive: false,
+                    },
                 });
             }
 
@@ -394,6 +421,28 @@ export async function prepareSettlement(params: {
         }
 
         const i = params.inputs;
+        const amounts = [
+            i.pendingSalaryDays, i.pendingSalaryAmount, i.leaveEncashmentDays,
+            i.leaveEncashmentAmount, i.loanDeductions, i.advanceDeductions,
+            i.otherDeductions, i.otherAdditions, i.gratuityAmount,
+        ];
+        if (amounts.some((value) => value !== undefined && (!Number.isFinite(value) || value < 0))) {
+            return { success: false, message: "Settlement figures must be finite, non-negative numbers." };
+        }
+        if (i.calculationNotes && i.calculationNotes.length > 4000) {
+            return { success: false, message: "Calculation notes must be 4,000 characters or fewer." };
+        }
+
+        const existingSettlement = await prisma.finalSettlement.findUnique({
+            where: { offboardingId: params.offboardingId },
+            select: { status: true },
+        });
+        if (existingSettlement &&
+            existingSettlement.status !== SETTLEMENT_STATUS.DRAFT &&
+            existingSettlement.status !== SETTLEMENT_STATUS.CALCULATED) {
+            return { success: false, message: "A settlement under review, approved, or paid cannot be overwritten. Return it to CALCULATED before editing." };
+        }
+
         const finalAmount =
             (i.pendingSalaryAmount ?? 0) +
             (i.leaveEncashmentAmount ?? 0) +
@@ -402,11 +451,12 @@ export async function prepareSettlement(params: {
             (i.loanDeductions ?? 0) -
             (i.advanceDeductions ?? 0) -
             (i.otherDeductions ?? 0);
+        if (finalAmount < 0) {
+            return { success: false, message: "Deductions exceed additions. Review the figures; a negative final settlement cannot be submitted." };
+        }
 
         const settlement = await prisma.$transaction(async (tx) => {
-            const row = await tx.finalSettlement.upsert({
-                where: { offboardingId: params.offboardingId },
-                update: {
+            const data = {
                     pendingSalaryDays: i.pendingSalaryDays ?? 0,
                     pendingSalaryAmount: i.pendingSalaryAmount ?? 0,
                     leaveEncashmentDays: i.leaveEncashmentDays ?? 0,
@@ -419,24 +469,33 @@ export async function prepareSettlement(params: {
                     finalAmount,
                     calculationNotes: i.calculationNotes ?? null,
                     status: SETTLEMENT_STATUS.CALCULATED,
-                },
-                create: {
+                };
+            // Enforce the editable-state restriction in the write predicate.
+            // A pre-read alone could race with an approval/payment transition.
+            const changed = await tx.finalSettlement.updateMany({
+                where: {
                     offboardingId: params.offboardingId,
-                    pendingSalaryDays: i.pendingSalaryDays ?? 0,
-                    pendingSalaryAmount: i.pendingSalaryAmount ?? 0,
-                    leaveEncashmentDays: i.leaveEncashmentDays ?? 0,
-                    leaveEncashmentAmount: i.leaveEncashmentAmount ?? 0,
-                    loanDeductions: i.loanDeductions ?? 0,
-                    advanceDeductions: i.advanceDeductions ?? 0,
-                    otherDeductions: i.otherDeductions ?? 0,
-                    otherAdditions: i.otherAdditions ?? 0,
-                    gratuityAmount: i.gratuityAmount ?? 0,
-                    finalAmount,
-                    calculationNotes: i.calculationNotes ?? null,
-                    status: SETTLEMENT_STATUS.CALCULATED,
+                    status: { in: [SETTLEMENT_STATUS.DRAFT, SETTLEMENT_STATUS.CALCULATED] },
                 },
-                select: { id: true, finalAmount: true },
+                data,
             });
+            let row;
+            if (changed.count > 0) {
+                row = await tx.finalSettlement.findUniqueOrThrow({
+                    where: { offboardingId: params.offboardingId },
+                    select: { id: true, finalAmount: true },
+                });
+            } else {
+                const existing = await tx.finalSettlement.findUnique({
+                    where: { offboardingId: params.offboardingId },
+                    select: { id: true },
+                });
+                if (existing) throw new Error("SETTLEMENT_LOCKED");
+                row = await tx.finalSettlement.create({
+                    data: { offboardingId: params.offboardingId, ...data },
+                    select: { id: true, finalAmount: true },
+                });
+            }
 
             await tx.auditLog.create({
                 data: {
@@ -465,6 +524,9 @@ export async function prepareSettlement(params: {
             offboardingId: params.offboardingId,
         };
     } catch (error) {
+        if (error instanceof Error && error.message === "SETTLEMENT_LOCKED") {
+            return { success: false, message: "The settlement changed while you were editing. Reload before making another change." };
+        }
         console.error("[PREPARE_SETTLEMENT_FAILED]", error);
         return { success: false, message: "Could not prepare the settlement." };
     }
@@ -477,8 +539,19 @@ export async function advanceSettlement(params: {
     actor: { id: string; email: string; role: string };
 }): Promise<OffboardResult> {
     try {
-        // Under-review → approved is ADMIN-only, enforced by the state machine.
-        await requirePermission(PERMISSIONS.PAYROLL_SETTLE);
+        // HR prepares and submits, an administrator approves, and Finance records
+        // payment. Each stage is also checked by SETTLEMENT_TRANSITIONS below.
+        if (params.to === SETTLEMENT_STATUS.APPROVED) {
+            await requirePermission(PERMISSIONS.EXIT_COMPLETE);
+        } else if (params.to === SETTLEMENT_STATUS.PAID) {
+            await requirePermission(PERMISSIONS.PAYROLL_SETTLE);
+        } else {
+            await requirePermission(PERMISSIONS.PAYROLL_VIEW);
+        }
+
+        if (params.to === SETTLEMENT_STATUS.PAID && !params.reference?.trim()) {
+            return { success: false, message: "Enter the bank/payment reference before marking the settlement paid." };
+        }
 
         const settlement = await prisma.finalSettlement.findUnique({
             where: { offboardingId: params.offboardingId },

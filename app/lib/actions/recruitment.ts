@@ -96,6 +96,18 @@ export async function submitCandidateApplication(
         return Number.isFinite(parsed) ? parsed : undefined;
     };
 
+    const resume = formData.get("resumeFile");
+    if (!(resume instanceof File) || resume.size === 0) {
+        return { success: false, message: "Attach the candidate's resume as a PDF." };
+    }
+    if (resume.size > 5 * 1024 * 1024) {
+        return { success: false, message: "The resume PDF must be 5 MB or smaller." };
+    }
+    const resumeBytes = new Uint8Array(await resume.arrayBuffer());
+    if (new TextDecoder().decode(resumeBytes.slice(0, 5)) !== "%PDF-") {
+        return { success: false, message: "The resume must be a valid PDF file." };
+    }
+
     return applyToJob({
         jobRequisitionId: str("jobId") ?? str("jobRequisitionId") ?? "",
         firstName: str("firstName") ?? "",
@@ -104,7 +116,8 @@ export async function submitCandidateApplication(
         phone: str("phone"),
         nationality: str("nationality"),
         currentLocation: str("currentLocation"),
-        resumeUrl: str("resumeUrl"),
+        resumeData: resumeBytes,
+        resumeFileName: resume.name.split(/[\\/]/).pop()?.slice(0, 180) || "resume.pdf",
         skills: str("skills"),
         currentEmployer: str("currentEmployer"),
         currentPosition: str("currentPosition"),

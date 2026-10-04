@@ -65,6 +65,16 @@ export interface DateFieldProps {
 function toIso(value: Date | string | null | undefined): string {
     if (!value) return "";
     if (typeof value === "string") {
+        const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+        if (dateOnly) {
+            const [, year, month, day] = dateOnly;
+            const local = new Date(Number(year), Number(month) - 1, Number(day));
+            return local.getFullYear() === Number(year)
+                && local.getMonth() === Number(month) - 1
+                && local.getDate() === Number(day)
+                ? value
+                : "";
+        }
         // Accept a full ISO timestamp from the database.
         const d = new Date(value);
         return isValid(d) ? format(d, "yyyy-MM-dd") : "";
@@ -74,6 +84,16 @@ function toIso(value: Date | string | null | undefined): string {
 
 function fromIso(iso: string): Date | undefined {
     if (!iso) return undefined;
+    const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+    if (dateOnly) {
+        const [, year, month, day] = dateOnly;
+        const local = new Date(Number(year), Number(month) - 1, Number(day));
+        return local.getFullYear() === Number(year)
+            && local.getMonth() === Number(month) - 1
+            && local.getDate() === Number(day)
+            ? local
+            : undefined;
+    }
     const d = new Date(iso);
     return isValid(d) ? d : undefined;
 }
@@ -121,13 +141,13 @@ function parseTyped(raw: string): { date?: Date; error?: string } {
 
     if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
         const d = fromIso(value);
-        return d ? { date: d } : { error: "Not a real date" };
+        return d && format(d, "yyyy-MM-dd") === value ? { date: d } : { error: "Not a real date" };
     }
 
     if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
         const [d, m, y] = value.split("/");
         const parsed = parse(`${y}-${m}-${d}`, "yyyy-MM-dd", new Date());
-        return isValid(parsed)
+        return isValid(parsed) && format(parsed, "dd/MM/yyyy") === value
             ? { date: parsed }
             : { error: "Use DD/MM/YYYY" };
     }
@@ -169,7 +189,7 @@ export function DateField({
 }: DateFieldProps) {
     const initial = toIso(defaultValue);
     const [iso, setIso] = React.useState(initial);
-    const [text, setText] = React.useState(initial ? format(fromIso(initial)!, "d MMM yyyy") : "");
+    const [text, setText] = React.useState(initial ? format(fromIso(initial)!, "dd/MM/yyyy") : "");
     const [open, setOpen] = React.useState(false);
     const [parseError, setParseError] = React.useState<string | null>(null);
     const inputId = `date-${name}`;
@@ -177,7 +197,7 @@ export function DateField({
     // Sync when the form re-targets a different employee.
     React.useEffect(() => {
         setIso(initial);
-        setText(initial ? format(fromIso(initial)!, "d MMM yyyy") : "");
+        setText(initial ? format(fromIso(initial)!, "dd/MM/yyyy") : "");
         setParseError(null);
     }, [initial]);
 
@@ -191,7 +211,7 @@ export function DateField({
     const commit = (d: Date | undefined) => {
         const next = d ? toIso(d) : "";
         setIso(next);
-        setText(d ? format(d, "d MMM yyyy") : "");
+        setText(d ? format(d, "dd/MM/yyyy") : "");
         setParseError(null);
         setOpen(false);
     };
@@ -270,7 +290,7 @@ export function DateField({
                         onBlur={() => {
                             // Normalise whatever was typed into a clean label.
                             const d = fromIso(iso);
-                            setText(d ? format(d, "d MMM yyyy") : "");
+                            setText(d ? format(d, "dd/MM/yyyy") : "");
                             setParseError(null);
                         }}
                         onKeyDown={(e) => {

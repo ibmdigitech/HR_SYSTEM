@@ -2,11 +2,12 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle,  } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RequisitionStatusControl } from "./RequisitionStatusControl";
-import { Briefcase, Users, Calendar, PlusCircle, CheckCircle, Clock } from "lucide-react";
+import { CandidatePipelineActions } from "./CandidatePipelineActions";
+import { Briefcase, Users, Calendar, PlusCircle, Clock } from "lucide-react";
 
 export default async function RecruitmentPage() {
     const session = await auth();
@@ -54,6 +55,18 @@ export default async function RecruitmentPage() {
                     <p className="text-slate-500 font-medium mt-1">Manage job requisitions, candidate pipeline, and interviews.</p>
                 </div>
                 <div className="flex gap-2">
+                    <Button asChild className="bg-emerald-600 font-bold gap-2 rounded-xl hover:bg-emerald-700">
+                        <Link href="/recruitment/applications/new">
+                            <PlusCircle className="h-4 w-4" />
+                            Add Candidate
+                        </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="font-bold gap-2 rounded-xl">
+                        <Link href="/recruitment/interviews">
+                            <Calendar className="h-4 w-4" />
+                            Interviews
+                        </Link>
+                    </Button>
                     {/* Was a bare <Button>: no handler, no link, no dialog —
                         clicking it did nothing. `asChild` hands the button
                         styling to the Link so the control is now real. */}
@@ -165,6 +178,16 @@ export default async function RecruitmentPage() {
                                                 Posted {new Date(job.createdAt).toLocaleDateString()}
                                             </span>
                                         </div>
+                                        {job.status === "APPROVED" && (
+                                            <div className="mt-4 border-t border-slate-100 pt-4 dark:border-slate-800">
+                                                <p className="text-xs text-slate-500">
+                                                    Review applications in the candidate pipeline. Shortlist an applicant before scheduling an interview.
+                                                </p>
+                                                <Button asChild variant="outline" size="sm" className="mt-3 rounded-lg font-bold">
+                                                    <Link href={`/recruitment/applications/new?jobId=${encodeURIComponent(job.id)}`}>Add candidate to this vacancy</Link>
+                                                </Button>
+                                            </div>
+                                        )}
                                     </CardContent>
                                 </Card>
                             ))}
@@ -201,7 +224,10 @@ export default async function RecruitmentPage() {
                                         </Badge>
                                     </div>
                                     <div className="flex justify-end gap-2 mt-2">
-                                        <Button size="sm" variant="outline" className="h-7 text-xs">View Profile</Button>
+                                        <CandidatePipelineActions
+                                            applicationId={candidate.applications[0]?.id}
+                                            status={candidate.applications[0]?.status}
+                                        />
                                     </div>
                                 </div>
                             ))}

@@ -28,7 +28,7 @@ const STATUS_FILTERS = [
 export default async function InterviewsPage({
     searchParams,
 }: {
-    searchParams: Promise<{ status?: string; page?: string }>;
+    searchParams: Promise<{ status?: string; page?: string; candidateId?: string; applicationId?: string }>;
 }) {
     const session = await getSessionUser();
     if (!session.ok) redirect("/login");
@@ -137,7 +137,7 @@ export default async function InterviewsPage({
             )}
 
             {/* Scheduling (brief §9) */}
-            {result && result.items.length > 0 && (
+            {result && (
                 <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-5">
                     <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">
                         Schedule
@@ -145,6 +145,8 @@ export default async function InterviewsPage({
                     <ScheduleInterviewForm
                         candidates={interviewable.candidates}
                         interviewers={interviewable.interviewers}
+                        defaultCandidateId={params.candidateId}
+                        defaultApplicationId={params.applicationId}
                     />
                 </section>
             )}

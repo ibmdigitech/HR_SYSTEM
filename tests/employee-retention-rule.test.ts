@@ -281,7 +281,14 @@ describe("archiveGuard — idempotency lives in the where clause, not in a pre-r
 
 describe("restoreWrite", () => {
     it("clears the tombstone and reinstates isActive, so restore is not a rename", () => {
-        expect(restoreWrite()).toEqual({ deletedAt: null, isActive: true });
+        expect(restoreWrite(true)).toEqual({ deletedAt: null, isActive: true });
+    });
+
+    it("takes the reactivation decision from the caller, because archive is not the only thing that sets isActive false", () => {
+        // A row archived AFTER a terminal exit was archived as a departure.
+        // Reinstating isActive there would return a departed employee to
+        // headcount and payroll, so the write obeys the caller.
+        expect(restoreWrite(false)).toEqual({ deletedAt: null, isActive: false });
     });
 });
 

@@ -238,16 +238,23 @@ describe("employee directory — no field is dropped from either view", () => {
         }
     });
 
-    it("the mobile action set is still onboarding + edit + delete", () => {
+    it("the mobile action set is view profile + onboarding + edit + delete", () => {
         // 44px touch targets, each individually labelled. `inline-flex` is
         // counted so the avatar's own `h-11 w-11` is not counted as a button.
+        //
+        // View Profile was added as a fourth target: opening a record to read it
+        // is the most common reason to touch a row in this list, and it was only
+        // reachable through the name column, which is not an obvious hit area on
+        // a phone. The other three are unchanged.
+        expect(MOBILE_VIEW).toMatch(/aria-label=\{`View profile for /);
         expect(MOBILE_VIEW).toMatch(/aria-label=\{`Onboarding checklist for /);
         expect(MOBILE_VIEW).toMatch(/aria-label=\{`Edit /);
         expect(MOBILE_VIEW).toMatch(/aria-label=\{`Delete /);
-        expect(MOBILE_VIEW.match(/inline-flex h-11 w-11/g)).toHaveLength(3);
+        expect(MOBILE_VIEW.match(/inline-flex h-11 w-11/g)).toHaveLength(4);
     });
 
-    it("the table's action set is still edit + delete", () => {
+    it("the table's action set is view profile + edit + delete", () => {
+        expect(TABLE_VIEW).toMatch(/aria-label=\{`View profile for /);
         expect(TABLE_VIEW).toMatch(/aria-label=\{`Edit /);
         expect(TABLE_VIEW).toMatch(/aria-label=\{`Delete /);
     });

@@ -271,7 +271,7 @@ export default function OnboardingPanel({
                             return (
                                 <li
                                     key={item.id}
-                                    className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-4"
+                                    className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-4 transition-colors duration-150 hover:border-indigo-300 hover:bg-indigo-50/50 dark:hover:border-indigo-800 dark:hover:bg-indigo-950/30"
                                 >
                                     <div className="flex items-start gap-3">
                                         <Icon className="h-4 w-4 mt-0.5 shrink-0 text-slate-400" />

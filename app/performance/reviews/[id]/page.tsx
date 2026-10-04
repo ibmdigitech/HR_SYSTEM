@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
-import { KpiRatingForm, PerformanceQuestionForm, PERFORMANCE_RATING_LABELS } from "@/components/performance/PerformanceFeedback";
+import { KpiRatingForm, PerformanceQuestionForm } from "@/components/performance/PerformanceFeedback";
+import { PERFORMANCE_RATING_LABELS } from "@/components/performance/rating-labels";
 import {
     ArrowLeft,
     Target,

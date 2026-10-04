@@ -30,6 +30,7 @@ import {
     type UserRoleRow,
 } from "@/lib/workflow/lifecycle-consistency";
 import { archiveGuard, archiveWrite, restoreWrite } from "@/lib/employees/retention";
+import { lifecycleOnSave } from "@/lib/employees/lifecycle-stage";
 
 afterAll(async () => {
     await prisma.$disconnect();
@@ -152,24 +153,40 @@ describe("staged entry", () => {
     });
 });
 
-describe("offboarding writes a status the lifecycle never sees", () => {
+describe("offboarding moves the status the lifecycle never sees", () => {
     it("flags the ON_LEAVE status written at offboarding initiation", () => {
-        // lib/workflow/offboarding.ts:144
+        // `initiateOffboarding` now writes lifecycle=NOTICE_PERIOD alongside it
+        // (lib/workflow/offboarding.ts), so only a row that keeps a SUBSTANTIVE
+        // stage — ACTIVE, PROBATION, CONFIRMED — is still a mismatch.
         const found = classifyEmployeeState(employee({ lifecycle: "ACTIVE", currentStatus: "ON_LEAVE" }));
         expect(codes(found)).toEqual(["ON_LEAVE_STAGE_MISMATCH"]);
-        expect(found[0].detail).toContain("offboarding.ts:144");
+        expect(found[0].detail).toContain("lib/workflow/offboarding.ts");
     });
 
-    it("flags OFFBOARDED, which the entry form's Zod enum would refuse", () => {
-        // lib/workflow/offboarding.ts:256 writes "OFFBOARDED"; the form's enum
-        // is app/lib/validation.ts:83 and does not contain it. A completed
-        // offboarding therefore leaves a row the edit dialog cannot reopen
-        // without silently rewriting the status.
+    it("is silent for the NOTICE_PERIOD pair the offboarding workflow writes", () => {
+        // The shape `initiateOffboarding` produces: employed, on notice, still
+        // paid. Flagging it would report an intended state as drift.
+        expect(
+            classifyEmployeeState(
+                employee({ lifecycle: "NOTICE_PERIOD", currentStatus: "ON_LEAVE", isActive: true })
+            )
+        ).toEqual([]);
+    });
+
+    it("accepts OFFBOARDED, which the entry form's Zod enum does accept", () => {
+        // This test used to assert the opposite. It was written when the form's
+        // enum (app/lib/validation.ts:83) was ["ACTIVE","ON_LEAVE","RESIGNED",
+        // "TERMINATED"] and OFFBOARDING genuinely left a row the edit dialog
+        // could not reopen without silently rewriting the status.
+        //
+        // Both enums now carry all six values, so a completed offboarding is
+        // reachable from the form and OFFBOARDED must NOT be reported as outside
+        // it. `ENTRY_FORM_STATUS_VALUES` mirrors the Zod enum, so flagging it
+        // here would have been a false positive against real HR data.
         const found = classifyEmployeeState(
             employee({ lifecycle: "EXITED", currentStatus: "OFFBOARDED", isActive: false })
         );
-        expect(codes(found)).toEqual(["STATUS_OUTSIDE_ENTRY_FORM"]);
-        expect(found[0].severity).toBe("warning");
+        expect(codes(found)).toEqual([]);
     });
 });
 
@@ -182,8 +199,19 @@ describe("values outside the declared vocabularies", () => {
 
     it("keeps the vocabularies the classifier trusts in step with the code", () => {
         expect(KNOWN_LIFECYCLE_VALUES).toContain("NOTICE_PERIOD");
-        expect(ENTRY_FORM_STATUS_VALUES).toEqual(["ACTIVE", "ON_LEAVE", "RESIGNED", "TERMINATED"]);
-        expect(ENTRY_FORM_STATUS_VALUES).not.toContain("OFFBOARDED");
+        // Must stay equal to BOTH Zod enums at app/lib/validation.ts:83
+        // (employeeSchema) and :220 (employeeSchemaProvisional). The mirror is
+        // the whole point of this list, so it is pinned in full rather than by
+        // sampling — a silent drop of one value is exactly the drift that made
+        // this assertion fail while the code was correct.
+        expect(ENTRY_FORM_STATUS_VALUES).toEqual([
+            "PRE_JOINING",
+            "ACTIVE",
+            "ON_LEAVE",
+            "RESIGNED",
+            "TERMINATED",
+            "OFFBOARDED",
+        ]);
     });
 });
 
@@ -311,41 +339,66 @@ describe("collectConsistencyReport", () => {
 /* ================================================================== */
 
 describe("the write paths that create divergence", () => {
-    it("saveEmployee's allow-list writes currentStatus but neither lifecycle nor isActive", () => {
-        const code = source("../app/lib/actions/employees.ts");
-        const block = code.slice(code.indexOf("const data = {"), code.indexOf("};", code.indexOf("const data = {")));
-        expect(block).toContain("currentStatus:");
-        expect(block).not.toContain("lifecycle:");
-        expect(block).not.toContain("isActive:");
+    it("a full save preserves the stages the entry form cannot express", () => {
+        // The defect this inverts: lifecycle was derived from currentStatus, and
+        // the status enum has no PROBATION/CONFIRMED member, so saving a
+        // probationer's profile rewrote the stage as "ACTIVE".
+        expect(lifecycleOnSave("PROBATION", "ACTIVE")).toBe("PROBATION");
+        expect(lifecycleOnSave("CONFIRMED", "ACTIVE")).toBe("CONFIRMED");
+        // ON_LEAVE is a temporary overlay, not a departure.
+        expect(lifecycleOnSave("PROBATION", "ON_LEAVE")).toBe("PROBATION");
+        // A status that genuinely changes the employment state still wins.
+        expect(lifecycleOnSave("PROBATION", "RESIGNED")).toBe("RESIGNED");
+        expect(lifecycleOnSave("PROBATION", "TERMINATED")).toBe("TERMINATED");
+        expect(lifecycleOnSave("PROBATION", "OFFBOARDED")).toBe("EXITED");
+        expect(lifecycleOnSave("PROBATION", "PRE_JOINING")).toBe("PRE_JOINING");
+        // Nothing to preserve: a new record, or a stage that is derivable.
+        expect(lifecycleOnSave(null, "ACTIVE")).toBe("ACTIVE");
+        expect(lifecycleOnSave(undefined, "PRE_JOINING")).toBe("PRE_JOINING");
+        expect(lifecycleOnSave("ACTIVE", "ACTIVE")).toBe("ACTIVE");
+
+        // And the action really routes its write through the rule.
+        expect(source("../app/lib/actions/employees.ts")).toContain(
+            "lifecycleOnSave(existingLifecycle, currentStatus)"
+        );
     });
 
-    it("the offboarding workflow never advances Employee.lifecycle", () => {
+    it("the offboarding workflow writes all three axes together, on both edges", () => {
         const code = source("../lib/workflow/offboarding.ts");
-        // It writes currentStatus twice — ON_LEAVE on initiation, OFFBOARDED
-        // on completion — and never the lifecycle stage.
-        expect(code).toContain('data: { currentStatus: "ON_LEAVE" }');
-        expect(code).toContain('data: { currentStatus: "OFFBOARDED" }');
-        expect(code).not.toContain("lifecycle:");
+        // Initiation: still employed (isActive untouched) but on notice. The
+        // order below is the order in the file, so this cannot be satisfied by
+        // two writes in different places.
+        expect(code).toMatch(/currentStatus: "ON_LEAVE",\s*\n\s*lifecycle: "NOTICE_PERIOD"/);
+        // Completion: the shape the live exit already writes
+        // (app/lib/actions/exit.ts:1231-1241).
+        expect(code).toMatch(
+            /currentStatus: "OFFBOARDED",\s*\n\s*lifecycle: "EXITED",\s*\n\s*isActive: false/
+        );
     });
 
-    it("nothing under app/ reads Employee.lifecycle, so the stage is invisible", () => {
-        // Blocker 2.5 rests on lifecycle being the intended single source.
-        // It is written by joining.ts and read by no query and no component.
-        const files = [
-            "../app/lib/actions/employees.ts",
+    it("a full save is the only app/ read of Employee.lifecycle, and it reads to preserve", () => {
+        // Blocker 2.5 rested on lifecycle being invisible to every read path.
+        // `upsertEmployee` and `restoreEmployee` now read it — one to preserve
+        // the stage across a full save, one to refuse reactivating a departed
+        // employee — so the guard is narrowed from "nothing reads it" to "no
+        // component and no operational query reads it".
+        for (const file of [
             "../app/employees/employee-list.tsx",
             "../app/employees/page.tsx",
             "../app/dashboard/page.tsx",
             "../app/lib/actions/payroll.ts",
             "../app/attendance/page.tsx",
-        ];
-        for (const file of files) {
+        ]) {
             const code = source(file);
             // Allow the word inside a comment or prose; forbid a real read.
             expect(code, `${file} must not read Employee.lifecycle`).not.toMatch(
                 /(currentStatus\s*:|select\s*:|where\s*:)[\s\S]{0,400}?\blifecycle\b/
             );
         }
+
+        const employees = source("../app/lib/actions/employees.ts");
+        expect(employees).toContain("lifecycleOnSave(existingLifecycle, currentStatus)");
+        expect(employees).toContain("isTerminalEmploymentState(target)");
     });
 
     it("no longer hard-deletes: the only DELETE is inside purgeEmployee, behind its gates", () => {
@@ -405,8 +458,11 @@ describe("the write paths that create divergence", () => {
             isActive: false,
         });
 
-        // Restore is the mirror image, guarded the same way.
-        expect(restoreWrite()).toEqual({ deletedAt: null, isActive: true });
+        // Restore is the mirror image, guarded the same way. The `isActive` value is the
+        // caller's decision, so it is asserted both ways: true for a row whose
+        // employment continues, false for one archived after a terminal exit.
+        expect(restoreWrite(true)).toEqual({ deletedAt: null, isActive: true });
+        expect(restoreWrite(false)).toEqual({ deletedAt: null, isActive: false });
     });
 });
 

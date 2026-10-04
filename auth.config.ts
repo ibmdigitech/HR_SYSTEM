@@ -88,6 +88,8 @@ export const authConfig = {
                     typeof token.role === 'string' ? token.role : 'STAFF';
                 (session.user as { id?: string }).id =
                     typeof token.id === 'string' ? token.id : undefined;
+                (session.user as { image?: string }).image =
+                    typeof token.image === 'string' ? token.image : undefined;
             }
             return session;
         },

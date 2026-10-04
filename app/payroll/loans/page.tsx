@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Landmark, AlertCircle, Clock, CheckCircle2, XCircle, Banknote, TrendingUp, Users,  } from "lucide-react";
+import { Landmark, AlertCircle, Clock, Banknote, TrendingUp, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const statusConfig: Record<string, { label: string; color: string }> = {
@@ -58,6 +58,11 @@ export default async function LoansPage() {
                     <p className="text-slate-500 mt-1.5 sm:ml-14">Monitor and manage all employee loan applications.</p>
                 </div>
                 <div className="flex items-center gap-3 w-full md:w-auto">
+                    <Link href="/dashboard" className="w-full md:w-auto">
+                        <Button variant="outline" className="w-full md:w-auto rounded-xl font-bold">
+                            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Dashboard
+                        </Button>
+                    </Link>
                     <Link href="/payroll/loans/admin" className="w-full md:w-auto">
                         <Button variant="outline" className="w-full md:w-auto rounded-xl border-amber-300 text-amber-700 hover:bg-amber-50 font-bold">
                             <Clock className="h-4 w-4 mr-2" />

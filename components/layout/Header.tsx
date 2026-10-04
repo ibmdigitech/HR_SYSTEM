@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Bell, Settings, Clock, Globe, LogOut, User } from "lucide-react";
+import { Bell, Settings, LogOut, User, Search } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { signOut } from "next-auth/react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { CommandSearch } from "@/components/layout/CommandSearch";
+import { HeaderClock } from "@/components/layout/HeaderClock";
+import { HeaderTimezone } from "@/components/layout/HeaderTimezone";
 import { NavigationLinks } from "@/components/layout/NavigationLinks";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface HeaderProps {
     user?: {
@@ -21,46 +24,39 @@ interface HeaderProps {
     };
 }
 
+/**
+ * Shared chrome for every header icon control.
+ *
+ * `ring-inset` gives the resting state a hairline that matches the sidebar, so
+ * the row reads as buttons without a filled chip per icon; hover lifts the ring
+ * to indigo and adds a shadow. The scale on `active:` is the only transform, and
+ * `motion-reduce` neutralises it along with the transition, because a control
+ * that jumps under the pointer is exactly what that preference asks us not to
+ * do. `focus-visible:outline-none` suppresses the global `:focus-visible`
+ * outline in globals.css so the ring is not doubled.
+ */
+const ICON_BUTTON =
+    "h-11 w-11 shrink-0 rounded-2xl bg-slate-100/50 text-slate-600 shadow-sm ring-1 ring-inset ring-slate-200/70 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-md hover:ring-indigo-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 motion-reduce:transition-none motion-reduce:transform-none dark:bg-slate-900/50 dark:text-slate-400 dark:ring-slate-800 dark:hover:bg-indigo-900/20 dark:hover:text-indigo-300 dark:hover:ring-indigo-500/40";
+
 export function Header({ user }: HeaderProps) {
-    const [time, setTime] = useState<Date | null>(null);
-    const [mounted, setMounted] = useState(false);
-
-    // `mounted` guards the clock against a hydration mismatch: the server has
-    // no meaningful "now", so it renders the placeholder and the client
-    // renders the real time.
-    //
-    // The effect performs NO synchronous state update. Setting state directly in
-    // the effect body triggers a cascading render before paint, which React
-    // flags (react-hooks/set-state-in-effect); the first tick is therefore
-    // deferred, and only the interval updates thereafter.
-    useEffect(() => {
-        const startTimer = window.setTimeout(() => {
-            setMounted(true);
-            setTime(new Date());
-        }, 0);
-
-        const timer = window.setInterval(() => setTime(new Date()), 1000);
-
-        return () => {
-            window.clearTimeout(startTimer);
-            window.clearInterval(timer);
-        };
-    }, []);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    // Below `md` there is no room for a 448px field next to three 44px controls,
+    // so search collapses to an icon that expands the field over the row.
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
     const userInitials = user?.name
         ? user.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
         : "U";
 
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
     return (
-      <header className="flex h-20 shrink-0 items-center justify-between gap-4 border-b border-slate-200/50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl px-4 md:px-8 relative z-50">
-      <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-6">
+        <header className="relative z-50 flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-200/50 bg-white/70 px-3 backdrop-blur-xl dark:bg-slate-950/70 md:h-20 md:gap-4 md:px-8">
+            <div className="flex min-w-0 flex-1 items-center gap-2 md:gap-6">
                 {/* Mobile Menu Trigger */}
                 <Dialog open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                     <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="lg:hidden h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50">
-                            <Menu className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                        <Button variant="ghost" size="icon" className={cn(ICON_BUTTON, "lg:hidden")}>
+                            <Menu className="h-5 w-5" />
+                            <span className="sr-only">Open navigation menu</span>
                         </Button>
                     </DialogTrigger>
                     {/* Edge-anchored drawer, so it must fully OVERRIDE the
@@ -92,36 +88,83 @@ export function Header({ user }: HeaderProps) {
                         </div>
                     </DialogContent>
                 </Dialog>
-                {mounted && <CommandSearch />}
 
-                <div className="hidden xl:flex items-center gap-6 pl-6 border-l border-slate-200 dark:border-slate-800">
-                    <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-indigo-500" />
-                        <span className="text-sm font-black text-slate-700 dark:text-slate-300 tracking-tight min-w-[80px]">
-                            {mounted && time ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "--:--:--"}
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Globe className="h-4 w-4 text-slate-400" />
-                        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">GMT +4 (UAE)</span>
-                    </div>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(ICON_BUTTON, "md:hidden")}
+                    aria-label="Search"
+                    title="Search (⌘K, or Ctrl+K)"
+                    aria-expanded={mobileSearchOpen}
+                    onClick={() => setMobileSearchOpen(true)}
+                >
+                    <Search className="h-5 w-5" />
+                </Button>
+
+                {/* Below `md` the expanded field sits over the header, so a
+                    scrim makes the row opaque (the field is translucent by
+                    design) and gives a tap target to dismiss it. `z-55` puts it
+                    under the field at `z-60`; `md:hidden` means it can never
+                    appear on a screen with room for the inline field. */}
+                {mobileSearchOpen && (
+                    <button
+                        type="button"
+                        aria-label="Close search"
+                        className="absolute inset-0 z-[55] h-full w-full cursor-default bg-white/95 dark:bg-slate-950/95 md:hidden"
+                        onClick={() => setMobileSearchOpen(false)}
+                    />
+                )}
+
+                {/* `min-w-0` so the field shrinks instead of pushing the right
+                    cluster out of the header; `flex-1` lets it fill the gap
+                    between the menu button and the clock from `md` up. */}
+                <div
+                    className={cn(
+                        "min-w-0 flex-1 md:max-w-md",
+                        mobileSearchOpen
+                            ? "absolute inset-x-3 top-1/2 z-[60] -translate-y-1/2 md:static md:z-auto md:translate-y-0"
+                            : "hidden md:block"
+                    )}
+                >
+                    <CommandSearch
+                        role={user?.role}
+                        autoFocus={mobileSearchOpen}
+                        onDismiss={() => setMobileSearchOpen(false)}
+                    />
+                </div>
+
+                {/* `shrink-0` and `whitespace-nowrap` inside the clock and
+                    timezone are what keep this row to ONE line each. Without
+                    them the flex algorithm narrows these items and the text
+                    wraps at its spaces — "GMT" / "+4" / "(UAE)" on three lines —
+                    which tripled the header height. */}
+                <div className="hidden shrink-0 items-center gap-6 border-l border-slate-200 pl-6 dark:border-slate-800 xl:flex">
+                    <HeaderClock />
+                    <HeaderTimezone />
                 </div>
             </div>
 
-            <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                    <Link href="/notifications">
-                        <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 relative hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
-                            <Bell className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                            <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-rose-500 ring-4 ring-white dark:ring-slate-950 animate-pulse" />
-                        </Button>
+            <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+                {/* `asChild` puts the button classes on the anchor itself. The
+                    previous markup nested a `<button>` inside an `<a>`, which is
+                    invalid HTML, gave the control two tab stops, and made the
+                    visible focus ring land on the wrong element. */}
+                <Button asChild variant="ghost" size="icon" className={ICON_BUTTON}>
+                    <Link href="/notifications" aria-label="Notifications" title="Notifications">
+                        <Bell className="h-5 w-5" />
+                        <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-rose-500 ring-4 ring-white animate-pulse motion-reduce:animate-none dark:ring-slate-950" />
                     </Link>
-                    <Link href="/settings">
-                        <Button variant="ghost" size="icon" className="h-11 w-11 rounded-2xl bg-slate-100/50 dark:bg-slate-900/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group">
-                            <Settings className="h-5 w-5 text-slate-600 dark:text-slate-400 group-hover:text-indigo-600 transition-colors" />
-                        </Button>
+                </Button>
+
+                {/* Settings stays reachable from the account popover below, so
+                    the duplicate icon is the first thing to go on small screens. */}
+                <Button asChild variant="ghost" size="icon" className={cn(ICON_BUTTON, "hidden sm:inline-flex")}>
+                    <Link href="/settings" aria-label="Settings" title="Settings">
+                        <Settings className="h-5 w-5" />
                     </Link>
-                </div>
+                </Button>
+
+                <span aria-hidden="true" className="hidden h-9 w-px bg-slate-200 dark:bg-slate-800 lg:block" />
 
                 <Popover>
                     <PopoverTrigger asChild>
@@ -129,43 +172,46 @@ export function Header({ user }: HeaderProps) {
                             itself: a flex item defaults to min-width:auto, so a
                             long user name refuses to shrink and pushes the
                             avatar past the viewport edge below `lg`. `shrink-0`
-                            on the avatar keeps it at a stable tap target. */}
-                        <div className="flex items-center gap-4 pl-6 border-l border-slate-200 dark:border-slate-800 group cursor-pointer outline-none">
-                            <div className="flex min-w-0 flex-col items-end">
-                                <span className="max-w-[10rem] truncate text-sm font-black text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">{user?.name || "User"}</span>
+                            on the avatar keeps it at a stable tap target. The
+                            name column itself is hidden below `lg`, where the
+                            avatar alone identifies the account. */}
+                        <div className="group flex cursor-pointer items-center gap-3 rounded-2xl p-1.5 pr-2 outline-none transition-colors duration-200 hover:bg-slate-100/70 focus-visible:ring-2 focus-visible:ring-indigo-500 dark:hover:bg-slate-900/70">
+                            <div className="hidden min-w-0 flex-col items-end lg:flex">
+                                <span className="max-w-[10rem] truncate text-sm font-black tracking-tight text-slate-900 transition-colors group-hover:text-indigo-600 dark:text-white">{user?.name || "User"}</span>
                                 <div className="flex items-center gap-2">
                                     <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{user?.role || "STAFF"}</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{user?.role || "STAFF"}</span>
                                 </div>
                             </div>
-                            <Avatar className="h-11 w-11 shrink-0 rounded-2xl border-2 border-white dark:border-slate-800 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                                {user?.image && <AvatarImage src={user.image} />}
-                                <AvatarFallback className="bg-indigo-600 text-white font-black">{userInitials}</AvatarFallback>
+                            <Avatar className="h-11 w-11 shrink-0 rounded-2xl border-2 border-white shadow-lg transition-transform duration-300 group-hover:scale-110 motion-reduce:transition-none motion-reduce:transform-none dark:border-slate-800">
+                                {user?.image && <AvatarImage src={user.image} alt="" />}
+                                <AvatarFallback className="bg-indigo-600 font-black text-white">{userInitials}</AvatarFallback>
                             </Avatar>
+                            <span className="sr-only">Account menu for {user?.name || "user"}</span>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className="w-64 p-2 rounded-2xl bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl">
-                        <div className="p-3 mb-2 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800/50 pb-4">
+                    <PopoverContent align="end" className="w-64 rounded-2xl border border-slate-200 bg-white/90 p-2 shadow-2xl backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/90">
+                        <div className="mb-2 flex items-center gap-3 border-b border-slate-100 p-3 pb-4 dark:border-slate-800/50">
                             <Avatar className="h-12 w-12 rounded-xl">
-                                {user?.image && <AvatarImage src={user.image} />}
-                                <AvatarFallback className="bg-indigo-600 text-white font-black">{userInitials}</AvatarFallback>
+                                {user?.image && <AvatarImage src={user.image} alt="" />}
+                                <AvatarFallback className="bg-indigo-600 font-black text-white">{userInitials}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
-                                <span className="text-sm font-black text-slate-900 dark:text-white leading-tight truncate w-32">{user?.name || "User"}</span>
-                                <span className="text-[10px] font-bold text-slate-500 truncate w-32">{user?.email || "No email"}</span>
+                                <span className="w-32 truncate text-sm font-black leading-tight text-slate-900 dark:text-white">{user?.name || "User"}</span>
+                                <span className="w-32 truncate text-[10px] font-bold text-slate-500">{user?.email || "No email"}</span>
                             </div>
                         </div>
                         <div className="flex flex-col gap-1">
-                            <Link href="/settings">
-                                <Button variant="ghost" className="w-full justify-start text-xs font-bold text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-300 dark:hover:text-indigo-400 dark:hover:bg-indigo-900/20 rounded-xl h-10">
+                            <Button asChild variant="ghost" className="h-10 w-full justify-start rounded-xl text-xs font-bold text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 dark:text-slate-300 dark:hover:bg-indigo-900/20 dark:hover:text-indigo-400">
+                                <Link href="/settings">
                                     <User className="mr-2 h-4 w-4" />
                                     Profile Settings
-                                </Button>
-                            </Link>
-                            <Button 
-                                variant="ghost" 
+                                </Link>
+                            </Button>
+                            <Button
+                                variant="ghost"
                                 onClick={() => signOut({ callbackUrl: '/login' })}
-                                className="w-full justify-start text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-900/20 rounded-xl h-10"
+                                className="h-10 w-full justify-start rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-rose-900/20"
                             >
                                 <LogOut className="mr-2 h-4 w-4" />
                                 Sign out
@@ -177,5 +223,3 @@ export function Header({ user }: HeaderProps) {
         </header>
     );
 }
-
-

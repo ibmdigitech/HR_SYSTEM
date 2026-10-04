@@ -25,9 +25,16 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
         const file = e.target.files?.[0];
         if (!file) return;
 
-        // Limit size to 500KB to prevent MongoDB document size limits or excessive load times
+        if (!(["image/png", "image/jpeg"].includes(file.type))) {
+            toast.error("Upload a PNG or JPEG image.");
+            e.target.value = "";
+            return;
+        }
+
+        // The server enforces the same limit before storing this image.
         if (file.size > 500 * 1024) {
             toast.error("File is too large. Please upload an image under 500KB.");
+            e.target.value = "";
             return;
         }
 
@@ -38,6 +45,7 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
                 toast.success(`${field.charAt(0).toUpperCase() + field.slice(1)} loaded successfully!`);
             }
         };
+        reader.onerror = () => toast.error("Could not read this image. Try another file.");
         reader.readAsDataURL(file);
     };
 
@@ -156,7 +164,7 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
                                 ) : (
                                     <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
                                         Upload
-                                        <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "logo")} className="hidden" />
+                                        <input type="file" accept="image/png,image/jpeg" onChange={(e) => handleFileChange(e, "logo")} className="hidden" />
                                     </label>
                                 )}
                             </div>
@@ -179,7 +187,7 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
                                 ) : (
                                     <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
                                         Upload
-                                        <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "signature")} className="hidden" />
+                                        <input type="file" accept="image/png,image/jpeg" onChange={(e) => handleFileChange(e, "signature")} className="hidden" />
                                     </label>
                                 )}
                             </div>
@@ -203,7 +211,7 @@ export function CompanySettingsForm({ initialSettings }: CompanySettingsFormProp
                             ) : (
                                 <label className="cursor-pointer bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50">
                                     Upload Letterhead
-                                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "letterhead")} className="hidden" />
+                                    <input type="file" accept="image/png,image/jpeg" onChange={(e) => handleFileChange(e, "letterhead")} className="hidden" />
                                 </label>
                             )}
                             <p className="text-[9px] text-slate-400 mt-2 max-w-[250px]">A4 ratio image (210x297) under 500KB. Will be used as background for generated letters.</p>

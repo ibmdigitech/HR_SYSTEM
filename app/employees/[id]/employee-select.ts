@@ -37,6 +37,7 @@ export const PROFILE_SELECT = {
     photo: true,
     phone: true,
     gender: true,
+    bloodGroup: true,
     maritalStatus: true,
 
     designation: true,
@@ -77,6 +78,8 @@ export const PROFILE_SELECT = {
     visaType: true,
     medicalInsuranceExpiry: true,
     iloeInsuranceExpiry: true,
+    labourCardExpiry: true,
+    residencePermitExpiry: true,
 
     createdAt: true,
     updatedAt: true,
@@ -101,6 +104,19 @@ export const RESTRICTED_SELECT = {
     passportNumber: true,
     emiratesId: true,
     visaNumber: true,
+    // Only the NUMBERS are restricted, matching visaNumber / emiratesId /
+    // passportNumber above. The corresponding expiry dates deliberately stay out
+    // of this object and live in PROFILE_SELECT instead: an expiry date is the
+    // compliance signal the page needs in order to render, and it identifies
+    // nobody — the number is the identifying part.
+    //
+    // Listing an expiry here as well would put it in both objects, which is
+    // exactly what tests/employee-detail-page.test.ts guards against. A column
+    // present in PROFILE_SELECT is returned to anyone who can read the profile,
+    // so duplicating it here grants no protection while making a restricted
+    // field look like it had been deliberately classified.
+    labourCardNumber: true,
+    residencePermitNumber: true,
 };
 
 /**

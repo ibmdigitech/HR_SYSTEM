@@ -39,6 +39,12 @@ import {
     KeyRound,
     ClipboardCheck,
     CheckCircle2,
+    // Distinct icons for the two row actions. "View profile" originally reused
+    // the same UserCircle as "Edit", so every row carried two identical glyphs
+    // and neither was distinguishable at a glance. View is an eye; edit is a
+    // pencil, which is also what an edit affordance should have looked like.
+    Eye,
+    Pencil,
     Sparkles
 } from "lucide-react";
 import {
@@ -61,6 +67,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { upsertEmployee, deleteEmployee } from "@/app/lib/actions/employees";
+import { submitChangeRequest } from "@/app/lib/actions/change-requests";
 import { uploadMasterFile } from "@/app/lib/actions/bulk-upload";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DateField } from "@/components/ui/date-field";
@@ -80,6 +87,7 @@ import {
 import { normalizeEmployeePhotoValue } from "@/app/lib/photo";
 import { toast } from "sonner";
 const EMPLOYEE_STATUS_PRESENTATION: Record<string, { label: string; className: string }> = {
+    PRE_JOINING: { label: "Pre-joining", className: "bg-violet-100 text-violet-800 dark:bg-violet-950/60 dark:text-violet-300" },
     ACTIVE: { label: "Active", className: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300" },
     ON_LEAVE: { label: "On leave", className: "bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300" },
     RESIGNED: { label: "Resigned", className: "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300" },
@@ -94,6 +102,49 @@ function employeeStatusPresentation(status: string | null | undefined) {
     };
 }
 
+const MAX_EMPLOYEE_PHOTO_BYTES = 450 * 1024;
+const MAX_EMPLOYEE_PHOTO_SOURCE_BYTES = 20 * 1024 * 1024;
+
+async function resizeEmployeePhoto(file: File): Promise<string> {
+    const image = await createImageBitmap(file);
+    try {
+        const initialScale = Math.min(1, 1024 / Math.max(image.width, image.height));
+        let width = Math.max(1, Math.round(image.width * initialScale));
+        let height = Math.max(1, Math.round(image.height * initialScale));
+        const isPng = file.type === "image/png";
+        const outputType = isPng ? "image/png" : "image/jpeg";
+
+        for (let attempt = 0; attempt < 10; attempt += 1) {
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const context = canvas.getContext("2d");
+            if (!context) throw new Error("Image resizing is unavailable in this browser.");
+            context.drawImage(image, 0, 0, width, height);
+
+            const qualities = isPng ? [undefined] : [0.86, 0.76, 0.66];
+            for (const quality of qualities) {
+                const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, outputType, quality));
+                if (!blob) continue;
+                if (blob.size <= MAX_EMPLOYEE_PHOTO_BYTES) {
+                    return await new Promise<string>((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => typeof reader.result === "string" ? resolve(reader.result) : reject(new Error("Could not encode image."));
+                        reader.onerror = () => reject(new Error("Could not encode image."));
+                        reader.readAsDataURL(blob);
+                    });
+                }
+            }
+
+            width = Math.max(1, Math.round(width * 0.8));
+            height = Math.max(1, Math.round(height * 0.8));
+        }
+        throw new Error("Could not reduce this image below 450 KB. Try a smaller image.");
+    } finally {
+        image.close();
+    }
+}
+
 export default function EmployeeList({ initialEmployees,  }: { initialEmployees: any[], managers: any[] }) {
     const [employees, setEmployees] = useState(initialEmployees);
     const [search, setSearch] = useState("");
@@ -101,7 +152,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
     /** Onboarding panel target; null keeps the panel closed. */
     const [onboardingId, setOnboardingId] = useState<string | null>(null);
     const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
-    const [filterStatus, setFilterStatus] = useState<"ALL" | "ACTIVE" | "RESIGNED">("ALL");
+    const [filterStatus, setFilterStatus] = useState<"ALL" | "ACTIVE" | "PRE_JOINING" | "RESIGNED">("ALL");
 
     const filteredEmployees = employees.filter(emp => {
         const searchLower = search.toLowerCase();
@@ -120,7 +171,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
     const exportToCSV = () => {
         const headers = [
             "First Name", "Last Name", "Email", "Roll Number", "Designation", "Department", "Joining Date", "Status",
-            "Phone", "Gender", "Marital Status", "Nationality", "Government ID", "Address", "Permanent Address",
+            "Phone", "Gender", "Blood Group", "Marital Status", "Nationality", "Government ID", "Address", "Permanent Address",
             "Emergency Contact", "Emergency Phone", "Bank Name", "Account Number", "IBAN", "IFSC Code",
             "Basic Salary", "Housing Allowance", "Transport Allowance", "Other Allowance",
             "Passport Number", "Passport Expiry", "Emirates ID", "Emirates ID Expiry", "Visa Number", "Visa Expiry",
@@ -137,6 +188,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
             emp.currentStatus || "",
             emp.phone || "",
             emp.gender || "",
+            emp.bloodGroup || "",
             emp.maritalStatus || "",
             emp.nationality || "",
             emp.governmentId || "",
@@ -190,16 +242,85 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
     const [activeTab, setActiveTab] = useState("personal");
     const [progressFormData, setProgressFormData] = useState<FormData | null>(null);
     const [photoDraft, setPhotoDraft] = useState("");
+    const [photoFileError, setPhotoFileError] = useState("");
+    const [photoProcessing, setPhotoProcessing] = useState(false);
     const photoPreview = normalizeEmployeePhotoValue(photoDraft) ?? "";
-    // Staged entry: allow saving with identity only, completing later.
-    const [saveAsProvisional, setSaveAsProvisional] = useState(false);
+
+    const [passportDocDraft, setPassportDocDraft] = useState("");
+    const [emiratesDocDraft, setEmiratesDocDraft] = useState("");
+    const [visaDocDraft, setVisaDocDraft] = useState("");
+    const [addressDocDraft, setAddressDocDraft] = useState("");
+    const [ibanDocDraft, setIbanDocDraft] = useState("");
+    const [medicalDocDraft, setMedicalDocDraft] = useState("");
+    const [iloeDocDraft, setIloeDocDraft] = useState("");
+    const [labourDocDraft, setLabourDocDraft] = useState("");
+    const [residenceDocDraft, setResidenceDocDraft] = useState("");
+    const [contractDocDraft, setContractDocDraft] = useState("");
+
+    const handleDocFile = async (file: File | undefined, setter: (val: string) => void) => {
+        if (!file) {
+            setter("");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => setter(e.target?.result as string);
+        reader.readAsDataURL(file);
+    };
+
+    const handlePhotoFile = async (file?: File) => {
+        setPhotoFileError("");
+        if (!file) return;
+        if (file.type !== "image/png" && file.type !== "image/jpeg") {
+            setPhotoFileError("Choose a PNG or JPEG image.");
+            return;
+        }
+        if (file.size > MAX_EMPLOYEE_PHOTO_SOURCE_BYTES) {
+            setPhotoFileError("Choose an image smaller than 20 MB.");
+            return;
+        }
+
+        setPhotoProcessing(true);
+        try {
+            setPhotoDraft(await resizeEmployeePhoto(file));
+        } catch (error) {
+            setPhotoFileError(error instanceof Error ? error.message : "Could not process this image.");
+        } finally {
+            setPhotoProcessing(false);
+        }
+    };
+    const [saveAsProvisional, setSaveAsProvisional] = useState(true);
+    const [sectionSaveMode, setSectionSaveMode] = useState<Record<string, boolean>>({
+        personal: true,
+        employment: true,
+        finance: true,
+        docs: true,
+    });
 
     useEffect(() => {
         setPhotoDraft(normalizeEmployeePhotoValue(selectedEmployee?.photo) ?? "");
     }, [selectedEmployee?.photo, open]);
 
+    const getSectionRequiredFields = (section: string) => {
+        switch (section) {
+            case "personal":
+                return ["firstName", "lastName", "email"];
+            case "employment":
+                return ["rollNumber", "designation", "department", "joiningDate"];
+            case "finance":
+                return ["basicSalary", "housingAllowance", "transportAllowance", "otherAllowance", "bankName", "accountNumber", "iban"];
+            case "docs":
+                return ["governmentId", "currentStatus", "passportNumber", "passportExpiry", "emiratesId", "emiratesIdExpiry", "visaNumber", "visaExpiry", "medicalInsuranceExpiry", "iloeInsuranceExpiry", "labourCardNumber", "labourCardExpiry", "residencePermitNumber", "residencePermitExpiry"];
+            default:
+                return [];
+        }
+    };
+
+    const hasMissingRequiredFields = (employee: any, section: string) => {
+        const fields = getSectionRequiredFields(section);
+        return fields.some((field) => !employee[field]);
+    };
+
     const fieldToTab: Record<string, string> = {
-        firstName: "personal",
         lastName: "personal",
         photo: "personal",
         gender: "personal",
@@ -232,6 +353,10 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
         visaExpiry: "docs",
         medicalInsuranceExpiry: "docs",
         iloeInsuranceExpiry: "docs",
+        labourCardNumber: "docs",
+        labourCardExpiry: "docs",
+        residencePermitNumber: "docs",
+        residencePermitExpiry: "docs",
     };
 
     const refreshProgress = (form: HTMLFormElement | null) => {
@@ -273,7 +398,8 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
             if (v === "") delete raw[k];
         }
 
-        const schema = data.get("provision") === "1" ? employeeSchemaProvisional : employeeSchema;
+        const isPartial = data.get("provision") === "1" || data.get("partial") === "1";
+        const schema = isPartial ? employeeSchemaProvisional : employeeSchema;
         const parsed = schema.safeParse(raw);
         if (!parsed.success) {
             return toFieldErrors(parsed.error);
@@ -287,6 +413,90 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
 
         const form = e.currentTarget;
         const formData = new FormData(form);
+        
+        // ── Per-section change detection ──
+        const strField = (name: string) => (formData.get(name) as string || "").trim();
+        const oldStr = (val: any) => (val ? String(val) : "").trim();
+        const oldDate = (val: any) => val ? new Date(val).toISOString().split("T")[0] : "";
+
+        const passportChanged = selectedEmployee?.id ? (strField("passportNumber") !== oldStr(selectedEmployee.passportNumber) || strField("passportExpiry") !== oldDate(selectedEmployee.passportExpiry)) : false;
+        const emiratesChanged = selectedEmployee?.id ? (strField("emiratesId") !== oldStr(selectedEmployee.emiratesId) || strField("emiratesIdExpiry") !== oldDate(selectedEmployee.emiratesIdExpiry)) : false;
+        const visaChanged = selectedEmployee?.id ? (strField("visaNumber") !== oldStr(selectedEmployee.visaNumber) || strField("visaExpiry") !== oldDate(selectedEmployee.visaExpiry)) : false;
+        const addressChanged = selectedEmployee?.id ? (strField("address") !== oldStr(selectedEmployee.address) || strField("permanentAddress") !== oldStr(selectedEmployee.permanentAddress)) : false;
+        const ibanChanged = selectedEmployee?.id ? (strField("iban") !== oldStr(selectedEmployee.iban) || strField("bankName") !== oldStr(selectedEmployee.bankName) || strField("accountNumber") !== oldStr(selectedEmployee.accountNumber)) : false;
+        const medicalChanged = selectedEmployee?.id ? (strField("medicalInsuranceExpiry") !== oldDate(selectedEmployee.medicalInsuranceExpiry)) : false;
+        const iloeChanged = selectedEmployee?.id ? (strField("iloeInsuranceExpiry") !== oldDate((selectedEmployee as any).iloeInsuranceExpiry)) : false;
+        const labourChanged = selectedEmployee?.id ? (strField("labourCardNumber") !== oldStr((selectedEmployee as any).labourCardNumber) || strField("labourCardExpiry") !== oldDate((selectedEmployee as any).labourCardExpiry)) : false;
+        const residenceChanged = selectedEmployee?.id ? (strField("residencePermitNumber") !== oldStr((selectedEmployee as any).residencePermitNumber) || strField("residencePermitExpiry") !== oldDate((selectedEmployee as any).residencePermitExpiry)) : false;
+
+        // A NEW contract upload on an existing employee is itself the change:
+        // there is no contract field to diff, so the presence of a fresh draft is
+        // the signal. Without this, re-uploading a corrected contract would
+        // write the file straight through with nobody reviewing it.
+        const contractChanged = selectedEmployee?.id ? Boolean(contractDocDraft) : false;
+
+        const missingDocs: string[] = [];
+        if (passportChanged && !passportDocDraft) missingDocs.push("Passport");
+        if (emiratesChanged && !emiratesDocDraft) missingDocs.push("Emirates ID");
+        if (visaChanged && !visaDocDraft) missingDocs.push("Visa");
+        if (addressChanged && !addressDocDraft) missingDocs.push("Address Proof");
+        if (ibanChanged && !ibanDocDraft) missingDocs.push("IBAN / Bank");
+        if (medicalChanged && !medicalDocDraft) missingDocs.push("Medical Insurance");
+        if (iloeChanged && !iloeDocDraft) missingDocs.push("ILOE Insurance");
+        if (labourChanged && !labourDocDraft) missingDocs.push("Labour Card");
+        if (residenceChanged && !residenceDocDraft) missingDocs.push("Residence Permit");
+        if (contractChanged && !contractDocDraft) missingDocs.push("Employment Contract");
+
+        if (missingDocs.length > 0) {
+            toast.error(`Please upload supporting documents for: ${missingDocs.join(", ")}`);
+            if (ibanChanged && !ibanDocDraft) setActiveTab("finance");
+            else if (addressChanged && !addressDocDraft) setActiveTab("personal");
+            else setActiveTab("docs");
+            return;
+        }
+
+        const anySensitive = passportChanged || emiratesChanged || visaChanged || addressChanged || ibanChanged || medicalChanged || iloeChanged || labourChanged || residenceChanged || contractChanged;
+        if (anySensitive) {
+            const changes: Record<string, any> = {};
+            for (const [key, value] of formData.entries()) {
+                if (typeof value === "string" && key !== "id" && key !== "changeRequestDocument") {
+                    changes[key] = value;
+                }
+            }
+            
+            const documents: { documentType: string; documentUrl: string }[] = [];
+            if (passportChanged && passportDocDraft) documents.push({ documentType: "PASSPORT", documentUrl: passportDocDraft });
+            if (emiratesChanged && emiratesDocDraft) documents.push({ documentType: "EMIRATES_ID", documentUrl: emiratesDocDraft });
+            if (visaChanged && visaDocDraft) documents.push({ documentType: "VISA", documentUrl: visaDocDraft });
+            if (addressChanged && addressDocDraft) documents.push({ documentType: "ADDRESS_PROOF", documentUrl: addressDocDraft });
+            if (ibanChanged && ibanDocDraft) documents.push({ documentType: "BANK_IBAN", documentUrl: ibanDocDraft });
+            if (medicalChanged && medicalDocDraft) documents.push({ documentType: "MEDICAL_INSURANCE", documentUrl: medicalDocDraft });
+            if (iloeChanged && iloeDocDraft) documents.push({ documentType: "ILOE_INSURANCE", documentUrl: iloeDocDraft });
+            if (labourChanged && labourDocDraft) documents.push({ documentType: "LABOUR_CARD", documentUrl: labourDocDraft });
+            if (residenceChanged && residenceDocDraft) documents.push({ documentType: "RESIDENCE_PERMIT", documentUrl: residenceDocDraft });
+            if (contractChanged && contractDocDraft) documents.push({ documentType: "EMPLOYMENT_CONTRACT", documentUrl: contractDocDraft });
+            
+            setIsSubmitting(true);
+            try {
+                const res = await submitChangeRequest({
+                    employeeId: selectedEmployee!.id,
+                    changes,
+                    documents
+                });
+                if (res.success) {
+                    toast.success("Change request submitted for approval.");
+                    setOpen(false);
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    toast.error(res.message);
+                }
+            } catch (e) {
+                toast.error("Error submitting change request");
+            } finally {
+                setIsSubmitting(false);
+            }
+            return;
+        }
 
         // Immediate client-side pass.
         const clientErrors = runClientCheck(formData);
@@ -298,7 +508,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
             if (errorTab && errorTab !== activeTab) {
                 setActiveTab(errorTab);
             }
-            toast.error("Please correct the highlighted fields.");
+            toast.error(`${firstKey}: ${clientErrors[firstKey]}`);
             // Move focus to the first invalid control.
             const el = form.querySelector<HTMLElement>(`[name="${firstKey}"]`);
             el?.focus();
@@ -400,7 +610,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this employee?")) return;
+        if (!confirm("Archive this employee? Their records will be retained and can be restored.")) return;
         const result = await deleteEmployee(id);
         if (result.success) {
             toast.success(result.message);
@@ -414,6 +624,32 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
         ? `${typeof window !== "undefined" ? window.location.origin : ""}/activate/${pendingActivation.token}`
         : "";
 
+    const renderDocUpload = (id: string, label: string, draft: string, setter: (val: string) => void) => (
+        <div className="mt-3 p-3 border border-indigo-100 bg-indigo-50/50 dark:border-indigo-900/50 dark:bg-indigo-950/20 rounded-xl">
+            <div className="flex items-center gap-2 mb-1.5">
+                <Upload className="h-3.5 w-3.5 text-indigo-500" />
+                <Label className="text-[10px] font-bold uppercase text-indigo-600 tracking-[0.1em] dark:text-indigo-400">Upload {label} Document</Label>
+            </div>
+            <p className="text-[10px] font-medium text-indigo-700/70 dark:text-indigo-300/70 mb-2">Required when updating these fields</p>
+            {draft ? (
+                <div className="flex items-center justify-between bg-white dark:bg-slate-900 p-2.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                    <div className="flex items-center gap-2">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                        <span className="text-[11px] font-semibold text-emerald-600">Document attached</span>
+                    </div>
+                    <Button type="button" variant="ghost" size="sm" onClick={() => setter("")} className="h-6 text-[10px] text-rose-500 hover:text-rose-600 hover:bg-rose-50 ml-2 px-2">Remove</Button>
+                </div>
+            ) : (
+                <div className="flex items-center gap-2">
+                    <input id={`upload-${id}`} type="file" className="sr-only" accept="image/*,.pdf,.doc,.docx" onChange={(e) => { handleDocFile(e.target.files?.[0], setter); e.target.value = ""; }} />
+                    <Button type="button" variant="outline" size="sm" className="h-8 rounded-lg font-bold border-indigo-200 hover:bg-indigo-100 text-indigo-700 text-[10px] gap-1.5 transition-colors" onClick={() => document.getElementById(`upload-${id}`)?.click()}>
+                        <Upload className="h-3 w-3" /> Attach File
+                    </Button>
+                </div>
+            )}
+        </div>
+    );
+
     return (
         /* `app/employees/page.tsx` already supplies `p-8 max-w-7xl mx-auto`
            around this component. The root used to add a SECOND `p-4 md:p-8`
@@ -426,7 +662,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
             {/* Onboarding checklist — continues the hire after the record exists.
                 Definite height so the scroll area has a resolvable context. */}
             <Dialog open={onboardingId !== null} onOpenChange={(o) => { if (!o) setOnboardingId(null); }}>
-                <DialogContent className="w-full max-w-[100vw] sm:max-w-[95vw] md:max-w-3xl h-[100dvh] sm:h-[85dvh] max-h-none overflow-hidden overflow-y-hidden p-0 rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
+                <DialogContent className="w-full max-w-[100vw] sm:max-w-[95vw] md:max-w-3xl h-[100dvh] sm:h-[85dvh] max-h-none overflow-hidden overflow-y-hidden p-0 rounded-none sm:rounded-2xl flex flex-col border-0 sm:border sm:border-slate-200 sm:dark:border-slate-700 shadow-[0_28px_90px_-20px_rgba(15,23,42,0.45)] sm:ring-1 sm:ring-slate-900/10 sm:dark:ring-white/10">
                     {onboardingId && (
                         <OnboardingPanel employeeId={onboardingId} onClose={() => setOnboardingId(null)} />
                     )}
@@ -493,7 +729,11 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                 actions={
                     <>
                         <Button
-                            onClick={() => setOpen(true)}
+                            onClick={() => {
+                                setSelectedEmployee(null);
+                                setSectionSaveMode({ personal: true, employment: true, finance: true, docs: true });
+                                setOpen(true);
+                            }}
                             className="h-11 px-6 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 font-black text-sm shadow-lg border-0 gap-2"
                         >
                             <Plus className="h-4 w-4" />
@@ -539,7 +779,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                             a fixed 500px cap and the form was clipped with no
                             way to reach the remaining fields. 88dvh leaves room
                             for the header, tab bar and footer. */}
-                        <DialogContent className="w-full max-w-[100vw] sm:max-w-[95vw] md:max-w-5xl h-[100dvh] sm:h-[88dvh] max-h-none overflow-hidden overflow-y-hidden p-0 rounded-none sm:rounded-[2rem] flex flex-col border-0 shadow-2xl">
+                        <DialogContent className="w-full max-w-[100vw] sm:max-w-[95vw] md:max-w-5xl h-[100dvh] sm:h-[88dvh] max-h-none overflow-hidden overflow-y-hidden p-0 rounded-none sm:rounded-2xl flex flex-col border-0 sm:border sm:border-slate-200 sm:dark:border-slate-700 shadow-[0_28px_90px_-20px_rgba(15,23,42,0.45)] sm:ring-1 sm:ring-slate-900/10 sm:dark:ring-white/10">
                                 {/* ── Success Overlay ── */}
                                 {showSuccess && (
                                     <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm animate-in fade-in duration-300">
@@ -570,9 +810,10 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                     key={selectedEmployee?.id || 'new'}
                                     onSubmit={handleSubmit}
                                     onChange={(ev) => refreshProgress(ev.currentTarget as HTMLFormElement)}
+                                    autoComplete="off"
                                     className="flex min-h-0 flex-1 flex-col overflow-hidden bg-white dark:bg-slate-950"
                                 >
-                                    <DialogHeader className="shrink-0 p-4 sm:p-5 pb-3 bg-slate-50/50 dark:bg-slate-900/50">
+                                    <DialogHeader className="shrink-0 px-5 sm:px-8 lg:px-10 py-4 sm:py-5 pb-3 bg-slate-50/50 dark:bg-slate-900/50">
                                         <div className="flex items-center gap-3">
                                             <div className="h-9 w-9 shrink-0 rounded-xl bg-indigo-600 flex items-center justify-center shadow-md shadow-indigo-600/20">
                                                 <UserCircle className="h-5 w-5 text-white" />
@@ -581,7 +822,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                 <DialogTitle className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight truncate">
                                                     {selectedEmployee ? 'Update Profile' : 'New Master Entry'}
                                                 </DialogTitle>
-                                                <DialogDescription className="font-bold text-[10px] uppercase tracking-widest text-slate-400">
+                                                <DialogDescription className="font-semibold text-xs uppercase tracking-wider text-slate-600 dark:text-slate-300">
                                                     Official workforce documentation
                                                 </DialogDescription>
                                             </div>
@@ -589,16 +830,37 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                     </DialogHeader>
 
                                     <input type="hidden" name="id" value={selectedEmployee?.id || ""} />
+                                    <input type="hidden" name="passportDocDraft" value={passportDocDraft} />
+                                    <input type="hidden" name="emiratesDocDraft" value={emiratesDocDraft} />
+                                    <input type="hidden" name="visaDocDraft" value={visaDocDraft} />
+                                    <input type="hidden" name="addressDocDraft" value={addressDocDraft} />
+                                    <input type="hidden" name="ibanDocDraft" value={ibanDocDraft} />
+                                    <input type="hidden" name="medicalDocDraft" value={medicalDocDraft} />
+                                    <input type="hidden" name="iloeDocDraft" value={iloeDocDraft} />
+                                    <input type="hidden" name="labourDocDraft" value={labourDocDraft} />
+                                    <input type="hidden" name="residenceDocDraft" value={residenceDocDraft} />
+                                    <input type="hidden" name="contractDocDraft" value={contractDocDraft} />
 
                                     {/* Section progress. Recomputed on every change from the
                                         live form, so it cannot drift from the fields. */}
-                                    <div className="shrink-0 px-4 sm:px-6 pt-3">
+                                    <div className="shrink-0 px-5 sm:px-8 lg:px-10 pt-3">
                                         <FormProgress
                                             activeTab={activeTab}
                                             onTabChange={setActiveTab}
                                             formData={progressFormData}
                                         />
                                     </div>
+
+                                    {Object.keys(fieldErrors).length > 0 && (
+                                        <div role="alert" aria-live="assertive" className="mx-5 mt-3 shrink-0 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800 sm:mx-8 lg:mx-10 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200">
+                                            <p className="font-bold">Please fix these fields before saving:</p>
+                                            <ul className="mt-1 list-inside list-disc">
+                                                {Object.entries(fieldErrors).map(([field, message]) => (
+                                                    <li key={field}><span className="font-semibold">{field}:</span> {message}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
 
                                     {/* The progress pills ARE the navigation, so the old
                                         tab strip below was a duplicate control
@@ -619,8 +881,12 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         {/* Fills the remaining height of the dialog and
                                             scrolls. The 500px cap is gone — it was the
                                             reason fields below the fold were unreachable. */}
-                                        <ScrollArea className="min-h-0 flex-1 px-4 sm:px-6 py-5">
+                                        <ScrollArea className="min-h-0 flex-1">
                                             <ScrollBar className="w-2.5 bg-slate-200/60 dark:bg-slate-700/60" />
+                                            {/* Put the horizontal inset inside the actual scroll viewport. Padding
+                                                on the Radix root alone can be bypassed by its full-width viewport,
+                                                leaving field hover and focus effects flush against the clipped edge. */}
+                                            <div className="min-w-0 px-5 py-6 sm:px-8 lg:px-10">
                                             <TabsContent value="personal" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
                                                 {/* Section: Identity */}
                                                 <div>
@@ -648,7 +914,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                             error={fieldErrors.lastName}
                                                         />
                                                         <div className="sm:col-span-2 space-y-3">
-                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Profile photo</Label>
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Profile photo</Label>
                                                             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                                                                 <div className="relative h-20 w-20 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950">
                                                                     {photoPreview ? (
@@ -656,8 +922,12 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                                             src={photoPreview}
                                                                             alt="Employee preview"
                                                                             className="h-full w-full object-cover"
+                                                                            onError={(e) => {
+                                                                                e.currentTarget.style.display = "none";
+                                                                            }}
                                                                         />
-                                                                    ) : (
+                                                                    ) : null}
+                                                                    {(!photoPreview || photoPreview === "") && (
                                                                         <EmployeeAvatar
                                                                             employee={selectedEmployee ?? { firstName: "N", lastName: "A" }}
                                                                             className="h-full w-full rounded-none border-0 shadow-none"
@@ -666,32 +936,90 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                                     )}
                                                                 </div>
                                                                 <div className="flex-1 space-y-2">
-                                                                    <Input
-                                                                        name="photo"
-                                                                        type="url"
-                                                                        inputMode="url"
-                                                                        value={photoDraft}
-                                                                        onChange={(event) => setPhotoDraft(event.target.value)}
-                                                                        placeholder="https://example.com/photo.jpg or /images/profile.png"
-                                                                        className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold"
+                                                                    <input
+                                                                        id="employee-photo-file"
+                                                                        type="file"
+                                                                        accept="image/png,image/jpeg,.png,.jpg,.jpeg"
+                                                                        className="sr-only"
+                                                                        onChange={(event) => {
+                                                                            void handlePhotoFile(event.currentTarget.files?.[0]);
+                                                                            event.currentTarget.value = "";
+                                                                        }}
                                                                     />
+                                                                    <div className="flex flex-wrap items-center gap-2">
+                                                                        <Button
+                                                                            type="button"
+                                                                            variant="outline"
+                                                                            className="h-10 rounded-xl font-bold"
+                                                                            disabled={photoProcessing}
+                                                                            onClick={() => document.getElementById("employee-photo-file")?.click()}
+                                                                        >
+                                                                            <Upload className="mr-2 h-4 w-4" />
+                                                                            {photoProcessing ? "Resizing image…" : "Upload PNG or JPEG"}
+                                                                        </Button>
+                                                                        {photoDraft && (
+                                                                            <Button type="button" variant="ghost" className="h-10 rounded-xl" onClick={() => {
+                                                                                setPhotoDraft("");
+                                                                                setPhotoFileError("");
+                                                                            }}>
+                                                                                Remove image
+                                                                            </Button>
+                                                                        )}
+                                                                    </div>
+                                                                    {photoDraft.startsWith("data:image/") ? (
+                                                                        <>
+                                                                            <input type="hidden" name="photo" value={photoDraft} />
+                                                                            <p role="status" className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-300">
+                                                                                Resized image is ready to save.
+                                                                            </p>
+                                                                        </>
+                                                                    ) : (
+                                                                        <Input
+                                                                            name="photo"
+                                                                            type="text"
+                                                                            inputMode="url"
+                                                                            value={photoDraft}
+                                                                            onChange={(event) => {
+                                                                                setPhotoDraft(event.target.value);
+                                                                                setPhotoFileError("");
+                                                                            }}
+                                                                            placeholder="https://example.com/photo.jpg or /images/profile.png"
+                                                                            aria-invalid={fieldErrors.photo ? "true" : undefined}
+                                                                            className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold"
+                                                                        />
+                                                                    )}
+                                                                    {fieldErrors.photo && <p role="alert" className="text-xs font-semibold text-rose-600">{fieldErrors.photo}</p>}
+                                                                    {photoFileError && <p role="alert" className="text-xs font-semibold text-rose-600">{photoFileError}</p>}
                                                                     <p className="flex items-center gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
                                                                         <Upload className="h-3.5 w-3.5 shrink-0" />
-                                                                        Optional. Use a public image URL or an app-relative path.
+                                                                        PNG/JPEG images are resized to fit within 450 KB. Maximum original size: 20 MB.
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="space-y-3">
-                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Gender</Label>
-                                                            <Select name="gender" defaultValue={selectedEmployee?.gender || ""}>
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Gender</Label>
+                                                            <Select name="gender" defaultValue={selectedEmployee?.gender?.toUpperCase() || ""}>
                                                                 <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
                                                                     <SelectValue placeholder="Select" />
                                                                 </SelectTrigger>
                                                                 <SelectContent>
-                                                                    <SelectItem value="Male">Male</SelectItem>
-                                                                    <SelectItem value="Female">Female</SelectItem>
-                                                                    <SelectItem value="Other">Other</SelectItem>
+                                                                    <SelectItem value="MALE">Male</SelectItem>
+                                                                    <SelectItem value="FEMALE">Female</SelectItem>
+                                                                    <SelectItem value="OTHER">Other</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <div className="space-y-3">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Blood Group</Label>
+                                                            <Select name="bloodGroup" defaultValue={selectedEmployee?.bloodGroup || ""}>
+                                                                <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
+                                                                    <SelectValue placeholder="Select blood group" />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
+                                                                        <SelectItem key={group} value={group}>{group}</SelectItem>
+                                                                    ))}
                                                                 </SelectContent>
                                                             </Select>
                                                         </div>
@@ -708,16 +1036,16 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                             defaultValue={selectedEmployee?.nationality}
                                                         />
                                                         <div className="space-y-3">
-                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Marital Status</Label>
-                                                            <Select name="maritalStatus" defaultValue={selectedEmployee?.maritalStatus || ""}>
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Marital Status</Label>
+                                                            <Select name="maritalStatus" defaultValue={selectedEmployee?.maritalStatus?.toUpperCase() || ""}>
                                                                 <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
                                                                     <SelectValue placeholder="Select" />
                                                                 </SelectTrigger>
                                                                 <SelectContent>
-                                                                    <SelectItem value="Single">Single</SelectItem>
-                                                                    <SelectItem value="Married">Married</SelectItem>
-                                                                    <SelectItem value="Divorced">Divorced</SelectItem>
-                                                                    <SelectItem value="Widowed">Widowed</SelectItem>
+                                                                    <SelectItem value="SINGLE">Single</SelectItem>
+                                                                    <SelectItem value="MARRIED">Married</SelectItem>
+                                                                    <SelectItem value="DIVORCED">Divorced</SelectItem>
+                                                                    <SelectItem value="WIDOWED">Widowed</SelectItem>
                                                                 </SelectContent>
                                                             </Select>
                                                         </div>
@@ -755,8 +1083,15 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                             error={fieldErrors.phone}
                                                         />
                                                         <div className="sm:col-span-2 space-y-3">
-                                                            <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Current Address</Label>
-                                                            <Input name="address" defaultValue={selectedEmployee?.address} placeholder="Building, Street, City" className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Current Address</Label>
+                                                            <textarea name="address" defaultValue={selectedEmployee?.address ?? ""} placeholder="Building, Street, City" rows={2} className="w-full min-h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 font-bold text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" />
+                                                        </div>
+                                                        <div className="sm:col-span-2 space-y-3">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Home / Permanent Address</Label>
+                                                            <textarea name="permanentAddress" defaultValue={selectedEmployee?.permanentAddress ?? ""} placeholder="House or apartment, street, city, country" rows={3} className="w-full min-h-16 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 font-bold text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" />
+                                                        </div>
+                                                        <div className="sm:col-span-2">
+                                                            {renderDocUpload("address", "Address Proof", addressDocDraft, setAddressDocDraft)}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -775,6 +1110,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                             name="emergencyContact"
                                                             label="Contact Name"
                                                             defaultValue={selectedEmployee?.emergencyContact}
+                                                            autoComplete="off"
                                                         />
                                                         <FormField
                                                             name="emergencyPhone"
@@ -792,21 +1128,18 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                     <FormField
                                                         name="rollNumber"
                                                         label="Roll Number"
-                                                        required
                                                         defaultValue={selectedEmployee?.rollNumber}
                                                         error={fieldErrors.rollNumber}
                                                     />
                                                     <FormField
                                                         name="designation"
                                                         label="Designation"
-                                                        required
                                                         defaultValue={selectedEmployee?.designation}
                                                         error={fieldErrors.designation}
                                                     />
                                                     <FormField
                                                         name="department"
                                                         label="Department"
-                                                        required
                                                         defaultValue={selectedEmployee?.department}
                                                         error={fieldErrors.department}
                                                     />
@@ -814,162 +1147,228 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                         name="joiningDate"
                                                         label="Joining Date"
                                                         defaultValue={selectedEmployee?.joiningDate}
-                                                        required
                                                         maxDate={new Date()}
                                                         hint="Cannot be in the future"
                                                         error={fieldErrors.joiningDate}
                                                     />
+                                                </div>
+
+                                                {/* ── Employment Contract ──
+                                                    Uploaded by HR, not by the
+                                                    employee: it is the employer's
+                                                    own record of the terms agreed,
+                                                    so it belongs with the
+                                                    employment fields rather than
+                                                    with the identity documents in
+                                                    the Documents tab. */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <Briefcase className="h-4 w-4 text-indigo-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Employment Contract</h4>
+                                                    </div>
+                                                    <p className="text-[10px] font-medium text-slate-500 dark:text-slate-400 mb-1">
+                                                        Signed contract, offer letter or appointment letter. Verified by HR before it counts as on file.
+                                                    </p>
+                                                    {renderDocUpload("contract", "Employment Contract", contractDocDraft, setContractDocDraft)}
                                                 </div>
                                             </TabsContent>
                                             
                                             <TabsContent value="finance" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
                                                 <div className="grid grid-cols-2 gap-6">
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Basic Salary (AED)</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Basic Salary (AED)</Label>
                                                         <Input type="number" step="0.01" name="basicSalary" defaultValue={selectedEmployee?.basicSalary} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Housing Allowance (AED)</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Housing Allowance (AED)</Label>
                                                         <Input type="number" step="0.01" name="housingAllowance" defaultValue={selectedEmployee?.housingAllowance} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Transport Allowance (AED)</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Transport Allowance (AED)</Label>
                                                         <Input type="number" step="0.01" name="transportAllowance" defaultValue={selectedEmployee?.transportAllowance} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Other Allowance (AED)</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Other Allowance (AED)</Label>
                                                         <Input type="number" step="0.01" name="otherAllowance" defaultValue={selectedEmployee?.otherAllowance} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3 col-span-2">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Bank Name</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Bank Name</Label>
                                                         <Input name="bankName" defaultValue={selectedEmployee?.bankName} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Account Number</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Account Number</Label>
                                                         <Input name="accountNumber" defaultValue={selectedEmployee?.accountNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">IBAN</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">IBAN</Label>
                                                         <Input name="iban" id="emp-iban" aria-invalid={fieldErrors.iban ? "true" : undefined} aria-describedby={fieldErrors.iban ? "emp-iban-error" : undefined} defaultValue={selectedEmployee?.iban} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
 <FieldError id="emp-iban" error={fieldErrors.iban} />
+                                                    </div>
+                                                    <div className="col-span-2">
+                                                        {renderDocUpload("iban", "IBAN / Bank Details", ibanDocDraft, setIbanDocDraft)}
                                                     </div>
                                                 </div>
                                             </TabsContent>
 
-                                            <TabsContent value="docs" forceMount className="m-0 space-y-8 data-[state=inactive]:hidden">
+                                            <TabsContent value="docs" forceMount className="m-0 space-y-6 data-[state=inactive]:hidden">
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Government ID</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Government ID</Label>
                                                         <Input name="governmentId" defaultValue={selectedEmployee?.governmentId} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
                                                     </div>
                                                     <div className="space-y-3">
-                                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Current Status</Label>
+                                                        <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Current Status</Label>
                                                         <Select name="currentStatus" defaultValue={selectedEmployee?.currentStatus || "ACTIVE"}>
                                                             <SelectTrigger className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold">
                                                                 <SelectValue />
                                                             </SelectTrigger>
                                                             <SelectContent>
+                                                                <SelectItem value="PRE_JOINING">Pre-joining</SelectItem>
                                                                 <SelectItem value="ACTIVE">Active</SelectItem>
                                                                 <SelectItem value="ON_LEAVE">On Leave</SelectItem>
                                                                 <SelectItem value="RESIGNED">Resigned</SelectItem>
+                                                                <SelectItem value="TERMINATED">Terminated</SelectItem>
+                                                                <SelectItem value="OFFBOARDED">Offboarded</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
-                                                    {/* Documents are grouped as a pair — number
-                                                        alongside its expiry — so the relationship
-                                                        is obvious at a glance and each expiry
-                                                        carries its own relative status. */}
-                                                    <div className="col-span-2 space-y-5">
-                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                            <div className="space-y-3">
-                                                                <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Passport Number</Label>
-                                                                <Input name="passportNumber" defaultValue={selectedEmployee?.passportNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
-                                                            </div>
-                                                            <DateField
-                                                                name="passportExpiry"
-                                                                label="Passport Expiry"
-                                                                defaultValue={selectedEmployee?.passportExpiry}
-                                                                expiry
-                                                                minDate={new Date()}
-                                                                hint="Must be a valid future date"
-                                                                error={fieldErrors.passportExpiry}
-                                                            />
-                                                        </div>
+                                                </div>
 
-                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                            <div className="space-y-3">
-                                                                <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Emirates ID</Label>
-                                                                <Input name="emiratesId" defaultValue={selectedEmployee?.emiratesId} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
-                                                            </div>
-                                                            <DateField
-                                                                name="emiratesIdExpiry"
-                                                                label="Emirates ID Expiry"
-                                                                defaultValue={selectedEmployee?.emiratesIdExpiry}
-                                                                expiry
-                                                                minDate={new Date()}
-                                                                hint="Must be a valid future date"
-                                                                error={fieldErrors.emiratesIdExpiry}
-                                                            />
-                                                        </div>
-
-                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                            <div className="space-y-3">
-                                                                <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">Visa Number</Label>
-                                                                <Input name="visaNumber" defaultValue={selectedEmployee?.visaNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
-                                                            </div>
-                                                            <DateField
-                                                                name="visaExpiry"
-                                                                label="Visa Expiry"
-                                                                defaultValue={selectedEmployee?.visaExpiry}
-                                                                expiry
-                                                                minDate={new Date()}
-                                                                hint="Must be a valid future date"
-                                                                error={fieldErrors.visaExpiry}
-                                                            />
-                                                        </div>
-
-                                                        <DateField
-                                                            name="medicalInsuranceExpiry"
-                                                            label="Medical Insurance Expiry"
-                                                            defaultValue={selectedEmployee?.medicalInsuranceExpiry}
-                                                            expiry
-                                                            minDate={new Date()}
-                                                            hint="Must be a valid future date"
-                                                            error={fieldErrors.medicalInsuranceExpiry}
-                                                        />
+                                                {/* ── Passport Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <ShieldCheck className="h-4 w-4 text-blue-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Passport</h4>
                                                     </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Passport Number</Label>
+                                                            <Input name="passportNumber" defaultValue={selectedEmployee?.passportNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        </div>
+                                                        <DateField name="passportExpiry" label="Passport Expiry" defaultValue={selectedEmployee?.passportExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.passportExpiry} />
+                                                    </div>
+                                                    {renderDocUpload("passport", "Passport", passportDocDraft, setPassportDocDraft)}
+                                                </div>
+
+                                                {/* ── Emirates ID Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <CreditCard className="h-4 w-4 text-emerald-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Emirates ID</h4>
+                                                    </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Emirates ID</Label>
+                                                            <Input name="emiratesId" defaultValue={selectedEmployee?.emiratesId} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        </div>
+                                                        <DateField name="emiratesIdExpiry" label="Emirates ID Expiry" defaultValue={selectedEmployee?.emiratesIdExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.emiratesIdExpiry} />
+                                                    </div>
+                                                    {renderDocUpload("emirates", "Emirates ID", emiratesDocDraft, setEmiratesDocDraft)}
+                                                </div>
+
+                                                {/* ── Visa Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <Briefcase className="h-4 w-4 text-violet-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Visa</h4>
+                                                    </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Visa Number</Label>
+                                                            <Input name="visaNumber" defaultValue={selectedEmployee?.visaNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        </div>
+                                                        <DateField name="visaExpiry" label="Visa Expiry" defaultValue={selectedEmployee?.visaExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.visaExpiry} />
+                                                    </div>
+                                                    {renderDocUpload("visa", "Visa", visaDocDraft, setVisaDocDraft)}
+                                                </div>
+
+                                                {/* ── Residence Permit Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <MapPin className="h-4 w-4 text-amber-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Residence Permit</h4>
+                                                    </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Residence Permit No.</Label>
+                                                            <Input name="residencePermitNumber" defaultValue={(selectedEmployee as any)?.residencePermitNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        </div>
+                                                        <DateField name="residencePermitExpiry" label="Residence Permit Expiry" defaultValue={(selectedEmployee as any)?.residencePermitExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.residencePermitExpiry} />
+                                                    </div>
+                                                    {renderDocUpload("residence", "Residence Permit", residenceDocDraft, setResidenceDocDraft)}
+                                                </div>
+
+                                                {/* ── Labour Card Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <ClipboardCheck className="h-4 w-4 text-cyan-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Labour Card</h4>
+                                                    </div>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="space-y-1.5">
+                                                            <Label className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300">Labour Card No.</Label>
+                                                            <Input name="labourCardNumber" defaultValue={(selectedEmployee as any)?.labourCardNumber} className="h-12 rounded-xl bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 font-bold" />
+                                                        </div>
+                                                        <DateField name="labourCardExpiry" label="Labour Card Expiry" defaultValue={(selectedEmployee as any)?.labourCardExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.labourCardExpiry} />
+                                                    </div>
+                                                    {renderDocUpload("labour", "Labour Card", labourDocDraft, setLabourDocDraft)}
+                                                </div>
+
+                                                {/* ── Medical Insurance Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <Activity className="h-4 w-4 text-rose-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">Medical Insurance</h4>
+                                                    </div>
+                                                    <DateField name="medicalInsuranceExpiry" label="Medical Insurance Expiry" defaultValue={selectedEmployee?.medicalInsuranceExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.medicalInsuranceExpiry} />
+                                                    {renderDocUpload("medical", "Medical Insurance", medicalDocDraft, setMedicalDocDraft)}
+                                                </div>
+
+                                                {/* ── ILOE Insurance Section ── */}
+                                                <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-900/30">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        <ShieldCheck className="h-4 w-4 text-teal-600" />
+                                                        <h4 className="text-xs font-black uppercase tracking-[0.15em] text-slate-700 dark:text-slate-200">ILOE Insurance</h4>
+                                                    </div>
+                                                    <DateField name="iloeInsuranceExpiry" label="ILOE Insurance Expiry" defaultValue={(selectedEmployee as any)?.iloeInsuranceExpiry} expiry minDate={new Date()} hint="Must be a valid future date" error={fieldErrors.iloeInsuranceExpiry} />
+                                                    {renderDocUpload("iloe", "ILOE Insurance", iloeDocDraft, setIloeDocDraft)}
                                                 </div>
                                             </TabsContent>
+                                            </div>
                                         </ScrollArea>
                                     </Tabs>
 
-                                    <DialogFooter className="shrink-0 p-4 sm:p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+                                    <DialogFooter className="shrink-0 flex-wrap gap-2 p-4 sm:px-8 lg:px-10 sm:py-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
                                         <Button type="button" variant="ghost" onClick={() => setOpen(false)} className="rounded-xl font-bold uppercase text-[10px] tracking-widest">Cancel</Button>
 
-                                        {/* Staged entry. The real HR sequence is often
-                                            "offer signed, employee created, visa and
-                                            bank details arrive weeks later", so the full
-                                            set cannot be required up front. */}
-                                        {saveAsProvisional && !selectedEmployee && (
-                                            <input type="hidden" name="provision" value="1" />
-                                        )}
-                                        {!selectedEmployee && (
-                                            <label className="flex items-center gap-2 mr-1 cursor-pointer select-none">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={saveAsProvisional}
-                                                    onChange={(ev) => setSaveAsProvisional(ev.target.checked)}
-                                                    className="h-4 w-4 rounded accent-indigo-600"
-                                                />
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">
-                                                    Save as provisional
-                                                </span>
-                                            </label>
-                                        )}
+                                        {/* Per-section save mode. Each tab can be saved as partial independently. */}
+                                        <div className="flex flex-wrap items-center gap-2 mr-auto">
+                                            {([
+                                                { key: "personal", label: "Personal" },
+                                                { key: "employment", label: "Employment" },
+                                                { key: "finance", label: "Finance" },
+                                                { key: "docs", label: "Documents" },
+                                            ] as const).map((section) => (
+                                                <label key={section.key} className="flex items-center gap-1.5 cursor-pointer select-none">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={sectionSaveMode[section.key]}
+                                                        onChange={(ev) => setSectionSaveMode((prev) => ({ ...prev, [section.key]: ev.target.checked }))}
+                                                        className="h-3.5 w-3.5 rounded accent-indigo-600"
+                                                    />
+                                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">{section.label}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                        <input
+                                            type="hidden"
+                                            name={selectedEmployee ? "partial" : "provision"}
+                                            value={sectionSaveMode[activeTab] ? "1" : ""}
+                                        />
                                         <Button
                                             type="submit"
-                                            disabled={isSubmitting}
-                                            aria-busy={isSubmitting}
+                                            disabled={isSubmitting || photoProcessing}
+                                            aria-busy={isSubmitting || photoProcessing}
                                             className="h-12 px-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg shadow-indigo-600/20 font-black uppercase text-xs tracking-widest"
                                         >
                                             {isSubmitting ? (
@@ -977,8 +1376,8 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                                                     Saving…
                                                 </>
-                                            ) : saveAsProvisional && !selectedEmployee ? (
-                                                'Save Provisional'
+                                            ) : sectionSaveMode[activeTab] ? (
+                                                'Save Section (Partial)'
                                             ) : selectedEmployee ? (
                                                 'Commit Changes'
                                             ) : (
@@ -1013,7 +1412,7 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                     <div className="grid min-w-0 shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:items-center">
                         <Button
                             variant="outline"
-                            onClick={() => setFilterStatus(prev => prev === "ALL" ? "ACTIVE" : prev === "ACTIVE" ? "RESIGNED" : "ALL")}
+                            onClick={() => setFilterStatus(prev => prev === "ALL" ? "ACTIVE" : prev === "ACTIVE" ? "PRE_JOINING" : prev === "PRE_JOINING" ? "RESIGNED" : "ALL")}
                             className="h-12 w-full min-w-0 rounded-xl border-slate-200 bg-white font-black text-xs uppercase tracking-widest lg:h-14 lg:w-auto dark:border-slate-800 dark:bg-slate-900"
                         >
                             <Filter className="h-4 w-4 shrink-0" />
@@ -1148,7 +1547,15 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                     </Link>
 
                                     {/* 44px targets: meets the minimum touch size. */}
-                                    <div className="flex shrink-0 items-center gap-1.5">
+<div className="flex shrink-0 items-center gap-1.5">
+                                        <a
+                                            href={`/employees/${employee.id}`}
+                                            aria-label={`View profile for ${employee.firstName} ${employee.lastName}`}
+                                            title={`View profile for ${employee.firstName} ${employee.lastName}`}
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900/60 transition-colors duration-200"
+                                        >
+                                            <Eye className="h-5 w-5" />
+                                        </a>
                                         <button
                                             type="button"
                                             onClick={() => setOnboardingId(employee.id)}
@@ -1160,12 +1567,16 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={() => { setSelectedEmployee(employee); setOpen(true); }}
+                                            onClick={() => {
+                                                setSelectedEmployee(employee);
+                                                setSectionSaveMode((prev) => ({ ...prev, [activeTab]: hasMissingRequiredFields(employee, activeTab) }));
+                                                setOpen(true);
+                                            }}
                                             aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
                                             title="Edit employee"
                                             className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-colors duration-200 hover:bg-indigo-600 hover:text-white dark:bg-slate-800 dark:text-slate-300"
                                         >
-                                            <UserCircle className="h-5 w-5" />
+                                            <Pencil className="h-5 w-5" />
                                         </button>
                                         <button
                                             type="button"
@@ -1278,14 +1689,10 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                         <Badge
                                             className={cn(
                                                 "w-fit max-w-full truncate rounded-lg px-2.5 py-1 text-xs font-semibold normal-case tracking-normal border-0",
-                                                outstandingProvisionalFields(employee as never).length > 0
-                                                    ? "bg-amber-100 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
-                                                    : employeeStatusPresentation(employee.currentStatus).className
+                                                employeeStatusPresentation(employee.currentStatus).className
                                             )}
                                         >
-                                            {outstandingProvisionalFields(employee as never).length > 0
-                                                ? `Incomplete`
-                                                : employeeStatusPresentation(employee.currentStatus).label}
+                                            {employeeStatusPresentation(employee.currentStatus).label}
                                         </Badge>
                                         {outstandingProvisionalFields(employee as never).length > 0 && (
                                             <span
@@ -1294,24 +1701,33 @@ export default function EmployeeList({ initialEmployees,  }: { initialEmployees:
                                                     .map((f) => f.label)
                                                     .join(", ")}
                                             >
-                                                Details required
+                                                Incomplete · {outstandingProvisionalFields(employee as never).length} missing
                                             </span>
                                         )}
                                     </div>
                                 </TableCell>
                                 <TableCell className="py-4 pr-4 pl-2 text-right">
                                     <div className="flex items-center justify-end gap-1.5">
+                                        <a
+                                            href={`/employees/${employee.id}`}
+                                            aria-label={`View profile for ${employee.firstName} ${employee.lastName}`}
+                                            title={`View profile for ${employee.firstName} ${employee.lastName}`}
+                                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-900/60 transition-colors"
+                                        >
+                                            <Eye className="h-4 w-4" />
+                                        </a>
                                         <button
                                             type="button"
                                             aria-label={`Edit ${employee.firstName} ${employee.lastName}`}
                                             title="Edit employee"
                                             onClick={() => {
                                                 setSelectedEmployee(employee);
+                                                setSectionSaveMode((prev) => ({ ...prev, [activeTab]: hasMissingRequiredFields(employee, activeTab) }));
                                                 setOpen(true);
                                             }}
-                                            className="h-9 w-9 inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-indigo-600 hover:text-white transition-colors"
+                                            className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition-colors duration-200 hover:bg-indigo-600 hover:text-white dark:bg-slate-800 dark:text-slate-300"
                                         >
-                                            <UserCircle className="h-4 w-4" />
+                                            <Pencil className="h-4 w-4" />
                                         </button>
                                         <button
                                             type="button"

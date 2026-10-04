@@ -198,6 +198,8 @@ export async function applyToJob(params: {
     nationality?: string;
     currentLocation?: string;
     resumeUrl?: string;
+    resumeData?: Uint8Array;
+    resumeFileName?: string;
     skills?: string;
     currentEmployer?: string;
     currentPosition?: string;
@@ -248,6 +250,10 @@ export async function applyToJob(params: {
                     ...(params.phone ? { phone: params.phone } : {}),
                     ...(params.skills ? { skills: params.skills } : {}),
                     ...(params.currentEmployer ? { currentEmployer: params.currentEmployer } : {}),
+                    ...(params.resumeData ? {
+                        resumeData: params.resumeData as any,
+                        resumeFileName: params.resumeFileName ?? "resume.pdf",
+                    } : {}),
                     ...(params.consentGiven ? { consentGiven: true, consentAt: new Date() } : {}),
                 },
                 create: {
@@ -257,7 +263,9 @@ export async function applyToJob(params: {
                     phone: params.phone ?? null,
                     nationality: params.nationality ?? null,
                     currentLocation: params.currentLocation ?? null,
-                    resumeUrl: params.resumeUrl ?? null,
+                    resumeUrl: null,
+                    resumeData: (params.resumeData as any) ?? null,
+                    resumeFileName: params.resumeData ? params.resumeFileName ?? "resume.pdf" : null,
                     skills: params.skills ?? null,
                     currentEmployer: params.currentEmployer ?? null,
                     currentPosition: params.currentPosition ?? null,
@@ -269,6 +277,13 @@ export async function applyToJob(params: {
                 },
                 select: { id: true, firstName: true, lastName: true },
             });
+
+            if (params.resumeData) {
+                await tx.candidate.update({
+                    where: { id: candidate.id },
+                    data: { resumeUrl: `/api/recruitment/candidates/${candidate.id}/resume` },
+                });
+            }
 
             // One live application per candidate per job. A re-application
             // returns the existing record rather than creating a duplicate.

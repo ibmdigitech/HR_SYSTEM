@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Download, Printer, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
+import { getLetterBranding, type CompanySettings } from "@/app/lib/actions/company-settings";
 
 /**
  * Renders an issued letter with the EXISTING PDF engine (P1 §15).
@@ -27,6 +28,11 @@ export function LetterPreview({
     };
 }) {
     const [fullscreen, setFullscreen] = useState(false);
+    const [branding, setBranding] = useState<CompanySettings | null>(null);
+
+    useEffect(() => {
+        getLetterBranding().then(setBranding).catch(() => setBranding(null));
+    }, []);
 
     // The generator needs `employee`/`candidate` and `template`. Rebuild the
     // shape from the fields the Letter row exposes plus the subject already
@@ -57,7 +63,7 @@ export function LetterPreview({
                         <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => generateLetterPDF(printable as never)}
+                            onClick={() => void generateLetterPDF(printable as never, branding ?? {})}
                             className="h-9 rounded-lg text-[10px] font-black uppercase tracking-widest"
                         >
                             <Download className="h-3.5 w-3.5 mr-1.5" />

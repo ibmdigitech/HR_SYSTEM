@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { normalizeEmployeePhotoValue } from "@/app/lib/photo";
 import { cn } from "@/lib/utils";
@@ -98,6 +101,14 @@ export function EmployeeAvatar({
     fallbackClassName?: string;
 }) {
     const avatarSrc = normalizeEmployeePhotoValue(employee.photo) ?? undefined;
+    const [imageError, setImageError] = useState(false);
+
+    // Reset error state when the image source changes, so updated photos can load
+    useEffect(() => {
+        setImageError(false);
+    }, [avatarSrc]);
+
+    const src = imageError ? undefined : avatarSrc;
 
     return (
         <Avatar
@@ -106,7 +117,12 @@ export function EmployeeAvatar({
                 className
             )}
         >
-            <AvatarImage src={avatarSrc} alt="" className="object-cover" />
+            <AvatarImage
+                src={src}
+                alt=""
+                className="object-cover"
+                onError={() => setImageError(true)}
+            />
             <AvatarFallback
                 className={cn(
                     employeeAvatarPalette(employee),

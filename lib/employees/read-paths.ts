@@ -76,7 +76,7 @@ export interface EmployeeReadPath {
 export const EMPLOYEE_READ_PATHS: readonly EmployeeReadPath[] = [
     {
         file: "app/lib/actions/employees.ts",
-        line: 1004,
+        line: 1152,
         call: "prisma.employee.findMany({ where: { deletedAt: { not: null } }, orderBy: { deletedAt: 'desc' } })",
         purpose: "getArchivedEmployees — the retrieval path for archived records.",
         visibility: "INTENTIONAL",
@@ -91,7 +91,7 @@ export const EMPLOYEE_READ_PATHS: readonly EmployeeReadPath[] = [
     /* ---- FIXED IN THIS CHANGE ---- */
     {
         file: "app/lib/actions/employees.ts",
-        line: 1095,
+        line: 1243,
         call: "prisma.employee.findMany({ where: { isActive: true, ...NOT_ARCHIVED } })",
         purpose: "Active-employee picker (server action).",
         visibility: "EXCLUDES",
@@ -126,7 +126,7 @@ export const EMPLOYEE_READ_PATHS: readonly EmployeeReadPath[] = [
     },
     {
         file: "app/visa/page.tsx",
-        line: 20,
+        line: 72,
         call: "prisma.employee.findMany({ where: { isActive: true } })",
         purpose: "Visa and document-expiry tracker.",
         visibility: "EXCLUDES",
@@ -314,7 +314,7 @@ export const EMPLOYEE_READ_PATHS: readonly EmployeeReadPath[] = [
     },
     {
         file: "lib/workflow/compliance.ts",
-        line: 131,
+        line: 141,
         call: "prisma.employee.findMany({ where: { currentStatus: { in: ['ACTIVE', 'ON_LEAVE'] } } })",
         purpose: "Compliance report — document and visa status.",
         visibility: "LEAKS",
@@ -322,7 +322,7 @@ export const EMPLOYEE_READ_PATHS: readonly EmployeeReadPath[] = [
     },
     {
         file: "lib/workflow/compliance.ts",
-        line: 277,
+        line: 289,
         call: "prisma.employee.findMany({ where: { currentStatus: { in: ['ACTIVE', 'ON_LEAVE'] } } })",
         purpose: "Compliance report — expiry projection.",
         visibility: "LEAKS",
@@ -383,7 +383,7 @@ export const EMPLOYEE_READ_PATHS: readonly EmployeeReadPath[] = [
     },
     {
         file: "app/lib/actions/employees.ts",
-        line: 178,
+        line: 262,
         call: "prisma.employee.findFirst({ where: { OR: [{ email }, { rollNumber }] } })",
         purpose: "Advisory duplicate detection in upsertEmployee.",
         visibility: "INTENTIONAL",

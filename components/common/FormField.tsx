@@ -63,7 +63,7 @@ export function FormField({
             <div className="flex items-center justify-between gap-2 min-h-[16px]">
                 <Label
                     htmlFor={inputId}
-                    className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1"
+                    className="text-xs font-bold uppercase text-slate-600 tracking-[0.1em] ml-1 dark:text-slate-300"
                 >
                     {label}
                     {showRequiredMark && (

@@ -12,6 +12,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel,  } 
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import Link from "next/link";
+import { BackupStatusPanel } from "@/components/settings/backup-status-panel";
 
 interface SettingsDrawerProps {
   open: boolean;
@@ -427,11 +428,20 @@ export function SettingsDrawer({ onOpenChange }: SettingsDrawerProps) {
             
             <TabsContent value="backup">
               <div className="p-6">
-                <h3 className="font-semibold mb-2">Automatic database backup</h3>
-                <p className="text-sm text-slate-500">Install the nightly 02:00 backup on the Windows host running PostgreSQL and Docker. Backups are saved to <code>backups/</code>; the latest 14 are retained.</p>
-                <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-950 p-4 text-xs text-slate-100">{`powershell -ExecutionPolicy Bypass -File .\\scripts\\register-backup-task.ps1`}</pre>
-                <p className="mt-3 text-xs text-amber-700">Run once on the database host. Keep an off-host copy of the backup folder for disaster recovery.</p>
-                <Link href="/system/logs" className="mt-5 inline-flex text-sm font-semibold text-indigo-600 hover:underline" onClick={() => onOpenChange(false)}>View system logs →</Link>
+                {/* Replaced static instructions with live state. The old panel
+                    printed a command and implied all was well, on a host where
+                    the task had never been installed. */}
+                <h3 className="font-semibold mb-1">Database backup</h3>
+                <p className="text-sm text-slate-500 mb-4">
+                  Reads the backup directory, the scheduled task and the off-site configuration
+                  directly from the server. Nothing below is assumed.
+                </p>
+                <BackupStatusPanel />
+                <p className="mt-5 text-xs text-slate-500">
+                  Full procedures, restore drill and disaster recovery:{" "}
+                  <code className="rounded bg-slate-100 px-1 dark:bg-slate-800">docs/operations/BACKUP_AND_RESTORE.md</code>
+                </p>
+                <Link href="/system/logs" className="mt-4 inline-flex text-sm font-semibold text-indigo-600 hover:underline" onClick={() => onOpenChange(false)}>View system logs →</Link>
               </div>
             </TabsContent>
 

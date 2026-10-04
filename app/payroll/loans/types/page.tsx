@@ -2,8 +2,7 @@ import prisma from "@/lib/prisma";import { revalidatePath } from "next/cache";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Settings, Plus, CheckCircle2, XCircle, Banknote } from "lucide-react";
-import { requirePageAnyPermission } from "@/lib/auth/page-guard";
+import { Settings, Plus, CheckCircle2, XCircle, Banknote, ArrowLeft } from "lucide-react";import Link from "next/link";import { requirePageAnyPermission } from "@/lib/auth/page-guard";
 import { requirePermission, AuthenticationError, AuthorizationError } from "@/lib/auth/guards";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { logSecurityEvent, SECURITY_ACTION } from "@/lib/auth/audit";
@@ -124,15 +123,7 @@ export default async function LoanTypesPage() {
                     </h1>
                     <p className="text-slate-500 mt-1 ml-14">Configure loan policies, limits, and approval requirements.</p>
                 </div>
-                {loanTypes.length === 0 && (
-                    <form action={seedDefaultTypes}>
-                        <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl">
-                            <Plus className="h-4 w-4 mr-2" />
-                            Seed Default Loan Types
-                        </Button>
-                    </form>
-                )}
-            </div>
+                <div className="flex flex-wrap gap-2">                    <Link href="/payroll/loans">                        <Button variant="outline" className="font-bold rounded-xl">                            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Loan Management                        </Button>                    </Link>                    {loanTypes.length === 0 && (                        <form action={seedDefaultTypes}>                            <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl">                                <Plus className="h-4 w-4 mr-2" />                                Seed Default Loan Types                            </Button>                        </form>                    )}                </div>            </div>
 
             {loanTypes.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed border-slate-200 rounded-2xl text-center">

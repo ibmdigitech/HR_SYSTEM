@@ -29,14 +29,14 @@ export function OfferCard({ offer }: { offer: OfferListItem }) {
         <Link
             href={`/recruitment/offers/${offer.id}`}
             className={cn(
-                "block h-full rounded-3xl border bg-white dark:bg-slate-950 p-5 transition-colors",
+                "block h-full min-w-0 rounded-2xl border bg-white p-4 shadow-sm transition-[border-color,box-shadow,background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 hover:shadow-md dark:bg-slate-950 dark:focus-visible:ring-offset-slate-950 sm:rounded-3xl sm:p-5",
                 offer.superseded
                     ? "border-slate-200 dark:border-slate-800 opacity-70"
-                    : "border-slate-200 dark:border-slate-800 hover:border-indigo-300"
+                    : "border-slate-200 hover:border-indigo-300 dark:border-slate-800 dark:hover:border-indigo-700"
             )}
         >
-            <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0 flex-1">
                     <p className="text-sm font-black text-slate-900 dark:text-white truncate">
                         {offer.candidate.firstName} {offer.candidate.lastName}
                     </p>
@@ -44,23 +44,25 @@ export function OfferCard({ offer }: { offer: OfferListItem }) {
                         {offer.designation} · {offer.department}
                     </p>
                 </div>
-                <div className="flex flex-col items-end gap-1 shrink-0">
+                <div className="flex min-w-0 flex-wrap items-center gap-2 sm:shrink-0 sm:flex-col sm:items-end sm:gap-1">
                     <span
                         className={cn(
-                            "rounded-lg px-2 py-1 text-[9px] font-black uppercase tracking-widest",
+                            "max-w-full rounded-lg px-2.5 py-1 text-center text-[10px] font-black uppercase leading-tight tracking-wider break-words",
                             STATUS_STYLE[offer.status] ?? "bg-slate-100 text-slate-500"
                         )}
                     >
                         {offer.status.replace(/_/g, " ")}
                     </span>
-                    <span className="text-[10px] font-black uppercase text-slate-400">v{offer.version}</span>
+                    <span className="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-500 dark:bg-slate-900 dark:text-slate-400">v{offer.version}</span>
                 </div>
             </div>
 
-            <p className="mt-3 text-2xl font-black text-slate-900 dark:text-white">
-                AED {gross.toLocaleString("en-GB", { minimumFractionDigits: 2 })}
-                <span className="text-xs font-bold text-slate-400 ml-1">/month gross</span>
-            </p>
+            <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <p className="break-words text-xl font-black tabular-nums text-slate-900 dark:text-white sm:text-2xl">
+                    AED {gross.toLocaleString("en-GB", { minimumFractionDigits: 2 })}
+                </p>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">per month gross</span>
+            </div>
 
             <dl className="mt-3 space-y-1 text-xs text-slate-500">
                 <div className="flex items-center gap-2">

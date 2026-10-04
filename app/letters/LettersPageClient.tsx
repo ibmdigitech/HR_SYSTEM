@@ -32,6 +32,7 @@ import {
     Loader2
 } from "lucide-react";
 import { generateLetterPDF } from "@/app/lib/utils/letter-generator";
+import { getLetterBranding, type CompanySettings } from "@/app/lib/actions/company-settings";
 import {
     getLetterEmployeeDisplayName,
     getLetterEmployeeInitials,
@@ -75,11 +76,16 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
     const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>("");
     const [purpose, setPurpose] = useState("");
     const [viewingLetter, setViewingLetter] = useState<Letter | null>(null);
+    const [branding, setBranding] = useState<CompanySettings | null>(null);
 
     const isAdmin = userRole === "ADMIN" || userRole === "HR";
 
     useEffect(() => {
         fetchData();
+        getLetterBranding().then(setBranding).catch(() => {
+            // A viewer without letter permission may still open the page shell;
+            // generation and branded downloads remain permission-gated.
+        });
     }, []);
 
     const fetchData = async () => {
@@ -395,7 +401,7 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                             </div>
                             <div>
                                 <h4 className="font-black text-sm uppercase tracking-widest leading-none">Corporate Info</h4>
-                                <p className="text-[10px] text-indigo-100 mt-1">Managed by Al Barakah Group HR</p>
+                                <p className="text-[10px] text-indigo-100 mt-1">Managed by {branding?.name || "your company"} HR</p>
                             </div>
                         </div>
                     </div>
@@ -420,7 +426,7 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                                 <Button 
                                     variant="outline" 
                                     className="h-11 rounded-xl font-black uppercase text-[10px] tracking-widest gap-2 bg-indigo-50 border-indigo-100 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all" 
-                                    onClick={() => generateLetterPDF(viewingLetter)}
+                                    onClick={() => void generateLetterPDF(viewingLetter, branding ?? {})}
                                 >
                                     <DownloadIcon className="h-4 w-4" />
                                     Download PDF
@@ -436,22 +442,19 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                         </div>
                         <ScrollArea className="flex-1 p-10 md:p-20 bg-slate-50/20">
                             {/* A4 Document Content */}
-                            <div className="mx-auto bg-white shadow-sm border border-slate-100 p-12 md:p-20 min-h-[1000px] w-full max-w-[800px] relative">
+                            <div className="mx-auto bg-white shadow-sm border border-slate-100 p-12 md:p-20 min-h-[1000px] w-full max-w-[800px] relative" style={branding?.letterhead ? { backgroundImage: `url(\"${branding.letterhead}\")`, backgroundSize: "100% 100%" } : undefined}>
                                 {/* Header / Letterhead */}
-                                <div className="flex justify-between items-start mb-20 border-b-4 border-indigo-600 pb-8">
+                                <div className={`flex justify-between items-start mb-20 border-b-4 border-indigo-600 pb-8 ${branding?.letterhead ? "hidden" : ""}`}>
                                     <div>
-                                        <h2 className="text-3xl font-black tracking-tighter text-slate-900 uppercase italic leading-none">Al Barakah</h2>
-                                        <span className="text-[10px] font-black tracking-[0.3em] text-indigo-600 uppercase block mt-1">Group of Companies</span>
+                                        {branding?.logo && <img src={branding.logo} alt="Company logo" className="mb-2 max-h-16 max-w-40 object-contain" />}
+                                        <h2 className="text-3xl font-black tracking-tighter text-slate-900 uppercase italic leading-none">{branding?.name || "Company"}</h2>
                                         <div className="mt-4 text-[9px] font-bold text-slate-400 leading-tight uppercase tracking-widest">
-                                            Industrial City, Abu Dhabi, UAE<br />
-                                            T: +971 2 XXX XXXX | E: info@albarakah.ae<br />
-                                            Trade License: TL-100234
+                                            {branding?.address}<br />
+                                            {[branding?.phone, branding?.email, branding?.website].filter(Boolean).join(" | ")}
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="h-16 w-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black text-2xl ml-auto">
-                                            AB
-                                        </div>
+                                        {!branding?.logo && <div className="h-16 w-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black text-2xl ml-auto">{branding?.name?.slice(0, 2).toUpperCase() || "CO"}</div>}
                                     </div>
                                 </div>
 
@@ -474,22 +477,12 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                                     <div className="space-y-4">
                                         <div className="relative h-32 w-48">
                                             {/* Digital Signature */}
-                                            <img 
-                                                src="/assets/signature.png" 
-                                                alt="Digital Signature" 
-                                                className="absolute bottom-0 left-0 h-24 object-contain mix-blend-multiply opacity-90 -rotate-3"
-                                            />
-                                            {/* Digital Stamp */}
-                                            <img 
-                                                src="/assets/stamp.png" 
-                                                alt="Corporate Stamp" 
-                                                className="absolute -top-4 -right-12 h-32 w-32 object-contain mix-blend-multiply opacity-80 rotate-12"
-                                            />
+                                            {branding?.signature && <img src={branding.signature} alt="Authorized signature" className="absolute bottom-0 left-0 h-24 max-w-40 object-contain mix-blend-multiply opacity-90" />}
                                             <div className="absolute -bottom-2 -left-2 text-[7px] font-black text-indigo-600/40 uppercase tracking-[0.4em] rotate-1">
                                                 ID: {viewingLetter.id.slice(0, 8).toUpperCase()} - VERIFIED
                                             </div>
                                         </div>
-                                        <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest border-t border-slate-200 pt-2 w-fit">Manager / Authorized Signatory</p>
+                                <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest border-t border-slate-200 pt-2 w-fit">{branding?.name || "Company"} Authorized Signatory</p>
                                     </div>
                                     <div className="text-right">
                                         <div className="h-20 w-20 bg-slate-100 rounded-xl flex items-center justify-center ml-auto mb-2 opacity-50">
@@ -504,7 +497,7 @@ export default function LettersPageClient({ userRole }: { userRole: string }) {
                             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
                                 This is a computer generated document and does not require a physical signature.
                             </p>
-                            <Button className="h-12 px-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black uppercase text-[10px] tracking-widest shadow-xl">
+                            <Button disabled className="h-12 px-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black uppercase text-[10px] tracking-widest shadow-xl" title="Email delivery is not connected yet">
                                 Send via Email
                             </Button>
                         </div>

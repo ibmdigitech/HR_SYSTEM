@@ -4,6 +4,8 @@
 **Scope:** Current Next.js application routes, data model, authorization, workflows, operations, and automated checks.  
 **Status:** Not production-ready for a multi-tenant SaaS launch.
 
+**Release direction recorded 2026-10-02:** internal, single-company production. Multi-tenant isolation is out of scope for this release. The production hosting target is still undecided, so no deployment has been performed.
+
 This is a source and build review. It does not replace browser-based visual acceptance testing, penetration testing, or a review of the final production hosting configuration.
 
 ## Checks completed
@@ -14,14 +16,33 @@ This is a source and build review. It does not replace browser-based visual acce
 | TypeScript | Pass (`npm run typecheck`) |
 | Automated tests | Pass (37 test files, 834 tests) |
 | Production build | Pass (`npm run build`) |
-| ESLint | Fail: 2,931 errors and 15,894 warnings across the repository; generated/archived code is included in the scan |
+| ESLint | Fail: 136 errors and 162 warnings after excluding generated and archived trees (`npm run lint`, 2026-10-02) |
 | Tenant isolation | Fail: no tenant/organization ownership fields or tenant model found in `prisma/schema.prisma` |
 
-The repository contains an older `MASTER_AUDIT_REPORT.md` with route counts and environment findings from 2026-09-25. Those figures should not be treated as current without rechecking them. The ESLint command also scans archived/generated content, so first configure appropriate ignores, then rerun lint to establish the current-app baseline; the current count is not a reliable count of actionable source defects.
+The tenant-isolation result remains a SaaS blocker, but is not a blocker for the selected single-company release. Older reports contain stale findings and counts; use this review as the current release summary and re-verify individual findings against the current source before treating them as open.
+
+## Internal release status
+
+The current repository has a Docker Compose stack and a Vercel configuration, but the user has not selected the production host. Production deployment remains blocked until the target and its secrets, database, backup destination, and rollback procedure are identified.
+
+Confirmed code/configuration work in this refresh:
+
+- Employee archive confirmation now describes retention and restoration instead of saying the record will be deleted.
+- Exit cases now have a detail workflow for notice, interview, clearance, manually prepared settlement, approval, payment reference, and final closure. Finalization closes the linked offboarding in the same transaction that ends employment and revokes the HRMS login; HR history is retained. UAE notice/gratuity calculations remain explicit human inputs pending approved company policy.
+- ESLint now excludes `node_modules`, archived source, and generated/migration paths from the repository-wide scan. The refreshed lint result still fails with 136 errors and 162 warnings; errors must be resolved before making lint a passing release gate.
+- GitHub Actions used the invalid `node-size` input. It now uses `node-version` and includes typecheck and automated-test steps. The workflow still runs lint, which currently fails.
+
+Remaining production sign-off items that require the chosen host or operator access:
+
+- Rotate production credentials and configure `AUTH_SECRET` through the host's secret store.
+- Confirm durable PostgreSQL storage, encrypted off-host backups, a successful restore drill, and monitored scheduled backups.
+- Configure TLS termination, uptime/error monitoring, and operational ownership.
+- Complete role-based browser QA and review every API/action authorization path.
+- Complete the user invite/suspend/session-revocation workflow or formally limit who can administer accounts.
 
 ## Release blockers
 
-### P0 — No tenant boundary in business data
+### SaaS-only P0 — No tenant boundary in business data
 
 The Prisma schema has no tenant, organization, or workspace model, and business records are not scoped by a tenant identifier. Application queries such as the dashboard's employee, attendance, payroll, and audit queries operate globally. Adding tenant screens alone would not isolate customer data.
 

@@ -27,6 +27,17 @@ export const PERMISSIONS = {
     // System
     SYSTEM_CONFIG: "system.config",
     SYSTEM_AUDIT_VIEW: "system.audit.view",
+    /**
+     * View backup status and run the backup/restore tooling.
+     *
+     * Its own permission rather than a reuse of `system.audit.view`, because the
+     * two surfaces have different audiences: audit logs are read by HR as part of
+     * their job, whereas backup status exposes host paths, container names and
+     * scheduled-task state. Reusing one permission would either leak that to HR
+     * or hide the backup page from an administrator who should see it — and the
+     * sidebar link and the page gate must agree, or the link leads to a refusal.
+     */
+    SYSTEM_BACKUP_VIEW: "system.backup.view",
     SYSTEM_USER_MANAGE: "system.user.manage",
     SYSTEM_SEED: "system.seed",
 
@@ -37,6 +48,26 @@ export const PERMISSIONS = {
     EMPLOYEES_DELETE: "employees.delete",
     EMPLOYEES_IMPORT: "employees.import",
     EMPLOYEES_EXPORT: "employees.export",
+    /**
+     * Approve a pending `EmployeeChangeRequest`.
+     *
+     * This is deliberately NOT `employees.create` or `employees.edit`.
+     *
+     * Every other approval domain already owns a dedicated `*.approve`
+     * permission - `leave.approve`, `letter.approve`, `request.approve`,
+     * `service.approve`. Employee data changes were the sole exception: the
+     * approvals page gated its Data Changes tab on `canManageEmployees`, and
+     * `approveChangeRequest`/`rejectChangeRequest` required `EMPLOYEES_CREATE`.
+     *
+     * Two real consequences followed from that borrowing:
+     *   - MANAGER holds `leave.approve` but not `employees.create`, so a
+     *     manager could approve a subordinate's leave yet was shown no Data
+     *     Changes tab and was refused if they navigated to it directly.
+     *   - HR could not delegate "may approve corrections" without also handing
+     *     over "may rewrite any employee's record". Those are different risks
+     *     and conflating them means the safer grant is never made.
+     */
+    EMPLOYEES_APPROVE: "employees.approve",
 
     // Attendance
     ATTENDANCE_VIEW: "attendance.view",
@@ -79,9 +110,23 @@ export const PERMISSIONS = {
     LETTER_APPROVE: "letter.approve",
     LETTER_TEMPLATE_MANAGE: "letter.template.manage",
 
-    // Visa & compliance
+// Visa & compliance
     VISA_VIEW: "visa.view",
     VISA_MANAGE: "visa.manage",
+
+    // Business travel & air ticket entitlement
+    /** See travel requests. Scope decides whose: SELF by default. */
+    TRAVEL_VIEW: "travel.view",
+    /** See the whole entitlement register rather than only one's own record. */
+    TRAVEL_VIEW_ALL: "travel.view.all",
+    /** Raise a travel request for oneself. */
+    TRAVEL_REQUEST: "travel.request",
+    /** Raise a travel request on another employee's behalf. */
+    TRAVEL_REQUEST_ANY: "travel.request.any",
+    /** Approve, reject, or complete a travel request. */
+    TRAVEL_APPROVE: "travel.approve",
+    /** Set the yearly ticket entitlement, cabin class, and visa anchor date. */
+    TRAVEL_ENTITLEMENT_MANAGE: "travel.entitlement.manage",
 
     // Requests & services
     REQUEST_VIEW: "request.view",
@@ -169,7 +214,13 @@ const STAFF_GRANTS: readonly Permission[] = [
     PERMISSIONS.LOAN_VIEW,
     PERMISSIONS.LOAN_APPLY,
     PERMISSIONS.LETTER_VIEW,
-    PERMISSIONS.VISA_VIEW,
+PERMISSIONS.VISA_VIEW,
+    // A staff member may raise their own business travel request, and may see
+    // their own entitlement and visa anchor. Neither TRAVEL_VIEW_ALL nor
+    // TRAVEL_APPROVE is granted: a traveller deciding their own trip is exactly
+    // what the maker-checker guard in TRAVEL_REQUEST_TRANSITIONS prevents.
+    PERMISSIONS.TRAVEL_VIEW,
+    PERMISSIONS.TRAVEL_REQUEST,
     PERMISSIONS.REQUEST_VIEW,
     PERMISSIONS.REQUEST_CREATE,
     PERMISSIONS.SERVICE_VIEW,
@@ -182,9 +233,24 @@ const MANAGER_GRANTS: readonly Permission[] = [
     PERMISSIONS.LEAVE_APPROVE,
     PERMISSIONS.REQUEST_APPROVE,
     PERMISSIONS.SERVICE_APPROVE,
+    // A manager already approves leave, staff-service requests, travel and loans
+    // for their team, but held no `employees.*` permission at all — which locked
+    // them out of the Data Changes queue entirely. Correcting a subordinate's
+    // passport or bank detail is the same kind of decision, so refusing it while
+    // allowing the rest was incoherent rather than a security boundary.
+    //
+    // APPROVE only. Not `employees.edit`, because the manager decides whether a
+    // submitted change is accepted; they do not get to rewrite a record directly,
+    // and `advanceChangeRequest` additionally scopes them to their own direct
+    // reports so the grant cannot be used to approve a stranger's corrections.
+    PERMISSIONS.EMPLOYEES_APPROVE,
     PERMISSIONS.ATTENDANCE_EXPORT,
     PERMISSIONS.LETTER_VIEW,
     PERMISSIONS.VISA_VIEW,
+    // A manager sees their department's travel and decides it, but cannot set
+    // an entitlement — that changes what the company owes.
+    PERMISSIONS.TRAVEL_VIEW_ALL,
+    PERMISSIONS.TRAVEL_APPROVE,
 ];
 
 /** Finance / payroll department. */
@@ -210,6 +276,7 @@ const HR_GRANTS: readonly Permission[] = [
     PERMISSIONS.EMPLOYEES_VIEW,
     PERMISSIONS.EMPLOYEES_CREATE,
     PERMISSIONS.EMPLOYEES_EDIT,
+    PERMISSIONS.EMPLOYEES_APPROVE,
     PERMISSIONS.EMPLOYEES_IMPORT,
     PERMISSIONS.EMPLOYEES_EXPORT,
     PERMISSIONS.ATTENDANCE_VIEW,
@@ -224,6 +291,12 @@ const HR_GRANTS: readonly Permission[] = [
     PERMISSIONS.LETTER_APPROVE,
     PERMISSIONS.LETTER_TEMPLATE_MANAGE,
     PERMISSIONS.VISA_MANAGE,
+    // HR owns the entitlement contract: who gets one ticket, who gets two, in
+    // what cabin, anchored to which visa date.
+    PERMISSIONS.TRAVEL_VIEW_ALL,
+    PERMISSIONS.TRAVEL_REQUEST_ANY,
+    PERMISSIONS.TRAVEL_APPROVE,
+    PERMISSIONS.TRAVEL_ENTITLEMENT_MANAGE,
     PERMISSIONS.REQUEST_APPROVE,
     PERMISSIONS.SERVICE_APPROVE,
     PERMISSIONS.RECRUITMENT_MANAGE,
@@ -253,6 +326,9 @@ const ADMIN_GRANTS: readonly Permission[] = [
     PERMISSIONS.EMPLOYEES_DELETE,
     PERMISSIONS.SYSTEM_USER_MANAGE,
     PERMISSIONS.SYSTEM_AUDIT_VIEW,
+    // Backup status is infrastructure state, not people data, so it starts at
+    // ADMIN rather than HR. Matches the page gate on /system/backup.
+    PERMISSIONS.SYSTEM_BACKUP_VIEW,
     PERMISSIONS.ACCESS_APPROVE,
     PERMISSIONS.PAYROLL_UNLOCK,
     PERMISSIONS.EXIT_COMPLETE,

@@ -12,13 +12,14 @@ import {
     Plus,
     FileText,
     TrendingDown,
-    AlertCircle,
     Landmark,
+    ArrowLeft,
+    type LucideIcon,
     
 } from "lucide-react";
 import Link from "next/link";
 
-const statusConfig: Record<string, { label: string; color: string; icon: any }> = {
+const statusConfig: Record<string, { label: string; color: string; icon: LucideIcon }> = {
     DRAFT:            { label: "Draft",           color: "bg-slate-100 text-slate-600",   icon: FileText },
     SUBMITTED:        { label: "Submitted",        color: "bg-blue-100 text-blue-700",     icon: Clock },
     PENDING_MANAGER:  { label: "With Manager",     color: "bg-amber-100 text-amber-700",   icon: Clock },
@@ -69,12 +70,19 @@ export default async function MyLoansPage() {
                     <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">My Loans</h1>
                     <p className="text-slate-500 mt-1 font-medium">View and manage your loan applications and repayment schedule.</p>
                 </div>
-                <Link href="/payroll/loans/apply">
-                    <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all h-11 px-6">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Apply for Loan
-                    </Button>
-                </Link>
+                <div className="flex flex-wrap gap-2">
+                    <Link href="/dashboard">
+                        <Button variant="outline" className="font-bold rounded-xl h-11 px-5">
+                            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Dashboard
+                        </Button>
+                    </Link>
+                    <Link href="/payroll/loans/apply">
+                        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all h-11 px-6">
+                            <Plus className="h-4 w-4 mr-2" />
+                            Apply for Loan
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             {/* Summary Cards */}
@@ -131,7 +139,7 @@ export default async function MyLoansPage() {
                         const StatusIcon = cfg.icon;
                         const pendingInstallments = loan.installments.filter((i) => i.status === "PENDING");
                         const paidInstallments = loan.installments.filter((i) => i.status === "DEDUCTED");
-                        const remaining = pendingInstallments.reduce((a: number, i: any) => a + i.amount, 0);
+                        const remaining = pendingInstallments.reduce((a, i) => a + i.amount, 0);
                         const progress = loan.installments.length > 0
                             ? (paidInstallments.length / loan.installments.length) * 100
                             : 0;

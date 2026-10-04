@@ -28,11 +28,21 @@ import {
     InvalidTransitionError,
 } from "@/lib/workflow/state-machine";
 
-/** Document types tracked, mapped to the Employee column that holds the date. */
+/**
+ * Document types tracked, mapped to the Employee column that holds the date.
+ *
+ * Every column here must exist on `Employee` AND be one the employee form can
+ * write, or the scan would silently never report it. `RESIDENCE_PERMIT` and
+ * `LABOUR_CARD` were absent while the form already collected both, so a permit
+ * about to lapse produced no reminder at all. The `/visa` page had the same gap
+ * — it rendered its own inline copy of this list.
+ */
 const TRACKED_DOCUMENTS = [
     { type: "VISA", column: "visaExpiry", label: "Residence visa" },
     { type: "PASSPORT", column: "passportExpiry", label: "Passport" },
     { type: "EMIRATES_ID", column: "emiratesIdExpiry", label: "Emirates ID" },
+    { type: "RESIDENCE_PERMIT", column: "residencePermitExpiry", label: "Residence permit" },
+    { type: "LABOUR_CARD", column: "labourCardExpiry", label: "Labour card" },
     { type: "MEDICAL_INSURANCE", column: "medicalInsuranceExpiry", label: "Medical insurance" },
     { type: "ILOE_INSURANCE", column: "iloeInsuranceExpiry", label: "ILOE insurance" },
 ] as const;
@@ -141,6 +151,8 @@ export async function scanExpiringDocuments(options?: {
             visaExpiry: true,
             passportExpiry: true,
             emiratesIdExpiry: true,
+            residencePermitExpiry: true,
+            labourCardExpiry: true,
             medicalInsuranceExpiry: true,
             iloeInsuranceExpiry: true,
         },
@@ -284,6 +296,8 @@ export async function getExpiringDocuments(withinDays = 90) {
             visaExpiry: true,
             passportExpiry: true,
             emiratesIdExpiry: true,
+            residencePermitExpiry: true,
+            labourCardExpiry: true,
             medicalInsuranceExpiry: true,
             iloeInsuranceExpiry: true,
         },

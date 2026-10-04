@@ -38,11 +38,14 @@ import {
  * configuration table later.
  */
 export const DEFAULT_ONBOARDING_CHECKLIST: { category: string; label: string; required: boolean }[] = [
+    { category: "EMPLOYMENT_CONTRACT", label: "Signed employment contract on file", required: true },
     { category: "OFFER_LETTER", label: "Signed offer letter", required: true },
     { category: "APPOINTMENT_LETTER", label: "Signed appointment letter", required: true },
     { category: "PASSPORT", label: "Passport copy collected", required: true },
     { category: "EMIRATES_ID", label: "Emirates ID collected", required: true },
     { category: "VISA", label: "Residence visa / work permit collected", required: true },
+    { category: "RESIDENCE_PERMIT", label: "Residence permit collected", required: true },
+    { category: "LABOUR_CARD", label: "Labour card collected", required: true },
     { category: "MEDICAL_INSURANCE", label: "Medical insurance card collected", required: true },
     { category: "ILOE_INSURANCE", label: "ILOE insurance card collected", required: false },
     { category: "BANK", label: "Bank / IBAN details confirmed", required: true },
@@ -293,6 +296,94 @@ export async function notifyManagerOfNewHire(params: {
     } catch (error) {
         // A missed notification must never fail the onboarding.
         console.error("[NOTIFY_MANAGER_FAILED]", error);
+    }
+}
+
+/**
+ * Records that a document scan has been RECEIVED for a checklist item, WITHOUT
+ * marking it verified.
+ *
+ * WHY THIS EXISTS — the difference between "received" and "verified"
+ *
+ * An earlier implementation treated an upload as the finish line: the document
+ * landed and the checklist item went straight to COMPLETED. That made the
+ * `verifiedBy` / `verifiedAt` columns decorative, because the only way to reach
+ * COMPLETED was a system action that had verified nothing. A forged or
+ * illegible scan and a genuine one were indistinguishable downstream.
+ *
+ * So an upload moves the item to IN_PROGRESS and records what arrived. A human
+ * with `employees.edit` still has to look at the scan and call
+ * `updateChecklistItem(..., to: COMPLETED)`, which is what writes `verifiedBy`
+ * / `verifiedAt` and the audit row.
+ *
+ * Idempotent: re-uploading keeps the item at IN_PROGRESS and clears any stale
+ * verification, because a NEW scan is a NEW claim that has not been checked.
+ * Leaving the previous `verifiedBy` in place would let an unverified
+ * replacement inherit the earlier sign-off.
+ */
+export async function recordDocumentReceived(params: {
+    employeeId: string;
+    /** Checklist category, e.g. PASSPORT / EMIRATES_ID / VISA. */
+    category: string;
+    /** Human-readable reference stored on the item, usually the file name. */
+    documentRef: string;
+    /** Creates the item when the checklist has not been seeded yet. */
+    label?: string;
+    required?: boolean;
+}): Promise<{ linked: boolean; reason?: string }> {
+    try {
+        const item = await prisma.onboardingChecklistItem.findFirst({
+            where: { employeeId: params.employeeId, category: params.category },
+            select: { id: true, status: true, verifiedAt: true },
+        });
+
+        if (!item) {
+            // The checklist has not been seeded for this employee. Create the
+            // single item this upload satisfies, rather than the whole default
+            // list — the rest is `ensureChecklist`'s job and inventing it here
+            // would create rows nobody asked for.
+            await prisma.onboardingChecklistItem.create({
+                data: {
+                    employeeId: params.employeeId,
+                    category: params.category,
+                    label: params.label ?? `${params.category.replace(/_/g, " ").toLowerCase()} document`,
+                    required: params.required ?? true,
+                    status: CHECKLIST_STATUS.IN_PROGRESS,
+                    documentRef: params.documentRef,
+                },
+            });
+            return { linked: true };
+        }
+
+        if (item.status === CHECKLIST_STATUS.COMPLETED) {
+            // A verified document is being replaced. The item returns to
+            // IN_PROGRESS and its verification is cleared, so the new scan must
+            // be checked again rather than inheriting the old sign-off.
+            await prisma.onboardingChecklistItem.update({
+                where: { id: item.id },
+                data: {
+                    status: CHECKLIST_STATUS.IN_PROGRESS,
+                    documentRef: params.documentRef,
+                    verifiedBy: null,
+                    verifiedAt: null,
+                    notes: null,
+                },
+            });
+            return { linked: true, reason: "REVERIFICATION_REQUIRED" };
+        }
+
+        await prisma.onboardingChecklistItem.update({
+            where: { id: item.id },
+            data: {
+                status: CHECKLIST_STATUS.IN_PROGRESS,
+                documentRef: params.documentRef,
+            },
+        });
+        return { linked: true };
+    } catch (error) {
+        // A failed link must not undo the employee save that produced the file.
+        console.error("[RECORD_DOCUMENT_RECEIVED_FAILED]", error);
+        return { linked: false, reason: "LINK_FAILED" };
     }
 }
 

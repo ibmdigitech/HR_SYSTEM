@@ -3,6 +3,16 @@
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, AlertCircle, CheckCircle, Info } from "lucide-react";
+// Re-exported so existing importers of this module resolve the same names. The
+// implementation lives in the plain sibling because `app/api/leaves/balance`
+// calls it from a route handler, and a server module cannot invoke anything
+// exported from a "use client" file.
+import {
+    calculateSickLeaveBreakdown,
+    type SickLeaveBreakdown,
+} from "./leave-bar-math";
+
+export { calculateSickLeaveBreakdown, type SickLeaveBreakdown };
 
 export interface LeaveBalanceData {
   leaveType: string;
@@ -11,67 +21,6 @@ export interface LeaveBalanceData {
   year: number;
   remainingDays: number;
   usedPercentage: number;
-}
-
-export interface SickLeaveBreakdown {
-  // The three statutory entitlements (UAE Labour Law sick leave: 90 days =
-  // 15 full pay, 30 half pay, 45 unpaid). `calculateSickLeaveBreakdown`
-  // already returns these, and the card renders "used / entitlement" for each
-  // tier, so they are part of the contract — they were simply missing from
-  // this interface, which made those reads a compile error.
-  fullPayEntitlement: number;
-  halfPayEntitlement: number;
-  unpaidEntitlement: number;
-  totalEntitlement: number;
-  usedFullPay: number;
-  usedHalfPay: number;
-  usedUnpaid: number;
-  remainingFullPay: number;
-  remainingHalfPay: number;
-  remainingUnpaid: number;
-}
-
-/**
- * Calculates UAE Labour Law sick leave breakdown
- * 90 days total: 15 full pay, 30 half pay, 45 unpaid
- */
-export function calculateSickLeaveBreakdown(
-  usedDays: number,
-  totalDays: number = 90
-): SickLeaveBreakdown {
-  const fullPayEntitlement = 15;
-  const halfPayEntitlement = 30;
-  const unpaidEntitlement = 45;
-
-  let usedFullPay = 0;
-  let usedHalfPay = 0;
-  let usedUnpaid = 0;
-
-  let remaining = usedDays;
-
-  // First deduct from full pay
-  usedFullPay = Math.min(remaining, fullPayEntitlement);
-  remaining -= usedFullPay;
-
-  // Then deduct from half pay
-  usedHalfPay = Math.min(remaining, halfPayEntitlement);
-  remaining -= usedHalfPay;
-
-  // Rest is unpaid
-  usedUnpaid = remaining;
-
-  return {
-    fullPayEntitlement,
-    halfPayEntitlement,
-    unpaidEntitlement,
-    totalEntitlement: totalDays,
-    usedFullPay,
-    usedHalfPay,
-    usedUnpaid,
-    remainingFullPay: Math.max(0, fullPayEntitlement - usedFullPay),
-    remainingHalfPay: Math.max(0, halfPayEntitlement - usedHalfPay),
-    remainingUnpaid: Math.max(0, unpaidEntitlement - usedUnpaid),
-  };
 }
 
 /**

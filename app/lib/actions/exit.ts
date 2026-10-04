@@ -53,9 +53,15 @@ import {
 } from "@/lib/auth/guards";
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { notifyInApp } from "@/lib/workflow/notifications";
-import { prepareSettlement, advanceSettlement } from "@/lib/workflow/offboarding";
+import {
+    DEFAULT_EXIT_CHECKLIST,
+    prepareSettlement,
+    advanceSettlement,
+    updateChecklistItem,
+} from "@/lib/workflow/offboarding";
 import {
     OFFBOARDING_STATUS,
+    CHECKLIST_STATUS,
     SETTLEMENT_STATUS,
 } from "@/lib/workflow/state-machine";
 import {
@@ -558,6 +564,162 @@ export async function rejectExitCase(
     return decideExit(exitCaseId, EXIT_STATUS.REJECTED, input);
 }
 
+/**
+ * Advances the approved exit through notice, interview, clearance and settlement.
+ * The first transition creates the linked offboarding record and its checklist;
+ * later transitions update the exit case and offboarding together.
+ */
+export async function advanceExitCaseWorkflow(input: {
+    exitCaseId: string;
+    to: typeof EXIT_STATUS.NOTICE_PERIOD | typeof EXIT_STATUS.INTERVIEW_PENDING |
+        typeof EXIT_STATUS.CLEARANCE_PENDING | typeof EXIT_STATUS.SETTLEMENT_PENDING;
+}): Promise<ExitActionResult> {
+    try {
+        const allowedTargets: readonly string[] = [
+            EXIT_STATUS.NOTICE_PERIOD,
+            EXIT_STATUS.INTERVIEW_PENDING,
+            EXIT_STATUS.CLEARANCE_PENDING,
+            EXIT_STATUS.SETTLEMENT_PENDING,
+        ];
+        if (!allowedTargets.includes(input.to)) {
+            return { success: false, message: "That exit workflow step is not available." };
+        }
+
+        const user = await requireAnyPermission([
+            PERMISSIONS.RESIGNATION_APPROVE,
+            PERMISSIONS.TERMINATION_APPROVE,
+            PERMISSIONS.EXIT_CLEARANCE,
+        ]);
+        const exitCase = await prisma.exitCase.findUnique({
+            where: { id: input.exitCaseId },
+            select: {
+                id: true, employeeId: true, type: true, status: true,
+                lastWorkingDate: true, noticePeriodDays: true, reason: true,
+            },
+        });
+        if (!exitCase) return notFound();
+
+        const needed = input.to === EXIT_STATUS.NOTICE_PERIOD
+            ? (exitCase.type === EXIT_TYPE.RESIGNATION ? PERMISSIONS.RESIGNATION_APPROVE : PERMISSIONS.TERMINATION_APPROVE)
+            : PERMISSIONS.EXIT_CLEARANCE;
+        await requirePermission(needed);
+
+        const refused = assertMove(exitCase.status, input.to, { id: user.id, role: user.role });
+        if (refused) return refused;
+
+        if (input.to === EXIT_STATUS.NOTICE_PERIOD && (!exitCase.lastWorkingDate || exitCase.noticePeriodDays === null)) {
+            return { success: false, message: "Set the agreed last working day and notice period before starting notice." };
+        }
+
+        const offboarding = input.to === EXIT_STATUS.NOTICE_PERIOD ||
+            input.to === EXIT_STATUS.CLEARANCE_PENDING || input.to === EXIT_STATUS.SETTLEMENT_PENDING
+            ? await prisma.offboardingRequest.findFirst({
+                where: { employeeId: exitCase.employeeId, status: { notIn: [OFFBOARDING_STATUS.COMPLETED, OFFBOARDING_STATUS.CANCELLED] } },
+                orderBy: { createdAt: "desc" },
+                select: { id: true, status: true },
+            })
+            : null;
+
+        if (input.to === EXIT_STATUS.CLEARANCE_PENDING || input.to === EXIT_STATUS.SETTLEMENT_PENDING) {
+            if (!offboarding) return { success: false, message: "Offboarding record is missing. Return the case to HR before proceeding." };
+            const outstanding = await prisma.offboardingChecklistItem.count({
+                where: {
+                    offboardingId: offboarding.id,
+                    required: true,
+                    status: { notIn: [CHECKLIST_STATUS.COMPLETED, CHECKLIST_STATUS.WAIVED] },
+                },
+            });
+            if (outstanding > 0) return { success: false, message: `${outstanding} required clearance item(s) remain.` };
+        }
+
+        if (input.to === EXIT_STATUS.SETTLEMENT_PENDING && offboarding?.status !== OFFBOARDING_STATUS.CLEARANCE) {
+            return { success: false, message: "The offboarding checklist must be in clearance before settlement." };
+        }
+
+        await prisma.$transaction(async (tx) => {
+            const changed = await tx.exitCase.updateMany({
+                where: { id: exitCase.id, status: exitCase.status },
+                data: { status: input.to },
+            });
+            if (changed.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+
+            if (input.to === EXIT_STATUS.NOTICE_PERIOD) {
+                const existing = await tx.offboardingRequest.findFirst({
+                    where: { employeeId: exitCase.employeeId, status: { notIn: [OFFBOARDING_STATUS.COMPLETED, OFFBOARDING_STATUS.CANCELLED] } },
+                    select: { id: true },
+                });
+                if (!existing) {
+                    const request = await tx.offboardingRequest.create({
+                        data: {
+                            employeeId: exitCase.employeeId,
+                            status: OFFBOARDING_STATUS.NOTICE_PERIOD,
+                            lastWorkingDay: exitCase.lastWorkingDate!,
+                            noticePeriodEnd: exitCase.lastWorkingDate,
+                            reason: exitCase.reason,
+                            initiatedBy: user.email,
+                        },
+                        select: { id: true },
+                    });
+                    await tx.offboardingChecklistItem.createMany({
+                        data: DEFAULT_EXIT_CHECKLIST.map((item) => ({
+                            offboardingId: request.id,
+                            label: item.label,
+                            category: item.category,
+                            required: item.required,
+                            status: CHECKLIST_STATUS.PENDING,
+                        })),
+                    });
+                }
+            } else if (input.to === EXIT_STATUS.CLEARANCE_PENDING && offboarding) {
+                const moved = await tx.offboardingRequest.updateMany({
+                    where: { id: offboarding.id, status: offboarding.status },
+                    data: { status: OFFBOARDING_STATUS.CLEARANCE },
+                });
+                if (moved.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+            } else if (input.to === EXIT_STATUS.SETTLEMENT_PENDING && offboarding) {
+                const moved = await tx.offboardingRequest.updateMany({
+                    where: { id: offboarding.id, status: offboarding.status },
+                    data: { status: OFFBOARDING_STATUS.SETTLEMENT_PENDING },
+                });
+                if (moved.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+            }
+
+            await tx.auditLog.create({
+                data: {
+                    employeeId: exitCase.employeeId,
+                    action: `EXIT_${input.to}`,
+                    details: `Exit case ${exitCase.id} moved ${exitCase.status} → ${input.to}.`,
+                    changedBy: user.email,
+                },
+            });
+        });
+
+        revalidateExitViews(exitCase.id);
+        return { success: true, message: `Exit moved to ${input.to.replaceAll("_", " ").toLowerCase()}.`, exitCaseId: exitCase.id, status: input.to };
+    } catch (error) {
+        return toResult(error, "ADVANCE_EXIT_CASE_FAILED");
+    }
+}
+
+/** Server-action adapter for the shared, guarded offboarding checklist writer. */
+export async function updateExitChecklist(input: {
+    itemId: string;
+    to: typeof CHECKLIST_STATUS.IN_PROGRESS | typeof CHECKLIST_STATUS.COMPLETED | typeof CHECKLIST_STATUS.WAIVED;
+    notes?: string;
+}): Promise<ExitActionResult> {
+    try {
+        const user = await requirePermission(PERMISSIONS.EXIT_CLEARANCE);
+        const result = await updateChecklistItem({
+            ...input,
+            actor: { id: user.id, email: user.email, role: user.role },
+        });
+        revalidateExitViews();
+        return { success: result.success, message: result.message };
+    } catch (error) {
+        return toResult(error, "UPDATE_EXIT_CHECKLIST_FAILED");
+    }
+}
+
 /* ------------------------------------------------------------------ */
 /* 4. EXIT INTERVIEW                                                   */
 /* ------------------------------------------------------------------ */
@@ -878,6 +1040,7 @@ export async function advanceExitSettlement(input: {
     exitCaseId: string;
     to: string;
     reference?: string;
+    confirmBankTransfer?: boolean;
 }): Promise<ExitActionResult> {
     try {
         const user = await requirePermission(PERMISSIONS.EXIT_SETTLEMENT);
@@ -901,6 +1064,19 @@ export async function advanceExitSettlement(input: {
                 success: false,
                 message: "No settlement has been prepared for this employee yet.",
             };
+        }
+
+        if (input.to === SETTLEMENT_STATUS.PAID) {
+            if (input.confirmBankTransfer !== true) {
+                return { success: false, message: "Confirm that Finance verified the bank destination and completed the transfer." };
+            }
+            const employeeBank = await prisma.employee.findUnique({
+                where: { id: exitCase.employeeId },
+                select: { bankName: true, iban: true },
+            });
+            if (!employeeBank?.bankName?.trim() || !employeeBank.iban?.trim()) {
+                return { success: false, message: "Complete the employee bank name and IBAN before recording payment." };
+            }
         }
 
         const result = await advanceSettlement({
@@ -1039,6 +1215,18 @@ export async function completeExitCase(input: {
                 data: { status: EXIT_STATUS.COMPLETED },
             });
             if (updated.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+
+            if (offboarding) {
+                const closed = await tx.offboardingRequest.updateMany({
+                    where: { id: offboarding.id, status: OFFBOARDING_STATUS.SETTLEMENT_PENDING },
+                    data: {
+                        status: OFFBOARDING_STATUS.COMPLETED,
+                        completedAt: new Date(),
+                        approvedBy: user.email,
+                    },
+                });
+                if (closed.count === 0) throw new Error("CONCURRENT_MODIFICATION");
+            }
 
             await tx.employee.update({
                 where: { id: exitCase.employeeId },

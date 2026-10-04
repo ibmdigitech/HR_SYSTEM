@@ -1,17 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CompanySettingsForm } from "@/components/settings/CompanySettingsForm";
+import type { CompanySettings } from "@/app/lib/actions/company-settings";
+import { visibleNavItems, navigationGroups } from "@/components/layout/NavigationLinks";
+import type { NavItem } from "@/components/layout/NavigationLinks";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
-    User, Mail, Phone, MapPin, Calendar, Building2,
-    CreditCard, ShieldCheck, Bell, Lock, LogOut,
+    User, Mail, Calendar, Building2,
+    ShieldCheck, Bell, Lock, LogOut,
     UserCircle, Activity, Zap, Sparkles, ChevronRight,
     ArrowRight, Globe, FileText, FolderOpen
 } from "lucide-react";
-import { signOut } from "@/auth";
 
 interface SettingsPageClientProps {
     user: {
@@ -28,7 +31,7 @@ interface SettingsPageClientProps {
         joiningDate: Date | string | null;
         workLocation: string | null;
     } | null;
-    companySettings: any;
+    companySettings: CompanySettings;
     isPowerUser: boolean;
     initials: string;
     onSignOut: () => Promise<void>;
@@ -51,6 +54,23 @@ export function SettingsPageClient({
     const toggleNotification = (key: keyof typeof notifications) => {
         setNotifications(prev => ({ ...prev, [key]: !prev[key] }));
     };
+
+    const adminCards = useMemo(() => {
+        if (!isPowerUser) return [];
+        const adminGroup = navigationGroups.find((g) => g.title === "ADMINISTRATION");
+        if (!adminGroup?.categories) return [];
+        const visible = visibleNavItems(user.role);
+        const visibleHrefs = new Set(visible.map((i) => i.href));
+        return adminGroup.categories
+            .map((category) => ({
+                category,
+                items: category.links
+                    .filter((href) => visibleHrefs.has(href))
+                    .map((href) => visible.find((i) => i.href === href))
+                    .filter(Boolean) as NavItem[],
+            }))
+            .filter((group) => group.items.length > 0);
+    }, [isPowerUser, user.role]);
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-5xl mx-auto">
@@ -214,6 +234,49 @@ export function SettingsPageClient({
                                         </Button>
                                     </a>
                                 </div>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {/* Administration dashboard — secondary discovery surface (§15).
+                        Cards mirror the sidebar links and inherit the same
+                        permission filtering, so this never advertises a
+                        destination the sidebar hides. */}
+                    {adminCards.length > 0 && (
+                        <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-slate-800/60 shadow-2xl rounded-[2.5rem] overflow-hidden">
+                            <CardHeader className="p-8 pb-4 bg-slate-50/50 dark:bg-slate-900/50">
+                                <CardTitle className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-2">
+                                    <ShieldCheck className="h-5 w-5 text-indigo-600" /> Administration
+                                </CardTitle>
+                                <CardDescription className="font-bold text-[10px] uppercase tracking-widest text-slate-400 mt-1">Operational configuration and system management</CardDescription>
+                            </CardHeader>
+                            <CardContent className="p-6 sm:p-8 space-y-8">
+                                {adminCards.map(({ category, items }) => (
+                                    <div key={category.title}>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">{category.title}</h4>
+                                        <div className="grid gap-3 sm:grid-cols-2">
+                                            {items.map((item) => {
+                                                const Icon = item.icon;
+                                                return (
+                                                    <Link key={item.href} href={item.href} className="group">
+                                                        <Card className="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-600">
+                                                            <CardContent className="p-4 flex items-center gap-3">
+                                                                <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-1 transition-colors", "bg-white/50 dark:bg-slate-900/50 ring-white/20 group-hover:ring-indigo-200 dark:group-hover:ring-indigo-800")}>
+                                                                    <Icon className={cn("h-4 w-4", item.iconColor)} />
+                                                                </div>
+                                                                <div className="min-w-0 flex-1">
+                                                                    <p className="text-sm font-black text-slate-900 dark:text-slate-100 truncate">{item.title}</p>
+                                                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{item.href}</p>
+                                                                </div>
+                                                                <ChevronRight className="h-4 w-4 text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all" />
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Link>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                ))}
                             </CardContent>
                         </Card>
                     )}

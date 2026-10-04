@@ -80,14 +80,14 @@ export const employeeSchema = z
       .enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'PROBATION', 'INTERN'])
       .default('FULL_TIME'),
     workLocation: optionalText(120),
-    currentStatus: z.enum(['ACTIVE', 'ON_LEAVE', 'RESIGNED', 'TERMINATED']).default('ACTIVE'),
+    currentStatus: z.enum(['PRE_JOINING', 'ACTIVE', 'ON_LEAVE', 'RESIGNED', 'TERMINATED', 'OFFBOARDED']).default('ACTIVE'),
     managerId: z.preprocess((v) => (v === 'none' ? null : emptyToUndefined(v)), z.string().optional().nullable()),
     photo: z.preprocess(
       emptyToUndefined,
       z
         .string()
         .trim()
-        .max(2048, 'Image URL is too long')
+        .max(620_000, 'Image is too large. Choose a file under 450 KB.')
         .refine(
           (value) => !value || /^https?:\/\//.test(value) || value.startsWith('/') || value.startsWith('data:') || value.startsWith('blob:'),
           'Use a valid image URL or app-relative path'
@@ -104,8 +104,9 @@ export const employeeSchema = z
         .regex(PHONE_PATTERN, 'Enter a valid UAE mobile number (e.g. 0501234567)')
         .optional()
     ),
-    gender: z.enum(['MALE', 'FEMALE', 'OTHER']).optional(),
-    maritalStatus: z.enum(['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED']).optional(),
+    gender: z.preprocess(emptyToUndefined, z.enum(['MALE', 'FEMALE', 'OTHER']).optional()),
+    bloodGroup: z.preprocess(emptyToUndefined, z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional()),
+    maritalStatus: z.preprocess(emptyToUndefined, z.enum(['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED']).optional()),
     nationality: optionalText(80),
     dateOfBirth: optionalDate,
     probationDays: z.coerce.number().int().min(0).max(365).default(90),
@@ -123,7 +124,11 @@ export const employeeSchema = z
     accountNumber: optionalText(50),
     // IBAN: 15-34 alphanumerics after stripping spaces.
     iban: z.preprocess(
-      (v) => (typeof v === 'string' ? v.replace(/\s+/g, '').toUpperCase() : emptyToUndefined(v)),
+      (v) => {
+        const normalized = emptyToUndefined(v);
+        if (normalized === undefined) return undefined;
+        return typeof normalized === 'string' ? normalized.replace(/\s+/g, '').toUpperCase() : normalized;
+      },
       z
         .string()
         .regex(/^[A-Z0-9]{15,34}$/, 'Enter a valid IBAN (15-34 letters and digits)')
@@ -148,6 +153,10 @@ export const employeeSchema = z
     visaType: optionalText(40),
     medicalInsuranceExpiry: optionalDate,
     iloeInsuranceExpiry: optionalDate,
+    labourCardNumber: optionalText(40),
+    labourCardExpiry: optionalDate,
+    residencePermitNumber: optionalText(40),
+    residencePermitExpiry: optionalDate,
   })
   .refine((data) => !data.visaExpiry || data.visaExpiry > new Date(), {
     message: 'Visa expiry must be in the future',
@@ -180,9 +189,9 @@ export type EmployeeInput = z.infer<typeof employeeSchema>;
  * The database ALREADY treats `designation` and `department` as optional, so
  * the form was the only thing forcing them.
  *
- * A provisional record needs only identity plus a roll number, and carries
- * `lifecycle = PRE_JOINING` so it is visibly incomplete. It must never be
- * treated as an active employee.
+ * A provisional record needs only identity. A temporary roll number is issued
+ * by the server when one has not been entered. It remains PRE_JOINING until HR
+ * completes the profile and must not be treated as active.
  */
 export const employeeSchemaProvisional = z
   .object({
@@ -195,12 +204,10 @@ export const employeeSchemaProvisional = z
       .max(200)
       .email('Enter a valid email address')
       .transform((value) => value.toLowerCase()),
-    rollNumber: z
-      .string()
-      .trim()
-      .min(1, 'Roll number is required')
-      .max(40)
-      .regex(/^[A-Za-z0-9\-_/]+$/, 'Use only letters, numbers, hyphen, underscore or slash'),
+    rollNumber: z.preprocess(
+      emptyToUndefined,
+      z.string().trim().max(40).regex(/^[A-Za-z0-9\-_/]+$/, 'Use only letters, numbers, hyphen, underscore or slash').optional()
+    ),
 
     // Optional at this stage.
     designation: z.preprocess(emptyToUndefined, z.string().trim().max(120).optional()),
@@ -210,13 +217,14 @@ export const employeeSchemaProvisional = z
       z.coerce.date({ error: 'Enter a valid joining date' }).optional()
     ),
     employmentType: z.enum(['FULL_TIME', 'PART_TIME', 'CONTRACT', 'PROBATION', 'INTERN']).default('FULL_TIME'),
-    currentStatus: z.enum(['ACTIVE', 'ON_LEAVE', 'RESIGNED', 'TERMINATED']).default('ACTIVE'),
+    currentStatus: z.enum(['PRE_JOINING', 'ACTIVE', 'ON_LEAVE', 'RESIGNED', 'TERMINATED', 'OFFBOARDED']).default('PRE_JOINING'),
+    managerId: z.preprocess((v) => (v === 'none' ? null : emptyToUndefined(v)), z.string().optional().nullable()),
     photo: z.preprocess(
       emptyToUndefined,
       z
         .string()
         .trim()
-        .max(2048, 'Image URL is too long')
+        .max(620_000, 'Image is too large. Choose a file under 450 KB.')
         .refine(
           (value) => !value || /^https?:\/\//.test(value) || value.startsWith('/') || value.startsWith('data:') || value.startsWith('blob:'),
           'Use a valid image URL or app-relative path'
@@ -228,8 +236,20 @@ export const employeeSchemaProvisional = z
       emptyToUndefined,
       z.string().trim().regex(PHONE_PATTERN, 'Enter a valid UAE mobile number (e.g. 0501234567)').optional()
     ),
-    // Document details arrive later; nothing here is validated yet.
+    gender: z.preprocess(emptyToUndefined, z.enum(['MALE', 'FEMALE', 'OTHER']).optional()),
+    bloodGroup: z.preprocess(emptyToUndefined, z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).optional()),
+    maritalStatus: z.preprocess(emptyToUndefined, z.enum(['SINGLE', 'MARRIED', 'DIVORCED', 'WIDOWED']).optional()),
+    dateOfBirth: optionalDate,
+    probationDays: z.coerce.number().int().min(0).max(365).default(90),
+    address: optionalText(300),
+    permanentAddress: optionalText(300),
+    emergencyContact: optionalText(120),
+    emergencyPhone: z.preprocess(
+      emptyToUndefined,
+      z.string().trim().regex(PHONE_PATTERN, 'Enter a valid UAE mobile number').optional()
+    ),
     nationality: optionalText(80),
+    governmentId: optionalText(60),
     visaNumber: optionalText(40),
     visaExpiry: optionalDate,
     emiratesId: optionalText(60),
@@ -240,13 +260,24 @@ export const employeeSchemaProvisional = z
     bankName: optionalText(120),
     accountNumber: optionalText(50),
     iban: z.preprocess(
-      (v) => (typeof v === 'string' ? v.replace(/\s+/g, '').toUpperCase() : emptyToUndefined(v)),
+      (v) => {
+        const normalized = emptyToUndefined(v);
+        if (normalized === undefined) return undefined;
+        return typeof normalized === 'string' ? normalized.replace(/\s+/g, '').toUpperCase() : normalized;
+      },
       z.string().regex(/^[A-Z0-9]{15,34}$/, 'Enter a valid IBAN (15-34 letters and digits)').optional()
     ),
+    ifscCode: optionalText(20),
+    visaType: optionalText(40),
     basicSalary: optionalAmount,
     housingAllowance: optionalAmount,
     transportAllowance: optionalAmount,
     otherAllowance: optionalAmount,
+    iloeInsuranceExpiry: optionalDate,
+    labourCardNumber: optionalText(40),
+    labourCardExpiry: optionalDate,
+    residencePermitNumber: optionalText(40),
+    residencePermitExpiry: optionalDate,
   })
   .refine((d) => !d.joiningDate || d.joiningDate <= new Date(), {
     message: 'Joining date cannot be in the future',
@@ -255,6 +286,18 @@ export const employeeSchemaProvisional = z
   .refine((d) => !d.visaExpiry || d.visaExpiry > new Date(), {
     message: 'Visa expiry must be in the future',
     path: ['visaExpiry'],
+  })
+  .refine((d) => !d.passportExpiry || d.passportExpiry > new Date(), {
+    message: 'Passport expiry must be in the future',
+    path: ['passportExpiry'],
+  })
+  .refine((d) => !d.dateOfBirth || d.dateOfBirth <= new Date(), {
+    message: 'Date of birth cannot be in the future',
+    path: ['dateOfBirth'],
+  })
+  .refine((d) => !d.dateOfBirth || !d.joiningDate || d.dateOfBirth < d.joiningDate, {
+    message: 'Date of birth must be before the joining date',
+    path: ['dateOfBirth'],
   });
 
 export type ProvisionalEmployeeInput = z.infer<typeof employeeSchemaProvisional>;
@@ -264,6 +307,7 @@ export type ProvisionalEmployeeInput = z.infer<typeof employeeSchemaProvisional>
  * Drives the "outstanding" badge so an incomplete hire is always visible.
  */
 export const PROVISIONAL_OUTSTANDING = [
+    { key: "rollNumber", label: "Roll number" },
     { key: "designation", label: "Designation" },
     { key: "department", label: "Department" },
     { key: "joiningDate", label: "Joining date" },
@@ -281,6 +325,7 @@ export const PROVISIONAL_OUTSTANDING = [
  * payroll eligibility.
  */
 export function outstandingProvisionalFields(employee: {
+    rollNumber?: string | null;
     designation?: string | null;
     department?: string | null;
     joiningDate?: Date | null;
@@ -292,6 +337,7 @@ export function outstandingProvisionalFields(employee: {
 }): { key: string; label: string }[] {
     return PROVISIONAL_OUTSTANDING.filter((f) => {
         const value = employee[f.key as keyof typeof employee];
+        if (f.key === "rollNumber" && typeof value === "string" && value.startsWith("PENDING-")) return true;
         if (value === null || value === undefined || value === "") return true;
         return false;
     }).map(({ key, label }) => ({ key, label }));

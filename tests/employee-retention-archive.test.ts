@@ -326,6 +326,42 @@ describe("restoreEmployee — the counterpart an archive needs", () => {
         const audit = prismaMock.auditLog.create.mock.calls[0][0].data;
         expect(audit.action).toBe("EMPLOYEE_RESTORED");
     });
+
+    it("restores a departed employee WITHOUT reactivating them", async () => {
+        // The row was archived AFTER a terminal exit. Reinstating isActive here
+        // would put a RESIGNED/TERMINATED person back into dashboard and visa
+        // headcount, the payroll run, attendance and leave accrual — the exact
+        // divergence `classifyEmployeeState` reports as critical.
+        prismaMock.employee.findUnique.mockResolvedValue(
+            employeeRow({
+                deletedAt: ARCHIVED_RECENTLY,
+                isActive: false,
+                currentStatus: "TERMINATED",
+                lifecycle: "EXITED",
+            })
+        );
+
+        const result = await restoreEmployee("emp-1");
+
+        expect(result.success).toBe(true);
+        expect(result.code).toBe("RESTORED");
+        expect(updateManyArgs()[0].data).toEqual({ deletedAt: null, isActive: false });
+        // The message must say what happened, not just that it succeeded.
+        expect(result.message).toMatch(/not reactivated/i);
+        expect(result.message).toMatch(/TERMINATED/);
+    });
+
+    it("trusts either axis: a terminal lifecycle alone is enough", async () => {
+        // The defect this prevents is a write that moves ONE column and leaves
+        // the other, so a read of only currentStatus is not sufficient.
+        prismaMock.employee.findUnique.mockResolvedValue(
+            employeeRow({ deletedAt: ARCHIVED_RECENTLY, isActive: false, currentStatus: "ACTIVE", lifecycle: "RESIGNED" })
+        );
+
+        await restoreEmployee("emp-1");
+
+        expect(updateManyArgs()[0].data).toEqual({ deletedAt: null, isActive: false });
+    });
 });
 
 /* ================================================================== */

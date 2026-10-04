@@ -102,6 +102,9 @@ export default async function ExitsPage() {
                                     {canViewAll && canManage && exitCase.status === "REQUESTED" && (
                                         <RouteExitCaseButton exitCaseId={exitCase.id} />
                                     )}
+                                    <Link href={`/exits/${exitCase.id}`} className="inline-flex">
+                                        <Button type="button" size="sm" variant="outline">Open case workflow</Button>
+                                    </Link>
                                 </article>
                             ))}
                         </div>

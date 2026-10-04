@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader,  } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle2, XCircle, Briefcase, Globe, HeartHandshake, AlertCircle, Zap, ScrollText, UserMinus } from "lucide-react";
+import { CheckCircle2, XCircle, Briefcase, Globe, HeartHandshake, AlertCircle, Zap, ScrollText, UserMinus, FilePen } from "lucide-react";
 import { approveLeaveManager, approveLeaveHR } from "@/app/lib/actions/leave";
 import { approveStaffRequest } from "@/app/lib/actions/staff-requests";
 import { updateVisaStatus } from "@/app/lib/actions/visa";
+import { ChangeRequestsTab } from "./change-requests-tab";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { hasPermission, hasAnyPermission, PERMISSIONS } from "@/lib/auth/permissions";
+import { buildSubject, scopeEmployeeWhere } from "@/lib/auth/scope";
 import { ROLES } from "@/lib/auth/roles";
 import { buildLeaveQueueWhere } from "@/lib/approvals/leave-queue";
 import { buildExitQueueWhere, buildLetterQueueWhere } from "./queue-filters";
@@ -82,6 +84,11 @@ export default async function ApprovalsPage() {
     if (!user) redirect("/login");
     const userRole = user.role;
 
+    // Resolved server-side from the database row, never from the session/JWT, so
+    // a forged role cannot widen the queues below. Used to scope the Staff
+    // Services queue to what this approver may actually see.
+    const subject = await buildSubject(user.id, session.user.email);
+
     if (userRole === ROLES.STAFF) {
         return (
             <div className="p-8 max-w-4xl mx-auto">
@@ -122,11 +129,38 @@ export default async function ApprovalsPage() {
     // ── Fetch Staff Requests ──
     let pendingStaffRequests: ServiceQueueRow[] = [];
     if (hasAnyPermission(userRole, [PERMISSIONS.SERVICE_APPROVE, PERMISSIONS.REQUEST_APPROVE])) {
-        pendingStaffRequests = await prisma.serviceRequest.findMany({
-            where: { status: "PENDING" },
-            include: { employee: true, category: true },
-            orderBy: { createdAt: 'desc' }
-        });
+        /**
+         * SCOPED — this query used to be `where: { status: "PENDING" }` with no
+         * filter at all, so ANY role holding `service.approve` (MANAGER
+         * included) was shown every pending staff request in the company. The
+         * leave queue beside it already scoped correctly, which is what made the
+         * omission easy to miss.
+         *
+         * `scopeEmployeeWhere` is the centralised primitive from `lib/auth/scope.ts`
+         * rather than a fourth hand-rolled rule: ALL roles (ADMIN/HR/FINANCE/
+         * SUPER_ADMIN) pass through untouched, a MANAGER is narrowed to their
+         * department, and a MANAGER with no department set falls back to their own
+         * record rather than silently seeing everything.
+         *
+         * NOTE the deliberate difference from the leave queue, which scopes a
+         * MANAGER to DIRECT REPORTS (`employee: { managerId }`). Department-wide is
+         * looser. That inconsistency already exists between `scope.ts` and
+         * `leave-queue.ts`; using the centralised primitive here is the right
+         * default, but reconciling the two is tracked separately rather than
+         * silently introducing a third rule.
+         */
+        /**
+         * Fails CLOSED if the subject cannot be resolved. Falling back to an
+         * unscoped query here would reintroduce exactly the bug being fixed, so
+         * an unresolvable subject yields an empty queue rather than everything.
+         */
+        pendingStaffRequests = subject
+            ? await prisma.serviceRequest.findMany({
+                  where: scopeEmployeeWhere(subject, { status: "PENDING" }),
+                  include: { employee: true, category: true },
+                  orderBy: { createdAt: 'desc' }
+              })
+            : [];
     }
 
     // ── Fetch Visa Requests ──
@@ -190,12 +224,36 @@ export default async function ApprovalsPage() {
         });
     }
 
+    // ── Fetch Employee Change Requests ──
+    // Gated on `employees.approve`, NOT on `employees.create | employees.edit`.
+    // `canManageEmployees` was the wrong test for an approval queue: it asks "may
+    // this role rewrite records" when the question is "may this role decide a
+    // submitted change". MANAGER holds neither create nor edit, so the Data
+    // Changes queue was invisible to every manager — the one role most likely to
+    // have a subordinate correcting a passport or bank detail.
+    //
+    // `canManageEmployees` is kept for the separate concern of editing records
+    // elsewhere on this page.
+    const canApproveDataChanges = hasPermission(userRole, PERMISSIONS.EMPLOYEES_APPROVE);
+    const canManageEmployees = hasAnyPermission(userRole, [PERMISSIONS.EMPLOYEES_CREATE, PERMISSIONS.EMPLOYEES_EDIT]);
+    let pendingChangeRequests: any[] = [];
+    if (canApproveDataChanges) {
+        pendingChangeRequests = await prisma.employeeChangeRequest.findMany({
+            include: {
+                employee: { select: { id: true, firstName: true, lastName: true, employeeCode: true } },
+                documents: true,
+            },
+            orderBy: { createdAt: "desc" },
+        });
+    }
+
     const totalPending =
         pendingLeaves.length +
         pendingStaffRequests.length +
         pendingVisaRequests.length +
         pendingLetters.length +
-        pendingExitCases.length;
+        pendingExitCases.length +
+        pendingChangeRequests.filter((r) => r.status === "PENDING").length;
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
@@ -225,7 +283,7 @@ export default async function ApprovalsPage() {
 
             {/* Stats Row */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-                <Card className="group bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-indigo-500/10 transition-all duration-300">
+                <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-indigo-500/10 transition-all duration-300">
                     <CardContent className="p-6 flex items-center gap-4">
                         <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <AlertCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
@@ -236,7 +294,7 @@ export default async function ApprovalsPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="group bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-amber-500/10 transition-all duration-300">
+                <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-amber-500/10 transition-all duration-300">
                     <CardContent className="p-6 flex items-center gap-4">
                         <div className="p-3 bg-amber-50 dark:bg-amber-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <Briefcase className="h-6 w-6 text-amber-600 dark:text-amber-400" />
@@ -247,7 +305,7 @@ export default async function ApprovalsPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="group bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-emerald-500/10 transition-all duration-300">
+                <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-emerald-500/10 transition-all duration-300">
                     <CardContent className="p-6 flex items-center gap-4">
                         <div className="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <HeartHandshake className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
@@ -258,7 +316,7 @@ export default async function ApprovalsPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="group bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-violet-500/10 transition-all duration-300">
+                <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-violet-500/10 transition-all duration-300">
                     <CardContent className="p-6 flex items-center gap-4">
                         <div className="p-3 bg-violet-50 dark:bg-violet-900/30 rounded-xl group-hover:scale-110 transition-transform">
                             <Globe className="h-6 w-6 text-violet-600 dark:text-violet-400" />
@@ -276,7 +334,7 @@ export default async function ApprovalsPage() {
                     pending work the account cannot reach.
                 */}
                 {letterQueueWhere && (
-                    <Card className="group bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-sky-500/10 transition-all duration-300">
+                    <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-sky-500/10 transition-all duration-300">
                         <CardContent className="p-6 flex items-center gap-4">
                             <div className="p-3 bg-sky-50 dark:bg-sky-900/30 rounded-xl group-hover:scale-110 transition-transform">
                                 <ScrollText className="h-6 w-6 text-sky-600 dark:text-sky-400" />
@@ -289,7 +347,7 @@ export default async function ApprovalsPage() {
                     </Card>
                 )}
                 {exitQueueWhere && (
-                    <Card className="group bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-rose-500/10 transition-all duration-300">
+                    <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-rose-500/10 transition-all duration-300">
                         <CardContent className="p-6 flex items-center gap-4">
                             <div className="p-3 bg-rose-50 dark:bg-rose-900/30 rounded-xl group-hover:scale-110 transition-transform">
                                 <UserMinus className="h-6 w-6 text-rose-600 dark:text-rose-400" />
@@ -297,6 +355,21 @@ export default async function ApprovalsPage() {
                             <div>
                                 <p className="text-3xl font-black text-slate-900 dark:text-white">{pendingExitCases.length}</p>
                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Exit Cases</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+                {canApproveDataChanges && (
+                    <Card className="group bg-white dark:bg-slate-900/60 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-lg rounded-[2rem] overflow-hidden hover:shadow-orange-500/10 transition-all duration-300">
+                        <CardContent className="p-6 flex items-center gap-4">
+                            <div className="p-3 bg-orange-50 dark:bg-orange-900/30 rounded-xl group-hover:scale-110 transition-transform">
+                                <FilePen className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                            </div>
+                            <div>
+                                <p className="text-3xl font-black text-slate-900 dark:text-white">
+                                    {pendingChangeRequests.filter((r) => r.status === "PENDING").length}
+                                </p>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Data Changes</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -352,6 +425,17 @@ export default async function ApprovalsPage() {
                                     Exit Cases
                                     {pendingExitCases.length > 0 && (
                                         <Badge className="ml-1 bg-rose-600/20 text-rose-700 dark:text-rose-300 border-0 text-[10px]">{pendingExitCases.length}</Badge>
+                                    )}
+                                </TabsTrigger>
+                            )}
+                            {canApproveDataChanges && (
+                                <TabsTrigger value="data-changes" className="shrink-0 rounded-xl px-6 font-bold text-xs data-[state=active]:bg-orange-600 data-[state=active]:text-white transition-all gap-2">
+                                    <FilePen className="h-4 w-4" />
+                                    Data Changes
+                                    {pendingChangeRequests.filter((r) => r.status === "PENDING").length > 0 && (
+                                        <Badge className="ml-1 bg-orange-600/20 text-orange-700 dark:text-orange-300 border-0 text-[10px]">
+                                            {pendingChangeRequests.filter((r) => r.status === "PENDING").length}
+                                        </Badge>
                                     )}
                                 </TabsTrigger>
                             )}
@@ -792,6 +876,13 @@ export default async function ApprovalsPage() {
                                         ))}
                                     </div>
                                 )}
+                            </CardContent>
+                        </TabsContent>
+                    )}
+                    {canApproveDataChanges && (
+                        <TabsContent value="data-changes" className="m-0">
+                            <CardContent className="p-6">
+                                <ChangeRequestsTab requests={pendingChangeRequests as any} />
                             </CardContent>
                         </TabsContent>
                     )}

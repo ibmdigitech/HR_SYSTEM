@@ -12,6 +12,7 @@ import { requirePermission, AuthenticationError, AuthorizationError } from "@/li
 import { PERMISSIONS } from "@/lib/auth/permissions";
 import { issueActivationToken } from "@/lib/workflow/credentials";
 import { logSecurityEvent, SECURITY_ACTION } from "@/lib/auth/audit";
+import { isTerminalEmploymentState } from "@/lib/employees/lifecycle-stage";
 import prisma from "@/lib/prisma";
 
 export interface CredentialActionResult {
@@ -36,14 +37,25 @@ export async function reissueActivationLink(employeeId: string): Promise<Credent
 
         const employee = await prisma.employee.findUnique({
             where: { id: employeeId },
-            select: { id: true, firstName: true, userId: true, currentStatus: true },
+            select: { id: true, firstName: true, userId: true, currentStatus: true, lifecycle: true },
         });
         if (!employee) return { success: false, message: "Employee not found." };
         if (!employee.userId) {
             return { success: false, message: "This employee has no linked user account." };
         }
-        if (employee.currentStatus === "OFFBOARDED") {
-            return { success: false, message: "This employee has been offboarded." };
+        // EVERY terminal state is refused, on either axis. A check on
+        // currentStatus="OFFBOARDED" alone could be walked straight past: the
+        // live exit writes RESIGNED or TERMINATED (app/exits/status-view.ts:204),
+        // never OFFBOARDED, so the guard was unreachable on the only path that
+        // actually ends employment.
+        if (isTerminalEmploymentState(employee)) {
+            return {
+                success: false,
+                message:
+                    `This employee has already left the company ` +
+                    `(currentStatus ${employee.currentStatus}, lifecycle ${employee.lifecycle}). ` +
+                    `Credentials cannot be issued.`,
+            };
         }
 
         const issued = await issueActivationToken({

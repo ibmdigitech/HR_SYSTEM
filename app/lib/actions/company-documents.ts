@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { requireAnyPermission } from "@/lib/auth/guards";
 import { PERMISSIONS } from "@/lib/auth/permissions";
+import type { Prisma } from "@/prisma/generated/client";
 
 export type CompanyDocumentsResult =
     | { success: true; data: Awaited<ReturnType<typeof prisma.companyDocument.findMany>> }
@@ -51,32 +52,48 @@ export async function createCompanyDocument(formData: FormData) {
     const type = formData.get("type") as string;
     const category = formData.get("category") as string;
     const description = formData.get("description") as string;
-    const fileUrl = formData.get("fileUrl") as string;
-    const fileName = formData.get("fileName") as string;
-    const fileType = formData.get("fileType") as string;
+    const uploadedFile = formData.get("documentFile");
     const version = formData.get("version") as string;
     const effectiveFrom = formData.get("effectiveFrom") as string;
     const effectiveTo = formData.get("effectiveTo") as string;
 
-    if (!title || !type || !category || !fileUrl || !fileName) {
+    if (!title || !type || !category) {
         return { success: false, error: "Missing required fields" };
     }
+    if (!(uploadedFile instanceof File) || uploadedFile.size === 0) {
+        return { success: false, error: "Choose a PDF document to upload." };
+    }
+    if (uploadedFile.size > 5 * 1024 * 1024) {
+        return { success: false, error: "The PDF must be 5 MB or smaller." };
+    }
+    const fileData = new Uint8Array(await uploadedFile.arrayBuffer());
+    if (new TextDecoder().decode(fileData.slice(0, 5)) !== "%PDF-") {
+        return { success: false, error: "The uploaded file is not a valid PDF." };
+    }
+    const fileName = uploadedFile.name.split(/[\\/]/).pop()?.slice(0, 180) || "company-document.pdf";
 
     try {
-        const document = await prisma.companyDocument.create({
-            data: {
-                title,
-                type,
-                category,
-                description,
-                fileUrl,
-                fileName,
-                fileType,
-                version: version || "1.0",
-                effectiveFrom: effectiveFrom ? new Date(effectiveFrom) : null,
-                effectiveTo: effectiveTo ? new Date(effectiveTo) : null,
-                publishedBy: session.user.email,
-            }
+        const document = await prisma.$transaction(async (tx) => {
+            const created = await tx.companyDocument.create({
+                data: {
+                    title,
+                    type,
+                    category,
+                    description,
+                    fileUrl: "",
+                    fileName,
+                    fileType: "application/pdf",
+                    fileData,
+                    version: version || "1.0",
+                    effectiveFrom: effectiveFrom ? new Date(effectiveFrom) : null,
+                    effectiveTo: effectiveTo ? new Date(effectiveTo) : null,
+                    publishedBy: session.user.email,
+                }
+            });
+            return tx.companyDocument.update({
+                where: { id: created.id },
+                data: { fileUrl: `/api/company/documents/${created.id}/file` },
+            });
         });
 
         revalidatePath("/company/documents");
@@ -102,7 +119,7 @@ export async function updateCompanyDocument(id: string, formData: FormData) {
     const effectiveTo = formData.get("effectiveTo") as string;
 
     try {
-        const data: any = {};
+        const data: Prisma.CompanyDocumentUpdateInput = {};
         if (title) data.title = title;
         if (type) data.type = type;
         if (category) data.category = category;

@@ -64,7 +64,13 @@ export function ScheduleInterviewForm({
     const [submitting, setSubmitting] = useState(false);
 
     const now = new Date();
-    const [candidateId, setCandidateId] = useState(defaultCandidateId ?? candidates[0]?.id ?? "");
+    const initialCandidate = candidates.find((candidate) =>
+        (defaultApplicationId && candidate.applicationId === defaultApplicationId)
+        || (defaultCandidateId && candidate.id === defaultCandidateId)
+    ) ?? candidates[0];
+    const [candidateSelection, setCandidateSelection] = useState(
+        initialCandidate?.applicationId ?? initialCandidate?.id ?? ""
+    );
     const [interviewType, setInterviewType] = useState<string>("HR");
     const [round, setRound] = useState("1");
     const [mode, setMode] = useState<string>("ONSITE");
@@ -74,7 +80,8 @@ export function ScheduleInterviewForm({
     const [meetingLink, setMeetingLink] = useState("");
     const [selected, setSelected] = useState<string[]>([]);
 
-    const chosen = candidates.find((c) => c.id === candidateId);
+    const chosen = candidates.find((c) => (c.applicationId ?? c.id) === candidateSelection);
+    const candidateId = chosen?.id ?? "";
     const applicationId = chosen?.applicationId ?? defaultApplicationId ?? "";
 
     async function onSubmit(e: React.FormEvent) {
@@ -154,13 +161,13 @@ export function ScheduleInterviewForm({
                             <Label className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                                 Candidate
                             </Label>
-                            <Select value={candidateId} onValueChange={setCandidateId}>
+                                <Select value={candidateSelection} onValueChange={setCandidateSelection}>
                                 <SelectTrigger className="h-11">
                                     <SelectValue placeholder="Select candidate" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {candidates.map((c) => (
-                                        <SelectItem key={c.id} value={c.id}>
+                                        <SelectItem key={c.applicationId ?? c.id} value={c.applicationId ?? c.id}>
                                             {c.name}
                                             {c.jobTitle ? ` — ${c.jobTitle}` : ""}
                                         </SelectItem>

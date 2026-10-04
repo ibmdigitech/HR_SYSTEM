@@ -4,6 +4,13 @@ Only issues that genuinely remain open. Nothing here is hidden, downgraded, or m
 
 **Last updated: 2026-09-26 (P0 phase 2)**
 
+> **Superseded snapshot (2026-10-02).** This is the 2026-09-26 backlog, not a
+> current verified issue list. Later source changes closed or changed several
+> items (including employee retention/archive, lifecycle/exit workflows, CI,
+> and health checks). Keep it for history; use `SAAS_PRODUCTION_READINESS.md`
+> for the current internal-release status and re-check each issue before
+> scheduling implementation. The historical totals below are not current.
+
 > **Phase 2 summary**: 16 further items closed. **62 → 60 open.**
 > 0 critical · 14 high · 27 medium · 19 low.
 >

@@ -219,3 +219,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   body { background: white; color: black; font-size: 12pt; }
   .print-break { page-break-after: always; }
 }
+
+/* Respect a stated preference for less motion.
+   The sidebar animates icon scale, chevron rotation, section fades and a
+   blinking status dot. None of it carries meaning that is lost without motion -
+   the open state is also conveyed by aria-expanded and by the section's
+   background - so it is all safe to drop. Without this, a user who has asked
+   the OS for reduced motion still gets all of it. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

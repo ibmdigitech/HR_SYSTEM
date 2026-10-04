@@ -365,11 +365,16 @@ export function archiveWrite(now: Date): { deletedAt: Date; isActive: false } {
  * The mirror image, used by `restoreEmployee`. Guarded on `deletedAt: { not:
  * null }` for the same idempotency reason.
  *
- * `isActive: true` is restored deliberately: archive set it to false, so
- * leaving it false would make "restore" a rename for "make invisible".
+ * `isActive` is the CALLER's decision, not this helper's, so it is a required
+ * argument: archive set the column to false and for most rows restoring that
+ * value is correct, but for a row archived AFTER a terminal exit it would put a
+ * departed employee back into headcount, payroll and attendance. The caller
+ * decides, using `isTerminalEmploymentState` (lib/employees/lifecycle-stage.ts),
+ * and this function only writes what it is told in one object with the
+ * tombstone.
  */
-export function restoreWrite(): { deletedAt: null; isActive: true } {
-    return { deletedAt: null, isActive: true };
+export function restoreWrite(reactivate: boolean): { deletedAt: null; isActive: boolean } {
+    return { deletedAt: null, isActive: reactivate };
 }
 
 /** True when the row is archived. The inverse of the `NOT_ARCHIVED` filter. */

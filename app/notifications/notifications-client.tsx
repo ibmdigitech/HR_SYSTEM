@@ -9,23 +9,48 @@ import { toast } from "sonner";
 export default function NotificationsClient({ notifications }: { notifications: any[] }) {
     const router = useRouter();
 
-    const handleRead = async (id: string, link: string | null) => {
-        await markNotificationRead(id);
-        if (link) {
-            router.push(link);
-            setTimeout(() => window.location.reload(), 300);
-        } else {
-            window.location.reload();
-        }
-    };
+    /**
+ * Opens a notification: marks it read, then navigates.
+ *
+ * This used to `router.push(link)` and then `setTimeout(() => window.location.reload(), 300)`.
+ * That is two navigations racing — the soft navigation starts fetching the RSC
+ * payload, and 300ms later a hard reload tears the page down mid-flight. Depending
+ * on timing the user lands on the target with an aborted fetch, a flash of the
+ * loading state, or an error boundary. That double navigation is what made the
+ * view action feel broken.
+ *
+ * `router.push` already fetches fresh server data for the destination, and the
+ * mark-as-read write is revalidated, so `router.refresh()` on the current route is
+ * all that is needed to repaint the list. No full reload at all.
+ *
+ * The result of `markNotificationRead` is also checked now: previously it was
+ * awaited and discarded, so a failed write still navigated and the item silently
+ * stayed unread.
+ */
+const handleRead = async (id: string, link: string | null) => {
+    const result = await markNotificationRead(id);
+
+    if (!result.success) {
+        toast.error(result.message || "Could not open notification");
+        return;
+    }
+
+    // Repaint the list in place so the item loses its unread emphasis.
+    router.refresh();
+
+    if (link) {
+        router.push(link);
+    }
+};
 
     const handleAllRead = async () => {
         const result = await markAllRead();
         if (result.success) {
             toast.success("All notifications marked as read!");
-            window.location.reload();
+            // A soft refresh, for the same reason handleRead avoids a reload.
+            router.refresh();
         } else {
-            toast.error("Failed to mark notifications read");
+            toast.error(result.message || "Failed to mark notifications read");
         }
     };
 

@@ -11,7 +11,10 @@ import {
     Zap,
     ChevronRight,
     Bell,
-    Download
+    Download,
+    IdCard,
+    Home,
+    HardHat
 , type LucideIcon } from "lucide-react";
 import { VisaForm } from "@/components/visa/VisaForm";
 import { auth } from "@/auth";
@@ -31,26 +34,70 @@ export default async function VisaRequestPage() {
 
     if (!user || !user.employee) redirect("/login");
 
+    /**
+     * WHY THE EMPLOYEE COLUMNS ARE THE SOURCE OF TRUTH HERE
+     *
+     * This page used to read ONLY `Attachment`, matched on a category literal
+     * (`PASSPORT_COPY`, `VISA_COPY`) that the employee master form never writes —
+     * it writes `PASSPORT`, `EMIRATES_ID`, `VISA`. Every document uploaded
+     * through /employees was therefore invisible here, and an employee with a
+     * perfectly recorded visa expiry was shown as "Missing".
+     *
+     * `Employee.visaExpiry` / `passportExpiry` / … are what `/visa`, the
+     * dashboard compliance card and the employee detail page all read, so they
+     * are what this page reads too. The attachment is the scanned file that
+     * EVIDENCES the record, not the record itself.
+     */
     const attachments = await prisma.attachment.findMany({
         where: { employeeId: user.employee.id }
     });
 
-    const getDoc = (category: string) => attachments.find(a => a.category === category);
+    const emp = user.employee;
 
-    const renderDocCard = (category: string, title: string, icon: LucideIcon, colorName: "emerald" | "blue" | "amber" | "slate" | "rose") => {
-        const doc = getDoc(category);
+    /**
+     * Category aliases, because two writers exist and they disagree:
+     * `submitVisaRequest` (app/lib/actions/visa.ts) writes `*_COPY` /
+     * `*_PHOTO`, and `createEmployeeAttachments`
+     * (app/lib/actions/employees.ts) writes the bare category. Both are this
+     * employee's own documents, so both must resolve.
+     */
+    const findAttachment = (...categories: string[]) =>
+        categories.map((c) => attachments.find((a) => a.category === c)).find(Boolean);
+
+    const renderDocCard = (
+        title: string,
+        icon: LucideIcon,
+        colorName: "emerald" | "blue" | "amber" | "slate" | "rose" | "violet" | "cyan",
+        opts: {
+            /** Employee column holding the recorded expiry — authoritative. */
+            expiry: Date | string | null | undefined;
+            /** Employee column holding the document number. */
+            number?: string | null;
+            /** Attachment categories that count as the uploaded scan. */
+            categories: string[];
+        }
+    ) => {
+        const attachment = findAttachment(...opts.categories);
+        // Attachment expiry is only a fallback; the Employee column wins so the
+        // two surfaces can never disagree about the same document.
+        const rawExpiry = opts.expiry ?? attachment?.docExpiry ?? null;
+        const docNumber = opts.number || attachment?.docNumber || null;
         const Icon = icon;
-        
+
         const colorStyles = {
             emerald: { light: "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400", icon: "text-emerald-500", dark: "bg-emerald-500" },
             blue: { light: "bg-blue-50 dark:bg-blue-950/20 border-blue-100 dark:border-blue-900/50 text-blue-700 dark:text-blue-400", icon: "text-blue-500", dark: "bg-blue-500" },
             amber: { light: "bg-amber-50 dark:bg-amber-950/20 border-amber-100 dark:border-amber-900/50 text-amber-700 dark:text-amber-400", icon: "text-amber-500", dark: "bg-amber-500" },
             slate: { light: "bg-slate-50 dark:bg-slate-900/20 border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-400", icon: "text-slate-500", dark: "bg-slate-500" },
-            rose: { light: "bg-rose-50 dark:bg-rose-950/20 border-rose-100 dark:border-rose-900/50 text-rose-700 dark:text-rose-400", icon: "text-rose-500", dark: "bg-rose-500" }
+            rose: { light: "bg-rose-50 dark:bg-rose-950/20 border-rose-100 dark:border-rose-900/50 text-rose-700 dark:text-rose-400", icon: "text-rose-500", dark: "bg-rose-500" },
+            violet: { light: "bg-violet-50 dark:bg-violet-950/20 border-violet-100 dark:border-violet-900/50 text-violet-700 dark:text-violet-400", icon: "text-violet-500", dark: "bg-violet-500" },
+            cyan: { light: "bg-cyan-50 dark:bg-cyan-950/20 border-cyan-100 dark:border-cyan-900/50 text-cyan-700 dark:text-cyan-400", icon: "text-cyan-500", dark: "bg-cyan-500" },
         };
         const theme = colorStyles[colorName] || colorStyles.slate;
-        
-        if (!doc || !doc.docExpiry) {
+
+        const hasRecord = Boolean(rawExpiry);
+
+        if (!hasRecord) {
             return (
                 <div className={`p-4 rounded-2xl border ${theme.light} transition-all hover:scale-[1.02] duration-300 shadow-sm`}>
                     <div className="flex items-center justify-between mb-4">
@@ -65,7 +112,7 @@ export default async function VisaRequestPage() {
                     <div className="flex justify-between items-end">
                         <div>
                             <p className="text-3xl font-black leading-none opacity-20">-</p>
-                            <p className="text-[10px] font-bold opacity-60 uppercase tracking-tighter mt-1">Not Uploaded</p>
+                            <p className="text-[10px] font-bold opacity-60 uppercase tracking-tighter mt-1">Not Recorded</p>
                         </div>
                         <p className="text-[10px] font-black italic text-rose-600 bg-rose-100 dark:bg-rose-900/40 px-3 py-1 rounded-full uppercase tracking-widest">Missing</p>
                     </div>
@@ -73,7 +120,8 @@ export default async function VisaRequestPage() {
             );
         }
 
-        const days = differenceInDays(new Date(doc.docExpiry), new Date());
+        const expiryDate = new Date(rawExpiry as Date | string);
+        const days = differenceInDays(expiryDate, new Date());
         const isExpired = days < 0;
         const isCritical = days < 30;
 
@@ -92,16 +140,33 @@ export default async function VisaRequestPage() {
                     </div>
                     <Badge className={`text-[10px] font-bold px-2 py-0 h-5 ${statusColor} text-white border-0 shadow-sm uppercase tracking-tighter`}>{statusLabel}</Badge>
                 </div>
+                {docNumber && (
+                    <p className="mb-2 font-mono text-[11px] font-bold opacity-70 truncate">{docNumber}</p>
+                )}
                 <div className="flex justify-between items-end">
                     <div>
                         <p className="text-3xl font-black leading-none">{isExpired ? 0 : days}</p>
                         <p className="text-[10px] font-bold opacity-60 uppercase tracking-tighter mt-1">Days Remaining</p>
                     </div>
                     <div className="text-right">
-                        <p className="text-sm font-black text-slate-900 dark:text-white">{format(new Date(doc.docExpiry), "dd MMM yyyy")}</p>
-                        <button className="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-1 mt-1 uppercase tracking-tighter">
-                            <Download className="h-3 w-3" /> View Doc
-                        </button>
+                        <p className="text-sm font-black text-slate-900 dark:text-white">{format(expiryDate, "dd MMM yyyy")}</p>
+                        {attachment ? (
+                            <a
+                                href={attachment.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-1 mt-1 uppercase tracking-tighter"
+                            >
+                                <Download className="h-3 w-3" /> View Doc
+                            </a>
+                        ) : (
+                            <span
+                                className="text-[10px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 mt-1 uppercase tracking-tighter"
+                                title="The expiry is recorded but no scan has been uploaded yet."
+                            >
+                                <FileText className="h-3 w-3" /> No Scan
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
@@ -150,10 +215,39 @@ export default async function VisaRequestPage() {
                             <CardDescription className="font-bold text-[10px] uppercase tracking-widest mt-1 text-slate-400">Personal compliance documents</CardDescription>
                         </CardHeader>
                         <CardContent className="p-6 space-y-4">
-                            {renderDocCard("PASSPORT_COPY", "Passport Validity", Passport, "emerald")}
-                            {renderDocCard("VISA_COPY", "Visa Validity", Globe, "blue")}
-                            {renderDocCard("MEDICAL_INSURANCE", "Medical Insurance", Stethoscope, "amber")}
-                            {renderDocCard("ILOE_INSURANCE", "ILOE Insurance", ShieldAlert, "slate")}
+                            {renderDocCard("Passport", Passport, "emerald", {
+                                expiry: emp.passportExpiry,
+                                number: emp.passportNumber,
+                                categories: ["PASSPORT", "PASSPORT_COPY", "PASSPORT_PHOTO"],
+                            })}
+                            {renderDocCard("Emirates ID", IdCard, "violet", {
+                                expiry: emp.emiratesIdExpiry,
+                                number: emp.emiratesId,
+                                categories: ["EMIRATES_ID", "EID_PHOTO", "EID_REQUEST_FORM"],
+                            })}
+                            {renderDocCard("Residence Permit", Home, "cyan", {
+                                expiry: emp.residencePermitExpiry,
+                                number: emp.residencePermitNumber,
+                                categories: ["RESIDENCE_PERMIT"],
+                            })}
+                            {renderDocCard("Labour Card", HardHat, "slate", {
+                                expiry: emp.labourCardExpiry,
+                                number: emp.labourCardNumber,
+                                categories: ["LABOUR_CARD"],
+                            })}
+                            {renderDocCard("Visa Validity", Globe, "blue", {
+                                expiry: emp.visaExpiry,
+                                number: emp.visaNumber,
+                                categories: ["VISA", "VISA_COPY"],
+                            })}
+                            {renderDocCard("Medical Insurance", Stethoscope, "amber", {
+                                expiry: emp.medicalInsuranceExpiry,
+                                categories: ["MEDICAL_INSURANCE", "MEDICAL_PAYMENT_BILL"],
+                            })}
+                            {renderDocCard("ILOE Insurance", ShieldAlert, "slate", {
+                                expiry: emp.iloeInsuranceExpiry,
+                                categories: ["ILOE_INSURANCE"],
+                            })}
 
                             <div className="mt-8 p-6 rounded-[2rem] bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/10 dark:to-orange-950/10 border border-amber-100 dark:border-amber-900/30">
                                 <div className="flex gap-4">

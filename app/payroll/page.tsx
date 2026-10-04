@@ -34,59 +34,150 @@ export default async function PayrollPage() {
     const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
 
+    const canViewAllPayroll = userRole === "ADMIN" || userRole === "HR";
+    // `null` means "this account has no employee profile", so there is nothing it
+    // is entitled to see — not the same as "an employee with no records".
+    const payrollScope: { employeeId?: string } | null = canViewAllPayroll
+        ? {}
+        : user.employee
+            ? { employeeId: user.employee.id }
+            : null;
+
     let salaryRecords: any[] = [];
-    if (userRole === "ADMIN" || userRole === "HR") {
+    if (payrollScope) {
         salaryRecords = await prisma.salaryRecord.findMany({
+            where: payrollScope,
             include: { employee: true },
             orderBy: [{ year: 'desc' }, { month: 'desc' }],
-            take: 20
-        });
-    } else if (user.employee) {
-        salaryRecords = await prisma.salaryRecord.findMany({
-            where: { employeeId: user.employee.id },
-            include: { employee: true },
-            orderBy: [{ year: 'desc' }, { month: 'desc' }],
-            take: 12
+            take: canViewAllPayroll ? 20 : 12
         });
     }
 
-    const currentMonthRecords = salaryRecords.filter(r => r.month === currentMonth && r.year === currentYear);
-    
-    const totalPayrollThisMonth = currentMonthRecords.reduce((acc, curr) => acc + curr.netSalary, 0);
-    const totalEmployeesPaidThisMonth = currentMonthRecords.filter(r => r.status === "PAID").length;
-    const totalPendingPayroll = currentMonthRecords.filter(r => r.status !== "PAID" && r.status !== "CANCELLED").reduce((acc, curr) => acc + curr.netSalary, 0);
-    const averageSalary = currentMonthRecords.length > 0 ? totalPayrollThisMonth / currentMonthRecords.length : 0;
-    
-    const totalOvertimeThisMonth = currentMonthRecords.reduce((acc, curr) => acc + curr.overtimePay, 0);
-    const totalDeductionsThisMonth = currentMonthRecords.reduce((acc, curr) => acc + curr.latePenalty + curr.penalty + curr.leaveDeduction + curr.loanDeduction + curr.advanceSalary + curr.otherDeductions, 0);
-
     const monthName = (m: number) => new Date(2000, m - 1).toLocaleString("default", { month: "short" });
+    const longMonthName = (m: number) => new Date(2000, m - 1).toLocaleString("default", { month: "long" });
 
-    // Mock data for charts if no real data (for demonstration of the new UI as requested)
-    const trendData = [
-        { month: 'Jan', total: 120000 },
-        { month: 'Feb', total: 125000 },
-        { month: 'Mar', total: 128000 },
-        { month: 'Apr', total: 130000 },
-        { month: 'May', total: 135000 },
-        { month: 'Jun', total: totalPayrollThisMonth || 140000 },
-    ];
+    // Every card on this page describes ONE period, and every period figure is
+    // aggregated over the whole period rather than over the truncated
+    // `salaryRecords` list used by the table below.
+    //
+    // The current calendar month is preferred. When nothing has been run for it
+    // the latest recorded period is shown instead — previously the cards summed
+    // the current month unconditionally, so a payroll run last month rendered as
+    // a row of hard zeros that were indistinguishable from real totals. The
+    // active period is labelled on every card and the gap is called out below.
+    const periodSeries = payrollScope
+        ? await prisma.salaryRecord.groupBy({
+            by: ["year", "month"],
+            where: payrollScope,
+            _sum: { netSalary: true },
+            orderBy: [{ year: "desc" }, { month: "desc" }],
+            take: 6
+        })
+        : [];
 
-    const departmentData = [
-        { name: 'Engineering', cost: 65000 },
-        { name: 'Sales', cost: 45000 },
-        { name: 'HR', cost: 15000 },
-        { name: 'Marketing', cost: 25000 },
-    ];
+    const latestPeriod = periodSeries[0] ?? null;
+    const activePeriod =
+        periodSeries.find((p) => p.month === currentMonth && p.year === currentYear) ?? latestPeriod;
+    const isCurrentPeriod = Boolean(
+        activePeriod && activePeriod.month === currentMonth && activePeriod.year === currentYear
+    );
 
-    const overtimeData = [
-        { month: 'Jan', hours: 45 },
-        { month: 'Feb', hours: 52 },
-        { month: 'Mar', hours: 38 },
-        { month: 'Apr', hours: 60 },
-        { month: 'May', hours: 40 },
-        { month: 'Jun', hours: 55 },
-    ];
+    const statusTotals = activePeriod
+        ? await prisma.salaryRecord.groupBy({
+            by: ["status"],
+            where: { ...payrollScope, year: activePeriod.year, month: activePeriod.month },
+            _count: { _all: true },
+            _sum: {
+                netSalary: true,
+                overtimePay: true,
+                latePenalty: true,
+                penalty: true,
+                leaveDeduction: true,
+                loanDeduction: true,
+                advanceSalary: true,
+                otherDeductions: true
+            }
+        })
+        : [];
+
+    const netOf = (row: (typeof statusTotals)[number]) => row._sum.netSalary ?? 0;
+    const periodNetSalary = statusTotals.reduce((acc, row) => acc + netOf(row), 0);
+    const periodPaidCount = statusTotals
+        .filter((row) => row.status === "PAID")
+        .reduce((acc, row) => acc + row._count._all, 0);
+    const periodPendingNet = statusTotals
+        .filter((row) => row.status !== "PAID" && row.status !== "CANCELLED")
+        .reduce((acc, row) => acc + netOf(row), 0);
+    const recordCount = statusTotals.reduce((acc, row) => acc + row._count._all, 0);
+    const periodAverageSalary = recordCount > 0 ? periodNetSalary / recordCount : 0;
+    const periodOvertimePay = statusTotals.reduce((acc, row) => acc + (row._sum.overtimePay ?? 0), 0);
+    const periodDeductions = statusTotals.reduce(
+        (acc, row) => acc
+            + (row._sum.latePenalty ?? 0)
+            + (row._sum.penalty ?? 0)
+            + (row._sum.leaveDeduction ?? 0)
+            + (row._sum.loanDeduction ?? 0)
+            + (row._sum.advanceSalary ?? 0)
+            + (row._sum.otherDeductions ?? 0),
+        0
+    );
+
+    // Charts read the same scoped rows as the cards. They are derived, never
+    // placeholder: an empty array renders an explicit "no data" state in the
+    // chart card instead of a plausible-looking invented series.
+    const trendData = periodSeries
+        .slice()
+        .reverse()
+        .map((p) => ({
+            label: `${monthName(p.month)} ${String(p.year).slice(2)}`,
+            total: p._sum.netSalary ?? 0
+        }));
+
+    const departmentRows = activePeriod
+        ? await prisma.salaryRecord.findMany({
+            where: { ...payrollScope, year: activePeriod.year, month: activePeriod.month },
+            select: { netSalary: true, employee: { select: { department: true } } }
+        })
+        : [];
+
+    const departmentTotals = new Map<string, number>();
+    for (const row of departmentRows) {
+        const name = row.employee.department?.trim() || "Unassigned";
+        departmentTotals.set(name, (departmentTotals.get(name) ?? 0) + row.netSalary);
+    }
+    const departmentData = [...departmentTotals.entries()]
+        .map(([name, cost]) => ({ name, cost }))
+        .sort((a, b) => b.cost - a.cost);
+
+    // Six calendar months ending with the current one, so a month with no
+    // overtime logged reads as zero hours rather than silently disappearing.
+    const overtimeWindowStart = new Date(currentYear, currentMonth - 6, 1);
+    const overtimeRows = payrollScope
+        ? await prisma.overtime.findMany({
+            where: { ...payrollScope, date: { gte: overtimeWindowStart } },
+            select: { date: true, hours: true }
+        })
+        : [];
+    const overtimeHours = new Map<string, number>();
+    for (const row of overtimeRows) {
+        const key = `${row.date.getFullYear()}-${row.date.getMonth()}`;
+        overtimeHours.set(key, (overtimeHours.get(key) ?? 0) + row.hours);
+    }
+    const overtimeMonths = Array.from({ length: 6 }, (_, i) => {
+        const d = new Date(currentYear, currentMonth - 6 + i, 1);
+        return { label: monthName(d.getMonth() + 1), hours: overtimeHours.get(`${d.getFullYear()}-${d.getMonth()}`) ?? 0 };
+    });
+    const totalOvertimeHours = overtimeMonths.reduce((acc, m) => acc + m.hours, 0);
+    const overtimeData = totalOvertimeHours > 0 ? overtimeMonths : [];
+
+    const periodLabel = activePeriod ? `${monthName(activePeriod.month)} ${activePeriod.year}` : null;
+    const trendCaption = periodSeries.length > 0
+        ? `Net salary · ${periodSeries.length} recorded period${periodSeries.length === 1 ? "" : "s"}`
+        : "Net salary by payroll period";
+    const departmentCaption = periodLabel
+        ? `Net salary by department · ${periodLabel}`
+        : "Net salary by department";
+    const overtimeCaption = `Logged overtime hours · ${overtimeMonths[0].label}–${overtimeMonths[5].label} ${currentYear}`;
 
     return (
         <div className="space-y-8 p-4 md:p-8 w-full max-w-7xl mx-auto">
@@ -101,7 +192,7 @@ export default async function PayrollPage() {
                         Manage enterprise salary distributions, track bulk processing, and monitor overall financial compliance.
                     </p>
                 </div>
-                {(userRole === "ADMIN" || userRole === "HR") && (
+                {canViewAllPayroll && (
                     <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 w-full sm:w-auto">
                         <Link href="/payroll/structure">
                             <Button variant="secondary" className="gap-2 w-full rounded-xl font-bold bg-white/10 text-white hover:bg-white/20 border-0 backdrop-blur-md">
@@ -132,88 +223,139 @@ export default async function PayrollPage() {
             </div>
 
             {/* Export Buttons - Admin/HR only */}
-            {(userRole === "ADMIN" || userRole === "HR") && (
+            {canViewAllPayroll && (
                 <PayrollExportButtons />
             )}
 
+            {/* The cards describe the active period. When that period is not the
+                current month the gap is stated outright, because a silent
+                fallback would attribute last month's money to this month. */}
+            {activePeriod && !isCurrentPeriod && (
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/30 p-4">
+                    <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0" />
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-200 flex-1">
+                        No payroll has been run for {longMonthName(currentMonth)} {currentYear}. The figures below are the latest
+                        recorded period, {longMonthName(activePeriod.month)} {activePeriod.year}.
+                    </p>
+                    {canViewAllPayroll && (
+                        <Link href="/payroll/generate" className="shrink-0">
+                            <Button size="sm" className="bg-amber-600 hover:bg-amber-700 font-bold rounded-xl">
+                                Run {longMonthName(currentMonth)} Payroll
+                            </Button>
+                        </Link>
+                    )}
+                </div>
+            )}
+
             {/* Dashboard Stats */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {!periodLabel ? (
                 <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Payroll ({monthName(currentMonth)})</CardTitle>
-                        <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
-                            <DollarSign className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalPayrollThisMonth.toLocaleString()}</div>
+                    <CardContent className="py-16 text-center px-4">
+                        <Receipt className="h-12 w-12 mx-auto text-slate-300 mb-4" />
+                        <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">No payroll totals yet</h3>
+                        <p className="text-sm text-slate-500 max-w-md mx-auto mt-2">
+                            There are no salary records for {longMonthName(currentMonth)} {currentYear} or any earlier period, so
+                            there is nothing to total.
+                        </p>
+                        {canViewAllPayroll && (
+                            <Link href="/payroll/generate">
+                                <Button className="mt-6 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-xl">Run Payroll Now</Button>
+                            </Link>
+                        )}
                     </CardContent>
                 </Card>
+            ) : (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Payroll ({periodLabel})</CardTitle>
+                            <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg">
+                                <DollarSign className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-slate-800 dark:text-white">AED {periodNetSalary.toLocaleString()}</div>
+                            <p className="text-xs text-slate-500 mt-1">{recordCount} salary record{recordCount === 1 ? "" : "s"}</p>
+                        </CardContent>
+                    </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Employees Paid</CardTitle>
-                        <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                            <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">{totalEmployeesPaidThisMonth}</div>
-                    </CardContent>
-                </Card>
+                    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Employees Paid</CardTitle>
+                            <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
+                                <Users className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-slate-800 dark:text-white">{periodPaidCount}</div>
+                            <p className="text-xs text-slate-500 mt-1">Marked PAID in {periodLabel}</p>
+                        </CardContent>
+                    </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Pending Payroll</CardTitle>
-                        <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
-                            <Receipt className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalPendingPayroll.toLocaleString()}</div>
-                    </CardContent>
-                </Card>
+                    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Pending Payroll</CardTitle>
+                            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
+                                <Receipt className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-slate-800 dark:text-white">AED {periodPendingNet.toLocaleString()}</div>
+                            <p className="text-xs text-slate-500 mt-1">Not yet paid or cancelled</p>
+                        </CardContent>
+                    </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Average Salary</CardTitle>
-                        <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                            <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {averageSalary.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
-                    </CardContent>
-                </Card>
+                    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Average Salary</CardTitle>
+                            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                                <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-slate-800 dark:text-white">AED {periodAverageSalary.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                            <p className="text-xs text-slate-500 mt-1">Mean net salary in {periodLabel}</p>
+                        </CardContent>
+                    </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Overtime</CardTitle>
-                        <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                            <Clock className="h-4 w-4 text-orange-600 dark:text-orange-400" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalOvertimeThisMonth.toLocaleString()}</div>
-                    </CardContent>
-                </Card>
+                    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Overtime</CardTitle>
+                            <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                                <Clock className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-slate-800 dark:text-white">AED {periodOvertimePay.toLocaleString()}</div>
+                            <p className="text-xs text-slate-500 mt-1">Overtime pay in {periodLabel}</p>
+                        </CardContent>
+                    </Card>
 
-                <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Deductions</CardTitle>
-                        <div className="p-2 bg-rose-100 dark:bg-rose-900/30 rounded-lg">
-                            <AlertTriangle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-3xl font-black text-slate-800 dark:text-white">AED {totalDeductionsThisMonth.toLocaleString()}</div>
-                    </CardContent>
-                </Card>
-            </div>
+                    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border-white/40 dark:border-slate-800/60 shadow-sm rounded-2xl">
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-bold text-slate-500 uppercase tracking-wider">Total Deductions</CardTitle>
+                            <div className="p-2 bg-rose-100 dark:bg-rose-900/30 rounded-lg">
+                                <AlertTriangle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-black text-slate-800 dark:text-white">AED {periodDeductions.toLocaleString()}</div>
+                            <p className="text-xs text-slate-500 mt-1">Penalties, leave, loans and advances in {periodLabel}</p>
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
 
             {/* Charts Area */}
-            {(userRole === "ADMIN" || userRole === "HR") && (
-                <PayrollCharts trendData={trendData} departmentData={departmentData} overtimeData={overtimeData} />
+            {canViewAllPayroll && (
+                <PayrollCharts
+                    trendData={trendData}
+                    departmentData={departmentData}
+                    overtimeData={overtimeData}
+                    trendCaption={trendCaption}
+                    departmentCaption={departmentCaption}
+                    overtimeCaption={overtimeCaption}
+                />
             )}
 
             {/* Main Table */}
@@ -235,7 +377,7 @@ export default async function PayrollPage() {
                             <Receipt className="h-12 w-12 mx-auto text-slate-300 mb-4" />
                             <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">No payroll records</h3>
                             <p className="text-sm text-slate-500 max-w-sm mx-auto mt-2">Generate your first payroll batch to see distribution records here.</p>
-                            {(userRole === "ADMIN" || userRole === "HR") && (
+                            {canViewAllPayroll && (
                                 <Link href="/payroll/generate">
                                     <Button className="mt-6 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-xl">Run Payroll Now</Button>
                                 </Link>
@@ -269,7 +411,7 @@ export default async function PayrollPage() {
                                             <Badge variant="outline" className="font-semibold bg-slate-50 dark:bg-slate-900 text-[10px]">
                                                 {record.paymentMethod?.replace('_', ' ') || "BANK TRANSFER"}
                                             </Badge>
-                                            {(userRole === "ADMIN" || userRole === "HR") ? (
+                                            {canViewAllPayroll ? (
                                                 <PayrollStatusDropdown record={record} />
                                             ) : (
                                                 <Badge
@@ -332,7 +474,7 @@ export default async function PayrollPage() {
                                                 <div className="font-black text-slate-900 dark:text-white">AED {record.netSalary?.toLocaleString()}</div>
                                             </TableCell>
                                             <TableCell className="py-4">
-                                                {(userRole === "ADMIN" || userRole === "HR") ? (
+                                                {canViewAllPayroll ? (
                                                     <PayrollStatusDropdown record={record} />
                                                 ) : (
                                                     <Badge 
