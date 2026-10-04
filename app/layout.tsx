@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Toaster } from "sonner";
 import { Providers } from "@/components/common/Providers";
 import { auth } from "@/auth";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import prisma from "@/lib/prisma";
 
@@ -81,6 +82,7 @@ export default async function RootLayout({
             </div>
         </Providers>
         <Toaster position="top-right" richColors closeButton />
+        <SpeedInsights />
       </body>
     </html>
   );
