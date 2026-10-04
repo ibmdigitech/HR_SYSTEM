@@ -101,6 +101,19 @@ export default function RequestClient({
         const form = e.currentTarget;
         const formData = new FormData(form);
 
+        // Client-side mirror of the server's `requiresDocument` check so the
+        // user is told before the round-trip. Server-side enforcement is the
+        // real gate; this is convenience.
+        if (selectedType?.requiresDocument) {
+            const file = formData.get("attachment");
+            if (!(file instanceof File) || !file.name || file.size === 0) {
+                setFieldErrors({ attachment: "A supporting document is required for this request type." });
+                toast.error("Please attach a supporting document.");
+                setSubmitting(false);
+                return;
+            }
+        }
+
         try {
             const result = await submitStaffRequest(null, formData);
 
@@ -283,19 +296,31 @@ export default function RequestClient({
                                         )}
                                     </div>
 
-                                    {/* Optional supporting document. The action
-                                        validates its size server-side. */}
-                                    <div className="space-y-2">
-                                        <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">
-                                            Attachment (optional)
-                                        </Label>
-                                        <input
-                                            type="file"
-                                            name="attachment"
-                                            className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-xl file:border-0 file:bg-slate-100 file:px-4 file:py-2.5 file:text-xs file:font-bold file:text-slate-700 hover:file:bg-slate-200 dark:file:bg-slate-900 dark:file:text-slate-200"
-                                        />
-                                        <p className="text-[10px] text-slate-400">PDF or image, up to 5MB.</p>
-                                    </div>
+                                     {/* Document upload — required for categories that
+                                         opt in via `requiresDocument` (e.g.
+                                         Reimbursement, which needs a receipt).
+                                         The server also enforces this; the client
+                                         check is a convenience so the user is told
+                                         before the round-trip. */}
+                                     <div className="space-y-2">
+                                         <Label className="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] ml-1">
+                                             {selectedType?.requiresDocument
+                                                 ? "Supporting Document (required)"
+                                                 : "Attachment (optional)"}
+                                         </Label>
+                                         <input
+                                             type="file"
+                                             name="attachment"
+                                             required={selectedType?.requiresDocument ?? false}
+                                             className="block w-full text-xs text-slate-500 file:mr-3 file:rounded-xl file:border-0 file:bg-slate-100 file:px-4 file:py-2.5 file:text-xs file:font-bold file:text-slate-700 hover:file:bg-slate-200 dark:file:bg-slate-900 dark:file:text-slate-200"
+                                         />
+                                         <p className="text-[10px] text-slate-400">PDF or image, up to 5MB.</p>
+                                         {fieldErrors.attachment && (
+                                             <p role="alert" className="text-xs font-bold text-rose-600 dark:text-rose-400">
+                                                 {fieldErrors.attachment}
+                                             </p>
+                                         )}
+                                     </div>
                                 </div>
 
                                 <DialogFooter>

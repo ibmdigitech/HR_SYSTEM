@@ -1115,8 +1115,9 @@ model ServiceCategory {
   type           String         @default("GENERAL") // GOVERNMENT, VISA, MEDICAL, PAYROLL, LEAVE, HR_LETTER
   icon           String?
   description    String?
-  requiresAmount Boolean        @default(false)
-  requiresDates  Boolean        @default(false)
+  requiresAmount   Boolean        @default(false)
+  requiresDates    Boolean        @default(false)
+  requiresDocument Boolean        @default(false)
   slaDays        Int            @default(3)
   isActive       Boolean        @default(true)
   createdAt      DateTime       @default(now())

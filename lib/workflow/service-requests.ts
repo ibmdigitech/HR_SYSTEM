@@ -107,6 +107,7 @@ export async function submitStaffRequest(
                 isActive: true,
                 requiresAmount: true,
                 requiresDates: true,
+                requiresDocument: true,
             },
         });
 
@@ -203,7 +204,20 @@ export async function submitStaffRequest(
             };
         }
 
-        // --- Employee ----------------------------------------------------
+         // --- Documents ---------------------------------------------------
+        // Categories like Reimbursement require a receipt. Enforced here so the
+        // constraint is server-side — the form's `required` attr is only a
+        // convenience. Checked before any write so a rejected submission leaves
+        // no orphaned request row, matching the "one unit" contract below.
+        const attachmentFile = formData.get("attachment");
+        const hasFile = attachmentFile instanceof File && attachmentFile.name && attachmentFile.size > 0;
+        if (category.requiresDocument && !hasFile) {
+            return {
+                success: false,
+                message: `${category.name} requires a supporting document (receipt, invoice, or similar).`,
+                fieldErrors: { attachment: "This service type requires a supporting document" },
+            };
+        }
         const dbUser = await prisma.user.findUnique({
             where: { id: user.id },
             select: { employee: { select: { id: true } } },

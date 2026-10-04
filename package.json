@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "postinstall": "prisma generate",
     "seed": "node scripts/seed-standalone.js",
     "check:db": "node scripts/check-db-ready.js",
     "db:push": "prisma db push",

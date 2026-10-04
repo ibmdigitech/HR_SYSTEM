@@ -14,7 +14,7 @@ async function ensureServiceTypes() {
                 { name: "Experience Certificate", icon: "Award", description: "Formal work experience letter outlining service duration and designation.", requiresAmount: false, requiresDates: false },
                 { name: "Sponsorship Visa Renewal", icon: "Shield", description: "Submit expiry warnings and initiate official residence visa renewal.", requiresAmount: false, requiresDates: false },
                 { name: "Salary Advance Loan", icon: "DollarSign", description: "Interest-free salary advance. Repayable over subsequent payroll cycles.", requiresAmount: true, requiresDates: false },
-                { name: "Business Expenses Reimbursement", icon: "Plane", description: "Claim back travel, client entertainment, or operational expenses incurred.", requiresAmount: true, requiresDates: true }
+                { name: "Business Expenses Reimbursement", icon: "Plane", description: "Claim back travel, client entertainment, or operational expenses incurred.", requiresAmount: true, requiresDates: true, requiresDocument: true }
             ]
         });
     }

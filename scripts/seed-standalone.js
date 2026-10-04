@@ -165,7 +165,7 @@ async function main() {
 
         console.log('Seeding Service Types...');
         const serviceTypes = [
-            { name: 'Reimbursement', description: 'Office and travel expenses', requiresAmount: true, requiresDates: false },
+            { name: 'Reimbursement', description: 'Office and travel expenses', requiresAmount: true, requiresDates: false, requiresDocument: true },
             { name: 'Overtime', description: 'Additional working hours', requiresAmount: false, requiresDates: true },
             { name: 'Medical Payment', description: 'Hospital and medical bills', requiresAmount: true, requiresDates: false },
             { name: 'Out of Emirates', description: 'Travel outside UAE', requiresAmount: false, requiresDates: true },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -236,26 +236,10 @@ export function NavigationLinks({ role, onNavigate }: NavigationLinksProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   /**
-   * Auto-expand the group that owns the active route.
-   *
-   * BOTH FIXES BELOW WERE NEEDED - the symptom was "the People section is always
-   * open" and neither cause was obvious on its own.
-   *
-   * 1. `visibleNavItems` is a plain function, so it returned a NEW array on every
-   *    call. `itemByHref` is a useMemo over it, so its identity changed on every
-   *    render, so this effect re-ran on every render, so it called setExpanded
-   *    with a fresh object on every render - which React can never bail out of,
-   *    because `Object.is` fails on a new object literal. The result was an
-   *    unbounded render loop: the sidebar burned CPU continuously and the
-   *    collapse never settled, so the section read as permanently stuck open.
-   *    Wrapping `visibleNavItems` in useMemo removes the identity churn.
-   *
-   * 2. Even with that fixed, this effect would re-open a group the user had just
-   *    closed, whenever the route changed - so closing People while sitting on
-   *    /employees was impossible. `manuallyClosed` records that intent and is
-   *    honoured for the CURRENT pathname only, so collapsing sticks where you
-   *    are but the section still opens automatically when you navigate somewhere
-   *    that genuinely needs it.
+   * `manuallyClosed` records a collapse performed on the current route. The
+   * derived `resolvedExpanded` memo honours it for the CURRENT pathname only,
+   * so a section stays shut where you are but re-opens automatically when the
+   * active route genuinely moves to a different page in the same group.
    */
   const [manuallyClosed, setManuallyClosed] = useState<Record<string, string>>({});
 
@@ -268,50 +252,54 @@ export function NavigationLinks({ role, onNavigate }: NavigationLinksProps) {
   const isActiveLink = (href: string, exact = false): boolean =>
     exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 
-  useEffect(() => {
-    // This effect only mirrors the active route into `expanded` so that a
-    // manually toggled group/category keeps its state across navigation. The
-    // updater bails out with `return changed ? next : prev`, returning the
-    // SAME reference when nothing changed, so React short-circuits the
-    // re-render this rule exists to catch - hence the suppression is deliberate.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setExpanded((prev) => {
-      const next: Record<string, boolean> = { ...prev };
-      let changed = false;
+  // Which section should read as expanded. A group/category opens when the USER
+  // toggled it OR it owns the active route. The route-driven half is DERIVED
+  // during render rather than synced through an effect that calls setState:
+  // the previous effect called setExpanded unconditionally and, even with its
+  // `return changed ? next : prev` bail-out, tripped react-hooks v7's
+  // `set-state-in-effect` rule (which is non-deterministic in v7.0.1) and could
+  // resurface as a build-breaking error. Deriving this value removes the
+  // setState-in-effect entirely and keeps collapse behaviour loop-free.
+  //
+  // `manuallyClosed` records a collapse performed on the CURRENT route, so a
+  // section can stay shut even while one of its own pages is active; the entry
+  // is ignored as soon as the route changes, so the section re-opens when the
+  // active route genuinely moves to a different page in the same group.
+  const resolvedExpanded = useMemo(
+    () => {
+      const result: Record<string, boolean> = { ...expanded };
       for (const group of navigationGroups) {
+        let groupActive = false;
         if (group.categories) {
           for (const cat of group.categories) {
-            if (cat.links.some((h) => isActiveLink(h, !!itemByHref.get(h)?.exact))) {
-              // A close recorded against a DIFFERENT route no longer applies.
-              if (manuallyClosed[group.title] !== pathname) {
-                if (!next[group.title]) { next[group.title] = true; changed = true; }
-              }
-              if (manuallyClosed[cat.title] !== pathname) {
-                if (!next[cat.title]) { next[cat.title] = true; changed = true; }
-              }
+            const catActive = cat.links.some((h) => isActiveLink(h, !!itemByHref.get(h)?.exact));
+            if (catActive) {
+              groupActive = true;
+              if (manuallyClosed[cat.title] !== pathname) result[cat.title] = true;
             }
           }
         } else if (group.links) {
           if (group.links.some((h) => isActiveLink(h, !!itemByHref.get(h)?.exact))) {
-            if (manuallyClosed[group.title] !== pathname) {
-              if (!next[group.title]) { next[group.title] = true; changed = true; }
-            }
+            groupActive = true;
           }
         }
+        if (groupActive && manuallyClosed[group.title] !== pathname) {
+          result[group.title] = true;
+        }
       }
-      // Returning `prev` unchanged is what lets React bail out. The previous
-      // version always allocated, so this guard never fired.
-      return changed ? next : prev;
-    });
-    // `isActiveLink` is intentionally excluded: it is recreated every render,
-    // so including it would re-run the effect on every render (the loop fixed
-    // above). `pathname` already covers the only value it reads.
+      return result;
+    },
+    // `isActiveLink` is intentionally excluded: it is recreated every render, so
+    // including it would recompute this memo on every render. `pathname` is the
+    // only value it reads, and it is already a dependency.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, itemByHref, manuallyClosed]);
+    [pathname, expanded, manuallyClosed, itemByHref]
+  );
 
   const isGroupExpanded = (group: NavGroupDef) =>
-    !group.collapsible || !!expanded[group.title];
-  const isCategoryExpanded = (cat: NavCategoryDef) => !!expanded[cat.title];
+    !group.collapsible || !!resolvedExpanded[group.title];
+  const isCategoryExpanded = (cat: NavCategoryDef) =>
+    !!resolvedExpanded[cat.title];
 
   /**
    * DOM id for a collapsible region.
@@ -330,11 +318,14 @@ export function NavigationLinks({ role, onNavigate }: NavigationLinksProps) {
     `nav-${kind}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
 
   const toggle = (key: string) => {
-    setExpanded((e) => ({ ...e, [key]: !e[key] }));
+    const isOpen = !!resolvedExpanded[key];
+    setExpanded((e) => ({ ...e, [key]: !isOpen }));
     // Record the close against the route it happened on. Without this, the
-    // auto-expand effect would immediately undo it and the chevron would appear
-    // to do nothing.
-    setManuallyClosed((m) => (expanded[key] ? { ...m } : { ...m, [key]: pathname }));
+    // route-driven expansion in `resolvedExpanded` would immediately re-open
+    // it and the chevron would appear to do nothing.
+    setManuallyClosed((m) =>
+      isOpen ? { ...m, [key]: pathname } : { ...m }
+    );
   };
 
   const renderItem = (item: NavItem) => {

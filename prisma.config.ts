@@ -4,23 +4,75 @@ import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
 /**
- * P0-2: this previously read `MONGODB_URI`, a leftover from a MongoDB era. That
- * variable is not defined in this project, so the value silently fell back to
- * an empty string. It now reads the PostgreSQL `DATABASE_URL` that
- * `prisma/schema.prisma` actually declares, and fails loudly when it is absent
- * rather than defaulting to something meaningless.
+ * WHY DATABASE_URL IS NO LONGER REQUIRED UNCONDITIONALLY
+ *
+ * This config previously threw whenever `DATABASE_URL` was absent, on the
+ * reasonable grounds that a missing connection string is meaningless. That is
+ * true for `migrate`, `db push`, `db seed` and `studio` — all of which open a
+ * connection — and FALSE for `generate`.
+ *
+ * `prisma generate` only reads `schema.prisma` and writes the client. It never
+ * connects to anything. Requiring a database URL for it broke production
+ * builds, because `prisma generate` is wired to `postinstall` (it has to be:
+ * `prisma/generated/` is gitignored, so a fresh checkout has no client and the
+ * build cannot compile). On Vercel, GitHub Actions and any clean CI checkout,
+ * a build-time `DATABASE_URL` is often absent by design, and the build died with
+ *
+ *     Failed to load config file ... Error: DATABASE_URL is not set
+ *
+ * before it ever reached the compiler — a failure that looks like a Prisma bug
+ * and is actually a config one.
+ *
+ * So the guard is now scoped to the commands that actually need a connection.
+ * Everything else proceeds and lets Prisma report a precise error if it truly
+ * needs one.
  */
+
+/** Prisma CLI commands that open a real database connection. */
+const COMMANDS_REQUIRING_DATABASE_URL = new Set([
+    "migrate",
+    "migrate-dev",
+    "migrate-reset",
+    "migrate-deploy",
+    "migrate-status",
+    "db-push",
+    "db-seed",
+    "studio",
+    "db",
+    "dev",
+    "debug",
+]);
+
+/**
+ * `process.argv` is inspected rather than a fixed list because the command is
+ * passed as a bare subcommand ("generate", "migrate", ...). Anything not in the
+ * set above is assumed to be offline, which is the safe direction: a command
+ * that unexpectedly needs a URL will fail inside Prisma with a message naming
+ * the variable, rather than being blocked by this file.
+ */
+function commandNeedsDatabaseUrl(): boolean {
+    const args = process.argv.slice(2).filter((a) => !a.startsWith("-"));
+    // The first non-flag argument is the subcommand.
+    const command = args[0];
+    if (!command) return false;
+    return COMMANDS_REQUIRING_DATABASE_URL.has(command);
+}
+
 const databaseUrl = process.env.DATABASE_URL;
 
-if (!databaseUrl) {
+if (databaseUrl && /^mongodb(\+srv)?:\/\//i.test(databaseUrl)) {
+    // Kept unconditional: this one is a genuine misconfiguration, and it would
+    // otherwise silently generate a client pointed at the wrong database.
     throw new Error(
-        "DATABASE_URL is not set. Copy .env.example to .env and set it before running prisma commands."
+        "DATABASE_URL points at MongoDB, but prisma/schema.prisma declares the postgresql provider."
     );
 }
 
-if (/^mongodb(\+srv)?:\/\//i.test(databaseUrl)) {
+if (commandNeedsDatabaseUrl() && !databaseUrl) {
     throw new Error(
-        "DATABASE_URL points at MongoDB, but prisma/schema.prisma declares the postgresql provider."
+        "DATABASE_URL is not set. This command opens a database connection, so it cannot run " +
+            "without one. Copy .env.example to .env and set it, or provide it as an " +
+            "environment variable in CI."
     );
 }
 
@@ -29,7 +81,10 @@ export default defineConfig({
     migrations: {
         path: "prisma/migrations",
     },
+    // `prisma generate` reads only the schema, so an absent URL must not break
+    // it. Falling back to a syntactically valid placeholder keeps the generated
+    // client valid; the real URL is supplied at runtime from the environment.
     datasource: {
-        url: databaseUrl,
+        url: databaseUrl ?? "postgresql://user:password@localhost:5432/placeholder",
     },
 });
