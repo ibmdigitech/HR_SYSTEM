@@ -83,20 +83,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         strategy: 'jwt', // must use JWT when using Credentials alongside OAuth
     },
     providers: [
-        Google({
-            clientId: process.env.GOOGLE_CLIENT_ID!,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-        }),
-        MicrosoftEntraID({
-            clientId: process.env.MICROSOFT_CLIENT_ID!,
-            clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
-            // The provider does not declare `tenantId` in its published types,
-            // but it is supported at runtime. `@ts-expect-error` is used rather
-            // than `@ts-ignore` so that the assertion FAILS if the provider ever
-            // gains the type — a silent no-op suppression would hide that.
-            // @ts-expect-error - tenantId is accepted at runtime but untyped
-            tenantId: process.env.MICROSOFT_TENANT_ID ?? 'common',
-        }),
+        ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+            ? [
+                  Google({
+                      clientId: process.env.GOOGLE_CLIENT_ID,
+                      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+                  }),
+              ]
+            : []),
+        ...(process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET
+            ? [
+                  MicrosoftEntraID({
+                      clientId: process.env.MICROSOFT_CLIENT_ID,
+                      clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
+                      // @ts-expect-error - tenantId is accepted at runtime but untyped
+                      tenantId: process.env.MICROSOFT_TENANT_ID ?? 'common',
+                  }),
+              ]
+            : []),
         Credentials({
             async authorize(credentials, request) {
                 // Rate limiting (P0-6). Two independent budgets are enforced:

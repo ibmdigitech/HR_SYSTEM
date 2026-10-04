@@ -123,7 +123,6 @@ const nextConfig: NextConfig = {
     images: {
         formats: ["image/avif", "image/webp"],
     },
-    serverExternalPackages: ["@prisma/client"],
 
     // Merged from the previously-active next.config.js (P0-11).
     experimental: {

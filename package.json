@@ -16,6 +16,9 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
   },
+  "engines": {
+    "node": ">=20.x"
+  },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
     "@prisma/client": "^6.19.3",
